@@ -9,49 +9,67 @@
 import UIKit
 import SVProgressHUD
 import CoreData
+import SwiftyUserDefaults
 
 class SettingsTableViewController: UITableViewController {
-    
-    @IBOutlet weak var gitRepositoryTableViewCell: UITableViewCell!
+        
+    @IBOutlet weak var pgpKeyTableViewCell: UITableViewCell!
     
     @IBAction func cancel(segue: UIStoryboardSegue) {
     }
     
     @IBAction func save(segue: UIStoryboardSegue) {
-        if let changeGitRepositoryTableViewController = segue.source as? ChangeGitRepositoryTableViewController {
-            if let gitRepositoryURL = changeGitRepositoryTableViewController.gitRepositoryURL {
-                if gitRepositoryTableViewCell.detailTextLabel?.text != gitRepositoryURL {
-                    UserDefaults.standard.set(gitRepositoryURL, forKey: "gitRepositoryURL")
-                    gitRepositoryTableViewCell.detailTextLabel?.text = gitRepositoryURL
-                }
+        if let controller = segue.source as? GitServerSettingTableViewController {
+            if Defaults[.gitRepositoryURL] == nil || controller.gitRepositoryURLTextField.text != Defaults[.gitRepositoryURL]!.absoluteString {
+                Defaults[.gitRepositoryURL] = URL(string: controller.gitRepositoryURLTextField.text!)
+                
+                SVProgressHUD.setDefaultMaskType(.black)
                 SVProgressHUD.show(withStatus: "Cloning Remote Repository")
+                
                 DispatchQueue.global(qos: .userInitiated).async {
-                    let ret = PasswordStore.shared.cloneRemoteRepo(remoteRepoURL: URL(string: gitRepositoryURL)!)
-                    if ret {
-                        DispatchQueue.main.async {
-                            SVProgressHUD.dismiss()
-                            SVProgressHUD.setMaximumDismissTimeInterval(1)
-                            SVProgressHUD.showSuccess(withStatus: "Success")
-                            NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            SVProgressHUD.showError(withStatus: "Error")
+                    let ret = PasswordStore.shared.cloneRemoteRepo(remoteRepoURL: Defaults[.gitRepositoryURL]!)
+                    
+                    DispatchQueue.main.async {
+                        if ret {
+                                SVProgressHUD.dismiss()
+                                SVProgressHUD.setMaximumDismissTimeInterval(1)
+                                SVProgressHUD.showSuccess(withStatus: "Success")
+                                NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
+                        } else {
+                                SVProgressHUD.showError(withStatus: "Error")
                         }
                     }
                 }
-                
             }
+        } else if let controller = segue.source as? PGPKeySettingTableViewController {
+            if Defaults[.pgpKeyURL] != URL(string: controller.pgpKeyURLTextField.text!) {
+                Defaults[.pgpKeyURL] = URL(string: controller.pgpKeyURLTextField.text!)
+                Defaults[.pgpKeyPassphrase] = controller.pgpKeyPassphraseTextField.text!
+                
+                SVProgressHUD.setDefaultMaskType(.black)
+                SVProgressHUD.show(withStatus: "Fetching PGP Key")
+                DispatchQueue.global(qos: .userInitiated).async {
+                    let ret = PasswordStore.shared.initPGP(pgpKeyURL: Defaults[.pgpKeyURL]!, pgpKeyLocalPath: Globals.shared.secringPath)
+                    
+                    DispatchQueue.main.async {
+                        if ret {
+                            SVProgressHUD.showSuccess(withStatus: "Success")
+                        } else {
+                            SVProgressHUD.showError(withStatus: "Error")
+                    }
+                    }
+                }
+            }
+            
         }
-
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let url = UserDefaults.standard.string(forKey: "gitRepositoryURL") {
-            gitRepositoryTableViewCell.detailTextLabel?.text = url
+        if Defaults[.pgpKeyID] == "" {
+            pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
         } else {
-            gitRepositoryTableViewCell.detailTextLabel?.text = "Not set"
+            pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
         }
     }
 }

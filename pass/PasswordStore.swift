@@ -11,12 +11,14 @@ import SwiftGit2
 import Result
 import CoreData
 import UIKit
+import SwiftyUserDefaults
 
 class PasswordStore {
     static let shared = PasswordStore()
     
-    let storeURL = URL(fileURLWithPath: "\(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])/password-store")
+    let storeURL = URL(fileURLWithPath: "\(Globals.shared.documentPath)/password-store")
     var storeRepo: Repository?
+    let pgp: ObjectivePGP = ObjectivePGP()
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
@@ -26,9 +28,31 @@ class PasswordStore {
         if case .success(let r) = result {
             storeRepo = r
         }
+        if Defaults[.pgpKeyID] != "" {
+            pgp.importKeys(fromFile: Globals.shared.secringPath, allowDuplicates: false)
+
+        }
     }
     
-    func cloneRemoteRepo(remoteRepoURL: URL) -> Bool{
+    func initPGP(pgpKeyURL: URL, pgpKeyLocalPath: String) -> Bool {
+        do {
+            let pgpData = try Data(contentsOf: pgpKeyURL)
+            try pgpData.write(to: URL(fileURLWithPath: pgpKeyLocalPath), options: .atomic)
+            pgp.importKeys(fromFile: pgpKeyLocalPath, allowDuplicates: false)
+            let key = pgp.keys[0]
+            Defaults[.pgpKeyID] = key.keyID!.shortKeyString
+            if let gpgUser = key.users[0] as? PGPUser {
+                Defaults[.pgpKeyUserID] = gpgUser.userID
+            }
+            return true
+        } catch {
+            print("error")
+            return false
+        }
+    }
+    
+    
+    func cloneRemoteRepo(remoteRepoURL: URL) -> Bool {
         print("start cloning remote repo")
         let fm = FileManager.default
         if (storeRepo != nil) {
@@ -67,7 +91,7 @@ class PasswordStore {
                 if url.pathExtension == "gpg" {
                     let entity = PasswordEntity(context: context)
                     entity.name = url.lastPathComponent
-                    entity.rawPath = url.path
+                    entity.rawPath = "password-store/\(url.absoluteString)"
                 }
             }
         })

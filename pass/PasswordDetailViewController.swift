@@ -7,29 +7,34 @@
 //
 
 import UIKit
+import SwiftyUserDefaults
 
 class PasswordDetailViewController: UIViewController {
 
+    @IBOutlet weak var passwordLabel: UILabel!
+    var passwordEntity: PasswordEntity?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        let encryptedDataURL = URL(fileURLWithPath: "\(Globals.shared.documentPath)/\(passwordEntity!.rawPath!)")
+        let fm = FileManager.default
+        if fm.fileExists(atPath: encryptedDataURL.path){
+            print("file exist")
+        } else {
+            print("file doesnt exist")
+        }
+        
+        do {
+            let encryptedData = try Data(contentsOf: encryptedDataURL)
+            let decryptedData = try PasswordStore.shared.pgp.decryptData(encryptedData, passphrase: Defaults[.pgpKeyPassphrase])
+            let plain = String(data: decryptedData, encoding: .ascii) ?? ""
+            print(plain)
+            passwordLabel.text = plain
+        }  catch let error as NSError {
+            print(error.debugDescription)
+        }
+        
+        passwordLabel.sizeToFit()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
