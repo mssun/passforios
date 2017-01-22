@@ -11,7 +11,7 @@ import SwiftyUserDefaults
 
 class PasswordDetailViewController: UIViewController {
 
-    @IBOutlet weak var passwordLabel: UILabel!
+    @IBOutlet weak var passwordTextView: UITextView!
     var passwordEntity: PasswordEntity?
     
     override func viewDidLoad() {
@@ -30,11 +30,10 @@ class PasswordDetailViewController: UIViewController {
             let decryptedData = try PasswordStore.shared.pgp.decryptData(encryptedData, passphrase: Defaults[.pgpKeyPassphrase])
             let plain = String(data: decryptedData, encoding: .ascii) ?? ""
             print(plain)
-            passwordLabel.text = plain
+            passwordTextView.text = plain
         }  catch let error as NSError {
             print(error.debugDescription)
         }
         
-        passwordLabel.sizeToFit()
     }
 }
