@@ -429,11 +429,11 @@
             </objects>
             <point key="canvasLocation" x="215" y="1137"/>
         </scene>
-        <!--Settings-->
+        <!--Navigation Controller-->
         <scene sceneID="sdr-gl-b19">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZmJ-0Z-N04" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" id="6Xa-be-Z8g"/>
+                    <tabBarItem key="tabBarItem" systemItem="more" id="6Xa-be-Z8g"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wWs-15-HDi">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
