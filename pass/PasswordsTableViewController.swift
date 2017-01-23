@@ -11,21 +11,21 @@ import SwiftGit2
 import Result
 import SVProgressHUD
 
-extension PasswordTableViewController: UISearchResultsUpdating {
+extension PasswordsTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchText: searchController.searchBar.text!)
     }
 }
 
-class PasswordTableViewController: UITableViewController {
+class PasswordsTableViewController: UITableViewController {
     private var passwordEntities: [PasswordEntity]?
     var filteredPasswordEntities = [PasswordEntity]()
     let searchController = UISearchController(searchResultsController: nil)
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
-        NotificationCenter.default.addObserver(self, selector: #selector(PasswordTableViewController.actOnPasswordUpdatedNotification), name: NSNotification.Name(rawValue: "passwordUpdated"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PasswordsTableViewController.actOnPasswordUpdatedNotification), name: NSNotification.Name(rawValue: "passwordUpdated"), object: nil)
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
@@ -50,7 +50,7 @@ class PasswordTableViewController: UITableViewController {
         self.tableView.reloadData()
         print("actOnPasswordUpdatedNotification")
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.isActive && searchController.searchBar.text != "" {
             return filteredPasswordEntities.count
