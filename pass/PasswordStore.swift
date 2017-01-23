@@ -121,7 +121,9 @@ class PasswordStore {
         let passwordEntityFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         do {
             let fetchedPasswordEntities = try context.fetch(passwordEntityFetch) as! [PasswordEntity]
-            return fetchedPasswordEntities
+            return fetchedPasswordEntities.sorted(by: { (p1, p2) -> Bool in
+                return p1.name! < p2.name!;
+            })
         } catch {
             fatalError("Failed to fetch employees: \(error)")
         }
