@@ -54,7 +54,9 @@ class PasswordStore {
     }
     
     
-    func cloneRepository(remoteRepoURL: URL) -> Bool {
+    func cloneRepository(remoteRepoURL: URL,
+                         transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
+                         checkoutProgressBlock: @escaping (String?, UInt, UInt) -> Void) -> Bool {
         print("start cloning remote repo")
         let fm = FileManager.default
         if (storeRepository != nil) {
@@ -66,19 +68,21 @@ class PasswordStore {
             }
         }
         do {
-            storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: storeURL, options: nil, transferProgressBlock: nil, checkoutProgressBlock: nil)
+            print("start cloning...")
+            storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: storeURL, options: nil, transferProgressBlock:transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
             updatePasswordEntityCoreData()
             return true
         } catch {
+            storeRepository = nil
             print(error)
             return false
         }
     }
-    func pullRepository() -> Bool {
+    func pullRepository(transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) -> Bool {
         print("pullRepoisitory")
         do {
             let remote = try GTRemote(name: "origin", in: storeRepository!)
-            try storeRepository?.pull((storeRepository?.currentBranch())!, from: remote, withOptions: nil, progress: nil)
+            try storeRepository?.pull((storeRepository?.currentBranch())!, from: remote, withOptions: nil, progress: transferProgressBlock)
             updatePasswordEntityCoreData()
             return true
         } catch {

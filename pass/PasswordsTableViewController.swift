@@ -17,8 +17,18 @@ class PasswordsTableViewController: UITableViewController {
     let searchController = UISearchController(searchResultsController: nil)
     
     @IBAction func refreshPasswords(_ sender: UIBarButtonItem) {
+        SVProgressHUD.setDefaultMaskType(.black)
+        SVProgressHUD.show(withStatus: "Pull Remote Repository")
         DispatchQueue.global(qos: .userInitiated).async {
-            if PasswordStore.shared.pullRepository() {
+            if PasswordStore.shared.pullRepository(transferProgressBlock: {(git_transfer_progress, stop) in
+                DispatchQueue.main.async {
+                SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Pull Remote Repository")
+                }
+            }) {
+                DispatchQueue.main.async {
+                    SVProgressHUD.showSuccess(withStatus: "Done")
+                    SVProgressHUD.dismiss(withDelay: 1)
+                }
                 print("pull success")
                 self.passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
                 self.tableView.reloadData()

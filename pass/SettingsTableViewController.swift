@@ -24,19 +24,29 @@ class SettingsTableViewController: UITableViewController {
                 Defaults[.gitRepositoryURL] = URL(string: controller.gitRepositoryURLTextField.text!)
                 
                 SVProgressHUD.setDefaultMaskType(.black)
-                SVProgressHUD.show(withStatus: "Cloning Remote Repository")
+                SVProgressHUD.show(withStatus: "Prepare Repository")
+                //SVProgressHUD.showProgress(0.0, status: "Clone Remote Repository")
                 
                 DispatchQueue.global(qos: .userInitiated).async {
-                    let ret = PasswordStore.shared.cloneRepository(remoteRepoURL: Defaults[.gitRepositoryURL]!)
+                    let ret = PasswordStore.shared.cloneRepository(remoteRepoURL: Defaults[.gitRepositoryURL]!,
+                                                                   transferProgressBlock:{ (git_transfer_progress, stop) in
+                                                                        DispatchQueue.main.async {
+                                                                            SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Clone Remote Repository")
+                                                                        }
+                                                                    },
+                                                                   checkoutProgressBlock: { (path, completedSteps, totalSteps) in
+                                                                        DispatchQueue.main.async {
+                                                                            SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "Checkout Master Branch")
+                                                                        }
+                                                                    })
                     
                     DispatchQueue.main.async {
                         if ret {
-                                SVProgressHUD.dismiss()
-                                SVProgressHUD.setMaximumDismissTimeInterval(1)
-                                SVProgressHUD.showSuccess(withStatus: "Success")
-                                NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
+                            SVProgressHUD.showSuccess(withStatus: "Done")
+                            SVProgressHUD.dismiss(withDelay: 1)
+                            NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
                         } else {
-                                SVProgressHUD.showError(withStatus: "Error")
+                            SVProgressHUD.showError(withStatus: "Error")
                         }
                     }
                 }
