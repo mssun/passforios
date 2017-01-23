@@ -13,11 +13,36 @@ import UIKit
 import SwiftyUserDefaults
 import ObjectiveGit
 
+struct GitCredential {
+    
+    enum Credential {
+        case http(userName: String, password: String)
+        case ssh(userName: String, password: String, publicKeyFile: URL, privateKeyFile: URL)
+    }
+    
+    var credential: Credential
+    
+    func credentialProvider() throws -> GTCredentialProvider {
+        return GTCredentialProvider { (_, _, _) -> (GTCredential) in
+            let credential: GTCredential?
+            switch self.credential {
+            case let .http(userName, password):
+                print("username \(userName), password \(password)")
+                credential = try? GTCredential(userName: userName, password: password)
+            case let .ssh(userName, password, publicKeyFile, privateKeyFile):
+                credential = try? GTCredential(userName: userName, publicKeyURL: publicKeyFile, privateKeyURL: privateKeyFile, passphrase: password)
+            }
+            return credential ?? GTCredential()
+        }
+    }
+}
+
 class PasswordStore {
     static let shared = PasswordStore()
     
     let storeURL = URL(fileURLWithPath: "\(Globals.shared.documentPath)/password-store")
     var storeRepository: GTRepository?
+    var gitCredential: GitCredential
     
     let pgp: ObjectivePGP = ObjectivePGP()
     
@@ -32,8 +57,9 @@ class PasswordStore {
         }
         if Defaults[.pgpKeyID] != "" {
             pgp.importKeys(fromFile: Globals.shared.secringPath, allowDuplicates: false)
-
         }
+        gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitRepositoryUsername], password: Defaults[.gitRepositoryPassword]))
+        
     }
     
     func initPGP(pgpKeyURL: URL, pgpKeyLocalPath: String) -> Bool {
@@ -55,9 +81,10 @@ class PasswordStore {
     
     
     func cloneRepository(remoteRepoURL: URL,
+                         credential: GitCredential,
                          transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
                          checkoutProgressBlock: @escaping (String?, UInt, UInt) -> Void) -> Bool {
-        print("start cloning remote repo")
+        print("start cloning remote repo: \(remoteRepoURL)")
         let fm = FileManager.default
         if (storeRepository != nil) {
             print("remove item")
@@ -69,11 +96,16 @@ class PasswordStore {
         }
         do {
             print("start cloning...")
-            storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: storeURL, options: nil, transferProgressBlock:transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
+            let credentialProvider = try credential.credentialProvider()
+            let options: [String: Any] = [
+                GTRepositoryCloneOptionsCredentialProvider: credentialProvider
+            ]
+            storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: storeURL, options: options, transferProgressBlock:transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
+            print("clone finish")
             updatePasswordEntityCoreData()
+            gitCredential = credential
             return true
         } catch {
-            storeRepository = nil
             print(error)
             return false
         }

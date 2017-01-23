@@ -13,11 +13,17 @@ class GitServerSettingTableViewController: UITableViewController {
 
     @IBOutlet weak var gitRepositoryURLTextField: UITextField!
     
+    @IBOutlet weak var usernameTextField: UITextField!
+    
+    @IBOutlet weak var passwordTextField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if let url = Defaults[.gitRepositoryURL] {
             gitRepositoryURLTextField.text = url.absoluteString
         }
+        usernameTextField.text = Defaults[.gitRepositoryUsername]
+        passwordTextField.text = Defaults[.gitRepositoryPassword]
     }
     
     override func viewDidAppear(_ animated: Bool) {

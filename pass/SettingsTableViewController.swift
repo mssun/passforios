@@ -20,15 +20,18 @@ class SettingsTableViewController: UITableViewController {
     
     @IBAction func save(segue: UIStoryboardSegue) {
         if let controller = segue.source as? GitServerSettingTableViewController {
-            if Defaults[.gitRepositoryURL] == nil || controller.gitRepositoryURLTextField.text != Defaults[.gitRepositoryURL]!.absoluteString {
-                Defaults[.gitRepositoryURL] = URL(string: controller.gitRepositoryURLTextField.text!)
-                
+            let gitRepostiroyURL = controller.gitRepositoryURLTextField.text!
+            let username = controller.usernameTextField.text!
+            let password = controller.passwordTextField.text!
+            
+            if Defaults[.gitRepositoryURL] == nil || gitRepostiroyURL != Defaults[.gitRepositoryURL]!.absoluteString {
                 SVProgressHUD.setDefaultMaskType(.black)
                 SVProgressHUD.show(withStatus: "Prepare Repository")
-                //SVProgressHUD.showProgress(0.0, status: "Clone Remote Repository")
-                
+                let gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, password: password))
+
                 DispatchQueue.global(qos: .userInitiated).async {
-                    let ret = PasswordStore.shared.cloneRepository(remoteRepoURL: Defaults[.gitRepositoryURL]!,
+                    let ret = PasswordStore.shared.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
+                                                                   credential: gitCredential,
                                                                    transferProgressBlock:{ (git_transfer_progress, stop) in
                                                                         DispatchQueue.main.async {
                                                                             SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Clone Remote Repository")
@@ -44,6 +47,10 @@ class SettingsTableViewController: UITableViewController {
                         if ret {
                             SVProgressHUD.showSuccess(withStatus: "Done")
                             SVProgressHUD.dismiss(withDelay: 1)
+                            Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
+                            Defaults[.gitRepositoryUsername] = username
+                            Defaults[.gitRepositoryPassword] = password
+
                             NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
                         } else {
                             SVProgressHUD.showError(withStatus: "Error")
