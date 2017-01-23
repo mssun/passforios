@@ -47,6 +47,7 @@ class SettingsTableViewController: UITableViewController {
                             NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
                         } else {
                             SVProgressHUD.showError(withStatus: "Error")
+                            SVProgressHUD.dismiss(withDelay: 1)
                         }
                     }
                 }
