@@ -105,7 +105,8 @@ class PasswordStore {
             if let e = e as? String, let url = URL(string: e) {
                 if url.pathExtension == "gpg" {
                     let entity = PasswordEntity(context: context)
-                    entity.name = url.lastPathComponent
+                    let endIndex =  url.lastPathComponent.index(url.lastPathComponent.endIndex, offsetBy: -4)
+                    entity.name = url.lastPathComponent.substring(to: endIndex)
                     entity.rawPath = "password-store/\(url.absoluteString)"
                 }
             }
