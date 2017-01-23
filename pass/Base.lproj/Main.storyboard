@@ -49,10 +49,21 @@
                     <navigationItem key="navigationItem" title="All" id="2I8-8c-JEA">
                         <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="JLS-BH-aaR"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="pdj-8n-ZyE" id="ZtO-ar-qbo"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CHd-Vz-2cA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="pdj-8n-ZyE">
+                    <connections>
+                        <outlet property="delegate" destination="vGH-8E-Zez" id="Fkb-Ib-yTT"/>
+                        <outlet property="searchContentsController" destination="vGH-8E-Zez" id="9RT-Uy-M4k"/>
+                        <outlet property="searchResultsDataSource" destination="vGH-8E-Zez" id="ya0-IV-wks"/>
+                        <outlet property="searchResultsDelegate" destination="vGH-8E-Zez" id="2Vl-Dg-zmv"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="2425" y="-1"/>
+            <point key="canvasLocation" x="2425" y="469"/>
         </scene>
         <!--Settings-->
         <scene sceneID="d9R-gZ-ywG">
@@ -151,7 +162,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="leR-cc-QPW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2583" y="2424"/>
+            <point key="canvasLocation" x="2425" y="2424"/>
         </scene>
         <!--Git Server-->
         <scene sceneID="Obl-ql-ILG">
@@ -280,7 +291,7 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="https://" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Rb8-zs-TGa">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="https://" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Rb8-zs-TGa">
                                                     <rect key="frame" x="15" y="22.5" width="352" height="21"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -309,7 +320,7 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="this_is_passphrase" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Nkx-gN-jNA">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="this_is_passphrase" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Nkx-gN-jNA">
                                                     <rect key="frame" x="15" y="22.5" width="352" height="21"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -353,7 +364,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hbx-RC-qg1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="jjl-Xi-fkn" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4450" y="3304"/>
+            <point key="canvasLocation" x="4449" y="3236"/>
         </scene>
         <!--Password Detail View Controller-->
         <scene sceneID="9b5-fu-vx9">
@@ -389,7 +400,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ek1-Cw-dZH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3272.8000000000002" y="-1.3493253373313345"/>
+            <point key="canvasLocation" x="3273" y="469"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ACd-rk-Zf3">
@@ -408,7 +419,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="25X-hm-lLo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1486" y="-1"/>
+            <point key="canvasLocation" x="1486" y="469"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="QAo-AP-q8o">
@@ -427,7 +438,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h18-hY-pkk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="215" y="1137"/>
+            <point key="canvasLocation" x="-322" y="1916"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="sdr-gl-b19">
@@ -482,7 +493,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bVY-G2-9Ud" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3431" y="3304"/>
+            <point key="canvasLocation" x="3430" y="3236"/>
         </scene>
     </scenes>
 </document>
