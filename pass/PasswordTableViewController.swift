@@ -81,6 +81,7 @@ class PasswordTableViewController: UITableViewController {
                     password = passwordEntities![selectedIndex.row]
                 }
                 viewController.passwordEntity = password
+                viewController.navigationItem.title = password.name
             }
         }
     }
