@@ -1,3 +1,4 @@
-github "SwiftGit2/SwiftGit2"
 github "SVProgressHUD/SVProgressHUD"
 github "radex/SwiftyUserDefaults"
+github "libgit2/objective-git"
+

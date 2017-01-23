@@ -13,7 +13,7 @@
         <!--All-->
         <scene sceneID="2hn-YS-T8K">
             <objects>
-                <tableViewController id="vGH-8E-Zez" sceneMemberID="viewController">
+                <tableViewController id="vGH-8E-Zez" customClass="PasswordsTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Cow-I6-Nig">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -47,7 +47,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="All" id="2I8-8c-JEA">
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="JLS-BH-aaR"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="JLS-BH-aaR">
+                            <connections>
+                                <action selector="refreshPasswords:" destination="vGH-8E-Zez" id="nZd-1L-MFr"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CHd-Vz-2cA" userLabel="First Responder" sceneMemberID="firstResponder"/>

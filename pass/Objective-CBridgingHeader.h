@@ -10,5 +10,6 @@
 #define Objective_CBridgingHeader_h
 
 #import <ObjectivePGP/ObjectivePGP.h>
+#import <ObjectiveGit/ObjectiveGit.h>
 
 #endif /* Objective_CBridgingHeader_h */

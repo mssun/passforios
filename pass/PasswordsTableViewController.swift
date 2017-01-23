@@ -7,20 +7,24 @@
 //
 
 import UIKit
-import SwiftGit2
 import Result
 import SVProgressHUD
 
-extension PasswordsTableViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchText: searchController.searchBar.text!)
-    }
-}
 
 class PasswordsTableViewController: UITableViewController {
     private var passwordEntities: [PasswordEntity]?
     var filteredPasswordEntities = [PasswordEntity]()
     let searchController = UISearchController(searchResultsController: nil)
+    
+    @IBAction func refreshPasswords(_ sender: UIBarButtonItem) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            if PasswordStore.shared.pullRepository() {
+                print("pull success")
+                self.passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
+                self.tableView.reloadData()
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,3 +91,10 @@ class PasswordsTableViewController: UITableViewController {
     }
     
 }
+
+extension PasswordsTableViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchText: searchController.searchBar.text!)
+    }
+}
+

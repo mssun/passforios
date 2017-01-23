@@ -7,26 +7,28 @@
 //
 
 import Foundation
-import SwiftGit2
 import Result
 import CoreData
 import UIKit
 import SwiftyUserDefaults
+import ObjectiveGit
 
 class PasswordStore {
     static let shared = PasswordStore()
     
     let storeURL = URL(fileURLWithPath: "\(Globals.shared.documentPath)/password-store")
-    var storeRepo: Repository?
+    var storeRepository: GTRepository?
+    
     let pgp: ObjectivePGP = ObjectivePGP()
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     
     private init() {
-        let result = Repository.at(storeURL)
-        if case .success(let r) = result {
-            storeRepo = r
+        do {
+            try storeRepository = GTRepository.init(url: storeURL)
+        } catch {
+            print(error)
         }
         if Defaults[.pgpKeyID] != "" {
             pgp.importKeys(fromFile: Globals.shared.secringPath, allowDuplicates: false)
@@ -52,10 +54,10 @@ class PasswordStore {
     }
     
     
-    func cloneRemoteRepo(remoteRepoURL: URL) -> Bool {
+    func cloneRepository(remoteRepoURL: URL) -> Bool {
         print("start cloning remote repo")
         let fm = FileManager.default
-        if (storeRepo != nil) {
+        if (storeRepository != nil) {
             print("remove item")
             do {
                 try fm.removeItem(at: storeURL)
@@ -63,14 +65,23 @@ class PasswordStore {
                 print(error.debugDescription)
             }
         }
-        let cloneResult = Repository.clone(from: remoteRepoURL, to: storeURL)
-        switch cloneResult {
-        case let .success(clonedRepo):
-            storeRepo = clonedRepo
-            print("clone repo: \(storeURL) success")
+        do {
+            storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: storeURL, options: nil, transferProgressBlock: nil, checkoutProgressBlock: nil)
             updatePasswordEntityCoreData()
             return true
-        case let .failure(error):
+        } catch {
+            print(error)
+            return false
+        }
+    }
+    func pullRepository() -> Bool {
+        print("pullRepoisitory")
+        do {
+            let remote = try GTRemote(name: "origin", in: storeRepository!)
+            try storeRepository?.pull((storeRepository?.currentBranch())!, from: remote, withOptions: nil, progress: nil)
+            updatePasswordEntityCoreData()
+            return true
+        } catch {
             print(error)
             return false
         }

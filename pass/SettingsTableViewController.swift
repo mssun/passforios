@@ -27,7 +27,7 @@ class SettingsTableViewController: UITableViewController {
                 SVProgressHUD.show(withStatus: "Cloning Remote Repository")
                 
                 DispatchQueue.global(qos: .userInitiated).async {
-                    let ret = PasswordStore.shared.cloneRemoteRepo(remoteRepoURL: Defaults[.gitRepositoryURL]!)
+                    let ret = PasswordStore.shared.cloneRepository(remoteRepoURL: Defaults[.gitRepositoryURL]!)
                     
                     DispatchQueue.main.async {
                         if ret {
