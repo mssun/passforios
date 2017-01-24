@@ -98,7 +98,7 @@ class PasswordStore {
             print("start cloning...")
             let credentialProvider = try credential.credentialProvider()
             let options: [String: Any] = [
-                GTRepositoryCloneOptionsCredentialProvider: credentialProvider
+                GTRepositoryCloneOptionsCredentialProvider: credentialProvider,
             ]
             storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: storeURL, options: options, transferProgressBlock:transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
             print("clone finish")
@@ -110,11 +110,17 @@ class PasswordStore {
             return false
         }
     }
+    
     func pullRepository(transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) -> Bool {
         print("pullRepoisitory")
         do {
+            print("start pulling...")
+            let credentialProvider = try gitCredential.credentialProvider()
+            let options: [String: Any] = [
+                GTRepositoryRemoteOptionsCredentialProvider: credentialProvider
+            ]
             let remote = try GTRemote(name: "origin", in: storeRepository!)
-            try storeRepository?.pull((storeRepository?.currentBranch())!, from: remote, withOptions: nil, progress: transferProgressBlock)
+            try storeRepository?.pull((storeRepository?.currentBranch())!, from: remote, withOptions: options, progress: transferProgressBlock)
             updatePasswordEntityCoreData()
             return true
         } catch {
