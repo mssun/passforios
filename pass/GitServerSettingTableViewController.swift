@@ -17,6 +17,8 @@ class GitServerSettingTableViewController: UITableViewController {
     
     @IBOutlet weak var passwordTextField: UITextField!
     
+    @IBOutlet weak var authenticationTableViewCell: UITableViewCell!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if let url = Defaults[.gitRepositoryURL] {
@@ -30,6 +32,7 @@ class GitServerSettingTableViewController: UITableViewController {
         super.viewDidAppear(animated)
         gitRepositoryURLTextField.becomeFirstResponder()
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         view.endEditing(true)
