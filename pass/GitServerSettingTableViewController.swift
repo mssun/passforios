@@ -26,6 +26,7 @@ class GitServerSettingTableViewController: UITableViewController {
         }
         usernameTextField.text = Defaults[.gitRepositoryUsername]
         passwordTextField.text = Defaults[.gitRepositoryPassword]
+        authenticationTableViewCell.detailTextLabel?.text = Defaults[.gitRepositoryAuthenticationMethod]
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -36,5 +37,22 @@ class GitServerSettingTableViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         view.endEditing(true)
+    }
+    @IBAction func save(segue: UIStoryboardSegue) {
+        if let controller = segue.source as? UITableViewController {
+            if controller.tableView.indexPathForSelectedRow == IndexPath(row: 0, section:0) {
+                authenticationTableViewCell.detailTextLabel?.text = "Password"
+            } else {
+                authenticationTableViewCell.detailTextLabel?.text = "SSH Key"
+            }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "selectAuthenticationMethod" {
+            if let controller = segue.destination as? GitRepositoryAuthenticationSettingTableViewController {
+                controller.selectedMethod = authenticationTableViewCell.detailTextLabel!.text
+            }
+        }
     }
 }

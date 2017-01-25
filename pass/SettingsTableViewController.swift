@@ -23,6 +23,13 @@ class SettingsTableViewController: UITableViewController {
             let gitRepostiroyURL = controller.gitRepositoryURLTextField.text!
             let username = controller.usernameTextField.text!
             let password = controller.passwordTextField.text!
+            let auth = controller.authenticationTableViewCell.detailTextLabel!.text!
+
+            
+            Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
+            Defaults[.gitRepositoryUsername] = username
+            Defaults[.gitRepositoryPassword] = password
+            Defaults[.gitRepositoryAuthenticationMethod] = auth
             
             if Defaults[.gitRepositoryURL] == nil || gitRepostiroyURL != Defaults[.gitRepositoryURL]!.absoluteString {
                 SVProgressHUD.setDefaultMaskType(.black)
@@ -47,9 +54,6 @@ class SettingsTableViewController: UITableViewController {
                         if ret {
                             SVProgressHUD.showSuccess(withStatus: "Done")
                             SVProgressHUD.dismiss(withDelay: 1)
-                            Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
-                            Defaults[.gitRepositoryUsername] = username
-                            Defaults[.gitRepositoryPassword] = password
 
                             NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
                         } else {

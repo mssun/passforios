@@ -12,7 +12,10 @@
 		DC1208581E35EBE60042942E /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1208571E35EBE60042942E /* ObjectiveGit.framework */; };
 		DC286D461E37444D00DBF9C8 /* Former.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC286D451E37444D00DBF9C8 /* Former.framework */; };
 		DC286D4A1E374AF100DBF9C8 /* SSHKeySettingFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC286D491E374AF100DBF9C8 /* SSHKeySettingFormViewController.swift */; };
+		DC286D4E1E37B53F00DBF9C8 /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC286D4C1E37B53E00DBF9C8 /* TextFieldTableViewCell.swift */; };
+		DC286D4F1E37B53F00DBF9C8 /* TextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC286D4D1E37B53F00DBF9C8 /* TextFieldTableViewCell.xib */; };
 		DC3DC8391E2F63240062A988 /* PasswordDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3DC8381E2F63240062A988 /* PasswordDetailViewController.swift */; };
+		DC8963BE1E38AD8300828B09 /* GitRepositoryAuthenticationSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8963BD1E38AD8300828B09 /* GitRepositoryAuthenticationSettingTableViewController.swift */; };
 		DC917BD71E2E8231000FDF54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC917BD61E2E8231000FDF54 /* AppDelegate.swift */; };
 		DC917BDC1E2E8231000FDF54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDA1E2E8231000FDF54 /* Main.storyboard */; };
 		DC917BDE1E2E8231000FDF54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
@@ -37,8 +40,11 @@
 		DC1208571E35EBE60042942E /* ObjectiveGit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectiveGit.framework; path = Carthage/Build/iOS/ObjectiveGit.framework; sourceTree = "<group>"; };
 		DC286D451E37444D00DBF9C8 /* Former.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Former.framework; path = Carthage/Build/iOS/Former.framework; sourceTree = "<group>"; };
 		DC286D491E374AF100DBF9C8 /* SSHKeySettingFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeySettingFormViewController.swift; sourceTree = "<group>"; };
+		DC286D4C1E37B53E00DBF9C8 /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCell.swift; sourceTree = "<group>"; };
+		DC286D4D1E37B53F00DBF9C8 /* TextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		DC3DC8381E2F63240062A988 /* PasswordDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailViewController.swift; sourceTree = "<group>"; };
 		DC4A746D1E30FBDE00E8EB18 /* Objective-CBridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Objective-CBridgingHeader.h"; sourceTree = "<group>"; };
+		DC8963BD1E38AD8300828B09 /* GitRepositoryAuthenticationSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitRepositoryAuthenticationSettingTableViewController.swift; sourceTree = "<group>"; };
 		DC917BD31E2E8231000FDF54 /* pass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC917BD61E2E8231000FDF54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DC917BDB1E2E8231000FDF54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -105,10 +111,13 @@
 			isa = PBXGroup;
 			children = (
 				DC286D491E374AF100DBF9C8 /* SSHKeySettingFormViewController.swift */,
+				DC286D4C1E37B53E00DBF9C8 /* TextFieldTableViewCell.swift */,
+				DC286D4D1E37B53F00DBF9C8 /* TextFieldTableViewCell.xib */,
 				DC1208551E35D0BA0042942E /* PasswordsTableViewController.swift */,
 				DC4A746D1E30FBDE00E8EB18 /* Objective-CBridgingHeader.h */,
 				DC917BD61E2E8231000FDF54 /* AppDelegate.swift */,
 				DC917BDA1E2E8231000FDF54 /* Main.storyboard */,
+				DC8963BD1E38AD8300828B09 /* GitRepositoryAuthenticationSettingTableViewController.swift */,
 				DCA0499B1E3362F400522E8F /* PGPKeySettingTableViewController.swift */,
 				DCA049991E335CC800522E8F /* GitServerSettingTableViewController.swift */,
 				DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */,
@@ -204,6 +213,7 @@
 				DC917BE11E2E8231000FDF54 /* LaunchScreen.storyboard in Resources */,
 				DC917BDE1E2E8231000FDF54 /* Assets.xcassets in Resources */,
 				DC917BDC1E2E8231000FDF54 /* Main.storyboard in Resources */,
+				DC286D4F1E37B53F00DBF9C8 /* TextFieldTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,10 +293,12 @@
 				DCC408A41E2FCC9E00F29B0E /* PasswordStore.swift in Sources */,
 				DCA0499C1E3362F400522E8F /* PGPKeySettingTableViewController.swift in Sources */,
 				DC1208561E35D0BA0042942E /* PasswordsTableViewController.swift in Sources */,
+				DC286D4E1E37B53F00DBF9C8 /* TextFieldTableViewCell.swift in Sources */,
 				DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */,
 				DCA0499A1E335CC800522E8F /* GitServerSettingTableViewController.swift in Sources */,
 				DC286D4A1E374AF100DBF9C8 /* SSHKeySettingFormViewController.swift in Sources */,
 				DCC277D21E30D6EA00402246 /* pass.xcdatamodeld in Sources */,
+				DC8963BE1E38AD8300828B09 /* GitRepositoryAuthenticationSettingTableViewController.swift in Sources */,
 				DC917BD71E2E8231000FDF54 /* AppDelegate.swift in Sources */,
 				DCA049981E33586A00522E8F /* DefaultKeys.swift in Sources */,
 				DCA0499E1E33BAC100522E8F /* Globals.swift in Sources */,
