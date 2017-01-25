@@ -12,11 +12,8 @@ import SwiftyUserDefaults
 class GitServerSettingTableViewController: UITableViewController {
 
     @IBOutlet weak var gitRepositoryURLTextField: UITextField!
-    
     @IBOutlet weak var usernameTextField: UITextField!
-    
     @IBOutlet weak var passwordTextField: UITextField!
-    
     @IBOutlet weak var authenticationTableViewCell: UITableViewCell!
     
     override func viewDidLoad() {
