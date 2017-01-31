@@ -27,6 +27,7 @@ class SSHKeySettingTableViewController: UITableViewController {
                                             target: self,
                                             action: #selector(doneButtonTapped(_:)))
         navigationItem.rightBarButtonItem = doneBarButtonItem
+        navigationItem.title = "SSH Key"
     }
     
     func doneButtonTapped(_ sender: UIButton) {

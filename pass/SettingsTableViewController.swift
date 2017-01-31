@@ -23,7 +23,7 @@ class SettingsTableViewController: UITableViewController {
             let gitRepostiroyURL = controller.gitRepositoryURLTextField.text!
             let username = controller.usernameTextField.text!
             let password = controller.passwordTextField.text!
-            let auth = controller.authenticationTableViewCell.detailTextLabel!.text!
+            let auth = controller.authenticationMethod
 
             
             Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
@@ -34,7 +34,12 @@ class SettingsTableViewController: UITableViewController {
             if Defaults[.gitRepositoryURL] == nil || gitRepostiroyURL != Defaults[.gitRepositoryURL]!.absoluteString {
                 SVProgressHUD.setDefaultMaskType(.black)
                 SVProgressHUD.show(withStatus: "Prepare Repository")
-                let gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, password: password))
+                var gitCredential: GitCredential
+                if Defaults[.gitRepositoryAuthenticationMethod] == "Password" {
+                    gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, password: password))
+                } else {
+                    gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: username, password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Defaults[.gitRepositorySSHPublicKeyURL]!, privateKeyFile: Defaults[.gitRepositorySSHPrivateKeyURL]!))
+                }
 
                 DispatchQueue.global(qos: .userInitiated).async {
                     let ret = PasswordStore.shared.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,

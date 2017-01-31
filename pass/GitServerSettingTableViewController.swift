@@ -16,7 +16,7 @@ class GitServerSettingTableViewController: UITableViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var authenticationTableViewCell: UITableViewCell!
     
-    var authenticationMethod = "Password"
+    var authenticationMethod = Defaults[.gitRepositoryAuthenticationMethod]
 
     
     override func viewDidLoad() {
@@ -26,7 +26,7 @@ class GitServerSettingTableViewController: UITableViewController {
         }
         usernameTextField.text = Defaults[.gitRepositoryUsername]
         passwordTextField.text = Defaults[.gitRepositoryPassword]
-        authenticationTableViewCell.detailTextLabel?.text = Defaults[.gitRepositoryAuthenticationMethod]
+        authenticationTableViewCell.detailTextLabel?.text = authenticationMethod
     }
     
     override func viewDidAppear(_ animated: Bool) {
