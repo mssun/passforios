@@ -17,6 +17,7 @@ class GitRepositoryAuthenticationSettingTableViewController: UITableViewControll
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Auth Method"
         switch selectedMethod! {
         case "Password":
             passwordCell.accessoryType = UITableViewCellAccessoryType.checkmark
