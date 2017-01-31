@@ -30,6 +30,7 @@ struct GitCredential {
                 print("username \(userName), password \(password)")
                 credential = try? GTCredential(userName: userName, password: password)
             case let .ssh(userName, password, publicKeyFile, privateKeyFile):
+                print("username \(userName), password \(password), publicKeyFile \(publicKeyFile), privateKeyFile \(privateKeyFile)")
                 credential = try? GTCredential(userName: userName, publicKeyURL: publicKeyFile, privateKeyURL: privateKeyFile, passphrase: password)
             }
             return credential ?? GTCredential()

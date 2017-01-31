@@ -26,19 +26,15 @@ class SettingsTableViewController: UITableViewController {
             let auth = controller.authenticationMethod
 
             
-            Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
-            Defaults[.gitRepositoryUsername] = username
-            Defaults[.gitRepositoryPassword] = password
-            Defaults[.gitRepositoryAuthenticationMethod] = auth
             
             if Defaults[.gitRepositoryURL] == nil || gitRepostiroyURL != Defaults[.gitRepositoryURL]!.absoluteString {
                 SVProgressHUD.setDefaultMaskType(.black)
                 SVProgressHUD.show(withStatus: "Prepare Repository")
                 var gitCredential: GitCredential
-                if Defaults[.gitRepositoryAuthenticationMethod] == "Password" {
+                if password == "Password" {
                     gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, password: password))
                 } else {
-                    gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: username, password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Defaults[.gitRepositorySSHPublicKeyURL]!, privateKeyFile: Defaults[.gitRepositorySSHPrivateKeyURL]!))
+                    gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: username, password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.shared.sshPublicKeyPath, privateKeyFile: Globals.shared.sshPrivateKeyPath))
                 }
 
                 DispatchQueue.global(qos: .userInitiated).async {
@@ -59,6 +55,11 @@ class SettingsTableViewController: UITableViewController {
                         if ret {
                             SVProgressHUD.showSuccess(withStatus: "Done")
                             SVProgressHUD.dismiss(withDelay: 1)
+                            
+                            Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
+                            Defaults[.gitRepositoryUsername] = username
+                            Defaults[.gitRepositoryPassword] = password
+                            Defaults[.gitRepositoryAuthenticationMethod] = auth
 
                             NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
                         } else {

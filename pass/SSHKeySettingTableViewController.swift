@@ -34,6 +34,14 @@ class SSHKeySettingTableViewController: UITableViewController {
         Defaults[.gitRepositorySSHPublicKeyURL] = URL(string: publicKeyURLTextField.text!)
         Defaults[.gitRepositorySSHPrivateKeyURL] = URL(string: privateKeyURLTextField.text!)
         Defaults[.gitRepositorySSHPrivateKeyPassphrase] = passphraseTextField.text!
+        
+        do {
+            try Data(contentsOf: Defaults[.gitRepositorySSHPublicKeyURL]!).write(to: Globals.shared.sshPublicKeyPath, options: .atomic)
+            try Data(contentsOf: Defaults[.gitRepositorySSHPrivateKeyURL]!).write(to: Globals.shared.sshPrivateKeyPath, options: .atomic)
+        } catch {
+            print(error)
+        }
+
         navigationController!.popViewController(animated: true)
     }
 
