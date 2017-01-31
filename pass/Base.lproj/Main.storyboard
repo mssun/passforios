@@ -494,7 +494,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hbx-RC-qg1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="jjl-Xi-fkn" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4414" y="3367"/>
+            <point key="canvasLocation" x="4414" y="3286"/>
         </scene>
         <!--Password Detail View Controller-->
         <scene sceneID="9b5-fu-vx9">
@@ -717,13 +717,11 @@
                         <outlet property="passphraseTextField" destination="4oZ-lc-EFS" id="dtf-H3-gBh"/>
                         <outlet property="privateKeyURLTextField" destination="4iJ-oB-R1f" id="scx-lz-dUW"/>
                         <outlet property="publicKeyURLTextField" destination="Q1j-Z4-Ae8" id="nfA-W3-kJ2"/>
-                        <segue destination="jmy-o6-J0L" kind="unwind" unwindAction="saveWithSegue:" id="VJ5-AA-54J"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eY3-aM-BJB" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="jmy-o6-J0L" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3430" y="2540"/>
+            <point key="canvasLocation" x="3430" y="2474"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="GfH-IU-wIW">
@@ -741,7 +739,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bVY-G2-9Ud" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3430" y="3367"/>
+            <point key="canvasLocation" x="3430" y="3286"/>
         </scene>
     </scenes>
 </document>

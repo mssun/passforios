@@ -17,6 +17,9 @@ class SSHKeySettingTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        passphraseTextField.text = Defaults[.gitRepositorySSHPrivateKeyPassphrase]
+        privateKeyURLTextField.text = Defaults[.gitRepositorySSHPrivateKeyURL]?.absoluteString
+        publicKeyURLTextField.text = Defaults[.gitRepositorySSHPublicKeyURL]?.absoluteString
         var doneBarButtonItem: UIBarButtonItem?
 
         doneBarButtonItem = UIBarButtonItem(title: "Done",
@@ -27,11 +30,10 @@ class SSHKeySettingTableViewController: UITableViewController {
     }
     
     func doneButtonTapped(_ sender: UIButton) {
-        print("done pressed")
         Defaults[.gitRepositorySSHPublicKeyURL] = URL(string: publicKeyURLTextField.text!)
         Defaults[.gitRepositorySSHPrivateKeyURL] = URL(string: privateKeyURLTextField.text!)
         Defaults[.gitRepositorySSHPrivateKeyPassphrase] = passphraseTextField.text!
-        dismiss(animated: true, completion: nil)
+        navigationController!.popViewController(animated: true)
     }
 
 }
