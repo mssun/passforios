@@ -62,7 +62,7 @@ class PasswordStore {
         if Defaults[.gitRepositoryAuthenticationMethod] == "Password" {
             gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitRepositoryUsername], password: Defaults[.gitRepositoryPassword]))
         } else {
-            gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: Defaults[.gitRepositoryUsername], password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Defaults[.gitRepositorySSHPublicKeyURL]!, privateKeyFile: Defaults[.gitRepositorySSHPrivateKeyURL]!))
+            gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: Defaults[.gitRepositoryUsername], password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.shared.sshPublicKeyPath, privateKeyFile: Globals.shared.sshPrivateKeyPath))
         }
         
     }
