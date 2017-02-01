@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--All-->
+        <!--Password Store-->
         <scene sceneID="2hn-YS-T8K">
             <objects>
                 <tableViewController id="vGH-8E-Zez" customClass="PasswordsTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
@@ -46,7 +46,8 @@
                             <outlet property="delegate" destination="vGH-8E-Zez" id="EG1-wX-VRt"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="All" id="2I8-8c-JEA">
+                    <navigationItem key="navigationItem" title="Password Store" id="2I8-8c-JEA">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="OCO-gr-goM"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="JLS-BH-aaR">
                             <connections>
                                 <action selector="refreshPasswords:" destination="vGH-8E-Zez" id="nZd-1L-MFr"/>

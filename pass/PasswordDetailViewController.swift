@@ -16,7 +16,6 @@ class PasswordDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let encryptedDataURL = URL(fileURLWithPath: "\(Globals.shared.documentPath)/\(passwordEntity!.rawPath!)")
         let fm = FileManager.default
         if fm.fileExists(atPath: encryptedDataURL.path){
