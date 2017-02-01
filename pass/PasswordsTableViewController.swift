@@ -44,8 +44,7 @@ class PasswordsTableViewController: UITableViewController {
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
-        tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: false)
-
+        // tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: false)
     }
     
     func filterContentForSearchText(searchText: String, scope: String = "All") {
