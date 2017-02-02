@@ -31,7 +31,7 @@ class SettingsTableViewController: UITableViewController {
                 SVProgressHUD.setDefaultMaskType(.black)
                 SVProgressHUD.show(withStatus: "Prepare Repository")
                 var gitCredential: GitCredential
-                if password == "Password" {
+                if auth == "Password" {
                     gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, password: password))
                 } else {
                     gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: username, password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.shared.sshPublicKeyPath, privateKeyFile: Globals.shared.sshPrivateKeyPath))
