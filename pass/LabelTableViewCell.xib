@@ -20,8 +20,8 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="content" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yyr-cF-QN0">
-                        <rect key="frame" x="15" y="23" width="310" height="21"/>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                        <rect key="frame" x="15" y="26" width="310" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -38,7 +38,7 @@
                     <constraint firstAttribute="topMargin" secondItem="Dqz-7n-uEZ" secondAttribute="top" id="N4y-iT-CiY"/>
                     <constraint firstItem="yyr-cF-QN0" firstAttribute="leading" secondItem="Dqz-7n-uEZ" secondAttribute="leading" id="TpW-bu-QIx"/>
                     <constraint firstItem="yyr-cF-QN0" firstAttribute="width" secondItem="Dqz-7n-uEZ" secondAttribute="width" id="ZXa-fK-0Bg"/>
-                    <constraint firstItem="yyr-cF-QN0" firstAttribute="top" secondItem="Dqz-7n-uEZ" secondAttribute="bottom" id="sgc-hN-i8t"/>
+                    <constraint firstItem="yyr-cF-QN0" firstAttribute="top" secondItem="Dqz-7n-uEZ" secondAttribute="bottom" constant="3" id="sgc-hN-i8t"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
