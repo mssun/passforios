@@ -12,9 +12,9 @@ import SwiftyUserDefaults
 class Password {
     var name = ""
     var password = ""
-    var additions: [String: String]?
+    var additions: [String: String]
     
-    init(name: String, password: String, additions: [String: String]?) {
+    init(name: String, password: String, additions: [String: String]) {
         self.name = name
         self.password = password
         self.additions = additions

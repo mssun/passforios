@@ -134,7 +134,7 @@ class PasswordsTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showPasswordDetail" {
-            if let viewController = segue.destination as? PasswordDetailViewController {
+            if let viewController = segue.destination as? PasswordDetailTableViewController {
                 let selectedIndexPath = self.tableView.indexPath(for: sender as! UITableViewCell)!
                 let index = sections[selectedIndexPath.section].index + selectedIndexPath.row
                 let password: PasswordEntity

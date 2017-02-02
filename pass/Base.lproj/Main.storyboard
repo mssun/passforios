@@ -36,7 +36,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="Jts-IV-D1A" kind="show" identifier="showPasswordDetail" id="i0a-rZ-Bqd"/>
+                                    <segue destination="tW4-E9-CGv" kind="show" identifier="showPasswordDetail" id="OrR-Ve-XMm"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -497,39 +497,22 @@
             </objects>
             <point key="canvasLocation" x="4414" y="3286"/>
         </scene>
-        <!--Password Detail View Controller-->
-        <scene sceneID="9b5-fu-vx9">
+        <!--Password Detail Table View Controller-->
+        <scene sceneID="9wY-d0-fB1">
             <objects>
-                <viewController id="Jts-IV-D1A" customClass="PasswordDetailViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Vhp-eB-nlX"/>
-                        <viewControllerLayoutGuide type="bottom" id="AwD-QU-ZDy"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="aAM-Iy-xPP">
+                <tableViewController id="tW4-E9-CGv" customClass="PasswordDetailTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="hfi-6O-04U">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="kMN-7r-0CD">
-                                <rect key="frame" x="16" y="0.0" width="359" height="667"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="kMN-7r-0CD" firstAttribute="leading" secondItem="aAM-Iy-xPP" secondAttribute="leadingMargin" id="Kd2-e2-ou5"/>
-                            <constraint firstItem="kMN-7r-0CD" firstAttribute="top" secondItem="aAM-Iy-xPP" secondAttribute="top" id="UYu-K1-orN"/>
-                            <constraint firstAttribute="bottom" secondItem="kMN-7r-0CD" secondAttribute="bottom" id="XBs-6b-j50"/>
-                            <constraint firstAttribute="trailing" secondItem="kMN-7r-0CD" secondAttribute="trailing" id="u1d-Of-tmc"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="passwordTextView" destination="kMN-7r-0CD" id="nSW-kn-X8u"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ek1-Cw-dZH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="tW4-E9-CGv" id="5QL-0S-PR1"/>
+                            <outlet property="delegate" destination="tW4-E9-CGv" id="7PQ-0M-SCC"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9sC-44-OKL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3430" y="993"/>
         </scene>
