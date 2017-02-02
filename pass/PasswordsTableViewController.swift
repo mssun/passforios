@@ -15,6 +15,7 @@ class PasswordsTableViewController: UITableViewController {
     private var passwordEntities: [PasswordEntity]?
     var filteredPasswordEntities = [PasswordEntity]()
     let searchController = UISearchController(searchResultsController: nil)
+    var sections : [(index: Int, length :Int, title: String)] = Array()
     
     @IBAction func refreshPasswords(_ sender: UIBarButtonItem) {
         SVProgressHUD.setDefaultMaskType(.black)
@@ -45,13 +46,45 @@ class PasswordsTableViewController: UITableViewController {
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
         // tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: false)
+        generateSections(item: passwordEntities!)
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+    
+    func generateSections(item: [PasswordEntity]) {
+        sections.removeAll()
+        if item.count == 0 {
+            return
+        }
+        var index = 0
+        for i in 0 ..< item.count {
+            let name = item[index].name!.uppercased()
+            let commonPrefix = item[i].name!.commonPrefix(with: name, options: .caseInsensitive)
+            if commonPrefix.characters.count == 0 {
+                let firstCharacter = name[name.startIndex]
+                let newSection = (index: index, length: i - index, title: "\(firstCharacter)")
+                print("index: \(index), length: \(newSection.length), title: \(newSection.title)")
+                sections.append(newSection)
+                index = i
+            }
+        }
+        let name = item[index].name!.uppercased()
+        let firstCharacter = name[name.startIndex]
+        let newSection = (index: index, length: item.count - index, title: "\(firstCharacter)")
+        sections.append(newSection)
     }
     
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         filteredPasswordEntities = passwordEntities!.filter { password in
             return password.name!.lowercased().contains(searchText.lowercased())
         }
-        
+        if searchController.isActive && searchController.searchBar.text != "" {
+            generateSections(item: filteredPasswordEntities)
+        } else {
+            generateSections(item: passwordEntities!)
+        }
         tableView.reloadData()
     }
     
@@ -66,33 +99,48 @@ class PasswordsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.isActive && searchController.searchBar.text != "" {
-            return filteredPasswordEntities.count
-        }
-        return passwordEntities!.count
+//        if searchController.isActive && searchController.searchBar.text != "" {
+//            return filteredPasswordEntities.count
+//        }
+//        return passwordEntities!.count
+        return sections[section].length
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
-        let password: PasswordEntity
+        var password: PasswordEntity
+        let index = sections[indexPath.section].index + indexPath.row
         if searchController.isActive && searchController.searchBar.text != "" {
-            password = filteredPasswordEntities[indexPath.row]
+            password = filteredPasswordEntities[index]
         } else {
-            password = passwordEntities![indexPath.row]
+            password = passwordEntities![index]
         }
         cell.textLabel?.text = password.name
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section].title
+    }
+    
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return sections.map { $0.title }
+    }
+    
+    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        return index
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showPasswordDetail" {
             if let viewController = segue.destination as? PasswordDetailViewController {
-                let selectedIndex = self.tableView.indexPath(for: sender as! UITableViewCell)!
+                let selectedIndexPath = self.tableView.indexPath(for: sender as! UITableViewCell)!
+                let index = sections[selectedIndexPath.section].index + selectedIndexPath.row
                 let password: PasswordEntity
                 if searchController.isActive && searchController.searchBar.text != "" {
-                    password = filteredPasswordEntities[selectedIndex.row]
+                    password = filteredPasswordEntities[index]
                 } else {
-                    password = passwordEntities![selectedIndex.row]
+                    password = passwordEntities![index]
                 }
                 viewController.passwordEntity = password
                 viewController.navigationItem.title = password.name
