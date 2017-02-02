@@ -32,6 +32,7 @@ class PasswordsTableViewController: UITableViewController {
                 }
                 print("pull success")
                 self.passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
+                self.generateSections(item: self.passwordEntities!)
                 self.tableView.reloadData()
             }
         }
@@ -44,9 +45,9 @@ class PasswordsTableViewController: UITableViewController {
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
-        tableView.tableHeaderView = searchController.searchBar
         // tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: false)
         generateSections(item: passwordEntities!)
+        tableView.tableHeaderView = searchController.searchBar
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
