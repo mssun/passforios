@@ -43,7 +43,7 @@ class PasswordStore {
     
     let storeURL = URL(fileURLWithPath: "\(Globals.shared.documentPath)/password-store")
     var storeRepository: GTRepository?
-    var gitCredential: GitCredential
+    var gitCredential: GitCredential?
     
     let pgp: ObjectivePGP = ObjectivePGP()
     
@@ -61,8 +61,10 @@ class PasswordStore {
         }
         if Defaults[.gitRepositoryAuthenticationMethod] == "Password" {
             gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitRepositoryUsername], password: Defaults[.gitRepositoryPassword]))
-        } else {
+        } else if Defaults[.gitRepositoryAuthenticationMethod] == "SSH Key"{
             gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: Defaults[.gitRepositoryUsername], password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.shared.sshPublicKeyPath, privateKeyFile: Globals.shared.sshPrivateKeyPath))
+        } else {
+            gitCredential = nil
         }
         
     }
@@ -120,7 +122,7 @@ class PasswordStore {
         print("pullRepoisitory")
         do {
             print("start pulling...")
-            let credentialProvider = try gitCredential.credentialProvider()
+            let credentialProvider = try gitCredential!.credentialProvider()
             let options: [String: Any] = [
                 GTRepositoryRemoteOptionsCredentialProvider: credentialProvider
             ]
