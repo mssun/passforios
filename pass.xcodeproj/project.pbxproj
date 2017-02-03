@@ -109,26 +109,26 @@
 		DC917BD51E2E8231000FDF54 /* pass */ = {
 			isa = PBXGroup;
 			children = (
-				DC4914941E434301007FF592 /* LabelTableViewCell.swift */,
 				DC4A746D1E30FBDE00E8EB18 /* Objective-CBridgingHeader.h */,
-				DC5734AD1E439AD400D09270 /* PasswordsViewController.swift */,
+				DC917BE21E2E8231000FDF54 /* Info.plist */,
 				DC917BD61E2E8231000FDF54 /* AppDelegate.swift */,
-				DC8963BF1E38EEB900828B09 /* SSHKeySettingTableViewController.swift */,
+				DCA049971E33586A00522E8F /* DefaultKeys.swift */,
 				DC8963BD1E38AD8300828B09 /* GitRepositoryAuthenticationSettingTableViewController.swift */,
-				DCA0499B1E3362F400522E8F /* PGPKeySettingTableViewController.swift */,
 				DCA049991E335CC800522E8F /* GitServerSettingTableViewController.swift */,
-				DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */,
+				DCA0499D1E33BAC100522E8F /* Globals.swift */,
+				DC4914941E434301007FF592 /* LabelTableViewCell.swift */,
+				DC7E6EE91E432E48006C2443 /* Password.swift */,
 				DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */,
 				DCC408A31E2FCC9E00F29B0E /* PasswordStore.swift */,
-				DC7E6EE91E432E48006C2443 /* Password.swift */,
-				DCA049971E33586A00522E8F /* DefaultKeys.swift */,
-				DCA0499D1E33BAC100522E8F /* Globals.swift */,
-				DCC408C81E30BA1300F29B0E /* pass.xcdatamodeld */,
+				DC5734AD1E439AD400D09270 /* PasswordsViewController.swift */,
+				DCA0499B1E3362F400522E8F /* PGPKeySettingTableViewController.swift */,
+				DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */,
+				DC8963BF1E38EEB900828B09 /* SSHKeySettingTableViewController.swift */,
 				DC917BDD1E2E8231000FDF54 /* Assets.xcassets */,
-				DC917BDA1E2E8231000FDF54 /* Main.storyboard */,
 				DC4914951E434301007FF592 /* LabelTableViewCell.xib */,
 				DC917BDF1E2E8231000FDF54 /* LaunchScreen.storyboard */,
-				DC917BE21E2E8231000FDF54 /* Info.plist */,
+				DC917BDA1E2E8231000FDF54 /* Main.storyboard */,
+				DCC408C81E30BA1300F29B0E /* pass.xcdatamodeld */,
 			);
 			path = pass;
 			sourceTree = "<group>";
