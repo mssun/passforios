@@ -45,6 +45,20 @@ class PasswordDetailTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
+        if action == #selector(copy(_:)) {
+            UIPasteboard.general.string = formData[indexPath.section][indexPath.row].content
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+        return action == #selector(UIResponderStandardEditActions.copy(_:))
+    }
+    
+    override func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 52
     }
