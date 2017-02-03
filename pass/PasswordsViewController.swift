@@ -43,7 +43,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
-        NotificationCenter.default.addObserver(self, selector: #selector(PasswordsTableViewController.actOnPasswordUpdatedNotification), name: NSNotification.Name(rawValue: "passwordUpdated"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordUpdatedNotification), name: NSNotification.Name(rawValue: "passwordUpdated"), object: nil)
         generateSections(item: passwordEntities!)
         tableView.delegate = self
         tableView.dataSource = self
