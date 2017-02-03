@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		94BA784B85E071D25EE89B59 /* libPods-pass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADCE7A5C3CCC67D7D21BB3C4 /* libPods-pass.a */; };
-		DC1208561E35D0BA0042942E /* PasswordsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1208551E35D0BA0042942E /* PasswordsTableViewController.swift */; };
 		DC1208581E35EBE60042942E /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1208571E35EBE60042942E /* ObjectiveGit.framework */; };
 		DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914941E434301007FF592 /* LabelTableViewCell.swift */; };
 		DC4914971E434301007FF592 /* LabelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC4914951E434301007FF592 /* LabelTableViewCell.xib */; };
@@ -37,7 +36,6 @@
 		274CCFCF32444A2FF46BE7F4 /* Pods-pass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.debug.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.debug.xcconfig"; sourceTree = "<group>"; };
 		ADCE7A5C3CCC67D7D21BB3C4 /* libPods-pass.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pass.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEAD6B31EAF5D061447A68CC /* Pods-pass.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.release.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.release.xcconfig"; sourceTree = "<group>"; };
-		DC1208551E35D0BA0042942E /* PasswordsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordsTableViewController.swift; sourceTree = "<group>"; };
 		DC1208571E35EBE60042942E /* ObjectiveGit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectiveGit.framework; path = Carthage/Build/iOS/ObjectiveGit.framework; sourceTree = "<group>"; };
 		DC4914941E434301007FF592 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
 		DC4914951E434301007FF592 /* LabelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelTableViewCell.xib; sourceTree = "<group>"; };
@@ -113,7 +111,6 @@
 			children = (
 				DC4914941E434301007FF592 /* LabelTableViewCell.swift */,
 				DC4A746D1E30FBDE00E8EB18 /* Objective-CBridgingHeader.h */,
-				DC1208551E35D0BA0042942E /* PasswordsTableViewController.swift */,
 				DC5734AD1E439AD400D09270 /* PasswordsViewController.swift */,
 				DC917BD61E2E8231000FDF54 /* AppDelegate.swift */,
 				DC8963BF1E38EEB900828B09 /* SSHKeySettingTableViewController.swift */,
@@ -296,7 +293,6 @@
 				DCA0499C1E3362F400522E8F /* PGPKeySettingTableViewController.swift in Sources */,
 				DC7E6EEA1E432E48006C2443 /* Password.swift in Sources */,
 				DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */,
-				DC1208561E35D0BA0042942E /* PasswordsTableViewController.swift in Sources */,
 				DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */,
 				DCA0499A1E335CC800522E8F /* GitServerSettingTableViewController.swift in Sources */,
 				DCC277D21E30D6EA00402246 /* pass.xcdatamodeld in Sources */,
