@@ -56,6 +56,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         view.addSubview(searchBarView)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let path = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: path, animated: false)
+        }
+    }
+    
      func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
@@ -101,7 +108,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             if commonPrefix.characters.count == 0 {
                 let firstCharacter = name[name.startIndex]
                 let newSection = (index: index, length: i - index, title: "\(firstCharacter)")
-                print("index: \(index), length: \(newSection.length), title: \(newSection.title)")
                 sections.append(newSection)
                 index = i
             }
