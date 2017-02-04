@@ -19,7 +19,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(PasswordsViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
-        refreshControl.attributedTitle = NSAttributedString(string: "Sync Passwords")
+        refreshControl.attributedTitle = NSAttributedString(string: "Sync Password Store")
         return refreshControl
     }()
     let searchBarView = UIView(frame: CGRect(x: 0, y: 64, width: UIScreen.main.bounds.width, height: 44))
