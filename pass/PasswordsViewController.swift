@@ -29,7 +29,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     @IBAction func refreshPasswords(_ sender: UIBarButtonItem) {
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.show(withStatus: "Pull Remote Repository")
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             if PasswordStore.shared.pullRepository(transferProgressBlock: {(git_transfer_progress, stop) in
                 DispatchQueue.main.async {
                     SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Pull Remote Repository")
