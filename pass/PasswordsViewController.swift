@@ -41,12 +41,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                     }
                 })
                 DispatchQueue.main.async {
+                    self.passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
+                    self.reloadTableView(data: self.passwordEntities!)
                     SVProgressHUD.showSuccess(withStatus: "Done")
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
-                print("pull success")
-                self.passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
-                self.reloadTableView(data: self.passwordEntities!)
             } catch {
                 DispatchQueue.main.async {
                     SVProgressHUD.showError(withStatus: error.localizedDescription)
