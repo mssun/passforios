@@ -34,11 +34,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.show(withStatus: "Sync Passwords")
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
-            if PasswordStore.shared.pullRepository(transferProgressBlock: {(git_transfer_progress, stop) in
-                DispatchQueue.main.async {
-                    SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Pull Remote Repository")
-                }
-            }) {
+            do {
+                try PasswordStore.shared.pullRepository(transferProgressBlock: {(git_transfer_progress, stop) in
+                    DispatchQueue.main.async {
+                        SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Pull Remote Repository")
+                    }
+                })
                 DispatchQueue.main.async {
                     SVProgressHUD.showSuccess(withStatus: "Done")
                     SVProgressHUD.dismiss(withDelay: 1)
@@ -46,6 +47,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 print("pull success")
                 self.passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
                 self.reloadTableView(data: self.passwordEntities!)
+            } catch {
+                DispatchQueue.main.async {
+                    SVProgressHUD.showError(withStatus: error.localizedDescription)
+                    SVProgressHUD.dismiss(withDelay: 3)
+                }
             }
         }
     }

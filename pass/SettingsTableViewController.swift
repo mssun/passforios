@@ -38,35 +38,40 @@ class SettingsTableViewController: UITableViewController {
                 }
 
                 DispatchQueue.global(qos: .userInitiated).async {
-                    let ret = PasswordStore.shared.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
-                                                                   credential: gitCredential,
-                                                                   transferProgressBlock:{ (git_transfer_progress, stop) in
-                                                                        DispatchQueue.main.async {
-                                                                            SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Clone Remote Repository")
-                                                                        }
-                                                                    },
-                                                                   checkoutProgressBlock: { (path, completedSteps, totalSteps) in
-                                                                        DispatchQueue.main.async {
-                                                                            SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "Checkout Master Branch")
-                                                                        }
-                                                                    })
-                    
-                    DispatchQueue.main.async {
-                        if ret {
-                            SVProgressHUD.showSuccess(withStatus: "Done")
-                            SVProgressHUD.dismiss(withDelay: 1)
-                            
-                            Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
-                            Defaults[.gitRepositoryUsername] = username
-                            Defaults[.gitRepositoryPassword] = password
-                            Defaults[.gitRepositoryAuthenticationMethod] = auth
+                    do {
+                        try PasswordStore.shared.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
+                                                                 credential: gitCredential,
+                                                                 transferProgressBlock:{ (git_transfer_progress, stop) in
+                                                                    DispatchQueue.main.async {
+                                                                        SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Clone Remote Repository")
+                                                                    }
+                                                                },
+                                                                 checkoutProgressBlock: { (path, completedSteps, totalSteps) in
+                                                                    DispatchQueue.main.async {
+                                                                        SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "Checkout Master Branch")
+                                                                    }
+                                                                })
+                        
+                        DispatchQueue.main.async {
+                                SVProgressHUD.showSuccess(withStatus: "Done")
+                                SVProgressHUD.dismiss(withDelay: 1)
+                                
+                                Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
+                                Defaults[.gitRepositoryUsername] = username
+                                Defaults[.gitRepositoryPassword] = password
+                                Defaults[.gitRepositoryAuthenticationMethod] = auth
+                                
+                                NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
 
-                            NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
-                        } else {
-                            SVProgressHUD.showError(withStatus: "Error")
-                            SVProgressHUD.dismiss(withDelay: 1)
+                        }
+                    } catch {
+                        DispatchQueue.main.async {
+                            print(error)
+                            SVProgressHUD.showError(withStatus: error.localizedDescription)
+                            SVProgressHUD.dismiss(withDelay: 3)
                         }
                     }
+                    
                 }
             }
         } else if let controller = segue.source as? PGPKeySettingTableViewController {

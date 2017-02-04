@@ -90,7 +90,7 @@ class PasswordStore {
     func cloneRepository(remoteRepoURL: URL,
                          credential: GitCredential,
                          transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
-                         checkoutProgressBlock: @escaping (String?, UInt, UInt) -> Void) -> Bool {
+                         checkoutProgressBlock: @escaping (String?, UInt, UInt) -> Void) throws {
         print("start cloning remote repo: \(remoteRepoURL)")
         let fm = FileManager.default
         if (storeRepository != nil) {
@@ -101,39 +101,27 @@ class PasswordStore {
                 print(error.debugDescription)
             }
         }
-        do {
-            print("start cloning...")
-            let credentialProvider = try credential.credentialProvider()
-            let options: [String: Any] = [
-                GTRepositoryCloneOptionsCredentialProvider: credentialProvider,
-            ]
-            storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: storeURL, options: options, transferProgressBlock:transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
-            print("clone finish")
-            updatePasswordEntityCoreData()
-            gitCredential = credential
-            return true
-        } catch {
-            print(error)
-            return false
-        }
+        print("start cloning...")
+        let credentialProvider = try credential.credentialProvider()
+        let options: [String: Any] = [
+            GTRepositoryCloneOptionsCredentialProvider: credentialProvider,
+        ]
+        storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: storeURL, options: options, transferProgressBlock:transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
+        print("clone finish")
+        updatePasswordEntityCoreData()
+        gitCredential = credential
     }
     
-    func pullRepository(transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) -> Bool {
+    func pullRepository(transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
         print("pullRepoisitory")
-        do {
-            print("start pulling...")
-            let credentialProvider = try gitCredential!.credentialProvider()
-            let options: [String: Any] = [
-                GTRepositoryRemoteOptionsCredentialProvider: credentialProvider
-            ]
-            let remote = try GTRemote(name: "origin", in: storeRepository!)
-            try storeRepository?.pull((storeRepository?.currentBranch())!, from: remote, withOptions: options, progress: transferProgressBlock)
-            updatePasswordEntityCoreData()
-            return true
-        } catch {
-            print(error)
-            return false
-        }
+        print("start pulling...")
+        let credentialProvider = try gitCredential!.credentialProvider()
+        let options: [String: Any] = [
+            GTRepositoryRemoteOptionsCredentialProvider: credentialProvider
+        ]
+        let remote = try GTRemote(name: "origin", in: storeRepository!)
+        try storeRepository?.pull((storeRepository?.currentBranch())!, from: remote, withOptions: options, progress: transferProgressBlock)
+        updatePasswordEntityCoreData()
     }
     
     func updatePasswordEntityCoreData() {
