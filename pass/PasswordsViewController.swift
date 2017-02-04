@@ -19,7 +19,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(PasswordsViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
-        
+        refreshControl.attributedTitle = NSAttributedString(string: "Sync Passwords")
         return refreshControl
     }()
     let searchBarView = UIView(frame: CGRect(x: 0, y: 64, width: UIScreen.main.bounds.width, height: 44))
@@ -27,8 +27,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     @IBOutlet weak var tableView: UITableView!
     
     @IBAction func refreshPasswords(_ sender: UIBarButtonItem) {
+        syncPasswords()
+    }
+    
+    func syncPasswords() {
         SVProgressHUD.setDefaultMaskType(.black)
-        SVProgressHUD.show(withStatus: "Pull Remote Repository")
+        SVProgressHUD.show(withStatus: "Sync Passwords")
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             if PasswordStore.shared.pullRepository(transferProgressBlock: {(git_transfer_progress, stop) in
                 DispatchQueue.main.async {
@@ -177,6 +181,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func handleRefresh(_ refreshControl: UIRefreshControl) {
+        syncPasswords()
         refreshControl.endRefreshing()
     }
 }
