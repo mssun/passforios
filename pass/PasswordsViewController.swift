@@ -16,6 +16,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     var sections : [(index: Int, length :Int, title: String)] = Array()
     var searchActive : Bool = false
     let searchController = UISearchController(searchResultsController: nil)
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(PasswordsViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
+        
+        return refreshControl
+    }()
+    let searchBarView = UIView(frame: CGRect(x: 0, y: 64, width: UIScreen.main.bounds.width, height: 44))
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -34,8 +41,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 }
                 print("pull success")
                 self.passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
-                self.generateSections(item: self.passwordEntities!)
-                self.tableView.reloadData()
+                self.reloadTableView(data: self.passwordEntities!)
             }
         }
     }
@@ -51,9 +57,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.sizeToFit()
         definesPresentationContext = true
-        let searchBarView = UIView(frame: CGRect(x: 0, y: 64, width: searchController.searchBar.frame.size.width, height: 44))
         searchBarView.addSubview(searchController.searchBar)
         view.addSubview(searchBarView)
+        tableView.insertSubview(refreshControl, at: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -96,6 +102,19 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         return index
     }
     
+    
+    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        let index = sections[indexPath.section].index + indexPath.row
+        let password: PasswordEntity
+        if searchController.isActive && searchController.searchBar.text != "" {
+            password = filteredPasswordEntities[index]
+        } else {
+            password = passwordEntities![index]
+        }
+        let decryptedPassword = password.decrypt()!
+        UIPasteboard.general.string = decryptedPassword.password
+    }
+    
     func generateSections(item: [PasswordEntity]) {
         sections.removeAll()
         if item.count == 0 {
@@ -120,8 +139,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     func actOnPasswordUpdatedNotification() {
         passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
-        generateSections(item: passwordEntities!)
-        self.tableView.reloadData()
+        reloadTableView(data: passwordEntities!)
         print("actOnPasswordUpdatedNotification")
     }
 
@@ -132,7 +150,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 let index = sections[selectedIndexPath.section].index + selectedIndexPath.row
                 let password: PasswordEntity
                 if searchController.isActive && searchController.searchBar.text != "" {
-
                     password = filteredPasswordEntities[index]
                 } else {
                     password = passwordEntities![index]
@@ -142,16 +159,25 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             }
         }
     }
+    
     func filterContentForSearchText(searchText: String, scope: String = "All") {
         filteredPasswordEntities = passwordEntities!.filter { password in
             return password.name!.lowercased().contains(searchText.lowercased())
         }
         if searchController.isActive && searchController.searchBar.text != "" {
-            generateSections(item: filteredPasswordEntities)
+            reloadTableView(data: filteredPasswordEntities)
         } else {
-            generateSections(item: passwordEntities!)
+            reloadTableView(data: passwordEntities!)
         }
+    }
+    
+    func reloadTableView (data: [PasswordEntity]) {
+        generateSections(item: data)
         tableView.reloadData()
+    }
+    
+    func handleRefresh(_ refreshControl: UIRefreshControl) {
+        refreshControl.endRefreshing()
     }
 }
 
