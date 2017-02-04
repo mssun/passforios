@@ -11,43 +11,57 @@ import UIKit
 class PasswordDetailTableViewController: UITableViewController {
     var passwordEntity: PasswordEntity?
 
-    struct FormCell {
+    struct TableCell {
         var title: String
         var content: String
     }
     
-    var formData = [[FormCell]]()
+    struct TableSection {
+        var title: String
+        var item: Array<TableCell>
+    }
+    
+    var tableData = Array<TableSection>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "LabelTableViewCell", bundle: nil), forCellReuseIdentifier: "labelCell")
         let password = passwordEntity!.decrypt()!
-        formData.append([])
+
+        tableData.append(TableSection(title: "", item: []))
         if let username = password.additions["Username"] {
-            formData[0].append(FormCell(title: "username", content: username))
+            tableData[0].item.append(TableCell(title: "username", content: username))
+            password.additions.removeValue(forKey: "Username")
         }
-        formData[0].append(FormCell(title: "password", content: password.password))
+        tableData[0].item.append(TableCell(title: "password", content: password.password))
+
+        if password.additions.count > 0 {
+            tableData.append(TableSection(title: "additions", item: []))
+        }
     }
 
-
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return formData.count
+        return tableData.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return formData[section].count
+        return tableData[section].item.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell
-        cell.titleLabel.text = formData[indexPath.section][indexPath.row].title
-        cell.contentLabel.text = formData[indexPath.section][indexPath.row].content
+        cell.titleLabel.text = tableData[indexPath.section].item[indexPath.row].title
+        cell.contentLabel.text = tableData[indexPath.section].item[indexPath.row].content
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return tableData[section].title
     }
     
     override func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
         if action == #selector(copy(_:)) {
-            UIPasteboard.general.string = formData[indexPath.section][indexPath.row].content
+            UIPasteboard.general.string = tableData[indexPath.section].item[indexPath.row].content
         }
     }
     
