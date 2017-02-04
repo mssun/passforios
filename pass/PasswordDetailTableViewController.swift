@@ -27,16 +27,21 @@ class PasswordDetailTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "LabelTableViewCell", bundle: nil), forCellReuseIdentifier: "labelCell")
         let password = passwordEntity!.decrypt()!
-
+        
+        var tableDataIndex = 0
         tableData.append(TableSection(title: "", item: []))
         if let username = password.additions["Username"] {
-            tableData[0].item.append(TableCell(title: "username", content: username))
+            tableData[tableDataIndex].item.append(TableCell(title: "username", content: username))
             password.additions.removeValue(forKey: "Username")
         }
-        tableData[0].item.append(TableCell(title: "password", content: password.password))
+        tableData[tableDataIndex].item.append(TableCell(title: "password", content: password.password))
 
         if password.additions.count > 0 {
             tableData.append(TableSection(title: "additions", item: []))
+            tableDataIndex += 1
+            for (key, value) in password.additions {
+                tableData[tableDataIndex].item.append(TableCell(title: key, content: value))
+            }
         }
     }
 
