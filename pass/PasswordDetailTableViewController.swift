@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PasswordDetailTableViewController: UITableViewController {
+class PasswordDetailTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     var passwordEntity: PasswordEntity?
 
     struct TableCell {
@@ -41,6 +41,26 @@ class PasswordDetailTableViewController: UITableViewController {
             tableDataIndex += 1
             for (key, value) in password.additions {
                 tableData[tableDataIndex].item.append(TableCell(title: key, content: value))
+            }
+        }
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PasswordDetailTableViewController.tapMenu(recognizer:)))
+        tableView.addGestureRecognizer(tapGesture)
+        tapGesture.delegate = self
+    }
+    
+    func tapMenu(recognizer: UITapGestureRecognizer)  {
+        print("tap")
+        if recognizer.state == UIGestureRecognizerState.ended {
+            let tapLocation = recognizer.location(in: self.tableView)
+            if let tapIndexPath = self.tableView.indexPathForRow(at: tapLocation) {
+                print(tapIndexPath)
+                if let tappedCell = self.tableView.cellForRow(at: tapIndexPath) as? LabelTableViewCell {
+                    tappedCell.becomeFirstResponder()
+                    let menuController = UIMenuController.shared
+                    menuController.setTargetRect(tappedCell.contentLabel.frame, in: tappedCell.contentLabel.superview!)
+                    menuController.setMenuVisible(true, animated: true)
+                }
             }
         }
     }
