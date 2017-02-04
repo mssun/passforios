@@ -42,6 +42,7 @@ class PasswordStore {
     static let shared = PasswordStore()
     
     let storeURL = URL(fileURLWithPath: "\(Globals.shared.documentPath)/password-store")
+    let tempStoreURL = URL(fileURLWithPath: "\(Globals.shared.documentPath)/password-store-temp")
     var storeRepository: GTRepository?
     var gitCredential: GitCredential?
     
@@ -91,23 +92,24 @@ class PasswordStore {
                          credential: GitCredential,
                          transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
                          checkoutProgressBlock: @escaping (String?, UInt, UInt) -> Void) throws {
-        print("start cloning remote repo: \(remoteRepoURL)")
-        let fm = FileManager.default
-        if (storeRepository != nil) {
-            print("remove item")
-            do {
-                try fm.removeItem(at: storeURL)
-            } catch let error as NSError {
-                print(error.debugDescription)
-            }
-        }
         print("start cloning...")
         let credentialProvider = try credential.credentialProvider()
         let options: [String: Any] = [
             GTRepositoryCloneOptionsCredentialProvider: credentialProvider,
         ]
-        storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: storeURL, options: options, transferProgressBlock:transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
+        storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: tempStoreURL, options: options, transferProgressBlock:transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
         print("clone finish")
+        let fm = FileManager.default
+        do {
+            if fm.fileExists(atPath: storeURL.path) {
+                try fm.removeItem(at: storeURL)
+            }
+            try fm.copyItem(at: tempStoreURL, to: storeURL)
+            try fm.removeItem(at: tempStoreURL)
+        } catch {
+            print(error)
+        }
+        storeRepository = try GTRepository(url: storeURL)
         updatePasswordEntityCoreData()
         gitCredential = credential
     }
