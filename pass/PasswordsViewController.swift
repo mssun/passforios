@@ -32,7 +32,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     func syncPasswords() {
         SVProgressHUD.setDefaultMaskType(.black)
-        SVProgressHUD.show(withStatus: "Sync Passwords")
+        SVProgressHUD.show(withStatus: "Sync Password Store")
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
                 try PasswordStore.shared.pullRepository(transferProgressBlock: {(git_transfer_progress, stop) in
