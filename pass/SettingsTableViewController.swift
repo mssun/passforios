@@ -82,14 +82,17 @@ class SettingsTableViewController: UITableViewController {
                 SVProgressHUD.setDefaultMaskType(.black)
                 SVProgressHUD.show(withStatus: "Fetching PGP Key")
                 DispatchQueue.global(qos: .userInitiated).async {
-                    let ret = PasswordStore.shared.initPGP(pgpKeyURL: Defaults[.pgpKeyURL]!, pgpKeyLocalPath: Globals.shared.secringPath)
-                    
-                    DispatchQueue.main.async {
-                        if ret {
+                    do {
+                        try PasswordStore.shared.initPGP(pgpKeyURL: Defaults[.pgpKeyURL]!, pgpKeyLocalPath: Globals.shared.secringPath)
+                        DispatchQueue.main.async {
                             SVProgressHUD.showSuccess(withStatus: "Success")
-                        } else {
-                            SVProgressHUD.showError(withStatus: "Error")
-                    }
+                            SVProgressHUD.dismiss(withDelay: 1)
+                        }
+                    } catch {
+                        DispatchQueue.main.async {
+                            SVProgressHUD.showError(withStatus: error.localizedDescription)
+                            SVProgressHUD.dismiss(withDelay: 3)
+                        }
                     }
                 }
             }

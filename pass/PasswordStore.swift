@@ -70,20 +70,14 @@ class PasswordStore {
         
     }
     
-    func initPGP(pgpKeyURL: URL, pgpKeyLocalPath: String) -> Bool {
-        do {
-            let pgpData = try Data(contentsOf: pgpKeyURL)
-            try pgpData.write(to: URL(fileURLWithPath: pgpKeyLocalPath), options: .atomic)
-            pgp.importKeys(fromFile: pgpKeyLocalPath, allowDuplicates: false)
-            let key = pgp.keys[0]
-            Defaults[.pgpKeyID] = key.keyID!.shortKeyString
-            if let gpgUser = key.users[0] as? PGPUser {
-                Defaults[.pgpKeyUserID] = gpgUser.userID
-            }
-            return true
-        } catch {
-            print("error")
-            return false
+    func initPGP(pgpKeyURL: URL, pgpKeyLocalPath: String) throws {
+        let pgpData = try Data(contentsOf: pgpKeyURL)
+        try pgpData.write(to: URL(fileURLWithPath: pgpKeyLocalPath), options: .atomic)
+        pgp.importKeys(fromFile: pgpKeyLocalPath, allowDuplicates: false)
+        let key = pgp.keys[0]
+        Defaults[.pgpKeyID] = key.keyID!.shortKeyString
+        if let gpgUser = key.users[0] as? PGPUser {
+            Defaults[.pgpKeyUserID] = gpgUser.userID
         }
     }
     
