@@ -8,10 +8,24 @@
 
 import UIKit
 
+
+struct LabelTableViewCellData {
+    var title: String
+    var content: String
+}
+
 class LabelTableViewCell: UITableViewCell {
 
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
+
+    
+    var cellData: LabelTableViewCellData? {
+        didSet {
+            titleLabel.text = cellData?.title
+            contentLabel.text = cellData?.content
+        }
+    }
     
     override var canBecomeFirstResponder: Bool {
         get {

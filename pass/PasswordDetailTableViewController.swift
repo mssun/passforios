@@ -75,8 +75,10 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell
-        cell.titleLabel.text = tableData[indexPath.section].item[indexPath.row].title
-        cell.contentLabel.text = tableData[indexPath.section].item[indexPath.row].content
+        
+        let titleData = tableData[indexPath.section].item[indexPath.row].title
+        let contentData = tableData[indexPath.section].item[indexPath.row].content
+        cell.cellData = LabelTableViewCellData(title: titleData, content: contentData)
         return cell
     }
     
