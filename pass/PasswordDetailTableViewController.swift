@@ -47,6 +47,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PasswordDetailTableViewController.tapMenu(recognizer:)))
         tableView.addGestureRecognizer(tapGesture)
         tapGesture.delegate = self
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 52
     }
     
     func tapMenu(recognizer: UITapGestureRecognizer)  {
@@ -96,10 +99,6 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     
     override func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
         return true
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 52
     }
 
 }
