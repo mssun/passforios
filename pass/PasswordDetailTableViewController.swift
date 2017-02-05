@@ -50,11 +50,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
     
     func tapMenu(recognizer: UITapGestureRecognizer)  {
-        print("tap")
         if recognizer.state == UIGestureRecognizerState.ended {
             let tapLocation = recognizer.location(in: self.tableView)
             if let tapIndexPath = self.tableView.indexPathForRow(at: tapLocation) {
-                print(tapIndexPath)
                 if let tappedCell = self.tableView.cellForRow(at: tapIndexPath) as? LabelTableViewCell {
                     tappedCell.becomeFirstResponder()
                     let menuController = UIMenuController.shared
