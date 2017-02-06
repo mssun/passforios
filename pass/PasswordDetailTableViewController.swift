@@ -27,31 +27,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "LabelTableViewCell", bundle: nil), forCellReuseIdentifier: "labelCell")
-        do {
-            password = try passwordEntity!.decrypt()!
-        } catch {
-            let alert = UIAlertController(title: "Cannot Show Password", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {(UIAlertAction) -> Void in
-                self.navigationController!.popViewController(animated: true)
-            }))
-            self.present(alert, animated: true, completion: nil)
-        }
-        
-        var tableDataIndex = 0
-        tableData.append(TableSection(title: "", item: []))
-        if let username = password.additions["Username"] {
-            tableData[tableDataIndex].item.append(TableCell(title: "username", content: username))
-            password.additions.removeValue(forKey: "Username")
-        }
-        tableData[tableDataIndex].item.append(TableCell(title: "password", content: password.password))
 
-        if password.additions.count > 0 {
-            tableData.append(TableSection(title: "additions", item: []))
-            tableDataIndex += 1
-            for (key, value) in password.additions {
-                tableData[tableDataIndex].item.append(TableCell(title: key, content: value))
-            }
-        }
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PasswordDetailTableViewController.tapMenu(recognizer:)))
         tableView.addGestureRecognizer(tapGesture)
@@ -59,6 +35,42 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 52
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        indicator.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height * 0.382)
+        indicator.startAnimating()
+        tableView.addSubview(indicator)
+        
+        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+            do {
+                self.password = try self.passwordEntity!.decrypt()!
+            } catch {
+                let alert = UIAlertController(title: "Cannot Show Password", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {(UIAlertAction) -> Void in
+                    self.navigationController!.popViewController(animated: true)
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
+            
+            var tableDataIndex = 0
+            self.tableData.append(TableSection(title: "", item: []))
+            if let username = self.password.additions["Username"] {
+                self.tableData[tableDataIndex].item.append(TableCell(title: "username", content: username))
+                self.password.additions.removeValue(forKey: "Username")
+            }
+            self.tableData[tableDataIndex].item.append(TableCell(title: "password", content: self.password.password))
+            
+            if self.password.additions.count > 0 {
+                self.tableData.append(TableSection(title: "additions", item: []))
+                tableDataIndex += 1
+                for (key, value) in self.password.additions {
+                    self.tableData[tableDataIndex].item.append(TableCell(title: key, content: value))
+                }
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                indicator.stopAnimating()
+            }
+        }
     }
     
     func tapMenu(recognizer: UITapGestureRecognizer)  {
