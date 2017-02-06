@@ -19,4 +19,17 @@ class PGPKeySettingTableViewController: UITableViewController {
         pgpKeyURLTextField.text = Defaults[.pgpKeyURL]?.absoluteString
         pgpKeyPassphraseTextField.text = Defaults[.pgpKeyPassphrase]
     }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "savePGPKeySegue" {
+            if URL(string: pgpKeyURLTextField.text!)!.scheme! == "http" {
+                let alertMessage = "HTTP connection is not supported."
+                let alert = UIAlertController(title: "Cannot Save Settings", message: alertMessage, preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return false
+            }
+        }
+        return true
+    }
 }

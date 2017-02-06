@@ -485,7 +485,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="TNt-ne-l7W">
                             <connections>
-                                <segue destination="jjl-Xi-fkn" kind="unwind" unwindAction="saveWithSegue:" id="aKP-AF-lfv"/>
+                                <segue destination="jjl-Xi-fkn" kind="unwind" identifier="savePGPKeySegue" unwindAction="saveWithSegue:" id="aKP-AF-lfv"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
