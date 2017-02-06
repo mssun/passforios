@@ -35,10 +35,18 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 52
+        let indicatorLable = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 21))
+        indicatorLable.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height * 0.382 + 22)
+        indicatorLable.backgroundColor = UIColor.clear
+        indicatorLable.textColor = UIColor.gray
+        indicatorLable.text = "decrypting password"
+        indicatorLable.textAlignment = .center
+        indicatorLable.font = UIFont.preferredFont(forTextStyle: .footnote)
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         indicator.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height * 0.382)
         indicator.startAnimating()
         tableView.addSubview(indicator)
+        tableView.addSubview(indicatorLable)
         
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
@@ -69,6 +77,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 indicator.stopAnimating()
+                indicatorLable.isHidden = true
             }
         }
     }
