@@ -53,7 +53,9 @@ class PasswordStore {
     
     private init() {
         do {
-            try storeRepository = GTRepository.init(url: storeURL)
+            if FileManager.default.fileExists(atPath: storeURL.path) {
+                try storeRepository = GTRepository.init(url: storeURL)
+            }
         } catch {
             print(error)
         }
