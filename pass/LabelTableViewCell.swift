@@ -60,7 +60,7 @@ class LabelTableViewCell: UITableViewCell {
     }
     
     override func copy(_ sender: Any?) {
-        UIPasteboard.general.string = contentLabel.text
+        UIPasteboard.general.string = cellData?.content
     }
     
     func revealPassword(_ sender: Any?) {
