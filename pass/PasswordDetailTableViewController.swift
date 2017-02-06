@@ -59,6 +59,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 if let tappedCell = self.tableView.cellForRow(at: tapIndexPath) as? LabelTableViewCell {
                     tappedCell.becomeFirstResponder()
                     let menuController = UIMenuController.shared
+                    let revealItem = UIMenuItem(title: "Reveal", action: #selector(LabelTableViewCell.revealPassword(_:)))
+                    let concealItem = UIMenuItem(title: "Conceal", action: #selector(LabelTableViewCell.concealPassword(_:)))
+                    menuController.menuItems = [revealItem, concealItem]
                     menuController.setTargetRect(tappedCell.contentLabel.frame, in: tappedCell.contentLabel.superview!)
                     menuController.setMenuVisible(true, animated: true)
                 }
@@ -79,6 +82,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         
         let titleData = tableData[indexPath.section].item[indexPath.row].title
         let contentData = tableData[indexPath.section].item[indexPath.row].content
+        cell.isPasswordCell = (titleData == "password" ? true : false)
         cell.cellData = LabelTableViewCellData(title: titleData, content: contentData)
         return cell
     }
