@@ -182,7 +182,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                     passwordEntity = passwordEntities![index]
                 }
                 viewController.passwordEntity = passwordEntity
-                viewController.navigationItem.title = passwordEntity.name
             }
         }
     }

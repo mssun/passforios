@@ -27,12 +27,13 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "LabelTableViewCell", bundle: nil), forCellReuseIdentifier: "labelCell")
-
+        tableView.register(UINib(nibName: "PasswordDetailTitleTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordDetailTitleTableViewCell")
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PasswordDetailTableViewController.tapMenu(recognizer:)))
         tableView.addGestureRecognizer(tapGesture)
         tapGesture.delegate = self
         
+        tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 52
         let indicatorLable = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 21))
@@ -100,25 +101,42 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return tableData.count
+        return tableData.count + 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableData[section].item.count
+        if section == 0 {
+            return 1
+        }
+        return tableData[section - 1].item.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell
+        let sectionIndex = indexPath.section
+        let rowIndex = indexPath.row
         
-        let titleData = tableData[indexPath.section].item[indexPath.row].title
-        let contentData = tableData[indexPath.section].item[indexPath.row].content
-        cell.isPasswordCell = (titleData == "password" ? true : false)
-        cell.cellData = LabelTableViewCellData(title: titleData, content: contentData)
-        return cell
+        if sectionIndex == 0 && rowIndex == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "passwordDetailTitleTableViewCell", for: indexPath) as! PasswordDetailTitleTableViewCell
+            cell.passwordImageImageView.image = #imageLiteral(resourceName: "PasswordImagePlaceHolder")
+            cell.nameLabel.text = passwordEntity?.name
+            cell.categoryLabel.text = "category1 > category2"
+            return cell
+
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell
+            let titleData = tableData[sectionIndex - 1].item[rowIndex].title
+            let contentData = tableData[sectionIndex - 1].item[rowIndex].content
+            cell.isPasswordCell = (titleData == "password" ? true : false)
+            cell.cellData = LabelTableViewCellData(title: titleData, content: contentData)
+            return cell
+        }
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return tableData[section].title
+        if section == 0 {
+            return nil
+        }
+        return tableData[section - 1].title
     }
     
     override func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
