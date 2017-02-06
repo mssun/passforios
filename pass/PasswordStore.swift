@@ -123,10 +123,14 @@ class PasswordStore {
     }
     
     func updatePasswordEntityCoreData() {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
+        let passwordCategoryEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordCategoryEntity")
+        let passwordEntityDeleteRequest = NSBatchDeleteRequest(fetchRequest: passwordEntityFetchRequest)
+        let passwordCategoryEntityDeleteRequest = NSBatchDeleteRequest(fetchRequest: passwordCategoryEntityFetchRequest)
+
         do {
-            try context.execute(deleteRequest)
+            try context.execute(passwordEntityDeleteRequest)
+            try context.execute(passwordCategoryEntityDeleteRequest)
         } catch let error as NSError {
             print(error)
         }
@@ -143,6 +147,7 @@ class PasswordStore {
                     for i in 0 ..< items.count - 1 {
                         let passwordCategoryEntity = PasswordCategoryEntity(context: context)
                         passwordCategoryEntity.category = items[i]
+                        passwordCategoryEntity.level = Int16(i)
                         passwordCategoryEntity.password = passwordEntity
                     }
                 }
@@ -168,10 +173,11 @@ class PasswordStore {
     }
     
     func fetchPasswordCategoryEntityCoreData(password: PasswordEntity) -> [PasswordCategoryEntity] {
-        let passwordCategoryEntityFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordCategoryEntity")
-        passwordCategoryEntityFetch.predicate = NSPredicate(format: "password = %@", password)
+        let passwordCategoryEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordCategoryEntity")
+        passwordCategoryEntityFetchRequest.predicate = NSPredicate(format: "password = %@", password)
+        passwordCategoryEntityFetchRequest.sortDescriptors = [NSSortDescriptor(key: "level", ascending: true)]
         do {
-            let passwordCategoryEntities = try context.fetch(passwordCategoryEntityFetch) as! [PasswordCategoryEntity]
+            let passwordCategoryEntities = try context.fetch(passwordCategoryEntityFetchRequest) as! [PasswordCategoryEntity]
             return passwordCategoryEntities
         } catch {
             fatalError("Failed to fetch employees: \(error)")

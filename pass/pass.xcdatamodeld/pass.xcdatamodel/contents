@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="PasswordCategoryEntity" representedClassName="PasswordCategoryEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="category" attributeType="String" syncable="YES"/>
+        <attribute name="level" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
         <relationship name="password" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PasswordEntity" inverseName="categories" inverseEntity="PasswordEntity" syncable="YES"/>
     </entity>
     <entity name="PasswordEntity" representedClassName="PasswordEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="raw" optional="YES" attributeType="Binary" syncable="YES"/>
-        <attribute name="rawPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rawPath" attributeType="String" syncable="YES"/>
         <relationship name="categories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PasswordCategoryEntity" inverseName="password" inverseEntity="PasswordCategoryEntity" syncable="YES"/>
     </entity>
     <elements>
-        <element name="PasswordEntity" positionX="-63" positionY="-18" width="128" height="103"/>
-        <element name="PasswordCategoryEntity" positionX="115" positionY="-9" width="128" height="73"/>
+        <element name="PasswordCategoryEntity" positionX="115" positionY="-9" width="128" height="90"/>
+        <element name="PasswordEntity" positionX="-63" positionY="-18" width="128" height="105"/>
     </elements>
 </model>
