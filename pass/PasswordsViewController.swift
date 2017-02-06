@@ -121,8 +121,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         } else {
             password = passwordEntities![index]
         }
-        let decryptedPassword = password.decrypt()!
-        UIPasteboard.general.string = decryptedPassword.password
+        do {
+            let decryptedPassword = try password.decrypt()!
+            UIPasteboard.general.string = decryptedPassword.password
+        } catch {
+            print(error)
+        }
     }
     
     func generateSections(item: [PasswordEntity]) {
@@ -174,14 +178,14 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             if let viewController = segue.destination as? PasswordDetailTableViewController {
                 let selectedIndexPath = self.tableView.indexPath(for: sender as! UITableViewCell)!
                 let index = sections[selectedIndexPath.section].index + selectedIndexPath.row
-                let password: PasswordEntity
+                let passwordEntity: PasswordEntity
                 if searchController.isActive && searchController.searchBar.text != "" {
-                    password = filteredPasswordEntities[index]
+                    passwordEntity = filteredPasswordEntities[index]
                 } else {
-                    password = passwordEntities![index]
+                    passwordEntity = passwordEntities![index]
                 }
-                viewController.passwordEntity = password
-                viewController.navigationItem.title = password.name
+                viewController.passwordEntity = passwordEntity
+                viewController.navigationItem.title = passwordEntity.name
             }
         }
     }

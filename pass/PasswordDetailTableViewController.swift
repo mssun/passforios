@@ -10,6 +10,7 @@ import UIKit
 
 class PasswordDetailTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     var passwordEntity: PasswordEntity?
+    var password = Password()
 
     struct TableCell {
         var title: String
@@ -26,7 +27,15 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "LabelTableViewCell", bundle: nil), forCellReuseIdentifier: "labelCell")
-        let password = passwordEntity!.decrypt()!
+        do {
+            password = try passwordEntity!.decrypt()!
+        } catch {
+            let alert = UIAlertController(title: "Cannot Show Password", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {(UIAlertAction) -> Void in
+                self.navigationController!.popViewController(animated: true)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
         
         var tableDataIndex = 0
         tableData.append(TableSection(title: "", item: []))
