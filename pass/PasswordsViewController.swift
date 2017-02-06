@@ -20,7 +20,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(PasswordsViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
-        refreshControl.attributedTitle = NSAttributedString(string: "Sync Password Store")
         return refreshControl
     }()
     let searchBarView = UIView(frame: CGRect(x: 0, y: 64, width: UIScreen.main.bounds.width, height: 44))
@@ -39,6 +38,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 DispatchQueue.main.async {
                     self.passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
                     self.reloadTableView(data: self.passwordEntities!)
+                    Defaults[.lastUpdatedTime] = Date()
                     SVProgressHUD.showSuccess(withStatus: "Done")
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
@@ -66,6 +66,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         view.addSubview(searchBarView)
         tableView.insertSubview(refreshControl, at: 0)
         SVProgressHUD.setDefaultMaskType(.black)
+        updateRefreshControlTitle()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -197,9 +198,22 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
+    func updateRefreshControlTitle() {
+        var atribbutedTitle = "Pull to Sync Password Store"
+        if let lastUpdatedTime = Defaults[.lastUpdatedTime] {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .long
+            formatter.timeStyle = .short
+            let dateString = formatter.string(from: lastUpdatedTime)
+            atribbutedTitle = "Last Sync: \(dateString)"
+        }
+        refreshControl.attributedTitle = NSAttributedString(string: atribbutedTitle)
+    }
+    
     func reloadTableView (data: [PasswordEntity]) {
         generateSections(item: data)
         tableView.reloadData()
+        updateRefreshControlTitle()
     }
     
     func handleRefresh(_ refreshControl: UIRefreshControl) {

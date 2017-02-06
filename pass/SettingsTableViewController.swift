@@ -60,6 +60,8 @@ class SettingsTableViewController: UITableViewController {
                                 Defaults[.gitRepositoryUsername] = username
                                 Defaults[.gitRepositoryPassword] = password
                                 Defaults[.gitRepositoryAuthenticationMethod] = auth
+                            
+                                Defaults[.lastUpdatedTime] = Date()
                                 
                                 NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
 
