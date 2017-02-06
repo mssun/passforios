@@ -69,17 +69,16 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             
             var tableDataIndex = 0
             self.tableData.append(TableSection(title: "", item: []))
-            if let username = self.password.additions["Username"] {
-                self.tableData[tableDataIndex].item.append(TableCell(title: "username", content: username))
-                self.password.additions.removeValue(forKey: "Username")
+            if self.password.username != "" {
+                self.tableData[tableDataIndex].item.append(TableCell(title: "username", content: self.password.username))
             }
             self.tableData[tableDataIndex].item.append(TableCell(title: "password", content: self.password.password))
             
             if self.password.additions.count > 0 {
                 self.tableData.append(TableSection(title: "additions", item: []))
                 tableDataIndex += 1
-                for (key, value) in self.password.additions {
-                    self.tableData[tableDataIndex].item.append(TableCell(title: key, content: value))
+                for addition in self.password.additions {
+                    self.tableData[tableDataIndex].item.append(TableCell(title: addition.title, content: addition.content))
                 }
             }
             DispatchQueue.main.async {

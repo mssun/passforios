@@ -9,19 +9,27 @@
 import Foundation
 import SwiftyUserDefaults
 
+struct AdditionField {
+    var title: String
+    var content: String
+}
+
 class Password {
     var name: String
+    var username: String
     var password: String
-    var additions: [String: String]
+    var additions: [AdditionField]
     
     init() {
         name = ""
         password = ""
-        additions = [:]
+        username = ""
+        additions = []
     }
     
-    init(name: String, password: String, additions: [String: String]) {
+    init(name: String, username: String, password: String, additions: [AdditionField]) {
         self.name = name
+        self.username = username
         self.password = password
         self.additions = additions
     }
@@ -35,7 +43,8 @@ extension PasswordEntity {
         let decryptedData = try PasswordStore.shared.pgp.decryptData(encryptedData, passphrase: Defaults[.pgpKeyPassphrase])
         let plain = String(data: decryptedData, encoding: .ascii) ?? ""
         var decrypted_password = ""
-        var decrypted_addtions = [String: String]()
+        var username = ""
+        var decrypted_addtions = [AdditionField]()
         plain.enumerateLines(invoking: { line, _ in
             let items = line.characters.split(separator: ":").map(String.init)
             if items.count == 1 {
@@ -43,10 +52,14 @@ extension PasswordEntity {
             } else {
                 let key = items[0]
                 let value = items[1].trimmingCharacters(in: .whitespaces)
-                decrypted_addtions[key] = value
+                if key.lowercased() == "username" {
+                    username = value
+                } else {
+                    decrypted_addtions.append(AdditionField(title: key, content: value))
+                }
             }
         })
-        password = Password(name: name!, password: decrypted_password, additions: decrypted_addtions)
+        password = Password(name: name!, username: username, password: decrypted_password, additions: decrypted_addtions)
         return password
     }
 }
