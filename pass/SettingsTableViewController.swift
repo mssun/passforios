@@ -75,7 +75,9 @@ class SettingsTableViewController: UITableViewController {
                 }
             }
         } else if let controller = segue.source as? PGPKeySettingTableViewController {
-            if Defaults[.pgpKeyURL] != URL(string: controller.pgpKeyURLTextField.text!) {
+            if Defaults[.pgpKeyURL] != URL(string: controller.pgpKeyURLTextField.text!) ||
+                Defaults[.pgpKeyPassphrase] != controller.pgpKeyPassphraseTextField.text!
+                {
                 Defaults[.pgpKeyURL] = URL(string: controller.pgpKeyURLTextField.text!)
                 Defaults[.pgpKeyPassphrase] = controller.pgpKeyPassphraseTextField.text!
                 
