@@ -55,6 +55,24 @@ class GitServerSettingTableViewController: UITableViewController {
         view.endEditing(true)
     }
     
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "saveGitServerSettingSegue" {
+            if gitRepositoryURLTextField.text == "" || authenticationMethod  == "" {
+                var alertMessage = ""
+                if gitRepositoryURLTextField.text == "" {
+                    alertMessage = "Git Server is not set. Please set the Git server first."
+                } else if authenticationMethod  == "" {
+                    alertMessage = "PGP Key is not set. Please set your PGP Key first."
+                }
+                let alert = UIAlertController(title: "Cannot Save Settings", message: alertMessage, preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return false
+            }
+        }
+        return true
+    }
+    
     @IBAction func save(segue: UIStoryboardSegue) {
         if let controller = segue.source as? UITableViewController {
             if controller.tableView.indexPathForSelectedRow == IndexPath(row: 0, section:0) {

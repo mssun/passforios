@@ -156,7 +156,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "showPasswordDetail" {
             if Defaults[.pgpKeyID]  == "" {
-                let alert = UIAlertController(title: "Unable to Decrypt Password", message: "PGP Key is not set. Please set your PGP Key first.", preferredStyle: UIAlertControllerStyle.alert)
+                let alert = UIAlertController(title: "Cannot Show Password", message: "PGP Key is not set. Please set your PGP Key first.", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
                 if let s = sender as? UITableViewCell {

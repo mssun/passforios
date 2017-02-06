@@ -314,7 +314,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="sgQ-zB-rxv">
                             <connections>
-                                <segue destination="7K9-cE-9qq" kind="unwind" unwindAction="saveWithSegue:" id="hvX-Fk-F21"/>
+                                <segue destination="7K9-cE-9qq" kind="unwind" identifier="saveGitServerSettingSegue" unwindAction="saveWithSegue:" id="hvX-Fk-F21"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
