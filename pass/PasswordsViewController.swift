@@ -27,10 +27,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     @IBOutlet weak var tableView: UITableView!
     
-    @IBAction func refreshPasswords(_ sender: UIBarButtonItem) {
-        syncPasswords()
-    }
-    
     func syncPasswords() {
         SVProgressHUD.show(withStatus: "Sync Password Store")
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in

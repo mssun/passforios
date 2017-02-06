@@ -55,11 +55,6 @@
                     </view>
                     <navigationItem key="navigationItem" title="Password Store" id="Cio-ZG-zCS">
                         <barButtonItem key="backBarButtonItem" title="Back" id="New-sD-9Z1"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="sHf-RI-Fgc">
-                            <connections>
-                                <action selector="refreshPasswords:" destination="cwm-DY-Eli" id="3AY-0O-aXH"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="Tn1-q5-vaJ" id="UHc-AS-gXh"/>
