@@ -37,12 +37,12 @@ extension PasswordEntity {
         var decrypted_password = ""
         var decrypted_addtions = [String: String]()
         plain.enumerateLines(invoking: { line, _ in
-            let item = line.characters.split(separator: ":").map(String.init)
-            if item.count == 1 {
-                decrypted_password = item[0]
+            let items = line.characters.split(separator: ":").map(String.init)
+            if items.count == 1 {
+                decrypted_password = items[0]
             } else {
-                let key = item[0]
-                let value = item[1].trimmingCharacters(in: .whitespaces)
+                let key = items[0]
+                let value = items[1].trimmingCharacters(in: .whitespaces)
                 decrypted_addtions[key] = value
             }
         })

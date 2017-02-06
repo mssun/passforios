@@ -182,6 +182,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                     passwordEntity = passwordEntities![index]
                 }
                 viewController.passwordEntity = passwordEntity
+                let passwordCategoryEntities = PasswordStore.shared.fetchPasswordCategoryEntityCoreData(password: passwordEntity)
+                viewController.passwordCategoryEntities = passwordCategoryEntities
             }
         }
     }

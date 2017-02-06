@@ -10,6 +10,8 @@ import UIKit
 
 class PasswordDetailTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     var passwordEntity: PasswordEntity?
+    var passwordCategoryEntities: [PasswordCategoryEntity]?
+    var passwordCategoryText = ""
     var password = Password()
 
     struct TableCell {
@@ -28,6 +30,11 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         super.viewDidLoad()
         tableView.register(UINib(nibName: "LabelTableViewCell", bundle: nil), forCellReuseIdentifier: "labelCell")
         tableView.register(UINib(nibName: "PasswordDetailTitleTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordDetailTitleTableViewCell")
+        
+        let passwordCategoryArray = passwordCategoryEntities?.map({ (value: PasswordCategoryEntity) -> String in
+            value.category!
+        })
+        passwordCategoryText = (passwordCategoryArray?.joined(separator: " > "))!
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PasswordDetailTableViewController.tapMenu(recognizer:)))
         tableView.addGestureRecognizer(tapGesture)
@@ -119,7 +126,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             let cell = tableView.dequeueReusableCell(withIdentifier: "passwordDetailTitleTableViewCell", for: indexPath) as! PasswordDetailTitleTableViewCell
             cell.passwordImageImageView.image = #imageLiteral(resourceName: "PasswordImagePlaceHolder")
             cell.nameLabel.text = passwordEntity?.name
-            cell.categoryLabel.text = "category1 > category2"
+            cell.categoryLabel.text = passwordCategoryText
             return cell
 
         } else {

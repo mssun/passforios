@@ -135,10 +135,16 @@ class PasswordStore {
         fm.enumerator(atPath: storeURL.path)?.forEach({ (e) in
             if let e = e as? String, let url = URL(string: e) {
                 if url.pathExtension == "gpg" {
-                    let entity = PasswordEntity(context: context)
+                    let passwordEntity = PasswordEntity(context: context)
                     let endIndex =  url.lastPathComponent.index(url.lastPathComponent.endIndex, offsetBy: -4)
-                    entity.name = url.lastPathComponent.substring(to: endIndex)
-                    entity.rawPath = "password-store/\(url.absoluteString)"
+                    passwordEntity.name = url.lastPathComponent.substring(to: endIndex)
+                    passwordEntity.rawPath = "password-store/\(url.path)"
+                    let items = url.path.characters.split(separator: "/").map(String.init)
+                    for i in 0 ..< items.count - 1 {
+                        let passwordCategoryEntity = PasswordCategoryEntity(context: context)
+                        passwordCategoryEntity.category = items[i]
+                        passwordCategoryEntity.password = passwordEntity
+                    }
                 }
             }
         })
@@ -156,6 +162,17 @@ class PasswordStore {
             return fetchedPasswordEntities.sorted(by: { (p1, p2) -> Bool in
                 return p1.name! < p2.name!;
             })
+        } catch {
+            fatalError("Failed to fetch employees: \(error)")
+        }
+    }
+    
+    func fetchPasswordCategoryEntityCoreData(password: PasswordEntity) -> [PasswordCategoryEntity] {
+        let passwordCategoryEntityFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordCategoryEntity")
+        passwordCategoryEntityFetch.predicate = NSPredicate(format: "password = %@", password)
+        do {
+            let passwordCategoryEntities = try context.fetch(passwordCategoryEntityFetch) as! [PasswordCategoryEntity]
+            return passwordCategoryEntities
         } catch {
             fatalError("Failed to fetch employees: \(error)")
         }
