@@ -9,6 +9,7 @@
 import UIKit
 import Result
 import SVProgressHUD
+import SwiftyUserDefaults
 
 class PasswordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private var passwordEntities: [PasswordEntity]?
@@ -31,7 +32,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func syncPasswords() {
-        SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.show(withStatus: "Sync Password Store")
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
@@ -69,6 +69,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         searchBarView.addSubview(searchController.searchBar)
         view.addSubview(searchBarView)
         tableView.insertSubview(refreshControl, at: 0)
+        SVProgressHUD.setDefaultMaskType(.black)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -150,6 +151,22 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
         reloadTableView(data: passwordEntities!)
         print("actOnPasswordUpdatedNotification")
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "showPasswordDetail" {
+            if Defaults[.pgpKeyID]  == "" {
+                let alert = UIAlertController(title: "Unable to Decrypt Password", message: "PGP Key is not set. Please set your PGP Key first.", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                if let s = sender as? UITableViewCell {
+                    let selectedIndexPath = tableView.indexPath(for: s)!
+                    tableView.deselectRow(at: selectedIndexPath, animated: true)
+                }
+                return false
+            }
+        }
+        return true
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
