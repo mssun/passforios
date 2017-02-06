@@ -87,7 +87,7 @@ class SettingsTableViewController: UITableViewController {
                     do {
                         try PasswordStore.shared.initPGP(pgpKeyURL: Defaults[.pgpKeyURL]!, pgpKeyLocalPath: Globals.shared.secringPath)
                         DispatchQueue.main.async {
-                            SVProgressHUD.showSuccess(withStatus: "Success")
+                            SVProgressHUD.showSuccess(withStatus: "Success. Remember to remove the key from the server.")
                             SVProgressHUD.dismiss(withDelay: 1)
                         }
                     } catch {
