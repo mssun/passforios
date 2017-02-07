@@ -1,3 +1,4 @@
 github "SVProgressHUD/SVProgressHUD"
 github "radex/SwiftyUserDefaults"
 github "libgit2/objective-git"
+github "zahlz/SwiftPasscodeLock"
