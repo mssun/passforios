@@ -105,6 +105,10 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if Defaults[.pgpKeyID] == "" {
             pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
         } else {

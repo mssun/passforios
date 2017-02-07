@@ -123,18 +123,9 @@ class PasswordStore {
     }
     
     func updatePasswordEntityCoreData() {
-        let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
-        let passwordCategoryEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordCategoryEntity")
-        let passwordEntityDeleteRequest = NSBatchDeleteRequest(fetchRequest: passwordEntityFetchRequest)
-        let passwordCategoryEntityDeleteRequest = NSBatchDeleteRequest(fetchRequest: passwordCategoryEntityFetchRequest)
-
-        do {
-            try context.execute(passwordEntityDeleteRequest)
-            try context.execute(passwordCategoryEntityDeleteRequest)
-        } catch let error as NSError {
-            print(error)
-        }
-
+        deleteCoreData(entityName: "PasswordEntity")
+        deleteCoreData(entityName: "PasswordCategoryEntity")
+        
         let fm = FileManager.default
         fm.enumerator(atPath: storeURL.path)?.forEach({ (e) in
             if let e = e as? String, let url = URL(string: e) {
@@ -185,5 +176,57 @@ class PasswordStore {
     }
     
     func updateRemoteRepo() {
+    }
+    
+    func deleteCoreData(entityName: String) {
+        let deleteFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetchRequest)
+        
+        do {
+            try context.execute(deleteRequest)
+        } catch let error as NSError {
+            print(error)
+        }
+    }
+    
+    func erase() {
+        let fm = FileManager.default
+        do {
+            if fm.fileExists(atPath: storeURL.path) {
+                try fm.removeItem(at: storeURL)
+            }
+            
+            if fm.fileExists(atPath: Globals.shared.secringPath) {
+                try fm.removeItem(atPath: Globals.shared.secringPath)
+            }
+            
+            if fm.fileExists(atPath: Globals.shared.sshPrivateKeyPath.path) {
+                try fm.removeItem(at: Globals.shared.sshPrivateKeyPath)
+            }
+            
+            if fm.fileExists(atPath: Globals.shared.sshPublicKeyPath.path) {
+                try fm.removeItem(at: Globals.shared.sshPublicKeyPath)
+            }
+        } catch {
+            print(error)
+        }
+        
+        deleteCoreData(entityName: "PasswordEntity")
+        deleteCoreData(entityName: "PasswordCategoryEntity")
+        
+        Defaults[.pgpKeyURL] = nil
+        
+        Defaults[.pgpKeyPassphrase] = ""
+        Defaults[.pgpKeyID] = ""
+        Defaults[.pgpKeyUserID] = ""
+        
+        Defaults[.gitRepositoryURL] = nil
+        Defaults[.gitRepositoryAuthenticationMethod] = ""
+        Defaults[.gitRepositoryUsername] = ""
+        Defaults[.gitRepositoryPassword] = ""
+        Defaults[.gitRepositorySSHPublicKeyURL] = nil
+        Defaults[.gitRepositorySSHPrivateKeyURL] = nil
+        Defaults[.gitRepositorySSHPrivateKeyPassphrase] = nil
+        Defaults[.lastUpdatedTime] = nil
     }
 }

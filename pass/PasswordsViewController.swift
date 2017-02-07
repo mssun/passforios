@@ -55,6 +55,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
         NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordUpdatedNotification), name: NSNotification.Name(rawValue: "passwordUpdated"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordStoreErasedNotification), name: NSNotification.Name(rawValue: "passwordStoreErased"), object: nil)
+
         generateSections(item: passwordEntities!)
         tableView.delegate = self
         tableView.dataSource = self
@@ -159,6 +161,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         reloadTableView(data: passwordEntities!)
         print("actOnPasswordUpdatedNotification")
     }
+    
+    func actOnPasswordStoreErasedNotification() {
+        passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
+        reloadTableView(data: passwordEntities!)
+        print("actOnPasswordErasedNotification")
+    }
+
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "showPasswordDetail" {
