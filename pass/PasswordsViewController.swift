@@ -28,6 +28,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     @IBOutlet weak var tableView: UITableView!
     
     func syncPasswords() {
+        SVProgressHUD.setDefaultMaskType(.black)
+        SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "Sync Password Store")
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
@@ -110,7 +112,19 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             password = passwordEntities![index]
         }
         cell.textLabel?.text = password.name
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
+        longPressGestureRecognizer.minimumPressDuration = 1.0
+        cell.addGestureRecognizer(longPressGestureRecognizer)
         return cell
+    }
+    
+    func longPressAction(_ gesture: UILongPressGestureRecognizer) {
+        if gesture.state == UIGestureRecognizerState.began {
+            let touchPoint = gesture.location(in: tableView)
+            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
+                copyToPasteboard(from: indexPath)
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -125,8 +139,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         return index
     }
     
-    
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        copyToPasteboard(from: indexPath)
+    }
+    
+    func copyToPasteboard(from indexPath: IndexPath) {
         let index = sections[indexPath.section].index + indexPath.row
         let password: PasswordEntity
         if searchController.isActive && searchController.searchBar.text != "" {
@@ -137,6 +154,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         do {
             let decryptedPassword = try password.decrypt()!
             UIPasteboard.general.string = decryptedPassword.password
+            let generator = UIImpactFeedbackGenerator(style: .medium)
+            generator.impactOccurred()
+            SVProgressHUD.setDefaultMaskType(.clear)
+            SVProgressHUD.setDefaultStyle(.dark)
+            SVProgressHUD.showInfo(withStatus: "Password Copied")
+            SVProgressHUD.dismiss(withDelay: 0.6)
         } catch {
             print(error)
         }

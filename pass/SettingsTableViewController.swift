@@ -31,6 +31,7 @@ class SettingsTableViewController: UITableViewController {
 
             if Defaults[.gitRepositoryURL] == nil || gitRepostiroyURL != Defaults[.gitRepositoryURL]!.absoluteString {
                 SVProgressHUD.setDefaultMaskType(.black)
+                SVProgressHUD.setDefaultStyle(.light)
                 SVProgressHUD.show(withStatus: "Prepare Repository")
                 var gitCredential: GitCredential
                 if auth == "Password" {
@@ -86,6 +87,7 @@ class SettingsTableViewController: UITableViewController {
                 Defaults[.pgpKeyPassphrase] = controller.pgpKeyPassphraseTextField.text!
                 
                 SVProgressHUD.setDefaultMaskType(.black)
+                SVProgressHUD.setDefaultStyle(.light)
                 SVProgressHUD.show(withStatus: "Fetching PGP Key")
                 DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                     do {
