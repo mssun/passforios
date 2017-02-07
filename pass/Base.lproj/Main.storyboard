@@ -76,7 +76,7 @@
                             <tableViewSection headerTitle="GIT REPO" id="5gp-bg-o3n">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="gitServerTableViewCell" textLabel="Nuw-cs-qZN" style="IBUITableViewCellStyleDefault" id="W3D-XV-i9c">
-                                        <rect key="frame" x="0.0" y="55.333333333333336" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="W3D-XV-i9c" id="W9C-sq-ric">
                                             <rect key="frame" x="0.0" y="0.0" width="381" height="43.666666666666664"/>
@@ -96,7 +96,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="sshKeyTableViewCell" textLabel="39M-pD-G4c" style="IBUITableViewCellStyleDefault" id="D5Y-70-cIk">
-                                        <rect key="frame" x="0.0" y="99.333333333333343" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="99.5" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="D5Y-70-cIk" id="j3q-u1-biY">
                                             <rect key="frame" x="0.0" y="0.0" width="381" height="43.666666666666664"/>
@@ -120,7 +120,7 @@
                             <tableViewSection headerTitle="CRYPTO" id="3cS-Ls-IQU">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="pgpKeyTableViewCell" textLabel="9z4-m8-sRO" detailTextLabel="eUn-QA-sUA" style="IBUITableViewCellStyleValue1" id="x7b-p5-sQR">
-                                        <rect key="frame" x="0.0" y="199.33333333333334" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="199.5" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="x7b-p5-sQR" id="wqT-nH-PgF">
                                             <rect key="frame" x="0.0" y="0.0" width="381" height="43.666666666666664"/>
@@ -178,7 +178,7 @@
                                         <rect key="frame" x="0.0" y="35" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FRr-pf-aPO" id="60A-PS-qGe">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Git Repository URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugx-bs-r9H">
@@ -208,7 +208,7 @@
                                         <rect key="frame" x="0.0" y="87" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RWE-qh-fFI" id="fSL-1c-C64">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wO6-YQ-5na">
@@ -238,7 +238,7 @@
                                         <rect key="frame" x="0.0" y="139" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vIU-mk-Lbm" id="6VP-wN-g64">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Jt-ds-Hhi">
@@ -413,7 +413,7 @@
                                         <rect key="frame" x="0.0" y="35" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BYZ-9g-xZy" id="Zfn-rK-sN1">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PGP Key URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dWi-eh-7Eq">
@@ -443,7 +443,7 @@
                                         <rect key="frame" x="0.0" y="87" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qrQ-bd-sV8" id="7ts-YH-1tP">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Passphrase" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KFQ-DQ-XNg">
@@ -516,7 +516,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9sC-44-OKL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3430" y="993"/>
+            <point key="canvasLocation" x="3429" y="993"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ACd-rk-Zf3">
@@ -608,7 +608,7 @@
                                         <rect key="frame" x="0.0" y="35" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Jy1-4S-Lvf" id="tJE-ww-okf">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public Key URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oys-xP-ZrB">
@@ -638,7 +638,7 @@
                                         <rect key="frame" x="0.0" y="87" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MA5-lE-8dT" id="pTv-Wj-psC">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Private Key URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C2w-dd-roS">
@@ -668,7 +668,7 @@
                                         <rect key="frame" x="0.0" y="139" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yER-vT-YTO" id="Mip-zw-xLu">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Passphrase" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rnj-2x-ksO">

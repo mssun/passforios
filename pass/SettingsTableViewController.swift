@@ -25,8 +25,6 @@ class SettingsTableViewController: UITableViewController {
             let password = controller.passwordTextField.text!
             let auth = controller.authenticationMethod
 
-            
-            
             if Defaults[.gitRepositoryURL] == nil || gitRepostiroyURL != Defaults[.gitRepositoryURL]!.absoluteString {
                 SVProgressHUD.setDefaultMaskType(.black)
                 SVProgressHUD.show(withStatus: "Prepare Repository")
@@ -55,11 +53,6 @@ class SettingsTableViewController: UITableViewController {
                         DispatchQueue.main.async {
                                 SVProgressHUD.showSuccess(withStatus: "Done")
                                 SVProgressHUD.dismiss(withDelay: 1)
-                                
-                                Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
-                                Defaults[.gitRepositoryUsername] = username
-                                Defaults[.gitRepositoryPassword] = password
-                                Defaults[.gitRepositoryAuthenticationMethod] = auth
                             
                                 Defaults[.lastUpdatedTime] = Date()
                                 
@@ -76,6 +69,11 @@ class SettingsTableViewController: UITableViewController {
                     
                 }
             }
+            
+            Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
+            Defaults[.gitRepositoryUsername] = username
+            Defaults[.gitRepositoryPassword] = password
+            Defaults[.gitRepositoryAuthenticationMethod] = auth
         } else if let controller = segue.source as? PGPKeySettingTableViewController {
 
             if Defaults[.pgpKeyURL] != URL(string: controller.pgpKeyURLTextField.text!) ||
