@@ -14,7 +14,8 @@ import SwiftyUserDefaults
 class SettingsTableViewController: UITableViewController {
         
     @IBOutlet weak var pgpKeyTableViewCell: UITableViewCell!
-    
+    @IBOutlet weak var touchIDTableViewCell: UITableViewCell!
+    @IBOutlet weak var passcodeTableViewCell: UITableViewCell!
     @IBAction func cancel(segue: UIStoryboardSegue) {
     }
     
@@ -105,6 +106,17 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let touchIDSwitch = UISwitch(frame: CGRect.zero)
+        touchIDTableViewCell.accessoryView = touchIDSwitch
+        touchIDSwitch.isOn = false
+        touchIDSwitch.addTarget(self, action: #selector(touchIDSwitchAction), for: UIControlEvents.valueChanged)
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView.cellForRow(at: indexPath) == passcodeTableViewCell {
+            showPasscodeActionSheet()
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -114,5 +126,24 @@ class SettingsTableViewController: UITableViewController {
         } else {
             pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
         }
+    }
+    
+    func touchIDSwitchAction(uiSwitch: UISwitch) {
+        if uiSwitch.isOn {
+            print("UISwitch is ON")
+        } else {
+            print("UISwitch is OFF")
+        }
+    }
+    
+    func showPasscodeActionSheet() {
+        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let removePasscodeAction = UIAlertAction(title: "Remove Passcode", style: .destructive, handler: nil)
+        let changePasscodeAction = UIAlertAction(title: "Change Passcode", style: .default, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        optionMenu.addAction(removePasscodeAction)
+        optionMenu.addAction(changePasscodeAction)
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
     }
 }
