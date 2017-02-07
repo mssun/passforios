@@ -85,10 +85,11 @@ class SettingsTableViewController: UITableViewController {
                 
                 SVProgressHUD.setDefaultMaskType(.black)
                 SVProgressHUD.show(withStatus: "Fetching PGP Key")
-                DispatchQueue.global(qos: .userInitiated).async {
+                DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                     do {
                         try PasswordStore.shared.initPGP(pgpKeyURL: Defaults[.pgpKeyURL]!, pgpKeyLocalPath: Globals.shared.secringPath)
                         DispatchQueue.main.async {
+                            self.pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
                             SVProgressHUD.showSuccess(withStatus: "Success. Remember to remove the key from the server.")
                             SVProgressHUD.dismiss(withDelay: 1)
                         }
