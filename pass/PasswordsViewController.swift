@@ -76,6 +76,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        searchBarView.frame = CGRect(x: 0, y: navigationController!.navigationBar.bounds.size.height + UIApplication.shared.statusBarFrame.height, width: UIScreen.main.bounds.width, height: 44)
+        searchController.searchBar.sizeToFit()
+    }
+    
      func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
