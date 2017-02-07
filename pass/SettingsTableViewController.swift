@@ -14,7 +14,8 @@ import PasscodeLock
 
 class SettingsTableViewController: UITableViewController {
     
-    let repository = PasscodeLockRepository()
+    let touchIDSwitch = UISwitch(frame: CGRect.zero)
+
     @IBOutlet weak var pgpKeyTableViewCell: UITableViewCell!
     @IBOutlet weak var touchIDTableViewCell: UITableViewCell!
     @IBOutlet weak var passcodeTableViewCell: UITableViewCell!
@@ -108,7 +109,6 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let touchIDSwitch = UISwitch(frame: CGRect.zero)
         touchIDTableViewCell.accessoryView = touchIDSwitch
         touchIDSwitch.addTarget(self, action: #selector(touchIDSwitchAction), for: UIControlEvents.valueChanged)
         if Defaults[.isTouchIDOn] {
@@ -116,11 +116,11 @@ class SettingsTableViewController: UITableViewController {
         } else {
             touchIDSwitch.isOn = false
         }
-        if repository.hasPasscode {
+        if PasscodeLockRepository().hasPasscode {
             self.passcodeTableViewCell.detailTextLabel?.text = "On"
-            print(Defaults[.passcodeKey]!)
         } else {
             self.passcodeTableViewCell.detailTextLabel?.text = "Off"
+            touchIDSwitch.isEnabled = false
         }
     }
     
@@ -146,8 +146,10 @@ class SettingsTableViewController: UITableViewController {
     
     func touchIDSwitchAction(uiSwitch: UISwitch) {
         if uiSwitch.isOn {
+            Defaults[.isTouchIDOn] = true
             Globals.shared.passcodeConfiguration.isTouchIDAllowed = true
         } else {
+            Defaults[.isTouchIDOn] = false
             Globals.shared.passcodeConfiguration.isTouchIDAllowed = false
         }
     }
@@ -160,6 +162,7 @@ class SettingsTableViewController: UITableViewController {
         let removePasscodeAction = UIAlertAction(title: "Remove Passcode", style: .destructive) { [unowned self] _ in
             passcodeRemoveViewController.successCallback  = { _ in
                 self.passcodeTableViewCell.detailTextLabel?.text = "Off"
+                self.touchIDSwitch.isEnabled = false
             }
             self.present(passcodeRemoveViewController, animated: true, completion: nil)
         }
@@ -179,6 +182,7 @@ class SettingsTableViewController: UITableViewController {
         let passcodeSetViewController = PasscodeLockViewController(state: .set, configuration: Globals.shared.passcodeConfiguration)
         passcodeSetViewController.successCallback = { _ in
             self.passcodeTableViewCell.detailTextLabel?.text = "On"
+            self.touchIDSwitch.isEnabled = true
         }
         present(passcodeSetViewController, animated: true, completion: nil)
     }

@@ -28,7 +28,6 @@ public class PasscodeLockRepository: PasscodeRepositoryType {
     
     public func save(passcode: String) {
         Defaults[.passcodeKey] = passcode
-        print(passcode)
     }
     
     public func check(passcode: String) -> Bool {
@@ -37,6 +36,5 @@ public class PasscodeLockRepository: PasscodeRepositoryType {
     
     public func delete() {
         Defaults[.passcodeKey] = nil
-        print("delete")
     }
 }

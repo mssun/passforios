@@ -10,6 +10,7 @@ import UIKit
 import Result
 import SVProgressHUD
 import SwiftyUserDefaults
+import PasscodeLock
 
 class PasswordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private var passwordEntities: [PasswordEntity]?
@@ -53,6 +54,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if PasscodeLockRepository().hasPasscode {
+            let passcodeEnterViewController = PasscodeLockViewController(state: .enter, configuration: Globals.shared.passcodeConfiguration)
+            UIApplication.shared.keyWindow?.rootViewController?.present(passcodeEnterViewController, animated: true, completion: nil)
+        }
         passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
         NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordUpdatedNotification), name: NSNotification.Name(rawValue: "passwordUpdated"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordStoreErasedNotification), name: NSNotification.Name(rawValue: "passwordStoreErased"), object: nil)
@@ -161,13 +167,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     func actOnPasswordUpdatedNotification() {
         passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
         reloadTableView(data: passwordEntities!)
-        print("actOnPasswordUpdatedNotification")
     }
     
     func actOnPasswordStoreErasedNotification() {
         passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
         reloadTableView(data: passwordEntities!)
-        print("actOnPasswordErasedNotification")
     }
 
     
