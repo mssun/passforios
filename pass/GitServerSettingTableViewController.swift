@@ -81,6 +81,7 @@ class GitServerSettingTableViewController: UITableViewController {
                 authenticationMethod = "SSH Key"
             }
         }
+        authenticationTableViewCell.detailTextLabel?.text = authenticationMethod
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
