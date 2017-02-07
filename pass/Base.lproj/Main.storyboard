@@ -589,11 +589,11 @@
             </objects>
             <point key="canvasLocation" x="3429" y="993"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Password-->
         <scene sceneID="ACd-rk-Zf3">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5ZN-vm-3gw" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="favorites" id="gNg-YT-cGW"/>
+                    <tabBarItem key="tabBarItem" title="Password" image="Lock" selectedImage="Lock" id="gNg-YT-cGW"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="DUk-ZD-z4m">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -627,11 +627,11 @@
             </objects>
             <point key="canvasLocation" x="443" y="2096"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Settings-->
         <scene sceneID="sdr-gl-b19">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZmJ-0Z-N04" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="more" id="6Xa-be-Z8g"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="Settings" selectedImage="Settings" id="6Xa-be-Z8g"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wWs-15-HDi">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -846,4 +846,8 @@
             <point key="canvasLocation" x="3429" y="4028"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Lock" width="25" height="25"/>
+        <image name="Settings" width="25" height="25"/>
+    </resources>
 </document>
