@@ -62,6 +62,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.dataSource = self
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.isTranslucent = false
+        searchController.searchBar.backgroundColor = UIColor.gray
         searchController.searchBar.sizeToFit()
         definesPresentationContext = true
         searchBarView.addSubview(searchController.searchBar)
