@@ -431,6 +431,7 @@
 			baseConfigurationReference = 274CCFCF32444A2FF46BE7F4 /* Pods-pass.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 779BQYPRCF;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -458,6 +459,7 @@
 			baseConfigurationReference = AEAD6B31EAF5D061447A68CC /* Pods-pass.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 779BQYPRCF;
 				FRAMEWORK_SEARCH_PATHS = (
