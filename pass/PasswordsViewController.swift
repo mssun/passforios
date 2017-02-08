@@ -147,17 +147,24 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         } else {
             password = passwordEntities![index]
         }
-        do {
-            let generator = UIImpactFeedbackGenerator(style: .medium)
-            let decryptedPassword = try password.decrypt()!
-            UIPasteboard.general.string = decryptedPassword.password
-            generator.impactOccurred()
-            SVProgressHUD.setDefaultMaskType(.clear)
-            SVProgressHUD.setDefaultStyle(.dark)
-            SVProgressHUD.showInfo(withStatus: "Password Copied")
-            SVProgressHUD.dismiss(withDelay: 0.6)
-        } catch {
-            print(error)
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        SVProgressHUD.setDefaultMaskType(.clear)
+        SVProgressHUD.setDefaultStyle(.dark)
+        SVProgressHUD.show(withStatus: "Decrypting")
+        DispatchQueue.global(qos: .userInteractive).async {
+            var decryptedPassword: Password?
+            do {
+                decryptedPassword = try password.decrypt()!
+            } catch {
+                print(error)
+                SVProgressHUD.showError(withStatus: error.localizedDescription)
+                SVProgressHUD.dismiss(withDelay: 1)
+            }
+            DispatchQueue.main.async {
+                UIPasteboard.general.string = decryptedPassword?.password
+                SVProgressHUD.showSuccess(withStatus: "Password Copied")
+                SVProgressHUD.dismiss(withDelay: 0.6)
+            }
         }
     }
     
