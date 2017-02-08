@@ -113,7 +113,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
         cell.textLabel?.text = password.name
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
-        longPressGestureRecognizer.minimumPressDuration = 1.0
+        longPressGestureRecognizer.minimumPressDuration = 0.6
         cell.addGestureRecognizer(longPressGestureRecognizer)
         return cell
     }
@@ -152,9 +152,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             password = passwordEntities![index]
         }
         do {
+            let generator = UIImpactFeedbackGenerator(style: .medium)
             let decryptedPassword = try password.decrypt()!
             UIPasteboard.general.string = decryptedPassword.password
-            let generator = UIImpactFeedbackGenerator(style: .medium)
             generator.impactOccurred()
             SVProgressHUD.setDefaultMaskType(.clear)
             SVProgressHUD.setDefaultStyle(.dark)
