@@ -37,7 +37,7 @@ class SettingsTableViewController: UITableViewController {
                 if auth == "Password" {
                     gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, password: password))
                 } else {
-                    gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: username, password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.shared.sshPublicKeyPath, privateKeyFile: Globals.shared.sshPrivateKeyPath))
+                    gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: username, password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.sshPublicKeyPath, privateKeyFile: Globals.sshPrivateKeyPath))
                 }
 
                 DispatchQueue.global(qos: .userInitiated).async {
@@ -91,7 +91,7 @@ class SettingsTableViewController: UITableViewController {
                 SVProgressHUD.show(withStatus: "Fetching PGP Key")
                 DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                     do {
-                        try PasswordStore.shared.initPGP(pgpKeyURL: Defaults[.pgpKeyURL]!, pgpKeyLocalPath: Globals.shared.secringPath)
+                        try PasswordStore.shared.initPGP(pgpKeyURL: Defaults[.pgpKeyURL]!, pgpKeyLocalPath: Globals.secringPath)
                         DispatchQueue.main.async {
                             self.pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
                             SVProgressHUD.showSuccess(withStatus: "Success. Remember to remove the key from the server.")
@@ -150,16 +150,16 @@ class SettingsTableViewController: UITableViewController {
     func touchIDSwitchAction(uiSwitch: UISwitch) {
         if uiSwitch.isOn {
             Defaults[.isTouchIDOn] = true
-            Globals.shared.passcodeConfiguration.isTouchIDAllowed = true
+            Globals.passcodeConfiguration.isTouchIDAllowed = true
         } else {
             Defaults[.isTouchIDOn] = false
-            Globals.shared.passcodeConfiguration.isTouchIDAllowed = false
+            Globals.passcodeConfiguration.isTouchIDAllowed = false
         }
     }
     
     func showPasscodeActionSheet() {
-        let passcodeChangeViewController = PasscodeLockViewController(state: .change, configuration: Globals.shared.passcodeConfiguration)
-        let passcodeRemoveViewController = PasscodeLockViewController(state: .remove, configuration: Globals.shared.passcodeConfiguration)
+        let passcodeChangeViewController = PasscodeLockViewController(state: .change, configuration: Globals.passcodeConfiguration)
+        let passcodeRemoveViewController = PasscodeLockViewController(state: .remove, configuration: Globals.passcodeConfiguration)
 
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let removePasscodeAction = UIAlertAction(title: "Remove Passcode", style: .destructive) { [unowned self] _ in
@@ -182,7 +182,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func setPasscodeLock() {
-        let passcodeSetViewController = PasscodeLockViewController(state: .set, configuration: Globals.shared.passcodeConfiguration)
+        let passcodeSetViewController = PasscodeLockViewController(state: .set, configuration: Globals.passcodeConfiguration)
         passcodeSetViewController.successCallback = { _ in
             self.passcodeTableViewCell.detailTextLabel?.text = "On"
             self.touchIDSwitch.isEnabled = true

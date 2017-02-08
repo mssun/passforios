@@ -58,7 +58,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         
         if PasscodeLockRepository().hasPasscode {
-            let passcodeEnterViewController = PasscodeLockViewController(state: .enter, configuration: Globals.shared.passcodeConfiguration)
+            let passcodeEnterViewController = PasscodeLockViewController(state: .enter, configuration: Globals.passcodeConfiguration)
             UIApplication.shared.keyWindow?.rootViewController?.present(passcodeEnterViewController, animated: true, completion: nil)
         }
         passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()

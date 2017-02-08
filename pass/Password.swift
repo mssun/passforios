@@ -38,7 +38,7 @@ class Password {
 extension PasswordEntity {
     func decrypt() throws -> Password? {
         var password: Password?
-        let encryptedDataPath = URL(fileURLWithPath: "\(Globals.shared.documentPath)/\(rawPath!)")
+        let encryptedDataPath = URL(fileURLWithPath: "\(Globals.documentPath)/\(rawPath!)")
         let encryptedData = try Data(contentsOf: encryptedDataPath)
         let decryptedData = try PasswordStore.shared.pgp.decryptData(encryptedData, passphrase: Defaults[.pgpKeyPassphrase])
         let plain = String(data: decryptedData, encoding: .ascii) ?? ""

@@ -41,8 +41,8 @@ struct GitCredential {
 class PasswordStore {
     static let shared = PasswordStore()
     
-    let storeURL = URL(fileURLWithPath: "\(Globals.shared.documentPath)/password-store")
-    let tempStoreURL = URL(fileURLWithPath: "\(Globals.shared.documentPath)/password-store-temp")
+    let storeURL = URL(fileURLWithPath: "\(Globals.documentPath)/password-store")
+    let tempStoreURL = URL(fileURLWithPath: "\(Globals.documentPath)/password-store-temp")
     var storeRepository: GTRepository?
     var gitCredential: GitCredential?
     
@@ -60,12 +60,12 @@ class PasswordStore {
             print(error)
         }
         if Defaults[.pgpKeyID] != "" {
-            pgp.importKeys(fromFile: Globals.shared.secringPath, allowDuplicates: false)
+            pgp.importKeys(fromFile: Globals.secringPath, allowDuplicates: false)
         }
         if Defaults[.gitRepositoryAuthenticationMethod] == "Password" {
             gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitRepositoryUsername], password: Defaults[.gitRepositoryPassword]))
         } else if Defaults[.gitRepositoryAuthenticationMethod] == "SSH Key"{
-            gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: Defaults[.gitRepositoryUsername], password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.shared.sshPublicKeyPath, privateKeyFile: Globals.shared.sshPrivateKeyPath))
+            gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: Defaults[.gitRepositoryUsername], password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.sshPublicKeyPath, privateKeyFile: Globals.sshPrivateKeyPath))
         } else {
             gitCredential = nil
         }
@@ -196,16 +196,16 @@ class PasswordStore {
                 try fm.removeItem(at: storeURL)
             }
             
-            if fm.fileExists(atPath: Globals.shared.secringPath) {
-                try fm.removeItem(atPath: Globals.shared.secringPath)
+            if fm.fileExists(atPath: Globals.secringPath) {
+                try fm.removeItem(atPath: Globals.secringPath)
             }
             
-            if fm.fileExists(atPath: Globals.shared.sshPrivateKeyPath.path) {
-                try fm.removeItem(at: Globals.shared.sshPrivateKeyPath)
+            if fm.fileExists(atPath: Globals.sshPrivateKeyPath.path) {
+                try fm.removeItem(at: Globals.sshPrivateKeyPath)
             }
             
-            if fm.fileExists(atPath: Globals.shared.sshPublicKeyPath.path) {
-                try fm.removeItem(at: Globals.shared.sshPublicKeyPath)
+            if fm.fileExists(atPath: Globals.sshPublicKeyPath.path) {
+                try fm.removeItem(at: Globals.sshPublicKeyPath)
             }
         } catch {
             print(error)

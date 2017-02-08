@@ -9,11 +9,10 @@
 import Foundation
 
 class Globals {
-    static let shared = Globals()
-    let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
-    let secringPath = "\(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])/secring.gpg"
-    let sshPublicKeyPath = URL(fileURLWithPath: "\(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])/ssh_key.pub")
-    let sshPrivateKeyPath = URL(fileURLWithPath: "\(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])/ssh_key")
-    var passcodeConfiguration = PasscodeLockConfiguration()
+    static let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
+    static let secringPath = "\(documentPath)/secring.gpg"
+    static let sshPublicKeyPath = URL(fileURLWithPath: "\(documentPath)/ssh_key.pub")
+    static let sshPrivateKeyPath = URL(fileURLWithPath: "\(documentPath)/ssh_key")
+    static var passcodeConfiguration = PasscodeLockConfiguration()
     private init() { }
 }
