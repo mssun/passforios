@@ -23,7 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         passcodeLockPresenter.present()
-        print("Present")
         if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
             print(shortcutItem.type)
             if shortcutItem.type == "me.mssun.pass.search" {
