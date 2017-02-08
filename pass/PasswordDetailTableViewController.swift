@@ -98,13 +98,15 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                     let menuController = UIMenuController.shared
                     let revealItem = UIMenuItem(title: "Reveal", action: #selector(LabelTableViewCell.revealPassword(_:)))
                     let concealItem = UIMenuItem(title: "Conceal", action: #selector(LabelTableViewCell.concealPassword(_:)))
-                    menuController.menuItems = [revealItem, concealItem]
+                    let openURLItem = UIMenuItem(title: "Copy Password & Open Link", action: #selector(LabelTableViewCell.openLink(_:)))
+                    menuController.menuItems = [revealItem, concealItem, openURLItem]
                     menuController.setTargetRect(tappedCell.contentLabel.frame, in: tappedCell.contentLabel.superview!)
                     menuController.setMenuVisible(true, animated: true)
                 }
             }
         }
     }
+    
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return tableData.count + 1
@@ -132,7 +134,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell
             let titleData = tableData[sectionIndex - 1].item[rowIndex].title
             let contentData = tableData[sectionIndex - 1].item[rowIndex].content
-            cell.isPasswordCell = (titleData == "password" ? true : false)
+            cell.password = password
+            cell.isPasswordCell = (titleData.lowercased() == "password" ? true : false)
+            cell.isURLCell = (titleData.lowercased() == "url" ? true : false)
             cell.cellData = LabelTableViewCellData(title: titleData, content: contentData)
             return cell
         }
