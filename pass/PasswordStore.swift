@@ -184,26 +184,10 @@ class PasswordStore {
     }
     
     func erase() {
-        let fm = FileManager.default
-        do {
-            if fm.fileExists(atPath: storeURL.path) {
-                try fm.removeItem(at: storeURL)
-            }
-            
-            if fm.fileExists(atPath: Globals.secringPath) {
-                try fm.removeItem(atPath: Globals.secringPath)
-            }
-            
-            if fm.fileExists(atPath: Globals.sshPrivateKeyPath.path) {
-                try fm.removeItem(at: Globals.sshPrivateKeyPath)
-            }
-            
-            if fm.fileExists(atPath: Globals.sshPublicKeyPath.path) {
-                try fm.removeItem(at: Globals.sshPublicKeyPath)
-            }
-        } catch {
-            print(error)
-        }
+        Utils.removeFileIfExists(at: storeURL)
+        Utils.removeFileIfExists(atPath: Globals.secringPath)
+        Utils.removeFileIfExists(at: Globals.sshPrivateKeyPath)
+        Utils.removeFileIfExists(at: Globals.sshPublicKeyPath)
         
         deleteCoreData(entityName: "PasswordEntity")
         deleteCoreData(entityName: "PasswordCategoryEntity")
