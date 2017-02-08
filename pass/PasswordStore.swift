@@ -27,10 +27,8 @@ struct GitCredential {
             let credential: GTCredential?
             switch self.credential {
             case let .http(userName, password):
-                print("username \(userName), password \(password)")
                 credential = try? GTCredential(userName: userName, password: password)
             case let .ssh(userName, password, publicKeyFile, privateKeyFile):
-                print("username \(userName), password \(password), publicKeyFile \(publicKeyFile), privateKeyFile \(privateKeyFile)")
                 credential = try? GTCredential(userName: userName, publicKeyURL: publicKeyFile, privateKeyURL: privateKeyFile, passphrase: password)
             }
             return credential ?? GTCredential()
@@ -88,13 +86,11 @@ class PasswordStore {
                          credential: GitCredential,
                          transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
                          checkoutProgressBlock: @escaping (String?, UInt, UInt) -> Void) throws {
-        print("start cloning...")
         let credentialProvider = try credential.credentialProvider()
         let options: [String: Any] = [
             GTRepositoryCloneOptionsCredentialProvider: credentialProvider,
         ]
         storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: tempStoreURL, options: options, transferProgressBlock:transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
-        print("clone finish")
         let fm = FileManager.default
         do {
             if fm.fileExists(atPath: storeURL.path) {
@@ -111,8 +107,6 @@ class PasswordStore {
     }
     
     func pullRepository(transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
-        print("pullRepoisitory")
-        print("start pulling...")
         let credentialProvider = try gitCredential!.credentialProvider()
         let options: [String: Any] = [
             GTRepositoryRemoteOptionsCredentialProvider: credentialProvider
