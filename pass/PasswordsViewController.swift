@@ -56,11 +56,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if PasscodeLockRepository().hasPasscode {
-            let passcodeEnterViewController = PasscodeLockViewController(state: .enter, configuration: Globals.passcodeConfiguration)
-            UIApplication.shared.keyWindow?.rootViewController?.present(passcodeEnterViewController, animated: true, completion: nil)
-        }
         passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
         NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordUpdatedNotification), name: NSNotification.Name(rawValue: "passwordUpdated"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordStoreErasedNotification), name: NSNotification.Name(rawValue: "passwordStoreErased"), object: nil)

@@ -155,6 +155,8 @@ class SettingsTableViewController: UITableViewController {
             Defaults[.isTouchIDOn] = false
             Globals.passcodeConfiguration.isTouchIDAllowed = false
         }
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: Globals.passcodeConfiguration)
     }
     
     func showPasscodeActionSheet() {
