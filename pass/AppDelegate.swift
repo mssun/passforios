@@ -18,7 +18,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
+            print(shortcutItem.type)
+            if shortcutItem.type == "me.mssun.pass.search" {
+                self.perform(#selector(postSearchNotification), with: nil, afterDelay: 0.4)
+            }
+        }
         return true
+    }
+    
+    func postSearchNotification() {
+        NotificationCenter.default.post(Notification(name: Notification.Name("search")))
+    }
+    
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        if shortcutItem.type == "me.mssun.pass.search" {
+            let tabBarController = self.window!.rootViewController as! UITabBarController
+            tabBarController.selectedIndex = 0
+            let navigationController = tabBarController.selectedViewController as! UINavigationController
+            navigationController.popToRootViewController(animated: false)
+            self.perform(#selector(postSearchNotification), with: nil, afterDelay: 0.4)
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

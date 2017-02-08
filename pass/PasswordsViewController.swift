@@ -64,6 +64,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
         NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordUpdatedNotification), name: NSNotification.Name(rawValue: "passwordUpdated"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordStoreErasedNotification), name: NSNotification.Name(rawValue: "passwordStoreErased"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnSearchNotification), name: NSNotification.Name(rawValue: "search"), object: nil)
 
         generateSections(item: passwordEntities!)
         tableView.delegate = self
@@ -195,6 +196,10 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     func actOnPasswordStoreErasedNotification() {
         passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
         reloadTableView(data: passwordEntities!)
+    }
+    
+    func actOnSearchNotification() {
+        searchController.searchBar.becomeFirstResponder()
     }
 
     
