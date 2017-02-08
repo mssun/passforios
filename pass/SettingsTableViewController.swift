@@ -37,7 +37,7 @@ class SettingsTableViewController: UITableViewController {
                 if auth == "Password" {
                     gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, password: password))
                 } else {
-                    gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: username, password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.sshPublicKeyPath, privateKeyFile: Globals.sshPrivateKeyPath))
+                    gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: username, password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.sshPublicKeyURL, privateKeyFile: Globals.sshPrivateKeyURL))
                 }
 
                 DispatchQueue.global(qos: .userInitiated).async {

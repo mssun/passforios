@@ -11,8 +11,8 @@ import Foundation
 class Globals {
     static let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
     static let secringPath = "\(documentPath)/secring.gpg"
-    static let sshPublicKeyPath = URL(fileURLWithPath: "\(documentPath)/ssh_key.pub")
-    static let sshPrivateKeyPath = URL(fileURLWithPath: "\(documentPath)/ssh_key")
+    static let sshPublicKeyURL = URL(fileURLWithPath: "\(documentPath)/ssh_key.pub")
+    static let sshPrivateKeyURL = URL(fileURLWithPath: "\(documentPath)/ssh_key")
     static var passcodeConfiguration = PasscodeLockConfiguration()
     private init() { }
 }

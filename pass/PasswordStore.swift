@@ -63,7 +63,7 @@ class PasswordStore {
         if Defaults[.gitRepositoryAuthenticationMethod] == "Password" {
             gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitRepositoryUsername], password: Defaults[.gitRepositoryPassword]))
         } else if Defaults[.gitRepositoryAuthenticationMethod] == "SSH Key"{
-            gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: Defaults[.gitRepositoryUsername], password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.sshPublicKeyPath, privateKeyFile: Globals.sshPrivateKeyPath))
+            gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: Defaults[.gitRepositoryUsername], password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.sshPublicKeyURL, privateKeyFile: Globals.sshPrivateKeyURL))
         } else {
             gitCredential = nil
         }
@@ -186,8 +186,8 @@ class PasswordStore {
     func erase() {
         Utils.removeFileIfExists(at: storeURL)
         Utils.removeFileIfExists(atPath: Globals.secringPath)
-        Utils.removeFileIfExists(at: Globals.sshPrivateKeyPath)
-        Utils.removeFileIfExists(at: Globals.sshPublicKeyPath)
+        Utils.removeFileIfExists(at: Globals.sshPrivateKeyURL)
+        Utils.removeFileIfExists(at: Globals.sshPublicKeyURL)
         
         deleteCoreData(entityName: "PasswordEntity")
         deleteCoreData(entityName: "PasswordCategoryEntity")

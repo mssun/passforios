@@ -36,8 +36,8 @@ class SSHKeySettingTableViewController: UITableViewController {
         Defaults[.gitRepositorySSHPrivateKeyPassphrase] = passphraseTextField.text!
         
         do {
-            try Data(contentsOf: Defaults[.gitRepositorySSHPublicKeyURL]!).write(to: Globals.sshPublicKeyPath, options: .atomic)
-            try Data(contentsOf: Defaults[.gitRepositorySSHPrivateKeyURL]!).write(to: Globals.sshPrivateKeyPath, options: .atomic)
+            try Data(contentsOf: Defaults[.gitRepositorySSHPublicKeyURL]!).write(to: Globals.sshPublicKeyURL, options: .atomic)
+            try Data(contentsOf: Defaults[.gitRepositorySSHPrivateKeyURL]!).write(to: Globals.sshPrivateKeyURL, options: .atomic)
         } catch {
             print(error)
         }
