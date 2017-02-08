@@ -214,19 +214,19 @@ class PasswordStore {
         deleteCoreData(entityName: "PasswordEntity")
         deleteCoreData(entityName: "PasswordCategoryEntity")
         
-        Defaults[.pgpKeyURL] = nil
+        Defaults.remove(.pgpKeyURL)
         
-        Defaults[.pgpKeyPassphrase] = ""
-        Defaults[.pgpKeyID] = ""
-        Defaults[.pgpKeyUserID] = ""
+        Defaults.remove(.pgpKeyPassphrase)
+        Defaults.remove(.pgpKeyID)
+        Defaults.remove(.pgpKeyUserID)
         
-        Defaults[.gitRepositoryURL] = nil
-        Defaults[.gitRepositoryAuthenticationMethod] = ""
-        Defaults[.gitRepositoryUsername] = ""
-        Defaults[.gitRepositoryPassword] = ""
-        Defaults[.gitRepositorySSHPublicKeyURL] = nil
-        Defaults[.gitRepositorySSHPrivateKeyURL] = nil
-        Defaults[.gitRepositorySSHPrivateKeyPassphrase] = nil
-        Defaults[.lastUpdatedTime] = nil
+        Defaults.remove(.gitRepositoryURL)
+        Defaults.remove(.gitRepositoryAuthenticationMethod)
+        Defaults.remove(.gitRepositoryUsername)
+        Defaults.remove(.gitRepositoryPassword)
+        Defaults.remove(.gitRepositorySSHPublicKeyURL)
+        Defaults.remove(.gitRepositorySSHPrivateKeyURL)
+        Defaults.remove(.gitRepositorySSHPrivateKeyPassphrase)
+        Defaults.remove(.lastUpdatedTime)
     }
 }
