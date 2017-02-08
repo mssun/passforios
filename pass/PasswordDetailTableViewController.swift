@@ -56,7 +56,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         tableView.addSubview(indicator)
         tableView.addSubview(indicatorLable)
         
-        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+        DispatchQueue.global(qos: .userInitiated).async {
             do {
                 self.password = try self.passwordEntity!.decrypt()!
             } catch {
