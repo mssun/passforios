@@ -14,5 +14,6 @@ class Globals {
     static let sshPublicKeyURL = URL(fileURLWithPath: "\(documentPath)/ssh_key.pub")
     static let sshPrivateKeyURL = URL(fileURLWithPath: "\(documentPath)/ssh_key")
     static var passcodeConfiguration = PasscodeLockConfiguration()
+    static let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     private init() { }
 }
