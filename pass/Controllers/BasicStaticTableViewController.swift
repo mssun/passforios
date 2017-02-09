@@ -13,7 +13,7 @@ enum CellDataType {
 }
 
 enum CellDataKey {
-    case type, title, link, footer
+    case type, title, link, footer, accessoryType, detailDisclosureAction, detailDisclosureData
 }
 
 class BasicStaticTableViewController: UITableViewController {
@@ -42,8 +42,18 @@ class BasicStaticTableViewController: UITableViewController {
         let cell = UITableViewCell()
         let cellData = tableData[indexPath.section][indexPath.row]
         cell.textLabel?.text = cellData[CellDataKey.title] as? String
-        cell.accessoryType = .disclosureIndicator
+        if let accessoryType = cellData[CellDataKey.accessoryType] as? UITableViewCellAccessoryType {
+            cell.accessoryType = accessoryType
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+        }
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        let cellData = tableData[indexPath.section][indexPath.row]
+        let selector = cellData[CellDataKey.detailDisclosureAction] as? Selector
+        perform(selector, with: cellData[CellDataKey.detailDisclosureData])
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
