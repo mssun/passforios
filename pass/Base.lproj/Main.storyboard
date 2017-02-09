@@ -666,6 +666,25 @@
             </objects>
             <point key="canvasLocation" x="1451" y="3510"/>
         </scene>
+        <!--About Repository Table View Controller-->
+        <scene sceneID="u1v-BP-jaG">
+            <objects>
+                <tableViewController id="RcF-UZ-Tde" customClass="AboutRepositoryTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="N9j-TZ-iRz">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="RcF-UZ-Tde" id="6CM-db-c3d"/>
+                            <outlet property="delegate" destination="RcF-UZ-Tde" id="cb8-q4-IKM"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2jy-oC-WQa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5471" y="1007"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="yn4-1A-RA2">
             <objects>
@@ -840,6 +859,9 @@
                             <outlet property="delegate" destination="ljx-el-KZL" id="suq-rR-a60"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="RcF-UZ-Tde" kind="show" identifier="showAboutRepositorySegue" id="X49-Em-78M"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j75-mg-v75" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

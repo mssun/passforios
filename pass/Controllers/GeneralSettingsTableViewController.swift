@@ -12,6 +12,10 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
 
     override func viewDidLoad() {
         navigationItemTitle = "General"
+        tableData = [
+            // section 0
+            [[.type: CellDataType.segue, .title: "About Repository", .link: "showAboutRepositorySegue"],],
+        ]
         super.viewDidLoad()
     }
 }

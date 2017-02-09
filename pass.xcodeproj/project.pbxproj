@@ -14,6 +14,7 @@
 		DC037CAC1E4C1C7100609409 /* FavIcon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC037CAB1E4C1C7100609409 /* FavIcon.framework */; };
 		DC037CAE1E4C9B9B00609409 /* PasswordRepositorySettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CAD1E4C9B9B00609409 /* PasswordRepositorySettingsTableViewController.swift */; };
 		DC037CB01E4CA51F00609409 /* GeneralSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CAF1E4CA51F00609409 /* GeneralSettingsTableViewController.swift */; };
+		DC037CB21E4CAB1700609409 /* AboutRepositoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CB11E4CAB1700609409 /* AboutRepositoryTableViewController.swift */; };
 		DC1208581E35EBE60042942E /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1208571E35EBE60042942E /* ObjectiveGit.framework */; };
 		DC193FFA1E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC193FF91E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift */; };
 		DC193FFC1E49E0340077E0A3 /* PasscodeLock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC193FFB1E49E0340077E0A3 /* PasscodeLock.framework */; };
@@ -56,6 +57,7 @@
 		DC037CAB1E4C1C7100609409 /* FavIcon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FavIcon.framework; path = Carthage/Build/iOS/FavIcon.framework; sourceTree = "<group>"; };
 		DC037CAD1E4C9B9B00609409 /* PasswordRepositorySettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordRepositorySettingsTableViewController.swift; sourceTree = "<group>"; };
 		DC037CAF1E4CA51F00609409 /* GeneralSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralSettingsTableViewController.swift; sourceTree = "<group>"; };
+		DC037CB11E4CAB1700609409 /* AboutRepositoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutRepositoryTableViewController.swift; sourceTree = "<group>"; };
 		DC1208571E35EBE60042942E /* ObjectiveGit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectiveGit.framework; path = Carthage/Build/iOS/ObjectiveGit.framework; sourceTree = "<group>"; };
 		DC193FF91E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsTableViewController.swift; sourceTree = "<group>"; };
 		DC193FFB1E49E0340077E0A3 /* PasscodeLock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PasscodeLock.framework; path = Carthage/Build/iOS/PasscodeLock.framework; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 		DC19400C1E4B39400077E0A3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				DC037CB11E4CAB1700609409 /* AboutRepositoryTableViewController.swift */,
 				DC037CAF1E4CA51F00609409 /* GeneralSettingsTableViewController.swift */,
 				DC962CDE1E4B62C10033B5D8 /* AboutTableViewController.swift */,
 				DC037CA71E4B898100609409 /* BasicStaticTableViewController.swift */,
@@ -384,6 +387,7 @@
 				DC037CAA1E4B8EAE00609409 /* SpecialThanksTableViewController.swift in Sources */,
 				DC037CA61E4B883900609409 /* OpenSourceComponentsTableViewController.swift in Sources */,
 				DC037CA81E4B898100609409 /* BasicStaticTableViewController.swift in Sources */,
+				DC037CB21E4CAB1700609409 /* AboutRepositoryTableViewController.swift in Sources */,
 				DC037CB01E4CA51F00609409 /* GeneralSettingsTableViewController.swift in Sources */,
 				DC8963BE1E38AD8300828B09 /* GitRepositoryAuthenticationSettingTableViewController.swift in Sources */,
 				DC1940001E49E1A60077E0A3 /* PasscodeLockConfiguration.swift in Sources */,
