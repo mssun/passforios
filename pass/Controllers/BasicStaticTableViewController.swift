@@ -67,7 +67,7 @@ class BasicStaticTableViewController: UITableViewController {
             performSegue(withIdentifier: link!, sender: self)
         case .link:
             let link = cellData[CellDataKey.link] as! String
-            let svc = SFSafariViewController(url: URL(string: link)!, entersReaderIfAvailable: true)
+            let svc = SFSafariViewController(url: URL(string: link)!, entersReaderIfAvailable: false)
             self.present(svc, animated: true, completion: nil)
         default:
             break
