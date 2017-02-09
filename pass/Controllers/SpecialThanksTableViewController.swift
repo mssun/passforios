@@ -25,4 +25,5 @@ class SpecialThanksTableViewController: BasicStaticTableViewController {
         }
         navigationItemTitle = "Special Thanks"
         super.viewDidLoad()
-    }}
+    }
+}
