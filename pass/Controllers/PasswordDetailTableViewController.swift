@@ -104,14 +104,12 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     
     func updatePasswordImage(url: String) {
         do {
-            print("downloading: \(url)")
             try FavIcon.downloadPreferred(url) { [weak self] result in
                 switch result {
                 case .success(let image):
                     let indexPath = IndexPath(row: 0, section: 0)
                     self?.passwordImage = image
                     self?.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
-                    print("success")
                     let imageData = UIImageJPEGRepresentation(image, 1)
                     self?.passwordEntity?.setValue(imageData, forKey: "image")
                 case .failure(let error):
