@@ -13,12 +13,12 @@ class AboutTableViewController: BasicStaticTableViewController {
     override func viewDidLoad() {
         tableData = [
             // section 0
-            [[CellDataKey.type: CellDataType.link, CellDataKey.title: "Website", CellDataKey.link: "https://github.com/mssun/pass-ios.git"],
-             [CellDataKey.type: CellDataType.link, CellDataKey.title: "Contact Developer", CellDataKey.link: "https://mssun.me"],],
+            [[.type: CellDataType.link, .title: "Website", .link: "https://github.com/mssun/pass-ios.git"],
+             [.type: CellDataType.link, .title: "Contact Developer", .link: "https://mssun.me"],],
             
             // section 1,
-            [[CellDataKey.type: CellDataType.segue, CellDataKey.title: "Open Source Components", CellDataKey.link: "showOpenSourceComponentsSegue"],
-             [CellDataKey.type: CellDataType.segue, CellDataKey.title: "Special Thanks", CellDataKey.link: "showSpecialThanksSegue"],],
+            [[.type: CellDataType.segue, .title: "Open Source Components", .link: "showOpenSourceComponentsSegue"],
+             [.type: CellDataType.segue, .title: "Special Thanks", .link: "showSpecialThanksSegue"],],
         ]
         navigationItemTitle = "About"
         super.viewDidLoad()
