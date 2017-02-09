@@ -12,11 +12,11 @@ import MessageUI
 
 
 enum CellDataType {
-    case link, segue, empty
+    case link, segue, empty, detail
 }
 
 enum CellDataKey {
-    case type, title, link, accessoryType, detailDisclosureAction, detailDisclosureData
+    case type, title, link, accessoryType, detailDisclosureAction, detailDisclosureData, detailText
 }
 
 class BasicStaticTableViewController: UITableViewController, MFMailComposeViewControllerDelegate {
@@ -42,15 +42,26 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        
         let cellData = tableData[indexPath.section][indexPath.row]
-        cell.textLabel?.text = cellData[CellDataKey.title] as? String
-        if let accessoryType = cellData[CellDataKey.accessoryType] as? UITableViewCellAccessoryType {
-            cell.accessoryType = accessoryType
-        } else {
-            cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+        let cellDataType = cellData[CellDataKey.type] as? CellDataType
+        var cell: UITableViewCell?
+        switch cellDataType! {
+        case .detail:
+            cell = UITableViewCell(style: .value1, reuseIdentifier: "value1 cell")
+            cell?.accessoryType = .none
+            cell?.detailTextLabel?.text = cellData[CellDataKey.detailText] as? String
+        default:
+            cell = UITableViewCell(style: .default, reuseIdentifier: "default cell")
+            cell?.textLabel?.text = cellData[CellDataKey.title] as? String
+            if let accessoryType = cellData[CellDataKey.accessoryType] as? UITableViewCellAccessoryType {
+                cell?.accessoryType = accessoryType
+            } else {
+                cell?.accessoryType = .disclosureIndicator
+            }
         }
-        return cell
+        cell?.textLabel?.text = cellData[CellDataKey.title] as? String
+        return cell ?? UITableViewCell()
     }
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
