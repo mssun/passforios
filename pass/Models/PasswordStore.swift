@@ -107,6 +107,9 @@ class PasswordStore {
     }
     
     func pullRepository(transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
+        if gitCredential == nil {
+            throw NSError(domain: "me.mssun.pass.error", code: 1, userInfo: [NSLocalizedDescriptionKey: "Git Repository is not set."])
+        }
         let credentialProvider = try gitCredential!.credentialProvider()
         let options: [String: Any] = [
             GTRepositoryRemoteOptionsCredentialProvider: credentialProvider
