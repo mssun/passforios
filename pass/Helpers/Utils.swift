@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyUserDefaults
 
 class Utils {
     static func removeFileIfExists(atPath path: String) {
@@ -21,5 +22,16 @@ class Utils {
     }
     static func removeFileIfExists(at url: URL) {
         removeFileIfExists(atPath: url.path)
+    }
+    
+    static func getLastUpdatedTimeString() -> String {
+        var lastUpdatedTimeString = ""
+        if let lastUpdatedTime = Defaults[.lastUpdatedTime] {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .long
+            formatter.timeStyle = .short
+            lastUpdatedTimeString = formatter.string(from: lastUpdatedTime)
+        }
+        return lastUpdatedTimeString
     }
 }
