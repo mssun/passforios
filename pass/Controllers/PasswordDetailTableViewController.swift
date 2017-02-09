@@ -58,6 +58,11 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         tableView.addSubview(indicator)
         tableView.addSubview(indicatorLable)
         
+        if let imageData = passwordEntity?.image {
+            let image = UIImage(data: imageData as Data)
+            passwordImage = image
+        }
+        
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 self.password = try self.passwordEntity!.decrypt()!
@@ -90,7 +95,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 self?.tableView.reloadData()
                 indicator.stopAnimating()
                 indicatorLable.isHidden = true
-                if self?.password.url != "" {
+                if self?.password.url != ""  && self?.passwordEntity?.image == nil{
                     self?.updatePasswordImage(url: self?.password.url ?? "")
                 }
             }
@@ -107,6 +112,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                     self?.passwordImage = image
                     self?.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
                     print("success")
+                    let imageData = UIImageJPEGRepresentation(image, 1)
+                    self?.passwordEntity?.setValue(imageData, forKey: "image")
                 case .failure(let error):
                     print(error)
                 }
