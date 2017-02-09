@@ -87,7 +87,6 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
     func sendEmail(toRecipients recipients: [String]) {
         let mailVC = MFMailComposeViewController()
         mailVC.mailComposeDelegate = self
-        print(recipients)
         mailVC.setToRecipients(recipients)
         mailVC.setSubject("Subject for email")
         mailVC.setMessageBody("Email message string", isHTML: false)
