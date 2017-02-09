@@ -10,6 +10,9 @@ import UIKit
 
 class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
     let openSourceComponents = [
+        ["FavIcon",
+         "https://github.com/bitserf/FavIcon",
+         "https://github.com/bitserf/FavIcon/blob/master/LICENSE"],
         ["PasscodeLock",
          "https://github.com/zahlz/SwiftPasscodeLock",
          "https://github.com/zahlz/SwiftPasscodeLock/blob/master/LICENSE.txt"],
