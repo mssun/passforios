@@ -8,6 +8,8 @@
 
 import UIKit
 import SafariServices
+import MessageUI
+
 
 enum CellDataType {
     case link, segue, empty
@@ -17,7 +19,7 @@ enum CellDataKey {
     case type, title, link, footer, accessoryType, detailDisclosureAction, detailDisclosureData
 }
 
-class BasicStaticTableViewController: UITableViewController {
+class BasicStaticTableViewController: UITableViewController, MFMailComposeViewControllerDelegate {
     var tableData = [[Dictionary<CellDataKey, Any>]]()
     var navigationItemTitle: String?
     
@@ -67,10 +69,32 @@ class BasicStaticTableViewController: UITableViewController {
             performSegue(withIdentifier: link!, sender: self)
         case .link:
             let link = cellData[CellDataKey.link] as! String
-            let svc = SFSafariViewController(url: URL(string: link)!, entersReaderIfAvailable: false)
-            self.present(svc, animated: true, completion: nil)
+            let url = URL(string: link)!
+            switch url.scheme! {
+            case "mailto":
+                sendEmail(toRecipients: [URLComponents(string: link)?.path ?? ""])
+            case "http", "https":
+                let svc = SFSafariViewController(url: URL(string: link)!, entersReaderIfAvailable: false)
+                    self.present(svc, animated: true, completion: nil)
+            default:
+                break
+            }
         default:
             break
         }
+    }
+    
+    func sendEmail(toRecipients recipients: [String]) {
+        let mailVC = MFMailComposeViewController()
+        mailVC.mailComposeDelegate = self
+        print(recipients)
+        mailVC.setToRecipients(recipients)
+        mailVC.setSubject("Subject for email")
+        mailVC.setMessageBody("Email message string", isHTML: false)
+        self.present(mailVC, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
     }
 }

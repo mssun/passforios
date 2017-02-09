@@ -14,7 +14,7 @@ class AboutTableViewController: BasicStaticTableViewController {
         tableData = [
             // section 0
             [[.type: CellDataType.link, .title: "Website", .link: "https://github.com/mssun/pass-ios.git"],
-             [.type: CellDataType.link, .title: "Contact Developer", .link: "https://mssun.me"],],
+             [.type: CellDataType.link, .title: "Contact Developer", .link: "mailto:bob@mssun.me&subject=passforiOS"],],
             
             // section 1,
             [[.type: CellDataType.segue, .title: "Open Source Components", .link: "showOpenSourceComponentsSegue"],
