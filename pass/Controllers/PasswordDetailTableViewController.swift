@@ -86,12 +86,12 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                     }
                 }
             }
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.reloadData()
                 indicator.stopAnimating()
                 indicatorLable.isHidden = true
-                if self.password.url != "" {
-                    self.updatePasswordImage(url: self.password.url)
+                if self?.password.url != "" {
+                    self?.updatePasswordImage(url: self?.password.url ?? "")
                 }
             }
         }
@@ -99,12 +99,14 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     
     func updatePasswordImage(url: String) {
         do {
-            try FavIcon.downloadPreferred(url) { result in
+            print("downloading: \(url)")
+            try FavIcon.downloadPreferred(url) { [weak self] result in
                 switch result {
                 case .success(let image):
                     let indexPath = IndexPath(row: 0, section: 0)
-                    self.passwordImage = image
-                    self.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+                    self?.passwordImage = image
+                    self?.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+                    print("success")
                 case .failure(let error):
                     print(error)
                 }
