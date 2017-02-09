@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 enum CellDataType {
     case link, segue, empty
@@ -65,8 +66,9 @@ class BasicStaticTableViewController: UITableViewController {
             let link = cellData[CellDataKey.link] as? String
             performSegue(withIdentifier: link!, sender: self)
         case .link:
-            let link = cellData[CellDataKey.link] as? String
-            UIApplication.shared.open(URL(string: link!)!, options: [:], completionHandler: nil)
+            let link = cellData[CellDataKey.link] as! String
+            let svc = SFSafariViewController(url: URL(string: link)!, entersReaderIfAvailable: true)
+            self.present(svc, animated: true, completion: nil)
         default:
             break
         }
