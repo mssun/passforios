@@ -48,7 +48,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             } catch {
                 DispatchQueue.main.async {
                     SVProgressHUD.showError(withStatus: error.localizedDescription)
-                    SVProgressHUD.dismiss(withDelay: 3)
+                    SVProgressHUD.dismiss(withDelay: 1)
                 }
             }
         }

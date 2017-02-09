@@ -68,7 +68,7 @@ class SettingsTableViewController: UITableViewController {
                         DispatchQueue.main.async {
                             print(error)
                             SVProgressHUD.showError(withStatus: error.localizedDescription)
-                            SVProgressHUD.dismiss(withDelay: 3)
+                            SVProgressHUD.dismiss(withDelay: 1)
                         }
                     }
                     
@@ -100,7 +100,7 @@ class SettingsTableViewController: UITableViewController {
                     } catch {
                         DispatchQueue.main.async {
                             SVProgressHUD.showError(withStatus: error.localizedDescription)
-                            SVProgressHUD.dismiss(withDelay: 3)
+                            SVProgressHUD.dismiss(withDelay: 1)
                         }
                     }
                 }
