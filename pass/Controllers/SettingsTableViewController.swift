@@ -111,9 +111,15 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.actOnPasswordStoreErasedNotification), name: NSNotification.Name(rawValue: "passwordStoreErased"), object: nil)
         touchIDSwitch.onTintColor = UIColor(displayP3Red: 0, green: 122.0/255, blue: 1, alpha: 1)
         touchIDTableViewCell.accessoryView = touchIDSwitch
         touchIDSwitch.addTarget(self, action: #selector(touchIDSwitchAction), for: UIControlEvents.valueChanged)
+        if Defaults[.pgpKeyID] == "" {
+            pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
+        } else {
+            pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
+        }
         if Defaults[.isTouchIDOn] {
             touchIDSwitch.isOn = true
         } else {
@@ -125,6 +131,16 @@ class SettingsTableViewController: UITableViewController {
             self.passcodeTableViewCell.detailTextLabel?.text = "Off"
             touchIDSwitch.isEnabled = false
         }
+    }
+    
+    func actOnPasswordStoreErasedNotification() {
+        pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
+        touchIDSwitch.isOn = false
+        self.passcodeTableViewCell.detailTextLabel?.text = "Off"
+        Globals.passcodeConfiguration.isTouchIDAllowed = false
+
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: Globals.passcodeConfiguration)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -140,11 +156,6 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if Defaults[.pgpKeyID] == "" {
-            pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
-        } else {
-            pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
-        }
     }
     
     func touchIDSwitchAction(uiSwitch: UISwitch) {
