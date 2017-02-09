@@ -19,15 +19,15 @@ class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
         ["ObjectiveGit",
          "https://github.com/libgit2/objective-git",
          "https://github.com/libgit2/objective-git/blob/master/LICENSE"],
+        ["ObjectivePGP",
+         "https://github.com/krzyzanowskim/ObjectivePGP",
+         "https://github.com/krzyzanowskim/ObjectivePGP/blob/master/LICENSE.txt"],
         ["SwiftyUserDefaults",
          "https://github.com/radex/SwiftyUserDefaults",
          "https://github.com/radex/SwiftyUserDefaults/blob/master/LICENSE"],
         ["SVProgressHUD",
          "https://github.com/SVProgressHUD/SVProgressHUD",
          "https://github.com/SVProgressHUD/SVProgressHUD/blob/master/LICENSE.txt"],
-        ["Result",
-         "https://github.com/antitypical/Result",
-         "https://github.com/antitypical/Result/blob/master/LICENSE"],
     ]
     
     override func viewDidLoad() {
