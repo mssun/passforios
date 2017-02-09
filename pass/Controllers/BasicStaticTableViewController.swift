@@ -16,7 +16,7 @@ enum CellDataType {
 }
 
 enum CellDataKey {
-    case type, title, link, footer, accessoryType, detailDisclosureAction, detailDisclosureData
+    case type, title, link, accessoryType, detailDisclosureAction, detailDisclosureData
 }
 
 class BasicStaticTableViewController: UITableViewController, MFMailComposeViewControllerDelegate {
