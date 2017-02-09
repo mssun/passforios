@@ -19,6 +19,15 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     struct TableCell {
         var title: String
         var content: String
+        init() {
+            title = ""
+            content = ""
+        }
+        
+        init(title: String, content: String) {
+            self.title = title
+            self.content = content
+        }
     }
     
     struct TableSection {
@@ -63,6 +72,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             passwordImage = image
         }
         
+        tableData.append(TableSection(title: "", item: []))
+        tableData[0].item.append(TableCell())
+        
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 self.password = try self.passwordEntity!.decrypt()!
@@ -74,7 +86,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 self.present(alert, animated: true, completion: nil)
             }
             
-            var tableDataIndex = 0
+            var tableDataIndex = 1
             self.tableData.append(TableSection(title: "", item: []))
             if self.password.username != "" {
                 self.tableData[tableDataIndex].item.append(TableCell(title: "username", content: self.password.username))
@@ -141,14 +153,11 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return tableData.count + 1
+        return tableData.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        }
-        return tableData[section - 1].item.count
+        return tableData[section].item.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -161,11 +170,10 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             cell.nameLabel.text = passwordEntity?.name
             cell.categoryLabel.text = passwordCategoryText
             return cell
-
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell
-            let titleData = tableData[sectionIndex - 1].item[rowIndex].title
-            let contentData = tableData[sectionIndex - 1].item[rowIndex].content
+            let titleData = tableData[sectionIndex].item[rowIndex].title
+            let contentData = tableData[sectionIndex].item[rowIndex].content
             cell.password = password
             cell.isPasswordCell = (titleData.lowercased() == "password" ? true : false)
             cell.isURLCell = (titleData.lowercased() == "url" ? true : false)
@@ -175,10 +183,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return nil
-        }
-        return tableData[section - 1].title
+        return tableData[section].title
     }
     
     override func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
