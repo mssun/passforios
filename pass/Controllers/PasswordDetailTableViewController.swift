@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import FavIcon
 
 class PasswordDetailTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     var passwordEntity: PasswordEntity?
     var passwordCategoryEntities: [PasswordCategoryEntity]?
     var passwordCategoryText = ""
     var password = Password()
+    var passwordImage: UIImage?
 
     struct TableCell {
         var title: String
@@ -79,13 +81,36 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 tableDataIndex += 1
                 for addition in self.password.additions {
                     self.tableData[tableDataIndex].item.append(TableCell(title: addition.title, content: addition.content))
+                    if addition.title.lowercased() == "url" {
+                        self.password.url = addition.content
+                    }
                 }
             }
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 indicator.stopAnimating()
                 indicatorLable.isHidden = true
+                if self.password.url != "" {
+                    self.updatePasswordImage(url: self.password.url)
+                }
             }
+        }
+    }
+    
+    func updatePasswordImage(url: String) {
+        do {
+            try FavIcon.downloadPreferred(url) { result in
+                switch result {
+                case .success(let image):
+                    let indexPath = IndexPath(row: 0, section: 0)
+                    self.passwordImage = image
+                    self.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        } catch {
+            print(error)
         }
     }
     
@@ -125,7 +150,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         
         if sectionIndex == 0 && rowIndex == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "passwordDetailTitleTableViewCell", for: indexPath) as! PasswordDetailTitleTableViewCell
-            cell.passwordImageImageView.image = #imageLiteral(resourceName: "PasswordImagePlaceHolder")
+            cell.passwordImageImageView.image = passwordImage ?? #imageLiteral(resourceName: "PasswordImagePlaceHolder")
             cell.nameLabel.text = passwordEntity?.name
             cell.categoryLabel.text = passwordCategoryText
             return cell

@@ -18,12 +18,14 @@ class Password {
     var name: String
     var username: String
     var password: String
+    var url: String
     var additions: [AdditionField]
     
     init() {
         name = ""
         password = ""
         username = ""
+        url = ""
         additions = []
     }
     
@@ -31,6 +33,15 @@ class Password {
         self.name = name
         self.username = username
         self.password = password
+        self.additions = additions
+        self.url = ""
+    }
+    
+    init(name: String, username: String, password: String, url: String, additions: [AdditionField]) {
+        self.name = name
+        self.username = username
+        self.password = password
+        self.url = url
         self.additions = additions
     }
 }
