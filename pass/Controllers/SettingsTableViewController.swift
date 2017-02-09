@@ -120,18 +120,18 @@ class SettingsTableViewController: UITableViewController {
         let passcodeRemoveViewController = PasscodeLockViewController(state: .remove, configuration: Globals.passcodeConfiguration)
 
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let removePasscodeAction = UIAlertAction(title: "Remove Passcode", style: .destructive) { [unowned self] _ in
+        let removePasscodeAction = UIAlertAction(title: "Remove Passcode", style: .destructive) { [weak self] _ in
             passcodeRemoveViewController.successCallback  = { _ in
-                self.passcodeTableViewCell.detailTextLabel?.text = "Off"
-                self.touchIDSwitch.isEnabled = false
+                self?.passcodeTableViewCell.detailTextLabel?.text = "Off"
+                self?.touchIDSwitch.isEnabled = false
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: Globals.passcodeConfiguration)
             }
-            self.present(passcodeRemoveViewController, animated: true, completion: nil)
+            self?.present(passcodeRemoveViewController, animated: true, completion: nil)
         }
         
-        let changePasscodeAction = UIAlertAction(title: "Change Passcode", style: .default) { [unowned self] _ in
-            self.present(passcodeChangeViewController, animated: true, completion: nil)
+        let changePasscodeAction = UIAlertAction(title: "Change Passcode", style: .default) { [weak self] _ in
+            self?.present(passcodeChangeViewController, animated: true, completion: nil)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
