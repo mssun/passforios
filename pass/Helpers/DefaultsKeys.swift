@@ -28,3 +28,26 @@ extension DefaultsKeys {
     static let isTouchIDOn = DefaultsKey<Bool>("isTouchIDOn")
     static let passcodeKey = DefaultsKey<String?>("passcodeKey")
 }
+
+extension UserDefaults {
+    
+    func eraseAll() {
+        Defaults.remove(.pgpKeyURL)
+        
+        Defaults.remove(.pgpKeyPassphrase)
+        Defaults.remove(.pgpKeyID)
+        Defaults.remove(.pgpKeyUserID)
+        
+        Defaults.remove(.gitRepositoryURL)
+        Defaults.remove(.gitRepositoryAuthenticationMethod)
+        Defaults.remove(.gitRepositoryUsername)
+        Defaults.remove(.gitRepositoryPassword)
+        Defaults.remove(.gitRepositorySSHPublicKeyURL)
+        Defaults.remove(.gitRepositorySSHPrivateKeyURL)
+        Defaults.remove(.gitRepositorySSHPrivateKeyPassphrase)
+        Defaults.remove(.lastUpdatedTime)
+        
+        Defaults.remove(.isTouchIDOn)
+        Defaults.remove(.passcodeKey)
+    }
+}
