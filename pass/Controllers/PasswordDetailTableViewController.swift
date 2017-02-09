@@ -42,9 +42,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         tableView.register(UINib(nibName: "LabelTableViewCell", bundle: nil), forCellReuseIdentifier: "labelCell")
         tableView.register(UINib(nibName: "PasswordDetailTitleTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordDetailTitleTableViewCell")
         
-        let passwordCategoryArray = passwordCategoryEntities?.map({ (value: PasswordCategoryEntity) -> String in
-            value.category!
-        })
+        let passwordCategoryArray = passwordCategoryEntities?.map { $0.category! }
         passwordCategoryText = (passwordCategoryArray?.joined(separator: " > "))!
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PasswordDetailTableViewController.tapMenu(recognizer:)))

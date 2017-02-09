@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
     let openSourceComponents = [
@@ -43,7 +44,8 @@ class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
     
     func actOnDetailDisclosureButton(_ sender: Any?) {
         if let link = sender as? String {
-            UIApplication.shared.open(URL(string: link)!, options: [:], completionHandler: nil)
+            let svc = SFSafariViewController(url: URL(string: link)!, entersReaderIfAvailable: false)
+            self.present(svc, animated: true, completion: nil)
         }
     }
 
