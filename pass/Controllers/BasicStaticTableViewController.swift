@@ -72,7 +72,9 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
             let url = URL(string: link)!
             switch url.scheme! {
             case "mailto":
-                sendEmail(toRecipients: [URLComponents(string: link)?.path ?? ""])
+                let urlComponents = URLComponents(string: link)!
+                let subject = urlComponents.queryItems![0].value ?? ""
+                sendEmail(toRecipients: [urlComponents.path], subject: subject)
             case "http", "https":
                 let svc = SFSafariViewController(url: URL(string: link)!, entersReaderIfAvailable: false)
                     self.present(svc, animated: true, completion: nil)
@@ -84,12 +86,12 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
         }
     }
     
-    func sendEmail(toRecipients recipients: [String]) {
+    func sendEmail(toRecipients recipients: [String], subject: String) {
         let mailVC = MFMailComposeViewController()
         mailVC.mailComposeDelegate = self
         mailVC.setToRecipients(recipients)
-        mailVC.setSubject("Subject for email")
-        mailVC.setMessageBody("Email message string", isHTML: false)
+        mailVC.setSubject(subject)
+        mailVC.setMessageBody("", isHTML: false)
         self.present(mailVC, animated: true, completion: nil)
     }
     
