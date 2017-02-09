@@ -190,6 +190,6 @@ class PasswordStore {
         deleteCoreData(entityName: "PasswordEntity")
         deleteCoreData(entityName: "PasswordCategoryEntity")
         
-        Defaults.eraseAll()
+        Utils.eraseAllUserDefaults()
     }
 }

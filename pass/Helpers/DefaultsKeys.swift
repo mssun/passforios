@@ -29,9 +29,8 @@ extension DefaultsKeys {
     static let passcodeKey = DefaultsKey<String?>("passcodeKey")
 }
 
-extension UserDefaults {
-    
-    func eraseAll() {
+extension Utils {
+    static func eraseAllUserDefaults() {
         Defaults.remove(.pgpKeyURL)
         
         Defaults.remove(.pgpKeyPassphrase)
