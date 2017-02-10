@@ -28,7 +28,7 @@ class Utils {
         var lastUpdatedTimeString = ""
         if let lastUpdatedTime = Defaults[.lastUpdatedTime] {
             let formatter = DateFormatter()
-            formatter.dateStyle = .long
+            formatter.dateStyle = .medium
             formatter.timeStyle = .short
             lastUpdatedTimeString = formatter.string(from: lastUpdatedTime)
         }

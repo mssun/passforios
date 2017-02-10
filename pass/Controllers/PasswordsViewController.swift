@@ -252,7 +252,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     func updateRefreshControlTitle() {
         var atribbutedTitle = "Pull to Sync Password Store"
-        atribbutedTitle = "Last Sync: \(Utils.getLastUpdatedTimeString())"
+        atribbutedTitle = "Last Synced: \(Utils.getLastUpdatedTimeString())"
         refreshControl.attributedTitle = NSAttributedString(string: atribbutedTitle)
     }
     
