@@ -49,7 +49,7 @@ class Password {
 extension PasswordEntity {
     func decrypt() throws -> Password? {
         var password: Password?
-        let encryptedDataPath = URL(fileURLWithPath: "\(Globals.documentPath)/\(rawPath!)")
+        let encryptedDataPath = URL(fileURLWithPath: "\(Globals.repositoryPath)/\(rawPath!)")
         let encryptedData = try Data(contentsOf: encryptedDataPath)
         let decryptedData = try PasswordStore.shared.pgp.decryptData(encryptedData, passphrase: Defaults[.pgpKeyPassphrase])
         let plain = String(data: decryptedData, encoding: .ascii) ?? ""
@@ -81,5 +81,16 @@ extension PasswordEntity {
         })
         password = Password(name: name!, username: username, password: decrypted_password, additions: decrypted_addtions)
         return password
+    }
+    
+    func encrypt(password: Password) throws -> Data {
+        name = password.name
+        rawPath = ""
+        let plainPassword = password.password
+//        let plainAdditions = password.additions.map { "\($0.title): \($0.content)" }.joined(separator: "\n")
+        let plainData = "\(plainPassword)\n".data(using: .ascii)!
+        let pgp = PasswordStore.shared.pgp
+        let encryptedData = try pgp.encryptData(plainData, usingPublicKey: pgp.getKeysOf(.public)[0], armored: false)
+        return encryptedData
     }
 }

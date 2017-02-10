@@ -26,7 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SVProgressHUD.setMinimumSize(CGSize(width: 150, height: 100))
         passcodeLockPresenter.present()
         if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
-            print(shortcutItem.type)
             if shortcutItem.type == "me.mssun.pass.search" {
                 self.perform(#selector(postSearchNotification), with: nil, afterDelay: 0.4)
             }

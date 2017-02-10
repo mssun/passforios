@@ -10,7 +10,9 @@ import Foundation
 import SwiftyUserDefaults
 
 extension DefaultsKeys {
-    static let pgpKeyURL = DefaultsKey<URL?>("pgpKeyURL")
+//    static let pgpKeyURL = DefaultsKey<URL?>("pgpKeyURL")
+    static let pgpPublicKeyURL = DefaultsKey<URL?>("pgpPublicKeyURL")
+    static let pgpPrivateKeyURL = DefaultsKey<URL?>("pgpPrivateKeyURL")
 
     static let pgpKeyPassphrase = DefaultsKey<String>("pgpKeyPassphrase")
     static let pgpKeyID = DefaultsKey<String>("pgpKeyID")
@@ -31,7 +33,8 @@ extension DefaultsKeys {
 
 extension Utils {
     static func eraseAllUserDefaults() {
-        Defaults.remove(.pgpKeyURL)
+        Defaults.remove(.pgpPublicKeyURL)
+        Defaults.remove(.pgpPrivateKeyURL)
         
         Defaults.remove(.pgpKeyPassphrase)
         Defaults.remove(.pgpKeyID)

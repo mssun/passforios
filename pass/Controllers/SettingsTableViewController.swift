@@ -26,9 +26,11 @@ class SettingsTableViewController: UITableViewController {
     @IBAction func save(segue: UIStoryboardSegue) {
         if let controller = segue.source as? PGPKeySettingTableViewController {
 
-            if Defaults[.pgpKeyURL] != URL(string: controller.pgpKeyURLTextField.text!) ||
+            if Defaults[.pgpPrivateKeyURL] != URL(string: controller.pgpPrivateKeyURLTextField.text!) ||
+                Defaults[.pgpPublicKeyURL] != URL(string: controller.pgpPublicKeyURLTextField.text!) ||
                 Defaults[.pgpKeyPassphrase] != controller.pgpKeyPassphraseTextField.text! {
-                Defaults[.pgpKeyURL] = URL(string: controller.pgpKeyURLTextField.text!)
+                Defaults[.pgpPrivateKeyURL] = URL(string: controller.pgpPrivateKeyURLTextField.text!)
+                Defaults[.pgpPublicKeyURL] = URL(string: controller.pgpPublicKeyURLTextField.text!)
                 Defaults[.pgpKeyPassphrase] = controller.pgpKeyPassphraseTextField.text!
                 
                 SVProgressHUD.setDefaultMaskType(.black)
@@ -36,7 +38,10 @@ class SettingsTableViewController: UITableViewController {
                 SVProgressHUD.show(withStatus: "Fetching PGP Key")
                 DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                     do {
-                        try PasswordStore.shared.initPGP(pgpKeyURL: Defaults[.pgpKeyURL]!, pgpKeyLocalPath: Globals.secringPath)
+                        try PasswordStore.shared.initPGP(pgpPublicKeyURL: Defaults[.pgpPublicKeyURL]!,
+                                                         pgpPublicKeyLocalPath: Globals.pgpPublicKeyPath,
+                                                         pgpPrivateKeyURL: Defaults[.pgpPrivateKeyURL]!,
+                                                         pgpPrivateKeyLocalPath: Globals.pgpPrivateKeyPath)
                         DispatchQueue.main.async {
                             self.pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
                             SVProgressHUD.showSuccess(withStatus: "Success. Remember to remove the key from the server.")

@@ -58,7 +58,9 @@ class PasswordStore {
             print(error)
         }
         if Defaults[.pgpKeyID] != "" {
-            pgp.importKeys(fromFile: Globals.secringPath, allowDuplicates: false)
+            pgp.importKeys(fromFile: Globals.pgpPublicKeyPath, allowDuplicates: false)
+            pgp.importKeys(fromFile: Globals.pgpPrivateKeyPath, allowDuplicates: false)
+
         }
         if Defaults[.gitRepositoryAuthenticationMethod] == "Password" {
             gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitRepositoryUsername], password: Defaults[.gitRepositoryPassword]))
@@ -70,11 +72,17 @@ class PasswordStore {
         
     }
     
-    func initPGP(pgpKeyURL: URL, pgpKeyLocalPath: String) throws {
-        let pgpData = try Data(contentsOf: pgpKeyURL)
-        try pgpData.write(to: URL(fileURLWithPath: pgpKeyLocalPath), options: .atomic)
-        pgp.importKeys(fromFile: pgpKeyLocalPath, allowDuplicates: false)
-        let key = pgp.keys[0]
+    func initPGP(pgpPublicKeyURL: URL, pgpPublicKeyLocalPath: String, pgpPrivateKeyURL: URL, pgpPrivateKeyLocalPath: String) throws {
+        let pgpPublicData = try Data(contentsOf: pgpPublicKeyURL)
+        try pgpPublicData.write(to: URL(fileURLWithPath: pgpPublicKeyLocalPath), options: .atomic)
+        
+        let pgpPrivateData = try Data(contentsOf: pgpPrivateKeyURL)
+        try pgpPrivateData.write(to: URL(fileURLWithPath: pgpPrivateKeyLocalPath), options: .atomic)
+        
+        pgp.importKeys(fromFile: pgpPublicKeyLocalPath, allowDuplicates: false)
+        pgp.importKeys(fromFile: pgpPrivateKeyLocalPath, allowDuplicates: false)
+
+        let key = pgp.getKeysOf(.public)[0]
         Defaults[.pgpKeyID] = key.keyID!.shortKeyString
         if let gpgUser = key.users[0] as? PGPUser {
             Defaults[.pgpKeyUserID] = gpgUser.userID
@@ -130,7 +138,7 @@ class PasswordStore {
                     let passwordEntity = PasswordEntity(context: context)
                     let endIndex =  url.lastPathComponent.index(url.lastPathComponent.endIndex, offsetBy: -4)
                     passwordEntity.name = url.lastPathComponent.substring(to: endIndex)
-                    passwordEntity.rawPath = "password-store/\(url.path)"
+                    passwordEntity.rawPath = "\(url.path)"
                     let items = url.path.characters.split(separator: "/").map(String.init)
                     for i in 0 ..< items.count - 1 {
                         let passwordCategoryEntity = PasswordCategoryEntity(context: context)
@@ -173,6 +181,23 @@ class PasswordStore {
     func updateRemoteRepo() {
     }
     
+    func commitChange() {
+        
+    }
+    
+    func add(password: Password) {
+        let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
+        do {
+            let encryptedData = try passwordEntity.encrypt(password: password)
+            let saveURL = storeURL.appendingPathComponent("\(password.name).gpg")
+            try encryptedData.write(to: saveURL)
+            passwordEntity.rawPath = "\(password.name).gpg"
+            try context.save()
+        } catch {
+            print(error)
+        }
+    }
+    
     func deleteCoreData(entityName: String) {
         let deleteFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetchRequest)
@@ -186,7 +211,8 @@ class PasswordStore {
     
     func erase() {
         Utils.removeFileIfExists(at: storeURL)
-        Utils.removeFileIfExists(atPath: Globals.secringPath)
+        Utils.removeFileIfExists(atPath: Globals.pgpPublicKeyPath)
+        Utils.removeFileIfExists(atPath: Globals.pgpPrivateKeyPath)
         Utils.removeFileIfExists(at: Globals.sshPrivateKeyURL)
         Utils.removeFileIfExists(at: Globals.sshPublicKeyURL)
         

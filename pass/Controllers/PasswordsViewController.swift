@@ -27,6 +27,15 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     @IBOutlet weak var tableView: UITableView!
     
+    @IBAction func cancelAddPassword(segue: UIStoryboardSegue) {
+        
+    }
+    @IBAction func saveAddPassword(segue: UIStoryboardSegue) {
+        if let controller = segue.source as? AddPasswordTableViewController {
+            PasswordStore.shared.add(password: controller.password!)
+            NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
+        }
+    }
     func syncPasswords() {
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
