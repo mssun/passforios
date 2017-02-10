@@ -47,6 +47,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                         SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Pull Remote Repository")
                     }
                 })
+                try PasswordStore.shared.pushRepository(transferProgressBlock: {(git_transfer_progress, stop) in
+                    DispatchQueue.main.async {
+                        SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Push Remote Repository")
+                    }
+                })
                 DispatchQueue.main.async {
                     self.passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
                     self.reloadTableView(data: self.passwordEntities!)
