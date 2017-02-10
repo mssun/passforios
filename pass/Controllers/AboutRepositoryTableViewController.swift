@@ -27,22 +27,33 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
         tableView.addSubview(indicatorLable)
         
         DispatchQueue.global(qos: .userInitiated).async {
-            let passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = NumberFormatter.Style.decimal
             let fm = FileManager.default
+            
+            let passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
+            let numberOfPasswords = numberFormatter.string(from: NSNumber(value: passwordEntities.count))!
+            
             var size = UInt64(0)
             do {
                 size = try fm.allocatedSizeOfDirectoryAtURL(directoryURL: PasswordStore.shared.storeURL)
             } catch {
                 print(error)
             }
+            let sizeOfRepository = ByteCountFormatter.string(fromByteCount: Int64(size), countStyle: ByteCountFormatter.CountStyle.file)
+            
+            let numberOfCommits = PasswordStore.shared.storeRepository?.numberOfCommits(inCurrentBranch: NSErrorPointer(nilLiteral: ())) ?? 0
+            let numberOfCommitsString = numberFormatter.string(from: NSNumber(value: numberOfCommits))!
+
 
             DispatchQueue.main.async { [weak self] in
-                let formatted = ByteCountFormatter.string(fromByteCount: Int64(size), countStyle: ByteCountFormatter.CountStyle.file)
+                let type = UITableViewCellAccessoryType.none
                 self?.tableData = [
                     // section 0
-                    [[.style: CellDataStyle.value1, .accessoryType: UITableViewCellAccessoryType.none, .title: "Passwords", .detailText: String(passwordEntities.count)],
-                     [.style: CellDataStyle.value1, .accessoryType: UITableViewCellAccessoryType.none, .title: "Size", .detailText: formatted],
-                     [.style: CellDataStyle.value1, .accessoryType: UITableViewCellAccessoryType.none, .title: "Last Synced", .detailText: Utils.getLastUpdatedTimeString()],
+                    [[.style: CellDataStyle.value1, .accessoryType: type, .title: "Passwords", .detailText: numberOfPasswords],
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Size", .detailText: sizeOfRepository],
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Last Synced", .detailText: Utils.getLastUpdatedTimeString()],
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Commits", .detailText: numberOfCommitsString]
                      ],
                 ]
                 indicator.stopAnimating()
