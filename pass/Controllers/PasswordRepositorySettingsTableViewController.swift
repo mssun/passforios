@@ -12,13 +12,24 @@ import SVProgressHUD
 
 class PasswordRepositorySettingsTableViewController: BasicStaticTableViewController {
     override func viewDidLoad() {
+        let url = Defaults[.gitRepositoryURL]?.host
         tableData = [
-            [[.type: CellDataType.segue, .title: "Git Server", .link: "showGitServerSettingSegue"],
-             [.type: CellDataType.segue, .title: "SSH Key", .link: "showSSHKeySettingSegue"],],
+            [[.style: CellDataStyle.value1, .title: "Git Server", .action: "segue", .link: "showGitServerSettingSegue", .detailText: url ?? ""],
+             [.title: "SSH Key", .action: "segue", .link: "showSSHKeySettingSegue"],],
         ]
         navigationItemTitle = "Repository"
         super.viewDidLoad()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let url = Defaults[.gitRepositoryURL] {
+            if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) {
+                cell.detailTextLabel!.text = url.host
+            }
+        }
+    }
+    
     
     @IBAction func cancelGitServerSetting(segue: UIStoryboardSegue) {
     }

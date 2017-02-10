@@ -20,7 +20,7 @@ class SpecialThanksTableViewController: BasicStaticTableViewController {
         tableData.append([])
         for item in openSourceComponents {
             tableData[0].append(
-                [CellDataKey.type: CellDataType.link, CellDataKey.title: item[0], CellDataKey.link: item[1]]
+                [CellDataKey.action: "link", CellDataKey.title: item[0], CellDataKey.link: item[1]]
             )
         }
         navigationItemTitle = "Special Thanks"

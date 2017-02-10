@@ -15,8 +15,12 @@ enum CellDataType {
     case link, segue, empty, detail
 }
 
+enum CellDataStyle {
+    case value1, defaultStyle
+}
+
 enum CellDataKey {
-    case type, title, link, accessoryType, detailDisclosureAction, detailDisclosureData, detailText
+    case style, type, title, link, accessoryType, detailDisclosureAction, detailDisclosureData, detailText, action
 }
 
 class BasicStaticTableViewController: UITableViewController, MFMailComposeViewControllerDelegate {
@@ -44,22 +48,25 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cellData = tableData[indexPath.section][indexPath.row]
-        let cellDataType = cellData[CellDataKey.type] as? CellDataType
+        let cellDataStyle = cellData[CellDataKey.style] as? CellDataStyle
         var cell: UITableViewCell?
-        switch cellDataType! {
-        case .detail:
+        
+        switch cellDataStyle ?? .defaultStyle {
+        case .value1:
             cell = UITableViewCell(style: .value1, reuseIdentifier: "value1 cell")
-            cell?.accessoryType = .none
-            cell?.detailTextLabel?.text = cellData[CellDataKey.detailText] as? String
         default:
             cell = UITableViewCell(style: .default, reuseIdentifier: "default cell")
-            cell?.textLabel?.text = cellData[CellDataKey.title] as? String
-            if let accessoryType = cellData[CellDataKey.accessoryType] as? UITableViewCellAccessoryType {
-                cell?.accessoryType = accessoryType
-            } else {
-                cell?.accessoryType = .disclosureIndicator
-            }
         }
+        
+        if let detailText = cellData[CellDataKey.detailText] as? String {
+            cell?.detailTextLabel?.text = detailText
+        }
+        if let accessoryType = cellData[CellDataKey.accessoryType] as? UITableViewCellAccessoryType {
+            cell?.accessoryType = accessoryType
+        } else {
+            cell?.accessoryType = .disclosureIndicator
+        }
+        
         cell?.textLabel?.text = cellData[CellDataKey.title] as? String
         return cell ?? UITableViewCell()
     }
@@ -73,12 +80,12 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let cellData = tableData[indexPath.section][indexPath.row]
-        let cellDataType = cellData[CellDataKey.type] as? CellDataType
-        switch cellDataType! {
-        case .segue:
+        let cellDataAction = cellData[CellDataKey.action] as? String
+        switch cellDataAction ?? "" {
+        case "segue":
             let link = cellData[CellDataKey.link] as? String
             performSegue(withIdentifier: link!, sender: self)
-        case .link:
+        case "link":
             let link = cellData[CellDataKey.link] as! String
             let url = URL(string: link)!
             switch url.scheme! {

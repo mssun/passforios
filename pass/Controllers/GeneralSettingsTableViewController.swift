@@ -14,7 +14,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         navigationItemTitle = "General"
         tableData = [
             // section 0
-            [[.type: CellDataType.segue, .title: "About Repository", .link: "showAboutRepositorySegue"],],
+            [[.title: "About Repository", .action: "segue", .link: "showAboutRepositorySegue"],],
         ]
         super.viewDidLoad()
     }
