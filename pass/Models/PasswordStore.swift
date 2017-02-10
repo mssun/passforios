@@ -181,8 +181,47 @@ class PasswordStore {
     func updateRemoteRepo() {
     }
     
-    func commitChange() {
-        
+    func createCommitInRepository(message: String, fileData: Data, filename: String) -> GTCommit? {
+        do {
+            let head = try storeRepository!.headReference()
+            let branch = GTBranch(reference: head, repository: storeRepository!)
+            let headCommit = try branch?.targetCommit()
+            
+            let treeBulider = try GTTreeBuilder(tree: headCommit?.tree, repository: storeRepository!)
+            try treeBulider.addEntry(with: fileData, fileName: filename, fileMode: GTFileMode.blob)
+            
+            let newTree = try treeBulider.writeTree()
+            let headReference = try storeRepository!.headReference()
+            let commitEnum = try GTEnumerator(repository: storeRepository!)
+            try commitEnum.pushSHA(headReference.targetOID.sha)
+            let parent = commitEnum.nextObject() as! GTCommit
+            let commit = try storeRepository!.createCommit(with: newTree, message: message, parents: [parent], updatingReferenceNamed: headReference.name)
+            return commit
+        } catch {
+            print(error)
+        }
+        return nil
+    }
+    
+    private func getLocalBranch(withName branchName: String) -> GTBranch? {
+        do {
+            let reference = GTBranch.localNamePrefix().appending(branchName)
+            let branches = try storeRepository!.branches(withPrefix: reference)
+            return branches[0]
+        } catch {
+            print(error)
+        }
+        return nil
+    }
+    
+    func pushRepository(transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
+        let credentialProvider = try gitCredential!.credentialProvider()
+        let options: [String: Any] = [
+            GTRepositoryRemoteOptionsCredentialProvider: credentialProvider,
+            ]
+        let masterBranch = getLocalBranch(withName: "master")!
+        let remote = try GTRemote(name: "origin", in: storeRepository!)
+        try storeRepository?.push(masterBranch, to: remote, withOptions: options, progress: nil)
     }
     
     func add(password: Password) {
@@ -193,6 +232,8 @@ class PasswordStore {
             try encryptedData.write(to: saveURL)
             passwordEntity.rawPath = "\(password.name).gpg"
             try context.save()
+            print(saveURL.path)
+            let _ = createCommitInRepository(message: "Add new password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent)
         } catch {
             print(error)
         }
