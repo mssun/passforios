@@ -15,7 +15,7 @@ class PasswordRepositorySettingsTableViewController: BasicStaticTableViewControl
         let url = Defaults[.gitRepositoryURL]?.host
         tableData = [
             [[.style: CellDataStyle.value1, .title: "Git Server", .action: "segue", .link: "showGitServerSettingSegue", .detailText: url ?? ""],
-             [.title: "SSH Key", .action: "segue", .link: "showSSHKeySettingSegue"],],
+             [.style: CellDataStyle.value1, .title: "SSH Key", .action: "segue", .link: "showSSHKeySettingSegue", .detailText: "Not Set"],],
         ]
         navigationItemTitle = "Repository"
         super.viewDidLoad()
@@ -26,6 +26,11 @@ class PasswordRepositorySettingsTableViewController: BasicStaticTableViewControl
         if let url = Defaults[.gitRepositoryURL] {
             if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) {
                 cell.detailTextLabel!.text = url.host
+            }
+        }
+        if Defaults[.gitRepositorySSHPublicKeyURL] != nil {
+            if let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) {
+                cell.detailTextLabel!.text = "Set"
             }
         }
     }
