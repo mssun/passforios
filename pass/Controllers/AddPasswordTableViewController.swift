@@ -16,6 +16,8 @@ class AddPasswordTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "TextFieldTableViewCell", bundle: nil), forCellReuseIdentifier: "textFieldCell")
         tableView.register(UINib(nibName: "TextViewTableViewCell", bundle: nil), forCellReuseIdentifier: "textViewCell")
+        tableView.register(UINib(nibName: "FillPasswordTableViewCell", bundle: nil), forCellReuseIdentifier: "fillPasswordCell")
+
 
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 48
@@ -31,11 +33,15 @@ class AddPasswordTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableTitles[indexPath.section] == "additions" {
+        switch tableTitles[indexPath.section] {
+        case "additions":
             let cell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as! TextViewTableViewCell
             cell.contentTextView.text = ""
             return cell
-        } else {
+        case "password":
+            let cell = tableView.dequeueReusableCell(withIdentifier: "fillPasswordCell", for: indexPath) as! FillPasswordTableViewCell
+            return cell
+        default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "textFieldCell", for: indexPath) as! TextFieldTableViewCell
             cell.contentTextField.placeholder = tableTitles[indexPath.section]
             return cell
@@ -52,7 +58,7 @@ class AddPasswordTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "saveAddPasswordSegue" {
             let nameCell = getCellForName(name: "name")! as! TextFieldTableViewCell
-            let passwordCell = getCellForName(name: "password")! as! TextFieldTableViewCell
+            let passwordCell = getCellForName(name: "password")! as! FillPasswordTableViewCell
             let additionsCell = getCellForName(name: "additions")! as! TextViewTableViewCell
             password = Password(name: nameCell.contentTextField.text!, plainText: "\(passwordCell.contentTextField.text!)\n\(additionsCell.contentTextView.text!)")
         }
