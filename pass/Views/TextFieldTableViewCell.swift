@@ -16,12 +16,17 @@ class TextFieldTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        titleLabel.isUserInteractionEnabled = true
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tap(_:)))
+        titleLabel.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    func tap(_ sender: Any?) {
+        contentTextField.becomeFirstResponder()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
 }
