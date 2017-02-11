@@ -104,7 +104,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 indicator.stopAnimating()
                 indicatorLable.isHidden = true
                 if let url = password.getURL() {
-                    if let _ = self?.passwordEntity?.image {
+                    if self?.passwordEntity?.image == nil{
                         self?.updatePasswordImage(url: url)
                     }
                 }
