@@ -162,7 +162,7 @@ class PasswordStore {
             let fetchedPasswordEntities = try context.fetch(passwordEntityFetch) as! [PasswordEntity]
             return fetchedPasswordEntities.sorted { $0.name!.caseInsensitiveCompare($1.name!) == .orderedAscending }
         } catch {
-            fatalError("Failed to fetch employees: \(error)")
+            fatalError("Failed to fetch passwords: \(error)")
         }
     }
     
@@ -173,6 +173,39 @@ class PasswordStore {
         do {
             let passwordCategoryEntities = try context.fetch(passwordCategoryEntityFetchRequest) as! [PasswordCategoryEntity]
             return passwordCategoryEntities
+        } catch {
+            fatalError("Failed to fetch password categories: \(error)")
+        }
+    }
+    
+    func fetchUnsyncedPasswords() -> [PasswordEntity] {
+        let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
+        passwordEntityFetchRequest.predicate = NSPredicate(format: "synced = %i", 0)
+        do {
+            let passwordEntities = try context.fetch(passwordEntityFetchRequest) as! [PasswordEntity]
+            return passwordEntities
+        } catch {
+            fatalError("Failed to fetch passwords: \(error)")
+        }
+    }
+    
+    func setAllSynced() {
+        let passwordEntities = fetchUnsyncedPasswords()
+        for passwordEntity in passwordEntities {
+            passwordEntity.synced = true
+        }
+        do {
+            try context.save()
+        } catch {
+            fatalError("Failed to save: \(error)")
+        }
+    }
+    
+    func getNumberOfUnsyncedPasswords() -> Int {
+        let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
+        do {
+            passwordEntityFetchRequest.predicate = NSPredicate(format: "synced = %i", 0)
+            return try context.count(for: passwordEntityFetchRequest)
         } catch {
             fatalError("Failed to fetch employees: \(error)")
         }
@@ -205,6 +238,7 @@ class PasswordStore {
         return nil
     }
     
+    
     private func getLocalBranch(withName branchName: String) -> GTBranch? {
         do {
             let reference = GTBranch.localNamePrefix().appending(branchName)
@@ -235,6 +269,7 @@ class PasswordStore {
             let saveURL = storeURL.appendingPathComponent("\(password.name).gpg")
             try encryptedData.write(to: saveURL)
             passwordEntity.rawPath = "\(password.name).gpg"
+            passwordEntity.synced = false
             try context.save()
             print(saveURL.path)
             let _ = createCommitInRepository(message: "Add new password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)

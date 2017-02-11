@@ -68,6 +68,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 DispatchQueue.main.async {
                     self.passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
                     self.reloadTableView(data: self.passwordEntities!)
+                    PasswordStore.shared.setAllSynced()
+                    self.setNavigationItemTitle()
                     Defaults[.lastUpdatedTime] = Date()
                     SVProgressHUD.showSuccess(withStatus: "Done")
                     SVProgressHUD.dismiss(withDelay: 1)
@@ -83,6 +85,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNavigationItemTitle()
         passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
         NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordUpdatedNotification), name: NSNotification.Name(rawValue: "passwordUpdated"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordStoreErasedNotification), name: NSNotification.Name(rawValue: "passwordStoreErased"), object: nil)
@@ -134,7 +137,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         } else {
             password = passwordEntities![index]
         }
-        cell.textLabel?.text = password.name
+        if password.synced {
+            cell.textLabel?.text = password.name!
+        } else {
+            cell.textLabel?.text = "↻ \(password.name!)"
+        }
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
         longPressGestureRecognizer.minimumPressDuration = 0.6
         cell.addGestureRecognizer(longPressGestureRecognizer)
@@ -220,6 +227,15 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     func actOnPasswordUpdatedNotification() {
         passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
         reloadTableView(data: passwordEntities!)
+        setNavigationItemTitle()
+    }
+    private func setNavigationItemTitle() {
+        let numberOfUnsynced = PasswordStore.shared.getNumberOfUnsyncedPasswords()
+        if numberOfUnsynced == 0 {
+            navigationItem.title = "Password Store"
+        } else {
+            navigationItem.title = "Password Store (\(numberOfUnsynced))"
+        }
     }
     
     func actOnPasswordStoreErasedNotification() {
