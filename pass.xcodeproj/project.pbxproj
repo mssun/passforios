@@ -94,9 +94,9 @@
 		DCC408A31E2FCC9E00F29B0E /* PasswordStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
 		DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
 		DCC408C91E30BA1300F29B0E /* pass.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = pass.xcdatamodel; sourceTree = "<group>"; };
-		DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelTableViewCell.xib; sourceTree = "<group>"; };
+		DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LabelTableViewCell.xib; path = ../LabelTableViewCell.xib; sourceTree = "<group>"; };
 		DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTitleTableViewCell.swift; sourceTree = "<group>"; };
-		DCDDEAB21E4896BF00F68193 /* PasswordDetailTitleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PasswordDetailTitleTableViewCell.xib; sourceTree = "<group>"; };
+		DCDDEAB21E4896BF00F68193 /* PasswordDetailTitleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PasswordDetailTitleTableViewCell.xib; path = ../PasswordDetailTitleTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,9 +175,11 @@
 			isa = PBXGroup;
 			children = (
 				DC4914941E434301007FF592 /* LabelTableViewCell.swift */,
+				DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */,
 				DC037CB91E4DD47B00609409 /* TextFieldTableViewCell.swift */,
 				DC037CBA1E4DD47B00609409 /* TextFieldTableViewCell.xib */,
 				DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */,
+				DCDDEAB21E4896BF00F68193 /* PasswordDetailTitleTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -210,10 +212,8 @@
 				DC19400F1E4B3A9E0077E0A3 /* Views */,
 				DC19400E1E4B3A610077E0A3 /* Helpers */,
 				DC917BDD1E2E8231000FDF54 /* Assets.xcassets */,
-				DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */,
 				DC917BDF1E2E8231000FDF54 /* LaunchScreen.storyboard */,
 				DC917BDA1E2E8231000FDF54 /* Main.storyboard */,
-				DCDDEAB21E4896BF00F68193 /* PasswordDetailTitleTableViewCell.xib */,
 				DCC408C81E30BA1300F29B0E /* pass.xcdatamodeld */,
 			);
 			path = pass;
