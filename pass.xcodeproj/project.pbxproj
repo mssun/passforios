@@ -54,6 +54,7 @@
 		DCFB779B1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCFB77991E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib */; };
 		DCFB779E1E4F40C7008DE471 /* FillPasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB779C1E4F40C7008DE471 /* FillPasswordTableViewCell.swift */; };
 		DCFB779F1E4F40C7008DE471 /* FillPasswordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCFB779D1E4F40C7008DE471 /* FillPasswordTableViewCell.xib */; };
+		DCFB77A11E4F68C8008DE471 /* PasswordEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77A01E4F68C8008DE471 /* PasswordEntity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,6 +110,7 @@
 		DCFB77991E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleTextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		DCFB779C1E4F40C7008DE471 /* FillPasswordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FillPasswordTableViewCell.swift; sourceTree = "<group>"; };
 		DCFB779D1E4F40C7008DE471 /* FillPasswordTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FillPasswordTableViewCell.xib; sourceTree = "<group>"; };
+		DCFB77A01E4F68C8008DE471 /* PasswordEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordEntity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				DC7E6EE91E432E48006C2443 /* Password.swift */,
+				DCFB77A01E4F68C8008DE471 /* PasswordEntity.swift */,
 				DCC408A31E2FCC9E00F29B0E /* PasswordStore.swift */,
 				DC193FFF1E49E1A60077E0A3 /* PasscodeLockConfiguration.swift */,
 				DC193FFD1E49E0760077E0A3 /* PasscodeLockRepository.swift */,
@@ -432,6 +435,7 @@
 				DCA049981E33586A00522E8F /* DefaultsKeys.swift in Sources */,
 				DC19400B1E4B36B60077E0A3 /* Utils.swift in Sources */,
 				DCA0499E1E33BAC100522E8F /* Globals.swift in Sources */,
+				DCFB77A11E4F68C8008DE471 /* PasswordEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
