@@ -13,7 +13,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     var passwordEntity: PasswordEntity?
     var passwordCategoryEntities: [PasswordCategoryEntity]?
     var passwordCategoryText = ""
-    var password = Password()
+    var password: Password?
     var passwordImage: UIImage?
 
     struct TableCell {
@@ -86,27 +86,27 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             
             var tableDataIndex = 1
             self.tableData.append(TableSection(title: "", item: []))
-            if self.password.username != "" {
-                self.tableData[tableDataIndex].item.append(TableCell(title: "username", content: self.password.username))
+            let password = self.password!
+            if let username = password.getUsername() {
+                self.tableData[tableDataIndex].item.append(TableCell(title: "username", content: username))
             }
-            self.tableData[tableDataIndex].item.append(TableCell(title: "password", content: self.password.password))
-            
-            if self.password.additions.count > 0 {
+            self.tableData[tableDataIndex].item.append(TableCell(title: "password", content: password.password))
+            if password.additions.count > 0 {
                 self.tableData.append(TableSection(title: "additions", item: []))
                 tableDataIndex += 1
-                for addition in self.password.additions {
-                    self.tableData[tableDataIndex].item.append(TableCell(title: addition.title, content: addition.content))
-                    if addition.title.lowercased() == "url" {
-                        self.password.url = addition.content
-                    }
+                for additionKey in password.additionKeys {
+                    self.tableData[tableDataIndex].item.append(TableCell(title: additionKey, content: password.additions[additionKey]!))
+
                 }
             }
             DispatchQueue.main.async { [weak self] in
                 self?.tableView.reloadData()
                 indicator.stopAnimating()
                 indicatorLable.isHidden = true
-                if self?.password.url != ""  && self?.passwordEntity?.image == nil{
-                    self?.updatePasswordImage(url: self?.password.url ?? "")
+                if let url = password.getURL() {
+                    if let _ = self?.passwordEntity?.image {
+                        self?.updatePasswordImage(url: url)
+                    }
                 }
             }
         }
