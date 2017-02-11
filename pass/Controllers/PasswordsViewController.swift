@@ -32,8 +32,21 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     @IBAction func saveAddPassword(segue: UIStoryboardSegue) {
         if let controller = segue.source as? AddPasswordTableViewController {
-            PasswordStore.shared.add(password: controller.password!)
-            NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
+            SVProgressHUD.setDefaultMaskType(.black)
+            SVProgressHUD.setDefaultStyle(.light)
+            SVProgressHUD.show(withStatus: "Saving")
+            DispatchQueue.global(qos: .userInitiated).async {
+                PasswordStore.shared.add(password: controller.password!, progressBlock: { progress in
+                    DispatchQueue.main.async {
+                        SVProgressHUD.showProgress(progress, status: "Encrypting")
+                    }
+                })
+                DispatchQueue.main.async {
+                    SVProgressHUD.showSuccess(withStatus: "Done")
+                    SVProgressHUD.dismiss(withDelay: 1)
+                    NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
+                }
+            }
         }
     }
     func syncPasswords() {
@@ -47,9 +60,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                         SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Pull Remote Repository")
                     }
                 })
-                try PasswordStore.shared.pushRepository(transferProgressBlock: {(git_transfer_progress, stop) in
+                try PasswordStore.shared.pushRepository(transferProgressBlock: {(current, total, bytes, stop) in
                     DispatchQueue.main.async {
-                        SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Push Remote Repository")
+                        SVProgressHUD.showProgress(Float(current)/Float(total), status: "Push Remote Repository")
                     }
                 })
                 DispatchQueue.main.async {

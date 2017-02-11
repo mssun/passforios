@@ -181,7 +181,7 @@ class PasswordStore {
     func updateRemoteRepo() {
     }
     
-    func createCommitInRepository(message: String, fileData: Data, filename: String) -> GTCommit? {
+    func createCommitInRepository(message: String, fileData: Data, filename: String, progressBlock: (_ progress: Float) -> Void) -> GTCommit? {
         do {
             let head = try storeRepository!.headReference()
             let branch = GTBranch(reference: head, repository: storeRepository!)
@@ -195,7 +195,9 @@ class PasswordStore {
             let commitEnum = try GTEnumerator(repository: storeRepository!)
             try commitEnum.pushSHA(headReference.targetOID.sha)
             let parent = commitEnum.nextObject() as! GTCommit
+            progressBlock(0.5)
             let commit = try storeRepository!.createCommit(with: newTree, message: message, parents: [parent], updatingReferenceNamed: headReference.name)
+            progressBlock(0.7)
             return commit
         } catch {
             print(error)
@@ -214,26 +216,29 @@ class PasswordStore {
         return nil
     }
     
-    func pushRepository(transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
+    func pushRepository(transferProgressBlock: @escaping (UInt32, UInt32, Int, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
         let credentialProvider = try gitCredential!.credentialProvider()
         let options: [String: Any] = [
             GTRepositoryRemoteOptionsCredentialProvider: credentialProvider,
             ]
         let masterBranch = getLocalBranch(withName: "master")!
         let remote = try GTRemote(name: "origin", in: storeRepository!)
-        try storeRepository?.push(masterBranch, to: remote, withOptions: options, progress: nil)
+        try storeRepository?.push(masterBranch, to: remote, withOptions: options, progress: transferProgressBlock)
     }
     
-    func add(password: Password) {
+    func add(password: Password, progressBlock: (_ progress: Float) -> Void) {
+        progressBlock(0.0)
         let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
         do {
             let encryptedData = try passwordEntity.encrypt(password: password)
+            progressBlock(0.3)
             let saveURL = storeURL.appendingPathComponent("\(password.name).gpg")
             try encryptedData.write(to: saveURL)
             passwordEntity.rawPath = "\(password.name).gpg"
             try context.save()
             print(saveURL.path)
-            let _ = createCommitInRepository(message: "Add new password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent)
+            let _ = createCommitInRepository(message: "Add new password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
+            progressBlock(1.0)
         } catch {
             print(error)
         }
