@@ -37,6 +37,7 @@ class AddPasswordTableViewController: UITableViewController {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "textFieldCell", for: indexPath) as! TextFieldTableViewCell
+            cell.contentTextField.placeholder = tableTitles[indexPath.section]
             return cell
         }
     }
