@@ -11,9 +11,11 @@ import UIKit
 class SpecialThanksTableViewController: BasicStaticTableViewController {
     let openSourceComponents = [
         ["Password Store",
-         "http://passwordstore.org"],
+         "https://passwordstore.org"],
         ["Icon8",
-         "http://icons8.com"],
+         "https://icons8.com"],
+        ["FlatIcon",
+         "https://http://www.flaticon.com"],
         ]
     
     override func viewDidLoad() {
