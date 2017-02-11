@@ -49,7 +49,6 @@ class AddPasswordTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        print(section)
         let headerView = UITableViewHeaderFooterView()
         headerView.textLabel?.text = tableTitles[section].uppercased()
         return headerView
