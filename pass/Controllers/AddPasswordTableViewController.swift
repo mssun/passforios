@@ -40,10 +40,12 @@ class AddPasswordTableViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let nameCell = getCellForName(name: "name")! as! TextFieldTableViewCell
-        let passwordCell = getCellForName(name: "password")! as! TextFieldTableViewCell
-        let additionsCell = getCellForName(name: "additions")! as! TextViewTableViewCell
-        password = Password(name: nameCell.contentTextField.text!, plainText: "\(passwordCell.contentTextField.text!)\n\(additionsCell.contentTextView.text!)")
+        if segue.identifier == "saveAddPasswordSegue" {
+            let nameCell = getCellForName(name: "name")! as! TextFieldTableViewCell
+            let passwordCell = getCellForName(name: "password")! as! TextFieldTableViewCell
+            let additionsCell = getCellForName(name: "additions")! as! TextViewTableViewCell
+            password = Password(name: nameCell.contentTextField.text!, plainText: "\(passwordCell.contentTextField.text!)\n\(additionsCell.contentTextView.text!)")
+        }
     }
     
     func getCellAt(row: Int) -> UITableViewCell? {

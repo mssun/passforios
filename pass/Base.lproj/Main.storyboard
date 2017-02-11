@@ -648,7 +648,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="FtF-nT-zRJ">
                             <connections>
-                                <segue destination="rRf-7l-IGe" kind="unwind" unwindAction="saveAddPasswordWithSegue:" id="eVU-Kz-JU0"/>
+                                <segue destination="rRf-7l-IGe" kind="unwind" identifier="saveAddPasswordSegue" unwindAction="saveAddPasswordWithSegue:" id="eVU-Kz-JU0"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
