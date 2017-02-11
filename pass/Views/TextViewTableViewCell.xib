@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="145" id="KGk-i7-Jjw" customClass="TextViewTableViewCell" customModule="pass" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="145"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="144.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tvq-BT-MKW">
+                        <rect key="frame" x="15" y="8" width="297" height="14.5"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="xHX-Sh-1pR">
+                        <rect key="frame" x="15" y="25.5" width="297" height="111"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="OY2-uq-PPw"/>
+                        </constraints>
+                        <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no"/>
+                    </textView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="xHX-Sh-1pR" firstAttribute="top" secondItem="Tvq-BT-MKW" secondAttribute="bottom" constant="3" id="EAF-pS-6NK"/>
+                    <constraint firstItem="Tvq-BT-MKW" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="Iff-UZ-E7V"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Tvq-BT-MKW" secondAttribute="trailing" id="Iqw-GY-KZN"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="xHX-Sh-1pR" secondAttribute="bottom" id="UPQ-jk-QJR"/>
+                    <constraint firstItem="xHX-Sh-1pR" firstAttribute="trailing" secondItem="Tvq-BT-MKW" secondAttribute="trailing" id="bwz-g9-8Xw"/>
+                    <constraint firstItem="xHX-Sh-1pR" firstAttribute="leading" secondItem="Tvq-BT-MKW" secondAttribute="leading" id="oos-pf-UiI"/>
+                    <constraint firstItem="Tvq-BT-MKW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="7" id="z09-yX-Rdj"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="contentTextView" destination="xHX-Sh-1pR" id="grB-ki-nyo"/>
+                <outlet property="titleLabel" destination="Tvq-BT-MKW" id="WCK-LR-2Y0"/>
+            </connections>
+            <point key="canvasLocation" x="34" y="66.5"/>
+        </tableViewCell>
+    </objects>
+</document>
