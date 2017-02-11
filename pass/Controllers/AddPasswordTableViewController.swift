@@ -18,25 +18,34 @@ class AddPasswordTableViewController: UITableViewController {
         tableView.register(UINib(nibName: "TextViewTableViewCell", bundle: nil), forCellReuseIdentifier: "textViewCell")
 
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 64
+        tableView.estimatedRowHeight = 48
         tableView.allowsSelection = false
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return tableTitles.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableTitles[indexPath.row] == "additions" {
+        if tableTitles[indexPath.section] == "additions" {
             let cell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as! TextViewTableViewCell
-            cell.titleLabel.text = tableTitles[indexPath.row]
             cell.contentTextView.text = ""
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "textFieldCell", for: indexPath) as! TextFieldTableViewCell
-            cell.titleLabel.text = tableTitles[indexPath.row]
             return cell
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        print(section)
+        let headerView = UITableViewHeaderFooterView()
+        headerView.textLabel?.text = tableTitles[section].uppercased()
+        return headerView
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -47,13 +56,20 @@ class AddPasswordTableViewController: UITableViewController {
             password = Password(name: nameCell.contentTextField.text!, plainText: "\(passwordCell.contentTextField.text!)\n\(additionsCell.contentTextView.text!)")
         }
     }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 44
+    }
     
-    func getCellAt(row: Int) -> UITableViewCell? {
-        return tableView.cellForRow(at: IndexPath(row: row, section: 0))
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.1
+    }
+    
+    func getCellAt(section: Int) -> UITableViewCell? {
+        return tableView.cellForRow(at: IndexPath(row: 0, section: section))
     }
     
     func getCellForName(name: String) -> UITableViewCell? {
         let index = tableTitles.index(of: name)!
-        return getCellAt(row: Int(index))
+        return getCellAt(section: Int(index))
     }
 }

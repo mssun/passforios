@@ -50,6 +50,8 @@
 		DCDDEAB01E4639F300F68193 /* LabelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */; };
 		DCDDEAB31E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */; };
 		DCDDEAB41E4896BF00F68193 /* PasswordDetailTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCDDEAB21E4896BF00F68193 /* PasswordDetailTitleTableViewCell.xib */; };
+		DCFB779A1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77981E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift */; };
+		DCFB779B1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCFB77991E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +103,8 @@
 		DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LabelTableViewCell.xib; path = ../LabelTableViewCell.xib; sourceTree = "<group>"; };
 		DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTitleTableViewCell.swift; sourceTree = "<group>"; };
 		DCDDEAB21E4896BF00F68193 /* PasswordDetailTitleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PasswordDetailTitleTableViewCell.xib; path = ../PasswordDetailTitleTableViewCell.xib; sourceTree = "<group>"; };
+		DCFB77981E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleTextFieldTableViewCell.swift; sourceTree = "<group>"; };
+		DCFB77991E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleTextFieldTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +182,8 @@
 		DC19400F1E4B3A9E0077E0A3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DCFB77981E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift */,
+				DCFB77991E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib */,
 				DC4914941E434301007FF592 /* LabelTableViewCell.swift */,
 				DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */,
 				DC037CB91E4DD47B00609409 /* TextFieldTableViewCell.swift */,
@@ -309,6 +315,7 @@
 				DCDDEAB41E4896BF00F68193 /* PasswordDetailTitleTableViewCell.xib in Resources */,
 				DCDDEAB01E4639F300F68193 /* LabelTableViewCell.xib in Resources */,
 				DC917BDC1E2E8231000FDF54 /* Main.storyboard in Resources */,
+				DCFB779B1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib in Resources */,
 				DC037CC01E4ED4E100609409 /* TextViewTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -411,6 +418,7 @@
 				DC037CB81E4DD1A500609409 /* AddPasswordTableViewController.swift in Sources */,
 				DC1940001E49E1A60077E0A3 /* PasscodeLockConfiguration.swift in Sources */,
 				DC917BD71E2E8231000FDF54 /* AppDelegate.swift in Sources */,
+				DCFB779A1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift in Sources */,
 				DC037CBB1E4DD47B00609409 /* TextFieldTableViewCell.swift in Sources */,
 				DC193FFE1E49E0760077E0A3 /* PasscodeLockRepository.swift in Sources */,
 				DCA049981E33586A00522E8F /* DefaultsKeys.swift in Sources */,
