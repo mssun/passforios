@@ -23,6 +23,6 @@ class FillPasswordTableViewCell: UITableViewCell {
     }
     
     @IBAction func generatePassword(_ sender: UIButton) {
-        contentTextField.text = "4-r4d0m-p455w0rd"
+        contentTextField.text = Utils.randomString(length: 16)
     }
 }

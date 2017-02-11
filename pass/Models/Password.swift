@@ -76,6 +76,7 @@ class Password {
     private func getAdditionValue(withKey key: String) -> String? {
         return self.additions[key]
     }
+    
 }
 
 extension PasswordEntity {
