@@ -2,17 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "filename" : "key.pdf",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "filename" : "key-1.pdf",
-      "scale" : "3x"
+      "filename" : "id-card.pdf"
     }
   ],
   "info" : {
