@@ -22,3 +22,7 @@ control. pass for iOS is an iOS app using password management model of `pass`.
 - start to use pass for iOS on your iPhone/iPad
 
 For more, please read the [wiki page](https://github.com/mssun/pass-ios/wiki).
+
+## License
+
+MIT
