@@ -13,3 +13,12 @@ control. pass for iOS is an iOS app using password management model of `pass`.
 <img src="screenshot/screenshot2.png" width="200"/>
 <img src="screenshot/screenshot3.png" width="200"/>
 <img src="screenshot/screenshot4.png" width="200"/>
+
+## Usage
+
+- genearte a PGP key pair
+- use `pass`
+- push password store to a private Git repository
+- start to use pass for iOS on your iPhone/iPad
+
+For more, please read the [wiki page](https://github.com/mssun/pass-ios/wiki).
