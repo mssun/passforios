@@ -1,7 +1,7 @@
 <img src="icon.png" width="60"/> 
 
 # pass for iOS
-[![GitHub release](https://img.shields.io/github/release/pass-ios/pass-ios.svg)](https://github.com/mssun/pass-ios/releases)
+[![GitHub release](https://img.shields.io/github/release/mssun/pass-ios.svg)](https://github.com/mssun/pass-ios/releases)
 ![Swift 3.0.x](https://img.shields.io/badge/Swift-3.0.x-orange.svg)
 
 `pass` is a password manager using GPG for encryption and Git for verstion
