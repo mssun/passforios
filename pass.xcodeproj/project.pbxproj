@@ -55,6 +55,9 @@
 		DCFB779F1E4F40C7008DE471 /* FillPasswordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCFB779D1E4F40C7008DE471 /* FillPasswordTableViewCell.xib */; };
 		DCFB77A11E4F68C8008DE471 /* PasswordEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77A01E4F68C8008DE471 /* PasswordEntity.swift */; };
 		DCFB77A31E500D9C008DE471 /* PasswordDetailTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCFB77A21E500D9C008DE471 /* PasswordDetailTitleTableViewCell.xib */; };
+		DCFB77A71E502DF9008DE471 /* EditPasswordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77A61E502DF9008DE471 /* EditPasswordTableViewController.swift */; };
+		DCFB77A91E502FF6008DE471 /* PasswordEditorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77A81E502FF6008DE471 /* PasswordEditorTableViewController.swift */; };
+		DCFB77AB1E503729008DE471 /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77AA1E503729008DE471 /* ContentTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -111,6 +114,9 @@
 		DCFB779D1E4F40C7008DE471 /* FillPasswordTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FillPasswordTableViewCell.xib; sourceTree = "<group>"; };
 		DCFB77A01E4F68C8008DE471 /* PasswordEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordEntity.swift; sourceTree = "<group>"; };
 		DCFB77A21E500D9C008DE471 /* PasswordDetailTitleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PasswordDetailTitleTableViewCell.xib; sourceTree = "<group>"; };
+		DCFB77A61E502DF9008DE471 /* EditPasswordTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPasswordTableViewController.swift; sourceTree = "<group>"; };
+		DCFB77A81E502FF6008DE471 /* PasswordEditorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordEditorTableViewController.swift; sourceTree = "<group>"; };
+		DCFB77AA1E503729008DE471 /* ContentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +150,8 @@
 			isa = PBXGroup;
 			children = (
 				DC037CB71E4DD1A500609409 /* AddPasswordTableViewController.swift */,
+				DCFB77A81E502FF6008DE471 /* PasswordEditorTableViewController.swift */,
+				DCFB77A61E502DF9008DE471 /* EditPasswordTableViewController.swift */,
 				DC037CB11E4CAB1700609409 /* AboutRepositoryTableViewController.swift */,
 				DC037CAF1E4CA51F00609409 /* GeneralSettingsTableViewController.swift */,
 				DC962CDE1E4B62C10033B5D8 /* AboutTableViewController.swift */,
@@ -201,6 +209,7 @@
 				DCFB77A21E500D9C008DE471 /* PasswordDetailTitleTableViewCell.xib */,
 				DC037CBD1E4ED4E100609409 /* TextViewTableViewCell.swift */,
 				DC037CBE1E4ED4E100609409 /* TextViewTableViewCell.xib */,
+				DCFB77AA1E503729008DE471 /* ContentTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -408,10 +417,12 @@
 				DC037CBF1E4ED4E100609409 /* TextViewTableViewCell.swift in Sources */,
 				DC8963C01E38EEB900828B09 /* SSHKeySettingTableViewController.swift in Sources */,
 				DC193FFA1E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift in Sources */,
+				DCFB77AB1E503729008DE471 /* ContentTableViewCell.swift in Sources */,
 				DCA0499C1E3362F400522E8F /* PGPKeySettingTableViewController.swift in Sources */,
 				DC7E6EEA1E432E48006C2443 /* Password.swift in Sources */,
 				DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */,
 				DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */,
+				DCFB77A71E502DF9008DE471 /* EditPasswordTableViewController.swift in Sources */,
 				DCA0499A1E335CC800522E8F /* GitServerSettingTableViewController.swift in Sources */,
 				DCDDEAB31E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift in Sources */,
 				DC037CAE1E4C9B9B00609409 /* PasswordRepositorySettingsTableViewController.swift in Sources */,
@@ -436,6 +447,7 @@
 				DC19400B1E4B36B60077E0A3 /* Utils.swift in Sources */,
 				DCA0499E1E33BAC100522E8F /* Globals.swift in Sources */,
 				DCFB77A11E4F68C8008DE471 /* PasswordEntity.swift in Sources */,
+				DCFB77A91E502FF6008DE471 /* PasswordEditorTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

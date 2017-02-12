@@ -67,6 +67,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                         }
                     })
                 }
+                PasswordStore.shared.updatePasswordEntityCoreData()
                 DispatchQueue.main.async {
                     self.passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
                     self.reloadTableView(data: self.passwordEntities!)

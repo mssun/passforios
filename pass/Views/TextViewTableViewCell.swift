@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TextViewTableViewCell: UITableViewCell {
+class TextViewTableViewCell: ContentTableViewCell {
 
     @IBOutlet weak var contentTextView: UITextView!
     override func awakeFromNib() {
@@ -18,4 +18,11 @@ class TextViewTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
+    override func getContent() -> String? {
+        return contentTextView.text
+    }
+    
+    override func setContent(content: String) {
+        contentTextView.text = content
+    }
 }

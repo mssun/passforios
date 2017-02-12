@@ -423,7 +423,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7c1-c7-Qyp" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="7K9-cE-9qq" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="6590" y="2127"/>
+            <point key="canvasLocation" x="6084" y="2202"/>
         </scene>
         <!--Git Repository Authentication Setting Table View Controller-->
         <scene sceneID="xth-c9-Oea">
@@ -492,7 +492,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e1d-uR-lAI" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="MfG-VE-Ork" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="7583" y="2127"/>
+            <point key="canvasLocation" x="7077" y="2202"/>
         </scene>
         <!--PGP Key-->
         <scene sceneID="8Hi-tl-elT">
@@ -624,7 +624,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hbx-RC-qg1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="jjl-Xi-fkn" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="5638" y="3511"/>
+            <point key="canvasLocation" x="5132" y="3586"/>
         </scene>
         <!--Add Password-->
         <scene sceneID="738-Zk-wRb">
@@ -656,7 +656,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6R0-BP-wo8" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="rRf-7l-IGe" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4869.5652173913049" y="268.20652173913044"/>
+            <point key="canvasLocation" x="5132" y="-229"/>
         </scene>
         <!--Password Detail Table View Controller-->
         <scene sceneID="9wY-d0-fB1">
@@ -672,10 +672,13 @@
                             <outlet property="delegate" destination="tW4-E9-CGv" id="7PQ-0M-SCC"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="eui-w4-P7T" kind="show" identifier="editPasswordSegue" id="Ydg-pZ-oNS"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9sC-44-OKL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3961" y="982"/>
+            <point key="canvasLocation" x="3987" y="601"/>
         </scene>
         <!--Passwords-->
         <scene sceneID="ACd-rk-Zf3">
@@ -734,6 +737,38 @@
             </objects>
             <point key="canvasLocation" x="1451" y="3510"/>
         </scene>
+        <!--Edit Password Table View Controller-->
+        <scene sceneID="NhX-bh-UBe">
+            <objects>
+                <tableViewController id="2RE-j0-dBT" customClass="EditPasswordTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="wRM-8V-raT">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="2RE-j0-dBT" id="SPm-AZ-299"/>
+                            <outlet property="delegate" destination="2RE-j0-dBT" id="cRC-pf-iA4"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="Hj9-Iq-kId">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="5zc-lC-5AP">
+                            <connections>
+                                <segue destination="HB6-Yu-Y3J" kind="unwind" unwindAction="cancelEditPasswordWithSegue:" id="B5h-gu-WUv"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="4l7-58-u8N">
+                            <connections>
+                                <segue destination="HB6-Yu-Y3J" kind="unwind" identifier="saveEditPasswordSegue" unwindAction="saveEditPasswordWithSegue:" id="1sb-Aa-Qdy"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HlX-6r-eOU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="HB6-Yu-Y3J" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="6084" y="601"/>
+        </scene>
         <!--About Repository Table View Controller-->
         <scene sceneID="u1v-BP-jaG">
             <objects>
@@ -751,7 +786,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2jy-oC-WQa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5471" y="1007"/>
+            <point key="canvasLocation" x="5132" y="1496"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yn4-1A-RA2">
@@ -769,7 +804,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kr5-iH-doj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5638" y="2129"/>
+            <point key="canvasLocation" x="5132" y="2204"/>
         </scene>
         <!--Key Setting Table View Controller-->
         <scene sceneID="7pC-mh-aE6">
@@ -888,7 +923,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eY3-aM-BJB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5638" y="2818"/>
+            <point key="canvasLocation" x="5132" y="2893"/>
         </scene>
         <!--Password Repository Settings Table View Controller-->
         <scene sceneID="Wxu-vK-gsd">
@@ -1037,7 +1072,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AWL-FF-UWb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5638" y="5165"/>
+            <point key="canvasLocation" x="5132" y="5240"/>
         </scene>
         <!--Special Thanks Table View Controller-->
         <scene sceneID="FNS-LJ-tzc">
@@ -1056,7 +1091,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z6I-8E-8pB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5638" y="6273"/>
+            <point key="canvasLocation" x="5132" y="6348"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zfZ-pX-bff">
@@ -1074,7 +1109,25 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zq0-iH-LGe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3962.3188405797105" y="268.20652173913044"/>
+            <point key="canvasLocation" x="3988" y="-229"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="zp3-R2-7dZ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eui-w4-P7T" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AuM-kc-jXp">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="2RE-j0-dBT" kind="relationship" relationship="rootViewController" id="dZk-bD-gYZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="llB-WG-h5s" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5132" y="601"/>
         </scene>
     </scenes>
     <resources>

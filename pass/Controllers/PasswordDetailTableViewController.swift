@@ -64,14 +64,13 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         indicator.startAnimating()
         tableView.addSubview(indicator)
         tableView.addSubview(indicatorLable)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit(_:)))
         
         if let imageData = passwordEntity?.image {
             let image = UIImage(data: imageData as Data)
             passwordImage = image
         }
         
-        tableData.append(TableSection(title: "", item: []))
-        tableData[0].item.append(TableCell())
         
         DispatchQueue.global(qos: .userInitiated).async {
             do {
@@ -84,21 +83,23 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 self.present(alert, animated: true, completion: nil)
             }
             
-            var tableDataIndex = 1
-            self.tableData.append(TableSection(title: "", item: []))
+//            var tableDataIndex = 1
+//            self.tableData.append(TableSection(title: "", item: []))
+//            let password = self.password!
+//            if let username = password.getUsername() {
+//                self.tableData[tableDataIndex].item.append(TableCell(title: "username", content: username))
+//            }
+//            self.tableData[tableDataIndex].item.append(TableCell(title: "password", content: password.password))
+//            if password.additions.count > 0 {
+//                self.tableData.append(TableSection(title: "additions", item: []))
+//                tableDataIndex += 1
+//                for additionKey in password.additionKeys {
+//                    self.tableData[tableDataIndex].item.append(TableCell(title: additionKey, content: password.additions[additionKey]!))
+//
+//                }
+//            }
             let password = self.password!
-            if let username = password.getUsername() {
-                self.tableData[tableDataIndex].item.append(TableCell(title: "username", content: username))
-            }
-            self.tableData[tableDataIndex].item.append(TableCell(title: "password", content: password.password))
-            if password.additions.count > 0 {
-                self.tableData.append(TableSection(title: "additions", item: []))
-                tableDataIndex += 1
-                for additionKey in password.additionKeys {
-                    self.tableData[tableDataIndex].item.append(TableCell(title: additionKey, content: password.additions[additionKey]!))
-
-                }
-            }
+            self.setTableData()
             DispatchQueue.main.async { [weak self] in
                 self?.tableView.reloadData()
                 indicator.stopAnimating()
@@ -107,6 +108,56 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                     if self?.passwordEntity?.image == nil{
                         self?.updatePasswordImage(url: url)
                     }
+                }
+            }
+        }
+    }
+    
+    func pressEdit(_ sender: Any?) {
+        performSegue(withIdentifier: "editPasswordSegue", sender: self)
+    }
+    
+    @IBAction func cancelEditPassword(segue: UIStoryboardSegue) {
+    
+    }
+    
+    @IBAction func saveEditPassword(segue: UIStoryboardSegue) {
+        if password!.changed {
+            PasswordStore.shared.update(passwordEntity: passwordEntity!, password: password!, progressBlock: { progress in
+                
+            })
+            NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
+            setTableData()
+            tableView.reloadData()
+        }
+    }
+    
+    func setTableData() {
+        self.tableData = Array<TableSection>()
+        tableData.append(TableSection(title: "", item: []))
+        tableData[0].item.append(TableCell())
+        var tableDataIndex = 1
+        self.tableData.append(TableSection(title: "", item: []))
+        let password = self.password!
+        if let username = password.getUsername() {
+            self.tableData[tableDataIndex].item.append(TableCell(title: "username", content: username))
+        }
+        self.tableData[tableDataIndex].item.append(TableCell(title: "password", content: password.password))
+        if password.additions.count > 0 {
+            self.tableData.append(TableSection(title: "additions", item: []))
+            tableDataIndex += 1
+            for additionKey in password.additionKeys {
+                self.tableData[tableDataIndex].item.append(TableCell(title: additionKey, content: password.additions[additionKey]!))
+                
+            }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "editPasswordSegue" {
+            if let controller = segue.destination as? UINavigationController {
+                if let editController = controller.viewControllers.first as? EditPasswordTableViewController {
+                    editController.password = password
                 }
             }
         }

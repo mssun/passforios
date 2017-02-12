@@ -124,7 +124,7 @@ class PasswordStore {
         ]
         let remote = try GTRemote(name: "origin", in: storeRepository!)
         try storeRepository?.pull((storeRepository?.currentBranch())!, from: remote, withOptions: options, progress: transferProgressBlock)
-        updatePasswordEntityCoreData()
+//        updatePasswordEntityCoreData()
     }
     
     func updatePasswordEntityCoreData() {
@@ -214,7 +214,8 @@ class PasswordStore {
     func updateRemoteRepo() {
     }
     
-    func createCommitInRepository(message: String, fileData: Data, filename: String, progressBlock: (_ progress: Float) -> Void) -> GTCommit? {
+    
+    func addEntryToGTTree(fileData: Data, filename: String) -> GTTree {
         do {
             let head = try storeRepository!.headReference()
             let branch = GTBranch(reference: head, repository: storeRepository!)
@@ -224,6 +225,50 @@ class PasswordStore {
             try treeBulider.addEntry(with: fileData, fileName: filename, fileMode: GTFileMode.blob)
             
             let newTree = try treeBulider.writeTree()
+            return newTree
+        } catch {
+            fatalError("Failed to add entries to GTTree: \(error)")
+
+        }
+    }
+    
+    func removeEntryFromGTTree(filename: String) -> GTTree {
+        do {
+            let head = try storeRepository!.headReference()
+            let branch = GTBranch(reference: head, repository: storeRepository!)
+            let headCommit = try branch?.targetCommit()
+            
+            let treeBulider = try GTTreeBuilder(tree: headCommit?.tree, repository: storeRepository!)
+            try treeBulider.removeEntry(withFileName: filename)
+            
+            let newTree = try treeBulider.writeTree()
+            return newTree
+        } catch {
+            fatalError("Failed to remove entries to GTTree: \(error)")
+            
+        }
+    }
+    
+    func createAddCommitInRepository(message: String, fileData: Data, filename: String, progressBlock: (_ progress: Float) -> Void) -> GTCommit? {
+        do {
+            let newTree = addEntryToGTTree(fileData: fileData, filename: filename)
+            let headReference = try storeRepository!.headReference()
+            let commitEnum = try GTEnumerator(repository: storeRepository!)
+            try commitEnum.pushSHA(headReference.targetOID.sha)
+            let parent = commitEnum.nextObject() as! GTCommit
+            progressBlock(0.5)
+            let commit = try storeRepository!.createCommit(with: newTree, message: message, parents: [parent], updatingReferenceNamed: headReference.name)
+            progressBlock(0.7)
+            return commit
+        } catch {
+            print(error)
+        }
+        return nil
+    }
+    
+    func createRemoveCommitInRepository(message: String, filename: String, progressBlock: (_ progress: Float) -> Void) -> GTCommit? {
+        do {
+            let newTree = removeEntryFromGTTree(filename: filename)
             let headReference = try storeRepository!.headReference()
             let commitEnum = try GTEnumerator(repository: storeRepository!)
             try commitEnum.pushSHA(headReference.targetOID.sha)
@@ -272,10 +317,23 @@ class PasswordStore {
             passwordEntity.synced = false
             try context.save()
             print(saveURL.path)
-            let _ = createCommitInRepository(message: "Add new password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
+            let _ = createAddCommitInRepository(message: "Add new password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
             progressBlock(1.0)
         } catch {
             print(error)
+        }
+    }
+    
+    func update(passwordEntity: PasswordEntity, password: Password, progressBlock: (_ progress: Float) -> Void) {
+        do {
+            let encryptedData = try passwordEntity.encrypt(password: password)
+            let saveURL = storeURL.appendingPathComponent(passwordEntity.rawPath!)
+            try encryptedData.write(to: saveURL)
+            passwordEntity.synced = false
+            let _ = createAddCommitInRepository(message: "Update password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
+            try context.save()
+        } catch {
+            fatalError("Failed to fetch employees: \(error)")
         }
     }
     

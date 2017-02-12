@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FillPasswordTableViewCell: UITableViewCell {
+class FillPasswordTableViewCell: ContentTableViewCell {
 
     @IBOutlet weak var contentTextField: UITextField!
     override func awakeFromNib() {
@@ -24,5 +24,13 @@ class FillPasswordTableViewCell: UITableViewCell {
     
     @IBAction func generatePassword(_ sender: UIButton) {
         contentTextField.text = Utils.randomString(length: 16)
+    }
+    
+    override func getContent() -> String? {
+        return contentTextField.text
+    }
+    
+    override func setContent(content: String) {
+        contentTextField.text = content
     }
 }

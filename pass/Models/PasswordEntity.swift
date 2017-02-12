@@ -22,7 +22,6 @@ extension PasswordEntity {
     
     func encrypt(password: Password) throws -> Data {
         name = password.name
-        rawPath = ""
         let plainData = password.getPlainData()
         let pgp = PasswordStore.shared.pgp
         let encryptedData = try pgp.encryptData(plainData, usingPublicKey: pgp.getKeysOf(.public)[0], armored: false)

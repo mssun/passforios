@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TextFieldTableViewCell: UITableViewCell {
+class TextFieldTableViewCell: ContentTableViewCell {
 
     @IBOutlet weak var contentTextField: UITextField!
     
@@ -20,4 +20,10 @@ class TextFieldTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
+    override func getContent() -> String? {
+        return contentTextField.text
+    }
+    override func setContent(content: String) {
+        contentTextField.text = content
+    }
 }
