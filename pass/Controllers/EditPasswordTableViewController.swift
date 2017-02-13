@@ -39,15 +39,17 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let cells = tableView.visibleCells
-        var cellContents = [String: String]()
-        for cell in cells {
-            let indexPath = tableView.indexPath(for: cell)!
-            let contentCell = cell as! ContentTableViewCell
-            let cellTitle = tableData[indexPath.section][indexPath.row][.title] as! String
-            cellContents[cellTitle] = contentCell.getContent()!
+        if segue.identifier == "saveEditPasswordSegue" {
+            let cells = tableView.visibleCells
+            var cellContents = [String: String]()
+            for cell in cells {
+                let indexPath = tableView.indexPath(for: cell)!
+                let contentCell = cell as! ContentTableViewCell
+                let cellTitle = tableData[indexPath.section][indexPath.row][.title] as! String
+                cellContents[cellTitle] = contentCell.getContent()!
+            }
+            password!.updatePassword(name: cellContents["name"]!, plainText: "\(cellContents["password"]!)\n\(cellContents["additions"]!)")
         }
-        password!.updatePassword(name: cellContents["name"]!, plainText: "\(cellContents["password"]!)\n\(cellContents["additions"]!)")
     }
 
 }
