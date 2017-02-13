@@ -26,7 +26,11 @@ class SettingsTableViewController: UITableViewController {
     @IBAction func save(segue: UIStoryboardSegue) {
         if let controller = segue.source as? PGPKeySettingTableViewController {
 
-            if Defaults[.pgpKeyID] == nil {
+            if Defaults[.pgpKeyID] == nil ||
+                Defaults[.pgpPrivateKeyURL] != URL(string: controller.pgpPrivateKeyURLTextField.text!) ||
+                Defaults[.pgpPublicKeyURL] != URL(string: controller.pgpPublicKeyURLTextField.text!) ||
+                Defaults[.pgpKeyPassphrase] != controller.pgpKeyPassphraseTextField.text!
+                {
                 Defaults[.pgpPrivateKeyURL] = URL(string: controller.pgpPrivateKeyURLTextField.text!)
                 Defaults[.pgpPublicKeyURL] = URL(string: controller.pgpPublicKeyURLTextField.text!)
                 Defaults[.pgpKeyPassphrase] = controller.pgpKeyPassphraseTextField.text!

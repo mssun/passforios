@@ -80,8 +80,13 @@ class PasswordStore {
         try pgpPrivateData.write(to: URL(fileURLWithPath: pgpPrivateKeyLocalPath), options: .atomic)
         
         pgp.importKeys(fromFile: pgpPublicKeyLocalPath, allowDuplicates: false)
+        if pgp.getKeysOf(.public).count == 0 {
+            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import public key."])
+        }
         pgp.importKeys(fromFile: pgpPrivateKeyLocalPath, allowDuplicates: false)
-
+        if pgp.getKeysOf(.secret).count == 0 {
+            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import seceret key."])
+        }
         let key = pgp.getKeysOf(.public)[0]
         Defaults[.pgpKeyID] = key.keyID!.shortKeyString
         if let gpgUser = key.users[0] as? PGPUser {

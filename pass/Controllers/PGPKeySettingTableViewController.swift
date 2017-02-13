@@ -24,6 +24,12 @@ class PGPKeySettingTableViewController: UITableViewController {
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "savePGPKeySegue" {
+            guard pgpPublicKeyURLTextField.text != nil else {
+                return false
+            }
+            guard pgpPrivateKeyURLTextField.text != nil else {
+                return false
+            }
             if URL(string: pgpPublicKeyURLTextField.text!)!.scheme! == "http" &&
                 URL(string: pgpPrivateKeyURLTextField.text!)!.scheme! == "http" {
                 let alertMessage = "HTTP connection is not supported."
