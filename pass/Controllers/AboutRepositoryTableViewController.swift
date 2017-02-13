@@ -36,7 +36,9 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
             
             var size = UInt64(0)
             do {
-                size = try fm.allocatedSizeOfDirectoryAtURL(directoryURL: PasswordStore.shared.storeURL)
+                if fm.fileExists(atPath: PasswordStore.shared.storeURL.path) {
+                    size = try fm.allocatedSizeOfDirectoryAtURL(directoryURL: PasswordStore.shared.storeURL)
+                }
             } catch {
                 print(error)
             }

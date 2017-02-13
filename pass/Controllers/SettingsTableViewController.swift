@@ -26,9 +26,7 @@ class SettingsTableViewController: UITableViewController {
     @IBAction func save(segue: UIStoryboardSegue) {
         if let controller = segue.source as? PGPKeySettingTableViewController {
 
-            if Defaults[.pgpPrivateKeyURL] != URL(string: controller.pgpPrivateKeyURLTextField.text!) ||
-                Defaults[.pgpPublicKeyURL] != URL(string: controller.pgpPublicKeyURLTextField.text!) ||
-                Defaults[.pgpKeyPassphrase] != controller.pgpKeyPassphraseTextField.text! {
+            if Defaults[.pgpKeyID] == nil {
                 Defaults[.pgpPrivateKeyURL] = URL(string: controller.pgpPrivateKeyURLTextField.text!)
                 Defaults[.pgpPublicKeyURL] = URL(string: controller.pgpPublicKeyURLTextField.text!)
                 Defaults[.pgpKeyPassphrase] = controller.pgpKeyPassphraseTextField.text!
@@ -49,6 +47,8 @@ class SettingsTableViewController: UITableViewController {
                         }
                     } catch {
                         DispatchQueue.main.async {
+                            self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
+                            Defaults[.pgpKeyID] = nil
                             SVProgressHUD.showError(withStatus: error.localizedDescription)
                             SVProgressHUD.dismiss(withDelay: 1)
                         }

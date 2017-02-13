@@ -63,9 +63,9 @@ class PasswordStore {
 
         }
         if Defaults[.gitRepositoryAuthenticationMethod] == "Password" {
-            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitRepositoryUsername], password: Defaults[.gitRepositoryPassword]))
+            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitRepositoryUsername]!, password: Defaults[.gitRepositoryPassword]!))
         } else if Defaults[.gitRepositoryAuthenticationMethod] == "SSH Key"{
-            gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: Defaults[.gitRepositoryUsername], password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.sshPublicKeyURL, privateKeyFile: Globals.sshPrivateKeyURL))
+            gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: Defaults[.gitRepositoryUsername]!, password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.sshPublicKeyURL, privateKeyFile: Globals.sshPrivateKeyURL))
         } else {
             gitCredential = nil
         }
@@ -358,6 +358,7 @@ class PasswordStore {
         deleteCoreData(entityName: "PasswordEntity")
         deleteCoreData(entityName: "PasswordCategoryEntity")
         
-        Utils.eraseAllUserDefaults()
+        Defaults.removeAll()
+        storeRepository = nil
     }
 }
