@@ -48,5 +48,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+    <key>ITSAppUsesNonExemptEncryption</key><false/>
 </dict>
 </plist>
