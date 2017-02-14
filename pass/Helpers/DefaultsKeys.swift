@@ -29,4 +29,7 @@ extension DefaultsKeys {
     
     static let isTouchIDOn = DefaultsKey<Bool>("isTouchIDOn")
     static let passcodeKey = DefaultsKey<String?>("passcodeKey")
+    
+    static let isHideUnknownOn = DefaultsKey<Bool>("isHideUnknownOn")
+
 }

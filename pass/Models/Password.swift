@@ -57,17 +57,17 @@ class Password {
     
     static func getAdditionFields(from additionFieldsPlainText: String) -> [AdditionField]{
         var additionFieldsArray = [AdditionField]()
-        var unkownIndex = 0
+        var unknownIndex = 0
 
         additionFieldsPlainText.enumerateLines() { line, _ in
             let items = line.characters.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: true).map(String.init)
             var key = ""
             var value = ""
             if items.count == 1 {
-                unkownIndex += 1
-                key = "unkown \(unkownIndex)"
+                unknownIndex += 1
+                key = "unknown \(unknownIndex)"
                 value = items[0]
-            } else {
+            } else if items.count == 2 {
                 key = items[0]
                 value = items[1].trimmingCharacters(in: .whitespaces)
             }

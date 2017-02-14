@@ -8,6 +8,7 @@
 
 import UIKit
 import FavIcon
+import SwiftyUserDefaults
 
 class PasswordDetailTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     var passwordEntity: PasswordEntity?
@@ -147,7 +148,10 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self.tableData.append(TableSection(title: "additions", item: []))
             tableDataIndex += 1
             for additionKey in password.additionKeys {
-                self.tableData[tableDataIndex].item.append(TableCell(title: additionKey, content: password.additions[additionKey]!))
+                if !additionKey.contains("unknown") || !Defaults[.isHideUnknownOn] {
+                    self.tableData[tableDataIndex].item.append(TableCell(title: additionKey, content: password.additions[additionKey]!))
+
+                }
                 
             }
         }
