@@ -18,7 +18,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         tableData = [
             // section 0
             [[.title: "About Repository", .action: "segue", .link: "showAboutRepositorySegue"],],
-            [[.title: "Hide Unkonwn Fields", .action: "none",],],
+            [[.title: "Hide Unknown Fields", .action: "none",],],
 
         ]
         super.viewDidLoad()
