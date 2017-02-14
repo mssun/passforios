@@ -48,7 +48,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     
     func tapHideUnknownSwitchDetailButton(_ sender: Any?) {
         print("tap")
-        let alertMessage = "Only \"key: value\" format in additional fields is supported. Unsupported fields will be given an \"unkown\" key. Turn on this switch to hide unsupported fields."
+        let alertMessage = "Only \"key: value\" format in additional fields is supported. Unsupported fields will be given \"unkown\" keys. Turn on this switch to hide unsupported fields."
         let alert = UIAlertController(title: "Hide Unknown Fields", message: alertMessage, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
