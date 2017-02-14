@@ -57,11 +57,12 @@ class GitServerSettingTableViewController: UITableViewController {
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "saveGitServerSettingSegue" {
-            if gitRepositoryURLTextField.text == "" || authenticationMethod  == "" {
+            if gitRepositoryURLTextField.text == "" || authenticationMethod == nil {
                 var alertMessage = ""
                 if gitRepositoryURLTextField.text == "" {
                     alertMessage = "Git Server is not set. Please set the Git server first."
-                } else if authenticationMethod  == "" {
+                }
+                if authenticationMethod == nil {
                     alertMessage = "Authentication method is not set. Please set your authentication method first."
                 }
                 let alert = UIAlertController(title: "Cannot Save Settings", message: alertMessage, preferredStyle: UIAlertControllerStyle.alert)
