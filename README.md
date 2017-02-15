@@ -2,7 +2,7 @@
 
 # Pass for iOS
 [![GitHub release](https://img.shields.io/github/release/mssun/pass-ios.svg)](https://github.com/mssun/pass-ios/releases)
-![Swift 3.0.x](https://img.shields.io/badge/Swift-3.0.x-orange.svg)
+![Swift 3.1](https://img.shields.io/badge/Swift-3.1-orange.svg)
 
 `pass` is a password manager using GPG for encryption and Git for verstion
 control. Pass for iOS is an iOS app using password management model of `pass`.
