@@ -198,15 +198,17 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             var decryptedPassword: Password?
             do {
                 decryptedPassword = try password.decrypt()!
+                DispatchQueue.main.async {
+                    UIPasteboard.general.string = decryptedPassword?.password
+                    SVProgressHUD.showSuccess(withStatus: "Password Copied")
+                    SVProgressHUD.dismiss(withDelay: 0.6)
+                }
             } catch {
                 print(error)
-                SVProgressHUD.showError(withStatus: error.localizedDescription)
-                SVProgressHUD.dismiss(withDelay: 1)
-            }
-            DispatchQueue.main.async {
-                UIPasteboard.general.string = decryptedPassword?.password
-                SVProgressHUD.showSuccess(withStatus: "Password Copied")
-                SVProgressHUD.dismiss(withDelay: 0.6)
+                DispatchQueue.main.async {
+                    SVProgressHUD.showError(withStatus: error.localizedDescription)
+                    SVProgressHUD.dismiss(withDelay: 1)
+                }
             }
         }
     }
