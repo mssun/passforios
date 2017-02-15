@@ -177,6 +177,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func copyToPasteboard(from indexPath: IndexPath) {
+        if Defaults[.pgpKeyID]  == nil {
+            let alert = UIAlertController(title: "Cannot Copy Password", message: "PGP Key is not set. Please set your PGP Key first.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
         let index = sections[indexPath.section].index + indexPath.row
         let password: PasswordEntity
         if searchController.isActive && searchController.searchBar.text != "" {
@@ -253,7 +259,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "showPasswordDetail" {
-            if Defaults[.pgpKeyID]  == "" {
+            if Defaults[.pgpKeyID]  == nil {
                 let alert = UIAlertController(title: "Cannot Show Password", message: "PGP Key is not set. Please set your PGP Key first.", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
