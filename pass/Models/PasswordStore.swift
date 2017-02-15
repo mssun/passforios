@@ -197,7 +197,9 @@ class PasswordStore {
             passwordEntity.synced = true
         }
         do {
-            try context.save()
+            if context.hasChanges {
+                try context.save()
+            }
         } catch {
             fatalError("Failed to save: \(error)")
         }
