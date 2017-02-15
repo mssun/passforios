@@ -179,9 +179,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     func copyToPasteboard(from indexPath: IndexPath) {
         if Defaults[.pgpKeyID]  == nil {
-            let alert = UIAlertController(title: "Cannot Copy Password", message: "PGP Key is not set. Please set your PGP Key first.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            Utils.alert(title: "Cannot Copy Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
             return
         }
         let index = sections[indexPath.section].index + indexPath.row
@@ -263,9 +261,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "showPasswordDetail" {
             if Defaults[.pgpKeyID]  == nil {
-                let alert = UIAlertController(title: "Cannot Show Password", message: "PGP Key is not set. Please set your PGP Key first.", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                Utils.alert(title: "Cannot Show Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
                 if let s = sender as? UITableViewCell {
                     let selectedIndexPath = tableView.indexPath(for: s)!
                     tableView.deselectRow(at: selectedIndexPath, animated: true)

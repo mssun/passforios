@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyUserDefaults
+import UIKit
 
 class Utils {
     static func removeFileIfExists(atPath path: String) {
@@ -49,6 +50,13 @@ class Utils {
         }
         
         return randomString
+    }
+    
+    static func alert(title: String, message: String, controller: UIViewController, completion: (() -> Void)?) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        controller.present(alert, animated: true, completion: completion)
+
     }
 }
 

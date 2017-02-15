@@ -26,10 +26,9 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
         if identifier == "saveEditPasswordSegue" {
             let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! ContentTableViewCell
             if nameCell.getContent() != password?.name {
+                let alertTitle = "Cannot Save Edit"
                 let alertMessage = "Editing name is not supported."
-                let alert = UIAlertController(title: "Cannot Save Edit", message: alertMessage, preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true) {
+                Utils.alert(title: alertTitle, message: alertMessage, controller: self) {
                     nameCell.setContent(content: self.password!.name)
                 }
                 return false

@@ -33,17 +33,11 @@ class SSHKeySettingTableViewController: UITableViewController {
     
     func doneButtonTapped(_ sender: UIButton) {
         guard URL(string: publicKeyURLTextField.text!) != nil else {
-            let alertMessage = "Please set Public Key URL first."
-            let alert = UIAlertController(title: "Cannot Save", message: alertMessage, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            Utils.alert(title: "Cannot Save", message: "Please set Public Key URL first.", controller: self, completion: nil)
             return
         }
         guard URL(string: privateKeyURLTextField.text!) != nil else {
-            let alertMessage = "Please set Private Key URL first."
-            let alert = UIAlertController(title: "Cannot Save", message: alertMessage, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            Utils.alert(title: "Cannot Save", message: "Please set Private Key URL first.", controller: self, completion: nil)
             return
         }
         

@@ -38,11 +38,7 @@ class GitServerSettingTableViewController: UITableViewController {
         if authenticationMethod == "SSH Key" {
             if Defaults[.gitRepositorySSHPublicKeyURL] == nil && Defaults[.gitRepositorySSHPrivateKeyURL] == nil {
                 authenticationMethod = "Password"
-                
-                let alertController = UIAlertController(title: "Attention", message: "Please setup SSH key first.", preferredStyle: .alert)
-                let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                alertController.addAction(defaultAction)
-                present(alertController, animated: true, completion: nil)
+                Utils.alert(title: "Cannot Select SSH Key", message: "Please setup SSH key first.", controller: self, completion: nil)
             } else {
                 authenticationMethod = "SSH Key"
             }
@@ -65,9 +61,7 @@ class GitServerSettingTableViewController: UITableViewController {
                 if authenticationMethod == nil {
                     alertMessage = "Authentication method is not set. Please set your authentication method first."
                 }
-                let alert = UIAlertController(title: "Cannot Save Settings", message: alertMessage, preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                Utils.alert(title: "Cannot Save Settings", message: alertMessage, controller: self, completion: nil)
                 return false
             }
         }
