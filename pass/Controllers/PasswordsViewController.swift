@@ -53,6 +53,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "Sync Password Store")
+        let numberOfUnsyncedPasswords = PasswordStore.shared.getNumberOfUnsyncedPasswords()
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
                 try PasswordStore.shared.pullRepository(transferProgressBlock: {(git_transfer_progress, stop) in
@@ -60,15 +61,15 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                         SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Pull Remote Repository")
                     }
                 })
-                if PasswordStore.shared.getNumberOfUnsyncedPasswords() > 0 {
+                if numberOfUnsyncedPasswords > 0 {
                     try PasswordStore.shared.pushRepository(transferProgressBlock: {(current, total, bytes, stop) in
                         DispatchQueue.main.async {
                             SVProgressHUD.showProgress(Float(current)/Float(total), status: "Push Remote Repository")
                         }
                     })
                 }
-                PasswordStore.shared.updatePasswordEntityCoreData()
                 DispatchQueue.main.async {
+                    PasswordStore.shared.updatePasswordEntityCoreData()
                     self.passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
                     self.reloadTableView(data: self.passwordEntities!)
                     PasswordStore.shared.setAllSynced()

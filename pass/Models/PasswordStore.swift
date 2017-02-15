@@ -345,6 +345,7 @@ class PasswordStore {
         
         do {
             try context.execute(deleteRequest)
+            try context.save()
         } catch let error as NSError {
             print(error)
         }
