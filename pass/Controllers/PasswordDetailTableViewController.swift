@@ -113,7 +113,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             SVProgressHUD.show(withStatus: "Saving")
             DispatchQueue.global(qos: .userInitiated).async {
                 PasswordStore.shared.update(passwordEntity: self.passwordEntity!, password: self.password!, progressBlock: { progress in
-                    SVProgressHUD.showProgress(progress, status: "Encrypting")
+                    DispatchQueue.main.async {
+                        SVProgressHUD.showProgress(progress, status: "Encrypting")
+                    }
                 })
                 DispatchQueue.main.async {
                     self.passwordEntity!.synced = false
