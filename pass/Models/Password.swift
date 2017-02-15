@@ -96,7 +96,13 @@ class Password {
     }
     
     func getAdditionsPlainText() -> String {
-        let plainAdditionsText = self.additionKeys.map { "\($0): \(self.additions[$0]!)" }.joined(separator: "\n")
+        let plainAdditionsText = self.additionKeys.map {
+            if $0.hasPrefix("unknown") {
+                return "\(self.additions[$0]!)"
+            } else {
+                return "\($0): \(self.additions[$0]!)"
+            }
+        }.joined(separator: "\n")
         return plainAdditionsText
     }
     
