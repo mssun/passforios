@@ -48,7 +48,7 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
                 let cellTitle = tableData[indexPath.section][indexPath.row][.title] as! String
                 cellContents[cellTitle] = contentCell.getContent()!
             }
-            password!.updatePassword(name: cellContents["name"]!, plainText: "\(cellContents["password"]!)\n\(cellContents["additions"]!)")
+            password!.updatePassword(name: cellContents["name"]!, plainText: "\(cellContents["password"]!)\n\(cellContents["additions"]!)\n")
         }
     }
 

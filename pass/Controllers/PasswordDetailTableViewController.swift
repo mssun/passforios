@@ -9,6 +9,7 @@
 import UIKit
 import FavIcon
 import SwiftyUserDefaults
+import SVProgressHUD
 
 class PasswordDetailTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     var passwordEntity: PasswordEntity?
@@ -108,13 +109,22 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
     
     @IBAction func saveEditPassword(segue: UIStoryboardSegue) {
-        if password!.changed {
-            PasswordStore.shared.update(passwordEntity: passwordEntity!, password: password!, progressBlock: { progress in
-                
-            })
-            NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
-            setTableData()
-            tableView.reloadData()
+        if self.password!.changed {
+            SVProgressHUD.show(withStatus: "Saving")
+            DispatchQueue.global(qos: .userInitiated).async {
+                PasswordStore.shared.update(passwordEntity: self.passwordEntity!, password: self.password!, progressBlock: { progress in
+                    SVProgressHUD.showProgress(progress, status: "Encrypting")
+                })
+                DispatchQueue.main.async {
+                    self.passwordEntity!.synced = false
+                    PasswordStore.shared.saveUpdated(passwordEntity: self.passwordEntity!)
+                    NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
+                    self.setTableData()
+                    self.tableView.reloadData()
+                    SVProgressHUD.showSuccess(withStatus: "Success")
+                    SVProgressHUD.dismiss(withDelay: 1)
+                }
+            }
         }
     }
     

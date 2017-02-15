@@ -331,11 +331,18 @@ class PasswordStore {
             let encryptedData = try passwordEntity.encrypt(password: password)
             let saveURL = storeURL.appendingPathComponent(passwordEntity.rawPath!)
             try encryptedData.write(to: saveURL)
-            passwordEntity.synced = false
+            progressBlock(0.3)
             let _ = createAddCommitInRepository(message: "Update password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func saveUpdated(passwordEntity: PasswordEntity) {
+        do {
             try context.save()
         } catch {
-            fatalError("Failed to fetch employees: \(error)")
+            fatalError("Failed to save a PasswordEntity: \(error)")
         }
     }
     
