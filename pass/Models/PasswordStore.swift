@@ -137,7 +137,7 @@ class PasswordStore {
         fm.enumerator(atPath: self.storeURL.path)?.forEach({ (e) in
             if let e = e as? String, let url = URL(string: e) {
                 if url.pathExtension == "gpg" {
-                    let passwordEntity = PasswordEntity(context: context)
+                    let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
                     let endIndex =  url.lastPathComponent.index(url.lastPathComponent.endIndex, offsetBy: -4)
                     passwordEntity.name = url.lastPathComponent.substring(to: endIndex)
                     passwordEntity.rawPath = "\(url.path)"
