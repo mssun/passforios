@@ -99,6 +99,9 @@ class PasswordStore {
                          credential: GitCredential,
                          transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
                          checkoutProgressBlock: @escaping (String?, UInt, UInt) -> Void) throws {
+        Utils.removeFileIfExists(at: storeURL)
+        Utils.removeFileIfExists(at: tempStoreURL)
+        
         let credentialProvider = try credential.credentialProvider()
         let options: [String: Any] = [
             GTRepositoryCloneOptionsCredentialProvider: credentialProvider,
