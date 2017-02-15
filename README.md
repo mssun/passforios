@@ -1,4 +1,4 @@
-<img src="icon_round.png" width="76"/> 
+<img src="icon/icon_round.png" width="76"/> 
 
 # Pass for iOS
 [![GitHub release](https://img.shields.io/github/release/mssun/pass-ios.svg)](https://github.com/mssun/pass-ios/releases)
