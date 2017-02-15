@@ -30,6 +30,22 @@ class PGPKeySettingTableViewController: UITableViewController {
             guard pgpPrivateKeyURLTextField.text != nil else {
                 return false
             }
+            
+            guard URL(string: pgpPublicKeyURLTextField.text!) != nil else {
+                let alertMessage = "Please set Public Key URL first."
+                let alert = UIAlertController(title: "Cannot Save", message: alertMessage, preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return false
+            }
+            guard URL(string: pgpPrivateKeyURLTextField.text!) != nil else {
+                let alertMessage = "Please set Private Key URL first."
+                let alert = UIAlertController(title: "Cannot Save", message: alertMessage, preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return false
+            }
+            
             if URL(string: pgpPublicKeyURLTextField.text!)!.scheme! == "http" &&
                 URL(string: pgpPrivateKeyURLTextField.text!)!.scheme! == "http" {
                 let alertMessage = "HTTP connection is not supported."

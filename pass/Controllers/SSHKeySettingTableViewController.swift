@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyUserDefaults
+import SVProgressHUD
 
 class SSHKeySettingTableViewController: UITableViewController {
 
@@ -31,6 +32,21 @@ class SSHKeySettingTableViewController: UITableViewController {
     }
     
     func doneButtonTapped(_ sender: UIButton) {
+        guard URL(string: publicKeyURLTextField.text!) != nil else {
+            let alertMessage = "Please set Public Key URL first."
+            let alert = UIAlertController(title: "Cannot Save", message: alertMessage, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        guard URL(string: privateKeyURLTextField.text!) != nil else {
+            let alertMessage = "Please set Private Key URL first."
+            let alert = UIAlertController(title: "Cannot Save", message: alertMessage, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
         Defaults[.gitRepositorySSHPublicKeyURL] = URL(string: publicKeyURLTextField.text!)
         Defaults[.gitRepositorySSHPrivateKeyURL] = URL(string: privateKeyURLTextField.text!)
         Defaults[.gitRepositorySSHPrivateKeyPassphrase] = passphraseTextField.text!
@@ -39,6 +55,8 @@ class SSHKeySettingTableViewController: UITableViewController {
             try Data(contentsOf: Defaults[.gitRepositorySSHPublicKeyURL]!).write(to: Globals.sshPublicKeyURL, options: .atomic)
             try Data(contentsOf: Defaults[.gitRepositorySSHPrivateKeyURL]!).write(to: Globals.sshPrivateKeyURL, options: .atomic)
         } catch {
+            SVProgressHUD.showError(withStatus: error.localizedDescription)
+            SVProgressHUD.dismiss(withDelay: 1)
             print(error)
         }
 
