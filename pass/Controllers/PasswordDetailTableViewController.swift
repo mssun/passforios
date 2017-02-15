@@ -66,7 +66,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         indicator.startAnimating()
         tableView.addSubview(indicator)
         tableView.addSubview(indicatorLable)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit(_:)))
+        let editUIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit(_:)))
+        editUIBarButtonItem.isEnabled = false
+        navigationItem.rightBarButtonItem = editUIBarButtonItem
         
         if let imageData = passwordEntity?.image {
             let image = UIImage(data: imageData as Data)
@@ -91,6 +93,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 self?.tableView.reloadData()
                 indicator.stopAnimating()
                 indicatorLable.isHidden = true
+                editUIBarButtonItem.isEnabled = true
                 if let url = password.getURL() {
                     if self?.passwordEntity?.image == nil{
                         self?.updatePasswordImage(url: url)
