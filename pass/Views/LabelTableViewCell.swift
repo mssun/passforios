@@ -80,6 +80,6 @@ class LabelTableViewCell: UITableViewCell {
     
     func openLink(_ sender: Any?) {
         UIPasteboard.general.string = password?.password
-        UIApplication.shared.open(NSURL(string: cellData!.content) as! URL, options: [:], completionHandler: nil)
+        UIApplication.shared.open(URL(string: cellData!.content)!, options: [:], completionHandler: nil)
     }
 }
