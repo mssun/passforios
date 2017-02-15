@@ -71,15 +71,16 @@ class PasswordRepositorySettingsTableViewController: BasicStaticTableViewControl
                                                                         SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "Checkout Master Branch")
                                                                     }
                         })
-                        
                         DispatchQueue.main.async {
+                            PasswordStore.shared.updatePasswordEntityCoreData()
+                            Defaults[.lastUpdatedTime] = Date()
+                            NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
+                            Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
+                            Defaults[.gitRepositoryUsername] = username
+                            Defaults[.gitRepositoryPassword] = password
+                            Defaults[.gitRepositoryAuthenticationMethod] = auth
                             SVProgressHUD.showSuccess(withStatus: "Done")
                             SVProgressHUD.dismiss(withDelay: 1)
-                            
-                            Defaults[.lastUpdatedTime] = Date()
-                            
-                            NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
-                            
                         }
                     } catch {
                         DispatchQueue.main.async {
@@ -91,11 +92,6 @@ class PasswordRepositorySettingsTableViewController: BasicStaticTableViewControl
                     
                 }
             }
-            
-            Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
-            Defaults[.gitRepositoryUsername] = username
-            Defaults[.gitRepositoryPassword] = password
-            Defaults[.gitRepositoryAuthenticationMethod] = auth
         }
     }
 }

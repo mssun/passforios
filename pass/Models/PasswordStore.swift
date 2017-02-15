@@ -115,7 +115,6 @@ class PasswordStore {
             print(error)
         }
         storeRepository = try GTRepository(url: storeURL)
-        updatePasswordEntityCoreData()
         gitCredential = credential
     }
     
@@ -129,15 +128,13 @@ class PasswordStore {
         ]
         let remote = try GTRemote(name: "origin", in: storeRepository!)
         try storeRepository?.pull((storeRepository?.currentBranch())!, from: remote, withOptions: options, progress: transferProgressBlock)
-//        updatePasswordEntityCoreData()
     }
     
     func updatePasswordEntityCoreData() {
         deleteCoreData(entityName: "PasswordEntity")
         deleteCoreData(entityName: "PasswordCategoryEntity")
-        
         let fm = FileManager.default
-        fm.enumerator(atPath: storeURL.path)?.forEach({ (e) in
+        fm.enumerator(atPath: self.storeURL.path)?.forEach({ (e) in
             if let e = e as? String, let url = URL(string: e) {
                 if url.pathExtension == "gpg" {
                     let passwordEntity = PasswordEntity(context: context)
@@ -355,6 +352,8 @@ class PasswordStore {
     
     func erase() {
         Utils.removeFileIfExists(at: storeURL)
+        Utils.removeFileIfExists(at: tempStoreURL)
+
         Utils.removeFileIfExists(atPath: Globals.pgpPublicKeyPath)
         Utils.removeFileIfExists(atPath: Globals.pgpPrivateKeyPath)
         Utils.removeFileIfExists(at: Globals.sshPrivateKeyURL)
