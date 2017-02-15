@@ -133,7 +133,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self.tableData.append(TableSection(title: "additions", item: []))
             tableDataIndex += 1
             for additionKey in password.additionKeys {
-                if (!additionKey.contains("unknown") || !Defaults[.isHideUnknownOn]) &&
+                if (!additionKey.hasPrefix("unknown") || !Defaults[.isHideUnknownOn]) &&
                     additionKey.lowercased() != "username" &&
                     additionKey.lowercased() != "password" {
                     self.tableData[tableDataIndex].item.append(TableCell(title: additionKey, content: password.additions[additionKey]!))
