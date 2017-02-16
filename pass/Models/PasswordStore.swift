@@ -364,6 +364,29 @@ class PasswordStore {
         }
     }
     
+    func updateImage(passwordEntity: PasswordEntity, image: Data?) {
+        if image == nil {
+            return
+        }
+        let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        privateMOC.parent = context
+        privateMOC.perform {
+            passwordEntity.image = NSData(data: image!)
+            do {
+                try privateMOC.save()
+                self.context.performAndWait {
+                    do {
+                        try self.context.save()
+                    } catch {
+                        fatalError("Failure to save context: \(error)")
+                    }
+                }
+            } catch {
+                fatalError("Failure to save context: \(error)")
+            }
+        }
+    }
+    
     func erase() {
         Utils.removeFileIfExists(at: storeURL)
         Utils.removeFileIfExists(at: tempStoreURL)

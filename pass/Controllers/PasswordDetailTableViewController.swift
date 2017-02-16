@@ -178,7 +178,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                     self?.passwordImage = image
                     self?.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
                     let imageData = UIImageJPEGRepresentation(image, 1)
-                    self?.passwordEntity?.setValue(imageData, forKey: "image")
+                    if let entity = self?.passwordEntity {
+                        PasswordStore.shared.updateImage(passwordEntity: entity, image: imageData)
+                    }
                 case .failure(let error):
                     print(error)
                 }
