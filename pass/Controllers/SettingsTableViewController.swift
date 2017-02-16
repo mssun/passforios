@@ -46,8 +46,9 @@ class SettingsTableViewController: UITableViewController {
                                                          pgpPrivateKeyLocalPath: Globals.pgpPrivateKeyPath)
                         DispatchQueue.main.async {
                             self.pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
-                            SVProgressHUD.showSuccess(withStatus: "Success. Remember to remove the key from the server.")
+                            SVProgressHUD.showSuccess(withStatus: "Success.")
                             SVProgressHUD.dismiss(withDelay: 1)
+                            Utils.alert(title: "Remove the Key", message: "Remember to remove the key from the server.", controller: self, completion: nil)
                         }
                     } catch {
                         DispatchQueue.main.async {
