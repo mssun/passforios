@@ -15,6 +15,22 @@ GPG for encryption and Git for version control.
 <img src="screenshot/screenshot3.png" width="200"/>
 <img src="screenshot/screenshot4.png" width="200"/>
 
+## Build
+
+1. Run carthage bootstrap.
+```
+carthage bootstrap --platform iOS
+```
+
+2. Run pod install in the project root directory.
+```
+pod install
+```
+
+3. Open .xcworkspace file in Xcode.
+
+4. Build & Run.
+
 ## Usage
 
 - genearte a PGP key pair
