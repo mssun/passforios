@@ -28,23 +28,18 @@ GPG for encryption and Git for version control.
 
 ## Build
 
-1. Run carthage bootstrap.
-```
-carthage bootstrap --platform iOS
-```
-2. Run pod install in the project root directory.
-```
-pod install
-```
-3. Open .xcworkspace file in Xcode.
+1. Run carthage bootstrap: `carthage bootstrap --platform iOS`
+2. Run pod install in the project root directory: `pod install`
+3. Open `.xcworkspace` file in Xcode.
 4. Build & Run.
 
 ## Usage
 
-- genearte a PGP key pair
-- use `pass`
-- push password store to a private Git repository
-- start to use Pass for iOS on your iPhone/iPad
+- Genearte a PGP key pair
+- Use the `pass` command line tool
+- Push ecrypted password store to a private Git repository
+- Build Pass for iOS by yourself or download from App Store
+- Start to use Pass for iOS on your iPhone/iPad
 
 For more, please read the [wiki page](https://github.com/mssun/pass-ios/wiki).
 
