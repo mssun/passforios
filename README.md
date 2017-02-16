@@ -10,10 +10,10 @@ GPG for encryption and Git for version control.
 
 ## Screenshots
 
+<img src="screenshot/preview.gif" width="200"/>
 <img src="screenshot/screenshot1.png" width="200"/>
 <img src="screenshot/screenshot2.png" width="200"/>
 <img src="screenshot/screenshot3.png" width="200"/>
-<img src="screenshot/screenshot4.png" width="200"/>
 
 ## Build
 
