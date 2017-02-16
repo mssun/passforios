@@ -32,14 +32,11 @@ GPG for encryption and Git for version control.
 ```
 carthage bootstrap --platform iOS
 ```
-
 2. Run pod install in the project root directory.
 ```
 pod install
 ```
-
 3. Open .xcworkspace file in Xcode.
-
 4. Build & Run.
 
 ## Usage
