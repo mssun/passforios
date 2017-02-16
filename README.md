@@ -8,6 +8,17 @@ Pass is an iOS client compatible with [ZX2C4's Pass command line
 application](http://www.passwordstore.org/).  It is a password manager using
 GPG for encryption and Git for version control.
 
+## Features
+
+- Try to be compatible with Password Store command line tool
+- Support to view, copy, add, edit password entries
+- Encrypt and decrypt password entries by PGP keys
+- Synchronize with you password Git repository
+- User-friendly interface
+- Written in Swift
+- No need to jailbreak your devices
+- Get from App Store (stay tuned, under review)
+
 ## Screenshots
 
 <img src="screenshot/preview.gif" width="200"/>
