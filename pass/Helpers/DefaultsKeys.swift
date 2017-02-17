@@ -11,10 +11,16 @@ import SwiftyUserDefaults
 
 extension DefaultsKeys {
 //    static let pgpKeyURL = DefaultsKey<URL?>("pgpKeyURL")
+    static let pgpKeySource = DefaultsKey<String?>("pgpKeySource")
     static let pgpPublicKeyURL = DefaultsKey<URL?>("pgpPublicKeyURL")
     static let pgpPrivateKeyURL = DefaultsKey<URL?>("pgpPrivateKeyURL")
-
+    
+    static let pgpPublicKeyArmor = DefaultsKey<String?>("pgpPublicKeyArmor")
+    static let pgpPrivateKeyArmor = DefaultsKey<String?>("pgpPrivateKeyArmor")
+    
     static let pgpKeyPassphrase = DefaultsKey<String?>("pgpKeyPassphrase")
+    static let pgpPrivateKeyURLPassphrase = DefaultsKey<String?>("pgpPrivateKeyURLPassphrase")
+    static let pgpPrivateKeyArmorPassphrase = DefaultsKey<String?>("pgpPrivateKeyArmorPassphrase")
     static let pgpKeyID = DefaultsKey<String?>("pgpKeyID")
     static let pgpKeyUserID = DefaultsKey<String?>("pgpKeyUserID")
     

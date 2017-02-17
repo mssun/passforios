@@ -71,14 +71,7 @@ class PasswordStore {
         }
         
     }
-    
-    func initPGP(pgpPublicKeyURL: URL, pgpPublicKeyLocalPath: String, pgpPrivateKeyURL: URL, pgpPrivateKeyLocalPath: String) throws {
-        let pgpPublicData = try Data(contentsOf: pgpPublicKeyURL)
-        try pgpPublicData.write(to: URL(fileURLWithPath: pgpPublicKeyLocalPath), options: .atomic)
-        
-        let pgpPrivateData = try Data(contentsOf: pgpPrivateKeyURL)
-        try pgpPrivateData.write(to: URL(fileURLWithPath: pgpPrivateKeyLocalPath), options: .atomic)
-        
+    func initPGP(pgpPublicKeyLocalPath: String, pgpPrivateKeyLocalPath: String) throws {
         pgp.importKeys(fromFile: pgpPublicKeyLocalPath, allowDuplicates: false)
         if pgp.getKeysOf(.public).count == 0 {
             throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import public key."])
@@ -92,6 +85,22 @@ class PasswordStore {
         if let gpgUser = key.users[0] as? PGPUser {
             Defaults[.pgpKeyUserID] = gpgUser.userID
         }
+    }
+    
+    func initPGP(pgpPublicKeyURL: URL, pgpPublicKeyLocalPath: String, pgpPrivateKeyURL: URL, pgpPrivateKeyLocalPath: String) throws {
+        let pgpPublicData = try Data(contentsOf: pgpPublicKeyURL)
+        try pgpPublicData.write(to: URL(fileURLWithPath: pgpPublicKeyLocalPath), options: .atomic)
+        
+        let pgpPrivateData = try Data(contentsOf: pgpPrivateKeyURL)
+        try pgpPrivateData.write(to: URL(fileURLWithPath: pgpPrivateKeyLocalPath), options: .atomic)
+        
+        try initPGP(pgpPublicKeyLocalPath: pgpPublicKeyLocalPath, pgpPrivateKeyLocalPath: pgpPrivateKeyLocalPath)
+    }
+    
+    func initPGP(pgpPublicKeyArmor: String, pgpPublicKeyLocalPath: String, pgpPrivateKeyArmor: String, pgpPrivateKeyLocalPath: String) throws {
+        try pgpPublicKeyArmor.write(toFile: pgpPublicKeyLocalPath, atomically: true, encoding: .ascii)
+        try pgpPrivateKeyArmor.write(toFile: pgpPrivateKeyLocalPath, atomically: true, encoding: .ascii)
+        try initPGP(pgpPublicKeyLocalPath: pgpPublicKeyLocalPath, pgpPrivateKeyLocalPath: pgpPrivateKeyLocalPath)
     }
     
     

@@ -29,6 +29,7 @@
 		DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914941E434301007FF592 /* LabelTableViewCell.swift */; };
 		DC4914991E434600007FF592 /* PasswordDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */; };
 		DC5734AE1E439AD400D09270 /* PasswordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5734AD1E439AD400D09270 /* PasswordsViewController.swift */; };
+		DC5F385B1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5F385A1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift */; };
 		DC7E6EEA1E432E48006C2443 /* Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7E6EE91E432E48006C2443 /* Password.swift */; };
 		DC8963BE1E38AD8300828B09 /* GitRepositoryAuthenticationSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8963BD1E38AD8300828B09 /* GitRepositoryAuthenticationSettingTableViewController.swift */; };
 		DC8963C01E38EEB900828B09 /* SSHKeySettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8963BF1E38EEB900828B09 /* SSHKeySettingTableViewController.swift */; };
@@ -86,6 +87,7 @@
 		DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTableViewController.swift; sourceTree = "<group>"; };
 		DC4A746D1E30FBDE00E8EB18 /* Objective-CBridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Objective-CBridgingHeader.h"; sourceTree = "<group>"; };
 		DC5734AD1E439AD400D09270 /* PasswordsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordsViewController.swift; sourceTree = "<group>"; };
+		DC5F385A1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPKeyArmorSettingTableViewController.swift; sourceTree = "<group>"; };
 		DC7E6EE91E432E48006C2443 /* Password.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Password.swift; sourceTree = "<group>"; };
 		DC8963BD1E38AD8300828B09 /* GitRepositoryAuthenticationSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitRepositoryAuthenticationSettingTableViewController.swift; sourceTree = "<group>"; };
 		DC8963BF1E38EEB900828B09 /* SSHKeySettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeySettingTableViewController.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 		DC19400C1E4B39400077E0A3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				DC5F385A1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift */,
 				DC037CB11E4CAB1700609409 /* AboutRepositoryTableViewController.swift */,
 				DC962CDE1E4B62C10033B5D8 /* AboutTableViewController.swift */,
 				DC037CB71E4DD1A500609409 /* AddPasswordTableViewController.swift */,
@@ -421,6 +424,7 @@
 				DCA0499C1E3362F400522E8F /* PGPKeySettingTableViewController.swift in Sources */,
 				DC7E6EEA1E432E48006C2443 /* Password.swift in Sources */,
 				DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */,
+				DC5F385B1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift in Sources */,
 				DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */,
 				DCFB77A71E502DF9008DE471 /* EditPasswordTableViewController.swift in Sources */,
 				DCA0499A1E335CC800522E8F /* GitServerSettingTableViewController.swift in Sources */,

@@ -20,20 +20,21 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var touchIDTableViewCell: UITableViewCell!
     @IBOutlet weak var passcodeTableViewCell: UITableViewCell!
     
-    @IBAction func cancel(segue: UIStoryboardSegue) {
+    @IBAction func cancelPGPKey(segue: UIStoryboardSegue) {
     }
     
-    @IBAction func save(segue: UIStoryboardSegue) {
+    @IBAction func savePGPKey(segue: UIStoryboardSegue) {
         if let controller = segue.source as? PGPKeySettingTableViewController {
 
-            if Defaults[.pgpKeyID] == nil ||
-                Defaults[.pgpPrivateKeyURL] != URL(string: controller.pgpPrivateKeyURLTextField.text!) ||
-                Defaults[.pgpPublicKeyURL] != URL(string: controller.pgpPublicKeyURLTextField.text!) ||
-                Defaults[.pgpKeyPassphrase] != controller.pgpKeyPassphraseTextField.text!
-                {
+//            if Defaults[.pgpKeyID] == nil ||
+//                Defaults[.pgpPrivateKeyURL] != URL(string: controller.pgpPrivateKeyURLTextField.text!) ||
+//                Defaults[.pgpPublicKeyURL] != URL(string: controller.pgpPublicKeyURLTextField.text!) ||
+//                Defaults[.pgpKeyPassphrase] != controller.pgpKeyPassphraseTextField.text! {
+            
                 Defaults[.pgpPrivateKeyURL] = URL(string: controller.pgpPrivateKeyURLTextField.text!)
                 Defaults[.pgpPublicKeyURL] = URL(string: controller.pgpPublicKeyURLTextField.text!)
                 Defaults[.pgpKeyPassphrase] = controller.pgpKeyPassphraseTextField.text!
+                Defaults[.pgpKeySource] = "url"
                 
                 SVProgressHUD.setDefaultMaskType(.black)
                 SVProgressHUD.setDefaultStyle(.light)
@@ -59,8 +60,37 @@ class SettingsTableViewController: UITableViewController {
                         }
                     }
                 }
-            }
+//            }
             
+        } else if let controller = segue.source as? PGPKeyArmorSettingTableViewController {
+            Defaults[.pgpKeySource] = "armor"
+            Defaults[.pgpKeyPassphrase] = controller.passphraseTextField.text!
+            Defaults[.pgpPublicKeyArmor] = controller.armorPublicKeyTextView.text!
+            Defaults[.pgpPrivateKeyArmor] = controller.armorPrivateKeyTextView.text!
+            
+            SVProgressHUD.setDefaultMaskType(.black)
+            SVProgressHUD.setDefaultStyle(.light)
+            SVProgressHUD.show(withStatus: "Fetching PGP Key")
+            DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+                do {
+                    try PasswordStore.shared.initPGP(pgpPublicKeyArmor: controller.armorPublicKeyTextView.text!,
+                                                     pgpPublicKeyLocalPath: Globals.pgpPublicKeyPath,
+                                                     pgpPrivateKeyArmor: controller.armorPrivateKeyTextView.text!,
+                                                     pgpPrivateKeyLocalPath: Globals.pgpPrivateKeyPath)
+                    DispatchQueue.main.async {
+                        self.pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
+                        SVProgressHUD.showSuccess(withStatus: "Success.")
+                        SVProgressHUD.dismiss(withDelay: 1)
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
+                        Defaults[.pgpKeyID] = nil
+                        SVProgressHUD.showError(withStatus: error.localizedDescription)
+                        SVProgressHUD.dismiss(withDelay: 1)
+                    }
+                }
+            }
         }
     }
     
@@ -105,8 +135,10 @@ class SettingsTableViewController: UITableViewController {
             } else {
                 setPasscodeLock()
             }
-            tableView.deselectRow(at: indexPath, animated: true)
+        } else if tableView.cellForRow(at: indexPath) == pgpKeyTableViewCell {
+            showPGPKeyActionSheet()
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -123,6 +155,37 @@ class SettingsTableViewController: UITableViewController {
         }
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: Globals.passcodeConfiguration)
+    }
+    
+    func showPGPKeyActionSheet() {
+        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        var urlActionTitle = "Download from URL"
+        var armorActionTitle = "ASCII-Armor Encrypted Key"
+        
+        if Defaults[.pgpKeySource] == "url" {
+           urlActionTitle = "✓ \(urlActionTitle)"
+        } else if Defaults[.pgpKeySource] == "armor" {
+            armorActionTitle = "✓ \(armorActionTitle)"
+        }
+        let urlAction = UIAlertAction(title: urlActionTitle, style: .default) { _ in
+            self.performSegue(withIdentifier: "setPGPKeyByURLSegue", sender: self)
+        }
+        let armorAction = UIAlertAction(title: armorActionTitle, style: .default) { _ in
+            self.performSegue(withIdentifier: "setPGPKeyByASCIISegue", sender: self)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        optionMenu.addAction(urlAction)
+        optionMenu.addAction(armorAction)
+        
+        if Defaults[.pgpKeySource] != nil {
+            let deleteAction = UIAlertAction(title: "Remove PGP Keys", style: .destructive) { _ in
+                Utils.removePGPKeys()
+                self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
+            }
+            optionMenu.addAction(deleteAction)
+        }
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
     }
     
     func showPasscodeActionSheet() {
