@@ -75,6 +75,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                     PasswordStore.shared.setAllSynced()
                     self.setNavigationItemTitle()
                     Defaults[.lastUpdatedTime] = Date()
+                    Defaults[.gitRepositoryPasswordAttempts] = 0
                     SVProgressHUD.showSuccess(withStatus: "Done")
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
