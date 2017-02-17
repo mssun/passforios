@@ -13,13 +13,13 @@ class PGPKeySettingTableViewController: UITableViewController {
 
     @IBOutlet weak var pgpPublicKeyURLTextField: UITextField!
     @IBOutlet weak var pgpPrivateKeyURLTextField: UITextField!
-    @IBOutlet weak var pgpKeyPassphraseTextField: UITextField!
+    var pgpPassphrase: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         pgpPublicKeyURLTextField.text = Defaults[.pgpPublicKeyURL]?.absoluteString
         pgpPrivateKeyURLTextField.text = Defaults[.pgpPrivateKeyURL]?.absoluteString
-        pgpKeyPassphraseTextField.text = Defaults[.pgpKeyPassphrase]
+        pgpPassphrase = Defaults[.pgpKeyPassphrase]
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -47,5 +47,18 @@ class PGPKeySettingTableViewController: UITableViewController {
             }
         }
         return true
+    }
+    
+    @IBAction func save(_ sender: Any) {
+        let alert = UIAlertController(title: "Phassphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+            self.pgpPassphrase = alert.textFields?.first?.text
+            self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
+        }))
+        alert.addTextField(configurationHandler: {(textField: UITextField!) in
+            textField.text = self.pgpPassphrase
+            textField.isSecureTextEntry = true
+        })
+        self.present(alert, animated: true, completion: nil)
     }
 }

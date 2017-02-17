@@ -25,46 +25,39 @@ class SettingsTableViewController: UITableViewController {
     
     @IBAction func savePGPKey(segue: UIStoryboardSegue) {
         if let controller = segue.source as? PGPKeySettingTableViewController {
-
-//            if Defaults[.pgpKeyID] == nil ||
-//                Defaults[.pgpPrivateKeyURL] != URL(string: controller.pgpPrivateKeyURLTextField.text!) ||
-//                Defaults[.pgpPublicKeyURL] != URL(string: controller.pgpPublicKeyURLTextField.text!) ||
-//                Defaults[.pgpKeyPassphrase] != controller.pgpKeyPassphraseTextField.text! {
+            Defaults[.pgpPrivateKeyURL] = URL(string: controller.pgpPrivateKeyURLTextField.text!)
+            Defaults[.pgpPublicKeyURL] = URL(string: controller.pgpPublicKeyURLTextField.text!)
+            Defaults[.pgpKeyPassphrase] = controller.pgpPassphrase
+            Defaults[.pgpKeySource] = "url"
             
-                Defaults[.pgpPrivateKeyURL] = URL(string: controller.pgpPrivateKeyURLTextField.text!)
-                Defaults[.pgpPublicKeyURL] = URL(string: controller.pgpPublicKeyURLTextField.text!)
-                Defaults[.pgpKeyPassphrase] = controller.pgpKeyPassphraseTextField.text!
-                Defaults[.pgpKeySource] = "url"
-                
-                SVProgressHUD.setDefaultMaskType(.black)
-                SVProgressHUD.setDefaultStyle(.light)
-                SVProgressHUD.show(withStatus: "Fetching PGP Key")
-                DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
-                    do {
-                        try PasswordStore.shared.initPGP(pgpPublicKeyURL: Defaults[.pgpPublicKeyURL]!,
-                                                         pgpPublicKeyLocalPath: Globals.pgpPublicKeyPath,
-                                                         pgpPrivateKeyURL: Defaults[.pgpPrivateKeyURL]!,
-                                                         pgpPrivateKeyLocalPath: Globals.pgpPrivateKeyPath)
-                        DispatchQueue.main.async {
-                            self.pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
-                            SVProgressHUD.showSuccess(withStatus: "Success.")
-                            SVProgressHUD.dismiss(withDelay: 1)
-                            Utils.alert(title: "Remove the Key", message: "Remember to remove the key from the server.", controller: self, completion: nil)
-                        }
-                    } catch {
-                        DispatchQueue.main.async {
-                            self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
-                            Defaults[.pgpKeyID] = nil
-                            SVProgressHUD.showError(withStatus: error.localizedDescription)
-                            SVProgressHUD.dismiss(withDelay: 1)
-                        }
+            SVProgressHUD.setDefaultMaskType(.black)
+            SVProgressHUD.setDefaultStyle(.light)
+            SVProgressHUD.show(withStatus: "Fetching PGP Key")
+            DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+                do {
+                    try PasswordStore.shared.initPGP(pgpPublicKeyURL: Defaults[.pgpPublicKeyURL]!,
+                                                     pgpPublicKeyLocalPath: Globals.pgpPublicKeyPath,
+                                                     pgpPrivateKeyURL: Defaults[.pgpPrivateKeyURL]!,
+                                                     pgpPrivateKeyLocalPath: Globals.pgpPrivateKeyPath)
+                    DispatchQueue.main.async {
+                        self.pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
+                        SVProgressHUD.showSuccess(withStatus: "Success.")
+                        SVProgressHUD.dismiss(withDelay: 1)
+                        Utils.alert(title: "Rememver to Remove the Key", message: "Remember to remove the key from the server.", controller: self, completion: nil)
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
+                        Defaults[.pgpKeyID] = nil
+                        SVProgressHUD.showError(withStatus: error.localizedDescription)
+                        SVProgressHUD.dismiss(withDelay: 1)
                     }
                 }
-//            }
+            }
             
         } else if let controller = segue.source as? PGPKeyArmorSettingTableViewController {
             Defaults[.pgpKeySource] = "armor"
-            Defaults[.pgpKeyPassphrase] = controller.passphraseTextField.text!
+            Defaults[.pgpKeyPassphrase] = controller.pgpPassphrase
             Defaults[.pgpPublicKeyArmor] = controller.armorPublicKeyTextView.text!
             Defaults[.pgpPrivateKeyArmor] = controller.armorPrivateKeyTextView.text!
             
