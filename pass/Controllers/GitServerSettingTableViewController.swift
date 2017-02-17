@@ -13,8 +13,10 @@ class GitServerSettingTableViewController: UITableViewController {
 
     @IBOutlet weak var gitRepositoryURLTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
+//    @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var authenticationTableViewCell: UITableViewCell!
+    
+//    var password: String?
     
     var authenticationMethod = Defaults[.gitRepositoryAuthenticationMethod]
 
@@ -25,7 +27,7 @@ class GitServerSettingTableViewController: UITableViewController {
             gitRepositoryURLTextField.text = url.absoluteString
         }
         usernameTextField.text = Defaults[.gitRepositoryUsername]
-        passwordTextField.text = Defaults[.gitRepositoryPassword]
+//        passwordTextField.text = Defaults[.gitRepositoryPassword]
         authenticationTableViewCell.detailTextLabel?.text = authenticationMethod
     }
     
@@ -68,7 +70,28 @@ class GitServerSettingTableViewController: UITableViewController {
         return true
     }
     
-    @IBAction func save(segue: UIStoryboardSegue) {
+    @IBAction func save(_ sender: Any) {
+        if authenticationMethod == "Password" {
+            let alert = UIAlertController(title: "Password", message: "Please fill in the password of your Git account.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+                Defaults[.gitRepositoryPassword] = alert.textFields?.first?.text
+                if self.shouldPerformSegue(withIdentifier: "saveGitServerSettingSegue", sender: self) {
+                    self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
+                }
+            }))
+            alert.addTextField(configurationHandler: {(textField: UITextField!) in
+                textField.text = Defaults[.gitRepositoryPassword]
+                textField.isSecureTextEntry = true
+            })
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            if self.shouldPerformSegue(withIdentifier: "saveGitServerSettingSegue", sender: self) {
+                self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
+            }
+        }
+    }
+    
+    @IBAction func saveAuthMethod(segue: UIStoryboardSegue) {
         if let controller = segue.source as? UITableViewController {
             if controller.tableView.indexPathForSelectedRow == IndexPath(row: 0, section:0) {
                 authenticationMethod = "Password"

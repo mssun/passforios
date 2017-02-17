@@ -12,6 +12,7 @@ import CoreData
 import UIKit
 import SwiftyUserDefaults
 import ObjectiveGit
+import SVProgressHUD
 
 struct GitCredential {
     
@@ -23,15 +24,53 @@ struct GitCredential {
     var credential: Credential
     
     func credentialProvider() throws -> GTCredentialProvider {
-        return GTCredentialProvider { (_, _, _) -> (GTCredential) in
-            let credential: GTCredential?
+        return GTCredentialProvider { (_, _, _) -> (GTCredential?) in
+            var credential: GTCredential? = nil
             switch self.credential {
             case let .http(userName, password):
-                credential = try? GTCredential(userName: userName, password: password)
+                print(Defaults[.gitRepositoryPasswordAttempts])
+                var newPassword: String = password
+                if Defaults[.gitRepositoryPasswordAttempts] != 0 {
+                    let sem = DispatchSemaphore(value: 0)
+                    DispatchQueue.main.async {
+                        SVProgressHUD.dismiss()
+                        if var topController = UIApplication.shared.keyWindow?.rootViewController {
+                            while let presentedViewController = topController.presentedViewController {
+                                topController = presentedViewController
+                            }
+                            let alert = UIAlertController(title: "Password", message: "Please fill in the password of your Git account.", preferredStyle: UIAlertControllerStyle.alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+                                newPassword = alert.textFields!.first!.text!
+                                Defaults[.gitRepositoryPassword] = newPassword
+                                sem.signal()
+                            }))
+                            if Defaults[.gitRepositoryPasswordAttempts] == 3 {
+                                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+                                    Defaults[.gitRepositoryPasswordAttempts] = -1
+                                    sem.signal()
+                                })
+                            }
+                            alert.addTextField(configurationHandler: {(textField: UITextField!) in
+                                textField.text = Defaults[.gitRepositoryPassword]
+                                textField.isSecureTextEntry = true
+                            })
+                                topController.present(alert, animated: true, completion: nil)
+                            }
+                    }
+                    let _ = sem.wait(timeout: DispatchTime.distantFuture)
+                }
+                if Defaults[.gitRepositoryPasswordAttempts] == -1 {
+                    Defaults[.gitRepositoryPasswordAttempts] = 0
+                    return nil
+                }
+                print("usernmae: \(userName)")
+                print("password: \(newPassword)")
+                Defaults[.gitRepositoryPasswordAttempts] += 1
+                credential = try? GTCredential(userName: userName, password: newPassword)
             case let .ssh(userName, password, publicKeyFile, privateKeyFile):
                 credential = try? GTCredential(userName: userName, publicKeyURL: publicKeyFile, privateKeyURL: privateKeyFile, passphrase: password)
             }
-            return credential ?? GTCredential()
+            return credential
         }
     }
 }
@@ -270,7 +309,7 @@ class PasswordStore {
             let newTree = addEntryToGTTree(fileData: fileData, filename: filename)
             let headReference = try storeRepository!.headReference()
             let commitEnum = try GTEnumerator(repository: storeRepository!)
-            try commitEnum.pushSHA(headReference.targetOID.sha)
+            try commitEnum.pushSHA(headReference.targetOID.sha!)
             let parent = commitEnum.nextObject() as! GTCommit
             progressBlock(0.5)
             let commit = try storeRepository!.createCommit(with: newTree, message: message, parents: [parent], updatingReferenceNamed: headReference.name)
@@ -287,7 +326,7 @@ class PasswordStore {
             let newTree = removeEntryFromGTTree(filename: filename)
             let headReference = try storeRepository!.headReference()
             let commitEnum = try GTEnumerator(repository: storeRepository!)
-            try commitEnum.pushSHA(headReference.targetOID.sha)
+            try commitEnum.pushSHA(headReference.targetOID.sha!)
             let parent = commitEnum.nextObject() as! GTCommit
             progressBlock(0.5)
             let commit = try storeRepository!.createCommit(with: newTree, message: message, parents: [parent], updatingReferenceNamed: headReference.name)

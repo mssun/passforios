@@ -43,21 +43,26 @@ class PasswordRepositorySettingsTableViewController: BasicStaticTableViewControl
         if let controller = segue.source as? GitServerSettingTableViewController {
             let gitRepostiroyURL = controller.gitRepositoryURLTextField.text!
             let username = controller.usernameTextField.text!
-            let password = controller.passwordTextField.text!
+            let password = Defaults[.gitRepositoryPassword]
             let auth = controller.authenticationMethod
             
-            if Defaults[.gitRepositoryURL] == nil || gitRepostiroyURL != Defaults[.gitRepositoryURL]!.absoluteString {
+            if Defaults[.gitRepositoryURL] == nil ||
+                Defaults[.gitRepositoryURL]!.absoluteString != gitRepostiroyURL ||
+                auth != Defaults[.gitRepositoryAuthenticationMethod] ||
+                username != Defaults[.gitRepositoryUsername] ||
+                password != Defaults[.gitRepositoryPassword] {
+                
                 SVProgressHUD.setDefaultMaskType(.black)
                 SVProgressHUD.setDefaultStyle(.light)
                 SVProgressHUD.show(withStatus: "Prepare Repository")
                 var gitCredential: GitCredential
                 if auth == "Password" {
-                    gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, password: password))
+                    gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, password: password!))
                 } else {
                     gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: username, password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.sshPublicKeyURL, privateKeyFile: Globals.sshPrivateKeyURL))
                 }
-                
-                DispatchQueue.global(qos: .userInitiated).async {
+                let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
+                dispatchQueue.async {
                     do {
                         try PasswordStore.shared.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
                                                                  credential: gitCredential,
@@ -79,6 +84,7 @@ class PasswordRepositorySettingsTableViewController: BasicStaticTableViewControl
                             Defaults[.gitRepositoryUsername] = username
                             Defaults[.gitRepositoryPassword] = password
                             Defaults[.gitRepositoryAuthenticationMethod] = auth
+                            Defaults[.gitRepositoryPasswordAttempts] = 0
                             SVProgressHUD.showSuccess(withStatus: "Done")
                             SVProgressHUD.dismiss(withDelay: 1)
                         }

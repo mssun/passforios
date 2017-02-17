@@ -329,42 +329,12 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="passwordTableViewCell" rowHeight="52" id="vIU-mk-Lbm">
-                                        <rect key="frame" x="0.0" y="139" width="414" height="52"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vIU-mk-Lbm" id="6VP-wN-g64">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Jt-ds-Hhi">
-                                                    <rect key="frame" x="15" y="8" width="391" height="15"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="hSW-BQ-SXN">
-                                                    <rect key="frame" x="15" y="23" width="391" height="21"/>
-                                                    <nil key="textColor"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" keyboardAppearance="alert" secureTextEntry="YES"/>
-                                                </textField>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="hSW-BQ-SXN" secondAttribute="trailing" id="3gM-Hv-ZaR"/>
-                                                <constraint firstAttribute="topMargin" secondItem="5Jt-ds-Hhi" secondAttribute="top" id="INe-r1-0Lo"/>
-                                                <constraint firstItem="hSW-BQ-SXN" firstAttribute="leading" secondItem="5Jt-ds-Hhi" secondAttribute="leading" id="JRs-qa-035"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="5Jt-ds-Hhi" secondAttribute="trailing" id="ibB-cz-ZJG"/>
-                                                <constraint firstItem="hSW-BQ-SXN" firstAttribute="top" secondItem="5Jt-ds-Hhi" secondAttribute="bottom" id="mVE-aV-0yw"/>
-                                                <constraint firstItem="5Jt-ds-Hhi" firstAttribute="leading" secondItem="6VP-wN-g64" secondAttribute="leadingMargin" constant="7" id="sMW-lm-4pj"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection id="s6v-aZ-kaD">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="Gar-Yh-ZKL" detailTextLabel="Tjx-af-c7u" style="IBUITableViewCellStyleValue1" id="skE-NA-SBb">
-                                        <rect key="frame" x="0.0" y="227" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="175" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="skE-NA-SBb" id="xec-0B-cTD">
                                             <rect key="frame" x="0.0" y="0.0" width="381" height="43.666666666666664"/>
@@ -407,7 +377,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="sgQ-zB-rxv">
                             <connections>
-                                <segue destination="7K9-cE-9qq" kind="unwind" identifier="saveGitServerSettingSegue" unwindAction="saveGitServerSettingWithSegue:" id="DRY-fA-6Ce"/>
+                                <action selector="save:" destination="ynQ-64-MfA" id="HNL-Da-fXT"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -415,8 +385,8 @@
                     <connections>
                         <outlet property="authenticationTableViewCell" destination="skE-NA-SBb" id="Tc1-FF-nhM"/>
                         <outlet property="gitRepositoryURLTextField" destination="EVT-VU-sCi" id="2EH-Uq-tbU"/>
-                        <outlet property="passwordTextField" destination="hSW-BQ-SXN" id="uFS-s5-yfZ"/>
                         <outlet property="usernameTextField" destination="cxu-dD-J2H" id="RjU-Hf-xyw"/>
+                        <segue destination="7K9-cE-9qq" kind="unwind" identifier="saveGitServerSettingSegue" unwindAction="saveGitServerSettingWithSegue:" id="5UN-sC-xCA"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7c1-c7-Qyp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -452,7 +422,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="MfG-VE-Ork" kind="unwind" unwindAction="saveWithSegue:" id="QZM-o4-88Q"/>
+                                            <segue destination="MfG-VE-Ork" kind="unwind" unwindAction="saveAuthMethodWithSegue:" id="bKv-RY-c5z"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="844-Ya-Uiz" style="IBUITableViewCellStyleDefault" id="ahw-Sp-Et2">
@@ -472,7 +442,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="MfG-VE-Ork" kind="unwind" unwindAction="saveWithSegue:" id="eBA-wP-36P"/>
+                                            <segue destination="MfG-VE-Ork" kind="unwind" unwindAction="saveAuthMethodWithSegue:" id="Cww-6I-bWW"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
