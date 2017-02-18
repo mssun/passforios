@@ -224,7 +224,11 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         if sectionIndex == 0 && rowIndex == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "passwordDetailTitleTableViewCell", for: indexPath) as! PasswordDetailTitleTableViewCell
             cell.passwordImageImageView.image = passwordImage ?? #imageLiteral(resourceName: "PasswordImagePlaceHolder")
-            cell.nameLabel.text = passwordEntity?.name
+            var passwordName = passwordEntity!.name!
+            if passwordEntity!.synced == false {
+                passwordName = "\(passwordName) ↻"
+            }
+            cell.nameLabel.text = passwordName
             cell.categoryLabel.text = passwordCategoryText
             return cell
         } else {
