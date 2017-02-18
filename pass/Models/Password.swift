@@ -28,7 +28,6 @@ class Password {
         }.map(String.init)
         let password  = plainTextSplit[0]
         let additionFieldsArray = Password.getAdditionFields(from: plainTextSplit[1])
-//        self.init(name: name, password: password, additionsArray: additionFieldsArray)
         self.name = name
         self.password = password
         self.plainText = plainText
@@ -37,15 +36,6 @@ class Password {
             self.additionKeys.append(additionField.title)
         }
     }
-    
-//    private convenience init(name: String, password: String, additionsArray: [AdditionField]) {
-//        self.name = name
-//        self.password = password
-//        for additionField in additionsArray {
-//            self.additions[additionField.title] = additionField.content
-//            self.additionKeys.append(additionField.title)
-//        }
-//    }
     
     func getUsername() -> String? {
         return getAdditionValue(withKey: "Username") ?? getAdditionValue(withKey: "username")
