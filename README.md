@@ -37,7 +37,7 @@ Pass for iOS is under *TestFlight external testing*. Drop me an email for testin
 
 ## Usage
 
-- Genearte a PGP key pair
+- Generate a PGP key pair
 - Use the `pass` command line tool
 - Push ecrypted password store to a private Git repository
 - Build Pass for iOS by yourself or download from App Store
