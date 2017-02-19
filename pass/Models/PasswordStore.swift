@@ -41,7 +41,7 @@ struct GitCredential {
                             let alert = UIAlertController(title: "Password", message: "Please fill in the password of your Git account.", preferredStyle: UIAlertControllerStyle.alert)
                             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
                                 newPassword = alert.textFields!.first!.text!
-                                Defaults[.gitRepositoryPassword] = newPassword
+                                PasswordStore.shared.gitRepositoryPassword = newPassword
                                 sem.signal()
                             }))
                             if Defaults[.gitRepositoryPasswordAttempts] == 3 {
@@ -51,7 +51,7 @@ struct GitCredential {
                                 })
                             }
                             alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                                textField.text = Defaults[.gitRepositoryPassword]
+                                textField.text = PasswordStore.shared.gitRepositoryPassword
                                 textField.isSecureTextEntry = true
                             })
                                 topController.present(alert, animated: true, completion: nil)
@@ -83,6 +83,25 @@ class PasswordStore {
     
     let pgp: ObjectivePGP = ObjectivePGP()
     
+    var pgpKeyPassphrase: String? {
+        didSet {
+            if pgpKeyPassphrase != nil {
+                Utils.addPasswrodToKeychain(name: "pgpKeyPassphrase", password: pgpKeyPassphrase!)
+            } else {
+                Utils.removeKeychain(name: "pgpKeyPassphrase")
+            }
+        }
+    }
+    var gitRepositoryPassword: String?  {
+        didSet {
+            if gitRepositoryPassword != nil {
+                Utils.addPasswrodToKeychain(name: "gitRepositoryPassword", password: gitRepositoryPassword!)
+            } else {
+                Utils.removeKeychain(name: "gitRepositoryPassword")
+            }
+        }
+    }
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     
@@ -100,14 +119,17 @@ class PasswordStore {
 
         }
         if Defaults[.gitRepositoryAuthenticationMethod] == "Password" {
-            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitRepositoryUsername]!, password: Defaults[.gitRepositoryPassword]!))
+            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitRepositoryUsername]!, password: PasswordStore.shared.gitRepositoryPassword!))
         } else if Defaults[.gitRepositoryAuthenticationMethod] == "SSH Key"{
             gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: Defaults[.gitRepositoryUsername]!, password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.sshPublicKeyURL, privateKeyFile: Globals.sshPrivateKeyURL))
         } else {
             gitCredential = nil
         }
+        pgpKeyPassphrase = Utils.getPasswordFromKeychain(name: "pgpKeyPassphrase")
+        gitRepositoryPassword = Utils.getPasswordFromKeychain(name: "gitRepositoryPassword")
         
     }
+    
     func initPGP(pgpPublicKeyLocalPath: String, pgpPrivateKeyLocalPath: String) throws {
         pgp.importKeys(fromFile: pgpPublicKeyLocalPath, allowDuplicates: false)
         if pgp.getKeysOf(.public).count == 0 {
@@ -441,6 +463,10 @@ class PasswordStore {
         Utils.removeFileIfExists(atPath: Globals.pgpPrivateKeyPath)
         Utils.removeFileIfExists(at: Globals.sshPrivateKeyURL)
         Utils.removeFileIfExists(at: Globals.sshPublicKeyURL)
+        
+        Utils.removeAllKeychain()
+        pgpKeyPassphrase = nil
+        gitRepositoryPassword = nil
         
         deleteCoreData(entityName: "PasswordEntity")
         deleteCoreData(entityName: "PasswordCategoryEntity")

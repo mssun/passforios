@@ -43,14 +43,14 @@ class PasswordRepositorySettingsTableViewController: BasicStaticTableViewControl
         if let controller = segue.source as? GitServerSettingTableViewController {
             let gitRepostiroyURL = controller.gitRepositoryURLTextField.text!
             let username = controller.usernameTextField.text!
-            let password = Defaults[.gitRepositoryPassword]
+            let password = controller.password
             let auth = controller.authenticationMethod
             
             if Defaults[.gitRepositoryURL] == nil ||
                 Defaults[.gitRepositoryURL]!.absoluteString != gitRepostiroyURL ||
                 auth != Defaults[.gitRepositoryAuthenticationMethod] ||
                 username != Defaults[.gitRepositoryUsername] ||
-                password != Defaults[.gitRepositoryPassword] {
+                password != PasswordStore.shared.gitRepositoryPassword {
                 
                 SVProgressHUD.setDefaultMaskType(.black)
                 SVProgressHUD.setDefaultStyle(.light)
@@ -82,7 +82,7 @@ class PasswordRepositorySettingsTableViewController: BasicStaticTableViewControl
                             NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
                             Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
                             Defaults[.gitRepositoryUsername] = username
-                            Defaults[.gitRepositoryPassword] = password
+                            PasswordStore.shared.gitRepositoryPassword = password
                             Defaults[.gitRepositoryAuthenticationMethod] = auth
                             Defaults[.gitRepositoryPasswordAttempts] = 0
                             SVProgressHUD.showSuccess(withStatus: "Done")

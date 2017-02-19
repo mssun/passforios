@@ -44,6 +44,7 @@
 		DCA0499A1E335CC800522E8F /* GitServerSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA049991E335CC800522E8F /* GitServerSettingTableViewController.swift */; };
 		DCA0499C1E3362F400522E8F /* PGPKeySettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0499B1E3362F400522E8F /* PGPKeySettingTableViewController.swift */; };
 		DCA0499E1E33BAC100522E8F /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0499D1E33BAC100522E8F /* Globals.swift */; };
+		DCA742DA1E599ED400D54E16 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA742D91E599ED400D54E16 /* KeychainAccess.framework */; };
 		DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */; };
 		DCC277D21E30D6EA00402246 /* pass.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCC408C81E30BA1300F29B0E /* pass.xcdatamodeld */; };
 		DCC408A41E2FCC9E00F29B0E /* PasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC408A31E2FCC9E00F29B0E /* PasswordStore.swift */; };
@@ -104,6 +105,7 @@
 		DCA049991E335CC800522E8F /* GitServerSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitServerSettingTableViewController.swift; sourceTree = "<group>"; };
 		DCA0499B1E3362F400522E8F /* PGPKeySettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPKeySettingTableViewController.swift; sourceTree = "<group>"; };
 		DCA0499D1E33BAC100522E8F /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		DCA742D91E599ED400D54E16 /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/iOS/KeychainAccess.framework; sourceTree = "<group>"; };
 		DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		DCC408A31E2FCC9E00F29B0E /* PasswordStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
 		DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				DC917BEF1E2F38C5000FDF54 /* Result.framework in Frameworks */,
 				DC037CAC1E4C1C7100609409 /* FavIcon.framework in Frameworks */,
 				DCC408C71E307DBB00F29B0E /* SVProgressHUD.framework in Frameworks */,
+				DCA742DA1E599ED400D54E16 /* KeychainAccess.framework in Frameworks */,
 				DC193FFC1E49E0340077E0A3 /* PasscodeLock.framework in Frameworks */,
 				DC1208581E35EBE60042942E /* ObjectiveGit.framework in Frameworks */,
 				DCA049961E3357E000522E8F /* SwiftyUserDefaults.framework in Frameworks */,
@@ -255,6 +258,7 @@
 		DC917BED1E2F38C4000FDF54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DCA742D91E599ED400D54E16 /* KeychainAccess.framework */,
 				DC037CAB1E4C1C7100609409 /* FavIcon.framework */,
 				DC193FFB1E49E0340077E0A3 /* PasscodeLock.framework */,
 				DC1208571E35EBE60042942E /* ObjectiveGit.framework */,
@@ -277,7 +281,7 @@
 				DC917BCF1E2E8231000FDF54 /* Sources */,
 				DC917BD01E2E8231000FDF54 /* Frameworks */,
 				DC917BD11E2E8231000FDF54 /* Resources */,
-				DC917BEC1E2F3659000FDF54 /* ShellScript */,
+				DC917BEC1E2F3659000FDF54 /* Run Script */,
 				58F20B5DB8A41D610AF2145E /* [CP] Embed Pods Frameworks */,
 				D5AA0953A6BB441CE2390DE3 /* [CP] Copy Pods Resources */,
 			);
@@ -390,7 +394,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-pass/Pods-pass-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DC917BEC1E2F3659000FDF54 /* ShellScript */ = {
+		DC917BEC1E2F3659000FDF54 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
 			files = (
@@ -402,7 +406,9 @@
 				"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/PasscodeLock.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/FavIcon.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/KeychainAccess.framework",
 			);
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;

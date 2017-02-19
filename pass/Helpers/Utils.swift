@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyUserDefaults
+import KeychainAccess
 import UIKit
 
 class Utils {
@@ -69,6 +70,37 @@ class Utils {
         Defaults.remove(.pgpPrivateKeyURL)
         Defaults.remove(.pgpPublicKeyURL)
         Defaults.remove(.pgpKeyID)
+    }
+    
+    static func getPasswordFromKeychain(name: String) -> String? {
+        let keychain = Keychain(service: "me.mssun.passforios")
+        do {
+            return try keychain.getString(name)
+        } catch {
+            print(error)
+        }
+        return nil
+    }
+    
+    static func addPasswrodToKeychain(name: String, password: String) {
+        let keychain = Keychain(service: "me.mssun.passforios")
+        keychain[name] = password
+    }
+    static func removeKeychain(name: String) {
+        let keychain = Keychain(service: "me.mssun.passforios")
+        do {
+            try keychain.remove(name)
+        } catch {
+            print(error)
+        }
+    }
+    static func removeAllKeychain() {
+        let keychain = Keychain(service: "me.mssun.passforios")
+        do {
+            try keychain.removeAll()
+        } catch {
+            print(error)
+        }
     }
 }
 

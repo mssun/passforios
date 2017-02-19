@@ -18,7 +18,7 @@ class PGPKeyArmorSettingTableViewController: UITableViewController {
         super.viewDidLoad()
         armorPublicKeyTextView.text = Defaults[.pgpPublicKeyArmor]
         armorPrivateKeyTextView.text = Defaults[.pgpPrivateKeyArmor]
-        pgpPassphrase = Defaults[.pgpKeyPassphrase]
+        pgpPassphrase = PasswordStore.shared.pgpKeyPassphrase
     }
     
     @IBAction func save(_ sender: Any) {

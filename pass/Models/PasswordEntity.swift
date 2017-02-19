@@ -14,7 +14,7 @@ extension PasswordEntity {
         var password: Password?
         let encryptedDataPath = URL(fileURLWithPath: "\(Globals.repositoryPath)/\(rawPath!)")
         let encryptedData = try Data(contentsOf: encryptedDataPath)
-        let decryptedData = try PasswordStore.shared.pgp.decryptData(encryptedData, passphrase: Defaults[.pgpKeyPassphrase])
+        let decryptedData = try PasswordStore.shared.pgp.decryptData(encryptedData, passphrase: PasswordStore.shared.pgpKeyPassphrase!)
         let plainText = String(data: decryptedData, encoding: .ascii) ?? ""
         password = Password(name: name!, plainText: plainText)
         return password

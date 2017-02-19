@@ -13,10 +13,8 @@ class GitServerSettingTableViewController: UITableViewController {
 
     @IBOutlet weak var gitRepositoryURLTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
-//    @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var authenticationTableViewCell: UITableViewCell!
-    
-//    var password: String?
+    var password: String?
     
     var authenticationMethod = Defaults[.gitRepositoryAuthenticationMethod]
 
@@ -27,8 +25,8 @@ class GitServerSettingTableViewController: UITableViewController {
             gitRepositoryURLTextField.text = url.absoluteString
         }
         usernameTextField.text = Defaults[.gitRepositoryUsername]
-//        passwordTextField.text = Defaults[.gitRepositoryPassword]
         authenticationTableViewCell.detailTextLabel?.text = authenticationMethod
+        password = PasswordStore.shared.gitRepositoryPassword
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -74,13 +72,13 @@ class GitServerSettingTableViewController: UITableViewController {
         if authenticationMethod == "Password" {
             let alert = UIAlertController(title: "Password", message: "Please fill in the password of your Git account.", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
-                Defaults[.gitRepositoryPassword] = alert.textFields?.first?.text
+                self.password = alert.textFields!.first!.text
                 if self.shouldPerformSegue(withIdentifier: "saveGitServerSettingSegue", sender: self) {
                     self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
                 }
             }))
             alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = Defaults[.gitRepositoryPassword]
+                textField.text = self.password
                 textField.isSecureTextEntry = true
             })
             self.present(alert, animated: true, completion: nil)
