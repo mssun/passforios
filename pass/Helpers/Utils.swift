@@ -64,12 +64,12 @@ class Utils {
         removeFileIfExists(atPath: Globals.pgpPublicKeyPath)
         removeFileIfExists(atPath: Globals.pgpPrivateKeyPath)
         Defaults.remove(.pgpKeySource)
-        Defaults.remove(.pgpKeyPassphrase)
         Defaults.remove(.pgpPublicKeyArmor)
         Defaults.remove(.pgpPrivateKeyArmor)
         Defaults.remove(.pgpPrivateKeyURL)
         Defaults.remove(.pgpPublicKeyURL)
         Defaults.remove(.pgpKeyID)
+        Utils.removeKeychain(name: ".pgpKeyPassphrase")
     }
     
     static func getPasswordFromKeychain(name: String) -> String? {
