@@ -15,7 +15,7 @@ class SpecialThanksTableViewController: BasicStaticTableViewController {
         ["Icon8",
          "https://icons8.com"],
         ["FlatIcon",
-         "https://http://www.flaticon.com"],
+         "https://www.flaticon.com"],
         ]
     
     override func viewDidLoad() {
