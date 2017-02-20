@@ -50,6 +50,9 @@ class Password {
         var unknownIndex = 0
 
         additionFieldsPlainText.enumerateLines() { line, _ in
+            if line == "" {
+                return
+            }
             let items = line.characters.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: true).map(String.init)
             var key = ""
             var value = ""
