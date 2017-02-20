@@ -29,7 +29,7 @@ class AboutTableViewController: BasicStaticTableViewController {
             let view = UIView()
             let footerLabel = UILabel(frame: CGRect(x: 8, y: 15, width: tableView.frame.width, height: 60))
             footerLabel.numberOfLines = 0
-            footerLabel.text = "pass for iOS \(Globals.version)\nBob Sun"
+            footerLabel.text = "Pass for iOS \(Globals.version)\nBob Sun"
             footerLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
             footerLabel.textColor = UIColor.lightGray
             footerLabel.textAlignment = .center
