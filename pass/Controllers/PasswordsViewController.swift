@@ -252,6 +252,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     func actOnPasswordStoreErasedNotification() {
         passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
         reloadTableView(data: passwordEntities!)
+        setNavigationItemTitle()
     }
     
     func actOnSearchNotification() {
