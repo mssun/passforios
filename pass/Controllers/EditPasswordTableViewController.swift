@@ -19,6 +19,8 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
             [[.type: PasswordEditorCellType.textViewCell, .title: "additions", .content: password!.getAdditionsPlainText()]],
         ]
         sectionHeaderTitles = ["name", "password", "additions"].map {$0.uppercased()}
+        sectionFooterTitles = ["", "", "It is recommended to use \"key: value\" format to store additional fields as follows:\n  url: https://www.apple.com\n  username: passforios@gmail.com."]
+
         super.viewDidLoad()
     }
     

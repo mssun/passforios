@@ -21,6 +21,7 @@ class PasswordEditorTableViewController: UITableViewController {
         [Dictionary<PasswordEditorCellKey, Any>]
     ]()
     var sectionHeaderTitles = [String]()
+    var sectionFooterTitles = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +34,8 @@ class PasswordEditorTableViewController: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 48
         tableView.allowsSelection = false
+        self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
+        self.tableView.estimatedSectionFooterHeight = 0;
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -56,10 +59,6 @@ class PasswordEditorTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 44
     }
-    
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0.1
-    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return tableData.count
@@ -71,6 +70,10 @@ class PasswordEditorTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sectionHeaderTitles[section]
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        return sectionFooterTitles[section]
     }
 
 
