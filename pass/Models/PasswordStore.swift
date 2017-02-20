@@ -84,21 +84,19 @@ class PasswordStore {
     let pgp: ObjectivePGP = ObjectivePGP()
     
     var pgpKeyPassphrase: String? {
-        didSet {
-            if pgpKeyPassphrase != nil {
-                Utils.addPasswrodToKeychain(name: "pgpKeyPassphrase", password: pgpKeyPassphrase!)
-            } else {
-                Utils.removeKeychain(name: "pgpKeyPassphrase")
-            }
+        set {
+            Utils.addPasswrodToKeychain(name: "pgpKeyPassphrase", password: newValue!)
+        }
+        get {
+            return Utils.getPasswordFromKeychain(name: "pgpKeyPassphrase")
         }
     }
-    var gitRepositoryPassword: String?  {
-        didSet {
-            if gitRepositoryPassword != nil {
-                Utils.addPasswrodToKeychain(name: "gitRepositoryPassword", password: gitRepositoryPassword!)
-            } else {
-                Utils.removeKeychain(name: "gitRepositoryPassword")
-            }
+    var gitRepositoryPassword: String? {
+        set {
+            Utils.addPasswrodToKeychain(name: "gitRepositoryPassword", password: newValue!)
+        }
+        get {
+            return Utils.getPasswordFromKeychain(name: "gitRepositoryPassword")
         }
     }
     
@@ -119,14 +117,12 @@ class PasswordStore {
 
         }
         if Defaults[.gitRepositoryAuthenticationMethod] == "Password" {
-            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitRepositoryUsername]!, password: PasswordStore.shared.gitRepositoryPassword!))
+            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitRepositoryUsername]!, password: Utils.getPasswordFromKeychain(name: "gitRepositoryPassword") ?? ""))
         } else if Defaults[.gitRepositoryAuthenticationMethod] == "SSH Key"{
             gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: Defaults[.gitRepositoryUsername]!, password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.sshPublicKeyURL, privateKeyFile: Globals.sshPrivateKeyURL))
         } else {
             gitCredential = nil
         }
-        pgpKeyPassphrase = Utils.getPasswordFromKeychain(name: "pgpKeyPassphrase")
-        gitRepositoryPassword = Utils.getPasswordFromKeychain(name: "gitRepositoryPassword")
         
     }
     
@@ -465,8 +461,7 @@ class PasswordStore {
         Utils.removeFileIfExists(at: Globals.sshPublicKeyURL)
         
         Utils.removeAllKeychain()
-        pgpKeyPassphrase = nil
-        gitRepositoryPassword = nil
+
         
         deleteCoreData(entityName: "PasswordEntity")
         deleteCoreData(entityName: "PasswordCategoryEntity")

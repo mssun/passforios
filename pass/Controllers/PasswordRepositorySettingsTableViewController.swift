@@ -82,7 +82,6 @@ class PasswordRepositorySettingsTableViewController: BasicStaticTableViewControl
                             NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
                             Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
                             Defaults[.gitRepositoryUsername] = username
-                            PasswordStore.shared.gitRepositoryPassword = password
                             Defaults[.gitRepositoryAuthenticationMethod] = auth
                             Defaults[.gitRepositoryPasswordAttempts] = 0
                             SVProgressHUD.showSuccess(withStatus: "Done")
