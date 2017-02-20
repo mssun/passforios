@@ -13,7 +13,8 @@ class GitServerSettingTableViewController: UITableViewController {
 
     @IBOutlet weak var gitRepositoryURLTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet weak var authenticationTableViewCell: UITableViewCell!
+    @IBOutlet weak var authSSHKeyCell: UITableViewCell!
+    @IBOutlet weak var authPasswordCell: UITableViewCell!
     var password: String?
     
     var authenticationMethod = Defaults[.gitRepositoryAuthenticationMethod]
@@ -25,25 +26,25 @@ class GitServerSettingTableViewController: UITableViewController {
             gitRepositoryURLTextField.text = url.absoluteString
         }
         usernameTextField.text = Defaults[.gitRepositoryUsername]
-        authenticationTableViewCell.detailTextLabel?.text = authenticationMethod
         password = PasswordStore.shared.gitRepositoryPassword
+        if authenticationMethod == nil {
+            authPasswordCell.accessoryType = .checkmark
+            authenticationMethod = "Password"
+        } else {
+            switch authenticationMethod! {
+            case "Password":
+                authPasswordCell.accessoryType = .checkmark
+            case "SSH Key":
+                authSSHKeyCell.accessoryType = .checkmark
+            default:
+                authPasswordCell.accessoryType = .checkmark
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if authenticationMethod == "SSH Key" {
-            if Defaults[.gitRepositorySSHPublicKeyURL] == nil && Defaults[.gitRepositorySSHPrivateKeyURL] == nil {
-                authenticationMethod = "Password"
-                Utils.alert(title: "Cannot Select SSH Key", message: "Please setup SSH key first.", controller: self, completion: nil)
-            } else {
-                authenticationMethod = "SSH Key"
-            }
-        }
-        authenticationTableViewCell.detailTextLabel?.text = authenticationMethod
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -68,6 +69,26 @@ class GitServerSettingTableViewController: UITableViewController {
         return true
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        if cell == authPasswordCell {
+            authPasswordCell.accessoryType = .checkmark
+            authSSHKeyCell.accessoryType = .none
+            authenticationMethod = "Password"
+        } else if cell == authSSHKeyCell {
+            authPasswordCell.accessoryType = .none
+            authSSHKeyCell.accessoryType = .checkmark
+            if Defaults[.gitRepositorySSHPublicKeyURL] == nil && Defaults[.gitRepositorySSHPrivateKeyURL] == nil {
+                Utils.alert(title: "Cannot Select SSH Key", message: "Please setup SSH key first.", controller: self, completion: nil)
+                authenticationMethod = "Password"
+                authSSHKeyCell.accessoryType = .none
+                authPasswordCell.accessoryType = .checkmark
+            }
+            authenticationMethod = "SSH Key"
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     @IBAction func save(_ sender: Any) {
         if authenticationMethod == "Password" {
             let alert = UIAlertController(title: "Password", message: "Please fill in the password of your Git account.", preferredStyle: UIAlertControllerStyle.alert)
@@ -85,25 +106,6 @@ class GitServerSettingTableViewController: UITableViewController {
         } else {
             if self.shouldPerformSegue(withIdentifier: "saveGitServerSettingSegue", sender: self) {
                 self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
-            }
-        }
-    }
-    
-    @IBAction func saveAuthMethod(segue: UIStoryboardSegue) {
-        if let controller = segue.source as? UITableViewController {
-            if controller.tableView.indexPathForSelectedRow == IndexPath(row: 0, section:0) {
-                authenticationMethod = "Password"
-            } else {
-                authenticationMethod = "SSH Key"
-            }
-        }
-        authenticationTableViewCell.detailTextLabel?.text = authenticationMethod
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "selectAuthenticationMethod" {
-            if let controller = segue.destination as? GitRepositoryAuthenticationSettingTableViewController {
-                controller.selectedMethod = authenticationTableViewCell.detailTextLabel!.text
             }
         }
     }
