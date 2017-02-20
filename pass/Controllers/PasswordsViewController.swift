@@ -191,7 +191,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             password = passwordEntities![index]
         }
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        SVProgressHUD.setDefaultMaskType(.clear)
+        SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.dark)
         SVProgressHUD.show(withStatus: "Decrypting")
         DispatchQueue.global(qos: .userInteractive).async {
