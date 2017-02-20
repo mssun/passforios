@@ -83,8 +83,9 @@ class GitServerSettingTableViewController: UITableViewController {
                 authenticationMethod = "Password"
                 authSSHKeyCell.accessoryType = .none
                 authPasswordCell.accessoryType = .checkmark
+            } else {
+                authenticationMethod = "SSH Key"
             }
-            authenticationMethod = "SSH Key"
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
