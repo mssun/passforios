@@ -17,9 +17,6 @@ extension DefaultsKeys {
     
     static let pgpPublicKeyArmor = DefaultsKey<String?>("pgpPublicKeyArmor")
     static let pgpPrivateKeyArmor = DefaultsKey<String?>("pgpPrivateKeyArmor")
-//    
-//    static let pgpPrivateKeyURLPassphrase = DefaultsKey<String?>("pgpPrivateKeyURLPassphrase")
-//    static let pgpPrivateKeyArmorPassphrase = DefaultsKey<String?>("pgpPrivateKeyArmorPassphrase")
     static let pgpKeyID = DefaultsKey<String?>("pgpKeyID")
     static let pgpKeyUserID = DefaultsKey<String?>("pgpKeyUserID")
     
@@ -36,5 +33,12 @@ extension DefaultsKeys {
     static let passcodeKey = DefaultsKey<String?>("passcodeKey")
     
     static let isHideUnknownOn = DefaultsKey<Bool>("isHideUnknownOn")
+    
+    static let passwordGenerationMethod = DefaultsKey<String>("passwordGenerationMethod")
 
+    func initDefaultKeys() {
+        if Defaults[.passwordGenerationMethod] == "" {
+            Defaults[.passwordGenerationMethod] = "Random"
+        }
+    }
 }

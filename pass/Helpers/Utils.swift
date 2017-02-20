@@ -37,6 +37,17 @@ class Utils {
         return lastUpdatedTimeString
     }
     
+    static func generatePassword(length: Int) -> String{
+        switch Defaults[.passwordGenerationMethod] {
+        case "Random":
+            return randomString(length: length)
+        case "Keychain":
+            return Keychain.generatePassword()
+        default:
+            return randomString(length: length)
+        }
+    }
+    
     static func randomString(length: Int) -> String {
         
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
