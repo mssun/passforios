@@ -41,7 +41,7 @@ class SettingsTableViewController: UITableViewController {
                                                      pgpPrivateKeyLocalPath: Globals.pgpPrivateKeyPath)
                     DispatchQueue.main.async {
                         self.pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
-                        SVProgressHUD.showSuccess(withStatus: "Success.")
+                        SVProgressHUD.showSuccess(withStatus: "Success")
                         SVProgressHUD.dismiss(withDelay: 1)
                         Utils.alert(title: "Rememver to Remove the Key", message: "Remember to remove the key from the server.", controller: self, completion: nil)
                     }
@@ -74,7 +74,7 @@ class SettingsTableViewController: UITableViewController {
                                                      pgpPrivateKeyLocalPath: Globals.pgpPrivateKeyPath)
                     DispatchQueue.main.async {
                         self.pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
-                        SVProgressHUD.showSuccess(withStatus: "Success.")
+                        SVProgressHUD.showSuccess(withStatus: "Success")
                         SVProgressHUD.dismiss(withDelay: 1)
                     }
                 } catch {
