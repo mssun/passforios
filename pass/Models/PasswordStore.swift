@@ -64,6 +64,7 @@ struct GitCredential {
                     return nil
                 }
                 Defaults[.gitRepositoryPasswordAttempts] += 1
+                PasswordStore.shared.gitRepositoryPassword = newPassword
                 credential = try? GTCredential(userName: userName, password: newPassword)
             case let .ssh(userName, password, publicKeyFile, privateKeyFile):
                 credential = try? GTCredential(userName: userName, publicKeyURL: publicKeyFile, privateKeyURL: privateKeyFile, passphrase: password)

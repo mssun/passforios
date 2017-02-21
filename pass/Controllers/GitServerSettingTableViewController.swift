@@ -19,7 +19,22 @@ class GitServerSettingTableViewController: UITableViewController {
     
     var authenticationMethod = Defaults[.gitRepositoryAuthenticationMethod]
 
-    
+    private func checkAuthenticationMethod(method: String) {
+        let passwordCheckView = authPasswordCell.viewWithTag(1001)!
+        let sshKeyCheckView = authSSHKeyCell.viewWithTag(1001)!
+
+        switch method {
+        case "Password":
+            passwordCheckView.isHidden = false
+            sshKeyCheckView.isHidden = true
+        case "SSH Key":
+            passwordCheckView.isHidden = true
+            sshKeyCheckView.isHidden = false
+        default:
+            passwordCheckView.isHidden = false
+            sshKeyCheckView.isHidden = true
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         if let url = Defaults[.gitRepositoryURL] {
@@ -27,18 +42,18 @@ class GitServerSettingTableViewController: UITableViewController {
         }
         usernameTextField.text = Defaults[.gitRepositoryUsername]
         password = PasswordStore.shared.gitRepositoryPassword
+        authenticationMethod = Defaults[.gitRepositoryAuthenticationMethod]
         if authenticationMethod == nil {
-            authPasswordCell.accessoryType = .checkmark
             authenticationMethod = "Password"
-        } else {
-            switch authenticationMethod! {
-            case "Password":
-                authPasswordCell.accessoryType = .checkmark
-            case "SSH Key":
-                authSSHKeyCell.accessoryType = .checkmark
-            default:
-                authPasswordCell.accessoryType = .checkmark
-            }
+        }
+        checkAuthenticationMethod(method: authenticationMethod!)
+        authSSHKeyCell.accessoryType = .detailButton
+    }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        if cell == authSSHKeyCell {
+            performSegue(withIdentifier: "showSSHKeySettingSegue", sender: self)
         }
     }
     
@@ -72,21 +87,16 @@ class GitServerSettingTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         if cell == authPasswordCell {
-            authPasswordCell.accessoryType = .checkmark
-            authSSHKeyCell.accessoryType = .none
             authenticationMethod = "Password"
         } else if cell == authSSHKeyCell {
-            authPasswordCell.accessoryType = .none
-            authSSHKeyCell.accessoryType = .checkmark
             if Defaults[.gitRepositorySSHPublicKeyURL] == nil && Defaults[.gitRepositorySSHPrivateKeyURL] == nil {
                 Utils.alert(title: "Cannot Select SSH Key", message: "Please setup SSH key first.", controller: self, completion: nil)
                 authenticationMethod = "Password"
-                authSSHKeyCell.accessoryType = .none
-                authPasswordCell.accessoryType = .checkmark
             } else {
                 authenticationMethod = "SSH Key"
             }
         }
+        checkAuthenticationMethod(method: authenticationMethod!)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
