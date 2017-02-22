@@ -247,6 +247,8 @@ class SettingsTableViewController: UITableViewController {
             optionMenu.addAction(deleteAction)
         }
         optionMenu.addAction(cancelAction)
+        optionMenu.popoverPresentationController?.sourceView = pgpKeyTableViewCell
+        optionMenu.popoverPresentationController?.sourceRect = pgpKeyTableViewCell.bounds
         self.present(optionMenu, animated: true, completion: nil)
     }
     
@@ -273,6 +275,8 @@ class SettingsTableViewController: UITableViewController {
         optionMenu.addAction(removePasscodeAction)
         optionMenu.addAction(changePasscodeAction)
         optionMenu.addAction(cancelAction)
+        optionMenu.popoverPresentationController?.sourceView = passcodeTableViewCell
+        optionMenu.popoverPresentationController?.sourceRect = passcodeTableViewCell.bounds
         self.present(optionMenu, animated: true, completion: nil)
     }
     
