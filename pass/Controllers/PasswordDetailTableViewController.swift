@@ -80,11 +80,14 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             do {
                 self.password = try self.passwordEntity!.decrypt()!
             } catch {
-                let alert = UIAlertController(title: "Cannot Show Password", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {(UIAlertAction) -> Void in
-                    self.navigationController!.popViewController(animated: true)
-                }))
-                self.present(alert, animated: true, completion: nil)
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Cannot Show Password", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {(UIAlertAction) -> Void in
+                        self.navigationController!.popViewController(animated: true)
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                }
+                return
             }
 
             let password = self.password!
