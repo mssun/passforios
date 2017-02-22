@@ -259,6 +259,22 @@ class PasswordStore {
         }
     }
     
+    func getRecentCommits(count: Int) -> [GTCommit] {
+        var commits = [GTCommit]()
+        do {
+            let enumerator = try GTEnumerator(repository: storeRepository!)
+            try enumerator.pushSHA(storeRepository!.headReference().targetOID.sha!)
+            for _ in 0 ..< count {
+                let commit = try enumerator.nextObject(withSuccess: nil)
+                commits.append(commit)
+            }
+        } catch {
+            print(error)
+            return commits
+        }
+        return commits
+    }
+    
     func fetchPasswordEntityCoreData() -> [PasswordEntity] {
         let passwordEntityFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         do {
