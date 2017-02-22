@@ -30,10 +30,11 @@ Pass for iOS is under *TestFlight external testing*. Drop me an email for testin
 
 ## Build
 
-1. Run carthage bootstrap: `carthage bootstrap --platform iOS`
-2. Run pod install in the project root directory: `pod install`
-3. Open `.xcworkspace` file in Xcode.
-4. Build & Run.
+1. Install libtool, automake and cmake: `brew install libtool automake cmake`
+2. Run carthage bootstrap: `carthage bootstrap --platform iOS`
+3. Run pod install in the project root directory: `pod install`
+4. Open `.xcworkspace` file in Xcode.
+5. Build & Run.
 
 ## Usage
 
