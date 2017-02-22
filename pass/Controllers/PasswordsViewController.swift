@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Result
 import SVProgressHUD
 import SwiftyUserDefaults
 import PasscodeLock

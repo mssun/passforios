@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Result
 import CoreData
 import UIKit
 import SwiftyUserDefaults

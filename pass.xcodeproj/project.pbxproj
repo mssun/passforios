@@ -35,7 +35,6 @@
 		DC917BDC1E2E8231000FDF54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDA1E2E8231000FDF54 /* Main.storyboard */; };
 		DC917BDE1E2E8231000FDF54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
 		DC917BE11E2E8231000FDF54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDF1E2E8231000FDF54 /* LaunchScreen.storyboard */; };
-		DC917BEF1E2F38C5000FDF54 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC917BEE1E2F38C5000FDF54 /* Result.framework */; };
 		DC962CDF1E4B62C10033B5D8 /* AboutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC962CDE1E4B62C10033B5D8 /* AboutTableViewController.swift */; };
 		DCA049961E3357E000522E8F /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */; };
 		DCA049981E33586A00522E8F /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA049971E33586A00522E8F /* DefaultsKeys.swift */; };
@@ -94,7 +93,6 @@
 		DC917BDD1E2E8231000FDF54 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DC917BE01E2E8231000FDF54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DC917BE21E2E8231000FDF54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DC917BEE1E2F38C5000FDF54 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		DC962CDE1E4B62C10033B5D8 /* AboutTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutTableViewController.swift; sourceTree = "<group>"; };
 		DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyUserDefaults.framework; path = Carthage/Build/iOS/SwiftyUserDefaults.framework; sourceTree = "<group>"; };
 		DCA049971E33586A00522E8F /* DefaultsKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultsKeys.swift; sourceTree = "<group>"; };
@@ -124,7 +122,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC917BEF1E2F38C5000FDF54 /* Result.framework in Frameworks */,
 				DC037CAC1E4C1C7100609409 /* FavIcon.framework in Frameworks */,
 				DCC408C71E307DBB00F29B0E /* SVProgressHUD.framework in Frameworks */,
 				DCA742DA1E599ED400D54E16 /* KeychainAccess.framework in Frameworks */,
@@ -258,7 +255,6 @@
 				DC1208571E35EBE60042942E /* ObjectiveGit.framework */,
 				DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */,
 				DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */,
-				DC917BEE1E2F38C5000FDF54 /* Result.framework */,
 				ADCE7A5C3CCC67D7D21BB3C4 /* libPods-pass.a */,
 			);
 			name = Frameworks;
@@ -394,7 +390,6 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SVProgressHUD.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftyUserDefaults.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework",
