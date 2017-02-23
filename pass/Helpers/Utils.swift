@@ -113,6 +113,18 @@ class Utils {
             print(error)
         }
     }
+    static func copyToPasteboard(textToCopy: String?, expirationTime: Double = 45) {
+        guard textToCopy != nil else {
+            return
+        }
+        UIPasteboard.general.string = textToCopy
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: DispatchTime.now() + expirationTime) {
+            let pasteboardString: String? = UIPasteboard.general.string
+            if textToCopy == pasteboardString {
+                UIPasteboard.general.string = ""
+            }
+        }
+    }
 }
 
 // https://gist.github.com/NikolaiRuhe/eeb135d20c84a7097516

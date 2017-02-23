@@ -198,7 +198,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             do {
                 decryptedPassword = try password.decrypt()!
                 DispatchQueue.main.async {
-                    UIPasteboard.general.string = decryptedPassword?.password
+                    Utils.copyToPasteboard(textToCopy: decryptedPassword?.password)
                     SVProgressHUD.showSuccess(withStatus: "Password Copied")
                     SVProgressHUD.dismiss(withDelay: 0.6)
                 }
