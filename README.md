@@ -8,7 +8,8 @@ Pass is an iOS client compatible with [ZX2C4's Pass command line
 application](http://www.passwordstore.org/).  It is a password manager using
 GPG for encryption and Git for version control.
 
-Pass for iOS is under *TestFlight external testing*. Drop me an email for testing. Thank you.
+Pass for iOS is under *TestFlight external testing*. Drop me an email for
+testing. Thank you.
 
 ## Features
 
@@ -30,8 +31,10 @@ Pass for iOS is under *TestFlight external testing*. Drop me an email for testin
 
 ## Build
 
-1. Install libtool, automake, cmake, carthage, and cocoapods: `brew install libtool automake cmake carthage cocoapods`
-2. Run carthage bootstrap in the project root directory: `carthage bootstrap --platform iOS`
+1. Install libtool, automake, cmake, carthage, and cocoapods: `brew install
+   libtool automake cmake carthage cocoapods`
+2. Run carthage bootstrap in the project root directory: `carthage bootstrap
+   --platform iOS` (this could take a long time to build related frameworks)
 3. Run pod install in the project root directory: `pod install`
 4. Open `.xcworkspace` file in Xcode.
 5. Build & Run.
