@@ -131,7 +131,7 @@ class PasswordStore {
         } catch {
             print(error)
         }
-        if Defaults[.pgpKeyID] != "" {
+        if Defaults[.pgpKeyID] != nil {
             pgp.importKeys(fromFile: Globals.pgpPublicKeyPath, allowDuplicates: false)
             pgp.importKeys(fromFile: Globals.pgpPrivateKeyPath, allowDuplicates: false)
 
