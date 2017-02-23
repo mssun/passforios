@@ -77,13 +77,14 @@ struct GitCredential {
                     newPassword = passwordNotSetCallback!()
                 }
 
+                // Save password for the future
+                Utils.addPasswrodToKeychain(name: "gitRepositorySSHPrivateKeyPassphrase", password: newPassword!)
+
                 // nil is expected in case of empty password
                 if newPassword == "" {
                     newPassword = nil
                 }
 
-                // Save password for the future
-                Defaults[.gitRepositorySSHPrivateKeyPassphrase] = newPassword
 
                 credential = try? GTCredential(userName: userName, publicKeyURL: publicKeyFile, privateKeyURL: privateKeyFile, passphrase: newPassword)
             }
@@ -141,7 +142,7 @@ class PasswordStore {
             gitCredential = GitCredential(
                 credential: GitCredential.Credential.ssh(
                     userName: Defaults[.gitRepositoryUsername]!,
-                    password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!,
+                    password: Utils.getPasswordFromKeychain(name: "gitRepositorySSHPrivateKeyPassphrase")!,
                     publicKeyFile: Globals.sshPublicKeyURL,
                     privateKeyFile: Globals.sshPrivateKeyURL,
                     passwordNotSetCallback: nil
