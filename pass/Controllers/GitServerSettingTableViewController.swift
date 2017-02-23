@@ -43,9 +43,16 @@ class GitServerSettingTableViewController: UITableViewController {
         usernameTextField.text = Defaults[.gitRepositoryUsername]
         password = PasswordStore.shared.gitRepositoryPassword
         authenticationMethod = Defaults[.gitRepositoryAuthenticationMethod]
-        if authenticationMethod == nil {
+
+        // Grey out ssh option if ssh_key and ssh_key.pub are not present
+        let sshLabel = authSSHKeyCell.subviews[0].subviews[0] as! UILabel
+
+        sshLabel.isEnabled = sshKeyExists()
+
+        if authenticationMethod == nil || !sshLabel.isEnabled {
             authenticationMethod = "Password"
         }
+
         checkAuthenticationMethod(method: authenticationMethod!)
         authSSHKeyCell.accessoryType = .detailButton
     }
@@ -83,13 +90,19 @@ class GitServerSettingTableViewController: UITableViewController {
         }
         return true
     }
-    
+
+    func sshKeyExists() -> Bool {
+        return FileManager.default.fileExists(atPath: Globals.sshPublicKeyURL.path) &&
+            FileManager.default.fileExists(atPath: Globals.sshPrivateKeyURL.path)
+    }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         if cell == authPasswordCell {
             authenticationMethod = "Password"
         } else if cell == authSSHKeyCell {
-            if Defaults[.gitRepositorySSHPublicKeyURL] == nil && Defaults[.gitRepositorySSHPrivateKeyURL] == nil {
+
+            if !sshKeyExists() {
                 Utils.alert(title: "Cannot Select SSH Key", message: "Please setup SSH key first.", controller: self, completion: nil)
                 authenticationMethod = "Password"
             } else {
