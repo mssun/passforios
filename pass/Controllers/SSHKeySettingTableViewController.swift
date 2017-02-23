@@ -18,7 +18,7 @@ class SSHKeySettingTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        passphraseTextField.text = Utils.getPasswordFromKeychain(name: "gitRepositorySSHPrivateKeyPassphrase")!
+        passphraseTextField.text = Utils.getPasswordFromKeychain(name: "gitRepositorySSHPrivateKeyPassphrase") ?? ""
         privateKeyURLTextField.text = Defaults[.gitRepositorySSHPrivateKeyURL]?.absoluteString
         publicKeyURLTextField.text = Defaults[.gitRepositorySSHPublicKeyURL]?.absoluteString
         var doneBarButtonItem: UIBarButtonItem?

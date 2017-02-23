@@ -142,7 +142,7 @@ class PasswordStore {
             gitCredential = GitCredential(
                 credential: GitCredential.Credential.ssh(
                     userName: Defaults[.gitRepositoryUsername]!,
-                    password: Utils.getPasswordFromKeychain(name: "gitRepositorySSHPrivateKeyPassphrase")!,
+                    password: Utils.getPasswordFromKeychain(name: "gitRepositorySSHPrivateKeyPassphrase") ?? "",
                     publicKeyFile: Globals.sshPublicKeyURL,
                     privateKeyFile: Globals.sshPrivateKeyURL,
                     passwordNotSetCallback: nil

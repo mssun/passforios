@@ -116,7 +116,7 @@ class SettingsTableViewController: UITableViewController {
                     gitCredential = GitCredential(
                         credential: GitCredential.Credential.ssh(
                             userName: username,
-                            password: Utils.getPasswordFromKeychain(name: "gitRepositorySSHPrivateKeyPassphrase")!,
+                            password: Utils.getPasswordFromKeychain(name: "gitRepositorySSHPrivateKeyPassphrase") ?? "",
                             publicKeyFile: Globals.sshPublicKeyURL,
                             privateKeyFile: Globals.sshPrivateKeyURL,
                             passwordNotSetCallback: self.requestSshKeyPassword
