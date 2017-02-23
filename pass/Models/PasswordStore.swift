@@ -17,11 +17,11 @@ struct GitCredential {
     
     enum Credential {
         case http(userName: String, password: String)
-        case ssh(userName: String, password: String, publicKeyFile: URL, privateKeyFile: URL)
+        case ssh(userName: String, password: String, publicKeyFile: URL, privateKeyFile: URL, passwordNotSetCallback: (() -> String)? )
     }
     
     var credential: Credential
-    
+
     func credentialProvider() throws -> GTCredentialProvider {
         return GTCredentialProvider { (_, _, _) -> (GTCredential?) in
             var credential: GTCredential? = nil
@@ -65,8 +65,27 @@ struct GitCredential {
                 Defaults[.gitRepositoryPasswordAttempts] += 1
                 PasswordStore.shared.gitRepositoryPassword = newPassword
                 credential = try? GTCredential(userName: userName, password: newPassword)
-            case let .ssh(userName, password, publicKeyFile, privateKeyFile):
-                credential = try? GTCredential(userName: userName, publicKeyURL: publicKeyFile, privateKeyURL: privateKeyFile, passphrase: password)
+            case let .ssh(userName, password, publicKeyFile, privateKeyFile, passwordNotSetCallback):
+
+                var newPassword:String? = password
+
+                // Check if the private key is encrypted
+                let encrypted = try? String(contentsOf: privateKeyFile).contains("ENCRYPTED")
+
+                // Request password if not already set
+                if encrypted! && password == "" {
+                    newPassword = passwordNotSetCallback!()
+                }
+
+                // nil is expected in case of empty password
+                if newPassword == "" {
+                    newPassword = nil
+                }
+
+                // Save password for the future
+                Defaults[.gitRepositorySSHPrivateKeyPassphrase] = newPassword
+
+                credential = try? GTCredential(userName: userName, publicKeyURL: publicKeyFile, privateKeyURL: privateKeyFile, passphrase: newPassword)
             }
             return credential
         }
@@ -119,7 +138,15 @@ class PasswordStore {
         if Defaults[.gitRepositoryAuthenticationMethod] == "Password" {
             gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitRepositoryUsername]!, password: Utils.getPasswordFromKeychain(name: "gitRepositoryPassword") ?? ""))
         } else if Defaults[.gitRepositoryAuthenticationMethod] == "SSH Key"{
-            gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: Defaults[.gitRepositoryUsername]!, password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.sshPublicKeyURL, privateKeyFile: Globals.sshPrivateKeyURL))
+            gitCredential = GitCredential(
+                credential: GitCredential.Credential.ssh(
+                    userName: Defaults[.gitRepositoryUsername]!,
+                    password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!,
+                    publicKeyFile: Globals.sshPublicKeyURL,
+                    privateKeyFile: Globals.sshPrivateKeyURL,
+                    passwordNotSetCallback: nil
+                )
+            )
         } else {
             gitCredential = nil
         }

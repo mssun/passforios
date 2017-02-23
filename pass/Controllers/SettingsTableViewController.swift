@@ -113,7 +113,15 @@ class SettingsTableViewController: UITableViewController {
                 if auth == "Password" {
                     gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, password: password!))
                 } else {
-                    gitCredential = GitCredential(credential: GitCredential.Credential.ssh(userName: username, password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!, publicKeyFile: Globals.sshPublicKeyURL, privateKeyFile: Globals.sshPrivateKeyURL))
+                    gitCredential = GitCredential(
+                        credential: GitCredential.Credential.ssh(
+                            userName: username,
+                            password: Defaults[.gitRepositorySSHPrivateKeyPassphrase]!,
+                            publicKeyFile: Globals.sshPublicKeyURL,
+                            privateKeyFile: Globals.sshPrivateKeyURL,
+                            passwordNotSetCallback: self.requestSshKeyPassword
+                        )
+                    )
                 }
                 let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
                 dispatchQueue.async {
@@ -179,7 +187,32 @@ class SettingsTableViewController: UITableViewController {
             touchIDSwitch.isEnabled = false
         }
     }
-    
+
+    func requestSshKeyPassword() -> String {
+        let sem = DispatchSemaphore(value: 0)
+        var newPassword = ""
+
+        DispatchQueue.main.async {
+            SVProgressHUD.dismiss()
+            let alert = UIAlertController(title: "Password", message: "Please fill in the password of your SSH key.", preferredStyle: UIAlertControllerStyle.alert)
+
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+                newPassword = alert.textFields!.first!.text!
+                sem.signal()
+            }))
+
+            alert.addTextField(configurationHandler: {(textField: UITextField!) in
+                textField.text = PasswordStore.shared.gitRepositoryPassword
+                textField.isSecureTextEntry = true
+            })
+
+            self.present(alert, animated: true, completion: nil)
+        }
+
+        let _ = sem.wait(timeout: DispatchTime.distantFuture)
+        return newPassword
+    }
+
     func actOnPasswordStoreErasedNotification() {
         pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
         touchIDSwitch.isOn = false
