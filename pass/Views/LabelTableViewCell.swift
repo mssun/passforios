@@ -65,7 +65,7 @@ class LabelTableViewCell: UITableViewCell {
     }
     
     override func copy(_ sender: Any?) {
-        UIPasteboard.general.string = cellData?.content
+        Utils.copyToPasteboard(textToCopy: cellData?.content)
     }
         
     func revealPassword(_ sender: Any?) {
@@ -79,7 +79,7 @@ class LabelTableViewCell: UITableViewCell {
     }
     
     func openLink(_ sender: Any?) {
-        UIPasteboard.general.string = password?.password
+        Utils.copyToPasteboard(textToCopy: password?.password)
         UIApplication.shared.open(URL(string: cellData!.content)!, options: [:], completionHandler: nil)
     }
 }

@@ -252,7 +252,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     
     override func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
         if action == #selector(copy(_:)) {
-            UIPasteboard.general.string = tableData[indexPath.section].item[indexPath.row].content
+            Utils.copyToPasteboard(textToCopy: tableData[indexPath.section].item[indexPath.row].content)
         }
     }
     
