@@ -127,11 +127,19 @@ class PasswordStore {
     }
     
     func initPGP(pgpPublicKeyLocalPath: String, pgpPrivateKeyLocalPath: String) throws {
-        pgp.importKeys(fromFile: pgpPublicKeyLocalPath, allowDuplicates: false)
+        let pgpPublicKeyData = NSData(contentsOfFile: pgpPublicKeyLocalPath)! as Data
+        if pgpPublicKeyData.count == 0 {
+            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import public key."])
+        }
+        pgp.importKeys(from: pgpPublicKeyData, allowDuplicates: false)
         if pgp.getKeysOf(.public).count == 0 {
             throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import public key."])
         }
-        pgp.importKeys(fromFile: pgpPrivateKeyLocalPath, allowDuplicates: false)
+        let pgpPrivateKeyData = NSData(contentsOfFile: pgpPrivateKeyLocalPath)! as Data
+        if pgpPrivateKeyData.count == 0 {
+            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import public key."])
+        }
+        pgp.importKeys(from: pgpPrivateKeyData, allowDuplicates: false)
         if pgp.getKeysOf(.secret).count == 0 {
             throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import seceret key."])
         }
@@ -145,10 +153,8 @@ class PasswordStore {
     func initPGP(pgpPublicKeyURL: URL, pgpPublicKeyLocalPath: String, pgpPrivateKeyURL: URL, pgpPrivateKeyLocalPath: String) throws {
         let pgpPublicData = try Data(contentsOf: pgpPublicKeyURL)
         try pgpPublicData.write(to: URL(fileURLWithPath: pgpPublicKeyLocalPath), options: .atomic)
-        
         let pgpPrivateData = try Data(contentsOf: pgpPrivateKeyURL)
         try pgpPrivateData.write(to: URL(fileURLWithPath: pgpPrivateKeyLocalPath), options: .atomic)
-        
         try initPGP(pgpPublicKeyLocalPath: pgpPublicKeyLocalPath, pgpPrivateKeyLocalPath: pgpPrivateKeyLocalPath)
     }
     
