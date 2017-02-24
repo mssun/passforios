@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class Globals {
     static let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
@@ -19,5 +20,9 @@ class Globals {
     static let repositoryPath = "\(documentPath)/password-store"
     static var passcodeConfiguration = PasscodeLockConfiguration()
     static let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+    
+    static let myRedColor = UIColor(red:1.00, green:0.23, blue:0.19, alpha:1.0)
+    static let myBlueColor = UIColor(red:0.00, green:0.48, blue:1.00, alpha:1.0)
+    
     private init() { }
 }
