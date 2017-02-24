@@ -30,10 +30,10 @@ class LabelTableViewCell: UITableViewCell {
             titleLabel.text = cellData?.title
             if isPasswordCell {
                 contentLabel.text = passwordDots
+                contentLabel.font = UIFont(name: "Menlo", size: contentLabel.font.pointSize)
             } else {
                 contentLabel.text = cellData?.content
             }
-            contentLabel.font = UIFont(name: "Menlo", size: contentLabel.font.pointSize)
         }
     }
     
