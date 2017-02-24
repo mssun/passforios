@@ -251,16 +251,24 @@ class SettingsTableViewController: UITableViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: Globals.passcodeConfiguration)
     }
+
+    func pgpKeyExists() -> Bool {
+        return FileManager.default.fileExists(atPath: Globals.pgpPublicKeyPath) &&
+        FileManager.default.fileExists(atPath: Globals.pgpPrivateKeyPath)
+    }
     
     func showPGPKeyActionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var urlActionTitle = "Download from URL"
         var armorActionTitle = "ASCII-Armor Encrypted Key"
+        var fileActionTitle = "Use uploaded keys"
         
         if Defaults[.pgpKeySource] == "url" {
            urlActionTitle = "✓ \(urlActionTitle)"
         } else if Defaults[.pgpKeySource] == "armor" {
             armorActionTitle = "✓ \(armorActionTitle)"
+        } else if Defaults[.pgpKeySource] == "file" {
+            fileActionTitle = "✓ \(fileActionTitle)"
         }
         let urlAction = UIAlertAction(title: urlActionTitle, style: .default) { _ in
             self.performSegue(withIdentifier: "setPGPKeyByURLSegue", sender: self)
@@ -271,6 +279,63 @@ class SettingsTableViewController: UITableViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         optionMenu.addAction(urlAction)
         optionMenu.addAction(armorAction)
+
+        if (pgpKeyExists()) {
+            let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
+
+                SVProgressHUD.setDefaultMaskType(.black)
+                SVProgressHUD.setDefaultStyle(.light)
+                SVProgressHUD.show(withStatus: "Reading PGP key")
+
+                let alert = UIAlertController(
+                    title: "PGP Passphrase",
+                    message: "Please fill in the passphrase for your PGP key.",
+                    preferredStyle: UIAlertControllerStyle.alert
+                )
+
+                alert.addAction(
+                    UIAlertAction(
+                        title: "OK",
+                        style: UIAlertActionStyle.default,
+                        handler: {_ in
+                            Utils.addPasswrodToKeychain(
+                                name: "pgpKeyPassphrase",
+                                password: alert.textFields!.first!.text!
+                            )
+                        }
+                    )
+                )
+
+                alert.addTextField(
+                   configurationHandler: {(textField: UITextField!) in
+                            textField.text = Utils.getPasswordFromKeychain(name: "pgpKeyPassphrase") ?? ""
+                            textField.isSecureTextEntry = true
+                    }
+                )
+
+
+                DispatchQueue.main.async {
+                    try? PasswordStore.shared.initPGP(
+                        pgpPublicKeyLocalPath: Globals.pgpPublicKeyPath,
+                        pgpPrivateKeyLocalPath: Globals.pgpPrivateKeyPath
+                    )
+
+                    let key: PGPKey = PasswordStore.shared.getPgpPrivateKey()
+                    Defaults[.pgpKeySource] = "file"
+
+                    if (key.isEncrypted) {
+                        SVProgressHUD.dismiss()
+                        self.present(alert, animated: true, completion: nil)
+                    }
+
+                    SVProgressHUD.dismiss()
+                    self.pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
+                }
+
+            }
+
+            optionMenu.addAction(fileAction)
+        }
         
         if Defaults[.pgpKeySource] != nil {
             let deleteAction = UIAlertAction(title: "Remove PGP Keys", style: .destructive) { _ in
