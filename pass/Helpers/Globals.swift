@@ -11,13 +11,14 @@ import UIKit
 
 class Globals {
     static let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
+    static let libraryPath = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0];
     static let pgpPublicKeyPath = "\(documentPath)/gpg_key.pub"
     static let pgpPrivateKeyPath = "\(documentPath)/gpg_key"
 
     static let sshPublicKeyURL = URL(fileURLWithPath: "\(documentPath)/ssh_key.pub")
     static let sshPrivateKeyURL = URL(fileURLWithPath: "\(documentPath)/ssh_key")
     
-    static let repositoryPath = "\(documentPath)/password-store"
+    static let repositoryPath = "\(libraryPath)/password-store"
     static var passcodeConfiguration = PasscodeLockConfiguration()
     static let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     

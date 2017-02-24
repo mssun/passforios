@@ -96,8 +96,8 @@ struct GitCredential {
 class PasswordStore {
     static let shared = PasswordStore()
     
-    let storeURL = URL(fileURLWithPath: "\(Globals.documentPath)/password-store")
-    let tempStoreURL = URL(fileURLWithPath: "\(Globals.documentPath)/password-store-temp")
+    let storeURL = URL(fileURLWithPath: "\(Globals.repositoryPath)")
+    let tempStoreURL = URL(fileURLWithPath: "\(Globals.repositoryPath)-temp")
     var storeRepository: GTRepository?
     var gitCredential: GitCredential?
     
