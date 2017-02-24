@@ -171,11 +171,15 @@ class PasswordStore {
         if pgp.getKeysOf(.secret).count == 0 {
             throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import seceret key."])
         }
-        let key = pgp.getKeysOf(.public)[0]
+        let key: PGPKey = getPgpPrivateKey()
         Defaults[.pgpKeyID] = key.keyID!.shortKeyString
         if let gpgUser = key.users[0] as? PGPUser {
             Defaults[.pgpKeyUserID] = gpgUser.userID
         }
+    }
+
+    func getPgpPrivateKey() -> PGPKey {
+        return pgp.getKeysOf(.secret)[0]
     }
     
     func initPGP(pgpPublicKeyURL: URL, pgpPublicKeyLocalPath: String, pgpPrivateKeyURL: URL, pgpPrivateKeyLocalPath: String) throws {
@@ -191,7 +195,6 @@ class PasswordStore {
         try pgpPrivateKeyArmor.write(toFile: pgpPrivateKeyLocalPath, atomically: true, encoding: .ascii)
         try initPGP(pgpPublicKeyLocalPath: pgpPublicKeyLocalPath, pgpPrivateKeyLocalPath: pgpPrivateKeyLocalPath)
     }
-    
     
     func cloneRepository(remoteRepoURL: URL,
                          credential: GitCredential,
