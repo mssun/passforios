@@ -125,6 +125,19 @@ class Utils {
             }
         }
     }
+    static func attributedPassword(plainPassword: String) -> NSAttributedString{
+        let attributedPassword = NSMutableAttributedString.init(string: plainPassword)
+        // draw all digits in the password into red
+        // draw all punctuation characters in the password into blue
+        for (index, element) in plainPassword.unicodeScalars.enumerated() {
+            if NSCharacterSet.decimalDigits.contains(element) {
+                attributedPassword.addAttribute(NSForegroundColorAttributeName, value: Globals.red, range: NSRange(location: index, length: 1))
+            } else if NSCharacterSet.punctuationCharacters.contains(element) {
+                attributedPassword.addAttribute(NSForegroundColorAttributeName, value: Globals.blue, range: NSRange(location: index, length: 1))
+            }
+        }
+        return attributedPassword
+    }
 }
 
 // https://gist.github.com/NikolaiRuhe/eeb135d20c84a7097516

@@ -23,14 +23,15 @@ class FillPasswordTableViewCell: ContentTableViewCell {
     }
     
     @IBAction func generatePassword(_ sender: UIButton) {
-        contentTextField.text = Utils.randomString(length: 16)
+        let plainPassword = Utils.randomString(length: 16)
+        contentTextField.attributedText = Utils.attributedPassword(plainPassword: plainPassword)
     }
     
     override func getContent() -> String? {
-        return contentTextField.text
+        return contentTextField.attributedText?.string
     }
     
     override func setContent(content: String) {
-        contentTextField.text = content
+        contentTextField.attributedText = Utils.attributedPassword(plainPassword: content)
     }
 }

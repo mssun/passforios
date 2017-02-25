@@ -71,18 +71,7 @@ class LabelTableViewCell: UITableViewCell {
         
     func revealPassword(_ sender: Any?) {
         if let plainPassword = cellData?.content {
-            let attributePassword = NSMutableAttributedString.init(string: plainPassword)
-            // draw all digits in the password into red
-            // draw all punctuation characters in the password into blue
-            for (index, element) in plainPassword.unicodeScalars.enumerated() {
-                if NSCharacterSet.decimalDigits.contains(element) {
-                    attributePassword.addAttribute(NSForegroundColorAttributeName, value: Globals.red, range: NSRange(location: index, length: 1))
-                } else if NSCharacterSet.punctuationCharacters.contains(element) {
-                    attributePassword.addAttribute(NSForegroundColorAttributeName, value: Globals.blue, range: NSRange(location: index, length: 1))
-                }
-            }
-            // set contentLabel
-            contentLabel.attributedText = attributePassword
+            contentLabel.attributedText = Utils.attributedPassword(plainPassword: plainPassword)
         } else {
             contentLabel.text = ""
         }
