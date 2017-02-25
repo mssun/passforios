@@ -15,6 +15,9 @@ import SVProgressHUD
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    enum ViewTag: Int {
+        case blur = 100, appicon
+    }
 
     lazy var passcodeLockPresenter: PasscodeLockPresenter = {
         let presenter = PasscodeLockPresenter(mainWindow: self.window, configuration: Globals.passcodeConfiguration)
@@ -50,6 +53,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        
+        // Display a blur effect view
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = (self.window?.frame)!
+        blurEffectView.tag = ViewTag.blur.rawValue
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.window?.addSubview(blurEffectView)
+        
+        // Display the Pass icon in the middle of the screen
+        let iconsDictionary = Bundle.main.infoDictionary?["CFBundleIcons"] as? NSDictionary
+        let primaryIconsDictionary = iconsDictionary?["CFBundlePrimaryIcon"] as? NSDictionary
+        let iconFiles = primaryIconsDictionary!["CFBundleIconFiles"] as! NSArray
+        let appIcon = UIImage(named: iconFiles.lastObject as! String)
+        let appIconView = UIImageView(image: appIcon)
+        appIconView.layer.cornerRadius = (appIcon?.size.height)! / 5
+        appIconView.layer.masksToBounds = true
+        appIconView.center = (self.window?.center)!
+        appIconView.tag = ViewTag.appicon.rawValue
+        self.window?.addSubview(appIconView)
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -64,6 +87,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        self.window?.viewWithTag(ViewTag.appicon.rawValue)?.removeFromSuperview()
+        self.window?.viewWithTag(ViewTag.blur.rawValue)?.removeFromSuperview()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
