@@ -18,16 +18,18 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         tableData = [
             // section 0
             [[.title: "About Repository", .action: "segue", .link: "showAboutRepositorySegue"],],
+            
+            // section 1
             [[.title: "Hide Unknown Fields", .action: "none",],],
 
         ]
         super.viewDidLoad()
-
+        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell =  super.tableView(tableView, cellForRowAt: indexPath)
-        if indexPath == IndexPath(row: 0, section: 1) {
+        if cell.textLabel?.text == "Hide Unknown Fields" {
             cell.accessoryType = .none
             hideUnknownSwitch.onTintColor = UIColor(displayP3Red: 0, green: 122.0/255, blue: 1, alpha: 1)
             hideUnknownSwitch.sizeToFit()
