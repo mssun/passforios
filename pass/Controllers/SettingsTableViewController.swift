@@ -170,21 +170,43 @@ class SettingsTableViewController: UITableViewController {
         touchIDSwitch.onTintColor = UIColor(displayP3Red: 0, green: 122.0/255, blue: 1, alpha: 1)
         touchIDTableViewCell.accessoryView = touchIDSwitch
         touchIDSwitch.addTarget(self, action: #selector(touchIDSwitchAction), for: UIControlEvents.valueChanged)
-        if Defaults[.pgpKeyID] == "" {
-            pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
-        } else {
-            pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
-        }
-        if Defaults[.isTouchIDOn] {
-            touchIDSwitch.isOn = true
-        } else {
-            touchIDSwitch.isOn = false
-        }
+        setPGPKeyTableViewCellDetailText()
+        setPasswordRepositoryTableViewCellDetailText()
+        setTouchIDSwitch()
+        setPasscodeLockRepositoryTableViewCellDetailText()
+    }
+    
+    private func setPasscodeLockRepositoryTableViewCellDetailText() {
         if PasscodeLockRepository().hasPasscode {
             self.passcodeTableViewCell.detailTextLabel?.text = "On"
         } else {
             self.passcodeTableViewCell.detailTextLabel?.text = "Off"
             touchIDSwitch.isEnabled = false
+            Globals.passcodeConfiguration.isTouchIDAllowed = false
+        }
+    }
+    
+    private func setPGPKeyTableViewCellDetailText() {
+        if Defaults[.pgpKeyID] == nil {
+            pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
+        } else {
+            pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
+        }
+    }
+    
+    private func setPasswordRepositoryTableViewCellDetailText() {
+        if Defaults[.gitRepositoryURL] == nil {
+            passwordRepositoryTableViewCell.detailTextLabel?.text = "Not Set"
+        } else {
+            passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitRepositoryURL]!.host
+        }
+    }
+    
+    private func setTouchIDSwitch() {
+        if Defaults[.isTouchIDOn] {
+            touchIDSwitch.isOn = true
+        } else {
+            touchIDSwitch.isOn = false
         }
     }
 
@@ -214,10 +236,10 @@ class SettingsTableViewController: UITableViewController {
     }
 
     func actOnPasswordStoreErasedNotification() {
-        pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
-        touchIDSwitch.isOn = false
-        self.passcodeTableViewCell.detailTextLabel?.text = "Off"
-        Globals.passcodeConfiguration.isTouchIDAllowed = false
+        setPGPKeyTableViewCellDetailText()
+        setPasswordRepositoryTableViewCellDetailText()
+        setTouchIDSwitch()
+        setPasscodeLockRepositoryTableViewCellDetailText()
 
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: Globals.passcodeConfiguration)
