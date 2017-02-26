@@ -43,12 +43,10 @@ struct GitCredential {
                                 PasswordStore.shared.gitRepositoryPassword = newPassword
                                 sem.signal()
                             }))
-                            if Defaults[.gitRepositoryPasswordAttempts] == 3 {
-                                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
-                                    Defaults[.gitRepositoryPasswordAttempts] = -1
-                                    sem.signal()
-                                })
-                            }
+                            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+                                Defaults[.gitRepositoryPasswordAttempts] = -1
+                                sem.signal()
+                            })
                             alert.addTextField(configurationHandler: {(textField: UITextField!) in
                                 textField.text = PasswordStore.shared.gitRepositoryPassword
                                 textField.isSecureTextEntry = true
