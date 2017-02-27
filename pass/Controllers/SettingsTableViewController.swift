@@ -104,7 +104,8 @@ class SettingsTableViewController: UITableViewController {
                 Defaults[.gitRepositoryURL]!.absoluteString != gitRepostiroyURL ||
                 auth != Defaults[.gitRepositoryAuthenticationMethod] ||
                 username != Defaults[.gitRepositoryUsername] ||
-                password != PasswordStore.shared.gitRepositoryPassword {
+                password != PasswordStore.shared.gitRepositoryPassword ||
+                PasswordStore.shared.exists() == false {
                 
                 SVProgressHUD.setDefaultMaskType(.black)
                 SVProgressHUD.setDefaultStyle(.light)

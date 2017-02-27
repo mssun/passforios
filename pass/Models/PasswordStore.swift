@@ -180,6 +180,11 @@ class PasswordStore {
         return pgp.getKeysOf(.secret)[0]
     }
     
+    func exists() -> Bool {
+        let fm = FileManager()
+        return fm.fileExists(atPath: Globals.repositoryPath)
+    }
+    
     func initPGP(pgpPublicKeyURL: URL, pgpPublicKeyLocalPath: String, pgpPrivateKeyURL: URL, pgpPrivateKeyLocalPath: String) throws {
         let pgpPublicData = try Data(contentsOf: pgpPublicKeyURL)
         try pgpPublicData.write(to: URL(fileURLWithPath: pgpPublicKeyLocalPath), options: .atomic)
