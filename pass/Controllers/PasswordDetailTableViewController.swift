@@ -256,9 +256,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             let footerLabel = UILabel(frame: CGRect(x: 15, y: 15, width: tableView.frame.width, height: 60))
             footerLabel.numberOfLines = 0
             footerLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
-            footerLabel.textColor = UIColor.lightGray
+            footerLabel.textColor = UIColor.gray
             let dateString = PasswordStore.shared.getLatestCommitDate(filename: (passwordEntity?.rawPath)!)
-            footerLabel.text = "Latest commit: \(dateString ?? "Unknown")"
+            footerLabel.text = "Last Updated: \(dateString ?? "Unknown")"
             view.addSubview(footerLabel)
             return view
         }
