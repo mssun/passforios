@@ -6,7 +6,6 @@
         <relationship name="password" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PasswordEntity" inverseName="categories" inverseEntity="PasswordEntity" syncable="YES"/>
     </entity>
     <entity name="PasswordEntity" representedClassName="PasswordEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="commitDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="raw" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
@@ -16,6 +15,6 @@
     </entity>
     <elements>
         <element name="PasswordCategoryEntity" positionX="115" positionY="-9" width="128" height="90"/>
-        <element name="PasswordEntity" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="PasswordEntity" positionX="-63" positionY="-18" width="128" height="135"/>
     </elements>
 </model>

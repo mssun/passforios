@@ -243,17 +243,6 @@ class PasswordStore {
                     let endIndex =  url.lastPathComponent.index(url.lastPathComponent.endIndex, offsetBy: -4)
                     passwordEntity.name = url.lastPathComponent.substring(to: endIndex)
                     passwordEntity.rawPath = "\(url.path)"
-                    if let blameHunks = try? storeRepository?.blame(withFile: e, options: nil).hunks {
-                        func GetHunkDate(hunk: GTBlameHunk) -> TimeInterval {
-                            guard let date = hunk.finalSignature?.time?.timeIntervalSince1970 else {
-                                print("Time is missing from GTSignature.")
-                                return 0
-                            }
-                            return date
-                        }
-                        let dates = blameHunks?.map(GetHunkDate).max()
-                        passwordEntity.commitDate = NSDate(timeIntervalSince1970: dates!)
-                    }
                     let items = url.path.characters.split(separator: "/").map(String.init)
                     for i in 0 ..< items.count - 1 {
                         let passwordCategoryEntity = PasswordCategoryEntity(context: context)
@@ -342,6 +331,18 @@ class PasswordStore {
         } catch {
             fatalError("Failed to fetch employees: \(error)")
         }
+    }
+    
+    func getLatestCommitDate(filename: String) -> String? {
+        guard let blameHunks = try? storeRepository?.blame(withFile: filename, options: nil).hunks,
+            let latestCommitTime = blameHunks?.map({
+                 $0.finalSignature?.time?.timeIntervalSince1970 ?? 0
+            }).max() else {
+            return nil
+        }
+        let date = Date(timeIntervalSince1970: latestCommitTime)
+        let dateString = DateFormatter.localizedString(from: date, dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.medium)
+        return dateString
     }
     
     func updateRemoteRepo() {
@@ -450,8 +451,7 @@ class PasswordStore {
             passwordEntity.synced = false
             try context.save()
             print(saveURL.path)
-            let commit = createAddCommitInRepository(message: "Add new password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
-            passwordEntity.commitDate = commit?.commitDate as NSDate?
+            let _ = createAddCommitInRepository(message: "Add new password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
             progressBlock(1.0)
         } catch {
             print(error)
@@ -464,8 +464,7 @@ class PasswordStore {
             let saveURL = storeURL.appendingPathComponent(passwordEntity.rawPath!)
             try encryptedData.write(to: saveURL)
             progressBlock(0.3)
-            let commit = createAddCommitInRepository(message: "Update password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
-            passwordEntity.commitDate = commit?.commitDate as NSDate?
+            let _ = createAddCommitInRepository(message: "Update password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
         } catch {
             print(error)
         }

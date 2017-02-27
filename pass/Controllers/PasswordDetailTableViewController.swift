@@ -253,12 +253,12 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if section == tableData.count - 1 {
             let view = UIView()
-            let footerLabel = UILabel(frame: CGRect(x: 8, y: 15, width: tableView.frame.width, height: 60))
+            let footerLabel = UILabel(frame: CGRect(x: 15, y: 15, width: tableView.frame.width, height: 60))
             footerLabel.numberOfLines = 0
             footerLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
             footerLabel.textColor = UIColor.lightGray
-            let dateString = DateFormatter.localizedString(from: passwordEntity?.commitDate as! Date, dateStyle: DateFormatter.Style.long, timeStyle: DateFormatter.Style.long)
-            footerLabel.text = "Latest commit: \(dateString)"
+            let dateString = PasswordStore.shared.getLatestCommitDate(filename: (passwordEntity?.rawPath)!)
+            footerLabel.text = "Latest commit: \(dateString ?? "Unknown")"
             view.addSubview(footerLabel)
             return view
         }
