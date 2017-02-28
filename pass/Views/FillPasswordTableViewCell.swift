@@ -25,6 +25,7 @@ class FillPasswordTableViewCell: ContentTableViewCell {
     @IBAction func generatePassword(_ sender: UIButton) {
         let plainPassword = Utils.randomString(length: 16)
         contentTextField.attributedText = Utils.attributedPassword(plainPassword: plainPassword)
+        Utils.copyToPasteboard(textToCopy: plainPassword)
     }
     
     override func getContent() -> String? {
