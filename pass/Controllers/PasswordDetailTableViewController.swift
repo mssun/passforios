@@ -35,7 +35,10 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         return indicator
     }()
     
-    let editUIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit(_:)))
+    lazy var editUIBarButtonItem: UIBarButtonItem = {
+        let uiBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit(_:)))
+        return uiBarButtonItem
+    }()
 
 
     struct TableCell {
@@ -146,6 +149,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
     
     func pressEdit(_ sender: Any?) {
+        print("pressEdit")
         performSegue(withIdentifier: "editPasswordSegue", sender: self)
     }
     
