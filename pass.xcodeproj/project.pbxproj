@@ -25,6 +25,7 @@
 		DC193FFE1E49E0760077E0A3 /* PasscodeLockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC193FFD1E49E0760077E0A3 /* PasscodeLockRepository.swift */; };
 		DC1940001E49E1A60077E0A3 /* PasscodeLockConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC193FFF1E49E1A60077E0A3 /* PasscodeLockConfiguration.swift */; };
 		DC19400B1E4B36B60077E0A3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC19400A1E4B36B60077E0A3 /* Utils.swift */; };
+		DC3E64E61E656F11009A83DE /* CommitLogsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3E64E51E656F11009A83DE /* CommitLogsTableViewController.swift */; };
 		DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914941E434301007FF592 /* LabelTableViewCell.swift */; };
 		DC4914991E434600007FF592 /* PasswordDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */; };
 		DC5734AE1E439AD400D09270 /* PasswordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5734AD1E439AD400D09270 /* PasswordsViewController.swift */; };
@@ -80,6 +81,7 @@
 		DC193FFD1E49E0760077E0A3 /* PasscodeLockRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLockRepository.swift; sourceTree = "<group>"; };
 		DC193FFF1E49E1A60077E0A3 /* PasscodeLockConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLockConfiguration.swift; sourceTree = "<group>"; };
 		DC19400A1E4B36B60077E0A3 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		DC3E64E51E656F11009A83DE /* CommitLogsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitLogsTableViewController.swift; sourceTree = "<group>"; };
 		DC4914941E434301007FF592 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
 		DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTableViewController.swift; sourceTree = "<group>"; };
 		DC4A746D1E30FBDE00E8EB18 /* Objective-CBridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Objective-CBridgingHeader.h"; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 		DC19400C1E4B39400077E0A3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				DC3E64E51E656F11009A83DE /* CommitLogsTableViewController.swift */,
 				DC5F385A1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift */,
 				DC037CB11E4CAB1700609409 /* AboutRepositoryTableViewController.swift */,
 				DC962CDE1E4B62C10033B5D8 /* AboutTableViewController.swift */,
@@ -428,6 +431,7 @@
 				DC4914991E434600007FF592 /* PasswordDetailTableViewController.swift in Sources */,
 				DC962CDF1E4B62C10033B5D8 /* AboutTableViewController.swift in Sources */,
 				DC5734AE1E439AD400D09270 /* PasswordsViewController.swift in Sources */,
+				DC3E64E61E656F11009A83DE /* CommitLogsTableViewController.swift in Sources */,
 				DC037CAA1E4B8EAE00609409 /* SpecialThanksTableViewController.swift in Sources */,
 				DC037CA61E4B883900609409 /* OpenSourceComponentsTableViewController.swift in Sources */,
 				DC037CA81E4B898100609409 /* BasicStaticTableViewController.swift in Sources */,

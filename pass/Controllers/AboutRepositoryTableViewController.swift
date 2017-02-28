@@ -55,7 +55,8 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
                     [[.style: CellDataStyle.value1, .accessoryType: type, .title: "Passwords", .detailText: numberOfPasswords],
                      [.style: CellDataStyle.value1, .accessoryType: type, .title: "Size", .detailText: sizeOfRepository],                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Unsynced", .detailText: String(PasswordStore.shared.getNumberOfUnsyncedPasswords())],
                      [.style: CellDataStyle.value1, .accessoryType: type, .title: "Last Synced", .detailText: Utils.getLastUpdatedTimeString()],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Commits", .detailText: numberOfCommitsString]
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Commits", .detailText: numberOfCommitsString],
+                     [.title: "Commit Logs", .action: "segue", .link: "showCommitLogsSegue"],
                      ],
                 ]
                 indicator.stopAnimating()
