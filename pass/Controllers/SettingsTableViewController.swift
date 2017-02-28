@@ -286,7 +286,7 @@ class SettingsTableViewController: UITableViewController {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var urlActionTitle = "Download from URL"
         var armorActionTitle = "ASCII-Armor Encrypted Key"
-        var fileActionTitle = "Use uploaded keys"
+        var fileActionTitle = "Use Uploaded Keys"
         
         if Defaults[.pgpKeySource] == "url" {
            urlActionTitle = "✓ \(urlActionTitle)"
