@@ -17,6 +17,26 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     var passwordCategoryText = ""
     var password: Password?
     var passwordImage: UIImage?
+    
+    let indicatorLable: UILabel = {
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 21))
+        label.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height * 0.382 + 22)
+        label.backgroundColor = UIColor.clear
+        label.textColor = UIColor.gray
+        label.text = "decrypting password"
+        label.textAlignment = .center
+        label.font = UIFont.preferredFont(forTextStyle: .footnote)
+        return label
+    }()
+    
+    let indicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        indicator.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height * 0.382)
+        return indicator
+    }()
+    
+    let editUIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit(_:)))
+
 
     struct TableCell {
         var title: String
@@ -54,19 +74,11 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 52
-        let indicatorLable = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 21))
-        indicatorLable.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height * 0.382 + 22)
-        indicatorLable.backgroundColor = UIColor.clear
-        indicatorLable.textColor = UIColor.gray
-        indicatorLable.text = "decrypting password"
-        indicatorLable.textAlignment = .center
-        indicatorLable.font = UIFont.preferredFont(forTextStyle: .footnote)
-        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        indicator.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height * 0.382)
+ 
+        
         indicator.startAnimating()
         tableView.addSubview(indicator)
         tableView.addSubview(indicatorLable)
-        let editUIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit(_:)))
         editUIBarButtonItem.isEnabled = false
         navigationItem.rightBarButtonItem = editUIBarButtonItem
         
@@ -75,10 +87,33 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             passwordImage = image
         }
         
+        var passphrase = ""
+        if Defaults[.isRememberPassphraseOn] && PasswordStore.shared.pgpKeyPassphrase != nil {
+            passphrase = PasswordStore.shared.pgpKeyPassphrase!
+            self.decryptThenShowPassword(passphrase: passphrase)
+        } else {
+            let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+                passphrase = alert.textFields!.first!.text!
+                self.decryptThenShowPassword(passphrase: passphrase)
+            }))
+            alert.addTextField(configurationHandler: {(textField: UITextField!) in
+                textField.text = ""
+                textField.isSecureTextEntry = true
+            })
+            self.present(alert, animated: true, completion: nil)
+        }
         
+        
+    }
+    
+    func decryptThenShowPassword(passphrase: String) {
+        if Defaults[.isRememberPassphraseOn] {
+            PasswordStore.shared.pgpKeyPassphrase = passphrase
+        }
         DispatchQueue.global(qos: .userInitiated).async {
             do {
-                self.password = try self.passwordEntity!.decrypt()!
+                self.password = try self.passwordEntity!.decrypt(passphrase: passphrase)!
             } catch {
                 DispatchQueue.main.async {
                     let alert = UIAlertController(title: "Cannot Show Password", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
@@ -89,19 +124,23 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 }
                 return
             }
-
+            
             let password = self.password!
-            self.setTableData()
             DispatchQueue.main.async { [weak self] in
-                self?.tableView.reloadData()
-                indicator.stopAnimating()
-                indicatorLable.isHidden = true
-                editUIBarButtonItem.isEnabled = true
-                if let url = password.getURL() {
-                    if self?.passwordEntity?.image == nil{
-                        self?.updatePasswordImage(url: url)
-                    }
-                }
+                self?.showPassword(password: password)
+            }
+        }
+    }
+    
+    func showPassword(password: Password) {
+        setTableData()
+        self.tableView.reloadData()
+        indicator.stopAnimating()
+        indicatorLable.isHidden = true
+        editUIBarButtonItem.isEnabled = true
+        if let url = password.getURL() {
+            if self.passwordEntity?.image == nil{
+                self.updatePasswordImage(url: url)
             }
         }
     }

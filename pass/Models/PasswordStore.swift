@@ -103,7 +103,7 @@ class PasswordStore {
     
     var pgpKeyPassphrase: String? {
         set {
-            Utils.addPasswrodToKeychain(name: "pgpKeyPassphrase", password: newValue!)
+            Utils.addPasswrodToKeychain(name: "pgpKeyPassphrase", password: newValue)
         }
         get {
             return Utils.getPasswordFromKeychain(name: "pgpKeyPassphrase")
@@ -111,7 +111,7 @@ class PasswordStore {
     }
     var gitRepositoryPassword: String? {
         set {
-            Utils.addPasswrodToKeychain(name: "gitRepositoryPassword", password: newValue!)
+            Utils.addPasswrodToKeychain(name: "gitRepositoryPassword", password: newValue)
         }
         get {
             return Utils.getPasswordFromKeychain(name: "gitRepositoryPassword")

@@ -51,7 +51,7 @@ class PGPKeySettingTableViewController: UITableViewController {
     }
     
     @IBAction func save(_ sender: Any) {
-        let alert = UIAlertController(title: "Phassphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
             self.pgpPassphrase = alert.textFields?.first?.text
             self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)

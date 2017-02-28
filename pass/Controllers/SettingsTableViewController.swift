@@ -59,7 +59,9 @@ class SettingsTableViewController: UITableViewController {
         } else if let controller = segue.source as? PGPKeyArmorSettingTableViewController {
             Defaults[.pgpKeySource] = "armor"
             PasswordStore.shared.pgpKeyPassphrase = controller.pgpPassphrase
-            Utils.addPasswrodToKeychain(name: "pgpKeyPassphrase", password: controller.pgpPassphrase!)
+            if Defaults[.isRememberPassphraseOn] {
+                Utils.addPasswrodToKeychain(name: "pgpKeyPassphrase", password: controller.pgpPassphrase!)
+            }
 
             Defaults[.pgpPublicKeyArmor] = controller.armorPublicKeyTextView.text!
             Defaults[.pgpPrivateKeyArmor] = controller.armorPrivateKeyTextView.text!

@@ -190,13 +190,33 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             password = passwordEntities![index]
         }
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        var passphrase = ""
+        if Defaults[.isRememberPassphraseOn] && PasswordStore.shared.pgpKeyPassphrase != nil  {
+            passphrase = PasswordStore.shared.pgpKeyPassphrase!
+            self.decryptThenCopyPassword(passwordEntity: password, passphrase: passphrase)
+        } else {
+            let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+                passphrase = alert.textFields!.first!.text!
+                self.decryptThenCopyPassword(passwordEntity: password, passphrase: passphrase)
+            }))
+            alert.addTextField(configurationHandler: {(textField: UITextField!) in
+                textField.text = ""
+                textField.isSecureTextEntry = true
+            })
+            self.present(alert, animated: true, completion: nil)
+        }
+
+    }
+    
+    func decryptThenCopyPassword(passwordEntity: PasswordEntity, passphrase: String) {
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.dark)
         SVProgressHUD.show(withStatus: "Decrypting")
         DispatchQueue.global(qos: .userInteractive).async {
             var decryptedPassword: Password?
             do {
-                decryptedPassword = try password.decrypt()!
+                decryptedPassword = try passwordEntity.decrypt(passphrase: passphrase)!
                 DispatchQueue.main.async {
                     Utils.copyToPasteboard(textToCopy: decryptedPassword?.password)
                     SVProgressHUD.showSuccess(withStatus: "Password Copied")
