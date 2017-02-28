@@ -92,7 +92,9 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
             case "mailto":
                 let urlComponents = URLComponents(string: link)!
                 let subject = urlComponents.queryItems![0].value ?? ""
-                sendEmail(toRecipients: [urlComponents.path], subject: subject)
+                if MFMailComposeViewController.canSendMail() {
+                    sendEmail(toRecipients: [urlComponents.path], subject: subject)
+                }
             case "http", "https":
                 let svc = SFSafariViewController(url: URL(string: link)!, entersReaderIfAvailable: false)
                     self.present(svc, animated: true, completion: nil)
