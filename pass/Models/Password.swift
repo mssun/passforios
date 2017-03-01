@@ -104,7 +104,7 @@ class Password {
     }
     
     func getPlainData() -> Data {
-        return getPlainText().data(using: .ascii)!
+        return getPlainText().data(using: .utf8)!
     }
     
     private func getAdditionValue(withKey key: String) -> String? {
