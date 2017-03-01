@@ -338,16 +338,27 @@ class PasswordStore {
         }
     }
     
-    func getLatestCommitDate(filename: String) -> String? {
+    func getLatestUpdateInfo(filename: String) -> String {
         guard let blameHunks = try? storeRepository?.blame(withFile: filename, options: nil).hunks,
             let latestCommitTime = blameHunks?.map({
                  $0.finalSignature?.time?.timeIntervalSince1970 ?? 0
             }).max() else {
-            return nil
+            return "unknown"
         }
-        let date = Date(timeIntervalSince1970: latestCommitTime)
-        let dateString = DateFormatter.localizedString(from: date, dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.medium)
-        return dateString
+        let lastCommitDate = Date(timeIntervalSince1970: latestCommitTime)
+        let currentDate = Date()
+        var autoFormattedDifference: String
+        if currentDate.timeIntervalSince(lastCommitDate) <= 60 {
+            autoFormattedDifference = "just now"
+        } else {
+            let diffDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: lastCommitDate, to: currentDate)
+            let dateComponentsFormatter = DateComponentsFormatter()
+            dateComponentsFormatter.unitsStyle = .full
+            dateComponentsFormatter.maximumUnitCount = 2
+            dateComponentsFormatter.includesApproximationPhrase = true
+            autoFormattedDifference = (dateComponentsFormatter.string(from: diffDate)?.appending(" ago"))!
+        }
+        return autoFormattedDifference
     }
     
     func updateRemoteRepo() {
