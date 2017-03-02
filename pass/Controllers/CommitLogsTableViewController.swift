@@ -16,7 +16,7 @@ class CommitLogsTableViewController: UITableViewController {
         super.viewDidLoad()
         commits = PasswordStore.shared.getRecentCommits(count: 20)
         navigationItem.title = "Recent Commit Logs"
-        navigationItem.leftBarButtonItem?.title = "About"
+        navigationController!.navigationBar.topItem!.title = "About"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -26,8 +26,8 @@ class CommitLogsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "commitLogCell", for: indexPath)
         let formatter = DateFormatter()
-        formatter.dateStyle = DateFormatter.Style.medium
-        formatter.timeStyle = .medium
+        formatter.dateStyle = DateFormatter.Style.short
+        formatter.timeStyle = .none
         let dateString = formatter.string(from: commits[indexPath.row].commitDate)
         cell.textLabel?.text = dateString
         cell.detailTextLabel?.text = commits[indexPath.row].message
