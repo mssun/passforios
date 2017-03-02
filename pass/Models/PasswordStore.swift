@@ -180,7 +180,7 @@ class PasswordStore {
         return pgp.getKeysOf(.secret)[0]
     }
     
-    func exists() -> Bool {
+    func repositoryExisted() -> Bool {
         let fm = FileManager()
         return fm.fileExists(atPath: Globals.repositoryPath)
     }
