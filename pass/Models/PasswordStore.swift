@@ -600,7 +600,6 @@ class PasswordStore {
 
         
         deleteCoreData(entityName: "PasswordEntity")
-        deleteCoreData(entityName: "PasswordCategoryEntity")
         
         Defaults.removeAll()
         storeRepository = nil
