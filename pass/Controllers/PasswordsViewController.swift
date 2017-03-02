@@ -21,10 +21,12 @@ struct PasswordsTableEntry {
     var passwordEntity: PasswordEntity?
 }
 
-class PasswordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class PasswordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate {
     private var passwordsTableEntries: [PasswordsTableEntry] = []
     private var filteredPasswordsTableEntries: [PasswordsTableEntry] = []
     private var parentPasswordEntity: PasswordEntity? = nil
+    
+    private var tapTabBarTime: TimeInterval = 0
 
     var sections : [(index: Int, length :Int, title: String)] = Array()
     var searchActive : Bool = false
@@ -151,8 +153,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         setNavigationItemTitle()
         initPasswordsTableEntries(parent: nil)
         addNotificationObservers()
-
         generateSections(item: passwordsTableEntries)
+        tabBarController!.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
         definesPresentationContext = true
@@ -230,6 +232,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func backAction(_ sender: Any?) {
+        guard Defaults[.isShowFolderOn] else { return }
         initPasswordsTableEntries(parent: parentPasswordEntity?.parent)
         reloadTableView(data: passwordsTableEntries)
     }
@@ -418,6 +421,21 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     func handleRefresh(_ refreshControl: UIRefreshControl) {
         syncPasswords()
         refreshControl.endRefreshing()
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if viewController == self.navigationController {
+            let currentTime = Date().timeIntervalSince1970
+            let duration = currentTime - self.tapTabBarTime
+            self.tapTabBarTime = currentTime
+            if duration < 0.35 {
+                let topIndexPath = IndexPath(row: 0, section: 0)
+                tableView.scrollToRow(at: topIndexPath, at: .bottom, animated: true)
+                self.tapTabBarTime = 0
+                return
+            }
+            backAction(self)
+        }
     }
 }
 
