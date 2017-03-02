@@ -29,7 +29,14 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     private func initPasswordsTableEntries() {
         passwordsTableEntries.removeAll()
         filteredPasswordsTableEntries.removeAll()
-        passwordsTableEntries = PasswordStore.shared.fetchPasswordEntityCoreData(parent: parentPasswordEntity).map {
+        var passwordEntities = [PasswordEntity]()
+        if Defaults[.isShowFolderOn] {
+            passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData(parent: parentPasswordEntity)
+        } else {
+            passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData(withDir: false)
+
+        }
+        passwordsTableEntries = passwordEntities.map {
             PasswordsTableEntry(title: $0.name!, isDir: $0.isDir, passwordEntity: $0)
         }
     }

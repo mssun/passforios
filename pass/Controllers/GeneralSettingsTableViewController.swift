@@ -18,12 +18,22 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         uiSwitch.addTarget(self, action: #selector(hideUnknownSwitchAction(_:)), for: UIControlEvents.valueChanged)
         return uiSwitch
     }()
+    
     let rememberPassphraseSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Globals.blue
         uiSwitch.sizeToFit()
         uiSwitch.addTarget(self, action: #selector(rememberPassphraseSwitchAction(_:)), for: UIControlEvents.valueChanged)
         uiSwitch.isOn = Defaults[.isRememberPassphraseOn]
+        return uiSwitch
+    }()
+    
+    let showFolderSwitch: UISwitch = {
+        let uiSwitch = UISwitch()
+        uiSwitch.onTintColor = Globals.blue
+        uiSwitch.sizeToFit()
+        uiSwitch.addTarget(self, action: #selector(showFolderSwitchAction(_:)), for: UIControlEvents.valueChanged)
+        uiSwitch.isOn = Defaults[.isShowFolderOn]
         return uiSwitch
     }()
 
@@ -36,6 +46,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             // section 1
             [
                 [.title: "Remember Phassphrase", .action: "none",],
+                [.title: "Show Folder", .action: "none",],
                 [.title: "Hide Unknown Fields", .action: "none",],
              ],
 
@@ -46,7 +57,8 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell =  super.tableView(tableView, cellForRowAt: indexPath)
-        if cell.textLabel?.text == "Hide Unknown Fields" {
+        switch cell.textLabel!.text! {
+        case "Hide Unknown Fields":
             cell.accessoryType = .none
             let detailButton = UIButton(type: .detailDisclosure)
             hideUnknownSwitch.frame = CGRect(x: detailButton.bounds.width+10, y: 0, width: hideUnknownSwitch.bounds.width, height: hideUnknownSwitch.bounds.height)
@@ -58,10 +70,15 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             cell.accessoryView = accessoryView
             cell.selectionStyle = .none
             hideUnknownSwitch.isOn = Defaults[.isHideUnknownOn]
-        } else if cell.textLabel?.text == "Remember Phassphrase" {
+        case "Remember Phassphrase":
             cell.accessoryType = .none
             cell.selectionStyle = .none
             cell.accessoryView = rememberPassphraseSwitch
+        case "Show Folder":
+            cell.accessoryType = .none
+            cell.selectionStyle = .none
+            cell.accessoryView = showFolderSwitch
+        default: break
         }
         return cell
     }
@@ -81,6 +98,11 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         if rememberPassphraseSwitch.isOn == false {
             PasswordStore.shared.pgpKeyPassphrase = nil
         }
+    }
+    
+    func showFolderSwitchAction(_ sender: Any?) {
+        Defaults[.isShowFolderOn] = showFolderSwitch.isOn
+        NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
     }
     
 }
