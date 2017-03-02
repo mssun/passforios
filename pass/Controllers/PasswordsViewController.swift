@@ -26,6 +26,34 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     private var filteredPasswordsTableEntries: [PasswordsTableEntry] = []
     private var parentPasswordEntity: PasswordEntity? = nil
 
+    var sections : [(index: Int, length :Int, title: String)] = Array()
+    var searchActive : Bool = false
+    lazy var searchController: UISearchController = {
+        let uiSearchController = UISearchController(searchResultsController: nil)
+        uiSearchController.searchResultsUpdater = self
+        uiSearchController.dimsBackgroundDuringPresentation = false
+        uiSearchController.searchBar.isTranslucent = false
+        uiSearchController.searchBar.backgroundColor = UIColor.gray
+        uiSearchController.searchBar.sizeToFit()
+        return uiSearchController
+    }()
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(PasswordsViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
+        return refreshControl
+    }()
+    lazy var searchBarView: UIView = {
+        let uiView = UIView(frame: CGRect(x: 0, y: 64, width: UIScreen.main.bounds.width, height: 44))
+        uiView.addSubview(self.searchController.searchBar)
+        return uiView
+    }()
+    lazy var backUIBarButtonItem: UIBarButtonItem = {
+        let backUIBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.backAction(_:)))
+        return backUIBarButtonItem
+    }()
+
+    @IBOutlet weak var tableView: UITableView!
+    
     private func initPasswordsTableEntries() {
         passwordsTableEntries.removeAll()
         filteredPasswordsTableEntries.removeAll()
@@ -34,28 +62,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData(parent: parentPasswordEntity)
         } else {
             passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData(withDir: false)
-
+            
         }
         passwordsTableEntries = passwordEntities.map {
             PasswordsTableEntry(title: $0.name!, isDir: $0.isDir, passwordEntity: $0)
         }
     }
-    
-    var sections : [(index: Int, length :Int, title: String)] = Array()
-    var searchActive : Bool = false
-    let searchController = UISearchController(searchResultsController: nil)
-    lazy var refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(PasswordsViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
-        return refreshControl
-    }()
-    let searchBarView = UIView(frame: CGRect(x: 0, y: 64, width: UIScreen.main.bounds.width, height: 44))
-    lazy var backUIBarButtonItem: UIBarButtonItem = {
-        let backUIBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.backAction(_:)))
-        return backUIBarButtonItem
-    }()
-
-    @IBOutlet weak var tableView: UITableView!
     
     @IBAction func cancelAddPassword(segue: UIStoryboardSegue) {
         
@@ -135,13 +147,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         generateSections(item: passwordsTableEntries)
         tableView.delegate = self
         tableView.dataSource = self
-        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.isTranslucent = false
-        searchController.searchBar.backgroundColor = UIColor.gray
-        searchController.searchBar.sizeToFit()
         definesPresentationContext = true
-        searchBarView.addSubview(searchController.searchBar)
         view.addSubview(searchBarView)
         tableView.insertSubview(refreshControl, at: 0)
         SVProgressHUD.setDefaultMaskType(.black)
