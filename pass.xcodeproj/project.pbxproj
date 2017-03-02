@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		94BA784B85E071D25EE89B59 /* libPods-pass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADCE7A5C3CCC67D7D21BB3C4 /* libPods-pass.a */; };
+		A262A5891E6871D5006B0890 /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A262A5881E6871D5006B0890 /* OneTimePassword.framework */; };
+		A262A58D1E68749C006B0890 /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A262A58C1E68749C006B0890 /* Base32.framework */; };
 		DC037CA61E4B883900609409 /* OpenSourceComponentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CA51E4B883900609409 /* OpenSourceComponentsTableViewController.swift */; };
 		DC037CA81E4B898100609409 /* BasicStaticTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CA71E4B898100609409 /* BasicStaticTableViewController.swift */; };
 		DC037CAA1E4B8EAE00609409 /* SpecialThanksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CA91E4B8EAE00609409 /* SpecialThanksTableViewController.swift */; };
@@ -62,6 +64,8 @@
 
 /* Begin PBXFileReference section */
 		274CCFCF32444A2FF46BE7F4 /* Pods-pass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.debug.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.debug.xcconfig"; sourceTree = "<group>"; };
+		A262A5881E6871D5006B0890 /* OneTimePassword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OneTimePassword.framework; path = "../../Library/Developer/Xcode/DerivedData/pass-fwlmfsjroyvbfhdyqmglrwfhvjli/Build/Products/Debug-iphonesimulator/OneTimePassword/OneTimePassword.framework"; sourceTree = "<group>"; };
+		A262A58C1E68749C006B0890 /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Base32.framework; path = Carthage/Build/iOS/Base32.framework; sourceTree = "<group>"; };
 		ADCE7A5C3CCC67D7D21BB3C4 /* libPods-pass.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pass.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEAD6B31EAF5D061447A68CC /* Pods-pass.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.release.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.release.xcconfig"; sourceTree = "<group>"; };
 		DC037CA51E4B883900609409 /* OpenSourceComponentsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSourceComponentsTableViewController.swift; sourceTree = "<group>"; };
@@ -124,6 +128,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A262A58D1E68749C006B0890 /* Base32.framework in Frameworks */,
+				A262A5891E6871D5006B0890 /* OneTimePassword.framework in Frameworks */,
 				DC037CAC1E4C1C7100609409 /* FavIcon.framework in Frameworks */,
 				DCC408C71E307DBB00F29B0E /* SVProgressHUD.framework in Frameworks */,
 				DCA742DA1E599ED400D54E16 /* KeychainAccess.framework in Frameworks */,
@@ -252,6 +258,8 @@
 		DC917BED1E2F38C4000FDF54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A262A58C1E68749C006B0890 /* Base32.framework */,
+				A262A5881E6871D5006B0890 /* OneTimePassword.framework */,
 				DCA742D91E599ED400D54E16 /* KeychainAccess.framework */,
 				DC037CAB1E4C1C7100609409 /* FavIcon.framework */,
 				DC193FFB1E49E0340077E0A3 /* PasscodeLock.framework */,
@@ -399,6 +407,8 @@
 				"$(SRCROOT)/Carthage/Build/iOS/PasscodeLock.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/FavIcon.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/KeychainAccess.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/OneTimePassword.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Base32.framework",
 			);
 			name = "Run Script";
 			outputPaths = (
@@ -577,6 +587,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Base32",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -608,6 +619,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Base32",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
