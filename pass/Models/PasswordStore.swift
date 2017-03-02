@@ -500,6 +500,7 @@ class PasswordStore {
             passwordEntity.path = "\(password.name).gpg"
             passwordEntity.parent = nil
             passwordEntity.synced = false
+            passwordEntity.isDir = false
             try context.save()
             print(saveURL.path)
             let _ = createAddCommitInRepository(message: "Add new password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)

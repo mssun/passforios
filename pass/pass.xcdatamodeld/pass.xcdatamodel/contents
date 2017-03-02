@@ -2,7 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12124.1" systemVersion="16E175b" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="PasswordEntity" representedClassName="PasswordEntity" syncable="YES" codeGenerationType="class">
         <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
-        <attribute name="isDir" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isDir" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="path" attributeType="String" syncable="YES"/>
         <attribute name="synced" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
