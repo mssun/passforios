@@ -196,8 +196,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
             longPressGestureRecognizer.minimumPressDuration = 0.6
             cell.addGestureRecognizer(longPressGestureRecognizer)
+            cell.accessoryType = .none
+            cell.detailTextLabel?.text = ""
         } else {
-            cell.textLabel?.text = "\(entry.title)/"
+            cell.textLabel?.text = "\(entry.title)"
+            cell.accessoryType = .disclosureIndicator
+            cell.detailTextLabel?.text = "\(entry.passwordEntity?.children?.count ?? 0)"
         }
         return cell
     }
