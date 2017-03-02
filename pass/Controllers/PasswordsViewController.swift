@@ -321,11 +321,17 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     private func setNavigationItemTitle() {
+        var title = ""
+        if parentPasswordEntity != nil {
+            title = parentPasswordEntity!.name!
+        } else {
+            title = "Password Store"
+        }
         let numberOfUnsynced = PasswordStore.shared.getNumberOfUnsyncedPasswords()
         if numberOfUnsynced == 0 {
-            navigationItem.title = "Password Store"
+            navigationItem.title = "\(title)"
         } else {
-            navigationItem.title = "Password Store (\(numberOfUnsynced))"
+            navigationItem.title = "\(title) (\(numberOfUnsynced))"
         }
     }
     
@@ -382,6 +388,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func reloadTableView(data: [PasswordsTableEntry]) {
+        setNavigationItemTitle()
         if parentPasswordEntity != nil {
             navigationItem.leftBarButtonItem = backUIBarButtonItem
         } else {
