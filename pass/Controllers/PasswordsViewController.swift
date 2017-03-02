@@ -54,12 +54,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     @IBOutlet weak var tableView: UITableView!
     
-    private func initPasswordsTableEntries() {
+    private func initPasswordsTableEntries(parent: PasswordEntity?) {
         passwordsTableEntries.removeAll()
         filteredPasswordsTableEntries.removeAll()
         var passwordEntities = [PasswordEntity]()
         if Defaults[.isShowFolderOn] {
-            passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData(parent: parentPasswordEntity)
+            passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData(parent: parent)
         } else {
             passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData(withDir: false)
             
@@ -67,6 +67,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         passwordsTableEntries = passwordEntities.map {
             PasswordsTableEntry(title: $0.name!, isDir: $0.isDir, passwordEntity: $0)
         }
+        parentPasswordEntity = parent
     }
     
     @IBAction func cancelAddPassword(segue: UIStoryboardSegue) {
@@ -121,8 +122,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 }
                 DispatchQueue.main.async {
                     PasswordStore.shared.updatePasswordEntityCoreData()
-                    self.parentPasswordEntity = nil
-                    self.initPasswordsTableEntries()
+                    self.initPasswordsTableEntries(parent: nil)
                     self.reloadTableView(data: self.passwordsTableEntries)
                     PasswordStore.shared.setAllSynced()
                     self.setNavigationItemTitle()
@@ -149,7 +149,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationItemTitle()
-        initPasswordsTableEntries()
+        initPasswordsTableEntries(parent: nil)
         addNotificationObservers()
 
         generateSections(item: passwordsTableEntries)
@@ -220,15 +220,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
             searchController.isActive = false
-            parentPasswordEntity = entry.passwordEntity
-            initPasswordsTableEntries()
+            initPasswordsTableEntries(parent: entry.passwordEntity)
             reloadTableView(data: passwordsTableEntries)
         }
     }
     
     func backAction(_ sender: Any?) {
-        parentPasswordEntity = parentPasswordEntity?.parent
-        initPasswordsTableEntries()
+        initPasswordsTableEntries(parent: parentPasswordEntity?.parent)
         reloadTableView(data: passwordsTableEntries)
     }
     
@@ -329,7 +327,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func actOnPasswordUpdatedNotification() {
-        initPasswordsTableEntries()
+        initPasswordsTableEntries(parent: nil)
         reloadTableView(data: passwordsTableEntries)
         setNavigationItemTitle()
     }
@@ -350,7 +348,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func actOnPasswordStoreErasedNotification() {
-        initPasswordsTableEntries()
+        initPasswordsTableEntries(parent: nil)
         reloadTableView(data: passwordsTableEntries)
         setNavigationItemTitle()
     }
