@@ -46,9 +46,11 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             // section 1
             [
                 [.title: "Remember Phassphrase", .action: "none",],
+            ],
+            [
                 [.title: "Show Folder", .action: "none",],
                 [.title: "Hide Unknown Fields", .action: "none",],
-             ],
+            ],
 
         ]
         super.viewDidLoad()
