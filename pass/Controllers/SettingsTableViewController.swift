@@ -14,7 +14,12 @@ import PasscodeLock
 
 class SettingsTableViewController: UITableViewController {
     
-    let touchIDSwitch = UISwitch(frame: CGRect.zero)
+    lazy var touchIDSwitch: UISwitch = {
+        let uiSwitch = UISwitch(frame: CGRect.zero)
+        uiSwitch.onTintColor = Globals.blue
+        uiSwitch.addTarget(self, action: #selector(touchIDSwitchAction), for: UIControlEvents.valueChanged)
+        return uiSwitch
+    }()
 
     @IBOutlet weak var pgpKeyTableViewCell: UITableViewCell!
     @IBOutlet weak var touchIDTableViewCell: UITableViewCell!
@@ -170,9 +175,7 @@ class SettingsTableViewController: UITableViewController {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.actOnPasswordStoreErasedNotification), name: NSNotification.Name(rawValue: "passwordStoreErased"), object: nil)
         self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitRepositoryURL]?.host
-        touchIDSwitch.onTintColor = UIColor(displayP3Red: 0, green: 122.0/255, blue: 1, alpha: 1)
         touchIDTableViewCell.accessoryView = touchIDSwitch
-        touchIDSwitch.addTarget(self, action: #selector(touchIDSwitchAction), for: UIControlEvents.valueChanged)
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()
         setTouchIDSwitch()
