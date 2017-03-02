@@ -227,7 +227,7 @@ class PasswordStore {
         let options: [String: Any] = [
             GTRepositoryCloneOptionsCredentialProvider: credentialProvider,
         ]
-        storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: tempStoreURL, options: options, transferProgressBlock:transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
+        storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: tempStoreURL, options: options, transferProgressBlock:transferProgressBlock)
         let fm = FileManager.default
         do {
             if fm.fileExists(atPath: storeURL.path) {
