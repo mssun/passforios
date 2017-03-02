@@ -21,10 +21,12 @@ struct PasswordsTableEntry {
     var passwordEntity: PasswordEntity?
 }
 
-class PasswordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class PasswordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate {
     private var passwordsTableEntries: [PasswordsTableEntry] = []
     private var filteredPasswordsTableEntries: [PasswordsTableEntry] = []
     private var parentPasswordEntity: PasswordEntity? = nil
+    
+    private var tapTabBarTime: TimeInterval = 0
 
     var sections : [(index: Int, length :Int, title: String)] = Array()
     var searchActive : Bool = false
@@ -54,12 +56,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     @IBOutlet weak var tableView: UITableView!
     
-    private func initPasswordsTableEntries() {
+    private func initPasswordsTableEntries(parent: PasswordEntity?) {
         passwordsTableEntries.removeAll()
         filteredPasswordsTableEntries.removeAll()
         var passwordEntities = [PasswordEntity]()
         if Defaults[.isShowFolderOn] {
-            passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData(parent: parentPasswordEntity)
+            passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData(parent: parent)
         } else {
             passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData(withDir: false)
             
@@ -67,6 +69,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         passwordsTableEntries = passwordEntities.map {
             PasswordsTableEntry(title: $0.name!, isDir: $0.isDir, passwordEntity: $0)
         }
+        parentPasswordEntity = parent
     }
     
     @IBAction func cancelAddPassword(segue: UIStoryboardSegue) {
@@ -121,8 +124,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 }
                 DispatchQueue.main.async {
                     PasswordStore.shared.updatePasswordEntityCoreData()
-                    self.parentPasswordEntity = nil
-                    self.initPasswordsTableEntries()
+                    self.initPasswordsTableEntries(parent: nil)
                     self.reloadTableView(data: self.passwordsTableEntries)
                     PasswordStore.shared.setAllSynced()
                     self.setNavigationItemTitle()
@@ -149,10 +151,10 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationItemTitle()
-        initPasswordsTableEntries()
+        initPasswordsTableEntries(parent: nil)
         addNotificationObservers()
-
         generateSections(item: passwordsTableEntries)
+        tabBarController!.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
         definesPresentationContext = true
@@ -196,13 +198,17 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
             longPressGestureRecognizer.minimumPressDuration = 0.6
             cell.addGestureRecognizer(longPressGestureRecognizer)
+            cell.accessoryType = .none
+            cell.detailTextLabel?.text = ""
         } else {
-            cell.textLabel?.text = "\(entry.title)/"
+            cell.textLabel?.text = "\(entry.title)"
+            cell.accessoryType = .disclosureIndicator
+            cell.detailTextLabel?.text = "\(entry.passwordEntity?.children?.count ?? 0)"
         }
         return cell
     }
     
-    private func getPasswordEntry(by indexPath: IndexPath) -> PasswordsTableEntry{
+    private func getPasswordEntry(by indexPath: IndexPath) -> PasswordsTableEntry {
         var entry: PasswordsTableEntry
         let index = sections[indexPath.section].index + indexPath.row
         if searchController.isActive && searchController.searchBar.text != "" {
@@ -220,15 +226,14 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
             searchController.isActive = false
-            parentPasswordEntity = entry.passwordEntity
-            initPasswordsTableEntries()
+            initPasswordsTableEntries(parent: entry.passwordEntity)
             reloadTableView(data: passwordsTableEntries)
         }
     }
     
     func backAction(_ sender: Any?) {
-        parentPasswordEntity = parentPasswordEntity?.parent
-        initPasswordsTableEntries()
+        guard Defaults[.isShowFolderOn] else { return }
+        initPasswordsTableEntries(parent: parentPasswordEntity?.parent)
         reloadTableView(data: passwordsTableEntries)
     }
     
@@ -258,7 +263,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func copyToPasteboard(from indexPath: IndexPath) {
-        if Defaults[.pgpKeyID]  == nil {
+        guard Defaults[.pgpKeyID]  != nil else {
             Utils.alert(title: "Cannot Copy Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
             return
         }
@@ -329,7 +334,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func actOnPasswordUpdatedNotification() {
-        initPasswordsTableEntries()
+        initPasswordsTableEntries(parent: nil)
         reloadTableView(data: passwordsTableEntries)
         setNavigationItemTitle()
     }
@@ -350,7 +355,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func actOnPasswordStoreErasedNotification() {
-        initPasswordsTableEntries()
+        initPasswordsTableEntries(parent: nil)
         reloadTableView(data: passwordsTableEntries)
         setNavigationItemTitle()
     }
@@ -416,6 +421,21 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     func handleRefresh(_ refreshControl: UIRefreshControl) {
         syncPasswords()
         refreshControl.endRefreshing()
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if viewController == self.navigationController {
+            let currentTime = Date().timeIntervalSince1970
+            let duration = currentTime - self.tapTabBarTime
+            self.tapTabBarTime = currentTime
+            if duration < 0.35 {
+                let topIndexPath = IndexPath(row: 0, section: 0)
+                tableView.scrollToRow(at: topIndexPath, at: .bottom, animated: true)
+                self.tapTabBarTime = 0
+                return
+            }
+            backAction(self)
+        }
     }
 }
 
