@@ -174,12 +174,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             } else {
                 cell.textLabel?.text = "↻ \(entry.title)"
             }
+            
+            let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
+            longPressGestureRecognizer.minimumPressDuration = 0.6
+            cell.addGestureRecognizer(longPressGestureRecognizer)
         } else {
             cell.textLabel?.text = "\(entry.title)/"
         }
-        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
-        longPressGestureRecognizer.minimumPressDuration = 0.6
-        cell.addGestureRecognizer(longPressGestureRecognizer)
         return cell
     }
     
