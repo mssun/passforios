@@ -13,7 +13,6 @@ import SVProgressHUD
 
 class PasswordDetailTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     var passwordEntity: PasswordEntity?
-    var passwordCategoryEntities: [PasswordCategoryEntity]?
     var passwordCategoryText = ""
     var password: Password?
     var passwordImage: UIImage?
@@ -62,13 +61,23 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     
     var tableData = Array<TableSection>()
     
+    private func generateCategoryText() -> String {
+        var passwordCategoryArray: [String] = []
+        var parent = passwordEntity?.parent
+        while parent != nil {
+            passwordCategoryArray.append(parent!.name!)
+            parent = parent!.parent
+        }
+        passwordCategoryArray.reverse()
+        return passwordCategoryArray.joined(separator: " > ")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "LabelTableViewCell", bundle: nil), forCellReuseIdentifier: "labelCell")
         tableView.register(UINib(nibName: "PasswordDetailTitleTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordDetailTitleTableViewCell")
         
-        let passwordCategoryArray = passwordCategoryEntities?.map { $0.category! }
-        passwordCategoryText = (passwordCategoryArray?.joined(separator: " > "))!
+        passwordCategoryText = generateCategoryText()
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PasswordDetailTableViewController.tapMenu(recognizer:)))
         tableView.addGestureRecognizer(tapGesture)
@@ -300,7 +309,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             footerLabel.numberOfLines = 0
             footerLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
             footerLabel.textColor = UIColor.gray
-            let dateString = PasswordStore.shared.getLatestCommitDate(filename: (passwordEntity?.rawPath)!)
+            let dateString = PasswordStore.shared.getLatestCommitDate(filename: (passwordEntity?.path)!)
             footerLabel.text = "Last Updated: \(dateString ?? "Unknown")"
             view.addSubview(footerLabel)
             return view

@@ -12,7 +12,7 @@ import SwiftyUserDefaults
 extension PasswordEntity {
     func decrypt(passphrase: String) throws -> Password? {
         var password: Password?
-        let encryptedDataPath = URL(fileURLWithPath: "\(Globals.repositoryPath)/\(rawPath!)")
+        let encryptedDataPath = URL(fileURLWithPath: "\(Globals.repositoryPath)/\(path!)")
         let encryptedData = try Data(contentsOf: encryptedDataPath)
         let decryptedData = try PasswordStore.shared.pgp.decryptData(encryptedData, passphrase: passphrase)
         let plainText = String(data: decryptedData, encoding: .utf8) ?? ""

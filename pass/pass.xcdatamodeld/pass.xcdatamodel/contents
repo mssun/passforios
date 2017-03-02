@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="PasswordCategoryEntity" representedClassName="PasswordCategoryEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="category" attributeType="String" syncable="YES"/>
-        <attribute name="level" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
-        <relationship name="password" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PasswordEntity" inverseName="categories" inverseEntity="PasswordEntity" syncable="YES"/>
-    </entity>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12124.1" systemVersion="16E175b" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="PasswordEntity" representedClassName="PasswordEntity" syncable="YES" codeGenerationType="class">
         <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="isDir" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <attribute name="raw" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
-        <attribute name="rawPath" attributeType="String" syncable="YES"/>
+        <attribute name="path" attributeType="String" syncable="YES"/>
         <attribute name="synced" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="categories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PasswordCategoryEntity" inverseName="password" inverseEntity="PasswordCategoryEntity" syncable="YES"/>
+        <relationship name="children" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PasswordEntity" inverseName="parent" inverseEntity="PasswordEntity" syncable="YES"/>
+        <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PasswordEntity" inverseName="children" inverseEntity="PasswordEntity" syncable="YES"/>
     </entity>
     <elements>
-        <element name="PasswordCategoryEntity" positionX="115" positionY="-9" width="128" height="90"/>
-        <element name="PasswordEntity" positionX="-63" positionY="-18" width="128" height="135"/>
+        <element name="PasswordEntity" positionX="36" positionY="81" width="128" height="150"/>
     </elements>
 </model>

@@ -237,27 +237,56 @@ class PasswordStore {
         try storeRepository?.pull((storeRepository?.currentBranch())!, from: remote, withOptions: options, progress: transferProgressBlock)
     }
     
+    
+    
     func updatePasswordEntityCoreData() {
         deleteCoreData(entityName: "PasswordEntity")
-        deleteCoreData(entityName: "PasswordCategoryEntity")
         let fm = FileManager.default
-        fm.enumerator(atPath: self.storeURL.path)?.forEach({ (e) in
-            if let e = e as? String, let url = URL(string: e) {
-                if url.pathExtension == "gpg" {
-                    let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
-                    let endIndex =  url.lastPathComponent.index(url.lastPathComponent.endIndex, offsetBy: -4)
-                    passwordEntity.name = url.lastPathComponent.substring(to: endIndex)
-                    passwordEntity.rawPath = "\(url.path)"
-                    let items = url.path.characters.split(separator: "/").map(String.init)
-                    for i in 0 ..< items.count - 1 {
-                        let passwordCategoryEntity = PasswordCategoryEntity(context: context)
-                        passwordCategoryEntity.category = items[i]
-                        passwordCategoryEntity.level = Int16(i)
-                        passwordCategoryEntity.password = passwordEntity
+        do {
+            var q = try fm.contentsOfDirectory(atPath: self.storeURL.path).filter{
+                !$0.hasPrefix(".")
+            }.map { (filename) -> PasswordEntity in
+                let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
+                if filename.hasSuffix(".gpg") {
+                    passwordEntity.name = filename.substring(to: filename.index(filename.endIndex, offsetBy: -4))
+                } else {
+                    passwordEntity.name = filename
+                }
+                passwordEntity.path = filename
+                passwordEntity.parent = nil
+                return passwordEntity
+            }
+            while q.count > 0 {
+                let e = q.first!
+                q.remove(at: 0)
+                guard !e.name!.hasPrefix(".") else {
+                    continue
+                }
+                var isDirectory: ObjCBool = false
+                let filePath = storeURL.appendingPathComponent(e.path!).path
+                if fm.fileExists(atPath: filePath, isDirectory: &isDirectory) {
+                    if isDirectory.boolValue {
+                        e.isDir = true
+                        let files = try fm.contentsOfDirectory(atPath: filePath).map { (filename) -> PasswordEntity in
+                            let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
+                            if filename.hasSuffix(".gpg") {
+                                passwordEntity.name = filename.substring(to: filename.index(filename.endIndex, offsetBy: -4))
+                            } else {
+                                passwordEntity.name = filename
+                            }
+                            passwordEntity.path = "\(e.path!)/\(filename)"
+                            passwordEntity.parent = e
+                            return passwordEntity
+                        }
+                        q += files
+                    } else {
+                        e.isDir = false
                     }
                 }
             }
-        })
+        } catch {
+            print(error)
+        }
         do {
             try context.save()
         } catch {
@@ -281,9 +310,10 @@ class PasswordStore {
         return commits
     }
     
-    func fetchPasswordEntityCoreData() -> [PasswordEntity] {
+    func fetchPasswordEntityCoreData(parent: PasswordEntity?) -> [PasswordEntity] {
         let passwordEntityFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         do {
+            passwordEntityFetch.predicate = NSPredicate(format: "parent = %@", parent ?? 0)
             let fetchedPasswordEntities = try context.fetch(passwordEntityFetch) as! [PasswordEntity]
             return fetchedPasswordEntities.sorted { $0.name!.caseInsensitiveCompare($1.name!) == .orderedAscending }
         } catch {
@@ -291,17 +321,20 @@ class PasswordStore {
         }
     }
     
-    func fetchPasswordCategoryEntityCoreData(password: PasswordEntity) -> [PasswordCategoryEntity] {
-        let passwordCategoryEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordCategoryEntity")
-        passwordCategoryEntityFetchRequest.predicate = NSPredicate(format: "password = %@", password)
-        passwordCategoryEntityFetchRequest.sortDescriptors = [NSSortDescriptor(key: "level", ascending: true)]
+    func fetchPasswordEntityCoreData(withDir: Bool) -> [PasswordEntity] {
+        let passwordEntityFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         do {
-            let passwordCategoryEntities = try context.fetch(passwordCategoryEntityFetchRequest) as! [PasswordCategoryEntity]
-            return passwordCategoryEntities
+            if !withDir {
+                passwordEntityFetch.predicate = NSPredicate(format: "isDir = false")
+
+            }
+            let fetchedPasswordEntities = try context.fetch(passwordEntityFetch) as! [PasswordEntity]
+            return fetchedPasswordEntities.sorted { $0.name!.caseInsensitiveCompare($1.name!) == .orderedAscending }
         } catch {
-            fatalError("Failed to fetch password categories: \(error)")
+            fatalError("Failed to fetch passwords: \(error)")
         }
     }
+    
     
     func fetchUnsyncedPasswords() -> [PasswordEntity] {
         let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
@@ -452,7 +485,9 @@ class PasswordStore {
             progressBlock(0.3)
             let saveURL = storeURL.appendingPathComponent("\(password.name).gpg")
             try encryptedData.write(to: saveURL)
-            passwordEntity.rawPath = "\(password.name).gpg"
+            passwordEntity.name = password.name
+            passwordEntity.path = "\(password.name).gpg"
+            passwordEntity.parent = nil
             passwordEntity.synced = false
             try context.save()
             print(saveURL.path)
@@ -466,7 +501,7 @@ class PasswordStore {
     func update(passwordEntity: PasswordEntity, password: Password, progressBlock: (_ progress: Float) -> Void) {
         do {
             let encryptedData = try passwordEntity.encrypt(password: password)
-            let saveURL = storeURL.appendingPathComponent(passwordEntity.rawPath!)
+            let saveURL = storeURL.appendingPathComponent(passwordEntity.path!)
             try encryptedData.write(to: saveURL)
             progressBlock(0.3)
             let _ = createAddCommitInRepository(message: "Update password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)

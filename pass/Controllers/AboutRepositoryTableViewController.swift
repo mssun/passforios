@@ -31,7 +31,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
             numberFormatter.numberStyle = NumberFormatter.Style.decimal
             let fm = FileManager.default
             
-            let passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData()
+            let passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData(withDir: false)
             let numberOfPasswords = numberFormatter.string(from: NSNumber(value: passwordEntities.count))!
             
             var size = UInt64(0)
