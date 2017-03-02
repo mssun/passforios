@@ -247,13 +247,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             Utils.alert(title: "Cannot Copy Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
             return
         }
-        let index = sections[indexPath.section].index + indexPath.row
-        let password: PasswordEntity
-        if searchController.isActive && searchController.searchBar.text != "" {
-            password = passwordsTableEntries[index].passwordEntity!
-        } else {
-            password = filteredPasswordsTableEntries[index].passwordEntity!
-        }
+        let password = getPasswordEntry(by: indexPath).passwordEntity!
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         var passphrase = ""
         if Defaults[.isRememberPassphraseOn] && PasswordStore.shared.pgpKeyPassphrase != nil  {
@@ -284,7 +278,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 decryptedPassword = try passwordEntity.decrypt(passphrase: passphrase)!
                 DispatchQueue.main.async {
                     Utils.copyToPasteboard(textToCopy: decryptedPassword?.password)
-                    SVProgressHUD.showSuccess(withStatus: "Password Copied")
+                    SVProgressHUD.showSuccess(withStatus: "Password copied, and will be cleared in 45 seconds.")
                     SVProgressHUD.dismiss(withDelay: 0.6)
                 }
             } catch {
