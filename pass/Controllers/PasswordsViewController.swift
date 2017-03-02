@@ -206,7 +206,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         return cell
     }
     
-    private func getPasswordEntry(by indexPath: IndexPath) -> PasswordsTableEntry{
+    private func getPasswordEntry(by indexPath: IndexPath) -> PasswordsTableEntry {
         var entry: PasswordsTableEntry
         let index = sections[indexPath.section].index + indexPath.row
         if searchController.isActive && searchController.searchBar.text != "" {
@@ -260,7 +260,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func copyToPasteboard(from indexPath: IndexPath) {
-        if Defaults[.pgpKeyID]  == nil {
+        guard Defaults[.pgpKeyID]  != nil else {
             Utils.alert(title: "Cannot Copy Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
             return
         }
