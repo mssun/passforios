@@ -39,11 +39,9 @@ class AboutTableViewController: BasicStaticTableViewController {
         return nil
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 1 {
-            let view = UITableViewHeaderFooterView()
-            view.textLabel?.text = "Acknowledgements".uppercased()
-            return view
+            return "Acknowledgements".uppercased()
         }
         return nil
     }
