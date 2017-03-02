@@ -185,6 +185,23 @@ class PasswordStore {
         return fm.fileExists(atPath: Globals.repositoryPath)
     }
     
+    func passwordExisted(password: Password) -> Bool {
+        print(password.name)
+        let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
+        do {
+            passwordEntityFetchRequest.predicate = NSPredicate(format: "name = %@", password.name)
+            let count = try context.count(for: passwordEntityFetchRequest)
+            if count > 0 {
+                return true
+            } else {
+                return false
+            }
+        } catch {
+            fatalError("Failed to fetch password entities: \(error)")
+        }
+        return true
+    }
+    
     func initPGP(pgpPublicKeyURL: URL, pgpPublicKeyLocalPath: String, pgpPrivateKeyURL: URL, pgpPrivateKeyLocalPath: String) throws {
         let pgpPublicData = try Data(contentsOf: pgpPublicKeyURL)
         try pgpPublicData.write(to: URL(fileURLWithPath: pgpPublicKeyLocalPath), options: .atomic)
@@ -367,9 +384,10 @@ class PasswordStore {
             passwordEntityFetchRequest.predicate = NSPredicate(format: "synced = %i", 0)
             return try context.count(for: passwordEntityFetchRequest)
         } catch {
-            fatalError("Failed to fetch employees: \(error)")
+            fatalError("Failed to fetch unsynced passwords: \(error)")
         }
     }
+    
     
     func getLatestUpdateInfo(filename: String) -> String {
         guard let blameHunks = try? storeRepository?.blame(withFile: filename, options: nil).hunks,
@@ -488,8 +506,11 @@ class PasswordStore {
         try storeRepository?.push(masterBranch, to: remote, withOptions: options, progress: transferProgressBlock)
     }
     
-    func add(password: Password, progressBlock: (_ progress: Float) -> Void) {
+    func add(password: Password, progressBlock: (_ progress: Float) -> Void) throws {
         progressBlock(0.0)
+        guard !passwordExisted(password: password) else {
+            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot add password: password duplicated."])
+        }
         let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
         do {
             let encryptedData = try passwordEntity.encrypt(password: password)

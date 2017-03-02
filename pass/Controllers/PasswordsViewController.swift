@@ -78,15 +78,23 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             SVProgressHUD.setDefaultStyle(.light)
             SVProgressHUD.show(withStatus: "Saving")
             DispatchQueue.global(qos: .userInitiated).async {
-                PasswordStore.shared.add(password: controller.password!, progressBlock: { progress in
+                do {
+                    try PasswordStore.shared.add(password: controller.password!, progressBlock: { progress in
+                        DispatchQueue.main.async {
+                            SVProgressHUD.showProgress(progress, status: "Encrypting")
+                        }
+                    })
+                    
                     DispatchQueue.main.async {
-                        SVProgressHUD.showProgress(progress, status: "Encrypting")
+                        SVProgressHUD.showSuccess(withStatus: "Done")
+                        SVProgressHUD.dismiss(withDelay: 1)
+                        NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
                     }
-                })
-                DispatchQueue.main.async {
-                    SVProgressHUD.showSuccess(withStatus: "Done")
-                    SVProgressHUD.dismiss(withDelay: 1)
-                    NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
+                } catch {
+                    DispatchQueue.main.async {
+                        SVProgressHUD.showError(withStatus: error.localizedDescription)
+                        SVProgressHUD.dismiss(withDelay: 1)
+                    }
                 }
             }
         }
