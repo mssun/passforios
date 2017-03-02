@@ -205,6 +205,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             performSegue(withIdentifier: "showPasswordDetail", sender: tableView.cellForRow(at: indexPath))
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
+            searchController.isActive = false
             parentPasswordEntity = entry.passwordEntity
             initPasswordsTableEntries()
             reloadTableView(data: passwordsTableEntries)
