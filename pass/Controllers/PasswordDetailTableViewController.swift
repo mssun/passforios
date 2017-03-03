@@ -199,6 +199,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self.tableData[tableDataIndex].item.append(TableCell(title: "username", content: username))
         }
         self.tableData[tableDataIndex].item.append(TableCell(title: "password", content: password.password))
+        // Show additional information
         if password.additions.count > 0 {
             self.tableData.append(TableSection(title: "additions", item: []))
             tableDataIndex += 1
@@ -210,6 +211,14 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
                 }
                 
+            }
+        }
+        // Show one time password
+        if password.otpType == "totp", password.otpToken != nil {
+            self.tableData.append(TableSection(title: "One time password (TOTP)", item: []))
+            tableDataIndex += 1
+            if let crtPassword = password.otpToken?.currentPassword {
+                self.tableData[tableDataIndex].item.append(TableCell(title: "current", content: crtPassword))
             }
         }
     }

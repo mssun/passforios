@@ -8,6 +8,8 @@
 
 import Foundation
 import SwiftyUserDefaults
+import OneTimePassword
+import Base32
 
 struct AdditionField {
     var title: String
@@ -15,12 +17,16 @@ struct AdditionField {
 }
 
 class Password {
+    static let otpKeywords = ["otp_secret", "otp_type", "otp_algorithm", "otp_period", "otp_digits", "otp_counter"]
+    
     var name = ""
     var password = ""
     var additions = [String: String]()
     var additionKeys = [String]()
     var plainText = ""
     var changed = false
+    var otpType: String?
+    var otpToken: Token?
     
     init(name: String, plainText: String) {
         self.name = name
@@ -32,6 +38,16 @@ class Password {
             }.map(String.init)
         self.password  = plainTextSplit[0]
         (self.additions, self.additionKeys) = Password.getAdditionFields(from: plainTextSplit[1])
+
+        // check whether the first line of the plainText looks like an otp entry
+        let (key, value) = Password.getKeyValuePair(from: plainTextSplit[0])
+        if key != nil && Password.otpKeywords.contains(key!) {
+            self.additions[key!] = value
+            self.additionKeys.append(key!)
+        }
+        
+        // construct the otp token
+        self.updateOtpToken()
     }
     
     func getUsername() -> String? {
@@ -91,6 +107,9 @@ class Password {
             self.password  = plainTextSplit[0]
             (self.additions, self.additionKeys) = Password.getAdditionFields(from: plainTextSplit[1])
             
+            // construct the otp token
+            self.updateOtpToken()
+            
             changed = true
         }
     }
@@ -118,4 +137,71 @@ class Password {
         return self.additions[key]
     }
     
+    /*
+     Set otpType and otpToken, if we are able to construct a valid token.
+     
+     Example of TOTP fields
+     otp_secret: secretsecretsecretsecretsecretsecret
+     otp_type: totp
+     otp_algorithm: sha1
+     otp_period: 30
+     otp_digits: 6
+     
+     Example of HOTP fields
+     otp_secret: secretsecretsecretsecretsecretsecret
+     otp_type: hotp
+     otp_counter: 1
+     otp_digits: 6
+     
+     */
+    func updateOtpToken() {
+        // get secret data
+        guard let secretString = getAdditionValue(withKey: "otp_secret"),
+            let secretData = MF_Base32Codec.data(fromBase32String: secretString),
+            !secretData.isEmpty else {
+                // print("Missing / Invalid otp secret")
+                return
+        }
+        
+        // get type
+        guard let type = getAdditionValue(withKey: "otp_type")?.lowercased(),
+            (type == "totp" || type == "hotp") else {
+            // print("Missing  / Invalid otp type")
+            return
+        }
+        
+        // get algorithm
+        var algorithm = Generator.Algorithm.sha1
+        if let algoString = getAdditionValue(withKey: "otp_algorithm") {
+            switch algoString.lowercased() {
+                case "sha1":
+                    algorithm = Generator.Algorithm.sha1
+                case "sha256":
+                    algorithm = Generator.Algorithm.sha256
+                case "sha512":
+                    algorithm = Generator.Algorithm.sha512
+                default:
+                    algorithm = Generator.Algorithm.sha1
+            }
+        }
+    
+        // construct the token
+        if type == "totp" {
+            if let digits = Int(getAdditionValue(withKey: "otp_digits") ?? ""),
+                let period = Double(getAdditionValue(withKey: "otp_period") ?? "") {
+                guard let generator = Generator(
+                    factor: .timer(period: period),
+                    secret: secretData,
+                    algorithm: algorithm,
+                    digits: digits) else {
+                        print("Invalid generator parameters \(self.plainText)")
+                        return
+                }
+                self.otpType = "totp"
+                self.otpToken = Token(name: self.name, issuer: "", generator: generator)
+            }
+        } else {
+            print("We do not support HOTP currently.")
+        }
+    }
 }
