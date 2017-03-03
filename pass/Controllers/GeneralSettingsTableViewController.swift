@@ -19,6 +19,14 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         return uiSwitch
     }()
     
+    let hideOTPSwitch: UISwitch = {
+        let uiSwitch = UISwitch()
+        uiSwitch.onTintColor = Globals.blue
+        uiSwitch.sizeToFit()
+        uiSwitch.addTarget(self, action: #selector(hideOTPSwitchAction(_:)), for: UIControlEvents.valueChanged)
+        return uiSwitch
+    }()
+    
     let rememberPassphraseSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Globals.blue
@@ -50,6 +58,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             [
                 [.title: "Show Folder", .action: "none",],
                 [.title: "Hide Unknown Fields", .action: "none",],
+                [.title: "Hide One Time Password Fields", .action: "none",],
             ],
 
         ]
@@ -72,6 +81,18 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             cell.accessoryView = accessoryView
             cell.selectionStyle = .none
             hideUnknownSwitch.isOn = Defaults[.isHideUnknownOn]
+        case "Hide One Time Password Fields":
+            cell.accessoryType = .none
+            let detailButton = UIButton(type: .detailDisclosure)
+            hideOTPSwitch.frame = CGRect(x: detailButton.bounds.width+10, y: 0, width: hideOTPSwitch.bounds.width, height: hideOTPSwitch.bounds.height)
+            detailButton.frame = CGRect(x: 0, y: 5, width: detailButton.bounds.width, height: detailButton.bounds.height)
+            detailButton.addTarget(self, action: #selector(GeneralSettingsTableViewController.tapHideOTPSwitchDetailButton(_:)), for: UIControlEvents.touchDown)
+            let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: detailButton.bounds.width + hideOTPSwitch.bounds.width+10, height: hideOTPSwitch.bounds.height))
+            accessoryView.addSubview(detailButton)
+            accessoryView.addSubview(hideOTPSwitch)
+            cell.accessoryView = accessoryView
+            cell.selectionStyle = .none
+            hideOTPSwitch.isOn = Defaults[.isHideOTPOn]
         case "Remember Phassphrase":
             cell.accessoryType = .none
             cell.selectionStyle = .none
@@ -91,8 +112,19 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
     }
     
+    func tapHideOTPSwitchDetailButton(_ sender: Any?) {
+        let keywordsString = Password.otpKeywords.joined(separator: ",")
+        let alertMessage = "Turn on this switch to hide the fields related to one time passwords (i.e., \(keywordsString))."
+        let alertTitle = "Hide One Time Password Fields"
+        Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
+    }
+    
     func hideUnknownSwitchAction(_ sender: Any?) {
         Defaults[.isHideUnknownOn] = hideUnknownSwitch.isOn
+    }
+    
+    func hideOTPSwitchAction(_ sender: Any?) {
+        Defaults[.isHideOTPOn] = hideOTPSwitch.isOn
     }
     
     func rememberPassphraseSwitchAction(_ sender: Any?) {

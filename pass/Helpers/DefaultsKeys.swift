@@ -33,6 +33,7 @@ extension DefaultsKeys {
     static let passcodeKey = DefaultsKey<String?>("passcodeKey")
     
     static let isHideUnknownOn = DefaultsKey<Bool>("isHideUnknownOn")
+    static let isHideOTPOn = DefaultsKey<Bool>("isHideOTPOn")
     static let isRememberPassphraseOn = DefaultsKey<Bool>("isRememberPassphraseOn")
     static let isShowFolderOn = DefaultsKey<Bool>("isShowFolderOn")
     

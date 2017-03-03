@@ -25,10 +25,22 @@ class Password {
     var additionKeys = [String]()
     var plainText = ""
     var changed = false
+    var firstLineIsOTPField = false
     var otpType: String?
     var otpToken: Token?
     
     init(name: String, plainText: String) {
+        self.initEverything(name: name, plainText: plainText)
+    }
+    
+    func updatePassword(name: String, plainText: String) {
+        if self.plainText != plainText {
+            self.initEverything(name: name, plainText: plainText)
+            changed = true
+        }
+    }
+    
+    func initEverything(name: String, plainText: String) {
         self.name = name
         self.plainText = plainText
         
@@ -38,12 +50,15 @@ class Password {
             }.map(String.init)
         self.password  = plainTextSplit[0]
         (self.additions, self.additionKeys) = Password.getAdditionFields(from: plainTextSplit[1])
-
+        
         // check whether the first line of the plainText looks like an otp entry
         let (key, value) = Password.getKeyValuePair(from: plainTextSplit[0])
         if key != nil && Password.otpKeywords.contains(key!) {
+            firstLineIsOTPField = true
             self.additions[key!] = value
-            self.additionKeys.append(key!)
+            self.additionKeys.insert(key!, at: 0)
+        } else {
+            firstLineIsOTPField = false
         }
         
         // construct the otp token
@@ -94,39 +109,20 @@ class Password {
         return (additions, additionKeys)
     }
     
-    func updatePassword(name: String, plainText: String) {
-        self.name = name
-        if self.plainText != plainText {
-            self.name = name
-            self.plainText = plainText
-            
-            // get password and additional fields
-            let plainTextSplit = plainText.characters.split(maxSplits: 1, omittingEmptySubsequences: false) {
-                $0 == "\n" || $0 == "\r\n"
-                }.map(String.init)
-            self.password  = plainTextSplit[0]
-            (self.additions, self.additionKeys) = Password.getAdditionFields(from: plainTextSplit[1])
-            
-            // construct the otp token
-            self.updateOtpToken()
-            
-            changed = true
+    func getAdditionsPlainText() -> String {
+        // lines starting from the second
+        let plainTextSplit = plainText.characters.split(maxSplits: 1, omittingEmptySubsequences: false) {
+            $0 == "\n" || $0 == "\r\n"
+            }.map(String.init)
+        if plainTextSplit.count == 1 {
+            return ""
+        } else {
+            return plainTextSplit[1]
         }
     }
     
-    func getAdditionsPlainText() -> String {
-        let plainAdditionsText = self.additionKeys.map {
-            if $0.hasPrefix("unknown") {
-                return "\(self.additions[$0]!)"
-            } else {
-                return "\($0): \(self.additions[$0]!)"
-            }
-        }.joined(separator: "\n")
-        return plainAdditionsText
-    }
-    
     func getPlainText() -> String {
-        return "\(self.password)\n\(getAdditionsPlainText())"
+        return self.plainText
     }
     
     func getPlainData() -> Data {

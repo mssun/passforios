@@ -199,26 +199,28 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self.tableData[tableDataIndex].item.append(TableCell(title: "username", content: username))
         }
         self.tableData[tableDataIndex].item.append(TableCell(title: "password", content: password.password))
-        // Show additional information
-        if password.additions.count > 0 {
-            self.tableData.append(TableSection(title: "additions", item: []))
-            tableDataIndex += 1
-            for additionKey in password.additionKeys {
-                if (!additionKey.hasPrefix("unknown") || !Defaults[.isHideUnknownOn]) &&
-                    additionKey.lowercased() != "username" &&
-                    additionKey.lowercased() != "password" {
-                    self.tableData[tableDataIndex].item.append(TableCell(title: additionKey, content: password.additions[additionKey]!))
-
-                }
-                
-            }
-        }
+        
         // Show one time password
         if password.otpType == "totp", password.otpToken != nil {
             self.tableData.append(TableSection(title: "One time password (TOTP)", item: []))
             tableDataIndex += 1
             if let crtPassword = password.otpToken?.currentPassword {
                 self.tableData[tableDataIndex].item.append(TableCell(title: "current", content: crtPassword))
+            }
+        }
+        
+        // Show additional information
+        let filteredAdditionKeys = password.additionKeys.filter {
+            $0.lowercased() != "username" &&
+                $0.lowercased() != "password" &&
+                (!$0.hasPrefix("unknown") || !Defaults[.isHideOTPOn]) &&
+                (!Password.otpKeywords.contains($0) || !Defaults[.isHideOTPOn]) }
+        
+        if filteredAdditionKeys.count > 0 {
+            self.tableData.append(TableSection(title: "additions", item: []))
+            tableDataIndex += 1
+            for additionKey in filteredAdditionKeys {
+                self.tableData[tableDataIndex].item.append(TableCell(title: additionKey, content: password.additions[additionKey]!))
             }
         }
     }
