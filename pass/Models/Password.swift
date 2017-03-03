@@ -48,8 +48,13 @@ class Password {
         let plainTextSplit = plainText.characters.split(maxSplits: 1, omittingEmptySubsequences: false) {
             $0 == "\n" || $0 == "\r\n"
             }.map(String.init)
+        guard plainTextSplit.count > 0 else {
+            return;
+        }
         self.password  = plainTextSplit[0]
-        (self.additions, self.additionKeys) = Password.getAdditionFields(from: plainTextSplit[1])
+        if plainTextSplit.count == 2 {
+            (self.additions, self.additionKeys) = Password.getAdditionFields(from: plainTextSplit[1])
+        }
         
         // check whether the first line of the plainText looks like an otp entry
         let (key, value) = Password.getKeyValuePair(from: plainTextSplit[0])
