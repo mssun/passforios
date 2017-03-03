@@ -51,9 +51,9 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
             }
             var plainText = ""
             if cellContents["additions"]! != "" {
-                plainText = "\(cellContents["password"]!)\n\(cellContents["additions"]!)\n"
+                plainText = "\(cellContents["password"]!)\n\(cellContents["additions"]!)"
             } else {
-                plainText = "\(cellContents["password"]!)\n"
+                plainText = "\(cellContents["password"]!)"
             }
             password!.updatePassword(name: cellContents["name"]!, plainText: plainText)
         }
