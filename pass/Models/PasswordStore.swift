@@ -604,4 +604,34 @@ class PasswordStore {
         Defaults.removeAll()
         storeRepository = nil
     }
+    
+    func reset() throws {
+        // get the remote origin/master branch
+        guard let remoteBranches = try storeRepository?.remoteBranches(),
+            let index = remoteBranches.index(where: { $0.shortName == "master" })
+            else {
+                throw NSError(domain: "me.mssun.pass.error", code: 1, userInfo: [NSLocalizedDescriptionKey: "Cannot find remote branch origin/master."])
+        }
+        let remoteMasterBranch = remoteBranches[index]
+        //print("remoteMasterBranch \(remoteMasterBranch)")
+        
+        // get a list of local commits
+        if let localCommits = try storeRepository?.localCommitsRelative(toRemoteBranch: remoteMasterBranch),
+            localCommits.count > 0 {
+            //print("PasswordStore.reset: \(localCommits.count)")
+            // get the first local commit
+            guard let firstLocalCommit = localCommits.first,
+                firstLocalCommit.parents.count == 1,
+                let newHead = firstLocalCommit.parents.first else {
+                    throw NSError(domain: "me.mssun.pass.error", code: 1, userInfo: [NSLocalizedDescriptionKey: "Cannot decide how to reset."])
+            }
+            try self.storeRepository?.reset(to: newHead, resetType: GTRepositoryResetType.hard)
+            self.updatePasswordEntityCoreData()
+            NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
+            self.setAllSynced()
+        } else {
+            //print("PasswordStore.reset: no new commit")
+            return;  // no new commit
+        }
+    }
 }

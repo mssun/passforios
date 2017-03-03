@@ -12,6 +12,8 @@ import SVProgressHUD
 class AdvancedSettingsTableViewController: UITableViewController {
 
     @IBOutlet weak var eraseDataTableViewCell: UITableViewCell!
+    @IBOutlet weak var discardChangesTableViewCell: UITableViewCell!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -27,6 +29,31 @@ class AdvancedSettingsTableViewController: UITableViewController {
                 self.navigationController!.popViewController(animated: true)
                 SVProgressHUD.showSuccess(withStatus: "Done")
                 SVProgressHUD.dismiss(withDelay: 1)
+            }))
+            alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.cancel, handler:nil))
+            self.present(alert, animated: true, completion: nil)
+            tableView.deselectRow(at: indexPath, animated: true)
+        } else if tableView.cellForRow(at: indexPath) == discardChangesTableViewCell {
+            let alert = UIAlertController(title: "Discard All Changes?", message: "Do you want to permanently discard all changes to the local copy of your password data? You cannot undo this action.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Discard All Changesa", style: UIAlertActionStyle.destructive, handler: {[unowned self] (action) -> Void in
+                DispatchQueue.global(qos: .userInitiated).async {
+                    SVProgressHUD.show(withStatus: "Resetting ...")
+                    DispatchQueue.main.async {
+                        do {
+                            try PasswordStore.shared.reset()
+                            NotificationCenter.default.post(Notification(name: Notification.Name("passwordStoreChangeDiscarded")))
+                            self.navigationController!.popViewController(animated: true)
+                            SVProgressHUD.showSuccess(withStatus: "Done")
+                            SVProgressHUD.dismiss(withDelay: 1)
+                        } catch {
+                            DispatchQueue.main.async {
+                                SVProgressHUD.showError(withStatus: error.localizedDescription)
+                                SVProgressHUD.dismiss(withDelay: 1)
+                            }
+                        }
+                    }
+                }
+                
             }))
             alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.cancel, handler:nil))
             self.present(alert, animated: true, completion: nil)
