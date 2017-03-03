@@ -400,7 +400,7 @@ class PasswordStore {
         let currentDate = Date()
         var autoFormattedDifference: String
         if currentDate.timeIntervalSince(lastCommitDate) <= 60 {
-            autoFormattedDifference = "just now"
+            autoFormattedDifference = "Just now"
         } else {
             let diffDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: lastCommitDate, to: currentDate)
             let dateComponentsFormatter = DateComponentsFormatter()
