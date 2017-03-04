@@ -26,7 +26,6 @@ class Password {
     var plainText = ""
     var changed = false
     var firstLineIsOTPField = false
-    var otpType: String?
     var otpToken: Token?
     
     init(name: String, plainText: String) {
@@ -198,7 +197,6 @@ class Password {
                         print("Invalid generator parameters \(self.plainText)")
                         return
                 }
-                self.otpType = "totp"
                 self.otpToken = Token(name: self.name, issuer: "", generator: generator)
             }
         } else {

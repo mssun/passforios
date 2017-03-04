@@ -16,6 +16,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     var passwordCategoryText = ""
     var password: Password?
     var passwordImage: UIImage?
+    var oneTimePasswordIndexPath : IndexPath?
     
     let indicatorLable: UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 21))
@@ -116,7 +117,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self.present(alert, animated: true, completion: nil)
         }
         
-        
+        self.setupUdateOneTimePassword()
+
     }
     
     func decryptThenShowPassword(passphrase: String) {
@@ -153,6 +155,35 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         if let url = password.getURL() {
             if self.passwordEntity?.image == nil{
                 self.updatePasswordImage(url: url)
+            }
+        }
+    }
+    
+    func setupUdateOneTimePassword() {
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {
+            [weak self] timer in
+            // bail out of the timer code if the object has been freed
+            guard let strongSelf = self,
+                let token = strongSelf.password?.otpToken,
+                let indexPath = strongSelf.oneTimePasswordIndexPath,
+                let cell = strongSelf.tableView.cellForRow(at: indexPath) as? LabelTableViewCell else {
+                    return
+            }
+            switch token.generator.factor {
+            case .counter:
+                // htop
+                break
+            case .timer(let period):
+                // totp
+                let timeSinceEpoch = Date().timeIntervalSince1970
+                let validTime = Int(period - timeSinceEpoch.truncatingRemainder(dividingBy: period))
+                strongSelf.tableData[indexPath.section].item[indexPath.row].title = "time-based (expiring in \(validTime)s)"
+                cell.cellData?.title = "time-based (valid within \(validTime)s)"
+                if validTime <= 1 || validTime >= Int(period - 1) {
+                    let otp = token.currentPassword ?? "error"
+                    strongSelf.tableData[indexPath.section].item[indexPath.row].content = otp
+                    cell.cellData?.content = otp
+                }
             }
         }
     }
@@ -200,16 +231,26 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
         self.tableData[tableDataIndex].item.append(TableCell(title: "password", content: password.password))
         
-        // Show one time password
-        if password.otpType == "totp", password.otpToken != nil {
-            self.tableData.append(TableSection(title: "One time password (TOTP)", item: []))
-            tableDataIndex += 1
-            if let crtPassword = password.otpToken?.currentPassword {
-                self.tableData[tableDataIndex].item.append(TableCell(title: "current", content: crtPassword))
+        // show one time password
+        if let token = password.otpToken {
+            switch token.generator.factor {
+            case .counter(_):
+                // counter-based one time password
+                break
+            case .timer(let period):
+                // time-based one time password
+                self.tableData.append(TableSection(title: "One time password", item: []))
+                tableDataIndex += 1
+                oneTimePasswordIndexPath = IndexPath(row: 0, section: tableDataIndex)
+                if let crtPassword = password.otpToken?.currentPassword {
+                    let timeSinceEpoch = Date().timeIntervalSince1970
+                    let validTime = Int(period - timeSinceEpoch.truncatingRemainder(dividingBy: period))
+                    self.tableData[tableDataIndex].item.append(TableCell(title: "time-based (expiring in \(validTime)s)", content: crtPassword))
+                }
             }
         }
         
-        // Show additional information
+        // show additional information
         let filteredAdditionKeys = password.additionKeys.filter {
             $0.lowercased() != "username" &&
                 $0.lowercased() != "password" &&
