@@ -40,10 +40,10 @@ class AdvancedSettingsTableViewController: UITableViewController {
                     SVProgressHUD.show(withStatus: "Resetting ...")
                     DispatchQueue.main.async {
                         do {
-                            try PasswordStore.shared.reset()
+                            let numberDiscarded = try PasswordStore.shared.reset()
                             NotificationCenter.default.post(Notification(name: Notification.Name("passwordStoreChangeDiscarded")))
                             self.navigationController!.popViewController(animated: true)
-                            SVProgressHUD.showSuccess(withStatus: "Done")
+                            SVProgressHUD.showSuccess(withStatus: "Discarded \(numberDiscarded) commits")
                             SVProgressHUD.dismiss(withDelay: 1)
                         } catch {
                             DispatchQueue.main.async {
