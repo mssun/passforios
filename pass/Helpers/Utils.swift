@@ -93,7 +93,7 @@ class Utils {
         return nil
     }
     
-    static func addPasswrodToKeychain(name: String, password: String?) {
+    static func addPasswordToKeychain(name: String, password: String?) {
         let keychain = Keychain(service: "me.mssun.passforios")
         keychain[name] = password
     }

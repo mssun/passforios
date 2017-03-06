@@ -76,7 +76,7 @@ struct GitCredential {
                 }
 
                 // Save password for the future
-                Utils.addPasswrodToKeychain(name: "gitRepositorySSHPrivateKeyPassphrase", password: newPassword!)
+                Utils.addPasswordToKeychain(name: "gitRepositorySSHPrivateKeyPassphrase", password: newPassword!)
 
                 // nil is expected in case of empty password
                 if newPassword == "" {
@@ -103,7 +103,7 @@ class PasswordStore {
     
     var pgpKeyPassphrase: String? {
         set {
-            Utils.addPasswrodToKeychain(name: "pgpKeyPassphrase", password: newValue)
+            Utils.addPasswordToKeychain(name: "pgpKeyPassphrase", password: newValue)
         }
         get {
             return Utils.getPasswordFromKeychain(name: "pgpKeyPassphrase")
@@ -111,7 +111,7 @@ class PasswordStore {
     }
     var gitRepositoryPassword: String? {
         set {
-            Utils.addPasswrodToKeychain(name: "gitRepositoryPassword", password: newValue)
+            Utils.addPasswordToKeychain(name: "gitRepositoryPassword", password: newValue)
         }
         get {
             return Utils.getPasswordFromKeychain(name: "gitRepositoryPassword")

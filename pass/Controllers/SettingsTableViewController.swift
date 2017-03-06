@@ -65,7 +65,7 @@ class SettingsTableViewController: UITableViewController {
             Defaults[.pgpKeySource] = "armor"
             PasswordStore.shared.pgpKeyPassphrase = controller.pgpPassphrase
             if Defaults[.isRememberPassphraseOn] {
-                Utils.addPasswrodToKeychain(name: "pgpKeyPassphrase", password: controller.pgpPassphrase!)
+                Utils.addPasswordToKeychain(name: "pgpKeyPassphrase", password: controller.pgpPassphrase!)
             }
 
             Defaults[.pgpPublicKeyArmor] = controller.armorPublicKeyTextView.text!
@@ -326,7 +326,7 @@ class SettingsTableViewController: UITableViewController {
                         title: "OK",
                         style: UIAlertActionStyle.default,
                         handler: {_ in
-                            Utils.addPasswrodToKeychain(
+                            Utils.addPasswordToKeychain(
                                 name: "pgpKeyPassphrase",
                                 password: alert.textFields!.first!.text!
                             )
