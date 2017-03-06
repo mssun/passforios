@@ -117,7 +117,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self.present(alert, animated: true, completion: nil)
         }
         
-        self.setupUdateOneTimePassword()
+        self.setupUpdateOneTimePassword()
 
     }
     
@@ -159,7 +159,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
     }
     
-    func setupUdateOneTimePassword() {
+    func setupUpdateOneTimePassword() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {
             [weak self] timer in
             // bail out of the timer code if the object has been freed
@@ -236,7 +236,12 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             switch token.generator.factor {
             case .counter(_):
                 // counter-based one time password
-                break
+                self.tableData.append(TableSection(title: "One time password", item: []))
+                tableDataIndex += 1
+                oneTimePasswordIndexPath = IndexPath(row: 0, section: tableDataIndex)
+                if let crtPassword = password.otpToken?.currentPassword {
+                    self.tableData[tableDataIndex].item.append(TableCell(title: "HMAC-based", content: crtPassword))
+                }
             case .timer(let period):
                 // time-based one time password
                 self.tableData.append(TableSection(title: "One time password", item: []))
@@ -306,8 +311,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                     let menuController = UIMenuController.shared
                     let revealItem = UIMenuItem(title: "Reveal", action: #selector(LabelTableViewCell.revealPassword(_:)))
                     let concealItem = UIMenuItem(title: "Conceal", action: #selector(LabelTableViewCell.concealPassword(_:)))
+                    let nextPasswordItem = UIMenuItem(title: "Next Password", action: #selector(LabelTableViewCell.nextPassword(_:)))
                     let openURLItem = UIMenuItem(title: "Copy Password & Open Link", action: #selector(LabelTableViewCell.openLink(_:)))
-                    menuController.menuItems = [revealItem, concealItem, openURLItem]
+                    menuController.menuItems = [revealItem, concealItem, nextPasswordItem, openURLItem]
                     menuController.setTargetRect(tappedCell.contentLabel.frame, in: tappedCell.contentLabel.superview!)
                     menuController.setMenuVisible(true, animated: true)
                 }
@@ -342,9 +348,10 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell
             let titleData = tableData[sectionIndex].item[rowIndex].title
             let contentData = tableData[sectionIndex].item[rowIndex].content
-            cell.password = password
+            cell.passwordTableView = self
             cell.isPasswordCell = (titleData.lowercased() == "password" ? true : false)
             cell.isURLCell = (titleData.lowercased() == "url" ? true : false)
+            cell.isHOTPCell = (titleData == "HMAC-based" ? true : false)
             cell.cellData = LabelTableViewCellData(title: titleData, content: contentData)
             return cell
         }

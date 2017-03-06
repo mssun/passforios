@@ -143,15 +143,15 @@ class Password {
      Example of TOTP fields
      otp_secret: secretsecretsecretsecretsecretsecret
      otp_type: totp
-     otp_algorithm: sha1
-     otp_period: 30
-     otp_digits: 6
+     otp_algorithm: sha1 (default: sha1, optional)
+     otp_period: 30 (default: 30, optional)
+     otp_digits: 6 (default: 6, optional)
      
      Example of HOTP fields
      otp_secret: secretsecretsecretsecretsecretsecret
      otp_type: hotp
      otp_counter: 1
-     otp_digits: 6
+     otp_digits: 6 (default: 6, optional)
      
      */
     func updateOtpToken() {
@@ -166,16 +166,14 @@ class Password {
         // get type
         guard let type = getAdditionValue(withKey: "otp_type")?.lowercased(),
             (type == "totp" || type == "hotp") else {
-            // print("Missing  / Invalid otp type")
-            return
+                // print("Missing  / Invalid otp type")
+                return
         }
         
-        // get algorithm
+        // get algorithm (optional)
         var algorithm = Generator.Algorithm.sha1
         if let algoString = getAdditionValue(withKey: "otp_algorithm") {
             switch algoString.lowercased() {
-                case "sha1":
-                    algorithm = Generator.Algorithm.sha1
                 case "sha256":
                     algorithm = Generator.Algorithm.sha256
                 case "sha512":
@@ -187,20 +185,58 @@ class Password {
     
         // construct the token
         if type == "totp" {
-            if let digits = Int(getAdditionValue(withKey: "otp_digits") ?? ""),
-                let period = Double(getAdditionValue(withKey: "otp_period") ?? "") {
-                guard let generator = Generator(
-                    factor: .timer(period: period),
-                    secret: secretData,
-                    algorithm: algorithm,
-                    digits: digits) else {
-                        print("Invalid generator parameters \(self.plainText)")
-                        return
-                }
-                self.otpToken = Token(name: self.name, issuer: "", generator: generator)
+            // HOTP
+            // default: 6 digits, 30 seconds
+            guard let digits = Int(getAdditionValue(withKey: "otp_digits") ?? "6"),
+                let period = Double(getAdditionValue(withKey: "otp_period") ?? "30.0") else {
+                    let alertMessage = "Invalid otp_digits or otp_period."
+                    print(alertMessage)
+                    return
             }
+            guard let generator = Generator(
+                factor: .timer(period: period),
+                secret: secretData,
+                algorithm: algorithm,
+                digits: digits) else {
+                    let alertMessage = "Invalid OTP generator parameters."
+                    print(alertMessage)
+                    return
+            }
+            self.otpToken = Token(name: self.name, issuer: "", generator: generator)
         } else {
-            print("We do not support HOTP currently.")
+            // HOTP
+            // default: 6 digits
+            guard let digits = Int(getAdditionValue(withKey: "otp_digits") ?? "6"),
+                let counter = UInt64(getAdditionValue(withKey: "otp_counter") ?? "") else {
+                    let alertMessage = "Invalid otp_digits or otp_counter."
+                    print(alertMessage)
+                    return
+            }
+            guard let generator = Generator(
+                factor: .counter(counter),
+                secret: secretData,
+                algorithm: algorithm,
+                digits: digits) else {
+                    let alertMessage = "Invalid OTP generator parameters."
+                    print(alertMessage)
+                    return
+            }
+            self.otpToken = Token(name: self.name, issuer: "", generator: generator)
         }
+    }
+    
+    // it is guaranteed that it is a HOTP password when we call this
+    func increaseHotpCounter() {
+        var lines : [String] = []
+        self.plainText.enumerateLines() { line, _ in
+            let (key, value) = Password.getKeyValuePair(from: line)
+            if key == "otp_counter", let newValue = UInt64(value)?.advanced(by: 1) {
+                let newLine = "\(key!): \(newValue)"
+                lines.append(newLine)
+            } else {
+                lines.append(line)
+            }
+        }
+        self.updatePassword(name: self.name, plainText: lines.joined(separator: "\n"))
     }
 }
