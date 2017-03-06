@@ -53,7 +53,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             
             // section 1
             [
-                [.title: "Remember Phassphrase", .action: "none",],
+                [.title: "Remember Passphrase", .action: "none",],
             ],
             [
                 [.title: "Show Folder", .action: "none",],
@@ -93,7 +93,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             cell.accessoryView = accessoryView
             cell.selectionStyle = .none
             hideOTPSwitch.isOn = Defaults[.isHideOTPOn]
-        case "Remember Phassphrase":
+        case "Remember Passphrase":
             cell.accessoryType = .none
             cell.selectionStyle = .none
             cell.accessoryView = rememberPassphraseSwitch
