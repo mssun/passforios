@@ -170,20 +170,16 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                     return
             }
             switch token.generator.factor {
-            case .counter:
-                // htop
-                break
-            case .timer(let period):
+            case .timer:
                 // totp
-                let timeSinceEpoch = Date().timeIntervalSince1970
-                let validTime = Int(period - timeSinceEpoch.truncatingRemainder(dividingBy: period))
-                strongSelf.tableData[indexPath.section].item[indexPath.row].title = "time-based (expiring in \(validTime)s)"
-                cell.cellData?.title = "time-based (valid within \(validTime)s)"
-                if validTime <= 1 || validTime >= Int(period - 1) {
-                    let otp = token.currentPassword ?? "error"
+                if let (title, otp) = strongSelf.password?.getOtpStrings() {
+                    strongSelf.tableData[indexPath.section].item[indexPath.row].title = title
                     strongSelf.tableData[indexPath.section].item[indexPath.row].content = otp
+                    cell.cellData?.title = title
                     cell.cellData?.content = otp
                 }
+            default:
+                break
             }
         }
     }

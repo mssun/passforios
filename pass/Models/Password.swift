@@ -239,4 +239,24 @@ class Password {
         }
         self.updatePassword(name: self.name, plainText: lines.joined(separator: "\n"))
     }
+    
+    // return the description and the password strings
+    func getOtpStrings() -> (description: String, otp: String)? {
+        guard let token = self.otpToken else {
+            return nil
+        }
+        var description : String
+        switch token.generator.factor {
+        case .counter:
+            // htop
+            description = "HMAC-based"
+        case .timer(let period):
+            // totp
+            let timeSinceEpoch = Date().timeIntervalSince1970
+            let validTime = Int(period - timeSinceEpoch.truncatingRemainder(dividingBy: period))
+            description = "time-based (expiring in \(validTime)s)"
+        }
+        let otp = self.otpToken?.currentPassword ?? "error"
+        return (description, otp)
+    }
 }
