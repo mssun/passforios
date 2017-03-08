@@ -63,7 +63,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             [
                 [.title: "Show Folder", .action: "none",],
                 [.title: "Hide Unknown Fields", .action: "none",],
-                [.title: "Hide One Time Password Fields", .action: "none",],
+                [.title: "Hide OTP Fields", .action: "none",],
             ],
 
         ]
