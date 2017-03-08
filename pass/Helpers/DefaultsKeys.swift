@@ -36,12 +36,7 @@ extension DefaultsKeys {
     static let isHideOTPOn = DefaultsKey<Bool>("isHideOTPOn")
     static let isRememberPassphraseOn = DefaultsKey<Bool>("isRememberPassphraseOn")
     static let isShowFolderOn = DefaultsKey<Bool>("isShowFolderOn")
-    
-    static let passwordGenerationMethod = DefaultsKey<String>("passwordGenerationMethod")
+    static let passwordGeneratorFlavor = DefaultsKey<String>("passwordGeneratorFlavor")
+  
 
-    func initDefaultKeys() {
-        if Defaults[.passwordGenerationMethod] == "" {
-            Defaults[.passwordGenerationMethod] = "Random"
-        }
-    }
 }

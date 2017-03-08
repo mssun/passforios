@@ -38,10 +38,10 @@ class Utils {
     }
     
     static func generatePassword(length: Int) -> String{
-        switch Defaults[.passwordGenerationMethod] {
+        switch Defaults[.passwordGeneratorFlavor] {
         case "Random":
             return randomString(length: length)
-        case "Keychain":
+        case "Apple":
             return Keychain.generatePassword()
         default:
             return randomString(length: length)
@@ -137,6 +137,11 @@ class Utils {
             }
         }
         return attributedPassword
+    }
+    static func initDefaultKeys() {
+        if Defaults[.passwordGeneratorFlavor] == "" {
+            Defaults[.passwordGeneratorFlavor] = "Random"
+        }
     }
 }
 
