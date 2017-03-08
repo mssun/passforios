@@ -8,20 +8,22 @@
 
 import UIKit
 enum PasswordEditorCellType {
-    case textFieldCell, textViewCell, fillPasswordCell
+    case textFieldCell, textViewCell, fillPasswordCell, passwordLengthCell
 }
 
 enum PasswordEditorCellKey {
     case type, title, content, placeholders
 }
 
-class PasswordEditorTableViewController: UITableViewController {
+class PasswordEditorTableViewController: UITableViewController, FillPasswordTableViewCellDelegate {
     var navigationItemTitle: String?
     var tableData = [
         [Dictionary<PasswordEditorCellKey, Any>]
     ]()
-    var sectionHeaderTitles = [String]()
-    var sectionFooterTitles = [String]()
+    var sectionHeaderTitles = ["name", "password", "additions"].map {$0.uppercased()}
+    var sectionFooterTitles = ["", "", "It is recommended to use \"key: value\" format to store additional fields as follows:\n  url: https://www.apple.com\n  username: passforios@gmail.com."]
+    
+    var passwordLengthCell: SliderTableViewCell?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +31,7 @@ class PasswordEditorTableViewController: UITableViewController {
         tableView.register(UINib(nibName: "TextFieldTableViewCell", bundle: nil), forCellReuseIdentifier: "textFieldCell")
         tableView.register(UINib(nibName: "TextViewTableViewCell", bundle: nil), forCellReuseIdentifier: "textViewCell")
         tableView.register(UINib(nibName: "FillPasswordTableViewCell", bundle: nil), forCellReuseIdentifier: "fillPasswordCell")
-        
+        tableView.register(UINib(nibName: "SliderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordLengthCell")
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 48
@@ -46,7 +48,13 @@ class PasswordEditorTableViewController: UITableViewController {
         case .textViewCell:
             cell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as! ContentTableViewCell
         case .fillPasswordCell:
-            cell = tableView.dequeueReusableCell(withIdentifier: "fillPasswordCell", for: indexPath) as! ContentTableViewCell
+            let fillPasswordCell = tableView.dequeueReusableCell(withIdentifier: "fillPasswordCell", for: indexPath) as?FillPasswordTableViewCell
+            fillPasswordCell?.delegate = self
+            cell = fillPasswordCell!
+        case .passwordLengthCell:
+            passwordLengthCell = tableView.dequeueReusableCell(withIdentifier: "passwordLengthCell", for: indexPath) as? SliderTableViewCell
+            passwordLengthCell?.reset(title: "Length", minimumValue: 1, maximumValue: Globals.passwordMaximumLength, defaultValue: Globals.passwordDefaultLength)
+            cell = passwordLengthCell!
         default:
             cell = tableView.dequeueReusableCell(withIdentifier: "textFieldCell", for: indexPath) as! ContentTableViewCell
         }
@@ -75,6 +83,9 @@ class PasswordEditorTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return sectionFooterTitles[section]
     }
-
-
+    
+    func generatePassword() -> String {
+        let length = passwordLengthCell?.roundedValue ?? Globals.passwordDefaultLength
+        return Utils.generatePassword(length: length)
+    }
 }

@@ -9,7 +9,7 @@
 
 import UIKit
 
-class SliderTableViewCell: UITableViewCell {
+class SliderTableViewCell: ContentTableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
