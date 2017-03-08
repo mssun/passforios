@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyUserDefaults
 
 class AddPasswordTableViewController: UITableViewController, FillPasswordTableViewCellDelegate {
     let tableTitles = ["name", "password", "additions"]
@@ -65,6 +66,27 @@ class AddPasswordTableViewController: UITableViewController, FillPasswordTableVi
         return headerView
     }
     
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "saveAddPasswordSegue" {
+            // check PGP key
+            if Defaults[.pgpKeyID] == nil {
+                let alertTitle = "Cannot Add Password"
+                let alertMessage = "PGP Key is not set. Please set your PGP Key first."
+                Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
+                return false
+            }
+            // check name
+            let nameCell = getCellForName(name: "name")! as! TextFieldTableViewCell
+            if nameCell.getContent()!.isEmpty {
+                let alertTitle = "Cannot Add Password"
+                let alertMessage = "Please fill in the name."
+                Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
+                return false
+            }
+        }
+        return true
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "saveAddPasswordSegue" {
             let nameCell = getCellForName(name: "name")! as! TextFieldTableViewCell
@@ -73,6 +95,7 @@ class AddPasswordTableViewController: UITableViewController, FillPasswordTableVi
             password = Password(name: nameCell.contentTextField.text!, plainText: "\(passwordCell.contentTextField.text!)\n\(additionsCell.contentTextView.text!)")
         }
     }
+    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 44
     }
