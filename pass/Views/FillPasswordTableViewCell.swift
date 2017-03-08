@@ -8,9 +8,15 @@
 
 import UIKit
 
+protocol FillPasswordTableViewCellDelegate {
+    func generatePassword() -> String
+}
+
 class FillPasswordTableViewCell: ContentTableViewCell {
 
     @IBOutlet weak var contentTextField: UITextField!
+    var delegate: FillPasswordTableViewCellDelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -23,7 +29,7 @@ class FillPasswordTableViewCell: ContentTableViewCell {
     }
     
     @IBAction func generatePassword(_ sender: UIButton) {
-        let plainPassword = Utils.generatePassword(length: 16)
+        let plainPassword = self.delegate?.generatePassword() ?? Utils.generatePassword(length: 16)
         contentTextField.attributedText = Utils.attributedPassword(plainPassword: plainPassword)
         Utils.copyToPasteboard(textToCopy: plainPassword)
     }

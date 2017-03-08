@@ -8,16 +8,19 @@
 
 import UIKit
 
-class AddPasswordTableViewController: UITableViewController {
+class AddPasswordTableViewController: UITableViewController, FillPasswordTableViewCellDelegate {
     let tableTitles = ["name", "password", "additions"]
+    let tableRowsInSection = [1, 2, 1]
     var password: Password?
+    
+    var passwordLengthCell: SliderTableViewCell?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "TextFieldTableViewCell", bundle: nil), forCellReuseIdentifier: "textFieldCell")
         tableView.register(UINib(nibName: "TextViewTableViewCell", bundle: nil), forCellReuseIdentifier: "textViewCell")
         tableView.register(UINib(nibName: "FillPasswordTableViewCell", bundle: nil), forCellReuseIdentifier: "fillPasswordCell")
-
+        tableView.register(UINib(nibName: "SliderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordLengthCell")
 
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 48
@@ -25,7 +28,7 @@ class AddPasswordTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return tableRowsInSection[section]
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -39,8 +42,16 @@ class AddPasswordTableViewController: UITableViewController {
             cell.contentTextView.text = ""
             return cell
         case "password":
-            let cell = tableView.dequeueReusableCell(withIdentifier: "fillPasswordCell", for: indexPath) as! FillPasswordTableViewCell
-            return cell
+            switch indexPath.row {
+            case 0:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "fillPasswordCell", for: indexPath) as! FillPasswordTableViewCell
+                cell.delegate = self
+                return cell
+            default:
+                passwordLengthCell = (tableView.dequeueReusableCell(withIdentifier: "passwordLengthCell", for: indexPath) as! SliderTableViewCell)
+                passwordLengthCell!.reset(title: "Length", minimumValue: 1, maximumValue: Globals.passwordMaximumLength, defaultValue: Globals.passwordDefaultLength)
+                return passwordLengthCell!
+            }
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "textFieldCell", for: indexPath) as! TextFieldTableViewCell
             cell.contentTextField.placeholder = tableTitles[indexPath.section]
@@ -77,5 +88,10 @@ class AddPasswordTableViewController: UITableViewController {
     func getCellForName(name: String) -> UITableViewCell? {
         let index = tableTitles.index(of: name)!
         return getCellAt(section: Int(index))
+    }
+    
+    func generatePassword() -> String {
+        let length = passwordLengthCell?.roundedValue ?? Globals.passwordDefaultLength
+        return Utils.generatePassword(length: length)
     }
 }
