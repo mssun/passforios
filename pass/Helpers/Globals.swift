@@ -24,6 +24,9 @@ class Globals {
     static let red = UIColor(red:1.00, green:0.23, blue:0.19, alpha:1.0)
     static let blue = UIColor(red:0.00, green:0.48, blue:1.00, alpha:1.0)
     
+    static let passwordMaximumLength = 32
+    static let passwordDefaultLength = 16 
+    
     private init() { }
 }
 

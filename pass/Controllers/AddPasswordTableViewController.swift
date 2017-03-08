@@ -7,75 +7,62 @@
 //
 
 import UIKit
+import SwiftyUserDefaults
 
-class AddPasswordTableViewController: UITableViewController {
-    let tableTitles = ["name", "password", "additions"]
+class AddPasswordTableViewController: PasswordEditorTableViewController {
+    
     var password: Password?
+    var tempContent: String = ""
 
     override func viewDidLoad() {
+        tableData = [
+            [[.type: PasswordEditorCellType.textFieldCell, .title: "name"]],
+            [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password"],
+             [.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"]],
+            [[.type: PasswordEditorCellType.textViewCell, .title: "additions"]],
+        ]
         super.viewDidLoad()
-        tableView.register(UINib(nibName: "TextFieldTableViewCell", bundle: nil), forCellReuseIdentifier: "textFieldCell")
-        tableView.register(UINib(nibName: "TextViewTableViewCell", bundle: nil), forCellReuseIdentifier: "textViewCell")
-        tableView.register(UINib(nibName: "FillPasswordTableViewCell", bundle: nil), forCellReuseIdentifier: "fillPasswordCell")
-
-
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 48
-        tableView.allowsSelection = false
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return tableTitles.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch tableTitles[indexPath.section] {
-        case "additions":
-            let cell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as! TextViewTableViewCell
-            cell.contentTextView.text = ""
-            return cell
-        case "password":
-            let cell = tableView.dequeueReusableCell(withIdentifier: "fillPasswordCell", for: indexPath) as! FillPasswordTableViewCell
-            return cell
-        default:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "textFieldCell", for: indexPath) as! TextFieldTableViewCell
-            cell.contentTextField.placeholder = tableTitles[indexPath.section]
-            return cell
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "saveAddPasswordSegue" {
+            // check PGP key
+            if Defaults[.pgpKeyID] == nil {
+                let alertTitle = "Cannot Add Password"
+                let alertMessage = "PGP Key is not set. Please set your PGP Key first."
+                Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
+                return false
+            }
+            // check name
+            let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! ContentTableViewCell
+            if nameCell.getContent()!.isEmpty {
+                let alertTitle = "Cannot Add Password"
+                let alertMessage = "Please fill in the name."
+                Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
+                return false
+            }
         }
-    }
-    
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UITableViewHeaderFooterView()
-        headerView.textLabel?.text = tableTitles[section].uppercased()
-        return headerView
+        return true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "saveAddPasswordSegue" {
-            let nameCell = getCellForName(name: "name")! as! TextFieldTableViewCell
-            let passwordCell = getCellForName(name: "password")! as! FillPasswordTableViewCell
-            let additionsCell = getCellForName(name: "additions")! as! TextViewTableViewCell
-            password = Password(name: nameCell.contentTextField.text!, plainText: "\(passwordCell.contentTextField.text!)\n\(additionsCell.contentTextView.text!)")
+        if segue.identifier == "saveAddPasswordSegue" {let cells = tableView.visibleCells
+            var cellContents = [String: String]()
+            for cell in cells {
+                let indexPath = tableView.indexPath(for: cell)!
+                let contentCell = cell as! ContentTableViewCell
+                let cellTitle = tableData[indexPath.section][indexPath.row][.title] as! String
+                if let cellContent = contentCell.getContent() {
+                    cellContents[cellTitle] = cellContent
+                }
+            }
+            var plainText = ""
+            if cellContents["additions"]! != "" {
+                plainText = "\(cellContents["password"]!)\n\(cellContents["additions"]!)"
+            } else {
+                plainText = "\(cellContents["password"]!)"
+            }
+            password = Password(name: cellContents["name"]!, plainText: plainText)
         }
-    }
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0.1
-    }
-    
-    func getCellAt(section: Int) -> UITableViewCell? {
-        return tableView.cellForRow(at: IndexPath(row: 0, section: section))
-    }
-    
-    func getCellForName(name: String) -> UITableViewCell? {
-        let index = tableTitles.index(of: name)!
-        return getCellAt(section: Int(index))
     }
 }

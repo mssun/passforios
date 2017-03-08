@@ -15,12 +15,10 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
     override func viewDidLoad() {
         tableData = [
             [[.type: PasswordEditorCellType.textFieldCell, .title: "name", .content: password!.name]],
-            [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password", .content: password!.password]],
+            [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password", .content: password!.password],
+             [.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"]],
             [[.type: PasswordEditorCellType.textViewCell, .title: "additions", .content: password!.getAdditionsPlainText()]],
         ]
-        sectionHeaderTitles = ["name", "password", "additions"].map {$0.uppercased()}
-        sectionFooterTitles = ["", "", "It is recommended to use \"key: value\" format to store additional fields as follows:\n  url: https://www.apple.com\n  username: passforios@gmail.com."]
-
         super.viewDidLoad()
     }
     
@@ -47,7 +45,9 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
                 let indexPath = tableView.indexPath(for: cell)!
                 let contentCell = cell as! ContentTableViewCell
                 let cellTitle = tableData[indexPath.section][indexPath.row][.title] as! String
-                cellContents[cellTitle] = contentCell.getContent()!
+                if let cellContent = contentCell.getContent() {
+                    cellContents[cellTitle] = cellContent
+                }
             }
             var plainText = ""
             if cellContents["additions"]! != "" {
