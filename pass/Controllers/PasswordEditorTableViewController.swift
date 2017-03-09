@@ -53,7 +53,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             cell = fillPasswordCell!
         case .passwordLengthCell:
             passwordLengthCell = tableView.dequeueReusableCell(withIdentifier: "passwordLengthCell", for: indexPath) as? SliderTableViewCell
-            passwordLengthCell?.reset(title: "Length", minimumValue: 1, maximumValue: Globals.passwordMaximumLength, defaultValue: Globals.passwordDefaultLength)
+            passwordLengthCell?.reset(title: "Length", minimumValue: Globals.passwordMinimumLength, maximumValue: Globals.passwordMaximumLength, defaultValue: Globals.passwordDefaultLength)
             cell = passwordLengthCell!
         default:
             cell = tableView.dequeueReusableCell(withIdentifier: "textFieldCell", for: indexPath) as! ContentTableViewCell
