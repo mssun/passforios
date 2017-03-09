@@ -16,37 +16,39 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="MwT-Jl-hhE">
-                        <rect key="frame" x="64" y="6" width="188" height="31"/>
+                        <rect key="frame" x="60.5" y="7" width="205.5" height="31"/>
                         <connections>
                             <action selector="handleSliderValueChange:" destination="KGk-i7-Jjw" eventType="valueChanged" id="WwM-ZE-yIB"/>
                         </connections>
                     </slider>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GJP-Fj-VZt" userLabel="Value">
-                        <rect key="frame" x="265" y="12" width="42" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="88" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GJP-Fj-VZt" userLabel="Value">
+                        <rect key="frame" x="281" y="13" width="24" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="24" id="tOG-yp-eFw"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t7T-HC-hUd" userLabel="Title">
-                        <rect key="frame" x="15" y="12" width="34" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <rect key="frame" x="15" y="13" width="30" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="MwT-Jl-hhE" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" constant="-1" id="EXs-Rc-hZh"/>
-                    <constraint firstItem="GJP-Fj-VZt" firstAttribute="baseline" secondItem="t7T-HC-hUd" secondAttribute="baseline" id="LQd-r7-6WY"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="GJP-Fj-VZt" secondAttribute="trailing" constant="5" id="TRd-h9-tjr"/>
-                    <constraint firstItem="t7T-HC-hUd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="7" id="ebT-dV-tLI" userLabel="Title.leading = leadingMargin + 30"/>
-                    <constraint firstItem="t7T-HC-hUd" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="h8e-Ng-Wt8"/>
-                    <constraint firstItem="GJP-Fj-VZt" firstAttribute="leading" secondItem="MwT-Jl-hhE" secondAttribute="trailing" constant="15" id="i5e-Zi-SB5"/>
-                    <constraint firstItem="MwT-Jl-hhE" firstAttribute="leading" secondItem="t7T-HC-hUd" secondAttribute="trailing" constant="17" id="nXq-30-GPf"/>
-                    <constraint firstItem="GJP-Fj-VZt" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="4" id="q1Y-pT-W8h"/>
+                    <constraint firstItem="GJP-Fj-VZt" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="8Hh-YV-6HV"/>
+                    <constraint firstItem="MwT-Jl-hhE" firstAttribute="leading" secondItem="t7T-HC-hUd" secondAttribute="trailing" constant="17" id="Cc9-kV-nZf"/>
+                    <constraint firstItem="t7T-HC-hUd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="7" id="Kje-Zj-RaX"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="GJP-Fj-VZt" secondAttribute="trailing" constant="7" id="LjD-JH-dRT"/>
+                    <constraint firstItem="t7T-HC-hUd" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="V6L-w4-l7U"/>
+                    <constraint firstItem="GJP-Fj-VZt" firstAttribute="leading" secondItem="MwT-Jl-hhE" secondAttribute="trailing" constant="17" id="VAG-Y2-0Lu"/>
+                    <constraint firstItem="MwT-Jl-hhE" firstAttribute="centerY" secondItem="t7T-HC-hUd" secondAttribute="centerY" id="XLJ-YI-Qel"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
