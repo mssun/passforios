@@ -17,6 +17,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     var password: Password?
     var passwordImage: UIImage?
     var oneTimePasswordIndexPath : IndexPath?
+    var shouldPopCurrentView = false
     
     let indicatorLable: UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 21))
@@ -118,6 +119,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
         
         self.setupUpdateOneTimePassword()
+        self.addNotificationObservers()
 
     }
     
@@ -386,4 +388,22 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         return true
     }
 
+    private func addNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(setShouldPopCurrentView), name: NSNotification.Name(rawValue: "passwordStoreChangeDiscarded"), object: nil)
+    }
+    
+    func setShouldPopCurrentView() {
+        self.shouldPopCurrentView = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if self.shouldPopCurrentView {
+            let alert = UIAlertController(title: "Notice", message: "All previous local changes have been discarded. Your current Password Store will be shown.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+                _ = self.navigationController?.popViewController(animated: true)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
 }
