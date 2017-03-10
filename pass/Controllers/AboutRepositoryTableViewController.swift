@@ -39,6 +39,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
         if needRefresh {
             indicatorLabel.text = "reloading"
             setTableData()
+            needRefresh = false
         }
     }
     
