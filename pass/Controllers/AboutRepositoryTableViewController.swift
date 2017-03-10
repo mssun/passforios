@@ -9,23 +9,48 @@
 import UIKit
 
 class AboutRepositoryTableViewController: BasicStaticTableViewController {
+    
+    var needRefresh = false
+    var indicatorLabel: UILabel!
+    var indicator: UIActivityIndicatorView!
 
     override func viewDidLoad() {
         navigationItemTitle = "About Repository"
         super.viewDidLoad()
-        let indicatorLable = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 21))
-        indicatorLable.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height * 0.382 + 22)
-        indicatorLable.backgroundColor = UIColor.clear
-        indicatorLable.textColor = UIColor.gray
-        indicatorLable.text = "calculating"
-        indicatorLable.textAlignment = .center
-        indicatorLable.font = UIFont.preferredFont(forTextStyle: .footnote)
-        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+            
+        indicatorLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 21))
+        indicatorLabel.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height * 0.382 + 22)
+        indicatorLabel.backgroundColor = UIColor.clear
+        indicatorLabel.textColor = UIColor.gray
+        indicatorLabel.text = "calculating"
+        indicatorLabel.textAlignment = .center
+        indicatorLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
+        indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         indicator.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height * 0.382)
-        indicator.startAnimating()
         tableView.addSubview(indicator)
-        tableView.addSubview(indicatorLable)
+        tableView.addSubview(indicatorLabel)
         
+        setTableData()
+        addNotificationObservers()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if needRefresh {
+            indicatorLabel.text = "reloading"
+            setTableData()
+        }
+    }
+    
+    private func setTableData() {
+        
+        // clear current contents (if any)
+        self.tableData.removeAll(keepingCapacity: true)
+        self.tableView.reloadData()
+        indicatorLabel.isHidden = false
+        indicator.startAnimating()
+        
+        // reload the table
         DispatchQueue.global(qos: .userInitiated).async {
             let numberFormatter = NumberFormatter()
             numberFormatter.numberStyle = NumberFormatter.Style.decimal
@@ -46,8 +71,8 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
             
             let numberOfCommits = PasswordStore.shared.storeRepository?.numberOfCommits(inCurrentBranch: NSErrorPointer(nilLiteral: ())) ?? 0
             let numberOfCommitsString = numberFormatter.string(from: NSNumber(value: numberOfCommits))!
-
-
+            
+            
             DispatchQueue.main.async { [weak self] in
                 let type = UITableViewCellAccessoryType.none
                 self?.tableData = [
@@ -59,11 +84,19 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
                      [.title: "Commit Logs", .action: "segue", .link: "showCommitLogsSegue"],
                      ],
                 ]
-                indicator.stopAnimating()
-                indicatorLable.isHidden = true
+                self?.indicator.stopAnimating()
+                self?.indicatorLabel.isHidden = true
                 self?.tableView.reloadData()
             }
         }
     }
-
+        
+    private func addNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(setNeedRefresh), name: NSNotification.Name(rawValue: "passwordUpdated"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setNeedRefresh), name: NSNotification.Name(rawValue: "passwordStoreErased"), object: nil)
+    }
+    
+    func setNeedRefresh() {
+        needRefresh = true
+    }
 }
