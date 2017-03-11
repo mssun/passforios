@@ -63,23 +63,12 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     
     var tableData = Array<TableSection>()
     
-    private func generateCategoryText() -> String {
-        var passwordCategoryArray: [String] = []
-        var parent = passwordEntity?.parent
-        while parent != nil {
-            passwordCategoryArray.append(parent!.name!)
-            parent = parent!.parent
-        }
-        passwordCategoryArray.reverse()
-        return passwordCategoryArray.joined(separator: " > ")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "LabelTableViewCell", bundle: nil), forCellReuseIdentifier: "labelCell")
         tableView.register(UINib(nibName: "PasswordDetailTitleTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordDetailTitleTableViewCell")
         
-        passwordCategoryText = generateCategoryText()
+        passwordCategoryText = passwordEntity!.getCategoryText()
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PasswordDetailTableViewController.tapMenu(recognizer:)))
         tableView.addGestureRecognizer(tapGesture)
