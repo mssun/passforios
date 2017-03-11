@@ -53,6 +53,8 @@
 		DCC408C71E307DBB00F29B0E /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */; };
 		DCDDEAB01E4639F300F68193 /* LabelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */; };
 		DCDDEAB31E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */; };
+		DCE6C2671E71261C003038C6 /* PasswordWithFolderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE6C2651E71261C003038C6 /* PasswordWithFolderTableViewCell.swift */; };
+		DCE6C2681E71261C003038C6 /* PasswordWithFolderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCE6C2661E71261C003038C6 /* PasswordWithFolderTableViewCell.xib */; };
 		DCFB779A1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77981E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift */; };
 		DCFB779B1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCFB77991E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib */; };
 		DCFB779E1E4F40C7008DE471 /* FillPasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB779C1E4F40C7008DE471 /* FillPasswordTableViewCell.swift */; };
@@ -116,6 +118,8 @@
 		DCC408C91E30BA1300F29B0E /* pass.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = pass.xcdatamodel; sourceTree = "<group>"; };
 		DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelTableViewCell.xib; sourceTree = "<group>"; };
 		DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTitleTableViewCell.swift; sourceTree = "<group>"; };
+		DCE6C2651E71261C003038C6 /* PasswordWithFolderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordWithFolderTableViewCell.swift; sourceTree = "<group>"; };
+		DCE6C2661E71261C003038C6 /* PasswordWithFolderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PasswordWithFolderTableViewCell.xib; sourceTree = "<group>"; };
 		DCFB77981E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleTextFieldTableViewCell.swift; sourceTree = "<group>"; };
 		DCFB77991E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleTextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		DCFB779C1E4F40C7008DE471 /* FillPasswordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FillPasswordTableViewCell.swift; sourceTree = "<group>"; };
@@ -222,6 +226,8 @@
 				DC037CBD1E4ED4E100609409 /* TextViewTableViewCell.swift */,
 				DC037CBE1E4ED4E100609409 /* TextViewTableViewCell.xib */,
 				DCFB77AA1E503729008DE471 /* ContentTableViewCell.swift */,
+				DCE6C2651E71261C003038C6 /* PasswordWithFolderTableViewCell.swift */,
+				DCE6C2661E71261C003038C6 /* PasswordWithFolderTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -348,6 +354,7 @@
 				DCDDEAB01E4639F300F68193 /* LabelTableViewCell.xib in Resources */,
 				DC917BDC1E2E8231000FDF54 /* Main.storyboard in Resources */,
 				A2802BFA1E70813A00879216 /* SliderTableViewCell.xib in Resources */,
+				DCE6C2681E71261C003038C6 /* PasswordWithFolderTableViewCell.xib in Resources */,
 				DCFB779B1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib in Resources */,
 				DCFB779F1E4F40C7008DE471 /* FillPasswordTableViewCell.xib in Resources */,
 				DC037CC01E4ED4E100609409 /* TextViewTableViewCell.xib in Resources */,
@@ -441,6 +448,7 @@
 				DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */,
 				DC5F385B1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift in Sources */,
 				DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */,
+				DCE6C2671E71261C003038C6 /* PasswordWithFolderTableViewCell.swift in Sources */,
 				DCFB77A71E502DF9008DE471 /* EditPasswordTableViewController.swift in Sources */,
 				DCA0499A1E335CC800522E8F /* GitServerSettingTableViewController.swift in Sources */,
 				DCDDEAB31E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift in Sources */,
