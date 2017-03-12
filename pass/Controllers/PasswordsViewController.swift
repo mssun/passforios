@@ -238,7 +238,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let entry = getPasswordEntry(by: indexPath)
         if !entry.isDir {
-            performSegue(withIdentifier: "showPasswordDetail", sender: tableView.cellForRow(at: indexPath))
+            let segueIdentifier = "showPasswordDetail"
+            let sender = tableView.cellForRow(at: indexPath)
+            if shouldPerformSegue(withIdentifier: segueIdentifier, sender: sender) {
+                performSegue(withIdentifier: segueIdentifier, sender: sender)
+            }
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
             searchController.isActive = false
