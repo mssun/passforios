@@ -98,6 +98,11 @@ class PasswordStore {
     let tempStoreURL = URL(fileURLWithPath: "\(Globals.repositoryPath)-temp")
     var storeRepository: GTRepository?
     var gitCredential: GitCredential?
+    var gitSignatureForNow: GTSignature {
+        get {
+            return GTSignature(name: Defaults[.gitRepositoryUsername]!, email: Defaults[.gitRepositoryUsername]!+"@passforios", time: Date())!
+        }
+    }
     
     let pgp: ObjectivePGP = ObjectivePGP()
     
@@ -415,50 +420,18 @@ class PasswordStore {
     func updateRemoteRepo() {
     }
     
-    
-    func addEntryToGTTree(fileData: Data, filename: String) -> GTTree {
-        do {
-            let head = try storeRepository!.headReference()
-            let branch = GTBranch(reference: head, repository: storeRepository!)
-            let headCommit = try branch?.targetCommit()
-            
-            let treeBulider = try GTTreeBuilder(tree: headCommit?.tree, repository: storeRepository!)
-            try treeBulider.addEntry(with: fileData, fileName: filename, fileMode: GTFileMode.blob)
-            
-            let newTree = try treeBulider.writeTree()
-            return newTree
-        } catch {
-            fatalError("Failed to add entries to GTTree: \(error)")
-
-        }
-    }
-    
-    func removeEntryFromGTTree(filename: String) -> GTTree {
-        do {
-            let head = try storeRepository!.headReference()
-            let branch = GTBranch(reference: head, repository: storeRepository!)
-            let headCommit = try branch?.targetCommit()
-            
-            let treeBulider = try GTTreeBuilder(tree: headCommit?.tree, repository: storeRepository!)
-            try treeBulider.removeEntry(withFileName: filename)
-            
-            let newTree = try treeBulider.writeTree()
-            return newTree
-        } catch {
-            fatalError("Failed to remove entries to GTTree: \(error)")
-            
-        }
-    }
-    
     func createAddCommitInRepository(message: String, fileData: Data, filename: String, progressBlock: (_ progress: Float) -> Void) -> GTCommit? {
         do {
-            let newTree = addEntryToGTTree(fileData: fileData, filename: filename)
+            try storeRepository?.index().add(fileData, withPath: filename)
+            try storeRepository?.index().write()
+            let newTree = try storeRepository!.index().writeTree()
             let headReference = try storeRepository!.headReference()
             let commitEnum = try GTEnumerator(repository: storeRepository!)
             try commitEnum.pushSHA(headReference.targetOID.sha!)
             let parent = commitEnum.nextObject() as! GTCommit
             progressBlock(0.5)
-            let commit = try storeRepository!.createCommit(with: newTree, message: message, parents: [parent], updatingReferenceNamed: headReference.name)
+            let signature = gitSignatureForNow
+            let commit = try storeRepository!.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)
             progressBlock(0.7)
             return commit
         } catch {
@@ -469,13 +442,16 @@ class PasswordStore {
     
     func createRemoveCommitInRepository(message: String, filename: String, progressBlock: (_ progress: Float) -> Void) -> GTCommit? {
         do {
-            let newTree = removeEntryFromGTTree(filename: filename)
+            try storeRepository?.index().removeFile(filename)
+            try storeRepository?.index().write()
+            let newTree = try storeRepository!.index().writeTree()
             let headReference = try storeRepository!.headReference()
             let commitEnum = try GTEnumerator(repository: storeRepository!)
             try commitEnum.pushSHA(headReference.targetOID.sha!)
             let parent = commitEnum.nextObject() as! GTCommit
             progressBlock(0.5)
-            let commit = try storeRepository!.createCommit(with: newTree, message: message, parents: [parent], updatingReferenceNamed: headReference.name)
+            let signature = gitSignatureForNow
+            let commit = try storeRepository!.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)
             progressBlock(0.7)
             return commit
         } catch {
@@ -524,7 +500,7 @@ class PasswordStore {
             passwordEntity.isDir = false
             try context.save()
             print(saveURL.path)
-            let _ = createAddCommitInRepository(message: "Add new password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
+            let _ = createAddCommitInRepository(message: "Add password for \(passwordEntity.nameWithCategory) to store using Pass for iOS.", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
             progressBlock(1.0)
         } catch {
             print(error)
@@ -537,7 +513,7 @@ class PasswordStore {
             let saveURL = storeURL.appendingPathComponent(passwordEntity.path!)
             try encryptedData.write(to: saveURL)
             progressBlock(0.3)
-            let _ = createAddCommitInRepository(message: "Update password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
+            let _ = createAddCommitInRepository(message: "Edit password for \(passwordEntity.nameWithCategory) using Pass for iOS.", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
         } catch {
             print(error)
         }

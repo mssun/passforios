@@ -154,7 +154,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     }
     
     func tapHideUnknownSwitchDetailButton(_ sender: Any?) {
-        let alertMessage = "Only \"key: value\" format in additional fields is supported. Unsupported fields will be given \"unkown\" keys. Turn on this switch to hide unsupported fields."
+        let alertMessage = "Only \"key: value\" format in additional fields is supported. Unsupported fields will be given \"unknown\" keys. Turn on this switch to hide unsupported fields."
         let alertTitle = "Hide Unknown Fields"
         Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
     }
