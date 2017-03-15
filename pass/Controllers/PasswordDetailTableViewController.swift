@@ -143,9 +143,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         indicator.stopAnimating()
         indicatorLable.isHidden = true
         editUIBarButtonItem.isEnabled = true
-        if let url = password.getURL() {
+        if let urlString = password.getURLString() {
             if self.passwordEntity?.image == nil{
-                self.updatePasswordImage(url: url)
+                self.updatePasswordImage(urlString: urlString)
             }
         }
     }
@@ -268,7 +268,25 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
     }
     
-    func updatePasswordImage(url: String) {
+    func updatePasswordImage(urlString: String) {
+        var newUrlString = urlString
+        if urlString.lowercased().hasPrefix("http://") {
+            // try to replace http url to https url
+            newUrlString = urlString.replacingOccurrences(of: "http://",
+                                                       with: "https://",
+                                                       options: .caseInsensitive,
+                                                       range: urlString.range(of: "http://"))
+        } else if urlString.lowercased().hasPrefix("https://") {
+            // do nothing here
+        } else {
+            // if a url does not start with http or https, try to add https
+            newUrlString = "https://\(urlString)"
+        }
+        
+        guard let url = URL(string: newUrlString) else {
+            return
+        }
+        
         do {
             try FavIcon.downloadPreferred(url) { [weak self] result in
                 switch result {

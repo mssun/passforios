@@ -73,7 +73,7 @@ class Password {
         return getAdditionValue(withKey: "Username") ?? getAdditionValue(withKey: "username")
     }
     
-    func getURL() -> String? {
+    func getURLString() -> String? {
         return getAdditionValue(withKey: "URL") ?? getAdditionValue(withKey: "url") ?? getAdditionValue(withKey: "Url")
     }
     
