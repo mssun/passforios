@@ -98,6 +98,11 @@ class PasswordStore {
     let tempStoreURL = URL(fileURLWithPath: "\(Globals.repositoryPath)-temp")
     var storeRepository: GTRepository?
     var gitCredential: GitCredential?
+    var gitSignatureForNow: GTSignature {
+        get {
+            return GTSignature(name: Defaults[.gitRepositoryUsername]!, email: Defaults[.gitRepositoryUsername]!+"@passforios", time: Date())!
+        }
+    }
     
     let pgp: ObjectivePGP = ObjectivePGP()
     
@@ -425,7 +430,8 @@ class PasswordStore {
             try commitEnum.pushSHA(headReference.targetOID.sha!)
             let parent = commitEnum.nextObject() as! GTCommit
             progressBlock(0.5)
-            let commit = try storeRepository!.createCommit(with: newTree, message: message, parents: [parent], updatingReferenceNamed: headReference.name)
+            let signature = gitSignatureForNow
+            let commit = try storeRepository!.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)
             progressBlock(0.7)
             return commit
         } catch {
@@ -444,7 +450,8 @@ class PasswordStore {
             try commitEnum.pushSHA(headReference.targetOID.sha!)
             let parent = commitEnum.nextObject() as! GTCommit
             progressBlock(0.5)
-            let commit = try storeRepository!.createCommit(with: newTree, message: message, parents: [parent], updatingReferenceNamed: headReference.name)
+            let signature = gitSignatureForNow
+            let commit = try storeRepository!.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)
             progressBlock(0.7)
             return commit
         } catch {
@@ -493,7 +500,7 @@ class PasswordStore {
             passwordEntity.isDir = false
             try context.save()
             print(saveURL.path)
-            let _ = createAddCommitInRepository(message: "Add new password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
+            let _ = createAddCommitInRepository(message: "Add password for \(passwordEntity.nameWithCategory) to store using Pass for iOS.", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
             progressBlock(1.0)
         } catch {
             print(error)
@@ -506,7 +513,7 @@ class PasswordStore {
             let saveURL = storeURL.appendingPathComponent(passwordEntity.path!)
             try encryptedData.write(to: saveURL)
             progressBlock(0.3)
-            let _ = createAddCommitInRepository(message: "Update password by pass for iOS", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
+            let _ = createAddCommitInRepository(message: "Edit password for \(passwordEntity.nameWithCategory) using Pass for iOS.", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
         } catch {
             print(error)
         }

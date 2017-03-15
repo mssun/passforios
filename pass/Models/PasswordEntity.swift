@@ -10,6 +10,17 @@ import Foundation
 import SwiftyUserDefaults
 
 extension PasswordEntity {
+    
+    var nameWithCategory: String {
+        get {
+            if let p = path, p.hasSuffix(".gpg") {
+                return p.substring(to: p.index(p.endIndex, offsetBy: -4))
+            } else {
+                return ""
+            }
+        }
+    }
+    
     func decrypt(passphrase: String) throws -> Password? {
         var password: Password?
         let encryptedDataPath = URL(fileURLWithPath: "\(Globals.repositoryPath)/\(path!)")
