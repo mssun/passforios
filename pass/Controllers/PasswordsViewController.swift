@@ -162,6 +162,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.insertSubview(refreshControl, at: 0)
         SVProgressHUD.setDefaultMaskType(.black)
         updateRefreshControlTitle()
+        tableView.register(UINib(nibName: "PasswordWithFolderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordWithFolderTableViewCell")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -186,26 +187,41 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
-        let entry = getPasswordEntry(by: indexPath)
-        if !entry.isDir {
-            if entry.passwordEntity!.synced {
-                cell.textLabel?.text = entry.title
-            } else {
-                cell.textLabel?.text = "↻ \(entry.title)"
-            }
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
+        longPressGestureRecognizer.minimumPressDuration = 0.6
+        if Defaults[.isShowFolderOn] {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
             
-            let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
-            longPressGestureRecognizer.minimumPressDuration = 0.6
-            cell.addGestureRecognizer(longPressGestureRecognizer)
-            cell.accessoryType = .none
-            cell.detailTextLabel?.text = ""
+            let entry = getPasswordEntry(by: indexPath)
+            if !entry.isDir {
+                if entry.passwordEntity!.synced {
+                    cell.textLabel?.text = entry.title
+                } else {
+                    cell.textLabel?.text = "↻ \(entry.title)"
+                }
+                
+                cell.addGestureRecognizer(longPressGestureRecognizer)
+                cell.accessoryType = .none
+                cell.detailTextLabel?.text = ""
+            } else {
+                cell.textLabel?.text = "\(entry.title)"
+                cell.accessoryType = .disclosureIndicator
+                cell.detailTextLabel?.text = "\(entry.passwordEntity?.children?.count ?? 0)"
+            }
+            return cell
         } else {
-            cell.textLabel?.text = "\(entry.title)"
-            cell.accessoryType = .disclosureIndicator
-            cell.detailTextLabel?.text = "\(entry.passwordEntity?.children?.count ?? 0)"
+            let passwordWithFolderCell = tableView.dequeueReusableCell(withIdentifier: "passwordWithFolderTableViewCell", for: indexPath) as! PasswordWithFolderTableViewCell
+            let entry = getPasswordEntry(by: indexPath)
+            if entry.passwordEntity!.synced {
+                passwordWithFolderCell.passwordLabel?.text = entry.title
+            } else {
+                passwordWithFolderCell.passwordLabel?.text = "↻ \(entry.title)"
+            }
+            passwordWithFolderCell.folderLabel.text = entry.passwordEntity?.getCategoryText()
+            passwordWithFolderCell.addGestureRecognizer(longPressGestureRecognizer)
+            return passwordWithFolderCell
         }
-        return cell
+
     }
     
     private func getPasswordEntry(by indexPath: IndexPath) -> PasswordsTableEntry {
@@ -222,7 +238,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let entry = getPasswordEntry(by: indexPath)
         if !entry.isDir {
-            performSegue(withIdentifier: "showPasswordDetail", sender: tableView.cellForRow(at: indexPath))
+            let segueIdentifier = "showPasswordDetail"
+            let sender = tableView.cellForRow(at: indexPath)
+            if shouldPerformSegue(withIdentifier: segueIdentifier, sender: sender) {
+                performSegue(withIdentifier: segueIdentifier, sender: sender)
+            }
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
             searchController.isActive = false

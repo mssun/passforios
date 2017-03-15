@@ -27,4 +27,15 @@ extension PasswordEntity {
         let encryptedData = try pgp.encryptData(plainData, usingPublicKey: pgp.getKeysOf(.public)[0], armored: false)
         return encryptedData
     }
+    
+    func getCategoryText() -> String {
+        var parentEntity = parent
+        var passwordCategoryArray: [String] = []
+        while parentEntity != nil {
+            passwordCategoryArray.append(parentEntity!.name!)
+            parentEntity = parentEntity!.parent
+        }
+        passwordCategoryArray.reverse()
+        return passwordCategoryArray.joined(separator: " > ")
+    }
 }

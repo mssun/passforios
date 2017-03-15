@@ -45,7 +45,14 @@ class AdvancedSettingsTableViewController: UITableViewController {
                                 NotificationCenter.default.post(Notification(name: Notification.Name("passwordStoreChangeDiscarded")))
                             }
                             self.navigationController!.popViewController(animated: true)
-                            SVProgressHUD.showSuccess(withStatus: "Discarded \(numberDiscarded) commits")
+                            switch numberDiscarded {
+                            case 0:
+                                SVProgressHUD.showSuccess(withStatus: "No local commits")
+                            case 1:
+                                SVProgressHUD.showSuccess(withStatus: "Discarded 1 commit")
+                            default:
+                                SVProgressHUD.showSuccess(withStatus: "Discarded \(numberDiscarded) commits")
+                            }
                             SVProgressHUD.dismiss(withDelay: 1)
                         } catch {
                             DispatchQueue.main.async {

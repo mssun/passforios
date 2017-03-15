@@ -29,8 +29,10 @@ class CommitLogsTableViewController: UITableViewController {
         formatter.dateStyle = DateFormatter.Style.short
         formatter.timeStyle = .none
         let dateString = formatter.string(from: commits[indexPath.row].commitDate)
-        cell.textLabel?.text = dateString
-        cell.detailTextLabel?.text = commits[indexPath.row].message
+        let dateLabel = cell.viewWithTag(101) as! UILabel
+        let messageLabel = cell.viewWithTag(102) as! UILabel
+        dateLabel.text = dateString
+        messageLabel.text = commits[indexPath.row].message
         return cell
     }
 }
