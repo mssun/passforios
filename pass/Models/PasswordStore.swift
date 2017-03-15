@@ -415,44 +415,11 @@ class PasswordStore {
     func updateRemoteRepo() {
     }
     
-    
-    func addEntryToGTTree(fileData: Data, filename: String) -> GTTree {
-        do {
-            let head = try storeRepository!.headReference()
-            let branch = GTBranch(reference: head, repository: storeRepository!)
-            let headCommit = try branch?.targetCommit()
-            
-            let treeBulider = try GTTreeBuilder(tree: headCommit?.tree, repository: storeRepository!)
-            try treeBulider.addEntry(with: fileData, fileName: filename, fileMode: GTFileMode.blob)
-            
-            let newTree = try treeBulider.writeTree()
-            return newTree
-        } catch {
-            fatalError("Failed to add entries to GTTree: \(error)")
-
-        }
-    }
-    
-    func removeEntryFromGTTree(filename: String) -> GTTree {
-        do {
-            let head = try storeRepository!.headReference()
-            let branch = GTBranch(reference: head, repository: storeRepository!)
-            let headCommit = try branch?.targetCommit()
-            
-            let treeBulider = try GTTreeBuilder(tree: headCommit?.tree, repository: storeRepository!)
-            try treeBulider.removeEntry(withFileName: filename)
-            
-            let newTree = try treeBulider.writeTree()
-            return newTree
-        } catch {
-            fatalError("Failed to remove entries to GTTree: \(error)")
-            
-        }
-    }
-    
     func createAddCommitInRepository(message: String, fileData: Data, filename: String, progressBlock: (_ progress: Float) -> Void) -> GTCommit? {
         do {
-            let newTree = addEntryToGTTree(fileData: fileData, filename: filename)
+            try storeRepository?.index().add(fileData, withPath: filename)
+            try storeRepository?.index().write()
+            let newTree = try storeRepository!.index().writeTree()
             let headReference = try storeRepository!.headReference()
             let commitEnum = try GTEnumerator(repository: storeRepository!)
             try commitEnum.pushSHA(headReference.targetOID.sha!)
@@ -469,7 +436,9 @@ class PasswordStore {
     
     func createRemoveCommitInRepository(message: String, filename: String, progressBlock: (_ progress: Float) -> Void) -> GTCommit? {
         do {
-            let newTree = removeEntryFromGTTree(filename: filename)
+            try storeRepository?.index().removeFile(filename)
+            try storeRepository?.index().write()
+            let newTree = try storeRepository!.index().writeTree()
             let headReference = try storeRepository!.headReference()
             let commitEnum = try GTEnumerator(repository: storeRepository!)
             try commitEnum.pushSHA(headReference.targetOID.sha!)
