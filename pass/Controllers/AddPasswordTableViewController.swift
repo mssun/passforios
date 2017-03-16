@@ -34,7 +34,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
                 return false
             }
             // check name
-            let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! ContentTableViewCell
+            let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! TextFieldTableViewCell
             if nameCell.getContent()!.isEmpty {
                 let alertTitle = "Cannot Add Password"
                 let alertMessage = "Please fill in the name."
