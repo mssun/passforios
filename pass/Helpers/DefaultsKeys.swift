@@ -17,8 +17,6 @@ extension DefaultsKeys {
     
     static let pgpPublicKeyArmor = DefaultsKey<String?>("pgpPublicKeyArmor")
     static let pgpPrivateKeyArmor = DefaultsKey<String?>("pgpPrivateKeyArmor")
-    static let pgpKeyID = DefaultsKey<String?>("pgpKeyID")
-    static let pgpKeyUserID = DefaultsKey<String?>("pgpKeyUserID")
     
     static let gitRepositoryURL = DefaultsKey<URL?>("gitRepositoryURL")
     static let gitRepositoryAuthenticationMethod = DefaultsKey<String?>("gitRepositoryAuthenticationMethod")

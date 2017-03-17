@@ -283,7 +283,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func copyToPasteboard(from indexPath: IndexPath) {
-        guard Defaults[.pgpKeyID]  != nil else {
+        guard PasswordStore.shared.privateKey != nil else {
             Utils.alert(title: "Cannot Copy Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
             return
         }
@@ -387,7 +387,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "showPasswordDetail" {
-            if Defaults[.pgpKeyID]  == nil {
+            guard PasswordStore.shared.privateKey != nil else {
                 Utils.alert(title: "Cannot Show Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
                 if let s = sender as? UITableViewCell {
                     let selectedIndexPath = tableView.indexPath(for: s)!

@@ -41,12 +41,10 @@ class SettingsTableViewController: UITableViewController {
             SVProgressHUD.show(withStatus: "Fetching PGP Key")
             DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                 do {
-                    try PasswordStore.shared.initPGP(pgpPublicKeyURL: Defaults[.pgpPublicKeyURL]!,
-                                                     pgpPublicKeyLocalPath: Globals.pgpPublicKeyPath,
-                                                     pgpPrivateKeyURL: Defaults[.pgpPrivateKeyURL]!,
-                                                     pgpPrivateKeyLocalPath: Globals.pgpPrivateKeyPath)
+                    try PasswordStore.shared.initPGPKey(from: Defaults[.pgpPublicKeyURL]!, keyType: .public)
+                    try PasswordStore.shared.initPGPKey(from: Defaults[.pgpPrivateKeyURL]!, keyType: .secret)
                     DispatchQueue.main.async {
-                        self.pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
+                        self.pgpKeyTableViewCell.detailTextLabel?.text = PasswordStore.shared.pgpKeyID
                         SVProgressHUD.showSuccess(withStatus: "Success")
                         SVProgressHUD.dismiss(withDelay: 1)
                         Utils.alert(title: "Rememver to Remove the Key", message: "Remember to remove the key from the server.", controller: self, completion: nil)
@@ -54,7 +52,6 @@ class SettingsTableViewController: UITableViewController {
                 } catch {
                     DispatchQueue.main.async {
                         self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
-                        Defaults[.pgpKeyID] = nil
                         SVProgressHUD.showError(withStatus: error.localizedDescription)
                         SVProgressHUD.dismiss(withDelay: 1)
                     }
@@ -76,19 +73,16 @@ class SettingsTableViewController: UITableViewController {
             SVProgressHUD.show(withStatus: "Fetching PGP Key")
             DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                 do {
-                    try PasswordStore.shared.initPGP(pgpPublicKeyArmor: controller.armorPublicKeyTextView.text!,
-                                                     pgpPublicKeyLocalPath: Globals.pgpPublicKeyPath,
-                                                     pgpPrivateKeyArmor: controller.armorPrivateKeyTextView.text!,
-                                                     pgpPrivateKeyLocalPath: Globals.pgpPrivateKeyPath)
+                    try PasswordStore.shared.initPGPKey(with: controller.armorPublicKeyTextView.text, keyType: .public)
+                    try PasswordStore.shared.initPGPKey(with: controller.armorPrivateKeyTextView.text, keyType: .secret)
                     DispatchQueue.main.async {
-                        self.pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
+                        self.pgpKeyTableViewCell.detailTextLabel?.text = PasswordStore.shared.pgpKeyID
                         SVProgressHUD.showSuccess(withStatus: "Success")
                         SVProgressHUD.dismiss(withDelay: 1)
                     }
                 } catch {
                     DispatchQueue.main.async {
                         self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
-                        Defaults[.pgpKeyID] = nil
                         SVProgressHUD.showError(withStatus: error.localizedDescription)
                         SVProgressHUD.dismiss(withDelay: 1)
                     }
@@ -193,10 +187,10 @@ class SettingsTableViewController: UITableViewController {
     }
     
     private func setPGPKeyTableViewCellDetailText() {
-        if Defaults[.pgpKeyID] == nil {
-            pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
+        if let pgpKeyID = PasswordStore.shared.pgpKeyID {
+            pgpKeyTableViewCell.detailTextLabel?.text = pgpKeyID
         } else {
-            pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
+            pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
         }
     }
     
@@ -343,10 +337,7 @@ class SettingsTableViewController: UITableViewController {
 
 
                 DispatchQueue.main.async {
-                    try? PasswordStore.shared.initPGP(
-                        pgpPublicKeyLocalPath: Globals.pgpPublicKeyPath,
-                        pgpPrivateKeyLocalPath: Globals.pgpPrivateKeyPath
-                    )
+                    PasswordStore.shared.initPGPKeys()
 
                     let key: PGPKey = PasswordStore.shared.getPgpPrivateKey()
                     Defaults[.pgpKeySource] = "file"
@@ -357,7 +348,7 @@ class SettingsTableViewController: UITableViewController {
                     }
 
                     SVProgressHUD.dismiss()
-                    self.pgpKeyTableViewCell.detailTextLabel?.text = Defaults[.pgpKeyID]
+                    self.pgpKeyTableViewCell.detailTextLabel?.text = PasswordStore.shared.pgpKeyID
                 }
 
             }

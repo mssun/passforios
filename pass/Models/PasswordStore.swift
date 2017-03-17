@@ -93,11 +93,23 @@ struct GitCredential {
 
 class PasswordStore {
     static let shared = PasswordStore()
-    
     let storeURL = URL(fileURLWithPath: "\(Globals.repositoryPath)")
     let tempStoreURL = URL(fileURLWithPath: "\(Globals.repositoryPath)-temp")
+    
     var storeRepository: GTRepository?
     var gitCredential: GitCredential?
+    var pgpKeyID: String?
+    var publicKey: PGPKey? {
+        didSet {
+            if publicKey != nil {
+                pgpKeyID = publicKey!.keyID!.shortKeyString
+            } else {
+                pgpKeyID = nil
+            }
+        }
+    }
+    var privateKey: PGPKey?
+    
     var gitSignatureForNow: GTSignature {
         get {
             return GTSignature(name: Defaults[.gitRepositoryUsername]!, email: Defaults[.gitRepositoryUsername]!+"@passforios", time: Date())!
@@ -134,11 +146,7 @@ class PasswordStore {
         } catch {
             print(error)
         }
-        if Defaults[.pgpKeyID] != nil {
-            pgp.importKeys(fromFile: Globals.pgpPublicKeyPath, allowDuplicates: false)
-            pgp.importKeys(fromFile: Globals.pgpPrivateKeyPath, allowDuplicates: false)
-
-        }
+        initPGPKeys()
         if Defaults[.gitRepositoryAuthenticationMethod] == "Password" {
             gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitRepositoryUsername]!, password: Utils.getPasswordFromKeychain(name: "gitRepositoryPassword") ?? ""))
         } else if Defaults[.gitRepositoryAuthenticationMethod] == "SSH Key"{
@@ -157,28 +165,74 @@ class PasswordStore {
         
     }
     
-    func initPGP(pgpPublicKeyLocalPath: String, pgpPrivateKeyLocalPath: String) throws {
-        let pgpPublicKeyData = NSData(contentsOfFile: pgpPublicKeyLocalPath)! as Data
-        if pgpPublicKeyData.count == 0 {
-            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import public key."])
+    public func initPGPKeys() {
+        do {
+            try initPGPKey(.public)
+            try initPGPKey(.secret)
+        } catch {
+            print(error)
         }
-        pgp.importKeys(from: pgpPublicKeyData, allowDuplicates: false)
-        if pgp.getKeysOf(.public).count == 0 {
-            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import public key."])
+    }
+    
+    public func initPGPKey(_ keyType: PGPKeyType) throws {
+        var keyPath = ""
+        switch keyType {
+        case .public:
+            keyPath = Globals.pgpPublicKeyPath
+        case .secret:
+            keyPath = Globals.pgpPrivateKeyPath
+        default:
+            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import key."])
         }
-        let pgpPrivateKeyData = NSData(contentsOfFile: pgpPrivateKeyLocalPath)! as Data
-        if pgpPrivateKeyData.count == 0 {
-            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import public key."])
+        
+        if let key = importKey(from: keyPath) {
+            switch keyType {
+            case .public:
+                self.publicKey = key
+            case .secret:
+                self.privateKey = key
+            default:
+                throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import key."])
+            }
+        } else {
+            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import key."])
         }
-        pgp.importKeys(from: pgpPrivateKeyData, allowDuplicates: false)
-        if pgp.getKeysOf(.secret).count == 0 {
-            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import seceret key."])
+    }
+    
+    public func initPGPKey(from url: URL, keyType: PGPKeyType) throws{
+        var pgpKeyLocalPath = ""
+        if keyType == .public {
+            pgpKeyLocalPath = Globals.pgpPublicKeyPath
+        } else {
+            pgpKeyLocalPath = Globals.pgpPrivateKeyPath
         }
-        let key: PGPKey = getPgpPrivateKey()
-        Defaults[.pgpKeyID] = key.keyID!.shortKeyString
-        if let gpgUser = key.users[0] as? PGPUser {
-            Defaults[.pgpKeyUserID] = gpgUser.userID
+        let pgpKeyData = try Data(contentsOf: url)
+        try pgpKeyData.write(to: URL(fileURLWithPath: pgpKeyLocalPath), options: .atomic)
+        try initPGPKey(keyType)
+    }
+    
+    public func initPGPKey(with armorKey: String, keyType: PGPKeyType) throws {
+        var pgpKeyLocalPath = ""
+        if keyType == .public {
+            pgpKeyLocalPath = Globals.pgpPublicKeyPath
+        } else {
+            pgpKeyLocalPath = Globals.pgpPrivateKeyPath
         }
+        try armorKey.write(toFile: pgpKeyLocalPath, atomically: true, encoding: .ascii)
+        try initPGPKey(keyType)
+    }
+    
+    
+    private func importKey(from keyPath: String) -> PGPKey? {
+        let fm = FileManager.default
+        if fm.fileExists(atPath: keyPath) {
+            if let keys = pgp.importKeys(fromFile: keyPath, allowDuplicates: false) as? [PGPKey] {
+                if keys.count > 0 {
+                    return keys[0]
+                }
+            }
+        }
+        return nil
     }
 
     func getPgpPrivateKey() -> PGPKey {
@@ -205,20 +259,6 @@ class PasswordStore {
             fatalError("Failed to fetch password entities: \(error)")
         }
         return true
-    }
-    
-    func initPGP(pgpPublicKeyURL: URL, pgpPublicKeyLocalPath: String, pgpPrivateKeyURL: URL, pgpPrivateKeyLocalPath: String) throws {
-        let pgpPublicData = try Data(contentsOf: pgpPublicKeyURL)
-        try pgpPublicData.write(to: URL(fileURLWithPath: pgpPublicKeyLocalPath), options: .atomic)
-        let pgpPrivateData = try Data(contentsOf: pgpPrivateKeyURL)
-        try pgpPrivateData.write(to: URL(fileURLWithPath: pgpPrivateKeyLocalPath), options: .atomic)
-        try initPGP(pgpPublicKeyLocalPath: pgpPublicKeyLocalPath, pgpPrivateKeyLocalPath: pgpPrivateKeyLocalPath)
-    }
-    
-    func initPGP(pgpPublicKeyArmor: String, pgpPublicKeyLocalPath: String, pgpPrivateKeyArmor: String, pgpPrivateKeyLocalPath: String) throws {
-        try pgpPublicKeyArmor.write(toFile: pgpPublicKeyLocalPath, atomically: true, encoding: .ascii)
-        try pgpPrivateKeyArmor.write(toFile: pgpPrivateKeyLocalPath, atomically: true, encoding: .ascii)
-        try initPGP(pgpPublicKeyLocalPath: pgpPublicKeyLocalPath, pgpPrivateKeyLocalPath: pgpPrivateKeyLocalPath)
     }
     
     func cloneRepository(remoteRepoURL: URL,
@@ -564,6 +604,8 @@ class PasswordStore {
     }
     
     func erase() {
+        publicKey = nil
+        privateKey = nil
         Utils.removeFileIfExists(at: storeURL)
         Utils.removeFileIfExists(at: tempStoreURL)
 

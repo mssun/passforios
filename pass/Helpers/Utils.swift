@@ -79,7 +79,6 @@ class Utils {
         Defaults.remove(.pgpPrivateKeyArmor)
         Defaults.remove(.pgpPrivateKeyURL)
         Defaults.remove(.pgpPublicKeyURL)
-        Defaults.remove(.pgpKeyID)
         Utils.removeKeychain(name: ".pgpKeyPassphrase")
     }
     
