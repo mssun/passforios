@@ -20,17 +20,6 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     var shouldPopCurrentView = false
     let passwordStore = PasswordStore.shared
     
-    let indicatorLable: UILabel = {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 21))
-        label.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height * 0.382 + 22)
-        label.backgroundColor = UIColor.clear
-        label.textColor = UIColor.gray
-        label.text = "decrypting password"
-        label.textAlignment = .center
-        label.font = UIFont.preferredFont(forTextStyle: .footnote)
-        return label
-    }()
-    
     let indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         indicator.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height * 0.382)
@@ -82,7 +71,6 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         
         indicator.startAnimating()
         tableView.addSubview(indicator)
-        tableView.addSubview(indicatorLable)
         editUIBarButtonItem.isEnabled = false
         navigationItem.rightBarButtonItem = editUIBarButtonItem
         
@@ -142,7 +130,6 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         setTableData()
         self.tableView.reloadData()
         indicator.stopAnimating()
-        indicatorLable.isHidden = true
         editUIBarButtonItem.isEnabled = true
         if let urlString = password.getURLString() {
             if self.passwordEntity?.image == nil{
