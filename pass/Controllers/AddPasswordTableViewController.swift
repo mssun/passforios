@@ -13,6 +13,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
     
     var password: Password?
     var tempContent: String = ""
+    let passwordStore = PasswordStore.shared
 
     override func viewDidLoad() {
         tableData = [
@@ -27,7 +28,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "saveAddPasswordSegue" {
             // check PGP key
-            if Defaults[.pgpKeyID] == nil {
+            if passwordStore.privateKey == nil {
                 let alertTitle = "Cannot Add Password"
                 let alertMessage = "PGP Key is not set. Please set your PGP Key first."
                 Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)

@@ -25,6 +25,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     private var passwordsTableEntries: [PasswordsTableEntry] = []
     private var filteredPasswordsTableEntries: [PasswordsTableEntry] = []
     private var parentPasswordEntity: PasswordEntity? = nil
+    let passwordStore = PasswordStore.shared
     
     private var tapTabBarTime: TimeInterval = 0
 
@@ -61,9 +62,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         filteredPasswordsTableEntries.removeAll()
         var passwordEntities = [PasswordEntity]()
         if Defaults[.isShowFolderOn] {
-            passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData(parent: parent)
+            passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(parent: parent)
         } else {
-            passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData(withDir: false)
+            passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
             
         }
         passwordsTableEntries = passwordEntities.map {
@@ -82,7 +83,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             SVProgressHUD.show(withStatus: "Saving")
             DispatchQueue.global(qos: .userInitiated).async {
                 do {
-                    try PasswordStore.shared.add(password: controller.password!, progressBlock: { progress in
+                    try self.passwordStore.add(password: controller.password!, progressBlock: { progress in
                         DispatchQueue.main.async {
                             SVProgressHUD.showProgress(progress, status: "Encrypting")
                         }
@@ -91,12 +92,10 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                     DispatchQueue.main.async {
                         SVProgressHUD.showSuccess(withStatus: "Done")
                         SVProgressHUD.dismiss(withDelay: 1)
-                        NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
                     }
                 } catch {
                     DispatchQueue.main.async {
-                        SVProgressHUD.showError(withStatus: error.localizedDescription)
-                        SVProgressHUD.dismiss(withDelay: 1)
+                        Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
                     }
                 }
             }
@@ -107,26 +106,26 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "Sync Password Store")
-        let numberOfUnsyncedPasswords = PasswordStore.shared.getNumberOfUnsyncedPasswords()
+        let numberOfUnsyncedPasswords = self.passwordStore.getNumberOfUnsyncedPasswords()
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
-                try PasswordStore.shared.pullRepository(transferProgressBlock: {(git_transfer_progress, stop) in
+                try self.passwordStore.pullRepository(transferProgressBlock: {(git_transfer_progress, stop) in
                     DispatchQueue.main.async {
                         SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Pull Remote Repository")
                     }
                 })
                 if numberOfUnsyncedPasswords > 0 {
-                    try PasswordStore.shared.pushRepository(transferProgressBlock: {(current, total, bytes, stop) in
+                    try self.passwordStore.pushRepository(transferProgressBlock: {(current, total, bytes, stop) in
                         DispatchQueue.main.async {
                             SVProgressHUD.showProgress(Float(current)/Float(total), status: "Push Remote Repository")
                         }
                     })
                 }
                 DispatchQueue.main.async {
-                    PasswordStore.shared.updatePasswordEntityCoreData()
+                    self.passwordStore.updatePasswordEntityCoreData()
                     self.initPasswordsTableEntries(parent: nil)
                     self.reloadTableView(data: self.passwordsTableEntries)
-                    PasswordStore.shared.setAllSynced()
+                    self.passwordStore.setAllSynced()
                     self.setNavigationItemTitle()
                     Defaults[.lastUpdatedTime] = Date()
                     Defaults[.gitRepositoryPasswordAttempts] = 0
@@ -135,17 +134,15 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 }
             } catch {
                 DispatchQueue.main.async {
-                    SVProgressHUD.showError(withStatus: error.localizedDescription)
-                    SVProgressHUD.dismiss(withDelay: 1)
+                    Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
         }
     }
     
     private func addNotificationObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordUpdatedNotification), name: NSNotification.Name(rawValue: "passwordUpdated"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordStoreErasedNotification), name: NSNotification.Name(rawValue: "passwordStoreErased"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnSearchNotification), name: NSNotification.Name(rawValue: "search"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordStoreUpdatedNotification), name: .passwordStoreUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnSearchNotification), name: .passwordSearch, object: nil)
     }
     
     override func viewDidLoad() {
@@ -283,15 +280,15 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func copyToPasteboard(from indexPath: IndexPath) {
-        guard Defaults[.pgpKeyID]  != nil else {
+        guard self.passwordStore.privateKey != nil else {
             Utils.alert(title: "Cannot Copy Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
             return
         }
         let password = getPasswordEntry(by: indexPath).passwordEntity!
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         var passphrase = ""
-        if Defaults[.isRememberPassphraseOn] && PasswordStore.shared.pgpKeyPassphrase != nil  {
-            passphrase = PasswordStore.shared.pgpKeyPassphrase!
+        if Defaults[.isRememberPassphraseOn] && self.passwordStore.pgpKeyPassphrase != nil  {
+            passphrase = self.passwordStore.pgpKeyPassphrase!
             self.decryptThenCopyPassword(passwordEntity: password, passphrase: passphrase)
         } else {
             let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
@@ -324,8 +321,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             } catch {
                 print(error)
                 DispatchQueue.main.async {
-                    SVProgressHUD.showError(withStatus: error.localizedDescription)
-                    SVProgressHUD.dismiss(withDelay: 1)
+                    Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
         }
@@ -353,7 +349,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         sections.append(newSection)
     }
     
-    func actOnPasswordUpdatedNotification() {
+    func actOnPasswordStoreUpdatedNotification() {
         initPasswordsTableEntries(parent: nil)
         reloadTableView(data: passwordsTableEntries)
         setNavigationItemTitle()
@@ -366,18 +362,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         } else {
             title = "Password Store"
         }
-        let numberOfUnsynced = PasswordStore.shared.getNumberOfUnsyncedPasswords()
+        let numberOfUnsynced = self.passwordStore.getNumberOfUnsyncedPasswords()
         if numberOfUnsynced == 0 {
             navigationItem.title = "\(title)"
         } else {
             navigationItem.title = "\(title) (\(numberOfUnsynced))"
         }
-    }
-    
-    func actOnPasswordStoreErasedNotification() {
-        initPasswordsTableEntries(parent: nil)
-        reloadTableView(data: passwordsTableEntries)
-        setNavigationItemTitle()
     }
     
     func actOnSearchNotification() {
@@ -387,7 +377,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "showPasswordDetail" {
-            if Defaults[.pgpKeyID]  == nil {
+            guard self.passwordStore.privateKey != nil else {
                 Utils.alert(title: "Cannot Show Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
                 if let s = sender as? UITableViewCell {
                     let selectedIndexPath = tableView.indexPath(for: s)!

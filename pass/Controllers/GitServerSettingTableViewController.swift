@@ -15,6 +15,7 @@ class GitServerSettingTableViewController: UITableViewController {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var authSSHKeyCell: UITableViewCell!
     @IBOutlet weak var authPasswordCell: UITableViewCell!
+    let passwordStore = PasswordStore.shared
     var password: String?
     
     var authenticationMethod = Defaults[.gitRepositoryAuthenticationMethod]
@@ -41,7 +42,7 @@ class GitServerSettingTableViewController: UITableViewController {
             gitRepositoryURLTextField.text = url.absoluteString
         }
         usernameTextField.text = Defaults[.gitRepositoryUsername]
-        password = PasswordStore.shared.gitRepositoryPassword
+        password = passwordStore.gitRepositoryPassword
         authenticationMethod = Defaults[.gitRepositoryAuthenticationMethod]
 
         // Grey out ssh option if ssh_key and ssh_key.pub are not present

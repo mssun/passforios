@@ -49,9 +49,7 @@ class SSHKeySettingTableViewController: UITableViewController {
             try Data(contentsOf: Defaults[.gitRepositorySSHPublicKeyURL]!).write(to: Globals.sshPublicKeyURL, options: .atomic)
             try Data(contentsOf: Defaults[.gitRepositorySSHPrivateKeyURL]!).write(to: Globals.sshPrivateKeyURL, options: .atomic)
         } catch {
-            SVProgressHUD.showError(withStatus: error.localizedDescription)
-            SVProgressHUD.dismiss(withDelay: 1)
-            print(error)
+            Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
         }
 
         navigationController!.popViewController(animated: true)

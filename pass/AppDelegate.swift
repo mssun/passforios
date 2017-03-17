@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func postSearchNotification() {
-        NotificationCenter.default.post(Notification(name: Notification.Name("search")))
+        NotificationCenter.default.post(name: .passwordSearch, object: nil)
     }
     
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {

@@ -11,10 +11,11 @@ import ObjectiveGit
 
 class CommitLogsTableViewController: UITableViewController {
     var commits: [GTCommit] = []
+    let passwordStore = PasswordStore.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        commits = PasswordStore.shared.getRecentCommits(count: 20)
+        commits = passwordStore.getRecentCommits(count: 20)
         navigationItem.title = "Recent Commit Logs"
         navigationController!.navigationBar.topItem!.title = "About"
     }
