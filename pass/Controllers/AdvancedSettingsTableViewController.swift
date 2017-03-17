@@ -57,8 +57,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
                             SVProgressHUD.dismiss(withDelay: 1)
                         } catch {
                             DispatchQueue.main.async {
-                                SVProgressHUD.showError(withStatus: error.localizedDescription)
-                                SVProgressHUD.dismiss(withDelay: 1)
+                                Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
                             }
                         }
                     }

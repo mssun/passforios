@@ -53,8 +53,7 @@ class SettingsTableViewController: UITableViewController {
                 } catch {
                     DispatchQueue.main.async {
                         self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
-                        SVProgressHUD.showError(withStatus: error.localizedDescription)
-                        SVProgressHUD.dismiss(withDelay: 1)
+                        Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
                     }
                 }
             }
@@ -84,8 +83,7 @@ class SettingsTableViewController: UITableViewController {
                 } catch {
                     DispatchQueue.main.async {
                         self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
-                        SVProgressHUD.showError(withStatus: error.localizedDescription)
-                        SVProgressHUD.dismiss(withDelay: 1)
+                        Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
                     }
                 }
             }
@@ -155,9 +153,7 @@ class SettingsTableViewController: UITableViewController {
                         }
                     } catch {
                         DispatchQueue.main.async {
-                            print(error)
-                            SVProgressHUD.showError(withStatus: error.localizedDescription)
-                            SVProgressHUD.dismiss(withDelay: 1)
+                            Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
                         }
                     }
                     

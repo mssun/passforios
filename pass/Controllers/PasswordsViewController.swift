@@ -96,8 +96,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                     }
                 } catch {
                     DispatchQueue.main.async {
-                        SVProgressHUD.showError(withStatus: error.localizedDescription)
-                        SVProgressHUD.dismiss(withDelay: 1)
+                        Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
                     }
                 }
             }
@@ -136,8 +135,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 }
             } catch {
                 DispatchQueue.main.async {
-                    SVProgressHUD.showError(withStatus: error.localizedDescription)
-                    SVProgressHUD.dismiss(withDelay: 1)
+                    Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
         }
@@ -325,8 +323,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             } catch {
                 print(error)
                 DispatchQueue.main.async {
-                    SVProgressHUD.showError(withStatus: error.localizedDescription)
-                    SVProgressHUD.dismiss(withDelay: 1)
+                    Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
         }
