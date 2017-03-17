@@ -25,7 +25,8 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var touchIDTableViewCell: UITableViewCell!
     @IBOutlet weak var passcodeTableViewCell: UITableViewCell!
     @IBOutlet weak var passwordRepositoryTableViewCell: UITableViewCell!
-    
+    let passwordStore = PasswordStore.shared
+
     @IBAction func cancelPGPKey(segue: UIStoryboardSegue) {
     }
     
@@ -33,7 +34,7 @@ class SettingsTableViewController: UITableViewController {
         if let controller = segue.source as? PGPKeySettingTableViewController {
             Defaults[.pgpPrivateKeyURL] = URL(string: controller.pgpPrivateKeyURLTextField.text!)
             Defaults[.pgpPublicKeyURL] = URL(string: controller.pgpPublicKeyURLTextField.text!)
-            PasswordStore.shared.pgpKeyPassphrase = controller.pgpPassphrase
+            self.passwordStore.pgpKeyPassphrase = controller.pgpPassphrase
             Defaults[.pgpKeySource] = "url"
             
             SVProgressHUD.setDefaultMaskType(.black)
@@ -41,10 +42,10 @@ class SettingsTableViewController: UITableViewController {
             SVProgressHUD.show(withStatus: "Fetching PGP Key")
             DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                 do {
-                    try PasswordStore.shared.initPGPKey(from: Defaults[.pgpPublicKeyURL]!, keyType: .public)
-                    try PasswordStore.shared.initPGPKey(from: Defaults[.pgpPrivateKeyURL]!, keyType: .secret)
+                    try self.passwordStore.initPGPKey(from: Defaults[.pgpPublicKeyURL]!, keyType: .public)
+                    try self.passwordStore.initPGPKey(from: Defaults[.pgpPrivateKeyURL]!, keyType: .secret)
                     DispatchQueue.main.async {
-                        self.pgpKeyTableViewCell.detailTextLabel?.text = PasswordStore.shared.pgpKeyID
+                        self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
                         SVProgressHUD.showSuccess(withStatus: "Success")
                         SVProgressHUD.dismiss(withDelay: 1)
                         Utils.alert(title: "Rememver to Remove the Key", message: "Remember to remove the key from the server.", controller: self, completion: nil)
@@ -60,7 +61,7 @@ class SettingsTableViewController: UITableViewController {
             
         } else if let controller = segue.source as? PGPKeyArmorSettingTableViewController {
             Defaults[.pgpKeySource] = "armor"
-            PasswordStore.shared.pgpKeyPassphrase = controller.pgpPassphrase
+            self.passwordStore.pgpKeyPassphrase = controller.pgpPassphrase
             if Defaults[.isRememberPassphraseOn] {
                 Utils.addPasswordToKeychain(name: "pgpKeyPassphrase", password: controller.pgpPassphrase!)
             }
@@ -73,10 +74,10 @@ class SettingsTableViewController: UITableViewController {
             SVProgressHUD.show(withStatus: "Fetching PGP Key")
             DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                 do {
-                    try PasswordStore.shared.initPGPKey(with: controller.armorPublicKeyTextView.text, keyType: .public)
-                    try PasswordStore.shared.initPGPKey(with: controller.armorPrivateKeyTextView.text, keyType: .secret)
+                    try self.passwordStore.initPGPKey(with: controller.armorPublicKeyTextView.text, keyType: .public)
+                    try self.passwordStore.initPGPKey(with: controller.armorPrivateKeyTextView.text, keyType: .secret)
                     DispatchQueue.main.async {
-                        self.pgpKeyTableViewCell.detailTextLabel?.text = PasswordStore.shared.pgpKeyID
+                        self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
                         SVProgressHUD.showSuccess(withStatus: "Success")
                         SVProgressHUD.dismiss(withDelay: 1)
                     }
@@ -105,8 +106,8 @@ class SettingsTableViewController: UITableViewController {
                 Defaults[.gitRepositoryURL]!.absoluteString != gitRepostiroyURL ||
                 auth != Defaults[.gitRepositoryAuthenticationMethod] ||
                 username != Defaults[.gitRepositoryUsername] ||
-                password != PasswordStore.shared.gitRepositoryPassword ||
-                PasswordStore.shared.repositoryExisted() == false {
+                password != self.passwordStore.gitRepositoryPassword ||
+                self.passwordStore.repositoryExisted() == false {
                 
                 SVProgressHUD.setDefaultMaskType(.black)
                 SVProgressHUD.setDefaultStyle(.light)
@@ -128,7 +129,7 @@ class SettingsTableViewController: UITableViewController {
                 let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
                 dispatchQueue.async {
                     do {
-                        try PasswordStore.shared.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
+                        try self.passwordStore.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
                                                                  credential: gitCredential,
                                                                  transferProgressBlock:{ (git_transfer_progress, stop) in
                                                                     DispatchQueue.main.async {
@@ -141,7 +142,7 @@ class SettingsTableViewController: UITableViewController {
                                                                     }
                         })
                         DispatchQueue.main.async {
-                            PasswordStore.shared.updatePasswordEntityCoreData()
+                            self.passwordStore.updatePasswordEntityCoreData()
                             Defaults[.lastUpdatedTime] = Date()
                             NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
                             Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
@@ -187,7 +188,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     private func setPGPKeyTableViewCellDetailText() {
-        if let pgpKeyID = PasswordStore.shared.pgpKeyID {
+        if let pgpKeyID = self.passwordStore.pgpKeyID {
             pgpKeyTableViewCell.detailTextLabel?.text = pgpKeyID
         } else {
             pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
@@ -224,7 +225,7 @@ class SettingsTableViewController: UITableViewController {
             }))
 
             alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = PasswordStore.shared.gitRepositoryPassword
+                textField.text = self.passwordStore.gitRepositoryPassword
                 textField.isSecureTextEntry = true
             })
 
@@ -337,9 +338,9 @@ class SettingsTableViewController: UITableViewController {
 
 
                 DispatchQueue.main.async {
-                    PasswordStore.shared.initPGPKeys()
+                    self.passwordStore.initPGPKeys()
 
-                    let key: PGPKey = PasswordStore.shared.getPgpPrivateKey()
+                    let key: PGPKey = self.passwordStore.getPgpPrivateKey()
                     Defaults[.pgpKeySource] = "file"
 
                     if (key.isEncrypted) {
@@ -348,7 +349,7 @@ class SettingsTableViewController: UITableViewController {
                     }
 
                     SVProgressHUD.dismiss()
-                    self.pgpKeyTableViewCell.detailTextLabel?.text = PasswordStore.shared.pgpKeyID
+                    self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
                 }
 
             }

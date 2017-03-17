@@ -14,13 +14,14 @@ class PGPKeySettingTableViewController: UITableViewController {
     @IBOutlet weak var pgpPublicKeyURLTextField: UITextField!
     @IBOutlet weak var pgpPrivateKeyURLTextField: UITextField!
     var pgpPassphrase: String?
+    let passwordStore = PasswordStore.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = UITableViewAutomaticDimension
         pgpPublicKeyURLTextField.text = Defaults[.pgpPublicKeyURL]?.absoluteString
         pgpPrivateKeyURLTextField.text = Defaults[.pgpPrivateKeyURL]?.absoluteString
-        pgpPassphrase = PasswordStore.shared.pgpKeyPassphrase
+        pgpPassphrase = passwordStore.pgpKeyPassphrase
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {

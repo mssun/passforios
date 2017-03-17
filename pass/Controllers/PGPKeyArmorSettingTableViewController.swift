@@ -13,12 +13,13 @@ class PGPKeyArmorSettingTableViewController: UITableViewController {
     @IBOutlet weak var armorPublicKeyTextView: UITextView!
     @IBOutlet weak var armorPrivateKeyTextView: UITextView!
     var pgpPassphrase: String?
+    let passwordStore = PasswordStore.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         armorPublicKeyTextView.text = Defaults[.pgpPublicKeyArmor]
         armorPrivateKeyTextView.text = Defaults[.pgpPrivateKeyArmor]
-        pgpPassphrase = PasswordStore.shared.pgpKeyPassphrase
+        pgpPassphrase = passwordStore.pgpKeyPassphrase
     }
     
     private func createSavePassphraseAlert() -> UIAlertController {

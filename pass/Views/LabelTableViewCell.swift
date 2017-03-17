@@ -19,6 +19,7 @@ class LabelTableViewCell: UITableViewCell {
 
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
+    let passwordStore = PasswordStore.shared
 
     var isPasswordCell = false
     var isURLCell = false
@@ -126,10 +127,10 @@ class LabelTableViewCell: UITableViewCell {
         // commit
         if password.changed {
             DispatchQueue.global(qos: .userInitiated).async {
-                PasswordStore.shared.update(passwordEntity: passwordEntity, password: password, progressBlock: {_ in })
+                self.passwordStore.update(passwordEntity: passwordEntity, password: password, progressBlock: {_ in })
                 DispatchQueue.main.async {
                     passwordEntity.synced = false
-                    PasswordStore.shared.saveUpdated(passwordEntity: passwordEntity)
+                    self.passwordStore.saveUpdated(passwordEntity: passwordEntity)
                     NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
                     // reload so that the "unsynced" symbol could be added
                     self.passwordTableView?.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: UITableViewRowAnimation.automatic)

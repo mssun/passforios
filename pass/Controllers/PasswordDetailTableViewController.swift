@@ -18,6 +18,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     var passwordImage: UIImage?
     var oneTimePasswordIndexPath : IndexPath?
     var shouldPopCurrentView = false
+    let passwordStore = PasswordStore.shared
     
     let indicatorLable: UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 21))
@@ -91,8 +92,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
         
         var passphrase = ""
-        if Defaults[.isRememberPassphraseOn] && PasswordStore.shared.pgpKeyPassphrase != nil {
-            passphrase = PasswordStore.shared.pgpKeyPassphrase!
+        if Defaults[.isRememberPassphraseOn] && self.passwordStore.pgpKeyPassphrase != nil {
+            passphrase = self.passwordStore.pgpKeyPassphrase!
             self.decryptThenShowPassword(passphrase: passphrase)
         } else {
             let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
@@ -114,7 +115,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     
     func decryptThenShowPassword(passphrase: String) {
         if Defaults[.isRememberPassphraseOn] {
-            PasswordStore.shared.pgpKeyPassphrase = passphrase
+            self.passwordStore.pgpKeyPassphrase = passphrase
         }
         DispatchQueue.global(qos: .userInitiated).async {
             do {
@@ -188,14 +189,14 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         if self.password!.changed {
             SVProgressHUD.show(withStatus: "Saving")
             DispatchQueue.global(qos: .userInitiated).async {
-                PasswordStore.shared.update(passwordEntity: self.passwordEntity!, password: self.password!, progressBlock: { progress in
+                self.passwordStore.update(passwordEntity: self.passwordEntity!, password: self.password!, progressBlock: { progress in
                     DispatchQueue.main.async {
                         SVProgressHUD.showProgress(progress, status: "Encrypting")
                     }
                 })
                 DispatchQueue.main.async {
                     self.passwordEntity!.synced = false
-                    PasswordStore.shared.saveUpdated(passwordEntity: self.passwordEntity!)
+                    self.passwordStore.saveUpdated(passwordEntity: self.passwordEntity!)
                     NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
                     self.setTableData()
                     self.tableView.reloadData()
@@ -296,7 +297,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                     self?.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
                     let imageData = UIImageJPEGRepresentation(image, 1)
                     if let entity = self?.passwordEntity {
-                        PasswordStore.shared.updateImage(passwordEntity: entity, image: imageData)
+                        self?.passwordStore.updateImage(passwordEntity: entity, image: imageData)
                     }
                 case .failure(let error):
                     print(error)
@@ -373,7 +374,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             footerLabel.numberOfLines = 0
             footerLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
             footerLabel.textColor = UIColor.gray
-            let dateString = PasswordStore.shared.getLatestUpdateInfo(filename: (passwordEntity?.path)!)
+            let dateString = self.passwordStore.getLatestUpdateInfo(filename: (passwordEntity?.path)!)
             footerLabel.text = "Last Updated: \(dateString)"
             view.addSubview(footerLabel)
             return view

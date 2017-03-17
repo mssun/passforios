@@ -13,7 +13,8 @@ class AdvancedSettingsTableViewController: UITableViewController {
 
     @IBOutlet weak var eraseDataTableViewCell: UITableViewCell!
     @IBOutlet weak var discardChangesTableViewCell: UITableViewCell!
-    
+    let passwordStore = PasswordStore.shared
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -24,7 +25,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
             let alert = UIAlertController(title: "Erase Password Store Data?", message: "This will delete all local data and settings. Password store data on your remote server will not be affected.", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Erase Password Data", style: UIAlertActionStyle.destructive, handler: {[unowned self] (action) -> Void in
                 SVProgressHUD.show(withStatus: "Erasing ...")
-                PasswordStore.shared.erase()
+                self.passwordStore.erase()
                 NotificationCenter.default.post(Notification(name: Notification.Name("passwordStoreErased")))
                 self.navigationController!.popViewController(animated: true)
                 SVProgressHUD.showSuccess(withStatus: "Done")
@@ -40,7 +41,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
                     SVProgressHUD.show(withStatus: "Resetting ...")
                     DispatchQueue.main.async {
                         do {
-                            let numberDiscarded = try PasswordStore.shared.reset()
+                            let numberDiscarded = try self.passwordStore.reset()
                             if numberDiscarded > 0 {
                                 NotificationCenter.default.post(Notification(name: Notification.Name("passwordStoreChangeDiscarded")))
                             }

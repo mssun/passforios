@@ -10,7 +10,8 @@ import UIKit
 import SwiftyUserDefaults
 
 class GeneralSettingsTableViewController: BasicStaticTableViewController {
-    
+    let passwordStore = PasswordStore.shared
+
     let hideUnknownSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Globals.blue
@@ -177,7 +178,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     func rememberPassphraseSwitchAction(_ sender: Any?) {
         Defaults[.isRememberPassphraseOn] = rememberPassphraseSwitch.isOn
         if rememberPassphraseSwitch.isOn == false {
-            PasswordStore.shared.pgpKeyPassphrase = nil
+            passwordStore.pgpKeyPassphrase = nil
         }
     }
     

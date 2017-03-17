@@ -13,6 +13,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
     var needRefresh = false
     var indicatorLabel: UILabel!
     var indicator: UIActivityIndicatorView!
+    let passwordStore = PasswordStore.shared
 
     override func viewDidLoad() {
         navigationItemTitle = "About Repository"
@@ -57,20 +58,20 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
             numberFormatter.numberStyle = NumberFormatter.Style.decimal
             let fm = FileManager.default
             
-            let passwordEntities = PasswordStore.shared.fetchPasswordEntityCoreData(withDir: false)
+            let passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
             let numberOfPasswords = numberFormatter.string(from: NSNumber(value: passwordEntities.count))!
             
             var size = UInt64(0)
             do {
-                if fm.fileExists(atPath: PasswordStore.shared.storeURL.path) {
-                    size = try fm.allocatedSizeOfDirectoryAtURL(directoryURL: PasswordStore.shared.storeURL)
+                if fm.fileExists(atPath: self.passwordStore.storeURL.path) {
+                    size = try fm.allocatedSizeOfDirectoryAtURL(directoryURL: self.passwordStore.storeURL)
                 }
             } catch {
                 print(error)
             }
             let sizeOfRepository = ByteCountFormatter.string(fromByteCount: Int64(size), countStyle: ByteCountFormatter.CountStyle.file)
             
-            let numberOfCommits = PasswordStore.shared.storeRepository?.numberOfCommits(inCurrentBranch: NSErrorPointer(nilLiteral: ())) ?? 0
+            let numberOfCommits = self.passwordStore.storeRepository?.numberOfCommits(inCurrentBranch: NSErrorPointer(nilLiteral: ())) ?? 0
             let numberOfCommitsString = numberFormatter.string(from: NSNumber(value: numberOfCommits))!
             
             
@@ -79,7 +80,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
                 self?.tableData = [
                     // section 0
                     [[.style: CellDataStyle.value1, .accessoryType: type, .title: "Passwords", .detailText: numberOfPasswords],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Size", .detailText: sizeOfRepository],                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Unsynced", .detailText: String(PasswordStore.shared.getNumberOfUnsyncedPasswords())],
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Size", .detailText: sizeOfRepository],                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Unsynced", .detailText: String(self?.passwordStore.getNumberOfUnsyncedPasswords() ?? 0)],
                      [.style: CellDataStyle.value1, .accessoryType: type, .title: "Last Synced", .detailText: Utils.getLastUpdatedTimeString()],
                      [.style: CellDataStyle.value1, .accessoryType: type, .title: "Commits", .detailText: numberOfCommitsString],
                      [.title: "Commit Logs", .action: "segue", .link: "showCommitLogsSegue"],
