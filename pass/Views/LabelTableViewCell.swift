@@ -131,7 +131,6 @@ class LabelTableViewCell: UITableViewCell {
                 DispatchQueue.main.async {
                     passwordEntity.synced = false
                     self.passwordStore.saveUpdated(passwordEntity: passwordEntity)
-                    NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
                     // reload so that the "unsynced" symbol could be added
                     self.passwordTableView?.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: UITableViewRowAnimation.automatic)
                     SVProgressHUD.showSuccess(withStatus: "Password Copied\nCounter Updated")

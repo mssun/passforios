@@ -142,7 +142,6 @@ class SettingsTableViewController: UITableViewController {
                         DispatchQueue.main.async {
                             self.passwordStore.updatePasswordEntityCoreData()
                             Defaults[.lastUpdatedTime] = Date()
-                            NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
                             Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
                             Defaults[.gitRepositoryUsername] = username
                             Defaults[.gitRepositoryAuthenticationMethod] = auth
@@ -164,7 +163,7 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.actOnPasswordStoreErasedNotification), name: NSNotification.Name(rawValue: "passwordStoreErased"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.actOnPasswordStoreErasedNotification), name: .passwordStoreErased, object: nil)
         self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitRepositoryURL]?.host
         touchIDTableViewCell.accessoryView = touchIDSwitch
         setPGPKeyTableViewCellDetailText()

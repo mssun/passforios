@@ -285,6 +285,7 @@ class PasswordStore {
         }
         storeRepository = try GTRepository(url: storeURL)
         gitCredential = credential
+        NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
     
     func pullRepository(transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
@@ -297,6 +298,7 @@ class PasswordStore {
         ]
         let remote = try GTRemote(name: "origin", in: storeRepository!)
         try storeRepository?.pull((storeRepository?.currentBranch())!, from: remote, withOptions: options, progress: transferProgressBlock)
+        NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
     
     
@@ -542,18 +544,22 @@ class PasswordStore {
             print(saveURL.path)
             let _ = createAddCommitInRepository(message: "Add password for \(passwordEntity.nameWithCategory) to store using Pass for iOS.", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
             progressBlock(1.0)
+            NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         } catch {
             print(error)
         }
     }
     
     func update(passwordEntity: PasswordEntity, password: Password, progressBlock: (_ progress: Float) -> Void) {
+        progressBlock(0.0)
         do {
             let encryptedData = try passwordEntity.encrypt(password: password)
             let saveURL = storeURL.appendingPathComponent(passwordEntity.path!)
             try encryptedData.write(to: saveURL)
             progressBlock(0.3)
             let _ = createAddCommitInRepository(message: "Edit password for \(passwordEntity.nameWithCategory) using Pass for iOS.", fileData: encryptedData, filename: saveURL.lastPathComponent, progressBlock: progressBlock)
+            progressBlock(1.0)
+            NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         } catch {
             print(error)
         }
@@ -621,6 +627,9 @@ class PasswordStore {
         
         Defaults.removeAll()
         storeRepository = nil
+        
+        NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+        NotificationCenter.default.post(name: .passwordStoreErased, object: nil)
     }
     
     // return the number of discarded commits 
@@ -645,7 +654,8 @@ class PasswordStore {
             }
             try self.storeRepository?.reset(to: newHead, resetType: GTRepositoryResetType.hard)
             self.updatePasswordEntityCoreData()
-            NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
+            NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+            NotificationCenter.default.post(name: .passwordStoreChangeDiscarded, object: nil)
             self.setAllSynced()
             return localCommits.count
         } else {

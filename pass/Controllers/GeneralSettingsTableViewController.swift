@@ -184,7 +184,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     
     func showFolderSwitchAction(_ sender: Any?) {
         Defaults[.isShowFolderOn] = showFolderSwitch.isOn
-        NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
+        NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
     
 }

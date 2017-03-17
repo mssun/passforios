@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		94BA784B85E071D25EE89B59 /* libPods-pass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADCE7A5C3CCC67D7D21BB3C4 /* libPods-pass.a */; };
 		A262A58D1E68749C006B0890 /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A262A58C1E68749C006B0890 /* Base32.framework */; };
+		A27424D91E7C35960093F436 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27424D81E7C35960093F436 /* NotificationNames.swift */; };
 		A2802BF91E70813A00879216 /* SliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2802BF71E70813A00879216 /* SliderTableViewCell.swift */; };
 		A2802BFA1E70813A00879216 /* SliderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2802BF81E70813A00879216 /* SliderTableViewCell.xib */; };
 		DC037CA61E4B883900609409 /* OpenSourceComponentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CA51E4B883900609409 /* OpenSourceComponentsTableViewController.swift */; };
@@ -69,6 +70,7 @@
 /* Begin PBXFileReference section */
 		274CCFCF32444A2FF46BE7F4 /* Pods-pass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.debug.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.debug.xcconfig"; sourceTree = "<group>"; };
 		A262A58C1E68749C006B0890 /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Base32.framework; path = Carthage/Build/iOS/Base32.framework; sourceTree = "<group>"; };
+		A27424D81E7C35960093F436 /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		A2802BF71E70813A00879216 /* SliderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderTableViewCell.swift; sourceTree = "<group>"; };
 		A2802BF81E70813A00879216 /* SliderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SliderTableViewCell.xib; sourceTree = "<group>"; };
 		ADCE7A5C3CCC67D7D21BB3C4 /* libPods-pass.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pass.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -204,6 +206,7 @@
 				DC4A746D1E30FBDE00E8EB18 /* Objective-CBridgingHeader.h */,
 				DCA049971E33586A00522E8F /* DefaultsKeys.swift */,
 				DC19400A1E4B36B60077E0A3 /* Utils.swift */,
+				A27424D81E7C35960093F436 /* NotificationNames.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 				DC7E6EEA1E432E48006C2443 /* Password.swift in Sources */,
 				DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */,
 				DC5F385B1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift in Sources */,
+				A27424D91E7C35960093F436 /* NotificationNames.swift in Sources */,
 				DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */,
 				DCE6C2671E71261C003038C6 /* PasswordWithFolderTableViewCell.swift in Sources */,
 				DCFB77A71E502DF9008DE471 /* EditPasswordTableViewController.swift in Sources */,

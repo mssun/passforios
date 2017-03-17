@@ -92,7 +92,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                     DispatchQueue.main.async {
                         SVProgressHUD.showSuccess(withStatus: "Done")
                         SVProgressHUD.dismiss(withDelay: 1)
-                        NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
                     }
                 } catch {
                     DispatchQueue.main.async {
@@ -142,9 +141,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     private func addNotificationObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordUpdatedNotification), name: NSNotification.Name(rawValue: "passwordUpdated"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordStoreErasedNotification), name: NSNotification.Name(rawValue: "passwordStoreErased"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnSearchNotification), name: NSNotification.Name(rawValue: "search"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordStoreUpdatedNotification), name: .passwordStoreUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnSearchNotification), name: .passwordSearch, object: nil)
     }
     
     override func viewDidLoad() {
@@ -351,7 +349,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         sections.append(newSection)
     }
     
-    func actOnPasswordUpdatedNotification() {
+    func actOnPasswordStoreUpdatedNotification() {
         initPasswordsTableEntries(parent: nil)
         reloadTableView(data: passwordsTableEntries)
         setNavigationItemTitle()
@@ -370,12 +368,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         } else {
             navigationItem.title = "\(title) (\(numberOfUnsynced))"
         }
-    }
-    
-    func actOnPasswordStoreErasedNotification() {
-        initPasswordsTableEntries(parent: nil)
-        reloadTableView(data: passwordsTableEntries)
-        setNavigationItemTitle()
     }
     
     func actOnSearchNotification() {

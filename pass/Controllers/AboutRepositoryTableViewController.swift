@@ -32,7 +32,9 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
         tableView.addSubview(indicatorLabel)
         
         setTableData()
-        addNotificationObservers()
+        
+        // all password store updates (including erase, discard) will trigger the refresh
+        NotificationCenter.default.addObserver(self, selector: #selector(setNeedRefresh), name: .passwordStoreUpdated, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,11 +93,6 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
                 self?.tableView.reloadData()
             }
         }
-    }
-        
-    private func addNotificationObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(setNeedRefresh), name: NSNotification.Name(rawValue: "passwordUpdated"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(setNeedRefresh), name: NSNotification.Name(rawValue: "passwordStoreErased"), object: nil)
     }
     
     func setNeedRefresh() {

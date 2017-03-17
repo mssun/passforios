@@ -197,7 +197,6 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 DispatchQueue.main.async {
                     self.passwordEntity!.synced = false
                     self.passwordStore.saveUpdated(passwordEntity: self.passwordEntity!)
-                    NotificationCenter.default.post(Notification(name: Notification.Name("passwordUpdated")))
                     self.setTableData()
                     self.tableView.reloadData()
                     SVProgressHUD.showSuccess(withStatus: "Success")
@@ -397,7 +396,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
 
     private func addNotificationObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(setShouldPopCurrentView), name: NSNotification.Name(rawValue: "passwordStoreChangeDiscarded"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setShouldPopCurrentView), name: .passwordStoreChangeDiscarded, object: nil)
     }
     
     func setShouldPopCurrentView() {

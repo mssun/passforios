@@ -26,7 +26,6 @@ class AdvancedSettingsTableViewController: UITableViewController {
             alert.addAction(UIAlertAction(title: "Erase Password Data", style: UIAlertActionStyle.destructive, handler: {[unowned self] (action) -> Void in
                 SVProgressHUD.show(withStatus: "Erasing ...")
                 self.passwordStore.erase()
-                NotificationCenter.default.post(Notification(name: Notification.Name("passwordStoreErased")))
                 self.navigationController!.popViewController(animated: true)
                 SVProgressHUD.showSuccess(withStatus: "Done")
                 SVProgressHUD.dismiss(withDelay: 1)
@@ -42,9 +41,6 @@ class AdvancedSettingsTableViewController: UITableViewController {
                     DispatchQueue.main.async {
                         do {
                             let numberDiscarded = try self.passwordStore.reset()
-                            if numberDiscarded > 0 {
-                                NotificationCenter.default.post(Notification(name: Notification.Name("passwordStoreChangeDiscarded")))
-                            }
                             self.navigationController!.popViewController(animated: true)
                             switch numberDiscarded {
                             case 0:
