@@ -359,6 +359,9 @@ class PasswordStore {
     }
     
     func getRecentCommits(count: Int) -> [GTCommit] {
+        guard storeRepository != nil else {
+            return []
+        }
         var commits = [GTCommit]()
         do {
             let enumerator = try GTEnumerator(repository: storeRepository!)
