@@ -11,25 +11,18 @@ import UIKit
 class AboutRepositoryTableViewController: BasicStaticTableViewController {
     
     var needRefresh = false
-    var indicatorLabel: UILabel!
-    var indicator: UIActivityIndicatorView!
+    var indicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        return indicator
+    }()
     let passwordStore = PasswordStore.shared
 
     override func viewDidLoad() {
         navigationItemTitle = "About Repository"
         super.viewDidLoad()
-            
-        indicatorLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 21))
-        indicatorLabel.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height * 0.382 + 22)
-        indicatorLabel.backgroundColor = UIColor.clear
-        indicatorLabel.textColor = UIColor.gray
-        indicatorLabel.text = "calculating"
-        indicatorLabel.textAlignment = .center
-        indicatorLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
-        indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+
         indicator.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height * 0.382)
         tableView.addSubview(indicator)
-        tableView.addSubview(indicatorLabel)
         
         setTableData()
         
@@ -40,7 +33,6 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if needRefresh {
-            indicatorLabel.text = "reloading"
             setTableData()
             needRefresh = false
         }
@@ -51,7 +43,6 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
         // clear current contents (if any)
         self.tableData.removeAll(keepingCapacity: true)
         self.tableView.reloadData()
-        indicatorLabel.isHidden = false
         indicator.startAnimating()
         
         // reload the table
@@ -82,14 +73,14 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
                 self?.tableData = [
                     // section 0
                     [[.style: CellDataStyle.value1, .accessoryType: type, .title: "Passwords", .detailText: numberOfPasswords],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Size", .detailText: sizeOfRepository],                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Unsynced", .detailText: String(self?.passwordStore.getNumberOfUnsyncedPasswords() ?? 0)],
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Size", .detailText: sizeOfRepository],
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Unsynced", .detailText: String(self?.passwordStore.getNumberOfUnsyncedPasswords() ?? 0)],
                      [.style: CellDataStyle.value1, .accessoryType: type, .title: "Last Synced", .detailText: Utils.getLastUpdatedTimeString()],
                      [.style: CellDataStyle.value1, .accessoryType: type, .title: "Commits", .detailText: numberOfCommitsString],
                      [.title: "Commit Logs", .action: "segue", .link: "showCommitLogsSegue"],
                      ],
                 ]
                 self?.indicator.stopAnimating()
-                self?.indicatorLabel.isHidden = true
                 self?.tableView.reloadData()
             }
         }
