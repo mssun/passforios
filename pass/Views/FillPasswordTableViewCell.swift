@@ -20,6 +20,7 @@ class FillPasswordTableViewCell: ContentTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        contentTextField.font = UIFont(name: Globals.passwordFonts, size: (contentTextField.font?.pointSize)!)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -30,7 +31,7 @@ class FillPasswordTableViewCell: ContentTableViewCell {
     
     @IBAction func generatePassword(_ sender: UIButton) {
         let plainPassword = self.delegate?.generatePassword() ?? Utils.generatePassword(length: 16)
-        contentTextField.attributedText = Utils.attributedPassword(plainPassword: plainPassword)
+        self.setContent(content: plainPassword)
         Utils.copyToPasteboard(textToCopy: plainPassword)
     }
     
