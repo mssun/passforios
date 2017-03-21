@@ -10,8 +10,6 @@ import UIKit
 import SwiftyUserDefaults
 
 class AddPasswordTableViewController: PasswordEditorTableViewController {
-    
-    var password: Password?
     var tempContent: String = ""
     let passwordStore = PasswordStore.shared
 

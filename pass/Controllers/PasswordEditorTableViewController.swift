@@ -8,7 +8,7 @@
 
 import UIKit
 enum PasswordEditorCellType {
-    case textFieldCell, textViewCell, fillPasswordCell, passwordLengthCell
+    case textFieldCell, textViewCell, fillPasswordCell, passwordLengthCell, deletePasswordCell
 }
 
 enum PasswordEditorCellKey {
@@ -17,14 +17,24 @@ enum PasswordEditorCellKey {
 
 class PasswordEditorTableViewController: UITableViewController, FillPasswordTableViewCellDelegate {
     var navigationItemTitle: String?
+    var password: Password?
     var tableData = [
         [Dictionary<PasswordEditorCellKey, Any>]
     ]()
-    var sectionHeaderTitles = ["name", "password", "additions"].map {$0.uppercased()}
-    var sectionFooterTitles = ["", "", "It is recommended to use \"key: value\" format to store additional fields as follows:\n  url: https://www.apple.com\n  username: passforios@gmail.com."]
+    var sectionHeaderTitles = ["name", "password", "additions",""].map {$0.uppercased()}
+    var sectionFooterTitles = ["", "", "Use \"key: value\" format for additional fields.", ""]
     
     var passwordLengthCell: SliderTableViewCell?
-
+    var deletePasswordCell: UITableViewCell?
+    
+    override func loadView() {
+        super.loadView()
+        
+        deletePasswordCell = UITableViewCell(style: .default, reuseIdentifier: "default")
+        deletePasswordCell!.textLabel?.text = "Delete Password"
+        deletePasswordCell!.textLabel?.textColor = Globals.red
+        deletePasswordCell?.selectionStyle = .default
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = navigationItemTitle
@@ -35,33 +45,34 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 48
-        tableView.allowsSelection = false
         self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
         self.tableView.estimatedSectionFooterHeight = 0;
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellData = tableData[indexPath.section][indexPath.row]
-        var cell = ContentTableViewCell()
         
         switch cellData[PasswordEditorCellKey.type] as! PasswordEditorCellType {
         case .textViewCell:
-            cell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as! ContentTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as! ContentTableViewCell
+            cell.setContent(content: cellData[PasswordEditorCellKey.content] as? String)
+            return cell
         case .fillPasswordCell:
-            let fillPasswordCell = tableView.dequeueReusableCell(withIdentifier: "fillPasswordCell", for: indexPath) as?FillPasswordTableViewCell
-            fillPasswordCell?.delegate = self
-            cell = fillPasswordCell!
+            let cell = tableView.dequeueReusableCell(withIdentifier: "fillPasswordCell", for: indexPath) as! FillPasswordTableViewCell
+            cell.delegate = self
+            cell.setContent(content: cellData[PasswordEditorCellKey.content] as? String)
+            return cell
         case .passwordLengthCell:
             passwordLengthCell = tableView.dequeueReusableCell(withIdentifier: "passwordLengthCell", for: indexPath) as? SliderTableViewCell
             passwordLengthCell?.reset(title: "Length", minimumValue: Globals.passwordMinimumLength, maximumValue: Globals.passwordMaximumLength, defaultValue: Globals.passwordDefaultLength)
-            cell = passwordLengthCell!
+            return passwordLengthCell!
+        case .deletePasswordCell:
+            return deletePasswordCell!
         default:
-            cell = tableView.dequeueReusableCell(withIdentifier: "textFieldCell", for: indexPath) as! ContentTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "textFieldCell", for: indexPath) as! ContentTableViewCell
+            cell.setContent(content: cellData[PasswordEditorCellKey.content] as? String)
+            return cell
         }
-        if let content = cellData[PasswordEditorCellKey.content] as? String {
-            cell.setContent(content: content)
-        }
-        return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -82,6 +93,18 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return sectionFooterTitles[section]
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView.cellForRow(at: indexPath) == deletePasswordCell {
+            let alert = UIAlertController(title: "Delete Password?", message: nil, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: {[unowned self] (action) -> Void in
+                self.performSegue(withIdentifier: "deletePasswordSegue", sender: self)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler:nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func generatePassword() -> String {

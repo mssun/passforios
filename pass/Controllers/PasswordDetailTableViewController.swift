@@ -192,6 +192,12 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
     }
     
+    @IBAction func deletePassword(segue: UIStoryboardSegue) {
+        print("delete")
+        passwordStore.delete(passwordEntity: passwordEntity!)
+        navigationController?.popViewController(animated: true)
+    }
+    
     func setTableData() {
         self.tableData = Array<TableSection>()
         tableData.append(TableSection(title: "", item: []))

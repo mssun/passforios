@@ -485,19 +485,17 @@ class PasswordStore {
         return nil
     }
     
-    func createRemoveCommitInRepository(message: String, filename: String, progressBlock: (_ progress: Float) -> Void) -> GTCommit? {
+    func createRemoveCommitInRepository(message: String, path: String) -> GTCommit? {
         do {
-            try storeRepository?.index().removeFile(filename)
+            try storeRepository?.index().removeFile(path)
             try storeRepository?.index().write()
             let newTree = try storeRepository!.index().writeTree()
             let headReference = try storeRepository!.headReference()
             let commitEnum = try GTEnumerator(repository: storeRepository!)
             try commitEnum.pushSHA(headReference.targetOID.sha!)
             let parent = commitEnum.nextObject() as! GTCommit
-            progressBlock(0.5)
             let signature = gitSignatureForNow
             let commit = try storeRepository!.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)
-            progressBlock(0.7)
             return commit
         } catch {
             print(error)
@@ -566,6 +564,18 @@ class PasswordStore {
         } catch {
             print(error)
         }
+    }
+    
+    public func delete(passwordEntity: PasswordEntity) {
+        Utils.removeFileIfExists(at: storeURL.appendingPathComponent(passwordEntity.path!))
+        let _ = createRemoveCommitInRepository(message: "Remove \(passwordEntity.nameWithCategory) from store using Pass for iOS", path: passwordEntity.path!)
+        context.delete(passwordEntity)
+        do {
+            try context.save()
+        } catch {
+            fatalError("Failed to delete a PasswordEntity: \(error)")
+        }
+        NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
     
     func saveUpdated(passwordEntity: PasswordEntity) {

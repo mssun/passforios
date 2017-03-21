@@ -38,7 +38,7 @@ class FillPasswordTableViewCell: ContentTableViewCell {
         return contentTextField.attributedText?.string
     }
     
-    override func setContent(content: String) {
-        contentTextField.attributedText = Utils.attributedPassword(plainPassword: content)
+    override func setContent(content: String?) {
+        contentTextField.attributedText = Utils.attributedPassword(plainPassword: content ?? "")
     }
 }
