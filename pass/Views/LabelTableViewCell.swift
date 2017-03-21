@@ -19,15 +19,13 @@ class LabelTableViewCell: UITableViewCell {
 
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
-    let passwordStore = PasswordStore.shared
 
     var isPasswordCell = false
     var isURLCell = false
     var isReveal = false
     var isHOTPCell = false
-    let passwordDots = "••••••••••••"
     
-    weak var passwordTableView : PasswordDetailTableViewController?
+    weak var delegatePasswordTableView : PasswordDetailTableViewController?
     
     var cellData: LabelTableViewCellData? {
         didSet {
@@ -36,14 +34,14 @@ class LabelTableViewCell: UITableViewCell {
                 if isReveal {
                     contentLabel.attributedText = Utils.attributedPassword(plainPassword: cellData?.content ?? "")
                 } else {
-                    contentLabel.text = passwordDots
+                    contentLabel.text = Globals.passwordDots
                 }
-                contentLabel.font = UIFont(name: "Menlo", size: contentLabel.font.pointSize)
+                contentLabel.font = UIFont(name: Globals.passwordFonts, size: contentLabel.font.pointSize)
             } else if isHOTPCell {
                 if isReveal {
                     contentLabel.text = cellData?.content ?? ""
                 } else {
-                    contentLabel.text = passwordDots
+                    contentLabel.text = Globals.passwordDots
                 }
             } else {
                 contentLabel.text = cellData?.content
@@ -78,9 +76,9 @@ class LabelTableViewCell: UITableViewCell {
         }
         if isHOTPCell {
             if isReveal {
-                return action == #selector(copy(_:)) || action == #selector(LabelTableViewCell.concealPassword(_:)) || action == #selector(LabelTableViewCell.nextPassword(_:))
+                return action == #selector(copy(_:)) || action == #selector(LabelTableViewCell.concealPassword(_:)) || action == #selector(LabelTableViewCell.getNextHOTP(_:))
             } else {
-                return action == #selector(copy(_:)) || action == #selector(LabelTableViewCell.revealPassword(_:)) || action == #selector(LabelTableViewCell.nextPassword(_:))
+                return action == #selector(copy(_:)) || action == #selector(LabelTableViewCell.revealPassword(_:)) || action == #selector(LabelTableViewCell.getNextHOTP(_:))
             }
         }
         return action == #selector(copy(_:))
@@ -104,48 +102,17 @@ class LabelTableViewCell: UITableViewCell {
     }
     
     func concealPassword(_ sender: Any?) {
-        contentLabel.text = passwordDots
+        contentLabel.text = Globals.passwordDots
         isReveal = false
     }
     
-    func nextPassword(_ sender: Any?) {
-        guard let password = passwordTableView?.password,
-            let passwordEntity = passwordTableView?.passwordEntity else {
-                print("Cannot find password/passwordEntity of a cell")
-                return;
-        }
-        
-        // increase HOTP counter
-        password.increaseHotpCounter()
-        
-        // only the HOTP password needs update
-        if let plainPassword = password.otpToken?.currentPassword {
-            cellData?.content = plainPassword
-            // contentLabel will be updated automatically
-        }
-        
-        // commit
-        if password.changed {
-            DispatchQueue.global(qos: .userInitiated).async {
-                self.passwordStore.update(passwordEntity: passwordEntity, password: password, progressBlock: {_ in })
-                DispatchQueue.main.async {
-                    passwordEntity.synced = false
-                    self.passwordStore.saveUpdated(passwordEntity: passwordEntity)
-                    // reload so that the "unsynced" symbol could be added
-                    self.passwordTableView?.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: UITableViewRowAnimation.automatic)
-                    SVProgressHUD.showSuccess(withStatus: "Password Copied\nCounter Updated")
-                    SVProgressHUD.dismiss(withDelay: 1)
-                }
-            }
-        }
+    func openLink(_ sender: Any?) {
+        // if isURLCell, passwordTableView should not be nil
+        delegatePasswordTableView!.openLink()
     }
     
-    func openLink(_ sender: Any?) {
-        guard let password = passwordTableView?.password else {
-            print("Cannot find password of a cell")
-            return;
-        }
-        Utils.copyToPasteboard(textToCopy: password.password)
-        UIApplication.shared.open(URL(string: cellData!.content)!, options: [:], completionHandler: nil)
+    func getNextHOTP(_ sender: Any?) {
+        // if isHOTPCell, passwordTableView should not be nil
+        delegatePasswordTableView!.getNextHOTP()
     }
 }

@@ -28,6 +28,24 @@ class Password {
     var firstLineIsOTPField = false
     var otpToken: Token?
     
+    enum OtpType {
+        case totp, hotp, none
+    }
+    
+    var otpType: OtpType {
+        get {
+            guard let token = self.otpToken else {
+                return OtpType.none
+            }
+            switch token.generator.factor {
+            case .counter:
+                return OtpType.hotp
+            case .timer:
+                return OtpType.totp
+            }
+        }
+    }
+    
     init(name: String, plainText: String) {
         self.initEverything(name: name, plainText: plainText)
     }
