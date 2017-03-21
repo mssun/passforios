@@ -106,6 +106,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self.passwordStore.pgpKeyPassphrase = passphrase
         }
         DispatchQueue.global(qos: .userInitiated).async {
+            // decrypt password
             do {
                 self.password = try self.passwordEntity!.decrypt(passphrase: passphrase)!
             } catch {
@@ -118,22 +119,25 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 }
                 return
             }
-            
-            let password = self.password!
-            DispatchQueue.main.async { [weak self] in
-                self?.showPassword(password: password)
-            }
+            // display password
+            self.showPassword()
         }
     }
     
-    func showPassword(password: Password) {
-        setTableData()
-        self.tableView.reloadData()
-        indicator.stopAnimating()
-        editUIBarButtonItem.isEnabled = true
-        if let urlString = password.getURLString() {
-            if self.passwordEntity?.image == nil{
-                self.updatePasswordImage(urlString: urlString)
+    func showPassword() {
+        DispatchQueue.main.async { [weak self] in
+            self?.indicator.stopAnimating()
+            self?.setTableData()
+            UIView.performWithoutAnimation {
+                self?.tableView.reloadData()
+                // add layoutIfNeeded solves the "flickering problem" during refresh
+                self?.tableView.layoutIfNeeded()
+            }
+            self?.editUIBarButtonItem.isEnabled = true
+            if let urlString = self?.password?.getURLString() {
+                if self?.passwordEntity?.image == nil{
+                    self?.updatePasswordImage(urlString: urlString)
+                }
             }
         }
     }
@@ -384,6 +388,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
     private func addNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(setShouldPopCurrentView), name: .passwordStoreChangeDiscarded, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showPassword), name: .passwordStoreUpdated, object: nil)
     }
     
     func setShouldPopCurrentView() {
