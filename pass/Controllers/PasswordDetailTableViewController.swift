@@ -164,7 +164,6 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
     
     func pressEdit(_ sender: Any?) {
-        print("pressEdit")
         performSegue(withIdentifier: "editPasswordSegue", sender: self)
     }
     
