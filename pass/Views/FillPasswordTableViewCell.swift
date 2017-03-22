@@ -9,7 +9,7 @@
 import UIKit
 
 protocol FillPasswordTableViewCellDelegate {
-    func generatePassword() -> String
+    func generateAndCopyPassword()
 }
 
 class FillPasswordTableViewCell: ContentTableViewCell {
@@ -30,9 +30,7 @@ class FillPasswordTableViewCell: ContentTableViewCell {
     }
     
     @IBAction func generatePassword(_ sender: UIButton) {
-        let plainPassword = self.delegate?.generatePassword() ?? Utils.generatePassword(length: 16)
-        self.setContent(content: plainPassword)
-        Utils.copyToPasteboard(textToCopy: plainPassword)
+        self.delegate?.generateAndCopyPassword()
     }
     
     override func getContent() -> String? {

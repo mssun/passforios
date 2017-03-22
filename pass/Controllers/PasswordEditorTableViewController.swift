@@ -15,7 +15,7 @@ enum PasswordEditorCellKey {
     case type, title, content, placeholders
 }
 
-class PasswordEditorTableViewController: UITableViewController, FillPasswordTableViewCellDelegate {
+class PasswordEditorTableViewController: UITableViewController, FillPasswordTableViewCellDelegate, PasswordSettingSliderTableViewCellDelegate, UIGestureRecognizerDelegate {
     var navigationItemTitle: String?
     var password: Password?
     var tableData = [
@@ -23,7 +23,9 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     ]()
     var sectionHeaderTitles = ["name", "password", "additions",""].map {$0.uppercased()}
     var sectionFooterTitles = ["", "", "Use \"key: value\" format for additional fields.", ""]
+    let passwordSection = 1
     
+    var fillPasswordCell: FillPasswordTableViewCell?
     var passwordLengthCell: SliderTableViewCell?
     var deletePasswordCell: UITableViewCell?
     
@@ -47,6 +49,10 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         tableView.estimatedRowHeight = 48
         self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
         self.tableView.estimatedSectionFooterHeight = 0;
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tableTapped))
+        tapGesture.delegate = self
+        tableView.addGestureRecognizer(tapGesture)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -58,13 +64,14 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             cell.setContent(content: cellData[PasswordEditorCellKey.content] as? String)
             return cell
         case .fillPasswordCell:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "fillPasswordCell", for: indexPath) as! FillPasswordTableViewCell
-            cell.delegate = self
-            cell.setContent(content: cellData[PasswordEditorCellKey.content] as? String)
-            return cell
+            fillPasswordCell = tableView.dequeueReusableCell(withIdentifier: "fillPasswordCell", for: indexPath) as? FillPasswordTableViewCell
+            fillPasswordCell?.delegate = self
+            fillPasswordCell?.setContent(content: cellData[PasswordEditorCellKey.content] as? String)
+            return fillPasswordCell!
         case .passwordLengthCell:
             passwordLengthCell = tableView.dequeueReusableCell(withIdentifier: "passwordLengthCell", for: indexPath) as? SliderTableViewCell
             passwordLengthCell?.reset(title: "Length", minimumValue: Globals.passwordMinimumLength, maximumValue: Globals.passwordMaximumLength, defaultValue: Globals.passwordDefaultLength)
+            passwordLengthCell?.delegate = self
             return passwordLengthCell!
         case .deletePasswordCell:
             return deletePasswordCell!
@@ -86,7 +93,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableData[section].count
     }
-    
+
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sectionHeaderTitles[section]
     }
@@ -107,8 +114,41 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func generatePassword() -> String {
+    // generate password, copy to pasteboard, and set the cell
+    func generateAndCopyPassword() {
+        // insert the length slider if not existed
+        if passwordLengthCell == nil {
+            let row = tableData[passwordSection].count
+            tableData[passwordSection].append([.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"])
+            let indexPath = IndexPath(row: row, section: passwordSection)
+            tableView.insertRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+        }
         let length = passwordLengthCell?.roundedValue ?? Globals.passwordDefaultLength
-        return Utils.generatePassword(length: length)
+        let plainPassword = Utils.generatePassword(length: length)
+        Utils.copyToPasteboard(textToCopy: plainPassword)
+        fillPasswordCell?.setContent(content: plainPassword)
+    }
+    
+    func tableTapped(tap: UITapGestureRecognizer) {
+        let location = tap.location(in: self.tableView)
+        let path = self.tableView.indexPathForRow(at: location)
+        if path?.section != passwordSection, tableData[passwordSection].count > 1 {
+            // remove password settings (e.g., sliders)
+            let row = tableData[passwordSection].count
+            passwordLengthCell = nil
+            tableData[passwordSection].removeLast(row - 1)
+            let indexPaths = (1...row-1).map{IndexPath(row: $0, section: passwordSection)}
+            print(indexPaths)
+            tableView.deleteRows(at: indexPaths, with: UITableViewRowAnimation.automatic)
+        }
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if (gestureRecognizer is UITapGestureRecognizer) {
+            // so that the tap gesture could be passed by
+            return true
+        } else {
+            return false
+        }
     }
 }
