@@ -32,22 +32,22 @@ class SSHKeySettingTableViewController: UITableViewController {
     }
     
     func doneButtonTapped(_ sender: UIButton) {
-        guard URL(string: publicKeyURLTextField.text!) != nil else {
+        guard let publicKeyURL = URL(string: publicKeyURLTextField.text!) else {
             Utils.alert(title: "Cannot Save", message: "Please set Public Key URL first.", controller: self, completion: nil)
             return
         }
-        guard URL(string: privateKeyURLTextField.text!) != nil else {
+        guard let privateKeyURL = URL(string: privateKeyURLTextField.text!) else {
             Utils.alert(title: "Cannot Save", message: "Please set Private Key URL first.", controller: self, completion: nil)
             return
         }
         
-        Defaults[.gitRepositorySSHPublicKeyURL] = URL(string: publicKeyURLTextField.text!)
-        Defaults[.gitRepositorySSHPrivateKeyURL] = URL(string: privateKeyURLTextField.text!)
+        Defaults[.gitRepositorySSHPublicKeyURL] = publicKeyURL
+        Defaults[.gitRepositorySSHPrivateKeyURL] = privateKeyURL
         Utils.addPasswordToKeychain(name: "gitRepositorySSHPrivateKeyPassphrase", password: passphraseTextField.text!)
         
         do {
-            try Data(contentsOf: Defaults[.gitRepositorySSHPublicKeyURL]!).write(to: Globals.sshPublicKeyURL, options: .atomic)
-            try Data(contentsOf: Defaults[.gitRepositorySSHPrivateKeyURL]!).write(to: Globals.sshPrivateKeyURL, options: .atomic)
+            try Data(contentsOf: publicKeyURL).write(to: Globals.sshPublicKeyURL, options: .atomic)
+            try Data(contentsOf: privateKeyURL).write(to: Globals.sshPrivateKeyURL, options: .atomic)
         } catch {
             Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
         }
