@@ -256,7 +256,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         let filteredAdditionKeys = password.additionKeys.filter {
             $0.lowercased() != "username" &&
                 $0.lowercased() != "password" &&
-                (!$0.hasPrefix("unknown") || !Defaults[.isHideOTPOn]) &&
+                (!$0.hasPrefix("unknown") || !Defaults[.isHideUnknownOn]) &&
                 (!Password.otpKeywords.contains($0) || !Defaults[.isHideOTPOn]) }
         
         if filteredAdditionKeys.count > 0 {
