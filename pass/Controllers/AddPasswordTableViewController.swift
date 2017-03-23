@@ -16,7 +16,8 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
     override func viewDidLoad() {
         tableData = [
             [[.type: PasswordEditorCellType.textFieldCell, .title: "name"]],
-            [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password"]],
+            [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password"],
+             [.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"]],
             [[.type: PasswordEditorCellType.textViewCell, .title: "additions"]],
         ]
         super.viewDidLoad()

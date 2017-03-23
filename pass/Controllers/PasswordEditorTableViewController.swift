@@ -24,6 +24,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     var sectionHeaderTitles = ["name", "password", "additions",""].map {$0.uppercased()}
     var sectionFooterTitles = ["", "", "Use \"key: value\" format for additional fields.", ""]
     let passwordSection = 1
+    var hidePasswordSettings = true
     
     var fillPasswordCell: FillPasswordTableViewCell?
     var passwordLengthCell: SliderTableViewCell?
@@ -52,6 +53,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tableTapped))
         tapGesture.delegate = self
+        tapGesture.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tapGesture)
     }
     
@@ -91,7 +93,12 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableData[section].count
+        if section == passwordSection, hidePasswordSettings {
+            // hide the password section, only the password should be shown
+            return 1
+        } else {
+            return tableData[section].count
+        }
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -116,35 +123,47 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     
     // generate password, copy to pasteboard, and set the cell
     func generateAndCopyPassword() {
-        // insert the length slider if not existed
-        if passwordLengthCell == nil {
-            let row = tableData[passwordSection].count
-            tableData[passwordSection].append([.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"])
-            let indexPath = IndexPath(row: row, section: passwordSection)
-            tableView.insertRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+        // show password settings (e.g., the length slider)
+        if hidePasswordSettings == true {
+            hidePasswordSettings = false
+            tableView.reloadSections([passwordSection], with: .fade)
         }
         let length = passwordLengthCell?.roundedValue ?? Globals.passwordDefaultLength
         let plainPassword = Utils.generatePassword(length: length)
         Utils.copyToPasteboard(textToCopy: plainPassword)
+        
+        // update tableData so to make sure reloadData() works correctly
+        tableData[passwordSection][0][PasswordEditorCellKey.content] = plainPassword
+        
+        // update cell manually, no need to call reloadData()
         fillPasswordCell?.setContent(content: plainPassword)
     }
     
-    func tableTapped(tap: UITapGestureRecognizer) {
-        let location = tap.location(in: self.tableView)
-        let path = self.tableView.indexPathForRow(at: location)
-        if path?.section != passwordSection, tableData[passwordSection].count > 1 {
-            // remove password settings (e.g., sliders)
-            let row = tableData[passwordSection].count
-            passwordLengthCell = nil
-            tableData[passwordSection].removeLast(row - 1)
-            let indexPaths = (1...row-1).map{IndexPath(row: $0, section: passwordSection)}
-            print(indexPaths)
-            tableView.deleteRows(at: indexPaths, with: UITableViewRowAnimation.automatic)
+    func tableTapped(recognizer: UITapGestureRecognizer) {
+        if recognizer.state == UIGestureRecognizerState.ended {
+            let tapLocation = recognizer.location(in: self.tableView)
+            let tapIndexPath = self.tableView.indexPathForRow(at: tapLocation)
+            
+            // do nothing, if delete is tapped (a temporary solution)
+            if tapIndexPath != nil, deletePasswordCell != nil,
+                tableView.cellForRow(at: tapIndexPath!) == deletePasswordCell {
+                return
+            }
+            
+            // hide password settings (e.g., the length slider)
+            if tapIndexPath?.section != passwordSection, hidePasswordSettings == false {
+                hidePasswordSettings = true
+                tableView.reloadSections([passwordSection], with: .fade)
+                // select the row at tapIndexPath manually
+                if tapIndexPath != nil {
+                    self.tableView(self.tableView, didSelectRowAt: tapIndexPath!)
+                }
+            }
         }
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if (gestureRecognizer is UITapGestureRecognizer) {
+        if gestureRecognizer is UITapGestureRecognizer {
             // so that the tap gesture could be passed by
             return true
         } else {
