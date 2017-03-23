@@ -213,7 +213,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     @IBAction private func deletePassword(segue: UIStoryboardSegue) {
         print("delete")
         passwordStore.delete(passwordEntity: passwordEntity!)
-        navigationController?.popViewController(animated: true)
+        let _ = navigationController?.popViewController(animated: true)
     }
 
     private func setTableData() {
