@@ -14,6 +14,7 @@ class AboutTableViewController: BasicStaticTableViewController {
         tableData = [
             // section 0
             [[.title: "Website", .action: "link", .link: "https://github.com/mssun/pass-ios.git"],
+             [.title: "Help", .action: "link", .link: "https://github.com/mssun/passforios/wiki"],
              [.title: "Contact Developer", .action: "link", .link: "mailto:bob@mssun.me?subject=passforiOS"],],
             
             // section 1,
