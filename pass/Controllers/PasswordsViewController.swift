@@ -106,7 +106,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "Sync Password Store")
-        let numberOfUnsyncedPasswords = self.passwordStore.getNumberOfUnsyncedPasswords()
+        let numberOfLocalCommits = self.passwordStore.numberOfLocalCommits()
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
                 try self.passwordStore.pullRepository(transferProgressBlock: {(git_transfer_progress, stop) in
@@ -114,7 +114,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                         SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Pull Remote Repository")
                     }
                 })
-                if numberOfUnsyncedPasswords > 0 {
+                if numberOfLocalCommits > 0 {
                     try self.passwordStore.pushRepository(transferProgressBlock: {(current, total, bytes, stop) in
                         DispatchQueue.main.async {
                             SVProgressHUD.showProgress(Float(current)/Float(total), status: "Push Remote Repository")
@@ -362,11 +362,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         } else {
             title = "Password Store"
         }
-        let numberOfUnsynced = self.passwordStore.getNumberOfUnsyncedPasswords()
-        if numberOfUnsynced == 0 {
+        let numberOfLocalCommits = self.passwordStore.numberOfLocalCommits()
+        if numberOfLocalCommits == 0 {
             navigationItem.title = "\(title)"
         } else {
-            navigationItem.title = "\(title) (\(numberOfUnsynced))"
+            navigationItem.title = "\(title) (\(numberOfLocalCommits))"
         }
     }
     

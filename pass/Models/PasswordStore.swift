@@ -647,17 +647,8 @@ class PasswordStore {
     
     // return the number of discarded commits 
     func reset() throws -> Int {
-        // get the remote origin/master branch
-        guard let remoteBranches = try storeRepository?.remoteBranches(),
-            let index = remoteBranches.index(where: { $0.shortName == "master" })
-            else {
-                throw NSError(domain: "me.mssun.pass.error", code: 1, userInfo: [NSLocalizedDescriptionKey: "Cannot find remote branch origin/master."])
-        }
-        let remoteMasterBranch = remoteBranches[index]
-        //print("remoteMasterBranch \(remoteMasterBranch)")
-        
         // get a list of local commits
-        if let localCommits = try storeRepository?.localCommitsRelative(toRemoteBranch: remoteMasterBranch),
+        if let localCommits = try getLocalCommits(),
             localCommits.count > 0 {
             // get the oldest local commit
             guard let firstLocalCommit = localCommits.last,
@@ -674,5 +665,32 @@ class PasswordStore {
         } else {
             return 0  // no new commit
         }
+    }
+    
+    func numberOfLocalCommits() -> Int {
+        do {
+            if let localCommits = try getLocalCommits() {
+                return localCommits.count
+            } else {
+                return 0
+            }
+        } catch {
+            print(error)
+        }
+        return 0
+    }
+    
+    private func getLocalCommits() throws -> [GTCommit]? {
+        // get the remote origin/master branch
+        guard let remoteBranches = try storeRepository?.remoteBranches(),
+            let index = remoteBranches.index(where: { $0.shortName == "master" })
+            else {
+                throw NSError(domain: "me.mssun.pass.error", code: 1, userInfo: [NSLocalizedDescriptionKey: "Cannot find remote branch origin/master."])
+        }
+        let remoteMasterBranch = remoteBranches[index]
+        //print("remoteMasterBranch \(remoteMasterBranch)")
+        
+        // get a list of local commits
+        return try storeRepository?.localCommitsRelative(toRemoteBranch: remoteMasterBranch)
     }
 }
