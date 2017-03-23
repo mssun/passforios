@@ -133,7 +133,7 @@ class Utils {
         for (index, element) in plainPassword.unicodeScalars.enumerated() {
             if NSCharacterSet.decimalDigits.contains(element) {
                 attributedPassword.addAttribute(NSForegroundColorAttributeName, value: Globals.red, range: NSRange(location: index, length: 1))
-            } else if NSCharacterSet.punctuationCharacters.contains(element) {
+            } else if !NSCharacterSet.letters.contains(element) {
                 attributedPassword.addAttribute(NSForegroundColorAttributeName, value: Globals.blue, range: NSRange(location: index, length: 1))
             }
         }

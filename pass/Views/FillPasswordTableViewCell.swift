@@ -33,6 +33,11 @@ class FillPasswordTableViewCell: ContentTableViewCell {
         self.delegate?.generateAndCopyPassword()
     }
     
+    // re-color
+    @IBAction func textFieldDidChange(_ sender: UITextField) {
+        contentTextField.attributedText = Utils.attributedPassword(plainPassword: sender.text ?? "")
+    }
+    
     override func getContent() -> String? {
         return contentTextField.attributedText?.string
     }
