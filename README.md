@@ -19,9 +19,10 @@ testing. Thank you.
 - Encrypt and decrypt password entries by PGP keys
 - Synchronize with you password Git repository
 - User-friendly interface: search, long press to copy, copy and open link, etc.
+- Support one-time password (OTP) tokens
 - Written in Swift
 - No need to jailbreak your devices
-- Get from App Store (stay tuned, under review)
+- Get from App Store (stay tuned)
 
 ## Screenshots
 
