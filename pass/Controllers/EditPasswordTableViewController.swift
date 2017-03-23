@@ -40,10 +40,11 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
             var cellContents = [String: String]()
             for cell in cells {
                 let indexPath = tableView.indexPath(for: cell)!
-                let contentCell = cell as! ContentTableViewCell
-                let cellTitle = tableData[indexPath.section][indexPath.row][.title] as! String
-                if let cellContent = contentCell.getContent() {
-                    cellContents[cellTitle] = cellContent
+                if let contentCell = cell as? ContentTableViewCell {
+                    let cellTitle = tableData[indexPath.section][indexPath.row][.title] as! String
+                    if let cellContent = contentCell.getContent() {
+                        cellContents[cellTitle] = cellContent
+                    }
                 }
             }
             var plainText = ""
