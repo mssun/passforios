@@ -16,19 +16,22 @@ enum PasswordEditorCellKey {
 }
 
 class PasswordEditorTableViewController: UITableViewController, FillPasswordTableViewCellDelegate, PasswordSettingSliderTableViewCellDelegate, UIGestureRecognizerDelegate {
-    var navigationItemTitle: String?
-    var password: Password?
+    
     var tableData = [
         [Dictionary<PasswordEditorCellKey, Any>]
-    ]()
-    var sectionHeaderTitles = ["name", "password", "additions",""].map {$0.uppercased()}
-    var sectionFooterTitles = ["", "", "Use \"key: value\" format for additional fields.", ""]
-    let passwordSection = 1
-    var hidePasswordSettings = true
+        ]()
+    var password: Password?
     
-    var fillPasswordCell: FillPasswordTableViewCell?
-    var passwordLengthCell: SliderTableViewCell?
-    var deletePasswordCell: UITableViewCell?
+    private var navigationItemTitle: String?
+    
+    private var sectionHeaderTitles = ["name", "password", "additions",""].map {$0.uppercased()}
+    private var sectionFooterTitles = ["", "", "Use \"key: value\" format for additional fields.", ""]
+    private let passwordSection = 1
+    private var hidePasswordSettings = true
+    
+    private var fillPasswordCell: FillPasswordTableViewCell?
+    private var passwordLengthCell: SliderTableViewCell?
+    private var deletePasswordCell: UITableViewCell?
     
     override func loadView() {
         super.loadView()
@@ -38,6 +41,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         deletePasswordCell!.textLabel?.textColor = Globals.red
         deletePasswordCell?.selectionStyle = .default
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = navigationItemTitle
