@@ -21,7 +21,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
         navigationItemTitle = "About Repository"
         super.viewDidLoad()
 
-        indicator.center = CGPoint(x: view.frame.size.width / 2, y: view.frame.size.height * 0.382)
+        indicator.center = CGPoint(x: view.bounds.midX, y: view.bounds.height * 0.382)
         tableView.addSubview(indicator)
         
         setTableData()
