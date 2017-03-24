@@ -136,6 +136,23 @@ class PasswordStore {
     }
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    var numberOfPasswords : Int {
+        return self.fetchPasswordEntityCoreData(withDir: false).count 
+    }
+    
+    var sizeOfRepositoryByteCount : UInt64 {
+        let fm = FileManager.default
+        var size = UInt64(0)
+        do {
+            if fm.fileExists(atPath: self.storeURL.path) {
+                size = try fm.allocatedSizeOfDirectoryAtURL(directoryURL: self.storeURL)
+            }
+        } catch {
+            print(error)
+        }
+        return size
+    }
 
     
     private init() {
@@ -285,6 +302,8 @@ class PasswordStore {
         }
         storeRepository = try GTRepository(url: storeURL)
         gitCredential = credential
+        self.updatePasswordEntityCoreData()
+        
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
     
@@ -298,12 +317,12 @@ class PasswordStore {
         ]
         let remote = try GTRemote(name: "origin", in: storeRepository!)
         try storeRepository?.pull((storeRepository?.currentBranch())!, from: remote, withOptions: options, progress: transferProgressBlock)
+        self.setAllSynced()
+        self.updatePasswordEntityCoreData()
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
     
-    
-    
-    func updatePasswordEntityCoreData() {
+    private func updatePasswordEntityCoreData() {
         deleteCoreData(entityName: "PasswordEntity")
         let fm = FileManager.default
         do {
@@ -359,6 +378,9 @@ class PasswordStore {
     }
     
     func getRecentCommits(count: Int) -> [GTCommit] {
+        guard storeRepository != nil else {
+            return []
+        }
         var commits = [GTCommit]()
         do {
             let enumerator = try GTEnumerator(repository: storeRepository!)
@@ -482,19 +504,17 @@ class PasswordStore {
         return nil
     }
     
-    func createRemoveCommitInRepository(message: String, filename: String, progressBlock: (_ progress: Float) -> Void) -> GTCommit? {
+    func createRemoveCommitInRepository(message: String, path: String) -> GTCommit? {
         do {
-            try storeRepository?.index().removeFile(filename)
+            try storeRepository?.index().removeFile(path)
             try storeRepository?.index().write()
             let newTree = try storeRepository!.index().writeTree()
             let headReference = try storeRepository!.headReference()
             let commitEnum = try GTEnumerator(repository: storeRepository!)
             try commitEnum.pushSHA(headReference.targetOID.sha!)
             let parent = commitEnum.nextObject() as! GTCommit
-            progressBlock(0.5)
             let signature = gitSignatureForNow
             let commit = try storeRepository!.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)
-            progressBlock(0.7)
             return commit
         } catch {
             print(error)
@@ -563,6 +583,18 @@ class PasswordStore {
         } catch {
             print(error)
         }
+    }
+    
+    public func delete(passwordEntity: PasswordEntity) {
+        Utils.removeFileIfExists(at: storeURL.appendingPathComponent(passwordEntity.path!))
+        let _ = createRemoveCommitInRepository(message: "Remove \(passwordEntity.nameWithCategory) from store using Pass for iOS", path: passwordEntity.path!)
+        context.delete(passwordEntity)
+        do {
+            try context.save()
+        } catch {
+            fatalError("Failed to delete a PasswordEntity: \(error)")
+        }
+        NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
     
     func saveUpdated(passwordEntity: PasswordEntity) {
@@ -634,6 +666,40 @@ class PasswordStore {
     
     // return the number of discarded commits 
     func reset() throws -> Int {
+        // get a list of local commits
+        if let localCommits = try getLocalCommits(),
+            localCommits.count > 0 {
+            // get the oldest local commit
+            guard let firstLocalCommit = localCommits.last,
+                firstLocalCommit.parents.count == 1,
+                let newHead = firstLocalCommit.parents.first else {
+                    throw NSError(domain: "me.mssun.pass.error", code: 1, userInfo: [NSLocalizedDescriptionKey: "Cannot decide how to reset."])
+            }
+            try self.storeRepository?.reset(to: newHead, resetType: GTRepositoryResetType.hard)
+            self.setAllSynced()
+            self.updatePasswordEntityCoreData()
+            NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+            NotificationCenter.default.post(name: .passwordStoreChangeDiscarded, object: nil)
+            return localCommits.count
+        } else {
+            return 0  // no new commit
+        }
+    }
+    
+    func numberOfLocalCommits() -> Int {
+        do {
+            if let localCommits = try getLocalCommits() {
+                return localCommits.count
+            } else {
+                return 0
+            }
+        } catch {
+            print(error)
+        }
+        return 0
+    }
+    
+    private func getLocalCommits() throws -> [GTCommit]? {
         // get the remote origin/master branch
         guard let remoteBranches = try storeRepository?.remoteBranches(),
             let index = remoteBranches.index(where: { $0.shortName == "master" })
@@ -644,22 +710,6 @@ class PasswordStore {
         //print("remoteMasterBranch \(remoteMasterBranch)")
         
         // get a list of local commits
-        if let localCommits = try storeRepository?.localCommitsRelative(toRemoteBranch: remoteMasterBranch),
-            localCommits.count > 0 {
-            // get the oldest local commit
-            guard let firstLocalCommit = localCommits.last,
-                firstLocalCommit.parents.count == 1,
-                let newHead = firstLocalCommit.parents.first else {
-                    throw NSError(domain: "me.mssun.pass.error", code: 1, userInfo: [NSLocalizedDescriptionKey: "Cannot decide how to reset."])
-            }
-            try self.storeRepository?.reset(to: newHead, resetType: GTRepositoryResetType.hard)
-            self.updatePasswordEntityCoreData()
-            NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
-            NotificationCenter.default.post(name: .passwordStoreChangeDiscarded, object: nil)
-            self.setAllSynced()
-            return localCommits.count
-        } else {
-            return 0  // no new commit
-        }
+        return try storeRepository?.localCommitsRelative(toRemoteBranch: remoteMasterBranch)
     }
 }

@@ -8,20 +8,34 @@
 
 import UIKit
 import SVProgressHUD
+import SwiftyUserDefaults
 
 class AdvancedSettingsTableViewController: UITableViewController {
 
+    @IBOutlet weak var encryptInASCIIArmoredTableViewCell: UITableViewCell!
     @IBOutlet weak var eraseDataTableViewCell: UITableViewCell!
     @IBOutlet weak var discardChangesTableViewCell: UITableViewCell!
     let passwordStore = PasswordStore.shared
+    
+    let encryptInASCIIArmoredSwitch: UISwitch = {
+        let uiSwitch = UISwitch()
+        uiSwitch.onTintColor = Globals.blue
+        uiSwitch.sizeToFit()
+        uiSwitch.addTarget(self, action: #selector(encryptInASCIIArmoredAction(_:)), for: UIControlEvents.valueChanged)
+        return uiSwitch
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Advanced"
+        encryptInASCIIArmoredSwitch.isOn = Defaults[.encryptInArmored]
+        encryptInASCIIArmoredTableViewCell.accessoryView = encryptInASCIIArmoredSwitch
+        encryptInASCIIArmoredTableViewCell.selectionStyle = .none
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         if tableView.cellForRow(at: indexPath) == eraseDataTableViewCell {
-            print("erase data")
             let alert = UIAlertController(title: "Erase Password Store Data?", message: "This will delete all local data and settings. Password store data on your remote server will not be affected.", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Erase Password Data", style: UIAlertActionStyle.destructive, handler: {[unowned self] (action) -> Void in
                 SVProgressHUD.show(withStatus: "Erasing ...")
@@ -32,7 +46,6 @@ class AdvancedSettingsTableViewController: UITableViewController {
             }))
             alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.cancel, handler:nil))
             self.present(alert, animated: true, completion: nil)
-            tableView.deselectRow(at: indexPath, animated: true)
         } else if tableView.cellForRow(at: indexPath) == discardChangesTableViewCell {
             let alert = UIAlertController(title: "Discard All Changes?", message: "Do you want to permanently discard all changes to the local copy of your password data? You cannot undo this action.", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Discard All Changes", style: UIAlertActionStyle.destructive, handler: {[unowned self] (action) -> Void in
@@ -52,9 +65,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
                             }
                             SVProgressHUD.dismiss(withDelay: 1)
                         } catch {
-                            DispatchQueue.main.async {
-                                Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
-                            }
+                            Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
                         }
                     }
                 }
@@ -62,8 +73,11 @@ class AdvancedSettingsTableViewController: UITableViewController {
             }))
             alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.cancel, handler:nil))
             self.present(alert, animated: true, completion: nil)
-            tableView.deselectRow(at: indexPath, animated: true)
         }
+    }
+    
+    func encryptInASCIIArmoredAction(_ sender: Any?) {
+        Defaults[.encryptInArmored] = encryptInASCIIArmoredSwitch.isOn
     }
 
 }

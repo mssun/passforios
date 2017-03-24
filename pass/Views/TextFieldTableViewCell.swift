@@ -23,7 +23,7 @@ class TextFieldTableViewCell: ContentTableViewCell {
     override func getContent() -> String? {
         return contentTextField.text
     }
-    override func setContent(content: String) {
+    override func setContent(content: String?) {
         contentTextField.text = content
     }
 }

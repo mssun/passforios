@@ -169,10 +169,12 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     
     func hideUnknownSwitchAction(_ sender: Any?) {
         Defaults[.isHideUnknownOn] = hideUnknownSwitch.isOn
+        NotificationCenter.default.post(name: .passwordDetailDisplaySettingChanged, object: nil)
     }
     
     func hideOTPSwitchAction(_ sender: Any?) {
         Defaults[.isHideOTPOn] = hideOTPSwitch.isOn
+        NotificationCenter.default.post(name: .passwordDetailDisplaySettingChanged, object: nil)
     }
     
     func rememberPassphraseSwitchAction(_ sender: Any?) {
@@ -184,7 +186,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     
     func showFolderSwitchAction(_ sender: Any?) {
         Defaults[.isShowFolderOn] = showFolderSwitch.isOn
-        NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+        NotificationCenter.default.post(name: .passwordDisplaySettingChanged, object: nil)
     }
     
 }

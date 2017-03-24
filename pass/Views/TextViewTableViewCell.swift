@@ -22,7 +22,7 @@ class TextViewTableViewCell: ContentTableViewCell {
         return contentTextView.text
     }
     
-    override func setContent(content: String) {
+    override func setContent(content: String?) {
         contentTextView.text = content
     }
 }

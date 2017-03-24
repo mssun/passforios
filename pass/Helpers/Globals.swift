@@ -28,6 +28,9 @@ class Globals {
     static let passwordMaximumLength = 24
     static let passwordDefaultLength = 16
     
+    static let passwordDots = "••••••••••••"
+    static let passwordFonts = "Menlo"
+    
     private init() { }
 }
 

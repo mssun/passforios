@@ -14,21 +14,24 @@ testing. Thank you.
 
 ## Features
 
-- Try to be compatible with Password Store command line tool
+- Try to be compatible with the Password Store command line tool
 - Support to view, copy, add, edit password entries
 - Encrypt and decrypt password entries by PGP keys
-- Synchronize with you password Git repository
+- Synchronize with your password Git repository
 - User-friendly interface: search, long press to copy, copy and open link, etc.
+- Support one-time password (OTP) tokens
 - Written in Swift
 - No need to jailbreak your devices
-- Get from App Store (stay tuned, under review)
+- Get from App Store (stay tuned)
 
 ## Screenshots
 
+<p>
 <img src="screenshot/preview.gif" width="200"/>
 <img src="screenshot/screenshot1.png" width="200"/>
 <img src="screenshot/screenshot2.png" width="200"/>
 <img src="screenshot/screenshot3.png" width="200"/>
+</p>
 
 ## Build
 

@@ -9,15 +9,13 @@
 import UIKit
 
 class EditPasswordTableViewController: PasswordEditorTableViewController {
-    
-    var password: Password?
-
     override func viewDidLoad() {
         tableData = [
             [[.type: PasswordEditorCellType.textFieldCell, .title: "name", .content: password!.name]],
             [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password", .content: password!.password],
              [.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"]],
             [[.type: PasswordEditorCellType.textViewCell, .title: "additions", .content: password!.getAdditionsPlainText()]],
+            [[.type: PasswordEditorCellType.deletePasswordCell]],
         ]
         super.viewDidLoad()
     }
@@ -43,10 +41,11 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
             var cellContents = [String: String]()
             for cell in cells {
                 let indexPath = tableView.indexPath(for: cell)!
-                let contentCell = cell as! ContentTableViewCell
-                let cellTitle = tableData[indexPath.section][indexPath.row][.title] as! String
-                if let cellContent = contentCell.getContent() {
-                    cellContents[cellTitle] = cellContent
+                if let contentCell = cell as? ContentTableViewCell {
+                    let cellTitle = tableData[indexPath.section][indexPath.row][.title] as! String
+                    if let cellContent = contentCell.getContent() {
+                        cellContents[cellTitle] = cellContent
+                    }
                 }
             }
             var plainText = ""

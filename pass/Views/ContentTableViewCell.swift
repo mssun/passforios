@@ -23,6 +23,6 @@ class ContentTableViewCell: UITableViewCell {
         return nil
     }
     
-    func setContent(content: String) {    }
+    func setContent(content: String?) {    }
 
 }

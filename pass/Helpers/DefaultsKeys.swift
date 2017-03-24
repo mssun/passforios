@@ -10,7 +10,6 @@ import Foundation
 import SwiftyUserDefaults
 
 extension DefaultsKeys {
-//    static let pgpKeyURL = DefaultsKey<URL?>("pgpKeyURL")
     static let pgpKeySource = DefaultsKey<String?>("pgpKeySource")
     static let pgpPublicKeyURL = DefaultsKey<URL?>("pgpPublicKeyURL")
     static let pgpPrivateKeyURL = DefaultsKey<URL?>("pgpPrivateKeyURL")
@@ -35,6 +34,6 @@ extension DefaultsKeys {
     static let isRememberPassphraseOn = DefaultsKey<Bool>("isRememberPassphraseOn")
     static let isShowFolderOn = DefaultsKey<Bool>("isShowFolderOn")
     static let passwordGeneratorFlavor = DefaultsKey<String>("passwordGeneratorFlavor")
-  
-
+    
+    static let encryptInArmored = DefaultsKey<Bool>("encryptInArmored")
 }

@@ -35,7 +35,7 @@ extension PasswordEntity {
         name = password.name
         let plainData = password.getPlainData()
         let pgp = PasswordStore.shared.pgp
-        let encryptedData = try pgp.encryptData(plainData, usingPublicKey: pgp.getKeysOf(.public)[0], armored: false)
+        let encryptedData = try pgp.encryptData(plainData, usingPublicKey: pgp.getKeysOf(.public)[0], armored: Defaults[.encryptInArmored])
         return encryptedData
     }
     

@@ -9,15 +9,21 @@
 
 import UIKit
 
+protocol PasswordSettingSliderTableViewCellDelegate {
+    func generateAndCopyPassword()
+}
+
 class SliderTableViewCell: ContentTableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var slider: UISlider!
     
+    var delegate: UITableViewController?
+    
     var roundedValue: Int {
         get {
-            return Int(slider.value)
+            return Int(valueLabel.text!)!
         }
     }
     
@@ -33,9 +39,17 @@ class SliderTableViewCell: ContentTableViewCell {
     }
     
     @IBAction func handleSliderValueChange(_ sender: UISlider) {
-        let roundedValue = round(sender.value)
-        sender.value = roundedValue
-        valueLabel.text = "\(Int(roundedValue))"
+        let oldRoundedValue = self.roundedValue
+        let newRoundedValue = Int(sender.value)
+        // proceed only when the rounded value gets updated
+        guard newRoundedValue != oldRoundedValue else {
+            return;
+        }
+        sender.value = Float(newRoundedValue)
+        valueLabel.text = "\(newRoundedValue)"
+        if let delegate: PasswordSettingSliderTableViewCellDelegate = self.delegate as? PasswordSettingSliderTableViewCellDelegate {
+            delegate.generateAndCopyPassword()
+        }
     }
     
     func reset(title: String, minimumValue: Int, maximumValue: Int, defaultValue: Int) {

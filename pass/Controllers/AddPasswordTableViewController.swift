@@ -10,8 +10,6 @@ import UIKit
 import SwiftyUserDefaults
 
 class AddPasswordTableViewController: PasswordEditorTableViewController {
-    
-    var password: Password?
     var tempContent: String = ""
     let passwordStore = PasswordStore.shared
 
@@ -28,17 +26,26 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "saveAddPasswordSegue" {
             // check PGP key
-            if passwordStore.privateKey == nil {
+            guard passwordStore.privateKey != nil else {
                 let alertTitle = "Cannot Add Password"
                 let alertMessage = "PGP Key is not set. Please set your PGP Key first."
                 Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
                 return false
             }
+            
             // check name
             let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! TextFieldTableViewCell
-            if nameCell.getContent()!.isEmpty {
+            guard nameCell.getContent()!.isEmpty == false else {
                 let alertTitle = "Cannot Add Password"
                 let alertMessage = "Please fill in the name."
+                Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
+                return false
+            }
+            
+            // check "/"
+            guard nameCell.getContent()!.contains("/") == false else {
+                let alertTitle = "Cannot Add Password"
+                let alertMessage = "Illegal character."
                 Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
                 return false
             }

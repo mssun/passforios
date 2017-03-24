@@ -17,16 +17,35 @@ struct AdditionField {
 }
 
 class Password {
-    static let otpKeywords = ["otp_secret", "otp_type", "otp_algorithm", "otp_period", "otp_digits", "otp_counter"]
+    static let otpKeywords = ["otp_secret", "otp_type", "otp_algorithm", "otp_period", "otp_digits", "otp_counter", "otpauth"]
     
     var name = ""
     var password = ""
     var additions = [String: String]()
     var additionKeys = [String]()
-    var plainText = ""
     var changed = false
-    var firstLineIsOTPField = false
-    var otpToken: Token?
+    
+    private var plainText = ""
+    private var firstLineIsOTPField = false
+    private var otpToken: Token?
+    
+    enum OtpType {
+        case totp, hotp, none
+    }
+    
+    var otpType: OtpType {
+        get {
+            guard let token = self.otpToken else {
+                return OtpType.none
+            }
+            switch token.generator.factor {
+            case .counter:
+                return OtpType.hotp
+            case .timer:
+                return OtpType.totp
+            }
+        }
+    }
     
     init(name: String, plainText: String) {
         self.initEverything(name: name, plainText: plainText)
@@ -39,7 +58,7 @@ class Password {
         }
     }
     
-    func initEverything(name: String, plainText: String) {
+    private func initEverything(name: String, plainText: String) {
         self.name = name
         self.plainText = plainText
         
@@ -57,7 +76,7 @@ class Password {
         
         // check whether the first line of the plainText looks like an otp entry
         let (key, value) = Password.getKeyValuePair(from: plainTextSplit[0])
-        if key != nil && Password.otpKeywords.contains(key!) {
+        if Password.otpKeywords.contains(key ?? "") {
             firstLineIsOTPField = true
             self.additions[key!] = value
             self.additionKeys.insert(key!, at: 0)
@@ -79,7 +98,7 @@ class Password {
     
     // return a key-value pair from the line
     // key might be nil, if there is no ":" in the line
-    static func getKeyValuePair(from line: String) -> (key: String?, value: String) {
+    static private func getKeyValuePair(from line: String) -> (key: String?, value: String) {
         let items = line.characters.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: true).map(String.init)
         var key : String?
         var value = ""
@@ -92,7 +111,7 @@ class Password {
         return (key, value)
     }
     
-    static func getAdditionFields(from additionFieldsPlainText: String) -> ([String: String], [String]){
+    static private func getAdditionFields(from additionFieldsPlainText: String) -> ([String: String], [String]){
         var additions = [String: String]()
         var additionKeys = [String]()
         var unknownIndex = 0
@@ -125,7 +144,7 @@ class Password {
         }
     }
     
-    func getPlainText() -> String {
+    private func getPlainText() -> String {
         return self.plainText
     }
     
@@ -140,21 +159,37 @@ class Password {
     /*
      Set otpType and otpToken, if we are able to construct a valid token.
      
-     Example of TOTP fields
+     Example of TOTP otpauth
+     (Key Uri Format: https://github.com/google/google-authenticator/wiki/Key-Uri-Format)
+     otpauth://totp/totp-secret?secret=AAAAAAAAAAAAAAAA&issuer=totp-secret
+     
+     Example of TOTP fields [Legacy, lower priority]
      otp_secret: secretsecretsecretsecretsecretsecret
      otp_type: totp
      otp_algorithm: sha1 (default: sha1, optional)
      otp_period: 30 (default: 30, optional)
      otp_digits: 6 (default: 6, optional)
      
-     Example of HOTP fields
+     Example of HOTP fields [Legacy, lower priority]
      otp_secret: secretsecretsecretsecretsecretsecret
      otp_type: hotp
      otp_counter: 1
      otp_digits: 6 (default: 6, optional)
      
      */
-    func updateOtpToken() {
+    private func updateOtpToken() {
+        // get otpauth, if we are able to generate a token, return
+        if var otpauthString = getAdditionValue(withKey: "otpauth") {
+            if !otpauthString.hasPrefix("otpauth:") {
+                otpauthString = "otpauth:\(otpauthString)"
+            }
+            if let otpauthUrl = URL(string: otpauthString),
+                let token = Token(url: otpauthUrl) {
+                self.otpToken = token
+                return
+            }
+        }
+        
         // get secret data
         guard let secretString = getAdditionValue(withKey: "otp_secret"),
             let secretData = MF_Base32Codec.data(fromBase32String: secretString),
@@ -175,11 +210,11 @@ class Password {
         if let algoString = getAdditionValue(withKey: "otp_algorithm") {
             switch algoString.lowercased() {
                 case "sha256":
-                    algorithm = Generator.Algorithm.sha256
+                    algorithm = .sha256
                 case "sha512":
-                    algorithm = Generator.Algorithm.sha512
+                    algorithm = .sha512
                 default:
-                    algorithm = Generator.Algorithm.sha1
+                    algorithm = .sha1
             }
         }
     
@@ -258,5 +293,19 @@ class Password {
         }
         let otp = self.otpToken?.currentPassword ?? "error"
         return (description, otp)
+    }
+    
+    // return the password strings
+    func getOtp() -> String? {
+        if let otp = self.otpToken?.currentPassword {
+            return otp
+        } else {
+            return nil
+        }
+    }
+    
+    static func LooksLikeOTP(line: String) -> Bool {
+        let (key, _) = getKeyValuePair(from: line)
+        return Password.otpKeywords.contains(key ?? "")
     }
 }
