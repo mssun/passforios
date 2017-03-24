@@ -435,7 +435,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     private func reloadTableView(parent: PasswordEntity?, anim: CAAnimation? = nil) {
         initPasswordsTableEntries(parent: parent)
-        reloadTableView(data: passwordsTableEntries)
+        reloadTableView(data: passwordsTableEntries, anim: anim)
     }
     
     func reloadTableView() {
