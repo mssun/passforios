@@ -17,7 +17,7 @@ struct AdditionField {
 }
 
 class Password {
-    static let otpKeywords = ["otp_secret", "otp_type", "otp_algorithm", "otp_period", "otp_digits", "otp_counter"]
+    static let otpKeywords = ["otp_secret", "otp_type", "otp_algorithm", "otp_period", "otp_digits", "otp_counter", "otpauth"]
     
     var name = ""
     var password = ""
@@ -158,14 +158,18 @@ class Password {
     /*
      Set otpType and otpToken, if we are able to construct a valid token.
      
-     Example of TOTP fields
+     Example of TOTP otpauth
+     (Key Uri Format: https://github.com/google/google-authenticator/wiki/Key-Uri-Format)
+     otpauth://totp/totp-secret?secret=AAAAAAAAAAAAAAAA&issuer=totp-secret
+     
+     Example of TOTP fields [Legacy, lower priority]
      otp_secret: secretsecretsecretsecretsecretsecret
      otp_type: totp
      otp_algorithm: sha1 (default: sha1, optional)
      otp_period: 30 (default: 30, optional)
      otp_digits: 6 (default: 6, optional)
      
-     Example of HOTP fields
+     Example of HOTP fields [Legacy, lower priority]
      otp_secret: secretsecretsecretsecretsecretsecret
      otp_type: hotp
      otp_counter: 1
@@ -173,6 +177,18 @@ class Password {
      
      */
     func updateOtpToken() {
+        // get otpauth, if we are able to generate a token, return
+        if var otpauthString = getAdditionValue(withKey: "otpauth") {
+            if !otpauthString.hasPrefix("otpauth:") {
+                otpauthString = "otpauth:\(otpauthString)"
+            }
+            if let otpauthUrl = URL(string: otpauthString),
+                let token = Token(url: otpauthUrl) {
+                self.otpToken = token
+                return
+            }
+        }
+        
         // get secret data
         guard let secretString = getAdditionValue(withKey: "otp_secret"),
             let secretData = MF_Base32Codec.data(fromBase32String: secretString),
@@ -193,11 +209,11 @@ class Password {
         if let algoString = getAdditionValue(withKey: "otp_algorithm") {
             switch algoString.lowercased() {
                 case "sha256":
-                    algorithm = Generator.Algorithm.sha256
+                    algorithm = .sha256
                 case "sha512":
-                    algorithm = Generator.Algorithm.sha512
+                    algorithm = .sha512
                 default:
-                    algorithm = Generator.Algorithm.sha1
+                    algorithm = .sha1
             }
         }
     
