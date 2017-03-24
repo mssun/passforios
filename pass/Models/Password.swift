@@ -76,7 +76,7 @@ class Password {
         
         // check whether the first line of the plainText looks like an otp entry
         let (key, value) = Password.getKeyValuePair(from: plainTextSplit[0])
-        if key != nil && Password.otpKeywords.contains(key!) {
+        if Password.otpKeywords.contains(key ?? "") {
             firstLineIsOTPField = true
             self.additions[key!] = value
             self.additionKeys.insert(key!, at: 0)
@@ -304,5 +304,8 @@ class Password {
         }
     }
     
-    
+    static func LooksLikeOTP(line: String) -> Bool {
+        let (key, _) = getKeyValuePair(from: line)
+        return Password.otpKeywords.contains(key ?? "")
+    }
 }

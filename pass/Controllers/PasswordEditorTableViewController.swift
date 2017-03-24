@@ -126,7 +126,23 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     }
     
     // generate password, copy to pasteboard, and set the cell
+    // check whether the current password looks like an OTP field
     func generateAndCopyPassword() {
+        if let currentPassword = fillPasswordCell?.getContent(),
+            Password.LooksLikeOTP(line: currentPassword) {
+            let alert = UIAlertController(title: "Overwrite?", message: "Overwrite the one-time password configuration?", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.destructive, handler: {_ in
+                self.generateAndCopyPasswordNoOtpCheck()
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            self.generateAndCopyPasswordNoOtpCheck()
+        }
+    }
+    
+    // generate the password, don't care whether the original line is otp
+    func generateAndCopyPasswordNoOtpCheck() {
         // show password settings (e.g., the length slider)
         if hidePasswordSettings == true {
             hidePasswordSettings = false
