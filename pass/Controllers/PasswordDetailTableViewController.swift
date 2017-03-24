@@ -163,14 +163,14 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             [weak self] timer in
             // bail out of the timer code if the object has been freed
             guard let strongSelf = self,
-                let token = strongSelf.password?.otpToken,
+                let otpType = strongSelf.password?.otpType,
+                otpType != .none,
                 let indexPath = strongSelf.oneTimePasswordIndexPath,
                 let cell = strongSelf.tableView.cellForRow(at: indexPath) as? LabelTableViewCell else {
                     return
             }
-            switch token.generator.factor {
-            case .timer:
-                // totp
+            switch otpType {
+            case .totp:
                 if let (title, otp) = strongSelf.password?.getOtpStrings() {
                     strongSelf.tableData[indexPath.section].item[indexPath.row].title = title
                     strongSelf.tableData[indexPath.section].item[indexPath.row].content = otp
@@ -235,26 +235,12 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         self.tableData[tableDataIndex].item.append(TableCell(title: "password", content: password.password))
         
         // show one time password
-        if let token = password.otpToken {
-            switch token.generator.factor {
-            case .counter(_):
-                // counter-based one time password
+        if password.otpType != .none {
+            if let (title, otp) = self.password?.getOtpStrings() {
                 self.tableData.append(TableSection(title: "One time password", item: []))
                 tableDataIndex += 1
                 oneTimePasswordIndexPath = IndexPath(row: 0, section: tableDataIndex)
-                if let crtPassword = password.otpToken?.currentPassword {
-                    self.tableData[tableDataIndex].item.append(TableCell(title: "HMAC-based", content: crtPassword))
-                }
-            case .timer(let period):
-                // time-based one time password
-                self.tableData.append(TableSection(title: "One time password", item: []))
-                tableDataIndex += 1
-                oneTimePasswordIndexPath = IndexPath(row: 0, section: tableDataIndex)
-                if let crtPassword = password.otpToken?.currentPassword {
-                    let timeSinceEpoch = Date().timeIntervalSince1970
-                    let validTime = Int(period - timeSinceEpoch.truncatingRemainder(dividingBy: period))
-                    self.tableData[tableDataIndex].item.append(TableCell(title: "time-based (expiring in \(validTime)s)", content: crtPassword))
-                }
+                self.tableData[tableDataIndex].item.append(TableCell(title: title, content: otp))
             }
         }
         
@@ -354,7 +340,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         password!.increaseHotpCounter()
         
         // copy HOTP to pasteboard
-        if let plainPassword = password!.otpToken?.currentPassword {
+        if let plainPassword = password!.getOtp() {
             Utils.copyToPasteboard(textToCopy: plainPassword)
         }
         

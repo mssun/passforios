@@ -23,10 +23,11 @@ class Password {
     var password = ""
     var additions = [String: String]()
     var additionKeys = [String]()
-    var plainText = ""
     var changed = false
-    var firstLineIsOTPField = false
-    var otpToken: Token?
+    
+    private var plainText = ""
+    private var firstLineIsOTPField = false
+    private var otpToken: Token?
     
     enum OtpType {
         case totp, hotp, none
@@ -57,7 +58,7 @@ class Password {
         }
     }
     
-    func initEverything(name: String, plainText: String) {
+    private func initEverything(name: String, plainText: String) {
         self.name = name
         self.plainText = plainText
         
@@ -97,7 +98,7 @@ class Password {
     
     // return a key-value pair from the line
     // key might be nil, if there is no ":" in the line
-    static func getKeyValuePair(from line: String) -> (key: String?, value: String) {
+    static private func getKeyValuePair(from line: String) -> (key: String?, value: String) {
         let items = line.characters.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: true).map(String.init)
         var key : String?
         var value = ""
@@ -110,7 +111,7 @@ class Password {
         return (key, value)
     }
     
-    static func getAdditionFields(from additionFieldsPlainText: String) -> ([String: String], [String]){
+    static private func getAdditionFields(from additionFieldsPlainText: String) -> ([String: String], [String]){
         var additions = [String: String]()
         var additionKeys = [String]()
         var unknownIndex = 0
@@ -143,7 +144,7 @@ class Password {
         }
     }
     
-    func getPlainText() -> String {
+    private func getPlainText() -> String {
         return self.plainText
     }
     
@@ -176,7 +177,7 @@ class Password {
      otp_digits: 6 (default: 6, optional)
      
      */
-    func updateOtpToken() {
+    private func updateOtpToken() {
         // get otpauth, if we are able to generate a token, return
         if var otpauthString = getAdditionValue(withKey: "otpauth") {
             if !otpauthString.hasPrefix("otpauth:") {
@@ -293,4 +294,15 @@ class Password {
         let otp = self.otpToken?.currentPassword ?? "error"
         return (description, otp)
     }
+    
+    // return the password strings
+    func getOtp() -> String? {
+        if let otp = self.otpToken?.currentPassword {
+            return otp
+        } else {
+            return nil
+        }
+    }
+    
+    
 }
