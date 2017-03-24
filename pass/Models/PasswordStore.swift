@@ -136,6 +136,23 @@ class PasswordStore {
     }
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    var numberOfPasswords : Int {
+        return self.fetchPasswordEntityCoreData(withDir: false).count 
+    }
+    
+    var sizeOfRepositoryByteCount : UInt64 {
+        let fm = FileManager.default
+        var size = UInt64(0)
+        do {
+            if fm.fileExists(atPath: self.storeURL.path) {
+                size = try fm.allocatedSizeOfDirectoryAtURL(directoryURL: self.storeURL)
+            }
+        } catch {
+            print(error)
+        }
+        return size
+    }
 
     
     private init() {

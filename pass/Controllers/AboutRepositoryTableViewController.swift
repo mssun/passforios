@@ -10,12 +10,12 @@ import UIKit
 
 class AboutRepositoryTableViewController: BasicStaticTableViewController {
     
-    var needRefresh = false
-    var indicator: UIActivityIndicatorView = {
+    private var needRefresh = false
+    private var indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         return indicator
     }()
-    let passwordStore = PasswordStore.shared
+    private let passwordStore = PasswordStore.shared
 
     override func viewDidLoad() {
         navigationItemTitle = "About Repository"
@@ -49,31 +49,19 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
         DispatchQueue.global(qos: .userInitiated).async {
             let numberFormatter = NumberFormatter()
             numberFormatter.numberStyle = NumberFormatter.Style.decimal
-            let fm = FileManager.default
             
-            let passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
-            let numberOfPasswords = numberFormatter.string(from: NSNumber(value: passwordEntities.count))!
-            
-            var size = UInt64(0)
-            do {
-                if fm.fileExists(atPath: self.passwordStore.storeURL.path) {
-                    size = try fm.allocatedSizeOfDirectoryAtURL(directoryURL: self.passwordStore.storeURL)
-                }
-            } catch {
-                print(error)
-            }
-            let sizeOfRepository = ByteCountFormatter.string(fromByteCount: Int64(size), countStyle: ByteCountFormatter.CountStyle.file)
+            let numberOfPasswordsString = numberFormatter.string(from: NSNumber(value: self.passwordStore.numberOfPasswords))!
+            let sizeOfRepositoryString = ByteCountFormatter.string(fromByteCount: Int64(self.passwordStore.sizeOfRepositoryByteCount), countStyle: ByteCountFormatter.CountStyle.file)
             
             let numberOfCommits = self.passwordStore.storeRepository?.numberOfCommits(inCurrentBranch: NSErrorPointer(nilLiteral: ())) ?? 0
             let numberOfCommitsString = numberFormatter.string(from: NSNumber(value: numberOfCommits))!
-            
             
             DispatchQueue.main.async { [weak self] in
                 let type = UITableViewCellAccessoryType.none
                 self?.tableData = [
                     // section 0
-                    [[.style: CellDataStyle.value1, .accessoryType: type, .title: "Passwords", .detailText: numberOfPasswords],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Size", .detailText: sizeOfRepository],
+                    [[.style: CellDataStyle.value1, .accessoryType: type, .title: "Passwords", .detailText: numberOfPasswordsString],
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Size", .detailText: sizeOfRepositoryString],
                      [.style: CellDataStyle.value1, .accessoryType: type, .title: "Local Commits", .detailText: String(self?.passwordStore.numberOfLocalCommits() ?? 0)],
                      [.style: CellDataStyle.value1, .accessoryType: type, .title: "Last Synced", .detailText: Utils.getLastUpdatedTimeString()],
                      [.style: CellDataStyle.value1, .accessoryType: type, .title: "Commits", .detailText: numberOfCommitsString],
