@@ -54,6 +54,26 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         let backUIBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.backAction(_:)))
         return backUIBarButtonItem
     }()
+    
+    lazy var transitionFromRight: CATransition = {
+        let transition = CATransition()
+        transition.type = kCATransitionPush
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.fillMode = kCAFillModeForwards
+        transition.duration = 0.25
+        transition.subtype = kCATransitionFromRight
+        return transition
+    }()
+    
+    lazy var transitionFromLeft: CATransition = {
+        let transition = CATransition()
+        transition.type = kCATransitionPush
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.fillMode = kCAFillModeForwards
+        transition.duration = 0.25
+        transition.subtype = kCATransitionFromLeft
+        return transition
+    }()
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -244,14 +264,14 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             tableView.deselectRow(at: indexPath, animated: true)
             searchController.isActive = false
             initPasswordsTableEntries(parent: entry.passwordEntity)
-            reloadTableView(data: passwordsTableEntries)
+            reloadTableView(data: passwordsTableEntries, anim: transitionFromRight)
         }
     }
     
     func backAction(_ sender: Any?) {
         guard Defaults[.isShowFolderOn] else { return }
         initPasswordsTableEntries(parent: parentPasswordEntity?.parent)
-        reloadTableView(data: passwordsTableEntries)
+        reloadTableView(data: passwordsTableEntries, anim: transitionFromLeft)
     }
     
     func longPressAction(_ gesture: UILongPressGestureRecognizer) {
@@ -416,16 +436,21 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         refreshControl.attributedTitle = NSAttributedString(string: atribbutedTitle)
     }
     
-    func reloadTableView(data: [PasswordsTableEntry]) {
-        setNavigationItemTitle()
+    func reloadTableView(data: [PasswordsTableEntry], anim: CAAnimation? = nil) {
+
         if parentPasswordEntity != nil {
             navigationItem.leftBarButtonItem = backUIBarButtonItem
         } else {
             navigationItem.leftBarButtonItem = nil
         }
         generateSections(item: data)
+        if anim != nil {
+            self.tableView.layer.add(anim!, forKey: "UITableViewReloadDataAnimationKey")
+        }
         tableView.reloadData()
+        self.tableView.layer.removeAnimation(forKey: "UITableViewReloadDataAnimationKey")
         updateRefreshControlTitle()
+        setNavigationItemTitle()
     }
     
     func handleRefresh(_ refreshControl: UIRefreshControl) {
