@@ -8,15 +8,29 @@
 
 import UIKit
 import SVProgressHUD
+import SwiftyUserDefaults
 
 class AdvancedSettingsTableViewController: UITableViewController {
 
+    @IBOutlet weak var encryptInASCIIArmoredTableViewCell: UITableViewCell!
     @IBOutlet weak var eraseDataTableViewCell: UITableViewCell!
     @IBOutlet weak var discardChangesTableViewCell: UITableViewCell!
     let passwordStore = PasswordStore.shared
+    
+    let encryptInASCIIArmoredSwitch: UISwitch = {
+        let uiSwitch = UISwitch()
+        uiSwitch.onTintColor = Globals.blue
+        uiSwitch.sizeToFit()
+        uiSwitch.addTarget(self, action: #selector(encryptInASCIIArmoredAction(_:)), for: UIControlEvents.valueChanged)
+        return uiSwitch
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Advanced"
+        encryptInASCIIArmoredSwitch.isOn = Defaults[.encryptInArmored]
+        encryptInASCIIArmoredTableViewCell.accessoryView = encryptInASCIIArmoredSwitch
+        encryptInASCIIArmoredTableViewCell.selectionStyle = .none
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -60,6 +74,10 @@ class AdvancedSettingsTableViewController: UITableViewController {
             alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.cancel, handler:nil))
             self.present(alert, animated: true, completion: nil)
         }
+    }
+    
+    func encryptInASCIIArmoredAction(_ sender: Any?) {
+        Defaults[.encryptInArmored] = encryptInASCIIArmoredSwitch.isOn
     }
 
 }
