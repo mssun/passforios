@@ -285,6 +285,8 @@ class PasswordStore {
         }
         storeRepository = try GTRepository(url: storeURL)
         gitCredential = credential
+        self.updatePasswordEntityCoreData()
+        
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
     
@@ -298,12 +300,12 @@ class PasswordStore {
         ]
         let remote = try GTRemote(name: "origin", in: storeRepository!)
         try storeRepository?.pull((storeRepository?.currentBranch())!, from: remote, withOptions: options, progress: transferProgressBlock)
+        self.setAllSynced()
+        self.updatePasswordEntityCoreData()
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
     
-    
-    
-    func updatePasswordEntityCoreData() {
+    private func updatePasswordEntityCoreData() {
         deleteCoreData(entityName: "PasswordEntity")
         let fm = FileManager.default
         do {
@@ -657,10 +659,10 @@ class PasswordStore {
                     throw NSError(domain: "me.mssun.pass.error", code: 1, userInfo: [NSLocalizedDescriptionKey: "Cannot decide how to reset."])
             }
             try self.storeRepository?.reset(to: newHead, resetType: GTRepositoryResetType.hard)
+            self.setAllSynced()
             self.updatePasswordEntityCoreData()
             NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
             NotificationCenter.default.post(name: .passwordStoreChangeDiscarded, object: nil)
-            self.setAllSynced()
             return localCommits.count
         } else {
             return 0  // no new commit
