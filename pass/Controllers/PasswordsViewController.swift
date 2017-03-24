@@ -161,7 +161,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     private func addNotificationObservers() {
+        // reset the data table if some password (maybe another one) has been updated
         NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnPasswordStoreUpdatedNotification), name: .passwordStoreUpdated, object: nil)
+        
+        // reset the data table if the disaply settings have been changed
+        NotificationCenter.default.addObserver(self, selector: #selector(actOnPasswordStoreUpdatedNotification), name: .passwordDisplaySettingChanged, object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(PasswordsViewController.actOnSearchNotification), name: .passwordSearch, object: nil)
     }
     
