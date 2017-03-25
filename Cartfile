@@ -1,6 +1,6 @@
 github "SVProgressHUD/SVProgressHUD"
 github "radex/SwiftyUserDefaults"
-github "libgit2/objective-git" "master"
+github "libgit2/objective-git"
 github "zahlz/SwiftPasscodeLock" "master"
 github "bitserf/FavIcon"
 github "kishikawakatsumi/KeychainAccess" "master"

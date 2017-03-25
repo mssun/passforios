@@ -24,6 +24,7 @@
 		DC037CBF1E4ED4E100609409 /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CBD1E4ED4E100609409 /* TextViewTableViewCell.swift */; };
 		DC037CC01E4ED4E100609409 /* TextViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC037CBE1E4ED4E100609409 /* TextViewTableViewCell.xib */; };
 		DC1208581E35EBE60042942E /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1208571E35EBE60042942E /* ObjectiveGit.framework */; };
+		DC13B1511E8640810097803F /* passTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13B1501E8640810097803F /* passTests.swift */; };
 		DC193FFA1E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC193FF91E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift */; };
 		DC193FFC1E49E0340077E0A3 /* PasscodeLock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC193FFB1E49E0340077E0A3 /* PasscodeLock.framework */; };
 		DC193FFE1E49E0760077E0A3 /* PasscodeLockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC193FFD1E49E0760077E0A3 /* PasscodeLockRepository.swift */; };
@@ -67,6 +68,16 @@
 		DCFB77AB1E503729008DE471 /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77AA1E503729008DE471 /* ContentTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		DC13B1531E8640810097803F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DC917BCB1E2E8231000FDF54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DC917BD21E2E8231000FDF54;
+			remoteInfo = pass;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		274CCFCF32444A2FF46BE7F4 /* Pods-pass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.debug.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.debug.xcconfig"; sourceTree = "<group>"; };
 		A262A58C1E68749C006B0890 /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Base32.framework; path = Carthage/Build/iOS/Base32.framework; sourceTree = "<group>"; };
@@ -87,6 +98,9 @@
 		DC037CBD1E4ED4E100609409 /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCell.swift; sourceTree = "<group>"; };
 		DC037CBE1E4ED4E100609409 /* TextViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextViewTableViewCell.xib; sourceTree = "<group>"; };
 		DC1208571E35EBE60042942E /* ObjectiveGit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectiveGit.framework; path = Carthage/Build/iOS/ObjectiveGit.framework; sourceTree = "<group>"; };
+		DC13B14E1E8640810097803F /* passTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = passTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC13B1501E8640810097803F /* passTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = passTests.swift; sourceTree = "<group>"; };
+		DC13B1521E8640810097803F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC193FF91E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsTableViewController.swift; sourceTree = "<group>"; };
 		DC193FFB1E49E0340077E0A3 /* PasscodeLock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PasscodeLock.framework; path = Carthage/Build/iOS/PasscodeLock.framework; sourceTree = "<group>"; };
 		DC193FFD1E49E0760077E0A3 /* PasscodeLockRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLockRepository.swift; sourceTree = "<group>"; };
@@ -134,6 +148,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		DC13B14B1E8640810097803F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DC917BD01E2E8231000FDF54 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -160,6 +181,15 @@
 				AEAD6B31EAF5D061447A68CC /* Pods-pass.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		DC13B14F1E8640810097803F /* passTests */ = {
+			isa = PBXGroup;
+			children = (
+				DC13B1501E8640810097803F /* passTests.swift */,
+				DC13B1521E8640810097803F /* Info.plist */,
+			);
+			path = passTests;
 			sourceTree = "<group>";
 		};
 		DC19400C1E4B39400077E0A3 /* Controllers */ = {
@@ -239,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				DC917BD51E2E8231000FDF54 /* pass */,
+				DC13B14F1E8640810097803F /* passTests */,
 				DC917BD41E2E8231000FDF54 /* Products */,
 				DC917BED1E2F38C4000FDF54 /* Frameworks */,
 				A51B01737D08DB47BB58F85A /* Pods */,
@@ -249,6 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				DC917BD31E2E8231000FDF54 /* pass.app */,
+				DC13B14E1E8640810097803F /* passTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -289,6 +321,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		DC13B14D1E8640810097803F /* passTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DC13B1571E8640810097803F /* Build configuration list for PBXNativeTarget "passTests" */;
+			buildPhases = (
+				DC13B14A1E8640810097803F /* Sources */,
+				DC13B14B1E8640810097803F /* Frameworks */,
+				DC13B14C1E8640810097803F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DC13B1541E8640810097803F /* PBXTargetDependency */,
+			);
+			name = passTests;
+			productName = passTests;
+			productReference = DC13B14E1E8640810097803F /* passTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		DC917BD21E2E8231000FDF54 /* pass */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DC917BE51E2E8231000FDF54 /* Build configuration list for PBXNativeTarget "pass" */;
@@ -316,10 +366,16 @@
 		DC917BCB1E2E8231000FDF54 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Bob Sun";
 				TargetAttributes = {
+					DC13B14D1E8640810097803F = {
+						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = 4WDM8E95VU;
+						ProvisioningStyle = Automatic;
+						TestTargetID = DC917BD21E2E8231000FDF54;
+					};
 					DC917BD21E2E8231000FDF54 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 4WDM8E95VU;
@@ -341,11 +397,19 @@
 			projectRoot = "";
 			targets = (
 				DC917BD21E2E8231000FDF54 /* pass */,
+				DC13B14D1E8640810097803F /* passTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		DC13B14C1E8640810097803F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DC917BD11E2E8231000FDF54 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -437,6 +501,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		DC13B14A1E8640810097803F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC13B1511E8640810097803F /* passTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DC917BCF1E2E8231000FDF54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -484,6 +556,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		DC13B1541E8640810097803F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DC917BD21E2E8231000FDF54 /* pass */;
+			targetProxy = DC13B1531E8640810097803F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		DC917BDA1E2E8231000FDF54 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -504,6 +584,38 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		DC13B1551E8640810097803F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEVELOPMENT_TEAM = 4WDM8E95VU;
+				INFOPLIST_FILE = passTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pass.app/pass";
+			};
+			name = Debug;
+		};
+		DC13B1561E8640810097803F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEVELOPMENT_TEAM = 4WDM8E95VU;
+				INFOPLIST_FILE = passTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pass.app/pass";
+			};
+			name = Release;
+		};
 		DC917BE31E2E8231000FDF54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -662,6 +774,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		DC13B1571E8640810097803F /* Build configuration list for PBXNativeTarget "passTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC13B1551E8640810097803F /* Debug */,
+				DC13B1561E8640810097803F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		DC917BCE1E2E8231000FDF54 /* Build configuration list for PBXProject "pass" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
