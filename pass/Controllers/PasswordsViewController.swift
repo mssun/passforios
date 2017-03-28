@@ -86,7 +86,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(parent: parent)
         } else {
             passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
-            
         }
         passwordsTableEntries = passwordEntities.map {
             PasswordsTableEntry(title: $0.name!, isDir: $0.isDir, passwordEntity: $0)
@@ -109,8 +108,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                             SVProgressHUD.showProgress(progress, status: "Encrypting")
                         }
                     })
-                    
                     DispatchQueue.main.async {
+                        // will trigger reloadTableView() by a notification
                         SVProgressHUD.showSuccess(withStatus: "Done")
                         SVProgressHUD.dismiss(withDelay: 1)
                     }
@@ -174,9 +173,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         reloadTableView(parent: nil)
         
         // reset the data table if some password (maybe another one) has been updated
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView as (Void) -> Void), name: .passwordStoreUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(actOnReloadTableViewRelatedNotification), name: .passwordStoreUpdated, object: nil)
         // reset the data table if the disaply settings have been changed
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView as (Void) -> Void), name: .passwordDisplaySettingChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(actOnReloadTableViewRelatedNotification), name: .passwordDisplaySettingChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(actOnSearchNotification), name: .passwordSearch, object: nil)
     }
     
@@ -438,9 +437,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         reloadTableView(data: passwordsTableEntries, anim: anim)
     }
     
-    func reloadTableView() {
+    func actOnReloadTableViewRelatedNotification() {
         initPasswordsTableEntries(parent: nil)
-        reloadTableView(data: passwordsTableEntries)
+        DispatchQueue.main.async { [weak weakSelf = self] in
+            guard let strongSelf = weakSelf else { return }
+            strongSelf.reloadTableView(data: strongSelf.passwordsTableEntries)
+        }
     }
     
     func handleRefresh(_ syncControl: UIRefreshControl) {
