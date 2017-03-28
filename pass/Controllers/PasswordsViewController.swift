@@ -143,7 +143,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 }
                 DispatchQueue.main.async {
                     self.reloadTableView(parent: nil)
-                    Defaults[.lastUpdatedTime] = Date()
                     Defaults[.gitRepositoryPasswordAttempts] = 0
                     SVProgressHUD.showSuccess(withStatus: "Done")
                     SVProgressHUD.dismiss(withDelay: 1)
@@ -428,7 +427,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         self.tableView.layer.removeAnimation(forKey: "UITableViewReloadDataAnimationKey")
         
         // set the sync control title
-        let atribbutedTitle = "Last Synced: \(Utils.getLastUpdatedTimeString())"
+        let atribbutedTitle = "Last Synced: \(Utils.getLastSyncedTimeString())"
         syncControl.attributedTitle = NSAttributedString(string: atribbutedTitle)
     }
     

@@ -140,7 +140,6 @@ class SettingsTableViewController: UITableViewController {
                                                                     }
                         })
                         DispatchQueue.main.async {
-                            Defaults[.lastUpdatedTime] = Date()
                             Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
                             Defaults[.gitRepositoryUsername] = username
                             Defaults[.gitRepositoryAuthenticationMethod] = auth

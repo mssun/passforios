@@ -27,15 +27,14 @@ class Utils {
         removeFileIfExists(atPath: url.path)
     }
     
-    static func getLastUpdatedTimeString() -> String {
-        var lastUpdatedTimeString = ""
-        if let lastUpdatedTime = Defaults[.lastUpdatedTime] {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .medium
-            formatter.timeStyle = .short
-            lastUpdatedTimeString = formatter.string(from: lastUpdatedTime)
+    static func getLastSyncedTimeString() -> String {
+        guard let lastSyncedTime = Defaults[.lastSyncedTime] else {
+            return "Oops! Sync again?"
         }
-        return lastUpdatedTimeString
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter.string(from: lastSyncedTime)
     }
     
     static func generatePassword(length: Int) -> String{

@@ -24,7 +24,7 @@ extension DefaultsKeys {
     static let gitRepositorySSHPublicKeyURL = DefaultsKey<URL?>("gitRepositorySSHPublicKeyURL")
     static let gitRepositorySSHPrivateKeyURL = DefaultsKey<URL?>("gitRepositorySSHPrivateKeyURL")
 
-    static let lastUpdatedTime = DefaultsKey<Date?>("lasteUpdatedTime")
+    static let lastSyncedTime = DefaultsKey<Date?>("lastSyncedTime")
     
     static let isTouchIDOn = DefaultsKey<Bool>("isTouchIDOn")
     static let passcodeKey = DefaultsKey<String?>("passcodeKey")

@@ -303,6 +303,7 @@ class PasswordStore {
         storeRepository = try GTRepository(url: storeURL)
         gitCredential = credential
         self.updatePasswordEntityCoreData()
+        Defaults[.lastSyncedTime] = Date()
         
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
@@ -319,6 +320,8 @@ class PasswordStore {
         try storeRepository?.pull((storeRepository?.currentBranch())!, from: remote, withOptions: options, progress: transferProgressBlock)
         self.setAllSynced()
         self.updatePasswordEntityCoreData()
+        Defaults[.lastSyncedTime] = Date()
+        
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
     
@@ -678,6 +681,8 @@ class PasswordStore {
             try self.storeRepository?.reset(to: newHead, resetType: GTRepositoryResetType.hard)
             self.setAllSynced()
             self.updatePasswordEntityCoreData()
+            Defaults[.lastSyncedTime] = nil
+            
             NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
             NotificationCenter.default.post(name: .passwordStoreChangeDiscarded, object: nil)
             return localCommits.count
