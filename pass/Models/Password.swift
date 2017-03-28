@@ -178,6 +178,8 @@ class Password {
      
      */
     private func updateOtpToken() {
+        self.otpToken = nil
+        
         // get otpauth, if we are able to generate a token, return
         if var otpauthString = getAdditionValue(withKey: "otpauth") {
             if !otpauthString.hasPrefix("otpauth:") {
