@@ -31,11 +31,15 @@ platform :ios do
   lane :beta do
     # match(type: "appstore") # more information: https://codesigning.guide
     ensure_git_status_clean
-    increment_build_number(xcodeproj: "pass.xcodeproj")
+    increment_build_number(
+      build_number: latest_testflight_build_number + 1,
+      xcodeproj: "pass.xcodeproj"
+    )
     commit_version_bump(xcodeproj: "pass.xcodeproj")
     push_to_git_remote
     gym(scheme: "pass") # Build your app - more options available
-    pilot(skip_waiting_for_build_processing: true)
+    testflight
+    # pilot(skip_waiting_for_build_processing: true)
 
     # sh "your_script.sh"
     # You can also use other beta testing services here (run `fastlane actions`)
