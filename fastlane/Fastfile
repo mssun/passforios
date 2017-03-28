@@ -21,28 +21,58 @@ platform :ios do
     carthage(platform: "iOS")
   end
 
+  desc "Travis"
+  lane :travis do
+    test
+    beta
+  end
+
   desc "Runs all the tests"
   lane :test do
-    scan(scheme: "pass")
+    scan(
+      scheme: "pass",
+      device: "iPhone 7"
+    )
   end
 
   desc "Submit a new Beta Build to Apple TestFlight"
   desc "This will also make sure the profile is up to date"
   lane :beta do
-    # match(type: "appstore") # more information: https://codesigning.guide
-    ensure_git_status_clean
+    create_keychain(
+      name: ENV["MATCH_KEYCHAIN_NAME"],
+      password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+      default_keychain: true,
+      unlock: true,
+      timeout: 3600,
+      add_to_search_list: true
+    )
+    match(
+      type: "appstore",
+      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
+      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+      readonly: true
+    )
+    # ensure_git_status_clean
     increment_build_number(
       build_number: latest_testflight_build_number + 1,
       xcodeproj: "pass.xcodeproj"
     )
-    commit_version_bump(xcodeproj: "pass.xcodeproj")
-    push_to_git_remote
-    gym(scheme: "pass") # Build your app - more options available
-    testflight
-    # pilot(skip_waiting_for_build_processing: true)
-
-    # sh "your_script.sh"
-    # You can also use other beta testing services here (run `fastlane actions`)
+    # commit_version_bump(xcodeproj: "pass.xcodeproj")
+    # push_to_git_remote
+    gym(scheme: "pass")
+    pilot(skip_waiting_for_build_processing: true)
+    mailgun(
+      postmaster: ENV["MY_POSTMASTER"],
+      apikey: ENV["MY_API_KEY"],
+      to: ENV["DESTINATION_EMAIL"],
+      from: ENV["EMAIL_FROM_NAME"],
+      reply_to: ENV["EMAIL_REPLY_TO"],
+      subject: "A new build of Pass for iOS has been uploaded",
+      success: true,
+      app_link: "https://github.com/mssun/passforios",
+      ci_build_link: "https://travis-ci.org/mssun/passforios",
+      message: "A new build has been uploaded by Travis CI.",
+    )
   end
 
   desc "Deploy a new version to the App Store"
@@ -57,18 +87,9 @@ platform :ios do
   # You can define as many lanes as you want
 
   after_all do |lane|
-    # This block is called, only if the executed lane was successful
-
-    # slack(
-    #   message: "Successfully deployed new App Update."
-    # )
   end
 
   error do |lane, exception|
-    # slack(
-    #   message: exception.message,
-    #   success: false
-    # )
   end
 end
 

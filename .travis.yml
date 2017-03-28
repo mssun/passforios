@@ -1,4 +1,9 @@
 language: objective-c
 osx_image: xcode8.2
+branches:
+  only:
+    - develop
+before_install:
+    - echo -e "machine github.com\n  login $GITHUB_ACCESS_TOKEN" >> ~/.netrc
 script:
     - ./fastlane/travis.sh

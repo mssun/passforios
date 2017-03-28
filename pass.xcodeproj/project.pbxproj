@@ -379,7 +379,7 @@
 					DC917BD21E2E8231000FDF54 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 4WDM8E95VU;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -732,6 +732,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "893c10b3-79b1-46f7-914a-e625bf10d665";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development me.mssun.passforios";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/pass/Helpers/Objective-CBridgingHeader.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -744,7 +746,7 @@
 			baseConfigurationReference = AEAD6B31EAF5D061447A68CC /* Pods-pass.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 2;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
@@ -764,6 +766,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "aefeea85-1194-4db2-9ce4-fb9995e2fdff";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore me.mssun.passforios";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/pass/Helpers/Objective-CBridgingHeader.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -781,6 +785,7 @@
 				DC13B1561E8640810097803F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DC917BCE1E2E8231000FDF54 /* Build configuration list for PBXProject "pass" */ = {
 			isa = XCConfigurationList;
