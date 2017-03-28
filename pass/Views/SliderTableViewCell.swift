@@ -58,6 +58,13 @@ class SliderTableViewCell: ContentTableViewCell {
         slider.maximumValue = Float(maximumValue)
         slider.value = Float(defaultValue)
         valueLabel.text = String(defaultValue)
+        
+        // "not editable"
+        if minimumValue == maximumValue {
+            titleLabel.textColor = UIColor.gray
+            valueLabel.textColor = UIColor.gray
+            slider.isUserInteractionEnabled = false
+        }
     }
     
 }

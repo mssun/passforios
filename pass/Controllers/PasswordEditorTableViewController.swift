@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SwiftyUserDefaults
+
 enum PasswordEditorCellType {
     case textFieldCell, textViewCell, fillPasswordCell, passwordLengthCell, deletePasswordCell
 }
@@ -76,7 +78,12 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             return fillPasswordCell!
         case .passwordLengthCell:
             passwordLengthCell = tableView.dequeueReusableCell(withIdentifier: "passwordLengthCell", for: indexPath) as? SliderTableViewCell
-            passwordLengthCell?.reset(title: "Length", minimumValue: Globals.passwordMinimumLength, maximumValue: Globals.passwordMaximumLength, defaultValue: Globals.passwordDefaultLength)
+            let lengthSetting = Globals.passwordDefaultLength[Defaults[.passwordGeneratorFlavor]] ??
+                Globals.passwordDefaultLength["Random"]
+            passwordLengthCell?.reset(title: "Length",
+                                      minimumValue: lengthSetting?.min ?? 0,
+                                      maximumValue: lengthSetting?.max ?? 0,
+                                      defaultValue: lengthSetting?.def ?? 0)
             passwordLengthCell?.delegate = self
             return passwordLengthCell!
         case .deletePasswordCell:
@@ -148,7 +155,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             hidePasswordSettings = false
             tableView.reloadSections([passwordSection], with: .fade)
         }
-        let length = passwordLengthCell?.roundedValue ?? Globals.passwordDefaultLength
+        let length = passwordLengthCell?.roundedValue ?? 0
         let plainPassword = Utils.generatePassword(length: length)
         Utils.copyToPasteboard(textToCopy: plainPassword)
         
