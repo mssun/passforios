@@ -1,5 +1,5 @@
 #!/bin/sh
 
 gem update fastlane
-fastlane test
+fastlane test && fastlane beta
 exit $?
