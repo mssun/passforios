@@ -10,6 +10,7 @@ import UIKit
 
 protocol FillPasswordTableViewCellDelegate {
     func generateAndCopyPassword()
+    func showHidePasswordSettings()
 }
 
 class FillPasswordTableViewCell: ContentTableViewCell {
@@ -17,10 +18,17 @@ class FillPasswordTableViewCell: ContentTableViewCell {
     @IBOutlet weak var contentTextField: UITextField!
     var delegate: FillPasswordTableViewCellDelegate?
     
+    @IBOutlet weak var settingButton: UIButton!
+    @IBOutlet weak var generateButton: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         contentTextField.font = UIFont(name: Globals.passwordFonts, size: (contentTextField.font?.pointSize)!)
+        
+        // Force aspect ratio of button images
+        settingButton.imageView?.contentMode = .scaleAspectFit
+        generateButton.imageView?.contentMode = .scaleAspectFit
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -31,6 +39,10 @@ class FillPasswordTableViewCell: ContentTableViewCell {
     
     @IBAction func generatePassword(_ sender: UIButton) {
         self.delegate?.generateAndCopyPassword()
+    }
+    
+    @IBAction func showHidePasswordSettings() {
+        self.delegate?.showHidePasswordSettings()
     }
     
     // re-color
