@@ -63,7 +63,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         tableView.addGestureRecognizer(tapGesture)
         tapGesture.delegate = self
         
-        tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
+        tableView.contentInset = UIEdgeInsetsMake(-36, 0, 44, 0);
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 52
         
