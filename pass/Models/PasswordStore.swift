@@ -302,10 +302,11 @@ class PasswordStore {
         }
         storeRepository = try GTRepository(url: storeURL)
         gitCredential = credential
-        self.updatePasswordEntityCoreData()
         Defaults[.lastSyncedTime] = Date()
-        
-        NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+            self.updatePasswordEntityCoreData()
+        }
     }
     
     func pullRepository(transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
@@ -318,11 +319,12 @@ class PasswordStore {
         ]
         let remote = try GTRemote(name: "origin", in: storeRepository!)
         try storeRepository?.pull((storeRepository?.currentBranch())!, from: remote, withOptions: options, progress: transferProgressBlock)
-        self.setAllSynced()
-        self.updatePasswordEntityCoreData()
         Defaults[.lastSyncedTime] = Date()
-        
-        NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+        DispatchQueue.main.async {
+            self.setAllSynced()
+            self.updatePasswordEntityCoreData()
+            NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+        }
     }
     
     private func updatePasswordEntityCoreData() {
