@@ -52,22 +52,13 @@ platform :ios do
       keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
       readonly: true
     )
-<<<<<<< HEAD
     # ensure_git_status_clean
-=======
-    ensure_git_status_clean
->>>>>>> uiimprovement
     increment_build_number(
       build_number: latest_testflight_build_number + 1,
       xcodeproj: "pass.xcodeproj"
     )
-<<<<<<< HEAD
     # commit_version_bump(xcodeproj: "pass.xcodeproj")
     # push_to_git_remote
-=======
-    commit_version_bump(xcodeproj: "pass.xcodeproj")
-    push_to_git_remote(local_branch: "develop")
->>>>>>> uiimprovement
     gym(scheme: "pass")
     pilot(skip_waiting_for_build_processing: true)
     mailgun(

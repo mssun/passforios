@@ -1,12 +1,8 @@
 language: objective-c
-<<<<<<< HEAD
 osx_image: xcode8.3
 branches:
   only:
     - develop
-=======
-osx_image: xcode8.2
->>>>>>> uiimprovement
 before_install:
     - echo -e "machine github.com\n  login $GITHUB_ACCESS_TOKEN" >> ~/.netrc
 script:
