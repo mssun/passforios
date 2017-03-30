@@ -304,8 +304,8 @@ class PasswordStore {
         gitCredential = credential
         Defaults[.lastSyncedTime] = Date()
         DispatchQueue.main.async {
-            NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
             self.updatePasswordEntityCoreData()
+            NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         }
     }
     
