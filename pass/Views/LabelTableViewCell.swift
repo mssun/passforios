@@ -27,6 +27,9 @@ class LabelTableViewCell: UITableViewCell {
     
     weak var delegatePasswordTableView : PasswordDetailTableViewController?
     
+    var passwordDisplayButton: UIButton?
+    var buttons: UIView?
+    
     var cellData: LabelTableViewCellData? {
         didSet {
             titleLabel.text = cellData?.title ?? ""
@@ -43,9 +46,11 @@ class LabelTableViewCell: UITableViewCell {
                 } else {
                     contentLabel.text = Globals.passwordDots
                 }
+                contentLabel.font = UIFont(name: Globals.passwordFonts, size: contentLabel.font.pointSize)
             } else {
                 contentLabel.text = cellData?.content
             }
+            updateButtons()
         }
     }
     
@@ -57,6 +62,13 @@ class LabelTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if buttons != nil {
+            self.accessoryView = buttons
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -99,12 +111,25 @@ class LabelTableViewCell: UITableViewCell {
             contentLabel.text = ""
         }
         isReveal = true
+        passwordDisplayButton?.setImage(#imageLiteral(resourceName: "Invisible"), for: .normal)
     }
     
     func concealPassword(_ sender: Any?) {
         contentLabel.text = Globals.passwordDots
         isReveal = false
+        passwordDisplayButton?.setImage(#imageLiteral(resourceName: "Visible"), for: .normal)
     }
+    
+    func reversePasswordDisplay(_ sender: Any?) {
+        if isReveal {
+            // conceal
+            concealPassword(sender)
+        } else {
+            // reveal
+            revealPassword(sender)
+        }
+    }
+
     
     func openLink(_ sender: Any?) {
         // if isURLCell, passwordTableView should not be nil
@@ -114,5 +139,42 @@ class LabelTableViewCell: UITableViewCell {
     func getNextHOTP(_ sender: Any?) {
         // if isHOTPCell, passwordTableView should not be nil
         delegatePasswordTableView!.getNextHOTP()
+    }
+    
+    func updateButtons() {
+        passwordDisplayButton = nil
+        buttons = nil
+        if isPasswordCell {
+            // password button
+            passwordDisplayButton = UIButton(type: .system)
+            passwordDisplayButton!.frame = CGRect(x: 0, y: 0, width: Globals.tableCellButtonSize, height: Globals.tableCellButtonSize)
+            passwordDisplayButton!.setImage(#imageLiteral(resourceName: "Visible"), for: .normal)
+            passwordDisplayButton!.imageView?.contentMode = .scaleAspectFit
+            passwordDisplayButton!.addTarget(self, action: #selector(reversePasswordDisplay), for: UIControlEvents.touchUpInside)
+            buttons = passwordDisplayButton
+        } else if isHOTPCell {
+            let spacing = CGFloat(10.0)
+            
+            // hotp button
+            let nextButton = UIButton(type: .system)
+            nextButton.frame = CGRect(x: 0, y: 0,
+                                      width: Globals.tableCellButtonSize, height: Globals.tableCellButtonSize)
+            nextButton.setImage(#imageLiteral(resourceName: "Refresh"), for: .normal)
+            nextButton.imageView?.contentMode = .scaleAspectFit
+            nextButton.addTarget(self, action: #selector(getNextHOTP), for: UIControlEvents.touchUpInside)
+            
+            // password button
+            passwordDisplayButton = UIButton(type: .system)
+            passwordDisplayButton!.frame = CGRect(x: Globals.tableCellButtonSize + spacing, y: 0,
+                                                 width: Globals.tableCellButtonSize, height: Globals.tableCellButtonSize)
+            passwordDisplayButton!.setImage(#imageLiteral(resourceName: "Visible"), for: .normal)
+            passwordDisplayButton!.imageView?.contentMode = .scaleAspectFit
+            passwordDisplayButton!.addTarget(self, action: #selector(reversePasswordDisplay), for: UIControlEvents.touchUpInside)
+            
+            buttons = UIView()
+            buttons!.frame = CGRect(x: 0, y: 0, width: Globals.tableCellButtonSize * 2 + spacing, height: Globals.tableCellButtonSize)
+            buttons!.addSubview(nextButton)
+            buttons!.addSubview(passwordDisplayButton!)
+        }
     }
 }
