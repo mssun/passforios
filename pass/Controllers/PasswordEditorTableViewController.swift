@@ -56,11 +56,6 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         tableView.estimatedRowHeight = 48
         self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
         self.tableView.estimatedSectionFooterHeight = 0;
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tableTapped))
-        tapGesture.delegate = self
-        tapGesture.cancelsTouchesInView = false
-        tableView.addGestureRecognizer(tapGesture)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -166,35 +161,8 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         fillPasswordCell?.setContent(content: plainPassword)
     }
     
-    func tableTapped(recognizer: UITapGestureRecognizer) {
-        if recognizer.state == UIGestureRecognizerState.ended {
-            let tapLocation = recognizer.location(in: self.tableView)
-            let tapIndexPath = self.tableView.indexPathForRow(at: tapLocation)
-            
-            // do nothing, if delete is tapped (a temporary solution)
-            if tapIndexPath != nil, deletePasswordCell != nil,
-                tableView.cellForRow(at: tapIndexPath!) == deletePasswordCell {
-                return
-            }
-            
-            // hide password settings (e.g., the length slider)
-            if tapIndexPath?.section != passwordSection, hidePasswordSettings == false {
-                hidePasswordSettings = true
-                tableView.reloadSections([passwordSection], with: .fade)
-                // select the row at tapIndexPath manually
-                if tapIndexPath != nil {
-                    self.tableView(self.tableView, didSelectRowAt: tapIndexPath!)
-                }
-            }
-        }
-    }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer is UITapGestureRecognizer {
-            // so that the tap gesture could be passed by
-            return true
-        } else {
-            return false
-        }
+    func showHidePasswordSettings() {
+        hidePasswordSettings = !hidePasswordSettings
+        tableView.reloadSections([passwordSection], with: .fade)
     }
 }
