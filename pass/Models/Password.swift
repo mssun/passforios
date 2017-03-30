@@ -103,7 +103,7 @@ class Password {
         var key : String?
         var value = ""
         if items.count == 1 {
-            value = items[0]
+            key = items[0]
         } else if items.count == 2 {
             key = items[0]
             value = items[1].trimmingCharacters(in: .whitespaces)
