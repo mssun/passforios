@@ -144,35 +144,44 @@ class LabelTableViewCell: UITableViewCell {
     func updateButtons() {
         passwordDisplayButton = nil
         buttons = nil
+        
+        // total width and height of a button
+        let height = min(self.bounds.height, 36.0)
+        let width = max(height * 0.8, Globals.tableCellButtonSize)
+        
+        // margins (between button boundary and icon)
+        let marginY = max((height - Globals.tableCellButtonSize) / 2, 0.0)
+        let marginX = max((width - Globals.tableCellButtonSize) / 2, 0.0)
+        
         if isPasswordCell {
             // password button
             passwordDisplayButton = UIButton(type: .system)
-            passwordDisplayButton!.frame = CGRect(x: 0, y: 0, width: Globals.tableCellButtonSize, height: Globals.tableCellButtonSize)
+            passwordDisplayButton!.frame = CGRect(x: 0, y: 0, width: width, height: height)
             passwordDisplayButton!.setImage(#imageLiteral(resourceName: "Visible"), for: .normal)
             passwordDisplayButton!.imageView?.contentMode = .scaleAspectFit
+            passwordDisplayButton!.contentEdgeInsets = UIEdgeInsetsMake(marginY, marginX, marginY, marginX)
             passwordDisplayButton!.addTarget(self, action: #selector(reversePasswordDisplay), for: UIControlEvents.touchUpInside)
             buttons = passwordDisplayButton
         } else if isHOTPCell {
-            let spacing = CGFloat(10.0)
-            
             // hotp button
             let nextButton = UIButton(type: .system)
-            nextButton.frame = CGRect(x: 0, y: 0,
-                                      width: Globals.tableCellButtonSize, height: Globals.tableCellButtonSize)
+            nextButton.frame = CGRect(x: 0, y: 0, width: width, height: height)
             nextButton.setImage(#imageLiteral(resourceName: "Refresh"), for: .normal)
             nextButton.imageView?.contentMode = .scaleAspectFit
+            nextButton.contentEdgeInsets = UIEdgeInsetsMake(marginY, marginX, marginY, marginX)
             nextButton.addTarget(self, action: #selector(getNextHOTP), for: UIControlEvents.touchUpInside)
             
             // password button
             passwordDisplayButton = UIButton(type: .system)
-            passwordDisplayButton!.frame = CGRect(x: Globals.tableCellButtonSize + spacing, y: 0,
-                                                 width: Globals.tableCellButtonSize, height: Globals.tableCellButtonSize)
+            passwordDisplayButton!.frame = CGRect(x: width, y: 0, width: width, height: height)
+
             passwordDisplayButton!.setImage(#imageLiteral(resourceName: "Visible"), for: .normal)
             passwordDisplayButton!.imageView?.contentMode = .scaleAspectFit
+            passwordDisplayButton!.contentEdgeInsets = UIEdgeInsetsMake(marginY, marginX, marginY, marginX)
             passwordDisplayButton!.addTarget(self, action: #selector(reversePasswordDisplay), for: UIControlEvents.touchUpInside)
             
             buttons = UIView()
-            buttons!.frame = CGRect(x: 0, y: 0, width: Globals.tableCellButtonSize * 2 + spacing, height: Globals.tableCellButtonSize)
+            buttons!.frame = CGRect(x: 0, y: 0, width: width * 2, height: height)
             buttons!.addSubview(nextButton)
             buttons!.addSubview(passwordDisplayButton!)
         }
