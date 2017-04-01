@@ -24,8 +24,8 @@ class Password {
     var additions = [String: String]()
     var additionKeys = [String]()
     var changed = false
+    var plainText = ""
     
-    private var plainText = ""
     private var firstLineIsOTPField = false
     private var otpToken: Token?
     

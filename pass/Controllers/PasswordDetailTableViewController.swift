@@ -72,15 +72,14 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         case name, main, addition, misc
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "LabelTableViewCell", bundle: nil), forCellReuseIdentifier: "labelCell")
         tableView.register(UINib(nibName: "PasswordDetailTitleTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordDetailTitleTableViewCell")
         
         passwordCategoryText = passwordEntity!.getCategoryText()
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PasswordDetailTableViewController.tapMenu(recognizer:)))
+        tapGesture.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tapGesture)
         tapGesture.delegate = self
         
@@ -302,6 +301,12 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                     editController.password = password
                 }
             }
+        } else if segue.identifier == "showRawPasswordSegue" {
+            if let controller = segue.destination as? UINavigationController {
+                if let controller = controller.viewControllers.first as? RawPasswordViewController {
+                    controller.password = password
+                }
+            }
         }
     }
     
@@ -361,6 +366,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 }
             }
         }
+    }
+    @IBAction func back(segue:UIStoryboardSegue) {
     }
     
     func getNextHOTP() {
@@ -426,6 +433,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             }
             cell.nameLabel.text = passwordName
             cell.categoryLabel.text = passwordCategoryText
+            cell.selectionStyle = .none
             return cell
         case .main, .addition:
             let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell
@@ -436,10 +444,12 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             cell.isURLCell = (titleData.lowercased() == "url" ? true : false)
             cell.isHOTPCell = (titleData == "HMAC-based" ? true : false)
             cell.cellData = LabelTableViewCellData(title: titleData, content: contentData)
+            cell.selectionStyle = .none
             return cell
         case .misc:
             let cell = UITableViewCell()
             cell.textLabel?.text = tableDataItem.title
+            cell.selectionStyle = .default
             return cell
         }
     }
@@ -470,10 +480,26 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
     
     override func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return action == #selector(UIResponderStandardEditActions.copy(_:))
+        let section = tableData[indexPath.section]
+        switch(section.type) {
+        case .main, .addition:
+            return action == #selector(UIResponderStandardEditActions.copy(_:))
+        default:
+            return false
+        }
     }
     
     override func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
         return true
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let section = tableData[indexPath.section]
+        if section.type == .misc {
+            if section.item[indexPath.row].title == "Show Raw" {
+                performSegue(withIdentifier: "showRawPasswordSegue", sender: self)
+            }
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

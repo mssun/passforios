@@ -53,6 +53,7 @@
 		DCC277D21E30D6EA00402246 /* pass.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCC408C81E30BA1300F29B0E /* pass.xcdatamodeld */; };
 		DCC408A41E2FCC9E00F29B0E /* PasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC408A31E2FCC9E00F29B0E /* PasswordStore.swift */; };
 		DCC408C71E307DBB00F29B0E /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */; };
+		DCC441521E8F6C06008A90C4 /* RawPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */; };
 		DCDDEAB01E4639F300F68193 /* LabelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */; };
 		DCDDEAB31E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */; };
 		DCE6C2671E71261C003038C6 /* PasswordWithFolderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE6C2651E71261C003038C6 /* PasswordWithFolderTableViewCell.swift */; };
@@ -132,6 +133,7 @@
 		DCC408A31E2FCC9E00F29B0E /* PasswordStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
 		DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
 		DCC408C91E30BA1300F29B0E /* pass.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = pass.xcdatamodel; sourceTree = "<group>"; };
+		DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawPasswordViewController.swift; sourceTree = "<group>"; };
 		DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelTableViewCell.xib; sourceTree = "<group>"; };
 		DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTitleTableViewCell.swift; sourceTree = "<group>"; };
 		DCE6C2651E71261C003038C6 /* PasswordWithFolderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordWithFolderTableViewCell.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				DCA049991E335CC800522E8F /* GitServerSettingTableViewController.swift */,
 				DC037CA51E4B883900609409 /* OpenSourceComponentsTableViewController.swift */,
 				DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */,
+				DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */,
 				DCFB77A81E502FF6008DE471 /* PasswordEditorTableViewController.swift */,
 				DC5734AD1E439AD400D09270 /* PasswordsViewController.swift */,
 				DCA0499B1E3362F400522E8F /* PGPKeySettingTableViewController.swift */,
@@ -541,6 +544,7 @@
 				DC037CB21E4CAB1700609409 /* AboutRepositoryTableViewController.swift in Sources */,
 				DC037CB01E4CA51F00609409 /* GeneralSettingsTableViewController.swift in Sources */,
 				DC037CB81E4DD1A500609409 /* AddPasswordTableViewController.swift in Sources */,
+				DCC441521E8F6C06008A90C4 /* RawPasswordViewController.swift in Sources */,
 				DC1940001E49E1A60077E0A3 /* PasscodeLockConfiguration.swift in Sources */,
 				DC917BD71E2E8231000FDF54 /* AppDelegate.swift in Sources */,
 				DCFB779A1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift in Sources */,

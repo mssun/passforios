@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12106.1" systemVersion="16E192b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="YoR-iB-XAd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12106.1" systemVersion="16F43c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="YoR-iB-XAd">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -626,7 +626,7 @@
         <scene sceneID="9wY-d0-fB1">
             <objects>
                 <tableViewController id="tW4-E9-CGv" customClass="PasswordDetailTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="hfi-6O-04U">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="hfi-6O-04U">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -638,6 +638,7 @@
                     </tableView>
                     <connections>
                         <segue destination="eui-w4-P7T" kind="show" identifier="editPasswordSegue" id="Ydg-pZ-oNS"/>
+                        <segue destination="kNf-lG-BeC" kind="presentation" identifier="showRawPasswordSegue" modalTransitionStyle="flipHorizontal" id="qpR-3X-eyt"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9sC-44-OKL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -735,6 +736,50 @@
                 <exit id="HB6-Yu-Y3J" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="6084" y="601"/>
+        </scene>
+        <!--Raw Password View Controller-->
+        <scene sceneID="Oqg-Vh-EYD">
+            <objects>
+                <viewController id="mlB-OK-hLo" customClass="RawPasswordViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XeK-cv-AXf"/>
+                        <viewControllerLayoutGuide type="bottom" id="7JD-uM-IyS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5YZ-6i-LST">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3dt-Ph-4As">
+                                <rect key="frame" x="20" y="0.0" width="374" height="736"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="7JD-uM-IyS" firstAttribute="top" secondItem="3dt-Ph-4As" secondAttribute="bottom" id="AcR-iT-XsN"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3dt-Ph-4As" secondAttribute="trailing" id="BTe-OM-r8U"/>
+                            <constraint firstItem="3dt-Ph-4As" firstAttribute="top" secondItem="XeK-cv-AXf" secondAttribute="bottom" constant="-64" id="ODa-wl-rEQ"/>
+                            <constraint firstItem="3dt-Ph-4As" firstAttribute="leading" secondItem="5YZ-6i-LST" secondAttribute="leadingMargin" id="v38-aE-tLS"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="c13-zM-tLf">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="9yM-Mg-Cg8">
+                            <connections>
+                                <segue destination="pNY-ul-yzB" kind="unwind" unwindAction="backWithSegue:" id="SzI-Au-9rJ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="rawPasswordTextView" destination="3dt-Ph-4As" id="SVL-F8-5yD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zgb-Ji-ZBp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="pNY-ul-yzB" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="7721.739130434783" y="-24.456521739130437"/>
         </scene>
         <!--About Repository Table View Controller-->
         <scene sceneID="u1v-BP-jaG">
@@ -1345,6 +1390,24 @@ pfZ36xQbOAQYKKf6ZTT5R/Y=
                 <placeholder placeholderIdentifier="IBFirstResponder" id="511-eg-7fa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5131.884057971015" y="4307.608695652174"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Ps2-MC-JQX">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="kNf-lG-BeC" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Dx6-8j-IzX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="mlB-OK-hLo" kind="relationship" relationship="rootViewController" id="wp3-xi-lwY"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ycf-Zv-ej8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6720" y="-24"/>
         </scene>
     </scenes>
     <resources>
