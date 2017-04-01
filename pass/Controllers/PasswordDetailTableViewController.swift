@@ -268,7 +268,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 section = TableSection(type: .addition, header: "One Time Password")
                 section.item.append(TableCell(title: title, content: otp))
                 tableData.append(section)
-                oneTimePasswordIndexPath = IndexPath(row: 0, section: tableData.count)
+                oneTimePasswordIndexPath = IndexPath(row: 0, section: tableData.count - 1)
             }
         }
         
