@@ -367,6 +367,14 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             }
         }
     }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if touch.view!.isKind(of: UIButton.classForCoder()) {
+            return false
+        }
+        return true
+    }
+    
     @IBAction func back(segue:UIStoryboardSegue) {
     }
     
