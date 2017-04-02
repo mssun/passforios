@@ -20,13 +20,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HPC-rQ-39b">
-                        <rect key="frame" x="15" y="8" width="297" height="15"/>
+                        <rect key="frame" x="16" y="8" width="296" height="15"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                         <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="123" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8Ky-UZ-sLu">
-                        <rect key="frame" x="15" y="26" width="297" height="21"/>
+                        <rect key="frame" x="16" y="26" width="296" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="dHY-dw-mFe"/>
                         </constraints>
@@ -39,17 +39,17 @@
                     <constraint firstAttribute="bottomMargin" secondItem="8Ky-UZ-sLu" secondAttribute="bottom" id="11n-KG-zy6"/>
                     <constraint firstItem="8Ky-UZ-sLu" firstAttribute="trailing" secondItem="HPC-rQ-39b" secondAttribute="trailing" id="42z-vE-AsJ"/>
                     <constraint firstItem="8Ky-UZ-sLu" firstAttribute="leading" secondItem="HPC-rQ-39b" secondAttribute="leading" id="8F6-w6-BDY"/>
+                    <constraint firstItem="HPC-rQ-39b" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="8" id="8ps-9g-9zG"/>
                     <constraint firstAttribute="trailingMargin" secondItem="HPC-rQ-39b" secondAttribute="trailing" id="Ayv-Bg-JxT"/>
                     <constraint firstItem="HPC-rQ-39b" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="JN2-lI-0ZY"/>
                     <constraint firstItem="8Ky-UZ-sLu" firstAttribute="top" secondItem="HPC-rQ-39b" secondAttribute="bottom" constant="3" id="Pqs-gm-93j"/>
-                    <constraint firstItem="HPC-rQ-39b" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="7" id="vfA-M9-FEp"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="contentTextField" destination="8Ky-UZ-sLu" id="unz-5T-fuK"/>
                 <outlet property="titleLabel" destination="HPC-rQ-39b" id="VoV-gT-5lh"/>
             </connections>
-            <point key="canvasLocation" x="34" y="60"/>
+            <point key="canvasLocation" x="0.0" y="61"/>
         </tableViewCell>
     </objects>
 </document>
