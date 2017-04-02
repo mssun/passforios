@@ -17,12 +17,17 @@ extension DefaultsKeys {
     static let pgpPublicKeyArmor = DefaultsKey<String?>("pgpPublicKeyArmor")
     static let pgpPrivateKeyArmor = DefaultsKey<String?>("pgpPrivateKeyArmor")
     
-    static let gitRepositoryURL = DefaultsKey<URL?>("gitRepositoryURL")
-    static let gitRepositoryAuthenticationMethod = DefaultsKey<String?>("gitRepositoryAuthenticationMethod")
-    static let gitRepositoryUsername = DefaultsKey<String?>("gitRepositoryUsername")
-    static let gitRepositoryPasswordAttempts = DefaultsKey<Int>("gitRepositoryPasswordAttempts")
-    static let gitRepositorySSHPublicKeyURL = DefaultsKey<URL?>("gitRepositorySSHPublicKeyURL")
-    static let gitRepositorySSHPrivateKeyURL = DefaultsKey<URL?>("gitRepositorySSHPrivateKeyURL")
+    static let gitURL = DefaultsKey<URL?>("gitURL")
+    static let gitAuthenticationMethod = DefaultsKey<String?>("gitAuthenticationMethod")
+    static let gitUsername = DefaultsKey<String?>("gitUsername")
+    static let gitPasswordAttempts = DefaultsKey<Int>("gitPasswordAttempts")
+    static let gitSSHPublicKeyURL = DefaultsKey<URL?>("gitSSHPublicKeyURL")
+    static let gitSSHPrivateKeyURL = DefaultsKey<URL?>("gitSSHPrivateKeyURL")
+    static let gitSSHKeySource = DefaultsKey<String?>("gitSSHKeySource")
+    
+    static let gitSSHPublicKeyArmor = DefaultsKey<String?>("gitSSHPublicKeyArmor")
+    static let gitSSHPrivateKeyArmor = DefaultsKey<String?>("gitSSHPrivateKeyArmor")
+
 
     static let lastSyncedTime = DefaultsKey<Date?>("lastSyncedTime")
     

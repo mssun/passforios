@@ -83,6 +83,16 @@ class Utils {
         Utils.removeKeychain(name: ".pgpKeyPassphrase")
     }
     
+    static func removeGitSSHKeys() {
+        removeFileIfExists(atPath: Globals.gitSSHPublicKeyPath)
+        removeFileIfExists(atPath: Globals.gitSSHPrivateKeyPath)
+        Defaults.remove(.gitSSHPublicKeyArmor)
+        Defaults.remove(.gitSSHPrivateKeyArmor)
+        Defaults.remove(.gitSSHPublicKeyURL)
+        Defaults.remove(.gitSSHPrivateKeyURL)
+        Utils.removeKeychain(name: ".gitSSHPrivateKeyPassphrase")
+    }
+    
     static func getPasswordFromKeychain(name: String) -> String? {
         let keychain = Keychain(service: "me.mssun.passforios")
         do {

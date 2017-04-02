@@ -143,7 +143,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 }
                 DispatchQueue.main.async {
                     self.reloadTableView(parent: nil)
-                    Defaults[.gitRepositoryPasswordAttempts] = 0
+                    Defaults[.gitPasswordAttempts] = 0
                     SVProgressHUD.showSuccess(withStatus: "Done")
                     SVProgressHUD.dismiss(withDelay: 1)
                 }

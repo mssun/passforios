@@ -95,16 +95,16 @@ class SettingsTableViewController: UITableViewController {
     
     @IBAction func saveGitServerSetting(segue: UIStoryboardSegue) {
         if let controller = segue.source as? GitServerSettingTableViewController {
-            let gitRepostiroyURL = controller.gitRepositoryURLTextField.text!
+            let gitRepostiroyURL = controller.gitURLTextField.text!
             let username = controller.usernameTextField.text!
             let password = controller.password
             let auth = controller.authenticationMethod
             
-            if Defaults[.gitRepositoryURL] == nil ||
-                Defaults[.gitRepositoryURL]!.absoluteString != gitRepostiroyURL ||
-                auth != Defaults[.gitRepositoryAuthenticationMethod] ||
-                username != Defaults[.gitRepositoryUsername] ||
-                password != self.passwordStore.gitRepositoryPassword ||
+            if Defaults[.gitURL] == nil ||
+                Defaults[.gitURL]!.absoluteString != gitRepostiroyURL ||
+                auth != Defaults[.gitAuthenticationMethod] ||
+                username != Defaults[.gitUsername] ||
+                password != self.passwordStore.gitPassword ||
                 self.passwordStore.repositoryExisted() == false {
                 
                 SVProgressHUD.setDefaultMaskType(.black)
@@ -117,9 +117,9 @@ class SettingsTableViewController: UITableViewController {
                     gitCredential = GitCredential(
                         credential: GitCredential.Credential.ssh(
                             userName: username,
-                            password: Utils.getPasswordFromKeychain(name: "gitRepositorySSHPrivateKeyPassphrase") ?? "",
-                            publicKeyFile: Globals.sshPublicKeyURL,
-                            privateKeyFile: Globals.sshPrivateKeyURL,
+                            password: Utils.getPasswordFromKeychain(name: "gitSSHPrivateKeyPassphrase") ?? "",
+                            publicKeyFile: Globals.gitSSHPublicKeyURL,
+                            privateKeyFile: Globals.gitSSHPrivateKeyURL,
                             passwordNotSetCallback: self.requestSshKeyPassword
                         )
                     )
@@ -140,11 +140,11 @@ class SettingsTableViewController: UITableViewController {
                                                                     }
                         })
                         DispatchQueue.main.async {
-                            Defaults[.gitRepositoryURL] = URL(string: gitRepostiroyURL)
-                            Defaults[.gitRepositoryUsername] = username
-                            Defaults[.gitRepositoryAuthenticationMethod] = auth
-                            Defaults[.gitRepositoryPasswordAttempts] = 0
-                            self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitRepositoryURL]?.host
+                            Defaults[.gitURL] = URL(string: gitRepostiroyURL)
+                            Defaults[.gitUsername] = username
+                            Defaults[.gitAuthenticationMethod] = auth
+                            Defaults[.gitPasswordAttempts] = 0
+                            self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitURL]?.host
                             SVProgressHUD.showSuccess(withStatus: "Done")
                             SVProgressHUD.dismiss(withDelay: 1)
                         }
@@ -162,7 +162,7 @@ class SettingsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.actOnPasswordStoreErasedNotification), name: .passwordStoreErased, object: nil)
-        self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitRepositoryURL]?.host
+        self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitURL]?.host
         touchIDTableViewCell.accessoryView = touchIDSwitch
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()
@@ -189,10 +189,10 @@ class SettingsTableViewController: UITableViewController {
     }
     
     private func setPasswordRepositoryTableViewCellDetailText() {
-        if Defaults[.gitRepositoryURL] == nil {
+        if Defaults[.gitURL] == nil {
             passwordRepositoryTableViewCell.detailTextLabel?.text = "Not Set"
         } else {
-            passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitRepositoryURL]!.host
+            passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitURL]!.host
         }
     }
     
@@ -218,7 +218,7 @@ class SettingsTableViewController: UITableViewController {
             }))
 
             alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = self.passwordStore.gitRepositoryPassword
+                textField.text = self.passwordStore.gitPassword
                 textField.isSecureTextEntry = true
             })
 

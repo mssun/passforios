@@ -12,15 +12,14 @@ import SVProgressHUD
 
 class SSHKeySettingTableViewController: UITableViewController {
 
-    @IBOutlet weak var passphraseTextField: UITextField!
     @IBOutlet weak var privateKeyURLTextField: UITextField!
     @IBOutlet weak var publicKeyURLTextField: UITextField!
+    let passwordStore = PasswordStore.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        passphraseTextField.text = Utils.getPasswordFromKeychain(name: "gitRepositorySSHPrivateKeyPassphrase") ?? ""
-        privateKeyURLTextField.text = Defaults[.gitRepositorySSHPrivateKeyURL]?.absoluteString
-        publicKeyURLTextField.text = Defaults[.gitRepositorySSHPublicKeyURL]?.absoluteString
+        privateKeyURLTextField.text = Defaults[.gitSSHPrivateKeyURL]?.absoluteString
+        publicKeyURLTextField.text = Defaults[.gitSSHPublicKeyURL]?.absoluteString
         var doneBarButtonItem: UIBarButtonItem?
 
         doneBarButtonItem = UIBarButtonItem(title: "Done",
@@ -41,18 +40,42 @@ class SSHKeySettingTableViewController: UITableViewController {
             return
         }
         
-        Defaults[.gitRepositorySSHPublicKeyURL] = publicKeyURL
-        Defaults[.gitRepositorySSHPrivateKeyURL] = privateKeyURL
-        Utils.addPasswordToKeychain(name: "gitRepositorySSHPrivateKeyPassphrase", password: passphraseTextField.text!)
+        Defaults[.gitSSHPublicKeyURL] = publicKeyURL
+        Defaults[.gitSSHPrivateKeyURL] = privateKeyURL
         
         do {
-            try Data(contentsOf: publicKeyURL).write(to: Globals.sshPublicKeyURL, options: .atomic)
-            try Data(contentsOf: privateKeyURL).write(to: Globals.sshPrivateKeyURL, options: .atomic)
+            try Data(contentsOf: publicKeyURL).write(to: URL(fileURLWithPath: Globals.gitSSHPublicKeyPath), options: .atomic)
+            try Data(contentsOf: privateKeyURL).write(to: URL(fileURLWithPath: Globals.gitSSHPrivateKeyPath), options: .atomic)
         } catch {
             Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
         }
-
-        navigationController!.popViewController(animated: true)
+        Defaults[.gitSSHKeySource] = "url"
+        let alert = UIAlertController(
+            title: "PGP Passphrase",
+            message: "Please fill in the passphrase for your Git Repository SSH key.",
+            preferredStyle: UIAlertControllerStyle.alert
+        )
+        
+        alert.addAction(
+            UIAlertAction(
+                title: "OK",
+                style: UIAlertActionStyle.default,
+                handler: {_ in
+                    Utils.addPasswordToKeychain(
+                        name: "gitSSHPrivateKeyPassphrase",
+                        password: alert.textFields!.first!.text!
+                    )
+                    self.navigationController!.popViewController(animated: true)
+            }
+            )
+        )
+        
+        alert.addTextField(
+            configurationHandler: {(textField: UITextField!) in
+                textField.text = self.passwordStore.gitSSHPrivateKeyPassphrase
+                textField.isSecureTextEntry = true
+        })
+        self.present(alert, animated: true, completion: nil)
     }
 
 }
