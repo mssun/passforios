@@ -9,17 +9,22 @@
 import UIKit
 import SwiftyUserDefaults
 
-class PGPKeyArmorSettingTableViewController: UITableViewController {
+class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDelegate {
     @IBOutlet weak var armorPublicKeyTextView: UITextView!
     @IBOutlet weak var armorPrivateKeyTextView: UITextView!
     var pgpPassphrase: String?
     let passwordStore = PasswordStore.shared
+    
+    private var recentPastedText = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         armorPublicKeyTextView.text = Defaults[.pgpPublicKeyArmor]
         armorPrivateKeyTextView.text = Defaults[.pgpPrivateKeyArmor]
         pgpPassphrase = passwordStore.pgpKeyPassphrase
+        
+        armorPublicKeyTextView.delegate = self
+        armorPrivateKeyTextView.delegate = self
     }
     
     private func createSavePassphraseAlert() -> UIAlertController {
@@ -48,5 +53,18 @@ class PGPKeyArmorSettingTableViewController: UITableViewController {
         })
         self.present(alert, animated: true, completion: nil)
     }
-
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == UIPasteboard.general.string {
+            // user pastes somethint, get ready to clear in 10s
+            recentPastedText = text
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: DispatchTime.now() + 10) { [weak weakSelf = self] in
+                if let pasteboardString = UIPasteboard.general.string,
+                    pasteboardString == weakSelf?.recentPastedText {
+                    UIPasteboard.general.string = ""
+                }
+            }
+        }
+        return true
+    }
 }
