@@ -11,14 +11,15 @@ import SVProgressHUD
 import SwiftyUserDefaults
 import PasscodeLock
 
-enum PasswordsTableEntryType {
-    case password, dir
-}
-
-struct PasswordsTableEntry {
+fileprivate class PasswordsTableEntry : NSObject {
     var title: String
     var isDir: Bool
     var passwordEntity: PasswordEntity?
+    init(title: String, isDir: Bool, passwordEntity: PasswordEntity?) {
+        self.title = title
+        self.isDir = isDir
+        self.passwordEntity = passwordEntity
+    }
 }
 
 class PasswordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate {
@@ -29,7 +30,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     private var tapTabBarTime: TimeInterval = 0
 
-    private var sections : [(index: Int, length :Int, title: String)] = Array()
+    private var sections = [(title: String, entries: [PasswordsTableEntry])]()
+    
     private var searchActive : Bool = false
     
     private lazy var searchController: UISearchController = {
@@ -196,7 +198,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].length
+        return sections[section].entries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -241,14 +243,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     private func getPasswordEntry(by indexPath: IndexPath) -> PasswordsTableEntry {
-        var entry: PasswordsTableEntry
-        let index = sections[indexPath.section].index + indexPath.row
-        if searchController.isActive && searchController.searchBar.text != "" {
-            entry = filteredPasswordsTableEntries[index]
-        } else {
-            entry = passwordsTableEntries[index]
-        }
-        return entry
+        return sections[indexPath.section].entries[indexPath.row]
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -345,25 +340,30 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     private func generateSections(item: [PasswordsTableEntry]) {
-        sections.removeAll()
-        guard item.count != 0 else {
-            return
+        let collation = UILocalizedIndexedCollation.current()
+        let sectionTitles = collation.sectionIndexTitles
+        var newSections = [(title: String, entries: [PasswordsTableEntry])]()
+        
+        // initialize all sections
+        for i in 0..<sectionTitles.count {
+            newSections.append((title: sectionTitles[i], entries: [PasswordsTableEntry]()))
         }
-        var index = 0
-        for i in 0 ..< item.count {
-            let title = item[index].title.uppercased()
-            let commonPrefix = item[i].title.commonPrefix(with: title, options: .caseInsensitive)
-            if commonPrefix.characters.count == 0 {
-                let firstCharacter = title[title.startIndex]
-                let newSection = (index: index, length: i - index, title: "\(firstCharacter)")
-                sections.append(newSection)
-                index = i
-            }
+        
+        // put entries into sections
+        for entry in item {
+            let sectionNumber = collation.section(for: entry, collationStringSelector: #selector(getter: PasswordsTableEntry.title))
+            newSections[sectionNumber].entries.append(entry)
         }
-        let title = item[index].title.uppercased()
-        let firstCharacter = title[title.startIndex]
-        let newSection = (index: index, length: item.count - index, title: "\(firstCharacter)")
-        sections.append(newSection)
+        
+        // sort each list and set sectionTitles
+        for i in 0..<sectionTitles.count {
+            let entriesToSort = newSections[i].entries
+            let sortedEntries = collation.sortedArray(from: entriesToSort, collationStringSelector: #selector(getter: PasswordsTableEntry.title))
+            newSections[i].entries = sortedEntries as! [PasswordsTableEntry]
+        }
+        
+        // only keep non-empty sections
+        sections = newSections.filter {$0.entries.count > 0}
     }
     
     func actOnSearchNotification() {
