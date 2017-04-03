@@ -27,9 +27,9 @@ struct GitCredential {
             var credential: GTCredential? = nil
             switch self.credential {
             case let .http(userName, password):
-                print(Defaults[.gitRepositoryPasswordAttempts])
+                print(Defaults[.gitPasswordAttempts])
                 var newPassword: String = password
-                if Defaults[.gitRepositoryPasswordAttempts] != 0 {
+                if Defaults[.gitPasswordAttempts] != 0 {
                     let sem = DispatchSemaphore(value: 0)
                     DispatchQueue.main.async {
                         SVProgressHUD.dismiss()
@@ -40,15 +40,15 @@ struct GitCredential {
                             let alert = UIAlertController(title: "Password", message: "Please fill in the password of your Git account.", preferredStyle: UIAlertControllerStyle.alert)
                             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
                                 newPassword = alert.textFields!.first!.text!
-                                PasswordStore.shared.gitRepositoryPassword = newPassword
+                                PasswordStore.shared.gitPassword = newPassword
                                 sem.signal()
                             }))
                             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
-                                Defaults[.gitRepositoryPasswordAttempts] = -1
+                                Defaults[.gitPasswordAttempts] = -1
                                 sem.signal()
                             })
                             alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                                textField.text = PasswordStore.shared.gitRepositoryPassword
+                                textField.text = PasswordStore.shared.gitPassword
                                 textField.isSecureTextEntry = true
                             })
                                 topController.present(alert, animated: true, completion: nil)
@@ -56,12 +56,12 @@ struct GitCredential {
                     }
                     let _ = sem.wait(timeout: DispatchTime.distantFuture)
                 }
-                if Defaults[.gitRepositoryPasswordAttempts] == -1 {
-                    Defaults[.gitRepositoryPasswordAttempts] = 0
+                if Defaults[.gitPasswordAttempts] == -1 {
+                    Defaults[.gitPasswordAttempts] = 0
                     return nil
                 }
-                Defaults[.gitRepositoryPasswordAttempts] += 1
-                PasswordStore.shared.gitRepositoryPassword = newPassword
+                Defaults[.gitPasswordAttempts] += 1
+                PasswordStore.shared.gitPassword = newPassword
                 credential = try? GTCredential(userName: userName, password: newPassword)
             case let .ssh(userName, password, publicKeyFile, privateKeyFile, passwordNotSetCallback):
 
@@ -76,7 +76,7 @@ struct GitCredential {
                 }
 
                 // Save password for the future
-                Utils.addPasswordToKeychain(name: "gitRepositorySSHPrivateKeyPassphrase", password: newPassword!)
+                Utils.addPasswordToKeychain(name: "gitSSHPrivateKeyPassphrase", password: newPassword!)
 
                 // nil is expected in case of empty password
                 if newPassword == "" {
@@ -112,7 +112,7 @@ class PasswordStore {
     
     var gitSignatureForNow: GTSignature {
         get {
-            return GTSignature(name: Defaults[.gitRepositoryUsername]!, email: Defaults[.gitRepositoryUsername]!+"@passforios", time: Date())!
+            return GTSignature(name: Defaults[.gitUsername]!, email: Defaults[.gitUsername]!+"@passforios", time: Date())!
         }
     }
     
@@ -126,12 +126,21 @@ class PasswordStore {
             return Utils.getPasswordFromKeychain(name: "pgpKeyPassphrase")
         }
     }
-    var gitRepositoryPassword: String? {
+    var gitPassword: String? {
         set {
-            Utils.addPasswordToKeychain(name: "gitRepositoryPassword", password: newValue)
+            Utils.addPasswordToKeychain(name: "gitPassword", password: newValue)
         }
         get {
-            return Utils.getPasswordFromKeychain(name: "gitRepositoryPassword")
+            return Utils.getPasswordFromKeychain(name: "gitPassword")
+        }
+    }
+    
+    var gitSSHPrivateKeyPassphrase: String? {
+        set {
+            Utils.addPasswordToKeychain(name: "gitSSHPrivateKeyPassphrase", password: newValue)
+        }
+        get {
+            return Utils.getPasswordFromKeychain(name: "gitSSHPrivateKeyPassphrase") ?? ""
         }
     }
     
@@ -164,22 +173,41 @@ class PasswordStore {
             print(error)
         }
         initPGPKeys()
-        if Defaults[.gitRepositoryAuthenticationMethod] == "Password" {
-            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitRepositoryUsername]!, password: Utils.getPasswordFromKeychain(name: "gitRepositoryPassword") ?? ""))
-        } else if Defaults[.gitRepositoryAuthenticationMethod] == "SSH Key"{
+        initGitCredential()
+    }
+    
+    enum SSHKeyType {
+        case `public`, secret
+    }
+    
+    public func initGitCredential() {
+        if Defaults[.gitAuthenticationMethod] == "Password" {
+            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitUsername]!, password: Utils.getPasswordFromKeychain(name: "gitPassword") ?? ""))
+        } else if Defaults[.gitAuthenticationMethod] == "SSH Key"{
             gitCredential = GitCredential(
                 credential: GitCredential.Credential.ssh(
-                    userName: Defaults[.gitRepositoryUsername]!,
-                    password: Utils.getPasswordFromKeychain(name: "gitRepositorySSHPrivateKeyPassphrase") ?? "",
-                    publicKeyFile: Globals.sshPublicKeyURL,
-                    privateKeyFile: Globals.sshPrivateKeyURL,
+                    userName: Defaults[.gitUsername]!,
+                    password: gitSSHPrivateKeyPassphrase ?? "",
+                    publicKeyFile: Globals.gitSSHPublicKeyURL,
+                    privateKeyFile: Globals.gitSSHPrivateKeyURL,
                     passwordNotSetCallback: nil
                 )
             )
         } else {
             gitCredential = nil
         }
+    }
+    
+    public func initGitSSHKey(with armorKey: String, _ keyType: SSHKeyType) throws {
+        var keyPath = ""
+        switch keyType {
+        case .public:
+            keyPath = Globals.gitSSHPublicKeyPath
+        case .secret:
+            keyPath = Globals.gitSSHPrivateKeyPath
+        }
         
+        try armorKey.write(toFile: keyPath, atomically: true, encoding: .ascii)
     }
     
     public func initPGPKeys() {
@@ -302,9 +330,11 @@ class PasswordStore {
         }
         storeRepository = try GTRepository(url: storeURL)
         gitCredential = credential
-        self.updatePasswordEntityCoreData()
-        
-        NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+        Defaults[.lastSyncedTime] = Date()
+        DispatchQueue.main.async {
+            self.updatePasswordEntityCoreData()
+            NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+        }
     }
     
     func pullRepository(transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
@@ -317,9 +347,12 @@ class PasswordStore {
         ]
         let remote = try GTRemote(name: "origin", in: storeRepository!)
         try storeRepository?.pull((storeRepository?.currentBranch())!, from: remote, withOptions: options, progress: transferProgressBlock)
-        self.setAllSynced()
-        self.updatePasswordEntityCoreData()
-        NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+        Defaults[.lastSyncedTime] = Date()
+        DispatchQueue.main.async {
+            self.setAllSynced()
+            self.updatePasswordEntityCoreData()
+            NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+        }
     }
     
     private func updatePasswordEntityCoreData() {
@@ -649,8 +682,8 @@ class PasswordStore {
 
         Utils.removeFileIfExists(atPath: Globals.pgpPublicKeyPath)
         Utils.removeFileIfExists(atPath: Globals.pgpPrivateKeyPath)
-        Utils.removeFileIfExists(at: Globals.sshPrivateKeyURL)
-        Utils.removeFileIfExists(at: Globals.sshPublicKeyURL)
+        Utils.removeFileIfExists(atPath: Globals.gitSSHPublicKeyPath)
+        Utils.removeFileIfExists(atPath: Globals.gitSSHPrivateKeyPath)
         
         Utils.removeAllKeychain()
 
@@ -678,6 +711,8 @@ class PasswordStore {
             try self.storeRepository?.reset(to: newHead, resetType: GTRepositoryResetType.hard)
             self.setAllSynced()
             self.updatePasswordEntityCoreData()
+            Defaults[.lastSyncedTime] = nil
+            
             NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
             NotificationCenter.default.post(name: .passwordStoreChangeDiscarded, object: nil)
             return localCommits.count

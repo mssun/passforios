@@ -63,7 +63,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
                     [[.style: CellDataStyle.value1, .accessoryType: type, .title: "Passwords", .detailText: numberOfPasswordsString],
                      [.style: CellDataStyle.value1, .accessoryType: type, .title: "Size", .detailText: sizeOfRepositoryString],
                      [.style: CellDataStyle.value1, .accessoryType: type, .title: "Local Commits", .detailText: String(self?.passwordStore.numberOfLocalCommits() ?? 0)],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Last Synced", .detailText: Utils.getLastUpdatedTimeString()],
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Last Synced", .detailText: Utils.getLastSyncedTimeString()],
                      [.style: CellDataStyle.value1, .accessoryType: type, .title: "Commits", .detailText: numberOfCommitsString],
                      [.title: "Commit Logs", .action: "segue", .link: "showCommitLogsSegue"],
                      ],

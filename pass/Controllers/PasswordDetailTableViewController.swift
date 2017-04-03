@@ -39,6 +39,11 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             content = ""
         }
         
+        init(title: String) {
+            self.title = title
+            self.content = ""
+        }
+        
         init(title: String, content: String) {
             self.title = title
             self.content = content
@@ -46,11 +51,26 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
     
     private struct TableSection {
-        var title: String
+        var type: PasswordDetailTableViewControllerSectionType
+        var header: String?
         var item: Array<TableCell>
+        init(type: PasswordDetailTableViewControllerSectionType) {
+            self.type = type
+            header = nil
+            item = [TableCell]()
+        }
+        
+        init(type: PasswordDetailTableViewControllerSectionType, header: String) {
+            self.init(type: type)
+            self.header = header
+        }
     }
     
     private var tableData = Array<TableSection>()
+    
+    private enum PasswordDetailTableViewControllerSectionType {
+        case name, main, addition, misc
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,12 +78,12 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         tableView.register(UINib(nibName: "PasswordDetailTitleTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordDetailTitleTableViewCell")
         
         passwordCategoryText = passwordEntity!.getCategoryText()
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PasswordDetailTableViewController.tapMenu(recognizer:)))
+        tapGesture.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tapGesture)
         tapGesture.delegate = self
         
-        tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
+        tableView.contentInset = UIEdgeInsetsMake(-36, 0, 44, 0);
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 52
         
@@ -224,23 +244,31 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
     private func setTableData() {
         self.tableData = Array<TableSection>()
-        tableData.append(TableSection(title: "", item: []))
-        tableData[0].item.append(TableCell())
-        var tableDataIndex = 1
-        self.tableData.append(TableSection(title: "", item: []))
+        
+        // name section
+        var section = TableSection(type: .name)
+        section.item.append(TableCell())
+        tableData.append(section)
+
+        // main section
+        section = TableSection(type: .main)
         let password = self.password!
         if let username = password.getUsername() {
-            self.tableData[tableDataIndex].item.append(TableCell(title: "username", content: username))
+            section.item.append(TableCell(title: "username", content: username))
         }
-        self.tableData[tableDataIndex].item.append(TableCell(title: "password", content: password.password))
+        section.item.append(TableCell(title: "password", content: password.password))
+        tableData.append(section)
+
+        
+        // addition section
         
         // show one time password
         if password.otpType != .none {
             if let (title, otp) = self.password?.getOtpStrings() {
-                self.tableData.append(TableSection(title: "One time password", item: []))
-                tableDataIndex += 1
-                oneTimePasswordIndexPath = IndexPath(row: 0, section: tableDataIndex)
-                self.tableData[tableDataIndex].item.append(TableCell(title: title, content: otp))
+                section = TableSection(type: .addition, header: "One Time Password")
+                section.item.append(TableCell(title: title, content: otp))
+                tableData.append(section)
+                oneTimePasswordIndexPath = IndexPath(row: 0, section: tableData.count - 1)
             }
         }
         
@@ -252,12 +280,18 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 (!Password.otpKeywords.contains($0) || !Defaults[.isHideOTPOn]) }
         
         if filteredAdditionKeys.count > 0 {
-            self.tableData.append(TableSection(title: "additions", item: []))
-            tableDataIndex += 1
+            section = TableSection(type: .addition, header: "additions")
             for additionKey in filteredAdditionKeys {
-                self.tableData[tableDataIndex].item.append(TableCell(title: additionKey, content: password.additions[additionKey]!))
+                section.item.append(TableCell(title: additionKey, content: password.additions[additionKey]!))
             }
+            tableData.append(section)
         }
+        
+        // misc section
+        section = TableSection(type: .misc)
+        section.item.append(TableCell(title: "Show Raw"))
+        tableData.append(section)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -265,6 +299,12 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             if let controller = segue.destination as? UINavigationController {
                 if let editController = controller.viewControllers.first as? EditPasswordTableViewController {
                     editController.password = password
+                }
+            }
+        } else if segue.identifier == "showRawPasswordSegue" {
+            if let controller = segue.destination as? UINavigationController {
+                if let controller = controller.viewControllers.first as? RawPasswordViewController {
+                    controller.password = password
                 }
             }
         }
@@ -328,6 +368,16 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
     }
     
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if touch.view!.isKind(of: UIButton.classForCoder()) {
+            return false
+        }
+        return true
+    }
+    
+    @IBAction func back(segue:UIStoryboardSegue) {
+    }
+    
     func getNextHOTP() {
         guard password != nil, passwordEntity != nil, password?.otpType == .hotp else {
             DispatchQueue.main.async {
@@ -380,8 +430,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let sectionIndex = indexPath.section
         let rowIndex = indexPath.row
-        
-        if sectionIndex == 0 && rowIndex == 0 {
+        let tableDataItem = tableData[sectionIndex].item[rowIndex]
+        switch(tableData[sectionIndex].type) {
+        case .name:
             let cell = tableView.dequeueReusableCell(withIdentifier: "passwordDetailTitleTableViewCell", for: indexPath) as! PasswordDetailTitleTableViewCell
             cell.passwordImageImageView.image = passwordImage ?? #imageLiteral(resourceName: "PasswordImagePlaceHolder")
             var passwordName = passwordEntity!.name!
@@ -390,22 +441,29 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             }
             cell.nameLabel.text = passwordName
             cell.categoryLabel.text = passwordCategoryText
+            cell.selectionStyle = .none
             return cell
-        } else {
+        case .main, .addition:
             let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell
-            let titleData = tableData[sectionIndex].item[rowIndex].title
-            let contentData = tableData[sectionIndex].item[rowIndex].content
+            let titleData = tableDataItem.title
+            let contentData = tableDataItem.content
             cell.delegatePasswordTableView = self
             cell.isPasswordCell = (titleData.lowercased() == "password" ? true : false)
             cell.isURLCell = (titleData.lowercased() == "url" ? true : false)
             cell.isHOTPCell = (titleData == "HMAC-based" ? true : false)
             cell.cellData = LabelTableViewCellData(title: titleData, content: contentData)
+            cell.selectionStyle = .none
+            return cell
+        case .misc:
+            let cell = UITableViewCell()
+            cell.textLabel?.text = tableDataItem.title
+            cell.selectionStyle = .default
             return cell
         }
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return tableData[section].title
+        return tableData[section].header
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -430,10 +488,26 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
     
     override func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return action == #selector(UIResponderStandardEditActions.copy(_:))
+        let section = tableData[indexPath.section]
+        switch(section.type) {
+        case .main, .addition:
+            return action == #selector(UIResponderStandardEditActions.copy(_:))
+        default:
+            return false
+        }
     }
     
     override func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
         return true
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let section = tableData[indexPath.section]
+        if section.type == .misc {
+            if section.item[indexPath.row].title == "Show Raw" {
+                performSegue(withIdentifier: "showRawPasswordSegue", sender: self)
+            }
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

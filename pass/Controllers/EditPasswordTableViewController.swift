@@ -22,14 +22,15 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "saveEditPasswordSegue" {
-            let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! ContentTableViewCell
-            if nameCell.getContent() != password?.name {
-                let alertTitle = "Cannot Save Edit"
-                let alertMessage = "Editing name is not supported."
-                Utils.alert(title: alertTitle, message: alertMessage, controller: self) {
-                    nameCell.setContent(content: self.password!.name)
+            if let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ContentTableViewCell {
+                if nameCell.getContent() != password?.name {
+                    let alertTitle = "Cannot Save Edit"
+                    let alertMessage = "Editing name is not supported."
+                    Utils.alert(title: alertTitle, message: alertMessage, controller: self) {
+                        nameCell.setContent(content: self.password!.name)
+                    }
+                    return false
                 }
-                return false
             }
         }
         return true

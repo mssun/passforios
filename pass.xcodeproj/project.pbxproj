@@ -24,6 +24,7 @@
 		DC037CBF1E4ED4E100609409 /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CBD1E4ED4E100609409 /* TextViewTableViewCell.swift */; };
 		DC037CC01E4ED4E100609409 /* TextViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC037CBE1E4ED4E100609409 /* TextViewTableViewCell.xib */; };
 		DC1208581E35EBE60042942E /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1208571E35EBE60042942E /* ObjectiveGit.framework */; };
+		DC13B1511E8640810097803F /* passTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13B1501E8640810097803F /* passTests.swift */; };
 		DC193FFA1E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC193FF91E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift */; };
 		DC193FFC1E49E0340077E0A3 /* PasscodeLock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC193FFB1E49E0340077E0A3 /* PasscodeLock.framework */; };
 		DC193FFE1E49E0760077E0A3 /* PasscodeLockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC193FFD1E49E0760077E0A3 /* PasscodeLockRepository.swift */; };
@@ -52,10 +53,10 @@
 		DCC277D21E30D6EA00402246 /* pass.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCC408C81E30BA1300F29B0E /* pass.xcdatamodeld */; };
 		DCC408A41E2FCC9E00F29B0E /* PasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC408A31E2FCC9E00F29B0E /* PasswordStore.swift */; };
 		DCC408C71E307DBB00F29B0E /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */; };
+		DCC441521E8F6C06008A90C4 /* RawPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */; };
+		DCC441541E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC441531E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift */; };
 		DCDDEAB01E4639F300F68193 /* LabelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */; };
 		DCDDEAB31E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */; };
-		DCE6C2671E71261C003038C6 /* PasswordWithFolderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE6C2651E71261C003038C6 /* PasswordWithFolderTableViewCell.swift */; };
-		DCE6C2681E71261C003038C6 /* PasswordWithFolderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCE6C2661E71261C003038C6 /* PasswordWithFolderTableViewCell.xib */; };
 		DCFB779A1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77981E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift */; };
 		DCFB779B1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCFB77991E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib */; };
 		DCFB779E1E4F40C7008DE471 /* FillPasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB779C1E4F40C7008DE471 /* FillPasswordTableViewCell.swift */; };
@@ -66,6 +67,16 @@
 		DCFB77A91E502FF6008DE471 /* PasswordEditorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77A81E502FF6008DE471 /* PasswordEditorTableViewController.swift */; };
 		DCFB77AB1E503729008DE471 /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77AA1E503729008DE471 /* ContentTableViewCell.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DC13B1531E8640810097803F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DC917BCB1E2E8231000FDF54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DC917BD21E2E8231000FDF54;
+			remoteInfo = pass;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		274CCFCF32444A2FF46BE7F4 /* Pods-pass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.debug.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.debug.xcconfig"; sourceTree = "<group>"; };
@@ -87,6 +98,9 @@
 		DC037CBD1E4ED4E100609409 /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCell.swift; sourceTree = "<group>"; };
 		DC037CBE1E4ED4E100609409 /* TextViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextViewTableViewCell.xib; sourceTree = "<group>"; };
 		DC1208571E35EBE60042942E /* ObjectiveGit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectiveGit.framework; path = Carthage/Build/iOS/ObjectiveGit.framework; sourceTree = "<group>"; };
+		DC13B14E1E8640810097803F /* passTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = passTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC13B1501E8640810097803F /* passTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = passTests.swift; sourceTree = "<group>"; };
+		DC13B1521E8640810097803F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC193FF91E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsTableViewController.swift; sourceTree = "<group>"; };
 		DC193FFB1E49E0340077E0A3 /* PasscodeLock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PasscodeLock.framework; path = Carthage/Build/iOS/PasscodeLock.framework; sourceTree = "<group>"; };
 		DC193FFD1E49E0760077E0A3 /* PasscodeLockRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLockRepository.swift; sourceTree = "<group>"; };
@@ -118,10 +132,10 @@
 		DCC408A31E2FCC9E00F29B0E /* PasswordStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
 		DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
 		DCC408C91E30BA1300F29B0E /* pass.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = pass.xcdatamodel; sourceTree = "<group>"; };
+		DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawPasswordViewController.swift; sourceTree = "<group>"; };
+		DCC441531E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitSSHKeyArmorSettingTableViewController.swift; sourceTree = "<group>"; };
 		DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelTableViewCell.xib; sourceTree = "<group>"; };
 		DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTitleTableViewCell.swift; sourceTree = "<group>"; };
-		DCE6C2651E71261C003038C6 /* PasswordWithFolderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordWithFolderTableViewCell.swift; sourceTree = "<group>"; };
-		DCE6C2661E71261C003038C6 /* PasswordWithFolderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PasswordWithFolderTableViewCell.xib; sourceTree = "<group>"; };
 		DCFB77981E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleTextFieldTableViewCell.swift; sourceTree = "<group>"; };
 		DCFB77991E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleTextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		DCFB779C1E4F40C7008DE471 /* FillPasswordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FillPasswordTableViewCell.swift; sourceTree = "<group>"; };
@@ -134,6 +148,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		DC13B14B1E8640810097803F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DC917BD01E2E8231000FDF54 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -162,6 +183,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		DC13B14F1E8640810097803F /* passTests */ = {
+			isa = PBXGroup;
+			children = (
+				DC13B1501E8640810097803F /* passTests.swift */,
+				DC13B1521E8640810097803F /* Info.plist */,
+			);
+			path = passTests;
+			sourceTree = "<group>";
+		};
 		DC19400C1E4B39400077E0A3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,12 +207,14 @@
 				DCA049991E335CC800522E8F /* GitServerSettingTableViewController.swift */,
 				DC037CA51E4B883900609409 /* OpenSourceComponentsTableViewController.swift */,
 				DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */,
+				DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */,
 				DCFB77A81E502FF6008DE471 /* PasswordEditorTableViewController.swift */,
 				DC5734AD1E439AD400D09270 /* PasswordsViewController.swift */,
 				DCA0499B1E3362F400522E8F /* PGPKeySettingTableViewController.swift */,
 				DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */,
 				DC037CA91E4B8EAE00609409 /* SpecialThanksTableViewController.swift */,
 				DC8963BF1E38EEB900828B09 /* SSHKeySettingTableViewController.swift */,
+				DCC441531E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -229,8 +261,6 @@
 				DC037CBD1E4ED4E100609409 /* TextViewTableViewCell.swift */,
 				DC037CBE1E4ED4E100609409 /* TextViewTableViewCell.xib */,
 				DCFB77AA1E503729008DE471 /* ContentTableViewCell.swift */,
-				DCE6C2651E71261C003038C6 /* PasswordWithFolderTableViewCell.swift */,
-				DCE6C2661E71261C003038C6 /* PasswordWithFolderTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -239,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				DC917BD51E2E8231000FDF54 /* pass */,
+				DC13B14F1E8640810097803F /* passTests */,
 				DC917BD41E2E8231000FDF54 /* Products */,
 				DC917BED1E2F38C4000FDF54 /* Frameworks */,
 				A51B01737D08DB47BB58F85A /* Pods */,
@@ -249,6 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				DC917BD31E2E8231000FDF54 /* pass.app */,
+				DC13B14E1E8640810097803F /* passTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -289,6 +321,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		DC13B14D1E8640810097803F /* passTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DC13B1571E8640810097803F /* Build configuration list for PBXNativeTarget "passTests" */;
+			buildPhases = (
+				DC13B14A1E8640810097803F /* Sources */,
+				DC13B14B1E8640810097803F /* Frameworks */,
+				DC13B14C1E8640810097803F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DC13B1541E8640810097803F /* PBXTargetDependency */,
+			);
+			name = passTests;
+			productName = passTests;
+			productReference = DC13B14E1E8640810097803F /* passTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		DC917BD21E2E8231000FDF54 /* pass */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DC917BE51E2E8231000FDF54 /* Build configuration list for PBXNativeTarget "pass" */;
@@ -316,14 +366,20 @@
 		DC917BCB1E2E8231000FDF54 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Bob Sun";
 				TargetAttributes = {
+					DC13B14D1E8640810097803F = {
+						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = 4WDM8E95VU;
+						ProvisioningStyle = Automatic;
+						TestTargetID = DC917BD21E2E8231000FDF54;
+					};
 					DC917BD21E2E8231000FDF54 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 4WDM8E95VU;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -341,11 +397,19 @@
 			projectRoot = "";
 			targets = (
 				DC917BD21E2E8231000FDF54 /* pass */,
+				DC13B14D1E8640810097803F /* passTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		DC13B14C1E8640810097803F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DC917BD11E2E8231000FDF54 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -357,7 +421,6 @@
 				DCDDEAB01E4639F300F68193 /* LabelTableViewCell.xib in Resources */,
 				DC917BDC1E2E8231000FDF54 /* Main.storyboard in Resources */,
 				A2802BFA1E70813A00879216 /* SliderTableViewCell.xib in Resources */,
-				DCE6C2681E71261C003038C6 /* PasswordWithFolderTableViewCell.xib in Resources */,
 				DCFB779B1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib in Resources */,
 				DCFB779F1E4F40C7008DE471 /* FillPasswordTableViewCell.xib in Resources */,
 				DC037CC01E4ED4E100609409 /* TextViewTableViewCell.xib in Resources */,
@@ -437,12 +500,21 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		DC13B14A1E8640810097803F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC13B1511E8640810097803F /* passTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DC917BCF1E2E8231000FDF54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				DCC408A41E2FCC9E00F29B0E /* PasswordStore.swift in Sources */,
 				DC037CBF1E4ED4E100609409 /* TextViewTableViewCell.swift in Sources */,
+				DCC441541E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift in Sources */,
 				DC8963C01E38EEB900828B09 /* SSHKeySettingTableViewController.swift in Sources */,
 				DC193FFA1E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift in Sources */,
 				DCFB77AB1E503729008DE471 /* ContentTableViewCell.swift in Sources */,
@@ -452,7 +524,6 @@
 				DC5F385B1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift in Sources */,
 				A27424D91E7C35960093F436 /* NotificationNames.swift in Sources */,
 				DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */,
-				DCE6C2671E71261C003038C6 /* PasswordWithFolderTableViewCell.swift in Sources */,
 				DCFB77A71E502DF9008DE471 /* EditPasswordTableViewController.swift in Sources */,
 				DCA0499A1E335CC800522E8F /* GitServerSettingTableViewController.swift in Sources */,
 				DCDDEAB31E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift in Sources */,
@@ -469,6 +540,7 @@
 				DC037CB21E4CAB1700609409 /* AboutRepositoryTableViewController.swift in Sources */,
 				DC037CB01E4CA51F00609409 /* GeneralSettingsTableViewController.swift in Sources */,
 				DC037CB81E4DD1A500609409 /* AddPasswordTableViewController.swift in Sources */,
+				DCC441521E8F6C06008A90C4 /* RawPasswordViewController.swift in Sources */,
 				DC1940001E49E1A60077E0A3 /* PasscodeLockConfiguration.swift in Sources */,
 				DC917BD71E2E8231000FDF54 /* AppDelegate.swift in Sources */,
 				DCFB779A1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift in Sources */,
@@ -483,6 +555,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DC13B1541E8640810097803F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DC917BD21E2E8231000FDF54 /* pass */;
+			targetProxy = DC13B1531E8640810097803F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		DC917BDA1E2E8231000FDF54 /* Main.storyboard */ = {
@@ -504,6 +584,38 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		DC13B1551E8640810097803F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEVELOPMENT_TEAM = 4WDM8E95VU;
+				INFOPLIST_FILE = passTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pass.app/pass";
+			};
+			name = Debug;
+		};
+		DC13B1561E8640810097803F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				DEVELOPMENT_TEAM = 4WDM8E95VU;
+				INFOPLIST_FILE = passTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pass.app/pass";
+			};
+			name = Release;
+		};
 		DC917BE31E2E8231000FDF54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -601,7 +713,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 2;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -620,6 +732,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "893c10b3-79b1-46f7-914a-e625bf10d665";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development me.mssun.passforios";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/pass/Helpers/Objective-CBridgingHeader.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -632,8 +746,8 @@
 			baseConfigurationReference = AEAD6B31EAF5D061447A68CC /* Pods-pass.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 24;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CURRENT_PROJECT_VERSION = 2;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -652,6 +766,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "aefeea85-1194-4db2-9ce4-fb9995e2fdff";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore me.mssun.passforios";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/pass/Helpers/Objective-CBridgingHeader.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -662,6 +778,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		DC13B1571E8640810097803F /* Build configuration list for PBXNativeTarget "passTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC13B1551E8640810097803F /* Debug */,
+				DC13B1561E8640810097803F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DC917BCE1E2E8231000FDF54 /* Build configuration list for PBXProject "pass" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

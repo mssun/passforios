@@ -4,6 +4,7 @@
 [![GitHub release](https://img.shields.io/github/release/mssun/pass-ios.svg)](https://github.com/mssun/pass-ios/releases)
 ![Swift 3.1](https://img.shields.io/badge/Swift-3.1-orange.svg)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/passforios/passforios)
+[![Build Status](https://travis-ci.org/mssun/passforios.svg?branch=develop)](https://travis-ci.org/mssun/passforios)
 
 Pass is an iOS client compatible with [ZX2C4's Pass command line
 application](http://www.passwordstore.org/).  It is a password manager using

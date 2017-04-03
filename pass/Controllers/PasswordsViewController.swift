@@ -86,7 +86,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(parent: parent)
         } else {
             passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
-            
         }
         passwordsTableEntries = passwordEntities.map {
             PasswordsTableEntry(title: $0.name!, isDir: $0.isDir, passwordEntity: $0)
@@ -109,8 +108,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                             SVProgressHUD.showProgress(progress, status: "Encrypting")
                         }
                     })
-                    
                     DispatchQueue.main.async {
+                        // will trigger reloadTableView() by a notification
                         SVProgressHUD.showSuccess(withStatus: "Done")
                         SVProgressHUD.dismiss(withDelay: 1)
                     }
@@ -144,8 +143,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 }
                 DispatchQueue.main.async {
                     self.reloadTableView(parent: nil)
-                    Defaults[.lastUpdatedTime] = Date()
-                    Defaults[.gitRepositoryPasswordAttempts] = 0
+                    Defaults[.gitPasswordAttempts] = 0
                     SVProgressHUD.showSuccess(withStatus: "Done")
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
@@ -174,9 +172,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         reloadTableView(parent: nil)
         
         // reset the data table if some password (maybe another one) has been updated
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView as (Void) -> Void), name: .passwordStoreUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(actOnReloadTableViewRelatedNotification), name: .passwordStoreUpdated, object: nil)
         // reset the data table if the disaply settings have been changed
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView as (Void) -> Void), name: .passwordDisplaySettingChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(actOnReloadTableViewRelatedNotification), name: .passwordDisplaySettingChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(actOnSearchNotification), name: .passwordSearch, object: nil)
     }
     
@@ -221,20 +219,23 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             } else {
                 cell.textLabel?.text = "\(entry.title)"
                 cell.accessoryType = .disclosureIndicator
+                cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .body)
                 cell.detailTextLabel?.text = "\(entry.passwordEntity?.children?.count ?? 0)"
             }
             return cell
         } else {
-            let passwordWithFolderCell = tableView.dequeueReusableCell(withIdentifier: "passwordWithFolderTableViewCell", for: indexPath) as! PasswordWithFolderTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
             let entry = getPasswordEntry(by: indexPath)
             if entry.passwordEntity!.synced {
-                passwordWithFolderCell.passwordLabel?.text = entry.title
+                cell.textLabel?.text = entry.title
             } else {
-                passwordWithFolderCell.passwordLabel?.text = "↻ \(entry.title)"
+                cell.textLabel?.text = "↻ \(entry.title)"
             }
-            passwordWithFolderCell.folderLabel.text = entry.passwordEntity?.getCategoryText()
-            passwordWithFolderCell.addGestureRecognizer(longPressGestureRecognizer)
-            return passwordWithFolderCell
+            cell.accessoryType = .none
+            cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
+            cell.detailTextLabel?.text = entry.passwordEntity?.getCategoryText()
+            cell.addGestureRecognizer(longPressGestureRecognizer)
+            return cell
         }
 
     }
@@ -429,7 +430,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         self.tableView.layer.removeAnimation(forKey: "UITableViewReloadDataAnimationKey")
         
         // set the sync control title
-        let atribbutedTitle = "Last Synced: \(Utils.getLastUpdatedTimeString())"
+        let atribbutedTitle = "Last Synced: \(Utils.getLastSyncedTimeString())"
         syncControl.attributedTitle = NSAttributedString(string: atribbutedTitle)
     }
     
@@ -438,9 +439,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         reloadTableView(data: passwordsTableEntries, anim: anim)
     }
     
-    func reloadTableView() {
+    func actOnReloadTableViewRelatedNotification() {
         initPasswordsTableEntries(parent: nil)
-        reloadTableView(data: passwordsTableEntries)
+        DispatchQueue.main.async { [weak weakSelf = self] in
+            guard let strongSelf = weakSelf else { return }
+            strongSelf.reloadTableView(data: strongSelf.passwordsTableEntries)
+        }
     }
     
     func handleRefresh(_ syncControl: UIRefreshControl) {
