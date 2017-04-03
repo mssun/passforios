@@ -219,20 +219,23 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             } else {
                 cell.textLabel?.text = "\(entry.title)"
                 cell.accessoryType = .disclosureIndicator
+                cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .body)
                 cell.detailTextLabel?.text = "\(entry.passwordEntity?.children?.count ?? 0)"
             }
             return cell
         } else {
-            let passwordWithFolderCell = tableView.dequeueReusableCell(withIdentifier: "passwordWithFolderTableViewCell", for: indexPath) as! PasswordWithFolderTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
             let entry = getPasswordEntry(by: indexPath)
             if entry.passwordEntity!.synced {
-                passwordWithFolderCell.passwordLabel?.text = entry.title
+                cell.textLabel?.text = entry.title
             } else {
-                passwordWithFolderCell.passwordLabel?.text = "↻ \(entry.title)"
+                cell.textLabel?.text = "↻ \(entry.title)"
             }
-            passwordWithFolderCell.folderLabel.text = entry.passwordEntity?.getCategoryText()
-            passwordWithFolderCell.addGestureRecognizer(longPressGestureRecognizer)
-            return passwordWithFolderCell
+            cell.accessoryType = .none
+            cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
+            cell.detailTextLabel?.text = entry.passwordEntity?.getCategoryText()
+            cell.addGestureRecognizer(longPressGestureRecognizer)
+            return cell
         }
 
     }
