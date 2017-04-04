@@ -9,7 +9,6 @@
 import UIKit
 import SVProgressHUD
 
-
 struct LabelTableViewCellData {
     var title: String
     var content: String
@@ -19,36 +18,53 @@ class LabelTableViewCell: UITableViewCell {
 
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
+    
+    private enum CellType {
+        case password, URL, HOTP, other
+    }
 
-    var isPasswordCell = false
-    var isURLCell = false
-    var isReveal = false
-    var isHOTPCell = false
+    private var type = CellType.other
+    private var isReveal = false
     
     weak var delegatePasswordTableView : PasswordDetailTableViewController?
     
-    var passwordDisplayButton: UIButton?
-    var buttons: UIView?
+    private var passwordDisplayButton: UIButton?
+    private var buttons: UIView?
     
     var cellData: LabelTableViewCellData? {
         didSet {
-            titleLabel.text = cellData?.title ?? ""
-            if isPasswordCell {
+            guard let title = cellData?.title, let content = cellData?.content else {
+                type = .other
+                return
+            }
+            titleLabel.text = title
+            switch title.lowercased() {
+            case "password":
+                type = .password
                 if isReveal {
-                    contentLabel.attributedText = Utils.attributedPassword(plainPassword: cellData?.content ?? "")
+                    contentLabel.attributedText = Utils.attributedPassword(plainPassword: content)
                 } else {
-                    contentLabel.text = Globals.passwordDots
+                    if content == "" {
+                        contentLabel.text = ""
+                    } else {
+                        contentLabel.text = Globals.passwordDots
+                    }
                 }
                 contentLabel.font = UIFont(name: Globals.passwordFonts, size: contentLabel.font.pointSize)
-            } else if isHOTPCell {
+            case "hmac-based":
+                type = .HOTP
                 if isReveal {
-                    contentLabel.text = cellData?.content ?? ""
+                    contentLabel.text = content
                 } else {
-                    contentLabel.text = Globals.passwordDots
+                    contentLabel.text = Globals.oneTimePasswordDots
                 }
                 contentLabel.font = UIFont(name: Globals.passwordFonts, size: contentLabel.font.pointSize)
-            } else {
-                contentLabel.text = cellData?.content
+            case "url":
+                type = .URL
+                contentLabel.text = content
+            default:
+                type = .other
+                contentLabel.text = content
             }
             updateButtons()
         }
@@ -76,46 +92,51 @@ class LabelTableViewCell: UITableViewCell {
     }
 
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        if isPasswordCell {
+        switch type {
+        case .password:
             if isReveal {
-                return action == #selector(copy(_:)) || action == #selector(LabelTableViewCell.concealPassword(_:))
+                return action == #selector(copy(_:)) || action == #selector(concealPassword(_:))
             } else {
-                return action == #selector(copy(_:)) || action == #selector(LabelTableViewCell.revealPassword(_:))
+                return action == #selector(copy(_:)) || action == #selector(revealPassword(_:))
             }
-        }
-        if isURLCell {
-            return action == #selector(copy(_:)) || action == #selector(LabelTableViewCell.openLink(_:))
-        }
-        if isHOTPCell {
+        case .URL:
+            return action == #selector(copy(_:)) || action == #selector(openLink(_:))
+        case .HOTP:
             if isReveal {
-                return action == #selector(copy(_:)) || action == #selector(LabelTableViewCell.concealPassword(_:)) || action == #selector(LabelTableViewCell.getNextHOTP(_:))
+                return action == #selector(copy(_:)) || action == #selector(concealPassword(_:)) || action == #selector(getNextHOTP(_:))
             } else {
-                return action == #selector(copy(_:)) || action == #selector(LabelTableViewCell.revealPassword(_:)) || action == #selector(LabelTableViewCell.getNextHOTP(_:))
+                return action == #selector(copy(_:)) || action == #selector(revealPassword(_:)) || action == #selector(getNextHOTP(_:))
             }
+        default:
+            return action == #selector(copy(_:))
         }
-        return action == #selector(copy(_:))
     }
-    
+
     override func copy(_ sender: Any?) {
         Utils.copyToPasteboard(textToCopy: cellData?.content)
     }
         
     func revealPassword(_ sender: Any?) {
-        if let plainPassword = cellData?.content {
-            if isHOTPCell {
-                contentLabel.text = plainPassword
-            } else {
-                contentLabel.attributedText = Utils.attributedPassword(plainPassword: plainPassword)
-            }
+        let plainPassword = cellData?.content ?? ""
+        if type == .password {
+            contentLabel.attributedText = Utils.attributedPassword(plainPassword: plainPassword)
         } else {
-            contentLabel.text = ""
+            contentLabel.text = plainPassword
         }
         isReveal = true
         passwordDisplayButton?.setImage(#imageLiteral(resourceName: "Invisible"), for: .normal)
     }
     
     func concealPassword(_ sender: Any?) {
-        contentLabel.text = Globals.passwordDots
+        if type == .password {
+            if cellData?.content.isEmpty == false {
+                contentLabel.text = Globals.passwordDots
+            } else {
+                contentLabel.text = ""
+            }
+        } else {
+            contentLabel.text = Globals.oneTimePasswordDots
+        }
         isReveal = false
         passwordDisplayButton?.setImage(#imageLiteral(resourceName: "Visible"), for: .normal)
     }
@@ -130,7 +151,6 @@ class LabelTableViewCell: UITableViewCell {
         }
     }
 
-    
     func openLink(_ sender: Any?) {
         // if isURLCell, passwordTableView should not be nil
         delegatePasswordTableView!.openLink()
@@ -141,10 +161,7 @@ class LabelTableViewCell: UITableViewCell {
         delegatePasswordTableView!.getNextHOTP()
     }
     
-    func updateButtons() {
-        passwordDisplayButton = nil
-        buttons = nil
-        
+    private func updateButtons() {
         // total width and height of a button
         let height = min(self.bounds.height, 36.0)
         let width = max(height * 0.8, Globals.tableCellButtonSize)
@@ -153,16 +170,19 @@ class LabelTableViewCell: UITableViewCell {
         let marginY = max((height - Globals.tableCellButtonSize) / 2, 0.0)
         let marginX = max((width - Globals.tableCellButtonSize) / 2, 0.0)
         
-        if isPasswordCell {
-            // password button
-            passwordDisplayButton = UIButton(type: .system)
-            passwordDisplayButton!.frame = CGRect(x: 0, y: 0, width: width, height: height)
-            passwordDisplayButton!.setImage(#imageLiteral(resourceName: "Visible"), for: .normal)
-            passwordDisplayButton!.imageView?.contentMode = .scaleAspectFit
-            passwordDisplayButton!.contentEdgeInsets = UIEdgeInsetsMake(marginY, marginX, marginY, marginX)
-            passwordDisplayButton!.addTarget(self, action: #selector(reversePasswordDisplay), for: UIControlEvents.touchUpInside)
-            buttons = passwordDisplayButton
-        } else if isHOTPCell {
+        switch type {
+        case .password:
+            if let content = cellData?.content, content != "" {
+                // password button
+                passwordDisplayButton = UIButton(type: .system)
+                passwordDisplayButton!.frame = CGRect(x: 0, y: 0, width: width, height: height)
+                passwordDisplayButton!.setImage(#imageLiteral(resourceName: "Visible"), for: .normal)
+                passwordDisplayButton!.imageView?.contentMode = .scaleAspectFit
+                passwordDisplayButton!.contentEdgeInsets = UIEdgeInsetsMake(marginY, marginX, marginY, marginX)
+                passwordDisplayButton!.addTarget(self, action: #selector(reversePasswordDisplay), for: UIControlEvents.touchUpInside)
+                buttons = passwordDisplayButton
+            }
+        case .HOTP:
             // hotp button
             let nextButton = UIButton(type: .system)
             nextButton.frame = CGRect(x: 0, y: 0, width: width, height: height)
@@ -184,6 +204,9 @@ class LabelTableViewCell: UITableViewCell {
             buttons!.frame = CGRect(x: 0, y: 0, width: width * 2, height: height)
             buttons!.addSubview(nextButton)
             buttons!.addSubview(passwordDisplayButton!)
+        default:
+            passwordDisplayButton = nil
+            buttons = nil
         }
     }
 }

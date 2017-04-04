@@ -448,9 +448,6 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             let titleData = tableDataItem.title
             let contentData = tableDataItem.content
             cell.delegatePasswordTableView = self
-            cell.isPasswordCell = (titleData.lowercased() == "password" ? true : false)
-            cell.isURLCell = (titleData.lowercased() == "url" ? true : false)
-            cell.isHOTPCell = (titleData == "HMAC-based" ? true : false)
             cell.cellData = LabelTableViewCellData(title: titleData, content: contentData)
             cell.selectionStyle = .none
             return cell

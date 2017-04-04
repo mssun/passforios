@@ -27,6 +27,7 @@ class Globals {
                                         "Apple":  (min: 15, max: 15, def: 15)]
     
     static let passwordDots = "••••••••••••"
+    static let oneTimePasswordDots = "••••••"
     static let passwordFonts = "Menlo"
     
     // UI related
