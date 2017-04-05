@@ -22,8 +22,9 @@ fileprivate class PasswordsTableEntry : NSObject {
     }
 }
 
-class PasswordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate {
+class PasswordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchBarDelegate {
     private var passwordsTableEntries: [PasswordsTableEntry] = []
+    private var passwordsTableAllEntries: [PasswordsTableEntry] = []
     private var filteredPasswordsTableEntries: [PasswordsTableEntry] = []
     private var parentPasswordEntity: PasswordEntity? = nil
     private let passwordStore = PasswordStore.shared
@@ -82,14 +83,20 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     private func initPasswordsTableEntries(parent: PasswordEntity?) {
         passwordsTableEntries.removeAll()
+        passwordsTableAllEntries.removeAll()
         filteredPasswordsTableEntries.removeAll()
         var passwordEntities = [PasswordEntity]()
+        var passwordAllEntities = [PasswordEntity]()
         if Defaults[.isShowFolderOn] {
             passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(parent: parent)
         } else {
             passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
         }
         passwordsTableEntries = passwordEntities.map {
+            PasswordsTableEntry(title: $0.name!, isDir: $0.isDir, passwordEntity: $0)
+        }
+        passwordAllEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
+        passwordsTableAllEntries = passwordAllEntities.map {
             PasswordsTableEntry(title: $0.name!, isDir: $0.isDir, passwordEntity: $0)
         }
         parentPasswordEntity = parent
@@ -157,11 +164,21 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if Defaults[.isShowFolderOn] {
+            searchController.searchBar.scopeButtonTitles = ["Current", "All"]
+        } else {
+            searchController.searchBar.scopeButtonTitles = nil
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tabBarController!.delegate = self
+        searchController.searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
         definesPresentationContext = true
@@ -204,7 +221,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
         longPressGestureRecognizer.minimumPressDuration = 0.6
-        if Defaults[.isShowFolderOn] {
+        if Defaults[.isShowFolderOn] && searchController.searchBar.selectedScopeButtonIndex == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
             
             let entry = getPasswordEntry(by: indexPath)
@@ -396,14 +413,30 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func filterContentForSearchText(searchText: String, scope: String = "All") {
-        filteredPasswordsTableEntries = passwordsTableEntries.filter { entry in
-            return entry.title.lowercased().contains(searchText.lowercased())
+        switch scope {
+        case "All":
+            filteredPasswordsTableEntries = passwordsTableAllEntries.filter { entry in
+                return entry.title.lowercased().contains(searchText.lowercased())
+            }
+            if searchController.isActive && searchController.searchBar.text != "" {
+                reloadTableView(data: filteredPasswordsTableEntries)
+            } else {
+                reloadTableView(data: passwordsTableAllEntries)
+            }
+        case "Current":
+            filteredPasswordsTableEntries = passwordsTableEntries.filter { entry in
+                return entry.title.lowercased().contains(searchText.lowercased())
+            }
+            if searchController.isActive && searchController.searchBar.text != "" {
+                reloadTableView(data: filteredPasswordsTableEntries)
+            } else {
+                reloadTableView(data: passwordsTableEntries)
+            }
+        default:
+            break
         }
-        if searchController.isActive && searchController.searchBar.text != "" {
-            reloadTableView(data: filteredPasswordsTableEntries)
-        } else {
-            reloadTableView(data: passwordsTableEntries)
-        }
+        
+        
     }
     
     private func reloadTableView(data: [PasswordsTableEntry], anim: CAAnimation? = nil) {
@@ -466,10 +499,22 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             backAction(self)
         }
     }
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        updateSearchResults(for: searchController)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchController.searchBar.selectedScopeButtonIndex = 0
+        updateSearchResults(for: searchController)
+    }
 }
 
 extension PasswordsViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchText: searchController.searchBar.text!)
+        var scope = "All"
+        if let scopeButtonTitles = searchController.searchBar.scopeButtonTitles {
+            scope = scopeButtonTitles[searchController.searchBar.selectedScopeButtonIndex]
+        }
+        filterContentForSearchText(searchText: searchController.searchBar.text!, scope: scope)
     }
 }
