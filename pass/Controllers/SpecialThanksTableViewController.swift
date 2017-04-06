@@ -27,7 +27,6 @@ class SpecialThanksTableViewController: BasicStaticTableViewController {
                 [CellDataKey.action: "link", CellDataKey.title: item[0], CellDataKey.link: item[1]]
             )
         }
-        navigationItemTitle = "Special Thanks"
         super.viewDidLoad()
     }
 }

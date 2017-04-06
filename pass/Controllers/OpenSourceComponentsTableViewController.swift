@@ -44,7 +44,6 @@ class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
                 [CellDataKey.title: item[0], CellDataKey.action: "link", CellDataKey.link: item[1], CellDataKey.accessoryType: UITableViewCellAccessoryType.detailDisclosureButton, CellDataKey.detailDisclosureAction: #selector(actOnDetailDisclosureButton(_:)), CellDataKey.detailDisclosureData: item[2]]
             )
         }
-        navigationItemTitle = "Open Source Components"
         super.viewDidLoad()
     }
     

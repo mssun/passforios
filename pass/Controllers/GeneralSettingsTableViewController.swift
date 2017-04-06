@@ -47,7 +47,6 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     }()
 
     override func viewDidLoad() {
-        navigationItemTitle = "General"
         tableData = [
             // section 0
             [[.title: "About Repository", .action: "segue", .link: "showAboutRepositorySegue"],],

@@ -16,8 +16,6 @@ class CommitLogsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         commits = passwordStore.getRecentCommits(count: 20)
-        navigationItem.title = "Recent Commit Logs"
-        navigationController!.navigationBar.topItem!.title = "About"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

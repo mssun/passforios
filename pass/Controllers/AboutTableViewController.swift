@@ -21,7 +21,6 @@ class AboutTableViewController: BasicStaticTableViewController {
             [[.title: "Open Source Components", .action: "segue", .link: "showOpenSourceComponentsSegue"],
              [.title: "Special Thanks", .action: "segue", .link: "showSpecialThanksSegue"],],
         ]
-        navigationItemTitle = "About"
         super.viewDidLoad()
     }
     

@@ -27,7 +27,6 @@ class AdvancedSettingsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Advanced"
         encryptInASCIIArmoredSwitch.isOn = Defaults[.encryptInArmored]
         encryptInASCIIArmoredTableViewCell.accessoryView = encryptInASCIIArmoredSwitch
         encryptInASCIIArmoredTableViewCell.selectionStyle = .none

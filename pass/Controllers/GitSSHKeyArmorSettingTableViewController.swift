@@ -14,7 +14,6 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
     @IBOutlet weak var armorPrivateKeyTextView: UITextView!
     var gitSSHPrivateKeyPassphrase: String?
     let passwordStore = PasswordStore.shared
-    var doneBarButtonItem: UIBarButtonItem?
     
     private var recentPastedText = ""
     
@@ -24,12 +23,6 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
         armorPrivateKeyTextView.text = Defaults[.gitSSHPrivateKeyArmor]
         gitSSHPrivateKeyPassphrase = passwordStore.gitSSHPrivateKeyPassphrase
         
-        doneBarButtonItem = UIBarButtonItem(title: "Done",
-                                            style: UIBarButtonItemStyle.done,
-                                            target: self,
-                                            action: #selector(doneButtonTapped(_:)))
-        navigationItem.rightBarButtonItem = doneBarButtonItem
-        navigationItem.title = "SSH Key"
         armorPublicKeyTextView.delegate = self
         armorPrivateKeyTextView.delegate = self
     }
@@ -50,7 +43,7 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
         return savePassphraseAlert
     }
     
-    func doneButtonTapped(_ sender: Any) {
+    @IBAction func doneButtonTapped(_ sender: Any) {
         Defaults[.gitSSHPublicKeyArmor] = armorPublicKeyTextView.text
         Defaults[.gitSSHPrivateKeyArmor] = armorPrivateKeyTextView.text
         do {

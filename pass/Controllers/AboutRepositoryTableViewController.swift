@@ -18,7 +18,6 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
     private let passwordStore = PasswordStore.shared
 
     override func viewDidLoad() {
-        navigationItemTitle = "About Repository"
         super.viewDidLoad()
 
         indicator.center = CGPoint(x: view.bounds.midX, y: view.bounds.height * 0.382)
