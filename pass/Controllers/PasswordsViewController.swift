@@ -399,6 +399,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 }
                 return false
             }
+        } else if identifier == "addPasswordSegue" {
+            guard self.passwordStore.publicKey != nil, self.passwordStore.storeRepository != nil else {
+                Utils.alert(title: "Cannot Add Password", message: "Please make sure PGP Key and Git Server are properly set.", controller: self, completion: nil)
+                return false
+            }
         }
         return true
     }
