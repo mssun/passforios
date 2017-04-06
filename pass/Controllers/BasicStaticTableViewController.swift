@@ -29,7 +29,9 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = navigationItemTitle
+        if navigationItemTitle != nil {
+            navigationItem.title = navigationItemTitle
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

@@ -638,10 +638,10 @@
             </objects>
             <point key="canvasLocation" x="4954" y="-1027"/>
         </scene>
-        <!--Password Detail-->
+        <!--Password Detail Table View Controller-->
         <scene sceneID="9wY-d0-fB1">
             <objects>
-                <tableViewController title="Password Detail" id="tW4-E9-CGv" customClass="PasswordDetailTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="tW4-E9-CGv" customClass="PasswordDetailTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="hfi-6O-04U">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -718,7 +718,7 @@
             </objects>
             <point key="canvasLocation" x="1451" y="3510"/>
         </scene>
-        <!--Edit Password Table View Controller-->
+        <!--Edit Password-->
         <scene sceneID="NhX-bh-UBe">
             <objects>
                 <tableViewController id="2RE-j0-dBT" customClass="EditPasswordTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
@@ -732,7 +732,7 @@
                             <outlet property="delegate" destination="2RE-j0-dBT" id="cRC-pf-iA4"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Hj9-Iq-kId">
+                    <navigationItem key="navigationItem" title="Edit Password" id="Hj9-Iq-kId">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="5zc-lC-5AP">
                             <connections>
                                 <segue destination="HB6-Yu-Y3J" kind="unwind" unwindAction="cancelEditPasswordWithSegue:" id="B5h-gu-WUv"/>
@@ -753,10 +753,10 @@
             </objects>
             <point key="canvasLocation" x="6083" y="-224"/>
         </scene>
-        <!--Raw Password View Controller-->
+        <!--Raw Password-->
         <scene sceneID="Oqg-Vh-EYD">
             <objects>
-                <viewController id="mlB-OK-hLo" customClass="RawPasswordViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Raw Password" id="mlB-OK-hLo" customClass="RawPasswordViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XeK-cv-AXf"/>
                         <viewControllerLayoutGuide type="bottom" id="7JD-uM-IyS"/>
@@ -780,7 +780,7 @@
                             <constraint firstAttribute="leadingMargin" secondItem="3dt-Ph-4As" secondAttribute="leading" id="jgf-j1-lNa"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="c13-zM-tLf">
+                    <navigationItem key="navigationItem" title="Raw Password" id="c13-zM-tLf">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="9yM-Mg-Cg8">
                             <connections>
                                 <segue destination="pNY-ul-yzB" kind="unwind" unwindAction="backWithSegue:" id="SzI-Au-9rJ"/>

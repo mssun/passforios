@@ -46,7 +46,10 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = navigationItemTitle
+        if navigationItemTitle != nil {
+            navigationItem.title = navigationItemTitle
+        }
+        
         tableView.register(UINib(nibName: "TextFieldTableViewCell", bundle: nil), forCellReuseIdentifier: "textFieldCell")
         tableView.register(UINib(nibName: "TextViewTableViewCell", bundle: nil), forCellReuseIdentifier: "textViewCell")
         tableView.register(UINib(nibName: "FillPasswordTableViewCell", bundle: nil), forCellReuseIdentifier: "fillPasswordCell")
