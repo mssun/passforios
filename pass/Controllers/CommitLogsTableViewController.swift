@@ -16,6 +16,8 @@ class CommitLogsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         commits = passwordStore.getRecentCommits(count: 20)
+        tableView.estimatedRowHeight = 60
+        tableView.rowHeight = UITableViewAutomaticDimension
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
