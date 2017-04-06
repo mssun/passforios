@@ -284,7 +284,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     func backAction(_ sender: Any?) {
         guard Defaults[.isShowFolderOn] else { return }
-        reloadTableView(parent: parentPasswordEntity?.parent, anim: transitionFromLeft)
+        var anim: CATransition? = transitionFromLeft
+        if parentPasswordEntity == nil {
+            anim = nil
+        }
+        reloadTableView(parent: parentPasswordEntity?.parent, anim: anim)
     }
     
     func longPressAction(_ gesture: UILongPressGestureRecognizer) {
