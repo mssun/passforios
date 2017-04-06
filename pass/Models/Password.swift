@@ -99,12 +99,16 @@ class Password {
     // return a key-value pair from the line
     // key might be nil, if there is no ":" in the line
     static private func getKeyValuePair(from line: String) -> (key: String?, value: String) {
-        let items = line.characters.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: false).map{String($0).trimmingCharacters(in: .whitespaces)}
+        let items = line.components(separatedBy: ": ").map{String($0).trimmingCharacters(in: .whitespaces)}
         var key : String? = nil
         var value = ""
         if items.count == 1 || (items[0].isEmpty && items[1].isEmpty) {
-            // no ":" found, or empty on both sides of ":" (e.g., " : ")
+            // no ": " found, or empty on both sides of ": "
             value = line
+            // otpauth special case
+            if value.hasPrefix("otpauth://") {
+                key = "otpauth"
+            }
         } else {
             if !items[0].isEmpty {
                 key = items[0]
