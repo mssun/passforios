@@ -158,6 +158,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 }
             } catch {
                 DispatchQueue.main.async {
+                    self.syncControl.endRefreshing()
                     Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
