@@ -347,15 +347,15 @@
                         <sections>
                             <tableViewSection headerTitle="Git Repository URL" id="pbe-W6-w4V">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="gitRepositoryURLTabelViewCell" rowHeight="52" id="FRr-pf-aPO">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="gitRepositoryURLTabelViewCell" rowHeight="52" id="FRr-pf-aPO">
                                         <rect key="frame" x="0.0" y="55.5" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FRr-pf-aPO" id="60A-PS-qGe">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="FRr-pf-aPO" id="60A-PS-qGe">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="52"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Git Repository URL" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="EVT-VU-sCi">
-                                                    <rect key="frame" x="23" y="8" width="383" height="36"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Git Repository URL" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="EVT-VU-sCi">
+                                                    <rect key="frame" x="15" y="11" width="384" height="30"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL" returnKeyType="next"/>
@@ -369,7 +369,7 @@
                                                 <constraint firstItem="EVT-VU-sCi" firstAttribute="top" secondItem="60A-PS-qGe" secondAttribute="topMargin" id="GX2-2r-Auk"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="EVT-VU-sCi" secondAttribute="bottom" id="jUx-3P-12G"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="EVT-VU-sCi" secondAttribute="trailing" id="sVy-ww-qSo"/>
-                                                <constraint firstItem="EVT-VU-sCi" firstAttribute="leading" secondItem="60A-PS-qGe" secondAttribute="leadingMargin" constant="15" id="tvx-Bc-T63"/>
+                                                <constraint firstItem="EVT-VU-sCi" firstAttribute="leading" secondItem="60A-PS-qGe" secondAttribute="leadingMargin" id="tvx-Bc-T63"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -377,15 +377,15 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Username" id="fRu-A2-SCk">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="usernameTableVIewCell" rowHeight="52" id="tnj-5U-kMB">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="usernameTableVIewCell" rowHeight="52" id="tnj-5U-kMB">
                                         <rect key="frame" x="0.0" y="163.5" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tnj-5U-kMB" id="f0c-pI-MSJ">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="tnj-5U-kMB" id="f0c-pI-MSJ">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="52"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="TMg-Gk-7nG">
-                                                    <rect key="frame" x="23" y="8" width="383" height="35.666666666666664"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="TMg-Gk-7nG">
+                                                    <rect key="frame" x="15" y="11" width="384" height="30"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done"/>
@@ -398,7 +398,7 @@
                                                 <constraint firstItem="TMg-Gk-7nG" firstAttribute="top" secondItem="f0c-pI-MSJ" secondAttribute="topMargin" id="5Uh-5f-nBO"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="TMg-Gk-7nG" secondAttribute="trailing" id="IX7-JL-UMX"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="TMg-Gk-7nG" secondAttribute="bottom" id="JhA-aA-Mrc"/>
-                                                <constraint firstItem="TMg-Gk-7nG" firstAttribute="leading" secondItem="f0c-pI-MSJ" secondAttribute="leadingMargin" constant="15" id="jHO-Kx-Nkt"/>
+                                                <constraint firstItem="TMg-Gk-7nG" firstAttribute="leading" secondItem="f0c-pI-MSJ" secondAttribute="leadingMargin" id="jHO-Kx-Nkt"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
