@@ -15,7 +15,8 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
             [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password", .content: password!.password],
              [.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"]],
             [[.type: PasswordEditorCellType.textViewCell, .title: "additions", .content: password!.getAdditionsPlainText()]],
-            [[.type: PasswordEditorCellType.deletePasswordCell]],
+            [[.type: PasswordEditorCellType.scanQRCodeCell],
+             [.type: PasswordEditorCellType.deletePasswordCell]]
         ]
         super.viewDidLoad()
     }
@@ -37,16 +38,16 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
         if segue.identifier == "saveEditPasswordSegue" {
             let cells = tableView.visibleCells
             var cellContents = [String: String]()
             for cell in cells {
-                let indexPath = tableView.indexPath(for: cell)!
-                if let contentCell = cell as? ContentTableViewCell {
-                    let cellTitle = tableData[indexPath.section][indexPath.row][.title] as! String
-                    if let cellContent = contentCell.getContent() {
-                        cellContents[cellTitle] = cellContent
-                    }
+                if let indexPath = tableView.indexPath(for: cell),
+                    let contentCell = cell as? ContentTableViewCell,
+                    let cellTitle = tableData[indexPath.section][indexPath.row][.title] as? String,
+                    let cellContent = contentCell.getContent() {
+                    cellContents[cellTitle] = cellContent
                 }
             }
             var plainText = ""

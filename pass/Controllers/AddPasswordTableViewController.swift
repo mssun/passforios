@@ -19,6 +19,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
             [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password"],
              [.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"]],
             [[.type: PasswordEditorCellType.textViewCell, .title: "additions"]],
+            [[.type: PasswordEditorCellType.scanQRCodeCell]]
         ]
         super.viewDidLoad()
     }
@@ -54,13 +55,15 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "saveAddPasswordSegue" {let cells = tableView.visibleCells
+        super.prepare(for: segue, sender: sender)
+        if segue.identifier == "saveAddPasswordSegue" {
+            let cells = tableView.visibleCells
             var cellContents = [String: String]()
             for cell in cells {
-                let indexPath = tableView.indexPath(for: cell)!
-                let contentCell = cell as! ContentTableViewCell
-                let cellTitle = tableData[indexPath.section][indexPath.row][.title] as! String
-                if let cellContent = contentCell.getContent() {
+                if let indexPath = tableView.indexPath(for: cell),
+                    let contentCell = cell as? ContentTableViewCell,
+                    let cellTitle = tableData[indexPath.section][indexPath.row][.title] as? String,
+                    let cellContent = contentCell.getContent() {
                     cellContents[cellTitle] = cellContent
                 }
             }
