@@ -61,21 +61,20 @@ class Password {
     private func initEverything(name: String, plainText: String) {
         self.name = name
         self.plainText = plainText
+        self.additions.removeAll()
+        self.additionKeys.removeAll()
         
         // get password and additional fields
         let plainTextSplit = plainText.characters.split(maxSplits: 1, omittingEmptySubsequences: false) {
             $0 == "\n" || $0 == "\r\n"
             }.map(String.init)
-        guard plainTextSplit.count > 0 else {
-            return;
-        }
-        self.password  = plainTextSplit[0]
+        self.password  = plainTextSplit.first ?? ""
         if plainTextSplit.count == 2 {
             (self.additions, self.additionKeys) = Password.getAdditionFields(from: plainTextSplit[1])
         }
         
         // check whether the first line of the plainText looks like an otp entry
-        let (key, value) = Password.getKeyValuePair(from: plainTextSplit[0])
+        let (key, value) = Password.getKeyValuePair(from: self.password)
         if Password.otpKeywords.contains(key ?? "") {
             firstLineIsOTPField = true
             self.additions[key!] = value
@@ -269,21 +268,6 @@ class Password {
         }
     }
     
-    // it is guaranteed that it is a HOTP password when we call this
-    func increaseHotpCounter() {
-        var lines : [String] = []
-        self.plainText.enumerateLines() { line, _ in
-            let (key, value) = Password.getKeyValuePair(from: line)
-            if key == "otp_counter", let newValue = UInt64(value)?.advanced(by: 1) {
-                let newLine = "\(key!): \(newValue)"
-                lines.append(newLine)
-            } else {
-                lines.append(line)
-            }
-        }
-        self.updatePassword(name: self.name, plainText: lines.joined(separator: "\n"))
-    }
-    
     // return the description and the password strings
     func getOtpStrings() -> (description: String, otp: String)? {
         guard let token = self.otpToken else {
@@ -311,6 +295,37 @@ class Password {
         } else {
             return nil
         }
+    }
+    
+    // return the password strings
+    // it is guaranteed that it is a HOTP password when we call this
+    func getNextHotp() -> String? {
+        // increase the counter
+        otpToken = otpToken?.updatedToken()
+        
+        // replace old HOTP settings with the new otpauth
+        var newOtpauth = try! otpToken?.toURL().absoluteString
+        newOtpauth?.append("&secret=")
+        newOtpauth?.append(MF_Base32Codec.base32String(from: otpToken?.generator.secret))
+        
+        var lines : [String] = []
+        self.plainText.enumerateLines() { line, _ in
+            let (key, _) = Password.getKeyValuePair(from: line)
+            if !Password.otpKeywords.contains(key ?? "") {
+                lines.append(line)
+            } else if key == "otpauth" && newOtpauth != nil {
+                lines.append(newOtpauth!)
+                // set to nil to prevent duplication
+                newOtpauth = nil
+            }
+        }
+        if newOtpauth != nil {
+            lines.append(newOtpauth!)
+        }
+        self.updatePassword(name: self.name, plainText: lines.joined(separator: "\n"))
+        
+        // get and return the password
+        return self.otpToken?.currentPassword
     }
     
     static func LooksLikeOTP(line: String) -> Bool {

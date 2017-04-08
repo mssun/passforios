@@ -386,11 +386,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             return;
         }
         
-        // increase HOTP counter
-        password!.increaseHotpCounter()
-        
-        // copy HOTP to pasteboard
-        if let plainPassword = password!.getOtp() {
+        // copy HOTP to pasteboard (will update counter)
+        if let plainPassword = password!.getNextHotp() {
             Utils.copyToPasteboard(textToCopy: plainPassword)
         }
         
