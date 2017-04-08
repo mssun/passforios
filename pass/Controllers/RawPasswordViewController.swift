@@ -15,7 +15,9 @@ class RawPasswordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Raw"
+        navigationItem.title = password?.name
+        rawPasswordTextView.textContainer.lineFragmentPadding = 0
+        rawPasswordTextView.textContainerInset = .zero
         rawPasswordTextView.text = password?.plainText
     }
 }
