@@ -212,8 +212,24 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showQRScannerSegue" {
-            if let viewController = segue.destination as? QRScannerController {
+            if let navController = segue.destination as? UINavigationController {
+                if let viewController = navController.topViewController as? QRScannerController {
+                    viewController.delegate = self
+                }
+            } else if let viewController = segue.destination as? QRScannerController {
                 viewController.delegate = self
+            }
+        }
+    }
+    
+    @IBAction private func cancelOTPScanner(segue: UIStoryboardSegue) {
+        
+    }
+    
+    @IBAction func saveScannedOTP(segue: UIStoryboardSegue) {
+        if let controller = segue.source as? OTPScannerController {
+            if let scannedOTP = controller.scannedOTP {
+                insertScannedOTPFields(scannedOTP)
             }
         }
     }
