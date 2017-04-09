@@ -220,27 +220,21 @@ class PasswordStore {
     }
     
     public func initPGPKey(_ keyType: PGPKeyType) throws {
-        var keyPath = ""
         switch keyType {
         case .public:
-            keyPath = Globals.pgpPublicKeyPath
-        case .secret:
-            keyPath = Globals.pgpPrivateKeyPath
-        default:
-            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import key."])
-        }
-        
-        if let key = importKey(from: keyPath) {
-            switch keyType {
-            case .public:
-                self.publicKey = key
-            case .secret:
-                self.privateKey = key
-            default:
-                throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import key."])
+            let keyPath = Globals.pgpPublicKeyPath
+            self.publicKey = importKey(from: keyPath)
+            if self.publicKey == nil {
+                throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import the public PGP key."])
             }
-        } else {
-            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import key."])
+        case .secret:
+            let keyPath = Globals.pgpPrivateKeyPath
+            self.privateKey = importKey(from: keyPath)
+            if self.privateKey == nil  {
+                throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import the private PGP key."])
+            }
+        default:
+            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import key: unknown PGP key type."])
         }
     }
     
@@ -272,9 +266,7 @@ class PasswordStore {
         let fm = FileManager.default
         if fm.fileExists(atPath: keyPath) {
             if let keys = pgp.importKeys(fromFile: keyPath, allowDuplicates: false) as? [PGPKey] {
-                if keys.count > 0 {
-                    return keys[0]
-                }
+                return keys.first
             }
         }
         return nil

@@ -20,17 +20,10 @@ class SSHKeySettingTableViewController: UITableViewController {
         super.viewDidLoad()
         privateKeyURLTextField.text = Defaults[.gitSSHPrivateKeyURL]?.absoluteString
         publicKeyURLTextField.text = Defaults[.gitSSHPublicKeyURL]?.absoluteString
-        var doneBarButtonItem: UIBarButtonItem?
-
-        doneBarButtonItem = UIBarButtonItem(title: "Done",
-                                            style: UIBarButtonItemStyle.done,
-                                            target: self,
-                                            action: #selector(doneButtonTapped(_:)))
-        navigationItem.rightBarButtonItem = doneBarButtonItem
-        navigationItem.title = "SSH Key"
     }
     
-    func doneButtonTapped(_ sender: UIButton) {
+    
+    @IBAction func doneButtonTapped(_ sender: UIButton) {
         guard let publicKeyURL = URL(string: publicKeyURLTextField.text!) else {
             Utils.alert(title: "Cannot Save", message: "Please set Public Key URL first.", controller: self, completion: nil)
             return

@@ -24,6 +24,19 @@ class PGPKeySettingTableViewController: UITableViewController {
         pgpPassphrase = passwordStore.pgpKeyPassphrase
     }
     
+    private func createSavePassphraseAndSegueAlert() -> UIAlertController {
+        let savePassphraseAlert = UIAlertController(title: "Passphrase", message: "Do you want to save the passphrase for later decryption?", preferredStyle: UIAlertControllerStyle.alert)
+        savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
+            Defaults[.isRememberPassphraseOn] = false
+            self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
+        })
+        savePassphraseAlert.addAction(UIAlertAction(title: "Save", style: UIAlertActionStyle.destructive) {_ in
+            Defaults[.isRememberPassphraseOn] = true
+            self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
+        })
+        return savePassphraseAlert
+    }
+    
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "savePGPKeySegue" {
             guard let pgpPublicKeyURL = URL(string: pgpPublicKeyURLTextField.text!) else {
@@ -46,9 +59,8 @@ class PGPKeySettingTableViewController: UITableViewController {
         let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
             self.pgpPassphrase = alert.textFields?.first?.text
-            if self.shouldPerformSegue(withIdentifier: "savePGPKeySegue", sender: self) {
-                self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
-            }
+            let savePassphraseAndSegueAlert = self.createSavePassphraseAndSegueAlert()
+            self.present(savePassphraseAndSegueAlert, animated: true, completion: nil)
         }))
         alert.addTextField(configurationHandler: {(textField: UITextField!) in
             textField.text = self.pgpPassphrase

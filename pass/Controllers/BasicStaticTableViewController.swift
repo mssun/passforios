@@ -29,7 +29,9 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = navigationItemTitle
+        if navigationItemTitle != nil {
+            navigationItem.title = navigationItemTitle
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -54,6 +56,7 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
         switch cellDataStyle ?? .defaultStyle {
         case .value1:
             cell = UITableViewCell(style: .value1, reuseIdentifier: "value1 cell")
+            cell?.selectionStyle = .none
         default:
             cell = UITableViewCell(style: .default, reuseIdentifier: "default cell")
         }
@@ -65,6 +68,7 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
             cell?.accessoryType = accessoryType
         } else {
             cell?.accessoryType = .disclosureIndicator
+            cell?.selectionStyle = .default
         }
         
         cell?.textLabel?.text = cellData[CellDataKey.title] as? String

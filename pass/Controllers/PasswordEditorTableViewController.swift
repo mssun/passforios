@@ -8,16 +8,17 @@
 
 import UIKit
 import SwiftyUserDefaults
+import OneTimePassword
 
 enum PasswordEditorCellType {
-    case textFieldCell, textViewCell, fillPasswordCell, passwordLengthCell, deletePasswordCell
+    case textFieldCell, textViewCell, fillPasswordCell, passwordLengthCell, deletePasswordCell, scanQRCodeCell
 }
 
 enum PasswordEditorCellKey {
     case type, title, content, placeholders
 }
 
-class PasswordEditorTableViewController: UITableViewController, FillPasswordTableViewCellDelegate, PasswordSettingSliderTableViewCellDelegate, UIGestureRecognizerDelegate {
+class PasswordEditorTableViewController: UITableViewController, FillPasswordTableViewCellDelegate, PasswordSettingSliderTableViewCellDelegate, QRScannerControllerDelegate {
     
     var tableData = [
         [Dictionary<PasswordEditorCellKey, Any>]
@@ -29,11 +30,13 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     private var sectionHeaderTitles = ["name", "password", "additions",""].map {$0.uppercased()}
     private var sectionFooterTitles = ["", "", "Use \"key: value\" format for additional fields.", ""]
     private let passwordSection = 1
+    private let additionsSection = 2
     private var hidePasswordSettings = true
     
     private var fillPasswordCell: FillPasswordTableViewCell?
     private var passwordLengthCell: SliderTableViewCell?
     private var deletePasswordCell: UITableViewCell?
+    private var scanQRCodeCell: UITableViewCell?
     
     override func loadView() {
         super.loadView()
@@ -42,11 +45,22 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         deletePasswordCell!.textLabel?.text = "Delete Password"
         deletePasswordCell!.textLabel?.textColor = Globals.red
         deletePasswordCell?.selectionStyle = .default
+        
+        scanQRCodeCell = UITableViewCell(style: .default, reuseIdentifier: "default")
+        scanQRCodeCell?.textLabel?.text = "Add One-Time Password"
+        scanQRCodeCell?.textLabel?.textColor = Globals.blue
+        scanQRCodeCell?.selectionStyle = .default
+//        scanQRCodeCell?.imageView?.image = #imageLiteral(resourceName: "Camera").withRenderingMode(.alwaysTemplate)
+//        scanQRCodeCell?.imageView?.tintColor = Globals.blue
+//        scanQRCodeCell?.imageView?.contentMode = .scaleAspectFit
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = navigationItemTitle
+        if navigationItemTitle != nil {
+            navigationItem.title = navigationItemTitle
+        }
+        
         tableView.register(UINib(nibName: "TextFieldTableViewCell", bundle: nil), forCellReuseIdentifier: "textFieldCell")
         tableView.register(UINib(nibName: "TextViewTableViewCell", bundle: nil), forCellReuseIdentifier: "textViewCell")
         tableView.register(UINib(nibName: "FillPasswordTableViewCell", bundle: nil), forCellReuseIdentifier: "fillPasswordCell")
@@ -83,6 +97,8 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             return passwordLengthCell!
         case .deletePasswordCell:
             return deletePasswordCell!
+        case .scanQRCodeCell:
+            return scanQRCodeCell!
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "textFieldCell", for: indexPath) as! ContentTableViewCell
             cell.setContent(content: cellData[PasswordEditorCellKey.content] as? String)
@@ -116,13 +132,16 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView.cellForRow(at: indexPath) == deletePasswordCell {
+        let selectedCell = tableView.cellForRow(at: indexPath)
+        if selectedCell == deletePasswordCell {
             let alert = UIAlertController(title: "Delete Password?", message: nil, preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive, handler: {[unowned self] (action) -> Void in
                 self.performSegue(withIdentifier: "deletePasswordSegue", sender: self)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler:nil))
             self.present(alert, animated: true, completion: nil)
+        } else if selectedCell == scanQRCodeCell {
+            self.performSegue(withIdentifier: "showQRScannerSegue", sender: self)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -164,5 +183,54 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     func showHidePasswordSettings() {
         hidePasswordSettings = !hidePasswordSettings
         tableView.reloadSections([passwordSection], with: .fade)
+    }
+    
+    func insertScannedOTPFields(_ otpauth: String) {
+        // update tableData
+        if let additionsPlainText = (tableData[additionsSection][0][PasswordEditorCellKey.content] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines), additionsPlainText != "" {
+            tableData[additionsSection][0][PasswordEditorCellKey.content] = additionsPlainText + "\n" + otpauth
+        } else {
+            tableData[additionsSection][0][PasswordEditorCellKey.content] = otpauth
+        }
+        // reload
+        tableView.reloadSections([additionsSection], with: .none)
+    }
+    
+    // MARK: - QRScannerControllerDelegate Methods
+    func checkScannedOutput(line: String) -> (accept: Bool, message: String) {
+        if let url = URL(string: line), let _ = Token(url: url) {
+            return (accept: true, message: "Valid token URL")
+        } else {
+            return (accept: false, message: "Invalid token URL")
+        }
+    }
+    
+    // MARK: - QRScannerControllerDelegate Methods
+    func handleScannedOutput(line: String) {
+        insertScannedOTPFields(line)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showQRScannerSegue" {
+            if let navController = segue.destination as? UINavigationController {
+                if let viewController = navController.topViewController as? QRScannerController {
+                    viewController.delegate = self
+                }
+            } else if let viewController = segue.destination as? QRScannerController {
+                viewController.delegate = self
+            }
+        }
+    }
+    
+    @IBAction private func cancelOTPScanner(segue: UIStoryboardSegue) {
+        
+    }
+    
+    @IBAction func saveScannedOTP(segue: UIStoryboardSegue) {
+        if let controller = segue.source as? OTPScannerController {
+            if let scannedOTP = controller.scannedOTP {
+                insertScannedOTPFields(scannedOTP)
+            }
+        }
     }
 }

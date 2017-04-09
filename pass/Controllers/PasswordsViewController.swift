@@ -11,25 +11,28 @@ import SVProgressHUD
 import SwiftyUserDefaults
 import PasscodeLock
 
-enum PasswordsTableEntryType {
-    case password, dir
-}
-
-struct PasswordsTableEntry {
+fileprivate class PasswordsTableEntry : NSObject {
     var title: String
     var isDir: Bool
     var passwordEntity: PasswordEntity?
+    init(title: String, isDir: Bool, passwordEntity: PasswordEntity?) {
+        self.title = title
+        self.isDir = isDir
+        self.passwordEntity = passwordEntity
+    }
 }
 
-class PasswordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate {
+class PasswordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchBarDelegate {
     private var passwordsTableEntries: [PasswordsTableEntry] = []
+    private var passwordsTableAllEntries: [PasswordsTableEntry] = []
     private var filteredPasswordsTableEntries: [PasswordsTableEntry] = []
     private var parentPasswordEntity: PasswordEntity? = nil
     private let passwordStore = PasswordStore.shared
     
     private var tapTabBarTime: TimeInterval = 0
 
-    private var sections : [(index: Int, length :Int, title: String)] = Array()
+    private var sections = [(title: String, entries: [PasswordsTableEntry])]()
+    
     private var searchActive : Bool = false
     
     private lazy var searchController: UISearchController = {
@@ -80,14 +83,20 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     private func initPasswordsTableEntries(parent: PasswordEntity?) {
         passwordsTableEntries.removeAll()
+        passwordsTableAllEntries.removeAll()
         filteredPasswordsTableEntries.removeAll()
         var passwordEntities = [PasswordEntity]()
+        var passwordAllEntities = [PasswordEntity]()
         if Defaults[.isShowFolderOn] {
             passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(parent: parent)
         } else {
             passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
         }
         passwordsTableEntries = passwordEntities.map {
+            PasswordsTableEntry(title: $0.name!, isDir: $0.isDir, passwordEntity: $0)
+        }
+        passwordAllEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
+        passwordsTableAllEntries = passwordAllEntities.map {
             PasswordsTableEntry(title: $0.name!, isDir: $0.isDir, passwordEntity: $0)
         }
         parentPasswordEntity = parent
@@ -149,17 +158,31 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 }
             } catch {
                 DispatchQueue.main.async {
-                    Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                    SVProgressHUD.dismiss()
+                    self.syncControl.endRefreshing()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800)) {
+                        Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                    }
                 }
             }
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if Defaults[.isShowFolderOn] {
+            searchController.searchBar.scopeButtonTitles = ["Current", "All"]
+        } else {
+            searchController.searchBar.scopeButtonTitles = nil
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tabBarController!.delegate = self
+        searchController.searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
         definesPresentationContext = true
@@ -196,13 +219,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].length
+        return sections[section].entries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
         longPressGestureRecognizer.minimumPressDuration = 0.6
-        if Defaults[.isShowFolderOn] {
+        if Defaults[.isShowFolderOn] && searchController.searchBar.selectedScopeButtonIndex == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
             
             let entry = getPasswordEntry(by: indexPath)
@@ -241,14 +264,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     private func getPasswordEntry(by indexPath: IndexPath) -> PasswordsTableEntry {
-        var entry: PasswordsTableEntry
-        let index = sections[indexPath.section].index + indexPath.row
-        if searchController.isActive && searchController.searchBar.text != "" {
-            entry = filteredPasswordsTableEntries[index]
-        } else {
-            entry = passwordsTableEntries[index]
-        }
-        return entry
+        return sections[indexPath.section].entries[indexPath.row]
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -268,7 +284,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     func backAction(_ sender: Any?) {
         guard Defaults[.isShowFolderOn] else { return }
-        reloadTableView(parent: parentPasswordEntity?.parent, anim: transitionFromLeft)
+        var anim: CATransition? = transitionFromLeft
+        if parentPasswordEntity == nil {
+            anim = nil
+        }
+        reloadTableView(parent: parentPasswordEntity?.parent, anim: anim)
     }
     
     func longPressAction(_ gesture: UILongPressGestureRecognizer) {
@@ -345,25 +365,30 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     private func generateSections(item: [PasswordsTableEntry]) {
-        sections.removeAll()
-        guard item.count != 0 else {
-            return
+        let collation = UILocalizedIndexedCollation.current()
+        let sectionTitles = collation.sectionIndexTitles
+        var newSections = [(title: String, entries: [PasswordsTableEntry])]()
+        
+        // initialize all sections
+        for i in 0..<sectionTitles.count {
+            newSections.append((title: sectionTitles[i], entries: [PasswordsTableEntry]()))
         }
-        var index = 0
-        for i in 0 ..< item.count {
-            let title = item[index].title.uppercased()
-            let commonPrefix = item[i].title.commonPrefix(with: title, options: .caseInsensitive)
-            if commonPrefix.characters.count == 0 {
-                let firstCharacter = title[title.startIndex]
-                let newSection = (index: index, length: i - index, title: "\(firstCharacter)")
-                sections.append(newSection)
-                index = i
-            }
+        
+        // put entries into sections
+        for entry in item {
+            let sectionNumber = collation.section(for: entry, collationStringSelector: #selector(getter: PasswordsTableEntry.title))
+            newSections[sectionNumber].entries.append(entry)
         }
-        let title = item[index].title.uppercased()
-        let firstCharacter = title[title.startIndex]
-        let newSection = (index: index, length: item.count - index, title: "\(firstCharacter)")
-        sections.append(newSection)
+        
+        // sort each list and set sectionTitles
+        for i in 0..<sectionTitles.count {
+            let entriesToSort = newSections[i].entries
+            let sortedEntries = collation.sortedArray(from: entriesToSort, collationStringSelector: #selector(getter: PasswordsTableEntry.title))
+            newSections[i].entries = sortedEntries as! [PasswordsTableEntry]
+        }
+        
+        // only keep non-empty sections
+        sections = newSections.filter {$0.entries.count > 0}
     }
     
     func actOnSearchNotification() {
@@ -381,6 +406,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 }
                 return false
             }
+        } else if identifier == "addPasswordSegue" {
+            guard self.passwordStore.publicKey != nil, self.passwordStore.storeRepository != nil else {
+                Utils.alert(title: "Cannot Add Password", message: "Please make sure PGP Key and Git Server are properly set.", controller: self, completion: nil)
+                return false
+            }
         }
         return true
     }
@@ -396,14 +426,30 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func filterContentForSearchText(searchText: String, scope: String = "All") {
-        filteredPasswordsTableEntries = passwordsTableEntries.filter { entry in
-            return entry.title.lowercased().contains(searchText.lowercased())
+        switch scope {
+        case "All":
+            filteredPasswordsTableEntries = passwordsTableAllEntries.filter { entry in
+                return entry.title.lowercased().contains(searchText.lowercased())
+            }
+            if searchController.isActive && searchController.searchBar.text != "" {
+                reloadTableView(data: filteredPasswordsTableEntries)
+            } else {
+                reloadTableView(data: passwordsTableAllEntries)
+            }
+        case "Current":
+            filteredPasswordsTableEntries = passwordsTableEntries.filter { entry in
+                return entry.title.lowercased().contains(searchText.lowercased())
+            }
+            if searchController.isActive && searchController.searchBar.text != "" {
+                reloadTableView(data: filteredPasswordsTableEntries)
+            } else {
+                reloadTableView(data: passwordsTableEntries)
+            }
+        default:
+            break
         }
-        if searchController.isActive && searchController.searchBar.text != "" {
-            reloadTableView(data: filteredPasswordsTableEntries)
-        } else {
-            reloadTableView(data: passwordsTableEntries)
-        }
+        
+        
     }
     
     private func reloadTableView(data: [PasswordsTableEntry], anim: CAAnimation? = nil) {
@@ -466,10 +512,22 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             backAction(self)
         }
     }
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        updateSearchResults(for: searchController)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchController.searchBar.selectedScopeButtonIndex = 0
+        updateSearchResults(for: searchController)
+    }
 }
 
 extension PasswordsViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchText: searchController.searchBar.text!)
+        var scope = "All"
+        if let scopeButtonTitles = searchController.searchBar.scopeButtonTitles {
+            scope = scopeButtonTitles[searchController.searchBar.selectedScopeButtonIndex]
+        }
+        filterContentForSearchText(searchText: searchController.searchBar.text!, scope: scope)
     }
 }

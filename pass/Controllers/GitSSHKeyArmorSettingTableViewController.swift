@@ -9,12 +9,13 @@
 import UIKit
 import SwiftyUserDefaults
 
-class GitSSHKeyArmorSettingTableViewController: UITableViewController {
+class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextViewDelegate {
     @IBOutlet weak var armorPublicKeyTextView: UITextView!
     @IBOutlet weak var armorPrivateKeyTextView: UITextView!
     var gitSSHPrivateKeyPassphrase: String?
     let passwordStore = PasswordStore.shared
-    var doneBarButtonItem: UIBarButtonItem?
+    
+    private var recentPastedText = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,12 +23,8 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController {
         armorPrivateKeyTextView.text = Defaults[.gitSSHPrivateKeyArmor]
         gitSSHPrivateKeyPassphrase = passwordStore.gitSSHPrivateKeyPassphrase
         
-        doneBarButtonItem = UIBarButtonItem(title: "Done",
-                                            style: UIBarButtonItemStyle.done,
-                                            target: self,
-                                            action: #selector(doneButtonTapped(_:)))
-        navigationItem.rightBarButtonItem = doneBarButtonItem
-        navigationItem.title = "SSH Key"
+        armorPublicKeyTextView.delegate = self
+        armorPrivateKeyTextView.delegate = self
     }
     
     private func createSavePassphraseAlert() -> UIAlertController {
@@ -46,7 +43,7 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController {
         return savePassphraseAlert
     }
     
-    func doneButtonTapped(_ sender: Any) {
+    @IBAction func doneButtonTapped(_ sender: Any) {
         Defaults[.gitSSHPublicKeyArmor] = armorPublicKeyTextView.text
         Defaults[.gitSSHPrivateKeyArmor] = armorPrivateKeyTextView.text
         do {
@@ -68,5 +65,17 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == UIPasteboard.general.string {
+            // user pastes somethint, get ready to clear in 10s
+            recentPastedText = text
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: DispatchTime.now() + 10) { [weak weakSelf = self] in
+                if let pasteboardString = UIPasteboard.general.string,
+                    pasteboardString == weakSelf?.recentPastedText {
+                    UIPasteboard.general.string = ""
+                }
+            }
+        }
+        return true
+    }
 }

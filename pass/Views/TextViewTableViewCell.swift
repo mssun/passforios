@@ -13,6 +13,8 @@ class TextViewTableViewCell: ContentTableViewCell {
     @IBOutlet weak var contentTextView: UITextView!
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.contentTextView.textContainer.lineFragmentPadding = 0
+        self.contentTextView.textContainerInset = .zero
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
