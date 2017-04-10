@@ -50,6 +50,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         scanQRCodeCell?.textLabel?.text = "Add One-Time Password"
         scanQRCodeCell?.textLabel?.textColor = Globals.blue
         scanQRCodeCell?.selectionStyle = .default
+        scanQRCodeCell?.accessoryType = .disclosureIndicator
 //        scanQRCodeCell?.imageView?.image = #imageLiteral(resourceName: "Camera").withRenderingMode(.alwaysTemplate)
 //        scanQRCodeCell?.imageView?.tintColor = Globals.blue
 //        scanQRCodeCell?.imageView?.contentMode = .scaleAspectFit
