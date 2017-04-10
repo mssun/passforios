@@ -112,7 +112,9 @@ class PasswordStore {
     
     var gitSignatureForNow: GTSignature {
         get {
-            return GTSignature(name: Defaults[.gitUsername]!, email: Defaults[.gitUsername]!+"@passforios", time: Date())!
+            let name = Defaults[.gitName] ?? Defaults[.gitUsername]!
+            let email = Defaults[.gitEmail] ?? (Defaults[.gitUsername]!+"@passforios")
+            return GTSignature(name: name, email: email, time: Date())!
         }
     }
     

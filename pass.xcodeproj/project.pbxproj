@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		94BA784B85E071D25EE89B59 /* libPods-pass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADCE7A5C3CCC67D7D21BB3C4 /* libPods-pass.a */; };
 		A217ACE21E9AB17C00A1A6CF /* OTPScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */; };
+		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */; };
 		A262A58D1E68749C006B0890 /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A262A58C1E68749C006B0890 /* Base32.framework */; };
 		A27424D91E7C35960093F436 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27424D81E7C35960093F436 /* NotificationNames.swift */; };
 		A2802BF91E70813A00879216 /* SliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2802BF71E70813A00879216 /* SliderTableViewCell.swift */; };
@@ -84,6 +85,7 @@
 /* Begin PBXFileReference section */
 		274CCFCF32444A2FF46BE7F4 /* Pods-pass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.debug.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.debug.xcconfig"; sourceTree = "<group>"; };
 		A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPScannerController.swift; sourceTree = "<group>"; };
+		A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitConfigSettingTableViewController.swift; sourceTree = "<group>"; };
 		A262A58C1E68749C006B0890 /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Base32.framework; path = Carthage/Build/iOS/Base32.framework; sourceTree = "<group>"; };
 		A27424D81E7C35960093F436 /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		A2802BF71E70813A00879216 /* SliderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderTableViewCell.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				DCC441531E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift */,
 				A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */,
 				A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */,
+				A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -549,6 +552,7 @@
 				DCFB779E1E4F40C7008DE471 /* FillPasswordTableViewCell.swift in Sources */,
 				A2802BF91E70813A00879216 /* SliderTableViewCell.swift in Sources */,
 				DC037CB21E4CAB1700609409 /* AboutRepositoryTableViewController.swift in Sources */,
+				A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift in Sources */,
 				DC037CB01E4CA51F00609409 /* GeneralSettingsTableViewController.swift in Sources */,
 				DC037CB81E4DD1A500609409 /* AddPasswordTableViewController.swift in Sources */,
 				DCC441521E8F6C06008A90C4 /* RawPasswordViewController.swift in Sources */,

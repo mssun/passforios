@@ -13,6 +13,7 @@ import SwiftyUserDefaults
 class AdvancedSettingsTableViewController: UITableViewController {
 
     @IBOutlet weak var encryptInASCIIArmoredTableViewCell: UITableViewCell!
+    @IBOutlet weak var gitSignatureTableViewCell: UITableViewCell!
     @IBOutlet weak var eraseDataTableViewCell: UITableViewCell!
     @IBOutlet weak var discardChangesTableViewCell: UITableViewCell!
     let passwordStore = PasswordStore.shared
@@ -30,6 +31,11 @@ class AdvancedSettingsTableViewController: UITableViewController {
         encryptInASCIIArmoredSwitch.isOn = Defaults[.encryptInArmored]
         encryptInASCIIArmoredTableViewCell.accessoryView = encryptInASCIIArmoredSwitch
         encryptInASCIIArmoredTableViewCell.selectionStyle = .none
+        if Defaults[.gitName]?.isEmpty == false && Defaults[.gitEmail]?.isEmpty == false {
+            gitSignatureTableViewCell.detailTextLabel?.text = "Set"
+        } else {
+            gitSignatureTableViewCell.detailTextLabel?.text = "Not Set"
+        }
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -77,6 +83,19 @@ class AdvancedSettingsTableViewController: UITableViewController {
     
     func encryptInASCIIArmoredAction(_ sender: Any?) {
         Defaults[.encryptInArmored] = encryptInASCIIArmoredSwitch.isOn
+    }
+    
+    @IBAction func cancelGitConfigSetting(segue: UIStoryboardSegue) {
+    }
+    
+    @IBAction func saveGitConfigSetting(segue: UIStoryboardSegue) {
+        if let controller = segue.source as? GitConfigSettingTableViewController {
+            Defaults[.gitName] = controller.nameTextField.text
+            Defaults[.gitEmail] = controller.emailTextField.text
+            DispatchQueue.main.async {
+                self.gitSignatureTableViewCell.detailTextLabel?.text = "Set"
+            }
+        }
     }
 
 }

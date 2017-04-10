@@ -24,10 +24,10 @@ extension DefaultsKeys {
     static let gitSSHPublicKeyURL = DefaultsKey<URL?>("gitSSHPublicKeyURL")
     static let gitSSHPrivateKeyURL = DefaultsKey<URL?>("gitSSHPrivateKeyURL")
     static let gitSSHKeySource = DefaultsKey<String?>("gitSSHKeySource")
-    
     static let gitSSHPublicKeyArmor = DefaultsKey<String?>("gitSSHPublicKeyArmor")
     static let gitSSHPrivateKeyArmor = DefaultsKey<String?>("gitSSHPrivateKeyArmor")
-
+    static let gitName = DefaultsKey<String?>("gitName")
+    static let gitEmail = DefaultsKey<String?>("gitEmail")
 
     static let lastSyncedTime = DefaultsKey<Date?>("lastSyncedTime")
     
