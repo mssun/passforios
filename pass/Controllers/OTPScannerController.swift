@@ -11,7 +11,6 @@ import AVFoundation
 
 class OTPScannerController: QRScannerController {
     
-    var tempPassword: Password?
     var scannedOTP: String?
     
     // MARK: - AVCaptureMetadataOutputObjectsDelegate Methods
@@ -27,14 +26,11 @@ class OTPScannerController: QRScannerController {
             // check whether it is a valid result
             if let scannedString = metadataObj.stringValue {
                 if let (accept, message) = delegate?.checkScannedOutput(line: scannedString) {
+                    scannerOutput.text = message
                     if accept == true {
                         captureSession?.stopRunning()
                         scannedOTP = scannedString
-                        tempPassword = Password(name: "empty", plainText: scannedString)
-                        // set scannerOutput
-                        setupOneTimePasswordMessage()
-                    } else {
-                        scannerOutput.text = message
+                        presentSaveAlert()
                     }
                 } else {
                     // no delegate, show the scanned result
@@ -50,34 +46,28 @@ class OTPScannerController: QRScannerController {
         }
     }
     
-    private func setupOneTimePasswordMessage() {
-        if let password = tempPassword {
-            if password.otpType == .hotp {
-                // hotp, no need to refresh
-                let (title, content) = password.getOtpStrings()!
-                scannerOutput.text = "\(title):\(content)"
-            } else if password.otpType == .totp {
-                // totp, refresh
-                Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {
-                    [weak weakSelf = self] timer in
+    private func presentSaveAlert() {
+        // initialize alert
+        let password = Password(name: "empty", plainText: scannedOTP!)
+        let (title, content) = password.getOtpStrings()!
+        let alert = UIAlertController(title: "Success", message: "\(title): \(content)", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Save", style: UIAlertActionStyle.default, handler: {[unowned self] (action) -> Void in
+            self.delegate?.handleScannedOutput(line: self.scannedOTP!)
+            self.navigationController?.popViewController(animated: true)
+        }))
+        
+        if password.otpType == .hotp {
+            // hotp, no need to refresh
+            self.present(alert, animated: true, completion: nil)
+        } else if password.otpType == .totp {
+            // totp, refresh otp
+            self.present(alert, animated: true) {
+                let alertController = self.presentedViewController as! UIAlertController
+                Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {_ in 
                     let (title, content) = password.getOtpStrings()!
-                    weakSelf?.scannerOutput.text = "\(title):\(content)"
+                    alertController.message = "\(title): \(content)"
                 }
             }
         }
     }
-    
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if identifier == "saveAddScannedOTPSegue" {
-            return tempPassword != nil
-        }
-        return true
-    }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        super.prepare(for: segue, sender: sender)
-//        if segue.identifier == "saveAddScannedOTPSegue" {
-//            delegate?.handleScannedOutput(line: scannedOTP)
-//        }
-//    }
 }
