@@ -164,11 +164,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         DispatchQueue.main.async { [weak self] in
             self?.indicator.stopAnimating()
             self?.setTableData()
-            UIView.performWithoutAnimation {
-                self?.tableView.reloadData()
-                // add layoutIfNeeded solves the "flickering problem" during refresh
-                self?.tableView.layoutIfNeeded()
-            }
+            self?.tableView.reloadData()
             self?.editUIBarButtonItem.isEnabled = true
             if let urlString = self?.password?.getURLString() {
                 if self?.passwordEntity?.image == nil {
@@ -432,11 +428,13 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         case .name:
             let cell = tableView.dequeueReusableCell(withIdentifier: "passwordDetailTitleTableViewCell", for: indexPath) as! PasswordDetailTitleTableViewCell
             cell.passwordImageImageView.image = passwordImage ?? #imageLiteral(resourceName: "PasswordImagePlaceHolder")
-            var passwordName = passwordEntity!.name!
-            if passwordEntity!.synced == false {
-                passwordName = "\(passwordName) ↻"
+            if let passwordName = passwordEntity!.name {
+                if passwordEntity!.synced == false {
+                    cell.nameLabel.text = "\(passwordName) ↻"
+                } else {
+                    cell.nameLabel.text = passwordName
+                }
             }
-            cell.nameLabel.text = passwordName
             cell.categoryLabel.text = passwordCategoryText
             cell.selectionStyle = .none
             return cell
