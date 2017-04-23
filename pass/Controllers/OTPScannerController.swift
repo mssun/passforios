@@ -30,7 +30,7 @@ class OTPScannerController: QRScannerController {
                     if accept == true {
                         captureSession?.stopRunning()
                         scannedOTP = scannedString
-                        tempPassword = Password(name: "empty", plainText: scannedString)
+                        tempPassword = Password(name: "empty", url: nil, plainText: scannedString)
                         // set scannerOutput
                         setupOneTimePasswordMessage()
                     } else {
