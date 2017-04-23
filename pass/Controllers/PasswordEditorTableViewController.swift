@@ -226,12 +226,4 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     @IBAction private func cancelOTPScanner(segue: UIStoryboardSegue) {
         
     }
-    
-    @IBAction func saveScannedOTP(segue: UIStoryboardSegue) {
-        if let controller = segue.source as? OTPScannerController {
-            if let scannedOTP = controller.scannedOTP {
-                insertScannedOTPFields(scannedOTP)
-            }
-        }
-    }
 }
