@@ -71,7 +71,7 @@ struct GitCredential {
                 let encrypted = try? String(contentsOf: privateKeyFile).contains("ENCRYPTED")
 
                 // Request password if not already set
-                if encrypted! && password == "" {
+                if encrypted == nil && password == "" {
                     newPassword = passwordNotSetCallback!()
                 }
 
@@ -112,8 +112,8 @@ class PasswordStore {
     
     var gitSignatureForNow: GTSignature {
         get {
-            let name = Defaults[.gitName] ?? Defaults[.gitUsername]!
-            let email = Defaults[.gitEmail] ?? (Defaults[.gitUsername]!+"@passforios")
+            let name = Defaults[.gitName] ?? Defaults[.gitUsername] ?? ""
+            let email = Defaults[.gitEmail] ?? (Defaults[.gitUsername] ?? "" + "@passforios")
             return GTSignature(name: name, email: email, time: Date())!
         }
     }
@@ -184,11 +184,11 @@ class PasswordStore {
     
     public func initGitCredential() {
         if Defaults[.gitAuthenticationMethod] == "Password" {
-            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitUsername]!, password: Utils.getPasswordFromKeychain(name: "gitPassword") ?? ""))
+            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitUsername] ?? "", password: Utils.getPasswordFromKeychain(name: "gitPassword") ?? ""))
         } else if Defaults[.gitAuthenticationMethod] == "SSH Key"{
             gitCredential = GitCredential(
                 credential: GitCredential.Credential.ssh(
-                    userName: Defaults[.gitUsername]!,
+                    userName: Defaults[.gitUsername] ?? "",
                     password: gitSSHPrivateKeyPassphrase ?? "",
                     publicKeyFile: Globals.gitSSHPublicKeyURL,
                     privateKeyFile: Globals.gitSSHPrivateKeyURL,
