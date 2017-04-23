@@ -23,8 +23,14 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "saveEditPasswordSegue" {
-            if let _ = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ContentTableViewCell {
-                // TODO: do some checks here
+            if let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ContentTableViewCell {
+                if let name = nameCell.getContent(),
+                    let _ = URL(string: name) {
+                    return true
+                } else {
+                    Utils.alert(title: "Cannot Save", message: "Password name is invalid.", controller: self, completion: nil)
+                    return false
+                }
             }
         }
         return true
