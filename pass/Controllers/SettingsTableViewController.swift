@@ -48,7 +48,7 @@ class SettingsTableViewController: UITableViewController {
                         self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
                         SVProgressHUD.showSuccess(withStatus: "Success")
                         SVProgressHUD.dismiss(withDelay: 1)
-                        Utils.alert(title: "Rememver to Remove the Key", message: "Remember to remove the key from the server.", controller: self, completion: nil)
+                        Utils.alert(title: "Remember to Remove the Key", message: "Remember to remove the key from the server.", controller: self, completion: nil)
                     }
                 } catch {
                     DispatchQueue.main.async {
