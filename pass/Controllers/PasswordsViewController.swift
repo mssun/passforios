@@ -490,9 +490,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func actOnReloadTableViewRelatedNotification() {
-        initPasswordsTableEntries(parent: nil)
         DispatchQueue.main.async { [weak weakSelf = self] in
             guard let strongSelf = weakSelf else { return }
+            strongSelf.initPasswordsTableEntries(parent: nil)
             strongSelf.reloadTableView(data: strongSelf.passwordsTableEntries)
         }
     }
