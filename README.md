@@ -10,8 +10,8 @@ Pass is an iOS client compatible with [ZX2C4's Pass command line
 application](http://www.passwordstore.org/).  It is a password manager using
 GPG for encryption and Git for version control.
 
-Pass for iOS is under *TestFlight external testing*. Drop me an email for
-testing. Thank you.
+Pass for iOS is under *TestFlight external testing*. Drop an email to
+`developer@passforios.mssun.me` for testing. Thank you.
 
 ## Features
 
