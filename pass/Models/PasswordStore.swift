@@ -14,76 +14,48 @@ import ObjectiveGit
 import SVProgressHUD
 
 struct GitCredential {
+    var credential: Credential
     
     enum Credential {
-        case http(userName: String, password: String)
-        case ssh(userName: String, password: String, publicKeyFile: URL, privateKeyFile: URL, passwordNotSetCallback: (() -> String)? )
+        case http(userName: String, password: String, requestGitPassword: ((_ message: String) -> String?)?)
+        case ssh(userName: String, password: String, publicKeyFile: URL, privateKeyFile: URL, requestSSHKeyPassword: ((_ message: String) -> String?)? )
     }
     
-    var credential: Credential
-
+    init(credential: Credential) {
+        self.credential = credential
+        Defaults[.gitPasswordAttempts] = 0
+    }
+    
     func credentialProvider() throws -> GTCredentialProvider {
         return GTCredentialProvider { (_, _, _) -> (GTCredential?) in
             var credential: GTCredential? = nil
+            
             switch self.credential {
-            case let .http(userName, password):
-                print(Defaults[.gitPasswordAttempts])
-                var newPassword: String = password
+            case let .http(userName, password, requestGitPassword):
+                var newPassword =  password
                 if Defaults[.gitPasswordAttempts] != 0 {
-                    let sem = DispatchSemaphore(value: 0)
-                    DispatchQueue.main.async {
-                        SVProgressHUD.dismiss()
-                        if var topController = UIApplication.shared.keyWindow?.rootViewController {
-                            while let presentedViewController = topController.presentedViewController {
-                                topController = presentedViewController
-                            }
-                            let alert = UIAlertController(title: "Password", message: "Please fill in the password of your Git account.", preferredStyle: UIAlertControllerStyle.alert)
-                            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
-                                newPassword = alert.textFields!.first!.text!
-                                PasswordStore.shared.gitPassword = newPassword
-                                sem.signal()
-                            }))
-                            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
-                                Defaults[.gitPasswordAttempts] = -1
-                                sem.signal()
-                            })
-                            alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                                textField.text = PasswordStore.shared.gitPassword
-                                textField.isSecureTextEntry = true
-                            })
-                                topController.present(alert, animated: true, completion: nil)
-                            }
+                    if let requestGitPasswordCallback = requestGitPassword,
+                        let requestedPassword = requestGitPasswordCallback("Please fill in the password of your Git account.") {
+                        newPassword	= requestedPassword
+                    } else {
+                        return nil
+                   
                     }
-                    let _ = sem.wait(timeout: DispatchTime.distantFuture)
-                }
-                if Defaults[.gitPasswordAttempts] == -1 {
-                    Defaults[.gitPasswordAttempts] = 0
-                    return nil
                 }
                 Defaults[.gitPasswordAttempts] += 1
-                PasswordStore.shared.gitPassword = newPassword
                 credential = try? GTCredential(userName: userName, password: newPassword)
-            case let .ssh(userName, password, publicKeyFile, privateKeyFile, passwordNotSetCallback):
-
-                var newPassword:String? = password
-
-                // Check if the private key is encrypted
-                let encrypted = try? String(contentsOf: privateKeyFile).contains("ENCRYPTED")
-
-                // Request password if not already set
-                if encrypted == nil && password == "" {
-                    newPassword = passwordNotSetCallback!()
+            case let .ssh(userName, password, publicKeyFile, privateKeyFile, requestSSHKeyPassword):
+                var newPassword = password
+                if Defaults[.gitPasswordAttempts] != 0 {
+                    if let requestSSHKeyPasswordCallback = requestSSHKeyPassword,
+                        let requestedPassword = requestSSHKeyPasswordCallback("Please fill in the password of your SSH key.") {
+                        newPassword	= requestedPassword
+                    } else {
+                        return nil
+                        
+                    }
                 }
-
-                // Save password for the future
-                Utils.addPasswordToKeychain(name: "gitSSHPrivateKeyPassphrase", password: newPassword!)
-
-                // nil is expected in case of empty password
-                if newPassword == "" {
-                    newPassword = nil
-                }
-
-
+                Defaults[.gitPasswordAttempts] += 1
                 credential = try? GTCredential(userName: userName, publicKeyURL: publicKeyFile, privateKeyURL: privateKeyFile, passphrase: newPassword)
             }
             return credential
@@ -184,7 +156,8 @@ class PasswordStore {
     
     public func initGitCredential() {
         if Defaults[.gitAuthenticationMethod] == "Password" {
-            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitUsername] ?? "", password: Utils.getPasswordFromKeychain(name: "gitPassword") ?? ""))
+            let httpCredential = GitCredential.Credential.http(userName: Defaults[.gitUsername] ?? "", password: Utils.getPasswordFromKeychain(name: "gitPassword") ?? "", requestGitPassword: nil)
+            gitCredential = GitCredential(credential: httpCredential)
         } else if Defaults[.gitAuthenticationMethod] == "SSH Key"{
             gitCredential = GitCredential(
                 credential: GitCredential.Credential.ssh(
@@ -192,7 +165,7 @@ class PasswordStore {
                     password: gitSSHPrivateKeyPassphrase ?? "",
                     publicKeyFile: Globals.gitSSHPublicKeyURL,
                     privateKeyFile: Globals.gitSSHPrivateKeyURL,
-                    passwordNotSetCallback: nil
+                    requestSSHKeyPassword: nil
                 )
             )
         } else {

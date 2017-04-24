@@ -112,7 +112,7 @@ class SettingsTableViewController: UITableViewController {
                 SVProgressHUD.show(withStatus: "Prepare Repository")
                 var gitCredential: GitCredential
                 if auth == "Password" {
-                    gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, password: password!))
+                    gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, password: password!, requestGitPassword: requestGitPassword))
                 } else {
                     gitCredential = GitCredential(
                         credential: GitCredential.Credential.ssh(
@@ -120,7 +120,7 @@ class SettingsTableViewController: UITableViewController {
                             password: Utils.getPasswordFromKeychain(name: "gitSSHPrivateKeyPassphrase") ?? "",
                             publicKeyFile: Globals.gitSSHPublicKeyURL,
                             privateKeyFile: Globals.gitSSHPrivateKeyURL,
-                            passwordNotSetCallback: self.requestSshKeyPassword
+                            requestSSHKeyPassword: self.requestGitPassword
                         )
                     )
                 }
@@ -204,31 +204,32 @@ class SettingsTableViewController: UITableViewController {
         }
     }
 
-    func requestSshKeyPassword() -> String {
+    private func requestGitPassword(message: String) -> String? {
         let sem = DispatchSemaphore(value: 0)
-        var newPassword = ""
-
+        var password: String?
+        
         DispatchQueue.main.async {
             SVProgressHUD.dismiss()
-            let alert = UIAlertController(title: "Password", message: "Please fill in the password of your SSH key.", preferredStyle: UIAlertControllerStyle.alert)
-
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
-                newPassword = alert.textFields!.first!.text!
-                sem.signal()
-            }))
-
+            let alert = UIAlertController(title: "Password", message: message, preferredStyle: UIAlertControllerStyle.alert)
             alert.addTextField(configurationHandler: {(textField: UITextField!) in
                 textField.text = self.passwordStore.gitPassword
                 textField.isSecureTextEntry = true
             })
-
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+                password = alert.textFields!.first!.text
+                sem.signal()
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+                password = nil
+                sem.signal()
+            })
             self.present(alert, animated: true, completion: nil)
         }
-
-        let _ = sem.wait(timeout: DispatchTime.distantFuture)
-        return newPassword
+        
+        let _ = sem.wait(timeout: .distantFuture)
+        return password
     }
-
+    
     func actOnPasswordStoreErasedNotification() {
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()
