@@ -22,7 +22,6 @@ class GitConfigSettingTableViewController: UITableViewController {
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        print("test should perform \(identifier)")
         if identifier == "saveGitConfigSettingSegue" {
             guard let name = nameTextField.text, !name.isEmpty else {
                 Utils.alert(title: "Cannot Save", message: "Please set name first.", controller: self, completion: nil)

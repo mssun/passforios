@@ -31,4 +31,11 @@ extension PasswordEntity {
         passwordCategoryArray.reverse()
         return passwordCategoryArray.joined(separator: " > ")
     }
+    
+    func getURL() -> URL? {
+        if let p = path {
+            return URL(string: p)
+        }
+        return nil
+    }
 }

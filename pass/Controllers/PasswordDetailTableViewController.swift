@@ -212,28 +212,26 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
     
     @IBAction private func saveEditPassword(segue: UIStoryboardSegue) {
-        if self.password!.changed {
+        if self.password!.changed != 0 {
             SVProgressHUD.show(withStatus: "Saving")
-            DispatchQueue.global(qos: .userInitiated).async {
-                do {
-                    self.passwordEntity = try self.passwordStore.update(passwordEntity: self.passwordEntity!, password: self.password!)
-                } catch {
-                    DispatchQueue.main.async {
-                        Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
-                    }
-                }
-                DispatchQueue.main.async {
-                    self.setTableData()
-                    self.tableView.reloadData()
-                    SVProgressHUD.showSuccess(withStatus: "Success")
-                    SVProgressHUD.dismiss(withDelay: 1)
-                }
+            do {
+                self.passwordEntity = try self.passwordStore.edit(passwordEntity: self.passwordEntity!, password: self.password!)
+            } catch {
+                Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
             }
+            self.setTableData()
+            self.tableView.reloadData()
+            SVProgressHUD.showSuccess(withStatus: "Success")
+            SVProgressHUD.dismiss(withDelay: 1)
         }
     }
     
     @IBAction private func deletePassword(segue: UIStoryboardSegue) {
-        passwordStore.delete(passwordEntity: passwordEntity!)
+        do {
+            try passwordStore.delete(passwordEntity: passwordEntity!)
+        } catch {
+            Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+        }
         let _ = navigationController?.popViewController(animated: true)
     }
 
@@ -387,20 +385,14 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
         
         // commit the change of HOTP counter
-        if password!.changed {
-            DispatchQueue.global(qos: .userInitiated).async {
-                do {
-                    self.passwordEntity = try self.passwordStore.update(passwordEntity: self.passwordEntity!, password: self.password!)
-                } catch {
-                    DispatchQueue.main.async {
-                        Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
-                    }
-                }
-                DispatchQueue.main.async {
-                    SVProgressHUD.showSuccess(withStatus: "Password Copied\nCounter Updated")
-                    SVProgressHUD.dismiss(withDelay: 1)
-                }
+        if password!.changed != 0 {
+            do {
+                self.passwordEntity = try self.passwordStore.edit(passwordEntity: self.passwordEntity!, password: self.password!)
+            } catch {
+                Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
             }
+            SVProgressHUD.showSuccess(withStatus: "Password Copied\nCounter Updated")
+            SVProgressHUD.dismiss(withDelay: 1)
         }
     }
     

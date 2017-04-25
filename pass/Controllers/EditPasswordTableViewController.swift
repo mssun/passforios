@@ -53,7 +53,7 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
             if cellContents["additions"]! != "" {
                 plainText = "\(cellContents["password"]!)\n\(cellContents["additions"]!)"
             } else {
-                plainText = "\(cellContents["password"]!)\n"
+                plainText = "\(cellContents["password"]!)"
             }
             let name = URL(string: cellContents["name"]!)!.lastPathComponent
             let url = URL(string: cellContents["name"]!)!.appendingPathExtension("gpg")

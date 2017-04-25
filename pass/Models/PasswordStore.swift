@@ -509,42 +509,50 @@ class PasswordStore {
     func updateRemoteRepo() {
     }
     
-    func createAddCommitInRepository(message: String, path: String) -> GTCommit? {
-        do {
-            try storeRepository?.index().addFile(path)
-            try storeRepository?.index().write()
-            let newTree = try storeRepository!.index().writeTree()
-            let headReference = try storeRepository!.headReference()
-            let commitEnum = try GTEnumerator(repository: storeRepository!)
+    private func gitAdd(path: String) throws {
+        if let repo = storeRepository {
+            try repo.index().addFile(path)
+            try repo.index().write()
+        }
+    }
+    
+    private func gitRm(path: String) throws {
+        if let repo = storeRepository {
+            var url = storeURL.appendingPathComponent(path)
+            Utils.removeFileIfExists(at: url)
+            let fm = FileManager.default
+            url.deleteLastPathComponent()
+            var count = try fm.contentsOfDirectory(atPath: url.path).count
+            while count == 0 {
+                Utils.removeFileIfExists(atPath: url.path)
+                url.deleteLastPathComponent()
+                count = try fm.contentsOfDirectory(atPath: url.path).count
+            }
+            try repo.index().removeFile(path)
+            try repo.index().write()
+        }
+    }
+    
+    private func gitMv(from: String, to: String) throws {
+        let fm = FileManager.default
+        try fm.moveItem(at: storeURL.appendingPathComponent(from), to: storeURL.appendingPathComponent(to))
+        try gitAdd(path: to)
+        try gitRm(path: from)
+    }
+    
+    private func gitCommit(message: String) throws -> GTCommit? {
+        if let repo = storeRepository {
+            let newTree = try repo.index().writeTree()
+            let headReference = try repo.headReference()
+            let commitEnum = try GTEnumerator(repository: repo)
             try commitEnum.pushSHA(headReference.targetOID.sha!)
             let parent = commitEnum.nextObject() as! GTCommit
             let signature = gitSignatureForNow
-            let commit = try storeRepository!.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)
+            let commit = try repo.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)
             return commit
-        } catch {
-            print(error)
         }
         return nil
     }
-    
-    func createRemoveCommitInRepository(message: String, path: String) -> GTCommit? {
-        do {
-            try storeRepository?.index().removeFile(path)
-            try storeRepository?.index().write()
-            let newTree = try storeRepository!.index().writeTree()
-            let headReference = try storeRepository!.headReference()
-            let commitEnum = try GTEnumerator(repository: storeRepository!)
-            try commitEnum.pushSHA(headReference.targetOID.sha!)
-            let parent = commitEnum.nextObject() as! GTCommit
-            let signature = gitSignatureForNow
-            let commit = try storeRepository!.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)
-            return commit
-        } catch {
-            print(error)
-        }
-        return nil
-    }
-    
     
     private func getLocalBranch(withName branchName: String) -> GTBranch? {
         do {
@@ -567,7 +575,11 @@ class PasswordStore {
         try storeRepository?.push(masterBranch, to: remote, withOptions: options, progress: transferProgressBlock)
     }
     
-    private func addPasswordEntities(password: Password) -> PasswordEntity? {
+    private func addPasswordEntities(password: Password) throws -> PasswordEntity? {
+        guard !passwordExisted(password: password) else {
+            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot add password: password duplicated."])
+        }
+        
         var passwordURL = password.url!
         var paths: [String] = []
         while passwordURL.path != "." {
@@ -599,61 +611,73 @@ class PasswordStore {
     
     private func insertPasswordEntity(name: String, path: String, parent: PasswordEntity?, synced: Bool = false, isDir: Bool = false) -> PasswordEntity? {
         var ret: PasswordEntity? = nil
-        DispatchQueue.main.sync {
-            if let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: self.context) as? PasswordEntity {
-                passwordEntity.name = name
-                passwordEntity.path = path
-                passwordEntity.parent = parent
-                passwordEntity.synced = synced
-                passwordEntity.isDir = isDir
-                do {
-                    try self.context.save()
-                    ret = passwordEntity
-                } catch {
-                    fatalError("Failed to insert a PasswordEntity: \(error)")
-                }
+        if let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: self.context) as? PasswordEntity {
+            passwordEntity.name = name
+            passwordEntity.path = path
+            passwordEntity.parent = parent
+            passwordEntity.synced = synced
+            passwordEntity.isDir = isDir
+            do {
+                try self.context.save()
+                ret = passwordEntity
+            } catch {
+                fatalError("Failed to insert a PasswordEntity: \(error)")
             }
         }
         return ret
     }
     
     func add(password: Password) throws -> PasswordEntity? {
-        guard !passwordExisted(password: password) else {
-            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot add password: password duplicated."])
-        }
-        let newPasswordEntity = addPasswordEntities(password: password)
-        print("new: \(newPasswordEntity!.path!)")
+        let newPasswordEntity = try addPasswordEntities(password: password)
         let saveURL = storeURL.appendingPathComponent(password.url!.path)
         try self.encrypt(password: password).write(to: saveURL)
-        let _ = createAddCommitInRepository(message: "Add password for \(password.url!.deletingPathExtension().path) to store using Pass for iOS.", path: password.url!.path)
+        try gitAdd(path: password.url!.path)
+        let _ = try gitCommit(message: "Add password for \(password.url!.deletingPathExtension().path) to store using Pass for iOS.")
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         return newPasswordEntity
     }
     
-    func update(passwordEntity: PasswordEntity, password: Password) throws -> PasswordEntity? {
-        delete(passwordEntity: passwordEntity)
-        return try add(password: password)
+    func edit(passwordEntity: PasswordEntity, password: Password) throws -> PasswordEntity? {
+        var newPasswordEntity: PasswordEntity? = passwordEntity
+
+        if password.changed&PasswordChange.content.rawValue != 0 {
+            let saveURL = storeURL.appendingPathComponent(password.url!.path)
+            try self.encrypt(password: password).write(to: saveURL)
+            try gitAdd(path: password.url!.path)
+            let _ = try gitCommit(message: "Edit password for \(password.url!.deletingPathExtension().path) to store using Pass for iOS.")
+        }
+        guard newPasswordEntity != nil else {
+            return nil
+        }
+        if password.changed&PasswordChange.path.rawValue != 0 {
+            let oldPasswordURL = newPasswordEntity!.getURL()
+            try self.deletePasswordEntities(passwordEntity: newPasswordEntity!)
+            newPasswordEntity = try self.addPasswordEntities(password: password)
+            try gitMv(from: oldPasswordURL!.path, to: password.url!.path)
+            let _ = try gitCommit(message: "Rename \(oldPasswordURL!.deletingPathExtension().path) to \(password.url!.deletingPathExtension().path) using Pass for iOS.")
+        }
+        return newPasswordEntity
     }
     
-    
-    public func delete(passwordEntity: PasswordEntity) {
-        DispatchQueue.main.async {
-            let _ = self.createRemoveCommitInRepository(message: "Remove \(passwordEntity.nameWithCategory) from store using Pass for iOS", path: passwordEntity.path!)
-            var current: PasswordEntity? = passwordEntity
-            while current != nil && (current!.children!.count == 0 || !current!.isDir) {
-                Utils.removeFileIfExists(at: self.storeURL.appendingPathComponent(current!.path!))
-                let parent = current!.parent
-                self.context.delete(current!)
-                current = parent
-                do {
-                    try self.context.save()
-                } catch {
-                    fatalError("Failed to delete a PasswordEntity: \(error)")
-                }
+    private func deletePasswordEntities(passwordEntity: PasswordEntity) throws {
+        var current: PasswordEntity? = passwordEntity
+        while current != nil && (current!.children!.count == 0 || !current!.isDir) {
+            let parent = current!.parent
+            self.context.delete(current!)
+            current = parent
+            do {
+                try self.context.save()
+            } catch {
+                fatalError("Failed to delete a PasswordEntity: \(error)")
             }
-            NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
-            
         }
+    }
+    
+    public func delete(passwordEntity: PasswordEntity) throws {
+        try gitRm(path: passwordEntity.path!)
+        let _ = try gitCommit(message: "Remove \(passwordEntity.nameWithCategory) from store using Pass for iOS.")
+        try deletePasswordEntities(passwordEntity: passwordEntity)
+        NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
     
     func saveUpdated(passwordEntity: PasswordEntity) {

@@ -16,9 +16,15 @@ struct AdditionField {
     var content: String
 }
 
+enum PasswordChange: Int {
+    case path = 0x01
+    case content = 0x02
+    case none = 0x00
+}
+
 class Password {
     static let otpKeywords = ["otp_secret", "otp_type", "otp_algorithm", "otp_period", "otp_digits", "otp_counter", "otpauth"]
-    
+
     var name = ""
     var url: URL?
     var namePath: String {
@@ -32,7 +38,7 @@ class Password {
     var password = ""
     var additions = [String: String]()
     var additionKeys = [String]()
-    var changed = false
+    var changed: Int = 0
     var plainText = ""
     
     private var firstLineIsOTPField = false
@@ -62,8 +68,13 @@ class Password {
     
     func updatePassword(name: String, url: URL?, plainText: String) {
         if self.plainText != plainText || self.url != url {
+            if self.plainText != plainText {
+                changed = changed|PasswordChange.content.rawValue
+            }
+            if self.url != url {
+                changed = changed|PasswordChange.path.rawValue
+            }
             self.initEverything(name: name, url: url, plainText: plainText)
-            changed = true
         }
     }
     
