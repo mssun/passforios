@@ -28,6 +28,7 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
         let savePassphraseAlert = UIAlertController(title: "Passphrase", message: "Do you want to save the passphrase for later decryption?", preferredStyle: UIAlertControllerStyle.alert)
         savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
             Defaults[.isRememberPassphraseOn] = false
+            self.pgpPassphrase = nil
             self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
         })
         savePassphraseAlert.addAction(UIAlertAction(title: "Save", style: UIAlertActionStyle.destructive) {_ in

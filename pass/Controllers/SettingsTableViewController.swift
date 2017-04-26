@@ -34,7 +34,9 @@ class SettingsTableViewController: UITableViewController {
         if let controller = segue.source as? PGPKeySettingTableViewController {
             Defaults[.pgpPrivateKeyURL] = URL(string: controller.pgpPrivateKeyURLTextField.text!)
             Defaults[.pgpPublicKeyURL] = URL(string: controller.pgpPublicKeyURLTextField.text!)
-            self.passwordStore.pgpKeyPassphrase = controller.pgpPassphrase
+            if Defaults[.isRememberPassphraseOn] {
+                self.passwordStore.pgpKeyPassphrase = controller.pgpPassphrase
+            }
             Defaults[.pgpKeySource] = "url"
             
             SVProgressHUD.setDefaultMaskType(.black)
@@ -60,9 +62,8 @@ class SettingsTableViewController: UITableViewController {
             
         } else if let controller = segue.source as? PGPKeyArmorSettingTableViewController {
             Defaults[.pgpKeySource] = "armor"
-            self.passwordStore.pgpKeyPassphrase = controller.pgpPassphrase
             if Defaults[.isRememberPassphraseOn] {
-                Utils.addPasswordToKeychain(name: "pgpKeyPassphrase", password: controller.pgpPassphrase!)
+                self.passwordStore.pgpKeyPassphrase = controller.pgpPassphrase
             }
 
             Defaults[.pgpPublicKeyArmor] = controller.armorPublicKeyTextView.text!
