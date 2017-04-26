@@ -535,7 +535,11 @@ class PasswordStore {
     
     private func gitMv(from: String, to: String) throws {
         let fm = FileManager.default
-        try fm.moveItem(at: storeURL.appendingPathComponent(from), to: storeURL.appendingPathComponent(to))
+        do {
+            try fm.moveItem(at: storeURL.appendingPathComponent(from), to: storeURL.appendingPathComponent(to))
+        } catch {
+            print(error)
+        }
         try gitAdd(path: to)
         try gitRm(path: from)
     }
@@ -641,10 +645,10 @@ class PasswordStore {
         var newPasswordEntity: PasswordEntity? = passwordEntity
 
         if password.changed&PasswordChange.content.rawValue != 0 {
-            let saveURL = storeURL.appendingPathComponent(password.url!.path)
+            let saveURL = storeURL.appendingPathComponent(passwordEntity.getURL()!.path)
             try self.encrypt(password: password).write(to: saveURL)
-            try gitAdd(path: password.url!.path)
-            let _ = try gitCommit(message: "Edit password for \(password.url!.deletingPathExtension().path) to store using Pass for iOS.")
+            try gitAdd(path: passwordEntity.getURL()!.path)
+            let _ = try gitCommit(message: "Edit password for \(passwordEntity.getURL()!.deletingPathExtension().path) to store using Pass for iOS.")
         }
         guard newPasswordEntity != nil else {
             return nil
