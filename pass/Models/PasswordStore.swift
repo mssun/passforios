@@ -656,6 +656,7 @@ class PasswordStore {
             try gitMv(from: oldPasswordURL!.path, to: password.url!.path)
             let _ = try gitCommit(message: "Rename \(oldPasswordURL!.deletingPathExtension().path) to \(password.url!.deletingPathExtension().path) using Pass for iOS.")
         }
+        NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         return newPasswordEntity
     }
     
