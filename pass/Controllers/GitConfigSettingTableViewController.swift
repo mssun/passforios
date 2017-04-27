@@ -10,6 +10,7 @@ import UIKit
 import SwiftyUserDefaults
 
 class GitConfigSettingTableViewController: UITableViewController {
+    let passwordStore = PasswordStore.shared
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
@@ -17,17 +18,22 @@ class GitConfigSettingTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = UITableViewAutomaticDimension
+        
+        let signature = passwordStore.gitSignatureForNow
+        nameTextField.placeholder = signature.name
+        emailTextField.placeholder = signature.email
+        
         nameTextField.text = Defaults[.gitName]
         emailTextField.text = Defaults[.gitEmail]
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "saveGitConfigSettingSegue" {
-            guard let name = nameTextField.text, !name.isEmpty else {
+            guard let name = nameTextField.text?.trimmingCharacters(in: .whitespaces), !name.isEmpty else {
                 Utils.alert(title: "Cannot Save", message: "Please set name first.", controller: self, completion: nil)
                 return false
             }
-            guard let email = emailTextField.text, !email.isEmpty else {
+            guard let email = emailTextField.text?.trimmingCharacters(in: .whitespaces), !email.isEmpty else {
                 Utils.alert(title: "Cannot Save", message: "Please set email first.", controller: self, completion: nil)
                 return false
             }
