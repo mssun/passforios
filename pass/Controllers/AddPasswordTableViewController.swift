@@ -65,8 +65,9 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
             } else {
                 plainText = "\(cellContents["password"]!)"
             }
-            let name = URL(string: cellContents["name"]!)!.lastPathComponent
-            let url = URL(string: cellContents["name"]!)!.appendingPathExtension("gpg")
+            let encodedName = cellContents["name"]!.stringByAddingPercentEncodingForRFC3986()!
+            let name = URL(string: encodedName)!.lastPathComponent
+            let url = URL(string: encodedName)!.appendingPathExtension("gpg")
             password = Password(name: name, url: url, plainText: plainText)
         }
     }

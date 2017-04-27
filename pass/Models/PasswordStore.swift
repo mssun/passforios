@@ -651,7 +651,7 @@ class PasswordStore {
         try deleteDirectoryTree(at: passwordEntity.getURL()!)
         try deletePasswordEntities(passwordEntity: passwordEntity)
         try gitRm(path: deletedFileURL.path)
-        let _ = try gitCommit(message: "Remove \(deletedFileURL.deletingPathExtension()) from store using Pass for iOS.")
+        let _ = try gitCommit(message: "Remove \(deletedFileURL.deletingPathExtension().path.removingPercentEncoding!) from store using Pass for iOS.")
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
     
@@ -663,7 +663,7 @@ class PasswordStore {
             let saveURL = storeURL.appendingPathComponent(passwordEntity.getURL()!.path)
             try self.encrypt(password: password).write(to: saveURL)
             try gitAdd(path: passwordEntity.getURL()!.path)
-            let _ = try gitCommit(message: "Edit password for \(passwordEntity.getURL()!.deletingPathExtension().path) to store using Pass for iOS.")
+            let _ = try gitCommit(message: "Edit password for \(passwordEntity.getURL()!.deletingPathExtension().path.removingPercentEncoding!) to store using Pass for iOS.")
             newPasswordEntity = passwordEntity
         }
         
@@ -680,7 +680,7 @@ class PasswordStore {
             // delete
             try deleteDirectoryTree(at: deletedFileURL)
             try deletePasswordEntities(passwordEntity: passwordEntity)
-            let _ = try gitCommit(message: "Rename \(deletedFileURL.deletingPathExtension()) to \(password.url!.deletingPathExtension().path) using Pass for iOS.")
+            let _ = try gitCommit(message: "Rename \(deletedFileURL.deletingPathExtension().path.removingPercentEncoding!) to \(password.url!.deletingPathExtension().path.removingPercentEncoding!) using Pass for iOS.")
 
         }
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
@@ -689,6 +689,7 @@ class PasswordStore {
     
     private func deletePasswordEntities(passwordEntity: PasswordEntity) throws {
         var current: PasswordEntity? = passwordEntity
+        print(passwordEntity.path!)
         while current != nil && (current!.children!.count == 0 || !current!.isDir) {
             let parent = current!.parent
             self.context.delete(current!)
