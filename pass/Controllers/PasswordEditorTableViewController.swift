@@ -11,14 +11,14 @@ import SwiftyUserDefaults
 import OneTimePassword
 
 enum PasswordEditorCellType {
-    case textFieldCell, textViewCell, fillPasswordCell, passwordLengthCell, deletePasswordCell, scanQRCodeCell
+    case nameCell, fillPasswordCell, passwordLengthCell, additionsCell, deletePasswordCell, scanQRCodeCell
 }
 
 enum PasswordEditorCellKey {
     case type, title, content, placeholders
 }
 
-class PasswordEditorTableViewController: UITableViewController, FillPasswordTableViewCellDelegate, PasswordSettingSliderTableViewCellDelegate, QRScannerControllerDelegate {
+class PasswordEditorTableViewController: UITableViewController, FillPasswordTableViewCellDelegate, PasswordSettingSliderTableViewCellDelegate, QRScannerControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     var tableData = [
         [Dictionary<PasswordEditorCellKey, Any>]
@@ -29,12 +29,15 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     
     private var sectionHeaderTitles = ["name", "password", "additions",""].map {$0.uppercased()}
     private var sectionFooterTitles = ["", "", "Use \"key: value\" format for additional fields.", ""]
+    private let nameSection = 0
     private let passwordSection = 1
     private let additionsSection = 2
     private var hidePasswordSettings = true
     
+    private var nameCell: TextFieldTableViewCell?
     private var fillPasswordCell: FillPasswordTableViewCell?
     private var passwordLengthCell: SliderTableViewCell?
+    private var additionsCell: TextViewTableViewCell?
     private var deletePasswordCell: UITableViewCell?
     private var scanQRCodeCell: UITableViewCell?
     
@@ -77,10 +80,11 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         let cellData = tableData[indexPath.section][indexPath.row]
         
         switch cellData[PasswordEditorCellKey.type] as! PasswordEditorCellType {
-        case .textViewCell:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as! ContentTableViewCell
-            cell.setContent(content: cellData[PasswordEditorCellKey.content] as? String)
-            return cell
+        case .nameCell:
+            nameCell = tableView.dequeueReusableCell(withIdentifier: "textFieldCell", for: indexPath) as? TextFieldTableViewCell
+            nameCell?.contentTextField.delegate = self
+            nameCell?.setContent(content: cellData[PasswordEditorCellKey.content] as? String)
+            return nameCell!
         case .fillPasswordCell:
             fillPasswordCell = tableView.dequeueReusableCell(withIdentifier: "fillPasswordCell", for: indexPath) as? FillPasswordTableViewCell
             fillPasswordCell?.delegate = self
@@ -96,14 +100,15 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
                                       defaultValue: lengthSetting?.def ?? 0)
             passwordLengthCell?.delegate = self
             return passwordLengthCell!
+        case .additionsCell:
+            additionsCell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as?TextViewTableViewCell
+            additionsCell?.contentTextView.delegate = self
+            additionsCell?.setContent(content: cellData[PasswordEditorCellKey.content] as? String)
+            return additionsCell!
         case .deletePasswordCell:
             return deletePasswordCell!
         case .scanQRCodeCell:
             return scanQRCodeCell!
-        default:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "textFieldCell", for: indexPath) as! ContentTableViewCell
-            cell.setContent(content: cellData[PasswordEditorCellKey.content] as? String)
-            return cell
         }
     }
     
@@ -225,5 +230,19 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     
     @IBAction private func cancelOTPScanner(segue: UIStoryboardSegue) {
         
+    }
+    
+    // update the data table after editing
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == nameCell?.contentTextField {
+            tableData[nameSection][0][PasswordEditorCellKey.content] = nameCell?.getContent()
+        }
+    }
+    
+    // update the data table after editing
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView == additionsCell?.contentTextView {
+            tableData[additionsSection][0][PasswordEditorCellKey.content] = additionsCell?.getContent()
+        }
     }
 }

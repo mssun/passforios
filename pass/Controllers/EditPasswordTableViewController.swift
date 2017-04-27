@@ -11,10 +11,10 @@ import UIKit
 class EditPasswordTableViewController: PasswordEditorTableViewController {
     override func viewDidLoad() {
         tableData = [
-            [[.type: PasswordEditorCellType.textFieldCell, .title: "name", .content: password!.namePath]],
+            [[.type: PasswordEditorCellType.nameCell, .title: "name", .content: password!.namePath]],
             [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password", .content: password!.password],
              [.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"]],
-            [[.type: PasswordEditorCellType.textViewCell, .title: "additions", .content: password!.getAdditionsPlainText()]],
+            [[.type: PasswordEditorCellType.additionsCell, .title: "additions", .content: password!.getAdditionsPlainText()]],
             [[.type: PasswordEditorCellType.scanQRCodeCell],
              [.type: PasswordEditorCellType.deletePasswordCell]]
         ]
