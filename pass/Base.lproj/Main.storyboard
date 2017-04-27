@@ -482,7 +482,7 @@
                                 <segue destination="7K9-cE-9qq" kind="unwind" unwindAction="cancelGitServerSettingWithSegue:" id="SGr-tc-vDL"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="sgQ-zB-rxv">
+                        <barButtonItem key="rightBarButtonItem" title="Clone" style="done" id="sgQ-zB-rxv">
                             <connections>
                                 <action selector="save:" destination="ynQ-64-MfA" id="HNL-Da-fXT"/>
                             </connections>

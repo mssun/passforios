@@ -101,61 +101,53 @@ class SettingsTableViewController: UITableViewController {
             let password = controller.password
             let auth = controller.authenticationMethod
             
-            if Defaults[.gitURL] == nil ||
-                Defaults[.gitURL]!.absoluteString != gitRepostiroyURL ||
-                auth != Defaults[.gitAuthenticationMethod] ||
-                username != Defaults[.gitUsername] ||
-                password != self.passwordStore.gitPassword ||
-                self.passwordStore.repositoryExisted() == false {
-                
-                SVProgressHUD.setDefaultMaskType(.black)
-                SVProgressHUD.setDefaultStyle(.light)
-                SVProgressHUD.show(withStatus: "Prepare Repository")
-                var gitCredential: GitCredential
-                if auth == "Password" {
-                    gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, password: password!, requestGitPassword: requestGitPassword))
-                } else {
-                    gitCredential = GitCredential(
-                        credential: GitCredential.Credential.ssh(
-                            userName: username,
-                            password: Utils.getPasswordFromKeychain(name: "gitSSHPrivateKeyPassphrase") ?? "",
-                            publicKeyFile: Globals.gitSSHPublicKeyURL,
-                            privateKeyFile: Globals.gitSSHPrivateKeyURL,
-                            requestSSHKeyPassword: self.requestGitPassword
-                        )
+            SVProgressHUD.setDefaultMaskType(.black)
+            SVProgressHUD.setDefaultStyle(.light)
+            SVProgressHUD.show(withStatus: "Prepare Repository")
+            var gitCredential: GitCredential
+            if auth == "Password" {
+                gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, password: password!, requestGitPassword: requestGitPassword))
+            } else {
+                gitCredential = GitCredential(
+                    credential: GitCredential.Credential.ssh(
+                        userName: username,
+                        password: Utils.getPasswordFromKeychain(name: "gitSSHPrivateKeyPassphrase") ?? "",
+                        publicKeyFile: Globals.gitSSHPublicKeyURL,
+                        privateKeyFile: Globals.gitSSHPrivateKeyURL,
+                        requestSSHKeyPassword: self.requestGitPassword
                     )
-                }
-                let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
-                dispatchQueue.async {
-                    do {
-                        try self.passwordStore.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
-                                                                 credential: gitCredential,
-                                                                 transferProgressBlock:{ (git_transfer_progress, stop) in
-                                                                    DispatchQueue.main.async {
-                                                                        SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Clone Remote Repository")
-                                                                    }
-                        },
-                                                                 checkoutProgressBlock: { (path, completedSteps, totalSteps) in
-                                                                    DispatchQueue.main.async {
-                                                                        SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "Checkout Master Branch")
-                                                                    }
-                        })
-                        DispatchQueue.main.async {
-                            Defaults[.gitURL] = URL(string: gitRepostiroyURL)
-                            Defaults[.gitUsername] = username
-                            Defaults[.gitAuthenticationMethod] = auth
-                            Defaults[.gitPasswordAttempts] = 0
-                            self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitURL]?.host
-                            SVProgressHUD.showSuccess(withStatus: "Done")
-                            SVProgressHUD.dismiss(withDelay: 1)
-                        }
-                    } catch {
-                        DispatchQueue.main.async {
-                            Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
-                        }
+                )
+            }
+            let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
+            dispatchQueue.async {
+                do {
+                    try self.passwordStore.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
+                                                             credential: gitCredential,
+                                                             transferProgressBlock:{ (git_transfer_progress, stop) in
+                                                                DispatchQueue.main.async {
+                                                                    SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Clone Remote Repository")
+                                                                }
+                    },
+                                                             checkoutProgressBlock: { (path, completedSteps, totalSteps) in
+                                                                DispatchQueue.main.async {
+                                                                    SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "Checkout Master Branch")
+                                                                }
+                    })
+                    DispatchQueue.main.async {
+                        Defaults[.gitURL] = URL(string: gitRepostiroyURL)
+                        Defaults[.gitUsername] = username
+                        Defaults[.gitAuthenticationMethod] = auth
+                        Defaults[.gitPasswordAttempts] = 0
+                        self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitURL]?.host
+                        SVProgressHUD.showSuccess(withStatus: "Done")
+                        SVProgressHUD.dismiss(withDelay: 1)
                     }
-                    
+                } catch {
+                    DispatchQueue.main.async {
+                        Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                    }
                 }
+                
             }
         }
     }

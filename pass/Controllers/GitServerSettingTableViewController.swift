@@ -107,11 +107,12 @@ class GitServerSettingTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    @IBAction func save(_ sender: Any) {
+    private func doClone() {
         if authenticationMethod == "Password" {
             let alert = UIAlertController(title: "Password", message: "Please fill in the password of your Git account.", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
                 self.password = alert.textFields!.first!.text
+                self.passwordStore.gitPassword = self.password
                 if self.shouldPerformSegue(withIdentifier: "saveGitServerSettingSegue", sender: self) {
                     self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
                 }
@@ -125,6 +126,19 @@ class GitServerSettingTableViewController: UITableViewController {
             if self.shouldPerformSegue(withIdentifier: "saveGitServerSettingSegue", sender: self) {
                 self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
             }
+        }
+    }
+    
+    @IBAction func save(_ sender: Any) {
+        if passwordStore.repositoryExisted() {
+            let alert = UIAlertController(title: "Erase Current Password Store Data?", message: "A cloned password store exists. This operation will erase all local data. Data on your remote server will not be affected.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Erase", style: UIAlertActionStyle.destructive, handler: { _ in
+                self.doClone()
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            doClone()
         }
     }
     
