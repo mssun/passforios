@@ -288,10 +288,10 @@ class PasswordStore {
         return true
     }
     
-    func getPasswordEntity(by path: String) -> PasswordEntity? {
+    func getPasswordEntity(by path: String, isDir: Bool) -> PasswordEntity? {
         let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         do {
-            passwordEntityFetchRequest.predicate = NSPredicate(format: "path = %@", path)
+            passwordEntityFetchRequest.predicate = NSPredicate(format: "path = %@ and isDir = %@", path, isDir.description)
             return try context.fetch(passwordEntityFetchRequest).first as? PasswordEntity
         } catch {
             fatalError("Failed to fetch password entities: \(error)")
@@ -518,6 +518,9 @@ class PasswordStore {
     
     private func gitRm(path: String) throws {
         if let repo = storeRepository {
+            if FileManager.default.fileExists(atPath: storeURL.appendingPathComponent(path).path) {
+                try FileManager.default.removeItem(at: storeURL.appendingPathComponent(path))
+            }
             try repo.index().removeFile(path)
             try repo.index().write()
         }
@@ -604,10 +607,12 @@ class PasswordStore {
         paths.reverse()
         var parentPasswordEntity: PasswordEntity? = nil
         for path in paths {
-            if let passwordEntity = getPasswordEntity(by: path) {
+            let isDir = !path.hasSuffix(".gpg")
+            if let passwordEntity = getPasswordEntity(by: path, isDir: isDir) {
+                print(passwordEntity.path!)
                 parentPasswordEntity = passwordEntity
             } else {
-                if path.hasSuffix(".gpg") {
+                if !isDir {
                     return insertPasswordEntity(name: URL(string: path.stringByAddingPercentEncodingForRFC3986()!)!.deletingPathExtension().lastPathComponent, path: path, parent: parentPasswordEntity, synced: false, isDir: false)
                 } else {
                     parentPasswordEntity = insertPasswordEntity(name: URL(string: path.stringByAddingPercentEncodingForRFC3986()!)!.lastPathComponent, path: path, parent: parentPasswordEntity, synced: false, isDir: true)
