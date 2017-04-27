@@ -788,7 +788,6 @@ class PasswordStore {
             try self.storeRepository?.reset(to: newHead, resetType: GTRepositoryResetType.hard)
             self.setAllSynced()
             self.updatePasswordEntityCoreData()
-            Defaults[.lastSyncedTime] = nil
             
             NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
             NotificationCenter.default.post(name: .passwordStoreChangeDiscarded, object: nil)
