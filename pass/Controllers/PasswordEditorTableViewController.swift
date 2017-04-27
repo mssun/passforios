@@ -34,10 +34,10 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     private let additionsSection = 2
     private var hidePasswordSettings = true
     
-    private var nameCell: TextFieldTableViewCell?
-    private var fillPasswordCell: FillPasswordTableViewCell?
+    var nameCell: TextFieldTableViewCell?
+    var fillPasswordCell: FillPasswordTableViewCell?
     private var passwordLengthCell: SliderTableViewCell?
-    private var additionsCell: TextViewTableViewCell?
+    var additionsCell: TextViewTableViewCell?
     private var deletePasswordCell: UITableViewCell?
     private var scanQRCodeCell: UITableViewCell?
     
@@ -193,13 +193,16 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     
     func insertScannedOTPFields(_ otpauth: String) {
         // update tableData
+        var additionsString = ""
         if let additionsPlainText = (tableData[additionsSection][0][PasswordEditorCellKey.content] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines), additionsPlainText != "" {
-            tableData[additionsSection][0][PasswordEditorCellKey.content] = additionsPlainText + "\n" + otpauth
+            additionsString = additionsPlainText + "\n" + otpauth
         } else {
-            tableData[additionsSection][0][PasswordEditorCellKey.content] = otpauth
+            additionsString = otpauth
         }
-        // reload
-        tableView.reloadSections([additionsSection], with: .none)
+        tableData[additionsSection][0][PasswordEditorCellKey.content] = additionsString
+        
+        // reload the additions cell
+        additionsCell?.setContent(content: additionsString)
     }
     
     // MARK: - QRScannerControllerDelegate Methods

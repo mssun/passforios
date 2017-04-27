@@ -23,15 +23,13 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "saveEditPasswordSegue" {
-            if let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ContentTableViewCell {
-                if let name = nameCell.getContent(),
-                    let path = name.stringByAddingPercentEncodingForRFC3986(),
-                    let _ = URL(string: path) {
-                    return true
-                } else {
-                    Utils.alert(title: "Cannot Save", message: "Password name is invalid.", controller: self, completion: nil)
-                    return false
-                }
+            if let name = nameCell?.getContent(),
+                let path = name.stringByAddingPercentEncodingForRFC3986(),
+                let _ = URL(string: path) {
+                return true
+            } else {
+                Utils.alert(title: "Cannot Save", message: "Password name is invalid.", controller: self, completion: nil)
+                return false
             }
         }
         return true
@@ -40,24 +38,14 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "saveEditPasswordSegue" {
-            let cells = tableView.visibleCells
-            var cellContents = [String: String]()
-            for cell in cells {
-                if let indexPath = tableView.indexPath(for: cell),
-                    let contentCell = cell as? ContentTableViewCell,
-                    let cellTitle = tableData[indexPath.section][indexPath.row][.title] as? String,
-                    let cellContent = contentCell.getContent() {
-                    cellContents[cellTitle] = cellContent
-                }
+            var plainText = (fillPasswordCell?.getContent())!
+            if let additionsString = additionsCell?.getContent(), additionsString.isEmpty == false {
+                plainText.append("\n")
+                plainText.append(additionsString)
             }
-            var plainText = ""
-            if cellContents["additions"]! != "" {
-                plainText = "\(cellContents["password"]!)\n\(cellContents["additions"]!)"
-            } else {
-                plainText = "\(cellContents["password"]!)"
-            }
-            let name = URL(string: cellContents["name"]!.stringByAddingPercentEncodingForRFC3986()!)!.lastPathComponent
-            let url = URL(string: cellContents["name"]!.stringByAddingPercentEncodingForRFC3986()!)!.appendingPathExtension("gpg")
+            let encodedName = (nameCell?.getContent()?.stringByAddingPercentEncodingForRFC3986())!
+            let name = URL(string: encodedName)!.lastPathComponent
+            let url = URL(string: encodedName)!.appendingPathExtension("gpg")
             if password!.plainText != plainText || password!.url!.path != url.path {
                 password!.updatePassword(name: name, url: url, plainText: plainText)
             }

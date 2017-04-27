@@ -35,8 +35,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
             }
             
             // check name
-            let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! TextFieldTableViewCell
-            guard nameCell.getContent()!.isEmpty == false else {
+            guard nameCell?.getContent()?.isEmpty == false else {
                 let alertTitle = "Cannot Add Password"
                 let alertMessage = "Please fill in the name."
                 Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
@@ -49,23 +48,12 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "saveAddPasswordSegue" {
-            let cells = tableView.visibleCells
-            var cellContents = [String: String]()
-            for cell in cells {
-                if let indexPath = tableView.indexPath(for: cell),
-                    let contentCell = cell as? ContentTableViewCell,
-                    let cellTitle = tableData[indexPath.section][indexPath.row][.title] as? String,
-                    let cellContent = contentCell.getContent() {
-                    cellContents[cellTitle] = cellContent
-                }
+            var plainText = (fillPasswordCell?.getContent())!
+            if let additionsString = additionsCell?.getContent(), additionsString.isEmpty == false {
+                plainText.append("\n")
+                plainText.append(additionsString)
             }
-            var plainText = ""
-            if cellContents["additions"]! != "" {
-                plainText = "\(cellContents["password"]!)\n\(cellContents["additions"]!)"
-            } else {
-                plainText = "\(cellContents["password"]!)"
-            }
-            let encodedName = cellContents["name"]!.stringByAddingPercentEncodingForRFC3986()!
+            let encodedName = (nameCell?.getContent()?.stringByAddingPercentEncodingForRFC3986())!
             let name = URL(string: encodedName)!.lastPathComponent
             let url = URL(string: encodedName)!.appendingPathExtension("gpg")
             password = Password(name: name, url: url, plainText: plainText)
