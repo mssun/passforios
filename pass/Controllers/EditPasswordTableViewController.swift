@@ -25,7 +25,8 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
         if identifier == "saveEditPasswordSegue" {
             if let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ContentTableViewCell {
                 if let name = nameCell.getContent(),
-                    let _ = URL(string: name) {
+                    let path = name.stringByAddingPercentEncodingForRFC3986(),
+                    let _ = URL(string: path) {
                     return true
                 } else {
                     Utils.alert(title: "Cannot Save", message: "Password name is invalid.", controller: self, completion: nil)
@@ -55,8 +56,8 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
             } else {
                 plainText = "\(cellContents["password"]!)"
             }
-            let name = URL(string: cellContents["name"]!)!.lastPathComponent
-            let url = URL(string: cellContents["name"]!)!.appendingPathExtension("gpg")
+            let name = URL(string: cellContents["name"]!.stringByAddingPercentEncodingForRFC3986()!)!.lastPathComponent
+            let url = URL(string: cellContents["name"]!.stringByAddingPercentEncodingForRFC3986()!)!.appendingPathExtension("gpg")
             if password!.plainText != plainText || password!.url!.path != url.path {
                 password!.updatePassword(name: name, url: url, plainText: plainText)
             }

@@ -34,7 +34,7 @@ extension PasswordEntity {
     
     func getURL() -> URL? {
         if let p = path {
-            return URL(string: p)
+            return URL(string: p.stringByAddingPercentEncodingForRFC3986()!)
         }
         return nil
     }

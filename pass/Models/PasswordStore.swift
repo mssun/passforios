@@ -518,24 +518,35 @@ class PasswordStore {
     
     private func gitRm(path: String) throws {
         if let repo = storeRepository {
-            var url = storeURL.appendingPathComponent(path)
-            Utils.removeFileIfExists(at: url)
-            let fm = FileManager.default
-            url.deleteLastPathComponent()
-            var count = try fm.contentsOfDirectory(atPath: url.path).count
-            while count == 0 {
-                Utils.removeFileIfExists(atPath: url.path)
-                url.deleteLastPathComponent()
-                count = try fm.contentsOfDirectory(atPath: url.path).count
-            }
             try repo.index().removeFile(path)
             try repo.index().write()
         }
+        
+    }
+    
+    private func deleteDirectoryTree(at url: URL) throws {
+        var tempURL = storeURL.appendingPathComponent(url.deletingLastPathComponent().path)
+        let fm = FileManager.default
+        var count = try fm.contentsOfDirectory(atPath: tempURL.path).count
+        while count == 0 {
+            try fm.removeItem(at: tempURL)
+            tempURL.deleteLastPathComponent()
+            count = try fm.contentsOfDirectory(atPath: tempURL.path).count
+        }
+    }
+    
+    private func createDirectoryTree(at url: URL) throws {
+        let tempURL = storeURL.appendingPathComponent(url.deletingLastPathComponent().path)
+        try FileManager.default.createDirectory(at: tempURL, withIntermediateDirectories: true, attributes: nil)
     }
     
     private func gitMv(from: String, to: String) throws {
         let fm = FileManager.default
         do {
+            guard fm.fileExists(atPath: storeURL.appendingPathComponent(from).path) else {
+                print("\(from) not exist")
+                return
+            }
             try fm.moveItem(at: storeURL.appendingPathComponent(from), to: storeURL.appendingPathComponent(to))
         } catch {
             print(error)
@@ -597,16 +608,9 @@ class PasswordStore {
                 parentPasswordEntity = passwordEntity
             } else {
                 if path.hasSuffix(".gpg") {
-                    return insertPasswordEntity(name: URL(string: path)!.deletingPathExtension().lastPathComponent, path: path, parent: parentPasswordEntity, synced: false, isDir: false)
+                    return insertPasswordEntity(name: URL(string: path.stringByAddingPercentEncodingForRFC3986()!)!.deletingPathExtension().lastPathComponent, path: path, parent: parentPasswordEntity, synced: false, isDir: false)
                 } else {
-                    parentPasswordEntity = insertPasswordEntity(name: URL(string: path)!.lastPathComponent, path: path, parent: parentPasswordEntity, synced: false, isDir: true)
-                    let fm = FileManager.default
-                    let saveURL = storeURL.appendingPathComponent(path)
-                    do {
-                        try fm.createDirectory(at: saveURL, withIntermediateDirectories: false, attributes: nil)
-                    } catch {
-                        print(error)
-                    }
+                    parentPasswordEntity = insertPasswordEntity(name: URL(string: path.stringByAddingPercentEncodingForRFC3986()!)!.lastPathComponent, path: path, parent: parentPasswordEntity, synced: false, isDir: true)
                 }
             }
         }
@@ -632,6 +636,7 @@ class PasswordStore {
     }
     
     func add(password: Password) throws -> PasswordEntity? {
+        try createDirectoryTree(at: password.url!)
         let newPasswordEntity = try addPasswordEntities(password: password)
         let saveURL = storeURL.appendingPathComponent(password.url!.path)
         try self.encrypt(password: password).write(to: saveURL)
@@ -641,24 +646,42 @@ class PasswordStore {
         return newPasswordEntity
     }
     
+    public func delete(passwordEntity: PasswordEntity) throws {
+        let deletedFileURL = passwordEntity.getURL()!
+        try deleteDirectoryTree(at: passwordEntity.getURL()!)
+        try deletePasswordEntities(passwordEntity: passwordEntity)
+        try gitRm(path: deletedFileURL.path)
+        let _ = try gitCommit(message: "Remove \(deletedFileURL.deletingPathExtension()) from store using Pass for iOS.")
+        NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+    }
+    
     func edit(passwordEntity: PasswordEntity, password: Password) throws -> PasswordEntity? {
         var newPasswordEntity: PasswordEntity? = passwordEntity
 
         if password.changed&PasswordChange.content.rawValue != 0 {
+            print("chagne content")
             let saveURL = storeURL.appendingPathComponent(passwordEntity.getURL()!.path)
             try self.encrypt(password: password).write(to: saveURL)
             try gitAdd(path: passwordEntity.getURL()!.path)
             let _ = try gitCommit(message: "Edit password for \(passwordEntity.getURL()!.deletingPathExtension().path) to store using Pass for iOS.")
+            newPasswordEntity = passwordEntity
         }
-        guard newPasswordEntity != nil else {
-            return nil
-        }
+        
         if password.changed&PasswordChange.path.rawValue != 0 {
-            let oldPasswordURL = newPasswordEntity!.getURL()
-            try self.deletePasswordEntities(passwordEntity: newPasswordEntity!)
-            newPasswordEntity = try self.addPasswordEntities(password: password)
-            try gitMv(from: oldPasswordURL!.path, to: password.url!.path)
-            let _ = try gitCommit(message: "Rename \(oldPasswordURL!.deletingPathExtension().path) to \(password.url!.deletingPathExtension().path) using Pass for iOS.")
+            print("change path")
+            let deletedFileURL = passwordEntity.getURL()!
+            // add
+            try createDirectoryTree(at: password.url!)
+            newPasswordEntity = try addPasswordEntities(password: password)
+            
+            // mv
+            try gitMv(from: deletedFileURL.path, to: password.url!.path)
+            
+            // delete
+            try deleteDirectoryTree(at: deletedFileURL)
+            try deletePasswordEntities(passwordEntity: passwordEntity)
+            let _ = try gitCommit(message: "Rename \(deletedFileURL.deletingPathExtension()) to \(password.url!.deletingPathExtension().path) using Pass for iOS.")
+
         }
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         return newPasswordEntity
@@ -676,13 +699,6 @@ class PasswordStore {
                 fatalError("Failed to delete a PasswordEntity: \(error)")
             }
         }
-    }
-    
-    public func delete(passwordEntity: PasswordEntity) throws {
-        try gitRm(path: passwordEntity.path!)
-        let _ = try gitCommit(message: "Remove \(passwordEntity.nameWithCategory) from store using Pass for iOS.")
-        try deletePasswordEntities(passwordEntity: passwordEntity)
-        NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
     
     func saveUpdated(passwordEntity: PasswordEntity) {
@@ -815,7 +831,8 @@ class PasswordStore {
         }
         let decryptedData = try PasswordStore.shared.pgp.decryptData(encryptedData, passphrase: passphrase)
         let plainText = String(data: decryptedData, encoding: .utf8) ?? ""
-        password = Password(name: passwordEntity.name!, url: URL(string: passwordEntity.path!), plainText: plainText)
+        let escapedPath = passwordEntity.path!.stringByAddingPercentEncodingForRFC3986() ?? ""
+        password = Password(name: passwordEntity.name!, url: URL(string: escapedPath), plainText: plainText)
         return password
     }
     
