@@ -84,9 +84,14 @@ class PasswordStore {
     
     var gitSignatureForNow: GTSignature {
         get {
-            let name = Defaults[.gitName] ?? Defaults[.gitUsername] ?? "user"
-            let email = Defaults[.gitEmail] ?? ((Defaults[.gitUsername] ?? "user") + "@passforios")
-            return GTSignature(name: name, email: email, time: Date())!
+            if let gitConfigUserName = Defaults[.gitConfigUserName],
+                let gitConfigUserEmail = Defaults[.gitConfigUserEmail] {
+                return GTSignature(name: gitConfigUserName, email: gitConfigUserEmail, time: Date())!
+            } else {
+                let name = Defaults[.gitUsername] ?? "user"
+                let email = (Defaults[.gitUsername] ?? "user") + "@passforios"
+                return GTSignature(name: name, email: email, time: Date())!
+            }
         }
     }
     

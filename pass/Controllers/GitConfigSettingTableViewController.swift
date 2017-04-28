@@ -23,8 +23,11 @@ class GitConfigSettingTableViewController: UITableViewController {
         nameTextField.placeholder = signature.name
         emailTextField.placeholder = signature.email
         
-        nameTextField.text = Defaults[.gitName]
-        emailTextField.text = Defaults[.gitEmail]
+        if let gitConfigUserName = Defaults[.gitConfigUserName],
+            let gitConfigUserEmail = Defaults[.gitConfigUserEmail] {
+            nameTextField.text = gitConfigUserName
+            emailTextField.text = gitConfigUserEmail
+        }
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {

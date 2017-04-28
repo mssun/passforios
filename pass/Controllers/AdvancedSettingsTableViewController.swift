@@ -31,8 +31,14 @@ class AdvancedSettingsTableViewController: UITableViewController {
         encryptInASCIIArmoredSwitch.isOn = Defaults[.encryptInArmored]
         encryptInASCIIArmoredTableViewCell.accessoryView = encryptInASCIIArmoredSwitch
         encryptInASCIIArmoredTableViewCell.selectionStyle = .none
-        if Defaults[.gitName]?.isEmpty == false && Defaults[.gitEmail]?.isEmpty == false {
-            gitSignatureTableViewCell.detailTextLabel?.text = "Set"
+        setGitSignatureText()
+    }
+    
+    private func setGitSignatureText() {
+        if let gitConfigUserName = Defaults[.gitConfigUserName],
+            let gitConfigUserEmail = Defaults[.gitConfigUserEmail] {
+            self.gitSignatureTableViewCell.detailTextLabel?.font = UIFont.systemFont(ofSize: 14)
+            self.gitSignatureTableViewCell.detailTextLabel?.text = "\(gitConfigUserName) <\(gitConfigUserEmail)>"
         } else {
             gitSignatureTableViewCell.detailTextLabel?.text = "Not Set"
         }
@@ -90,11 +96,12 @@ class AdvancedSettingsTableViewController: UITableViewController {
     
     @IBAction func saveGitConfigSetting(segue: UIStoryboardSegue) {
         if let controller = segue.source as? GitConfigSettingTableViewController {
-            Defaults[.gitName] = controller.nameTextField.text
-            Defaults[.gitEmail] = controller.emailTextField.text
-            DispatchQueue.main.async {
-                self.gitSignatureTableViewCell.detailTextLabel?.text = "Set"
+            if let gitConfigUserName = controller.nameTextField.text,
+                let gitConfigUserEmail = controller.emailTextField.text {
+                Defaults[.gitConfigUserName] = gitConfigUserName
+                Defaults[.gitConfigUserEmail] = gitConfigUserEmail
             }
+            setGitSignatureText()
         }
     }
 
