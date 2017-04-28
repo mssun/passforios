@@ -22,22 +22,16 @@ class GitConfigSettingTableViewController: UITableViewController {
         let signature = passwordStore.gitSignatureForNow
         nameTextField.placeholder = signature.name
         emailTextField.placeholder = signature.email
-        
-        if let gitConfigUserName = Defaults[.gitConfigUserName],
-            let gitConfigUserEmail = Defaults[.gitConfigUserEmail] {
-            nameTextField.text = gitConfigUserName
-            emailTextField.text = gitConfigUserEmail
-        }
+        nameTextField.text = Defaults[.gitSignatureName]
+        emailTextField.text = Defaults[.gitSignatureEmail]
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "saveGitConfigSettingSegue" {
-            guard let name = nameTextField.text?.trimmingCharacters(in: .whitespaces), !name.isEmpty else {
-                Utils.alert(title: "Cannot Save", message: "Please set name first.", controller: self, completion: nil)
-                return false
-            }
-            guard let email = emailTextField.text?.trimmingCharacters(in: .whitespaces), !email.isEmpty else {
-                Utils.alert(title: "Cannot Save", message: "Please set email first.", controller: self, completion: nil)
+            let name = nameTextField.text!.isEmpty ? Globals.gitSignatureDefaultName : nameTextField.text!
+            let email = emailTextField.text!.isEmpty ? Globals.gitSignatureDefaultEmail : nameTextField.text!
+            guard GTSignature(name: name, email: email, time: nil) != nil else {
+                Utils.alert(title: "Error", message: "Invalid name or email.", controller: self, completion: nil)
                 return false
             }
         }

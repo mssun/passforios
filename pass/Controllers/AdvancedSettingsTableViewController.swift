@@ -35,11 +35,12 @@ class AdvancedSettingsTableViewController: UITableViewController {
     }
     
     private func setGitSignatureText() {
-        if let gitConfigUserName = Defaults[.gitConfigUserName],
-            let gitConfigUserEmail = Defaults[.gitConfigUserEmail] {
-            self.gitSignatureTableViewCell.detailTextLabel?.font = UIFont.systemFont(ofSize: 14)
-            self.gitSignatureTableViewCell.detailTextLabel?.text = "\(gitConfigUserName) <\(gitConfigUserEmail)>"
-        } else {
+        let gitSignatureName = passwordStore.gitSignatureForNow.name!
+        let gitSignatureEmail = passwordStore.gitSignatureForNow.email!
+        self.gitSignatureTableViewCell.detailTextLabel?.font = UIFont.systemFont(ofSize: 14)
+        self.gitSignatureTableViewCell.detailTextLabel?.text = "\(gitSignatureName) <\(gitSignatureEmail)>"
+        if Defaults[.gitSignatureName] == nil && Defaults[.gitSignatureEmail] == nil {
+            self.gitSignatureTableViewCell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17)
             gitSignatureTableViewCell.detailTextLabel?.text = "Not Set"
         }
     }
@@ -92,10 +93,10 @@ class AdvancedSettingsTableViewController: UITableViewController {
     
     @IBAction func saveGitConfigSetting(segue: UIStoryboardSegue) {
         if let controller = segue.source as? GitConfigSettingTableViewController {
-            if let gitConfigUserName = controller.nameTextField.text,
-                let gitConfigUserEmail = controller.emailTextField.text {
-                Defaults[.gitConfigUserName] = gitConfigUserName
-                Defaults[.gitConfigUserEmail] = gitConfigUserEmail
+            if let gitSignatureName = controller.nameTextField.text,
+                let gitSignatureEmail = controller.emailTextField.text {
+                Defaults[.gitSignatureName] = gitSignatureName.isEmpty ? nil : gitSignatureName
+                Defaults[.gitSignatureEmail] = gitSignatureEmail.isEmpty ? nil : gitSignatureEmail
             }
             setGitSignatureText()
         }
