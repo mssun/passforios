@@ -112,11 +112,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             SVProgressHUD.show(withStatus: "Saving")
             DispatchQueue.global(qos: .userInitiated).async {
                 do {
-                    try self.passwordStore.add(password: controller.password!, progressBlock: { progress in
-                        DispatchQueue.main.async {
-                            SVProgressHUD.showProgress(progress, status: "Encrypting")
-                        }
-                    })
+                    let _ = try self.passwordStore.add(password: controller.password!)
                     DispatchQueue.main.async {
                         // will trigger reloadTableView() by a notification
                         SVProgressHUD.showSuccess(withStatus: "Done")
@@ -132,19 +128,38 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     private func syncPasswords() {
+        guard passwordStore.repositoryExisted() else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800)) {
+                Utils.alert(title: "Error", message: "There is no password store right now.", controller: self, completion: nil)
+            }
+            return
+        }
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "Sync Password Store")
         let numberOfLocalCommits = self.passwordStore.numberOfLocalCommits()
+        var gitCredential: GitCredential
+        if Defaults[.gitAuthenticationMethod] == "Password" {
+            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitUsername]!, controller: self))
+        } else {
+            gitCredential = GitCredential(
+                credential: GitCredential.Credential.ssh(
+                    userName: Defaults[.gitUsername]!,
+                    publicKeyFile: Globals.gitSSHPublicKeyURL,
+                    privateKeyFile: Globals.gitSSHPrivateKeyURL,
+                    controller: self
+                )
+            )
+        }
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
-                try self.passwordStore.pullRepository(transferProgressBlock: {(git_transfer_progress, stop) in
+                try self.passwordStore.pullRepository(credential: gitCredential, transferProgressBlock: {(git_transfer_progress, stop) in
                     DispatchQueue.main.async {
                         SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Pull Remote Repository")
                     }
                 })
                 if numberOfLocalCommits > 0 {
-                    try self.passwordStore.pushRepository(transferProgressBlock: {(current, total, bytes, stop) in
+                    try self.passwordStore.pushRepository(credential: gitCredential, transferProgressBlock: {(current, total, bytes, stop) in
                         DispatchQueue.main.async {
                             SVProgressHUD.showProgress(Float(current)/Float(total), status: "Push Remote Repository")
                         }
@@ -152,7 +167,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 }
                 DispatchQueue.main.async {
                     self.reloadTableView(parent: nil)
-                    Defaults[.gitPasswordAttempts] = 0
                     SVProgressHUD.showSuccess(withStatus: "Done")
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
@@ -323,15 +337,19 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
         let password = getPasswordEntry(by: indexPath).passwordEntity!
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        decryptThenCopyPassword(passwordEntity: password)
+    }
+    
+    
+    
+    private func requestPGPKeyPassphrase() -> String {
+        let sem = DispatchSemaphore(value: 0)
         var passphrase = ""
-        if Defaults[.isRememberPassphraseOn] && self.passwordStore.pgpKeyPassphrase != nil  {
-            passphrase = self.passwordStore.pgpKeyPassphrase!
-            self.decryptThenCopyPassword(passwordEntity: password, passphrase: passphrase)
-        } else {
+        DispatchQueue.main.async {
             let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
                 passphrase = alert.textFields!.first!.text!
-                self.decryptThenCopyPassword(passwordEntity: password, passphrase: passphrase)
+                sem.signal()
             }))
             alert.addTextField(configurationHandler: {(textField: UITextField!) in
                 textField.text = ""
@@ -339,17 +357,21 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             })
             self.present(alert, animated: true, completion: nil)
         }
-
+        let _ = sem.wait(timeout: DispatchTime.distantFuture)
+        if Defaults[.isRememberPassphraseOn] {
+            self.passwordStore.pgpKeyPassphrase = passphrase
+        }
+        return passphrase
     }
     
-    private func decryptThenCopyPassword(passwordEntity: PasswordEntity, passphrase: String) {
+    private func decryptThenCopyPassword(passwordEntity: PasswordEntity) {
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.dark)
         SVProgressHUD.show(withStatus: "Decrypting")
         DispatchQueue.global(qos: .userInteractive).async {
             var decryptedPassword: Password?
             do {
-                decryptedPassword = try passwordEntity.decrypt(passphrase: passphrase)!
+                decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: self.requestPGPKeyPassphrase)
                 DispatchQueue.main.async {
                     Utils.copyToPasteboard(textToCopy: decryptedPassword?.password)
                     SVProgressHUD.showSuccess(withStatus: "Password copied, and will be cleared in 45 seconds.")
@@ -486,9 +508,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func actOnReloadTableViewRelatedNotification() {
-        initPasswordsTableEntries(parent: nil)
         DispatchQueue.main.async { [weak weakSelf = self] in
             guard let strongSelf = weakSelf else { return }
+            strongSelf.initPasswordsTableEntries(parent: nil)
             strongSelf.reloadTableView(data: strongSelf.passwordsTableEntries)
         }
     }

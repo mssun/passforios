@@ -11,10 +11,10 @@ import UIKit
 class EditPasswordTableViewController: PasswordEditorTableViewController {
     override func viewDidLoad() {
         tableData = [
-            [[.type: PasswordEditorCellType.textFieldCell, .title: "name", .content: password!.name]],
+            [[.type: PasswordEditorCellType.nameCell, .title: "name", .content: password!.namePath]],
             [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password", .content: password!.password],
              [.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"]],
-            [[.type: PasswordEditorCellType.textViewCell, .title: "additions", .content: password!.getAdditionsPlainText()]],
+            [[.type: PasswordEditorCellType.additionsCell, .title: "additions", .content: password!.getAdditionsPlainText()]],
             [[.type: PasswordEditorCellType.scanQRCodeCell],
              [.type: PasswordEditorCellType.deletePasswordCell]]
         ]
@@ -23,15 +23,13 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "saveEditPasswordSegue" {
-            if let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ContentTableViewCell {
-                if nameCell.getContent() != password?.name {
-                    let alertTitle = "Cannot Save Edit"
-                    let alertMessage = "Editing name is not supported."
-                    Utils.alert(title: alertTitle, message: alertMessage, controller: self) {
-                        nameCell.setContent(content: self.password!.name)
-                    }
-                    return false
-                }
+            if let name = nameCell?.getContent(),
+                let path = name.stringByAddingPercentEncodingForRFC3986(),
+                let _ = URL(string: path) {
+                return true
+            } else {
+                Utils.alert(title: "Cannot Save", message: "Password name is invalid.", controller: self, completion: nil)
+                return false
             }
         }
         return true
@@ -40,23 +38,17 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "saveEditPasswordSegue" {
-            let cells = tableView.visibleCells
-            var cellContents = [String: String]()
-            for cell in cells {
-                if let indexPath = tableView.indexPath(for: cell),
-                    let contentCell = cell as? ContentTableViewCell,
-                    let cellTitle = tableData[indexPath.section][indexPath.row][.title] as? String,
-                    let cellContent = contentCell.getContent() {
-                    cellContents[cellTitle] = cellContent
-                }
+            var plainText = (fillPasswordCell?.getContent())!
+            if let additionsString = additionsCell?.getContent(), additionsString.isEmpty == false {
+                plainText.append("\n")
+                plainText.append(additionsString)
             }
-            var plainText = ""
-            if cellContents["additions"]! != "" {
-                plainText = "\(cellContents["password"]!)\n\(cellContents["additions"]!)"
-            } else {
-                plainText = "\(cellContents["password"]!)"
+            let encodedName = (nameCell?.getContent()?.stringByAddingPercentEncodingForRFC3986())!
+            let name = URL(string: encodedName)!.lastPathComponent
+            let url = URL(string: encodedName)!.appendingPathExtension("gpg")
+            if password!.plainText != plainText || password!.url!.path != url.path {
+                password!.updatePassword(name: name, url: url, plainText: plainText)
             }
-            password!.updatePassword(name: cellContents["name"]!, plainText: plainText)
         }
     }
 

@@ -21,24 +21,6 @@ extension PasswordEntity {
         }
     }
     
-    func decrypt(passphrase: String) throws -> Password? {
-        var password: Password?
-        let encryptedDataPath = URL(fileURLWithPath: "\(Globals.repositoryPath)/\(path!)")
-        let encryptedData = try Data(contentsOf: encryptedDataPath)
-        let decryptedData = try PasswordStore.shared.pgp.decryptData(encryptedData, passphrase: passphrase)
-        let plainText = String(data: decryptedData, encoding: .utf8) ?? ""
-        password = Password(name: name!, plainText: plainText)
-        return password
-    }
-    
-    func encrypt(password: Password) throws -> Data {
-        name = password.name
-        let plainData = password.getPlainData()
-        let pgp = PasswordStore.shared.pgp
-        let encryptedData = try pgp.encryptData(plainData, usingPublicKey: pgp.getKeysOf(.public)[0], armored: Defaults[.encryptInArmored])
-        return encryptedData
-    }
-    
     func getCategoryText() -> String {
         var parentEntity = parent
         var passwordCategoryArray: [String] = []
@@ -48,5 +30,12 @@ extension PasswordEntity {
         }
         passwordCategoryArray.reverse()
         return passwordCategoryArray.joined(separator: " > ")
+    }
+    
+    func getURL() -> URL? {
+        if let p = path {
+            return URL(string: p.stringByAddingPercentEncodingForRFC3986()!)
+        }
+        return nil
     }
 }

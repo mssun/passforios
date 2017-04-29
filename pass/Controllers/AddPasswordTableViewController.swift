@@ -15,10 +15,10 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
 
     override func viewDidLoad() {
         tableData = [
-            [[.type: PasswordEditorCellType.textFieldCell, .title: "name"]],
+            [[.type: PasswordEditorCellType.nameCell, .title: "name"]],
             [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password"],
              [.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"]],
-            [[.type: PasswordEditorCellType.textViewCell, .title: "additions"]],
+            [[.type: PasswordEditorCellType.additionsCell, .title: "additions"]],
             [[.type: PasswordEditorCellType.scanQRCodeCell]]
         ]
         super.viewDidLoad()
@@ -35,18 +35,9 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
             }
             
             // check name
-            let nameCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! TextFieldTableViewCell
-            guard nameCell.getContent()!.isEmpty == false else {
+            guard nameCell?.getContent()?.isEmpty == false else {
                 let alertTitle = "Cannot Add Password"
                 let alertMessage = "Please fill in the name."
-                Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
-                return false
-            }
-            
-            // check "/"
-            guard nameCell.getContent()!.contains("/") == false else {
-                let alertTitle = "Cannot Add Password"
-                let alertMessage = "Illegal character."
                 Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
                 return false
             }
@@ -57,23 +48,15 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "saveAddPasswordSegue" {
-            let cells = tableView.visibleCells
-            var cellContents = [String: String]()
-            for cell in cells {
-                if let indexPath = tableView.indexPath(for: cell),
-                    let contentCell = cell as? ContentTableViewCell,
-                    let cellTitle = tableData[indexPath.section][indexPath.row][.title] as? String,
-                    let cellContent = contentCell.getContent() {
-                    cellContents[cellTitle] = cellContent
-                }
+            var plainText = (fillPasswordCell?.getContent())!
+            if let additionsString = additionsCell?.getContent(), additionsString.isEmpty == false {
+                plainText.append("\n")
+                plainText.append(additionsString)
             }
-            var plainText = ""
-            if cellContents["additions"]! != "" {
-                plainText = "\(cellContents["password"]!)\n\(cellContents["additions"]!)"
-            } else {
-                plainText = "\(cellContents["password"]!)"
-            }
-            password = Password(name: cellContents["name"]!, plainText: plainText)
+            let encodedName = (nameCell?.getContent()?.stringByAddingPercentEncodingForRFC3986())!
+            let name = URL(string: encodedName)!.lastPathComponent
+            let url = URL(string: encodedName)!.appendingPathExtension("gpg")
+            password = Password(name: name, url: url, plainText: plainText)
         }
     }
 }

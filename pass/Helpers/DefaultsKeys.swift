@@ -20,14 +20,13 @@ extension DefaultsKeys {
     static let gitURL = DefaultsKey<URL?>("gitURL")
     static let gitAuthenticationMethod = DefaultsKey<String?>("gitAuthenticationMethod")
     static let gitUsername = DefaultsKey<String?>("gitUsername")
-    static let gitPasswordAttempts = DefaultsKey<Int>("gitPasswordAttempts")
     static let gitSSHPublicKeyURL = DefaultsKey<URL?>("gitSSHPublicKeyURL")
     static let gitSSHPrivateKeyURL = DefaultsKey<URL?>("gitSSHPrivateKeyURL")
     static let gitSSHKeySource = DefaultsKey<String?>("gitSSHKeySource")
-    
     static let gitSSHPublicKeyArmor = DefaultsKey<String?>("gitSSHPublicKeyArmor")
     static let gitSSHPrivateKeyArmor = DefaultsKey<String?>("gitSSHPrivateKeyArmor")
-
+    static let gitSignatureName = DefaultsKey<String?>("gitSignatureName")
+    static let gitSignatureEmail = DefaultsKey<String?>("gitSignatureEmail")
 
     static let lastSyncedTime = DefaultsKey<Date?>("lastSyncedTime")
     

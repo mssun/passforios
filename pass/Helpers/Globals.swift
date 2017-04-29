@@ -26,6 +26,9 @@ class Globals {
     static let passwordDefaultLength = ["Random": (min: 6, max: 24, def: 16),
                                         "Apple":  (min: 15, max: 15, def: 15)]
     
+    static let gitSignatureDefaultName = "Pass for iOS"
+    static let gitSignatureDefaultEmail = "user@passforios"
+    
     static let passwordDots = "••••••••••••"
     static let oneTimePasswordDots = "••••••"
     static let passwordFonts = "Menlo"

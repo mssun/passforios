@@ -34,7 +34,9 @@ class SettingsTableViewController: UITableViewController {
         if let controller = segue.source as? PGPKeySettingTableViewController {
             Defaults[.pgpPrivateKeyURL] = URL(string: controller.pgpPrivateKeyURLTextField.text!)
             Defaults[.pgpPublicKeyURL] = URL(string: controller.pgpPublicKeyURLTextField.text!)
-            self.passwordStore.pgpKeyPassphrase = controller.pgpPassphrase
+            if Defaults[.isRememberPassphraseOn] {
+                self.passwordStore.pgpKeyPassphrase = controller.pgpPassphrase
+            }
             Defaults[.pgpKeySource] = "url"
             
             SVProgressHUD.setDefaultMaskType(.black)
@@ -48,7 +50,7 @@ class SettingsTableViewController: UITableViewController {
                         self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
                         SVProgressHUD.showSuccess(withStatus: "Success")
                         SVProgressHUD.dismiss(withDelay: 1)
-                        Utils.alert(title: "Rememver to Remove the Key", message: "Remember to remove the key from the server.", controller: self, completion: nil)
+                        Utils.alert(title: "Remember to Remove the Key", message: "Remember to remove the key from the server.", controller: self, completion: nil)
                     }
                 } catch {
                     DispatchQueue.main.async {
@@ -60,9 +62,8 @@ class SettingsTableViewController: UITableViewController {
             
         } else if let controller = segue.source as? PGPKeyArmorSettingTableViewController {
             Defaults[.pgpKeySource] = "armor"
-            self.passwordStore.pgpKeyPassphrase = controller.pgpPassphrase
             if Defaults[.isRememberPassphraseOn] {
-                Utils.addPasswordToKeychain(name: "pgpKeyPassphrase", password: controller.pgpPassphrase!)
+                self.passwordStore.pgpKeyPassphrase = controller.pgpPassphrase
             }
 
             Defaults[.pgpPublicKeyArmor] = controller.armorPublicKeyTextView.text!
@@ -97,64 +98,53 @@ class SettingsTableViewController: UITableViewController {
         if let controller = segue.source as? GitServerSettingTableViewController {
             let gitRepostiroyURL = controller.gitURLTextField.text!
             let username = controller.usernameTextField.text!
-            let password = controller.password
             let auth = controller.authenticationMethod
             
-            if Defaults[.gitURL] == nil ||
-                Defaults[.gitURL]!.absoluteString != gitRepostiroyURL ||
-                auth != Defaults[.gitAuthenticationMethod] ||
-                username != Defaults[.gitUsername] ||
-                password != self.passwordStore.gitPassword ||
-                self.passwordStore.repositoryExisted() == false {
-                
-                SVProgressHUD.setDefaultMaskType(.black)
-                SVProgressHUD.setDefaultStyle(.light)
-                SVProgressHUD.show(withStatus: "Prepare Repository")
-                var gitCredential: GitCredential
-                if auth == "Password" {
-                    gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, password: password!))
-                } else {
-                    gitCredential = GitCredential(
-                        credential: GitCredential.Credential.ssh(
-                            userName: username,
-                            password: Utils.getPasswordFromKeychain(name: "gitSSHPrivateKeyPassphrase") ?? "",
-                            publicKeyFile: Globals.gitSSHPublicKeyURL,
-                            privateKeyFile: Globals.gitSSHPrivateKeyURL,
-                            passwordNotSetCallback: self.requestSshKeyPassword
-                        )
+            SVProgressHUD.setDefaultMaskType(.black)
+            SVProgressHUD.setDefaultStyle(.light)
+            SVProgressHUD.show(withStatus: "Prepare Repository")
+            var gitCredential: GitCredential
+            if auth == "Password" {
+                gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, controller: self))
+            } else {
+                gitCredential = GitCredential(
+                    credential: GitCredential.Credential.ssh(
+                        userName: username,
+                        publicKeyFile: Globals.gitSSHPublicKeyURL,
+                        privateKeyFile: Globals.gitSSHPrivateKeyURL,
+                        controller: self
                     )
-                }
-                let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
-                dispatchQueue.async {
-                    do {
-                        try self.passwordStore.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
-                                                                 credential: gitCredential,
-                                                                 transferProgressBlock:{ (git_transfer_progress, stop) in
-                                                                    DispatchQueue.main.async {
-                                                                        SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Clone Remote Repository")
-                                                                    }
-                        },
-                                                                 checkoutProgressBlock: { (path, completedSteps, totalSteps) in
-                                                                    DispatchQueue.main.async {
-                                                                        SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "Checkout Master Branch")
-                                                                    }
-                        })
-                        DispatchQueue.main.async {
-                            Defaults[.gitURL] = URL(string: gitRepostiroyURL)
-                            Defaults[.gitUsername] = username
-                            Defaults[.gitAuthenticationMethod] = auth
-                            Defaults[.gitPasswordAttempts] = 0
-                            self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitURL]?.host
-                            SVProgressHUD.showSuccess(withStatus: "Done")
-                            SVProgressHUD.dismiss(withDelay: 1)
-                        }
-                    } catch {
-                        DispatchQueue.main.async {
-                            Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
-                        }
+                )
+            }
+            let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
+            dispatchQueue.async {
+                do {
+                    try self.passwordStore.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
+                                                             credential: gitCredential,
+                                                             transferProgressBlock:{ (git_transfer_progress, stop) in
+                                                                DispatchQueue.main.async {
+                                                                    SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Clone Remote Repository")
+                                                                }
+                    },
+                                                             checkoutProgressBlock: { (path, completedSteps, totalSteps) in
+                                                                DispatchQueue.main.async {
+                                                                    SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "Checkout Master Branch")
+                                                                }
+                    })
+                    DispatchQueue.main.async {
+                        Defaults[.gitURL] = URL(string: gitRepostiroyURL)
+                        Defaults[.gitUsername] = username
+                        Defaults[.gitAuthenticationMethod] = auth
+                        self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitURL]?.host
+                        SVProgressHUD.showSuccess(withStatus: "Done")
+                        SVProgressHUD.dismiss(withDelay: 1)
                     }
-                    
+                } catch {
+                    DispatchQueue.main.async {
+                        Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                    }
                 }
+                
             }
         }
     }
@@ -203,32 +193,7 @@ class SettingsTableViewController: UITableViewController {
             touchIDSwitch.isOn = false
         }
     }
-
-    func requestSshKeyPassword() -> String {
-        let sem = DispatchSemaphore(value: 0)
-        var newPassword = ""
-
-        DispatchQueue.main.async {
-            SVProgressHUD.dismiss()
-            let alert = UIAlertController(title: "Password", message: "Please fill in the password of your SSH key.", preferredStyle: UIAlertControllerStyle.alert)
-
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
-                newPassword = alert.textFields!.first!.text!
-                sem.signal()
-            }))
-
-            alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = self.passwordStore.gitPassword
-                textField.isSecureTextEntry = true
-            })
-
-            self.present(alert, animated: true, completion: nil)
-        }
-
-        let _ = sem.wait(timeout: DispatchTime.distantFuture)
-        return newPassword
-    }
-
+    
     func actOnPasswordStoreErasedNotification() {
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()

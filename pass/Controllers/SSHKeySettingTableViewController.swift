@@ -43,32 +43,7 @@ class SSHKeySettingTableViewController: UITableViewController {
             Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
         }
         Defaults[.gitSSHKeySource] = "url"
-        let alert = UIAlertController(
-            title: "PGP Passphrase",
-            message: "Please fill in the passphrase for your Git Repository SSH key.",
-            preferredStyle: UIAlertControllerStyle.alert
-        )
-        
-        alert.addAction(
-            UIAlertAction(
-                title: "OK",
-                style: UIAlertActionStyle.default,
-                handler: {_ in
-                    Utils.addPasswordToKeychain(
-                        name: "gitSSHPrivateKeyPassphrase",
-                        password: alert.textFields!.first!.text!
-                    )
-                    self.navigationController!.popViewController(animated: true)
-            }
-            )
-        )
-        
-        alert.addTextField(
-            configurationHandler: {(textField: UITextField!) in
-                textField.text = self.passwordStore.gitSSHPrivateKeyPassphrase
-                textField.isSecureTextEntry = true
-        })
-        self.present(alert, animated: true, completion: nil)
+        self.navigationController!.popViewController(animated: true)
     }
 
 }
