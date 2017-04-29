@@ -20,7 +20,7 @@ Pass for iOS is under *TestFlight external testing*. Drop an email to
 - Encrypt and decrypt password entries by PGP keys
 - Synchronize with your password Git repository
 - User-friendly interface: search, long press to copy, copy and open link, etc.
-- Support one-time password (OTP) tokens
+- Support one-time password (OTP) tokens (QR code and otpauth URI)
 - Written in Swift
 - No need to jailbreak your devices
 - Get from App Store (stay tuned)
