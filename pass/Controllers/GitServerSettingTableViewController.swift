@@ -17,8 +17,8 @@ class GitServerSettingTableViewController: UITableViewController {
     @IBOutlet weak var authSSHKeyCell: UITableViewCell!
     @IBOutlet weak var authPasswordCell: UITableViewCell!
     let passwordStore = PasswordStore.shared
-    var password: String?
-    
+    var sshLabel: UILabel? = nil
+
     var authenticationMethod = Defaults[.gitAuthenticationMethod]
 
     private func checkAuthenticationMethod(method: String) {
@@ -37,23 +37,21 @@ class GitServerSettingTableViewController: UITableViewController {
             sshKeyCheckView.isHidden = true
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Grey out ssh option if ssh_key and ssh_key.pub are not present
+        sshLabel = authSSHKeyCell.subviews[0].subviews[0] as? UILabel
+        sshLabel!.isEnabled = gitSSHKeyExists()
+
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         if let url = Defaults[.gitURL] {
             gitURLTextField.text = url.absoluteString
         }
         usernameTextField.text = Defaults[.gitUsername]
-        password = passwordStore.gitPassword
         authenticationMethod = Defaults[.gitAuthenticationMethod]
-
-        // Grey out ssh option if ssh_key and ssh_key.pub are not present
-        let sshLabel = authSSHKeyCell.subviews[0].subviews[0] as! UILabel
-
-        sshLabel.isEnabled = gitSSHKeyExists()
-
-        if authenticationMethod == nil || !sshLabel.isEnabled {
-            authenticationMethod = "Password"
-        }
 
         checkAuthenticationMethod(method: authenticationMethod!)
         authSSHKeyCell.accessoryType = .detailButton
@@ -108,24 +106,8 @@ class GitServerSettingTableViewController: UITableViewController {
     }
     
     private func doClone() {
-        if authenticationMethod == "Password" {
-            let alert = UIAlertController(title: "Password", message: "Please fill in the password of your Git account.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
-                self.password = alert.textFields!.first!.text
-                self.passwordStore.gitPassword = self.password
-                if self.shouldPerformSegue(withIdentifier: "saveGitServerSettingSegue", sender: self) {
-                    self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
-                }
-            }))
-            alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = self.password
-                textField.isSecureTextEntry = true
-            })
-            self.present(alert, animated: true, completion: nil)
-        } else {
-            if self.shouldPerformSegue(withIdentifier: "saveGitServerSettingSegue", sender: self) {
-                self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
-            }
+        if self.shouldPerformSegue(withIdentifier: "saveGitServerSettingSegue", sender: self) {
+            self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
         }
     }
     
@@ -172,30 +154,8 @@ class GitServerSettingTableViewController: UITableViewController {
         
         if (gitSSHKeyExists()) {
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
-                let alert = UIAlertController(
-                    title: "SSH Key Passphrase",
-                    message: "Please fill in the passphrase for your Git Repository SSH key.",
-                    preferredStyle: UIAlertControllerStyle.alert
-                )
-                
-                alert.addAction(
-                    UIAlertAction(
-                        title: "OK",
-                        style: UIAlertActionStyle.default,
-                        handler: {_ in
-                            self.passwordStore.gitSSHPrivateKeyPassphrase = alert.textFields!.first!.text!
-                    }
-                    )
-                )
-                
-                alert.addTextField(
-                    configurationHandler: {(textField: UITextField!) in
-                        textField.text = self.passwordStore.gitSSHPrivateKeyPassphrase
-                        textField.isSecureTextEntry = true
-                }
-                )
+                Defaults[.gitSSHKeySource] = "file"
             }
-            Defaults[.gitSSHKeySource] = "file"
             optionMenu.addAction(fileAction)
         }
         
@@ -203,6 +163,7 @@ class GitServerSettingTableViewController: UITableViewController {
             let deleteAction = UIAlertAction(title: "Remove Git SSH Keys", style: .destructive) { _ in
                 Utils.removeGitSSHKeys()
                 Defaults[.gitSSHKeySource] = nil
+                self.sshLabel!.isEnabled = false
             }
             optionMenu.addAction(deleteAction)
         }

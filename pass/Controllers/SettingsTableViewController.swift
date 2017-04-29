@@ -98,7 +98,6 @@ class SettingsTableViewController: UITableViewController {
         if let controller = segue.source as? GitServerSettingTableViewController {
             let gitRepostiroyURL = controller.gitURLTextField.text!
             let username = controller.usernameTextField.text!
-            let password = controller.password
             let auth = controller.authenticationMethod
             
             SVProgressHUD.setDefaultMaskType(.black)
@@ -106,15 +105,14 @@ class SettingsTableViewController: UITableViewController {
             SVProgressHUD.show(withStatus: "Prepare Repository")
             var gitCredential: GitCredential
             if auth == "Password" {
-                gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, password: password!, requestGitPassword: requestGitPassword))
+                gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, controller: self))
             } else {
                 gitCredential = GitCredential(
                     credential: GitCredential.Credential.ssh(
                         userName: username,
-                        password: Utils.getPasswordFromKeychain(name: "gitSSHPrivateKeyPassphrase") ?? "",
                         publicKeyFile: Globals.gitSSHPublicKeyURL,
                         privateKeyFile: Globals.gitSSHPrivateKeyURL,
-                        requestSSHKeyPassword: self.requestGitPassword
+                        controller: self
                     )
                 )
             }
@@ -137,7 +135,6 @@ class SettingsTableViewController: UITableViewController {
                         Defaults[.gitURL] = URL(string: gitRepostiroyURL)
                         Defaults[.gitUsername] = username
                         Defaults[.gitAuthenticationMethod] = auth
-                        Defaults[.gitPasswordAttempts] = 0
                         self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitURL]?.host
                         SVProgressHUD.showSuccess(withStatus: "Done")
                         SVProgressHUD.dismiss(withDelay: 1)
@@ -195,32 +192,6 @@ class SettingsTableViewController: UITableViewController {
         } else {
             touchIDSwitch.isOn = false
         }
-    }
-
-    private func requestGitPassword(message: String) -> String? {
-        let sem = DispatchSemaphore(value: 0)
-        var password: String?
-        
-        DispatchQueue.main.async {
-            SVProgressHUD.dismiss()
-            let alert = UIAlertController(title: "Password", message: message, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = self.passwordStore.gitPassword
-                textField.isSecureTextEntry = true
-            })
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
-                password = alert.textFields!.first!.text
-                sem.signal()
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
-                password = nil
-                sem.signal()
-            })
-            self.present(alert, animated: true, completion: nil)
-        }
-        
-        let _ = sem.wait(timeout: .distantFuture)
-        return password
     }
     
     func actOnPasswordStoreErasedNotification() {

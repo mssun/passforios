@@ -128,19 +128,38 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     private func syncPasswords() {
+        guard passwordStore.repositoryExisted() else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800)) {
+                Utils.alert(title: "Error", message: "There is no password store right now.", controller: self, completion: nil)
+            }
+            return
+        }
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "Sync Password Store")
         let numberOfLocalCommits = self.passwordStore.numberOfLocalCommits()
+        var gitCredential: GitCredential
+        if Defaults[.gitAuthenticationMethod] == "Password" {
+            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitUsername]!, controller: self))
+        } else {
+            gitCredential = GitCredential(
+                credential: GitCredential.Credential.ssh(
+                    userName: Defaults[.gitUsername]!,
+                    publicKeyFile: Globals.gitSSHPublicKeyURL,
+                    privateKeyFile: Globals.gitSSHPrivateKeyURL,
+                    controller: self
+                )
+            )
+        }
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
-                try self.passwordStore.pullRepository(transferProgressBlock: {(git_transfer_progress, stop) in
+                try self.passwordStore.pullRepository(credential: gitCredential, transferProgressBlock: {(git_transfer_progress, stop) in
                     DispatchQueue.main.async {
                         SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Pull Remote Repository")
                     }
                 })
                 if numberOfLocalCommits > 0 {
-                    try self.passwordStore.pushRepository(transferProgressBlock: {(current, total, bytes, stop) in
+                    try self.passwordStore.pushRepository(credential: gitCredential, transferProgressBlock: {(current, total, bytes, stop) in
                         DispatchQueue.main.async {
                             SVProgressHUD.showProgress(Float(current)/Float(total), status: "Push Remote Repository")
                         }
@@ -148,7 +167,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 }
                 DispatchQueue.main.async {
                     self.reloadTableView(parent: nil)
-                    Defaults[.gitPasswordAttempts] = 0
                     SVProgressHUD.showSuccess(withStatus: "Done")
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
