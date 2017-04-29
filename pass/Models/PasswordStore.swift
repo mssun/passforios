@@ -47,14 +47,16 @@ struct GitCredential {
                 credential = try? GTCredential(userName: userName, password: newPassword!)
             case let .ssh(userName, publicKeyFile, privateKeyFile, controller):
                 var newPassword = Utils.getPasswordFromKeychain(name: "gitSSHKeyPassphrase")
-                if newPassword == nil {
-                    if let requestedPassword = self.requestGitPassword(controller, nil) {
+                if newPassword == nil || attempts != 0  {
+                    if let requestedPassword = self.requestGitPassword(controller, lastPassword) {
                         newPassword	= requestedPassword
                         Utils.addPasswordToKeychain(name: "gitSSHKeyPassphrase", password: newPassword)
                     } else {
                         return nil
                     }
                 }
+                attempts += 1
+                lastPassword = newPassword
                 credential = try? GTCredential(userName: userName, publicKeyURL: publicKeyFile, privateKeyURL: privateKeyFile, passphrase: newPassword!)
             }
             return credential
