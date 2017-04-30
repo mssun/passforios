@@ -13,99 +13,6 @@ import SwiftyUserDefaults
 import ObjectiveGit
 import SVProgressHUD
 
-struct GitCredential {
-    var credential: Credential
-    
-    enum Credential {
-        case http(userName: String, controller: UIViewController)
-        case ssh(userName: String, publicKeyFile: URL, privateKeyFile: URL, controller: UIViewController)
-    }
-    
-    init(credential: Credential) {
-        self.credential = credential
-    }
-    
-    func credentialProvider() throws -> GTCredentialProvider {
-        var attempts = 0
-        var lastPassword: String? = nil
-        return GTCredentialProvider { (_, _, _) -> (GTCredential?) in
-            var credential: GTCredential? = nil
-            
-            switch self.credential {
-            case let .http(userName, controller):
-                var newPassword = Utils.getPasswordFromKeychain(name: "gitPassword")
-                if newPassword == nil || attempts != 0 {
-                    if let requestedPassword = self.requestGitPassword(controller, lastPassword) {
-                        newPassword	= requestedPassword
-                        Utils.addPasswordToKeychain(name: "gitPassword", password: newPassword)
-                    } else {
-                        return nil
-                    }
-                }
-                attempts += 1
-                lastPassword = newPassword
-                credential = try? GTCredential(userName: userName, password: newPassword!)
-            case let .ssh(userName, publicKeyFile, privateKeyFile, controller):
-                var newPassword = Utils.getPasswordFromKeychain(name: "gitSSHKeyPassphrase")
-                if newPassword == nil || attempts != 0  {
-                    if let requestedPassword = self.requestGitPassword(controller, lastPassword) {
-                        newPassword	= requestedPassword
-                        Utils.addPasswordToKeychain(name: "gitSSHKeyPassphrase", password: newPassword)
-                    } else {
-                        return nil
-                    }
-                }
-                attempts += 1
-                lastPassword = newPassword
-                credential = try? GTCredential(userName: userName, publicKeyURL: publicKeyFile, privateKeyURL: privateKeyFile, passphrase: newPassword!)
-            }
-            return credential
-        }
-    }
-    
-    func delete() {
-        switch credential {
-        case .http:
-            Utils.removeKeychain(name: "gitPassword")
-        case .ssh:
-            Utils.removeKeychain(name: "gitSSHKeyPassphrase")
-        }
-    }
-    
-    private func requestGitPassword(_ controller: UIViewController, _ lastPassword: String?) -> String? {
-        let sem = DispatchSemaphore(value: 0)
-        var password: String?
-        var message = ""
-        switch credential {
-        case .http:
-            message = "Please fill in the password of your Git account."
-        case .ssh:
-            message = "Please fill in the password of your SSH key."
-        }
-        
-        DispatchQueue.main.async {
-            SVProgressHUD.dismiss()
-            let alert = UIAlertController(title: "Password", message: message, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = lastPassword ?? ""
-                textField.isSecureTextEntry = true
-            })
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
-                password = alert.textFields!.first!.text
-                sem.signal()
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
-                password = nil
-                sem.signal()
-            })
-            controller.present(alert, animated: true, completion: nil)
-        }
-        
-        let _ = sem.wait(timeout: .distantFuture)
-        return password
-    }
-}
-
 class PasswordStore {
     static let shared = PasswordStore()
     let storeURL = URL(fileURLWithPath: "\(Globals.repositoryPath)")
@@ -223,16 +130,16 @@ class PasswordStore {
             let keyPath = Globals.pgpPublicKeyPath
             self.publicKey = importKey(from: keyPath)
             if self.publicKey == nil {
-                throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import the public PGP key."])
+                throw AppError.KeyImportError
             }
         case .secret:
             let keyPath = Globals.pgpPrivateKeyPath
             self.privateKey = importKey(from: keyPath)
             if self.privateKey == nil  {
-                throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import the private PGP key."])
+                throw AppError.KeyImportError
             }
         default:
-            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot import key: unknown PGP key type."])
+            throw AppError.UnknownError
         }
     }
     
@@ -329,9 +236,7 @@ class PasswordStore {
         Utils.removeFileIfExists(at: tempStoreURL)
         do {
             let credentialProvider = try credential.credentialProvider()
-            let options: [String: Any] = [
-                GTRepositoryCloneOptionsCredentialProvider: credentialProvider,
-            ]
+            let options = [GTRepositoryCloneOptionsCredentialProvider: credentialProvider]
             storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: tempStoreURL, options: options, transferProgressBlock:transferProgressBlock)
             let fm = FileManager.default
             if fm.fileExists(atPath: storeURL.path) {
@@ -352,16 +257,14 @@ class PasswordStore {
     }
     
     func pullRepository(credential: GitCredential, transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
-        if storeRepository == nil {
-            throw NSError(domain: "me.mssun.pass.error", code: 1, userInfo: [NSLocalizedDescriptionKey: "Git Repository is not set."])
+        guard let repository = storeRepository else {
+            throw AppError.RepositoryNotSetError
         }
         do {
             let credentialProvider = try credential.credentialProvider()
-            let options: [String: Any] = [
-                GTRepositoryRemoteOptionsCredentialProvider: credentialProvider
-            ]
+            let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
             let remote = try GTRemote(name: "origin", in: storeRepository!)
-            try storeRepository!.pull((storeRepository?.currentBranch())!, from: remote, withOptions: options, progress: transferProgressBlock)
+            try repository.pull(repository.currentBranch(), from: remote, withOptions: options, progress: transferProgressBlock)
         } catch {
             credential.delete()
             throw(error)
@@ -429,21 +332,18 @@ class PasswordStore {
         }
     }
     
-    func getRecentCommits(count: Int) -> [GTCommit] {
-        guard storeRepository != nil else {
+    func getRecentCommits(count: Int) throws -> [GTCommit] {
+        guard let repository = storeRepository else {
             return []
         }
         var commits = [GTCommit]()
-        do {
-            let enumerator = try GTEnumerator(repository: storeRepository!)
-            try enumerator.pushSHA(storeRepository!.headReference().targetOID.sha!)
-            for _ in 0 ..< count {
-                let commit = try enumerator.nextObject(withSuccess: nil)
-                commits.append(commit)
-            }
-        } catch {
-            print(error)
-            return commits
+        let enumerator = try GTEnumerator(repository: repository)
+        if let sha = try repository.headReference().targetOID.sha {
+            try enumerator.pushSHA(sha)
+        }
+        for _ in 0 ..< count {
+            let commit = try enumerator.nextObject(withSuccess: nil)
+            commits.append(commit)
         }
         return commits
     }
@@ -464,7 +364,6 @@ class PasswordStore {
         do {
             if !withDir {
                 passwordEntityFetch.predicate = NSPredicate(format: "isDir = false")
-
             }
             let fetchedPasswordEntities = try context.fetch(passwordEntityFetch) as! [PasswordEntity]
             return fetchedPasswordEntities.sorted { $0.name!.caseInsensitiveCompare($1.name!) == .orderedAscending }
@@ -511,11 +410,14 @@ class PasswordStore {
     
     
     func getLatestUpdateInfo(filename: String) -> String {
-        guard let blameHunks = try? storeRepository?.blame(withFile: filename, options: nil).hunks,
-            let latestCommitTime = blameHunks?.map({
+        guard let repository = storeRepository else {
+            return "Unknown"
+        }
+        guard let blameHunks = try? repository.blame(withFile: filename, options: nil).hunks,
+            let latestCommitTime = blameHunks.map({
                  $0.finalSignature?.time?.timeIntervalSince1970 ?? 0
             }).max() else {
-            return "unknown"
+            return "Unknown"
         }
         let lastCommitDate = Date(timeIntervalSince1970: latestCommitTime)
         let currentDate = Date()
@@ -528,7 +430,7 @@ class PasswordStore {
             dateComponentsFormatter.unitsStyle = .full
             dateComponentsFormatter.maximumUnitCount = 2
             dateComponentsFormatter.includesApproximationPhrase = true
-            autoFormattedDifference = (dateComponentsFormatter.string(from: diffDate)?.appending(" ago"))!
+            autoFormattedDifference = dateComponentsFormatter.string(from: diffDate)!.appending(" ago")
         }
         return autoFormattedDifference
     }
@@ -537,21 +439,22 @@ class PasswordStore {
     }
     
     private func gitAdd(path: String) throws {
-        if let repo = storeRepository {
-            try repo.index().addFile(path)
-            try repo.index().write()
+        guard let repository = storeRepository else {
+            throw AppError.RepositoryNotSetError
         }
+        try repository.index().addFile(path)
+        try repository.index().write()
     }
     
     private func gitRm(path: String) throws {
-        if let repo = storeRepository {
-            if FileManager.default.fileExists(atPath: storeURL.appendingPathComponent(path).path) {
-                try FileManager.default.removeItem(at: storeURL.appendingPathComponent(path))
-            }
-            try repo.index().removeFile(path)
-            try repo.index().write()
+        guard let repository = storeRepository else {
+            throw AppError.RepositoryNotSetError
         }
-        
+        if FileManager.default.fileExists(atPath: storeURL.appendingPathComponent(path).path) {
+            try FileManager.default.removeItem(at: storeURL.appendingPathComponent(path))
+        }
+        try repository.index().removeFile(path)
+        try repository.index().write()
     }
     
     private func deleteDirectoryTree(at url: URL) throws {
@@ -586,39 +489,39 @@ class PasswordStore {
     }
     
     private func gitCommit(message: String) throws -> GTCommit? {
-        if let repo = storeRepository {
-            let newTree = try repo.index().writeTree()
-            let headReference = try repo.headReference()
-            let commitEnum = try GTEnumerator(repository: repo)
-            try commitEnum.pushSHA(headReference.targetOID.sha!)
-            let parent = commitEnum.nextObject() as! GTCommit
-            let signature = gitSignatureForNow
-            let commit = try repo.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)
-            return commit
+        guard let repository = storeRepository else {
+            throw AppError.RepositoryNotSetError
         }
-        return nil
+        let newTree = try repository.index().writeTree()
+        let headReference = try repository.headReference()
+        let commitEnum = try GTEnumerator(repository: repository)
+        try commitEnum.pushSHA(headReference.targetOID.sha!)
+        let parent = commitEnum.nextObject() as! GTCommit
+        let signature = gitSignatureForNow
+        let commit = try repository.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)
+        return commit
     }
     
-    private func getLocalBranch(withName branchName: String) -> GTBranch? {
-        do {
-            let reference = GTBranch.localNamePrefix().appending(branchName)
-            let branches = try storeRepository!.branches(withPrefix: reference)
-            return branches[0]
-        } catch {
-            print(error)
+    private func getLocalBranch(withName branchName: String) throws -> GTBranch? {
+        guard let repository = storeRepository else {
+            throw AppError.RepositoryNotSetError
         }
-        return nil
+        let reference = GTBranch.localNamePrefix().appending(branchName)
+        let branches = try repository.branches(withPrefix: reference)
+        return branches.first
     }
     
     func pushRepository(credential: GitCredential, transferProgressBlock: @escaping (UInt32, UInt32, Int, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
+        guard let repository = storeRepository else {
+            throw AppError.RepositoryNotSetError
+        }
         do {
             let credentialProvider = try credential.credentialProvider()
-            let options: [String: Any] = [
-                GTRepositoryRemoteOptionsCredentialProvider: credentialProvider,
-                ]
-            let masterBranch = getLocalBranch(withName: "master")!
-            let remote = try GTRemote(name: "origin", in: storeRepository!)
-            try storeRepository?.push(masterBranch, to: remote, withOptions: options, progress: transferProgressBlock)
+            let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
+            if let masterBranch = try getLocalBranch(withName: "master") {
+                let remote = try GTRemote(name: "origin", in: repository)
+                try repository.push(masterBranch, to: remote, withOptions: options, progress: transferProgressBlock)
+            }
         } catch {
             credential.delete()
             throw(error)
@@ -627,7 +530,7 @@ class PasswordStore {
     
     private func addPasswordEntities(password: Password) throws -> PasswordEntity? {
         guard !passwordExisted(password: password) else {
-            throw NSError(domain: "me.mssun.pass.error", code: 2, userInfo: [NSLocalizedDescriptionKey: "Cannot add password: password duplicated."])
+            throw AppError.PasswordDuplicatedError
         }
         
         var passwordURL = password.url!
@@ -815,7 +718,7 @@ class PasswordStore {
             guard let firstLocalCommit = localCommits.last,
                 firstLocalCommit.parents.count == 1,
                 let newHead = firstLocalCommit.parents.first else {
-                    throw NSError(domain: "me.mssun.pass.error", code: 1, userInfo: [NSLocalizedDescriptionKey: "Cannot decide how to reset."])
+                    throw AppError.GitResetError
             }
             try self.storeRepository?.reset(to: newHead, resetType: GTRepositoryResetType.hard)
             self.setAllSynced()
@@ -843,14 +746,14 @@ class PasswordStore {
     }
     
     private func getLocalCommits() throws -> [GTCommit]? {
-        // get the remote origin/master branch
-        guard let remoteBranches = try storeRepository?.remoteBranches(),
-            let index = remoteBranches.index(where: { $0.shortName == "master" })
-            else {
-                throw NSError(domain: "me.mssun.pass.error", code: 1, userInfo: [NSLocalizedDescriptionKey: "Cannot find remote branch origin/master."])
+        guard let repository = storeRepository else {
+            throw AppError.RepositoryNotSetError
         }
-        let remoteMasterBranch = remoteBranches[index]
-        //print("remoteMasterBranch \(remoteMasterBranch)")
+        // get the remote origin/master branch
+        guard let index = try repository.remoteBranches().index(where: { $0.shortName == "master" }) else {
+            throw AppError.RepositoryRemoteMasterNotFoundError
+        }
+        let remoteMasterBranch = try repository.remoteBranches()[index]
         
         // get a list of local commits
         return try storeRepository?.localCommitsRelative(toRemoteBranch: remoteMasterBranch)

@@ -59,6 +59,8 @@
 		DCC408C71E307DBB00F29B0E /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */; };
 		DCC441521E8F6C06008A90C4 /* RawPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */; };
 		DCC441541E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC441531E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift */; };
+		DCD9AD131EB678500093499A /* GitCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD9AD121EB678500093499A /* GitCredential.swift */; };
+		DCD9AD151EB6829A0093499A /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD9AD141EB6829A0093499A /* AppError.swift */; };
 		DCDDEAB01E4639F300F68193 /* LabelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */; };
 		DCDDEAB31E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */; };
 		DCFB779A1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77981E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift */; };
@@ -142,6 +144,8 @@
 		DCC408C91E30BA1300F29B0E /* pass.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = pass.xcdatamodel; sourceTree = "<group>"; };
 		DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawPasswordViewController.swift; sourceTree = "<group>"; };
 		DCC441531E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitSSHKeyArmorSettingTableViewController.swift; sourceTree = "<group>"; };
+		DCD9AD121EB678500093499A /* GitCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GitCredential.swift; path = pass/Controllers/GitCredential.swift; sourceTree = SOURCE_ROOT; };
+		DCD9AD141EB6829A0093499A /* AppError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelTableViewCell.xib; sourceTree = "<group>"; };
 		DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTitleTableViewCell.swift; sourceTree = "<group>"; };
 		DCFB77981E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleTextFieldTableViewCell.swift; sourceTree = "<group>"; };
@@ -238,6 +242,7 @@
 				DCC408A31E2FCC9E00F29B0E /* PasswordStore.swift */,
 				DC193FFF1E49E1A60077E0A3 /* PasscodeLockConfiguration.swift */,
 				DC193FFD1E49E0760077E0A3 /* PasscodeLockRepository.swift */,
+				DCD9AD121EB678500093499A /* GitCredential.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -302,6 +307,7 @@
 			children = (
 				DC917BE21E2E8231000FDF54 /* Info.plist */,
 				DC917BD61E2E8231000FDF54 /* AppDelegate.swift */,
+				DCD9AD141EB6829A0093499A /* AppError.swift */,
 				DC19400D1E4B3A340077E0A3 /* Models */,
 				DC19400C1E4B39400077E0A3 /* Controllers */,
 				DC19400F1E4B3A9E0077E0A3 /* Views */,
@@ -526,6 +532,7 @@
 			files = (
 				DCC408A41E2FCC9E00F29B0E /* PasswordStore.swift in Sources */,
 				DC037CBF1E4ED4E100609409 /* TextViewTableViewCell.swift in Sources */,
+				DCD9AD151EB6829A0093499A /* AppError.swift in Sources */,
 				DCC441541E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift in Sources */,
 				DC8963C01E38EEB900828B09 /* SSHKeySettingTableViewController.swift in Sources */,
 				DC193FFA1E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift in Sources */,
@@ -545,6 +552,7 @@
 				DC4914991E434600007FF592 /* PasswordDetailTableViewController.swift in Sources */,
 				DC962CDF1E4B62C10033B5D8 /* AboutTableViewController.swift in Sources */,
 				DC5734AE1E439AD400D09270 /* PasswordsViewController.swift in Sources */,
+				DCD9AD131EB678500093499A /* GitCredential.swift in Sources */,
 				DC3E64E61E656F11009A83DE /* CommitLogsTableViewController.swift in Sources */,
 				DC037CAA1E4B8EAE00609409 /* SpecialThanksTableViewController.swift in Sources */,
 				DC037CA61E4B883900609409 /* OpenSourceComponentsTableViewController.swift in Sources */,
