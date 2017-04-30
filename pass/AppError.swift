@@ -14,6 +14,7 @@ enum AppError: Error {
     case KeyImportError
     case PasswordDuplicatedError
     case GitResetError
+    case PGPPublicKeyNotExistError
     case UnknownError
     
     var localizedDescription: String {
@@ -28,6 +29,8 @@ enum AppError: Error {
             return "Cannot add the password: password duplicated."
         case .GitResetError:
             return "Cannot decide how to reset."
+        case .PGPPublicKeyNotExistError:
+            return "PGP public key doesn't exist."
         case .UnknownError:
             return "Unknown error."
         }
