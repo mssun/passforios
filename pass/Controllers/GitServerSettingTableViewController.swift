@@ -19,7 +19,7 @@ class GitServerSettingTableViewController: UITableViewController {
     let passwordStore = PasswordStore.shared
     var sshLabel: UILabel? = nil
 
-    var authenticationMethod = Defaults[.gitAuthenticationMethod]
+    var authenticationMethod = Defaults[.gitAuthenticationMethod] ?? "Password"
 
     private func checkAuthenticationMethod(method: String) {
         let passwordCheckView = authPasswordCell.viewWithTag(1001)!
@@ -51,9 +51,8 @@ class GitServerSettingTableViewController: UITableViewController {
             gitURLTextField.text = url.absoluteString
         }
         usernameTextField.text = Defaults[.gitUsername]
-        authenticationMethod = Defaults[.gitAuthenticationMethod]
 
-        checkAuthenticationMethod(method: authenticationMethod!)
+        checkAuthenticationMethod(method: authenticationMethod)
         authSSHKeyCell.accessoryType = .detailButton
     }
     
@@ -80,10 +79,6 @@ class GitServerSettingTableViewController: UITableViewController {
                 Utils.alert(title: "Cannot Save", message: "Git Server is not set.", controller: self, completion: nil)
                 return false
             }
-            guard authenticationMethod != nil else {
-                Utils.alert(title: "Cannot Save", message: "Authentication method is not set.", controller: self, completion: nil)
-                return false
-            }
         }
         return true
     }
@@ -101,7 +96,7 @@ class GitServerSettingTableViewController: UITableViewController {
                 authenticationMethod = "SSH Key"
             }
         }
-        checkAuthenticationMethod(method: authenticationMethod!)
+        checkAuthenticationMethod(method: authenticationMethod)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
