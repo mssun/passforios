@@ -41,9 +41,9 @@ class GitServerSettingTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Grey out ssh option if ssh_key and ssh_key.pub are not present
-        sshLabel = authSSHKeyCell.subviews[0].subviews[0] as? UILabel
-        sshLabel!.isEnabled = gitSSHKeyExists()
-
+        if let sshLabel = sshLabel {
+            sshLabel.isEnabled = gitSSHKeyExists()
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +51,7 @@ class GitServerSettingTableViewController: UITableViewController {
             gitURLTextField.text = url.absoluteString
         }
         usernameTextField.text = Defaults[.gitUsername]
-
+        sshLabel = authSSHKeyCell.subviews[0].subviews[0] as? UILabel
         checkAuthenticationMethod(method: authenticationMethod)
         authSSHKeyCell.accessoryType = .detailButton
     }
@@ -158,7 +158,10 @@ class GitServerSettingTableViewController: UITableViewController {
             let deleteAction = UIAlertAction(title: "Remove Git SSH Keys", style: .destructive) { _ in
                 Utils.removeGitSSHKeys()
                 Defaults[.gitSSHKeySource] = nil
-                self.sshLabel!.isEnabled = false
+                if let sshLabel = self.sshLabel {
+                    sshLabel.isEnabled = false
+                    self.checkAuthenticationMethod(method: "Password")
+                }
             }
             optionMenu.addAction(deleteAction)
         }
