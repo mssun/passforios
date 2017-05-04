@@ -98,6 +98,12 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
                 let subject = urlComponents.queryItems![0].value ?? ""
                 if MFMailComposeViewController.canSendMail() {
                     sendEmail(toRecipients: [urlComponents.path], subject: subject)
+                } else {
+                    let email = urlComponents.path
+                    let alertTitle = "Cannot open Mail App"
+                    let alertMessage = "Email copied: \(email)"
+                    Utils.copyToPasteboard(textToCopy: email)
+                    Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
                 }
             case "http", "https":
                 let svc = SFSafariViewController(url: URL(string: link)!, entersReaderIfAvailable: false)
