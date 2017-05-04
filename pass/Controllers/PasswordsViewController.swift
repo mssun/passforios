@@ -355,9 +355,15 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 textField.text = ""
                 textField.isSecureTextEntry = true
             })
+            // hide it so that alert is on the top of the view
+            SVProgressHUD.dismiss()
             self.present(alert, animated: true, completion: nil)
         }
         let _ = sem.wait(timeout: DispatchTime.distantFuture)
+        DispatchQueue.main.async {
+            // bring back
+            SVProgressHUD.show(withStatus: "Decrypting")
+        }
         if Defaults[.isRememberPassphraseOn] {
             self.passwordStore.pgpKeyPassphrase = passphrase
         }
