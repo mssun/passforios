@@ -28,7 +28,7 @@ enum AppError: Error {
         case .PasswordDuplicatedError:
             return "Cannot add the password: password duplicated."
         case .GitResetError:
-            return "Cannot decide how to reset."
+            return "Cannot identify the latest synced commit."
         case .PGPPublicKeyNotExistError:
             return "PGP public key doesn't exist."
         case .UnknownError:
