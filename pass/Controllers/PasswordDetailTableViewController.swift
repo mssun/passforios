@@ -147,6 +147,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 self.password = try self.passwordStore.decrypt(passwordEntity: self.passwordEntity!, requestPGPKeyPassphrase: self.requestPGPKeyPassphrase)
             } catch {
                 DispatchQueue.main.async {
+                    // remove the wrong passphrase so that users could enter it next time
+                    self.passwordStore.pgpKeyPassphrase = nil
                     let alert = UIAlertController(title: "Cannot Show Password", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {(UIAlertAction) -> Void in
                         self.navigationController!.popViewController(animated: true)

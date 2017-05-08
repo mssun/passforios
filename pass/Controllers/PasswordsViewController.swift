@@ -386,7 +386,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             } catch {
                 print(error)
                 DispatchQueue.main.async {
-                    Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                    // remove the wrong passphrase so that users could enter it next time
+                    self.passwordStore.pgpKeyPassphrase = nil
+                    Utils.alert(title: "Cannot Copy Password", message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
         }
