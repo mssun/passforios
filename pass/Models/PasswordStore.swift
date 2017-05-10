@@ -755,6 +755,11 @@ class PasswordStore {
         }
         let remoteMasterBranch = try storeRepository.remoteBranches()[index]
         
+        // check oid before calling localCommitsRelative
+        guard remoteMasterBranch.oid != nil else {
+            throw AppError.RepositoryRemoteMasterNotFoundError
+        }
+        
         // get a list of local commits
         return try storeRepository.localCommitsRelative(toRemoteBranch: remoteMasterBranch)
     }
