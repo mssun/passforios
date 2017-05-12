@@ -16,8 +16,10 @@ enum AppError: Error {
     case GitResetError
     case PGPPublicKeyNotExistError
     case UnknownError
-    
-    var localizedDescription: String {
+}
+
+extension AppError: LocalizedError {
+    public var errorDescription: String? {
         switch self {
         case .RepositoryNotSetError:
             return "Git repository is not set."
