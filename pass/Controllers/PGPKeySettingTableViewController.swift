@@ -39,18 +39,22 @@ class PGPKeySettingTableViewController: UITableViewController {
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "savePGPKeySegue" {
-            guard let pgpPublicKeyURL = URL(string: pgpPublicKeyURLTextField.text!) else {
-                Utils.alert(title: "Cannot Save", message: "Please set Public Key URL first.", controller: self, completion: nil)
+            guard validatePGPKeyURL(input: pgpPublicKeyURLTextField.text) == true,
+                  validatePGPKeyURL(input: pgpPrivateKeyURLTextField.text) == true else {
                 return false
             }
-            guard let pgpPrivateKeyURL = URL(string: pgpPrivateKeyURLTextField.text!) else {
-                Utils.alert(title: "Cannot Save", message: "Please set Private Key URL first.", controller: self, completion: nil)
-                return false
-            }
-            guard pgpPublicKeyURL.scheme! == "https", pgpPrivateKeyURL.scheme! == "https"  else {
-                Utils.alert(title: "Cannot Save Settings", message: "HTTP connection is not supported.", controller: self, completion: nil)
-                return false
-            }
+        }
+        return true
+    }
+    
+    private func validatePGPKeyURL(input: String?) -> Bool {
+        guard let path = input, let url = URL(string: path) else {
+            Utils.alert(title: "Cannot Save PGP Key", message: "Please set PGP Key URL first.", controller: self, completion: nil)
+            return false
+        }
+        guard let scheme = url.scheme, scheme == "https", scheme == "https"  else {
+            Utils.alert(title: "Cannot Save PGP Key", message: "HTTP connection is not supported.", controller: self, completion: nil)
+            return false
         }
         return true
     }

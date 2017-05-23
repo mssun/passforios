@@ -62,9 +62,11 @@ class LabelTableViewCell: UITableViewCell {
             case "url":
                 type = .URL
                 contentLabel.text = content
+                contentLabel.font = UIFont.systemFont(ofSize: contentLabel.font.pointSize)
             default:
                 type = .other
                 contentLabel.text = content
+                contentLabel.font = UIFont.systemFont(ofSize: contentLabel.font.pointSize)
             }
             updateButtons()
         }
@@ -74,21 +76,6 @@ class LabelTableViewCell: UITableViewCell {
         get {
             return true
         }
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        if buttons != nil {
-            self.accessoryView = buttons
-        }
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
     }
 
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
@@ -208,5 +195,6 @@ class LabelTableViewCell: UITableViewCell {
             passwordDisplayButton = nil
             buttons = nil
         }
+        self.accessoryView = buttons
     }
 }

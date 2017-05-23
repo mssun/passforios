@@ -355,9 +355,15 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 textField.text = ""
                 textField.isSecureTextEntry = true
             })
+            // hide it so that alert is on the top of the view
+            SVProgressHUD.dismiss()
             self.present(alert, animated: true, completion: nil)
         }
         let _ = sem.wait(timeout: DispatchTime.distantFuture)
+        DispatchQueue.main.async {
+            // bring back
+            SVProgressHUD.show(withStatus: "Decrypting")
+        }
         if Defaults[.isRememberPassphraseOn] {
             self.passwordStore.pgpKeyPassphrase = passphrase
         }
@@ -380,7 +386,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             } catch {
                 print(error)
                 DispatchQueue.main.async {
-                    Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                    // remove the wrong passphrase so that users could enter it next time
+                    self.passwordStore.pgpKeyPassphrase = nil
+                    Utils.alert(title: "Cannot Copy Password", message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
         }

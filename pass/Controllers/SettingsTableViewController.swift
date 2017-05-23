@@ -156,17 +156,19 @@ class SettingsTableViewController: UITableViewController {
         touchIDTableViewCell.accessoryView = touchIDSwitch
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()
-        setTouchIDSwitch()
-        setPasscodeLockRepositoryTableViewCellDetailText()
+        setPasscodeLockTouchIDCells()
     }
     
-    private func setPasscodeLockRepositoryTableViewCellDetailText() {
+    private func setPasscodeLockTouchIDCells() {
         if PasscodeLockRepository().hasPasscode {
             self.passcodeTableViewCell.detailTextLabel?.text = "On"
+            Globals.passcodeConfiguration.isTouchIDAllowed = true
+            touchIDSwitch.isOn = Defaults[.isTouchIDOn]
         } else {
             self.passcodeTableViewCell.detailTextLabel?.text = "Off"
-            touchIDSwitch.isEnabled = false
             Globals.passcodeConfiguration.isTouchIDAllowed = false
+            Defaults[.isTouchIDOn] = false
+            touchIDSwitch.isOn = Defaults[.isTouchIDOn]
         }
     }
     
@@ -186,19 +188,10 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
-    private func setTouchIDSwitch() {
-        if Defaults[.isTouchIDOn] {
-            touchIDSwitch.isOn = true
-        } else {
-            touchIDSwitch.isOn = false
-        }
-    }
-    
     func actOnPasswordStoreErasedNotification() {
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()
-        setTouchIDSwitch()
-        setPasscodeLockRepositoryTableViewCellDetailText()
+        setPasscodeLockTouchIDCells()
 
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: Globals.passcodeConfiguration)
@@ -222,12 +215,12 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func touchIDSwitchAction(uiSwitch: UISwitch) {
-        if uiSwitch.isOn {
-            Defaults[.isTouchIDOn] = true
-            Globals.passcodeConfiguration.isTouchIDAllowed = true
+        if !Globals.passcodeConfiguration.isTouchIDAllowed {
+            // switch off
+            uiSwitch.isOn = Defaults[.isTouchIDOn]  // false
+            Utils.alert(title: "Notice", message: "Please set the passcode lock first.", controller: self, completion: nil)
         } else {
-            Defaults[.isTouchIDOn] = false
-            Globals.passcodeConfiguration.isTouchIDAllowed = false
+            Defaults[.isTouchIDOn] = uiSwitch.isOn
         }
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: Globals.passcodeConfiguration)
@@ -335,8 +328,7 @@ class SettingsTableViewController: UITableViewController {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let removePasscodeAction = UIAlertAction(title: "Remove Passcode", style: .destructive) { [weak self] _ in
             passcodeRemoveViewController.successCallback  = { _ in
-                self?.passcodeTableViewCell.detailTextLabel?.text = "Off"
-                self?.touchIDSwitch.isEnabled = false
+                self?.setPasscodeLockTouchIDCells()
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: Globals.passcodeConfiguration)
             }
@@ -359,8 +351,7 @@ class SettingsTableViewController: UITableViewController {
     func setPasscodeLock() {
         let passcodeSetViewController = PasscodeLockViewController(state: .set, configuration: Globals.passcodeConfiguration)
         passcodeSetViewController.successCallback = { _ in
-            self.passcodeTableViewCell.detailTextLabel?.text = "On"
-            self.touchIDSwitch.isEnabled = true
+            self.setPasscodeLockTouchIDCells()
         }
         present(passcodeSetViewController, animated: true, completion: nil)
     }
