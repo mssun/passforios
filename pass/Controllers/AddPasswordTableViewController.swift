@@ -16,11 +16,14 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
     override func viewDidLoad() {
         tableData = [
             [[.type: PasswordEditorCellType.nameCell, .title: "name"]],
-            [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password"],
-             [.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"]],
+            [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password"]],
             [[.type: PasswordEditorCellType.additionsCell, .title: "additions"]],
             [[.type: PasswordEditorCellType.scanQRCodeCell]]
         ]
+        if let lengthSetting = Globals.passwordDefaultLength[Defaults[.passwordGeneratorFlavor]],
+            lengthSetting.max > lengthSetting.min {
+            tableData[1].append([.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"])
+        }
         super.viewDidLoad()
     }
     

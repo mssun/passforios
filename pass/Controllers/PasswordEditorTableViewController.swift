@@ -89,6 +89,9 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             fillPasswordCell = tableView.dequeueReusableCell(withIdentifier: "fillPasswordCell", for: indexPath) as? FillPasswordTableViewCell
             fillPasswordCell?.delegate = self
             fillPasswordCell?.setContent(content: cellData[PasswordEditorCellKey.content] as? String)
+            if tableData[passwordSection].count == 1 {
+                fillPasswordCell?.settingButton.isHidden = true
+            }
             return fillPasswordCell!
         case .passwordLengthCell:
             passwordLengthCell = tableView.dequeueReusableCell(withIdentifier: "passwordLengthCell", for: indexPath) as? SliderTableViewCell
