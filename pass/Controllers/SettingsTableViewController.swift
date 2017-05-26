@@ -11,6 +11,7 @@ import SVProgressHUD
 import CoreData
 import SwiftyUserDefaults
 import PasscodeLock
+import LocalAuthentication
 
 class SettingsTableViewController: UITableViewController {
     
@@ -149,6 +150,18 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // Security section, hide TouchID if the device doesn't support
+        if section == 1 {
+            if hasTouchID() {
+                return 2
+            } else {
+                return 1
+            }
+        }
+        return super.tableView(tableView, numberOfRowsInSection: section)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.actOnPasswordStoreErasedNotification), name: .passwordStoreErased, object: nil)
@@ -157,6 +170,28 @@ class SettingsTableViewController: UITableViewController {
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()
         setPasscodeLockTouchIDCells()
+    }
+    
+    private func hasTouchID() -> Bool {
+        let context = LAContext()
+        var error: NSError?
+        if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            return true
+        } else {
+            switch error!.code {
+            case LAError.Code.touchIDNotEnrolled.rawValue:
+                return true
+            case LAError.Code.passcodeNotSet.rawValue:
+                return true
+            default:
+                return false
+            }
+        }
+    }
+    
+    private func isTouchIDEnabled() -> Bool {
+        let context = LAContext()
+        return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
     }
     
     private func setPasscodeLockTouchIDCells() {
@@ -210,15 +245,13 @@ class SettingsTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     func touchIDSwitchAction(uiSwitch: UISwitch) {
-        if !Globals.passcodeConfiguration.isTouchIDAllowed {
+        if !Globals.passcodeConfiguration.isTouchIDAllowed || !isTouchIDEnabled() {
             // switch off
-            uiSwitch.isOn = Defaults[.isTouchIDOn]  // false
-            Utils.alert(title: "Notice", message: "Please set the passcode lock first.", controller: self, completion: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+                uiSwitch.isOn = Defaults[.isTouchIDOn]  // false
+                Utils.alert(title: "Notice", message: "Please enable Touch ID and set the passcode lock first.", controller: self, completion: nil)
+            }
         } else {
             Defaults[.isTouchIDOn] = uiSwitch.isOn
         }
