@@ -23,7 +23,7 @@ class Globals {
     static let repositoryPath = "\(libraryPath)/password-store"
     static var passcodeConfiguration = PasscodeLockConfiguration()
     
-    static let passwordDefaultLength = ["Random": (min: 6, max: 24, def: 16),
+    static let passwordDefaultLength = ["Random": (min: 4, max: 64, def: 16),
                                         "Apple":  (min: 15, max: 15, def: 15)]
     
     static let gitSignatureDefaultName = "Pass for iOS"
