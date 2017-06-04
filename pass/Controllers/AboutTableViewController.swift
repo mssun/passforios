@@ -15,7 +15,7 @@ class AboutTableViewController: BasicStaticTableViewController {
             // section 0
             [[.title: "Website", .action: "link", .link: "https://github.com/mssun/pass-ios.git"],
              [.title: "Help", .action: "link", .link: "https://github.com/mssun/passforios/wiki"],
-             [.title: "Contact Developer", .action: "link", .link: "mailto:bob@mssun.me?subject=passforiOS"],],
+             [.title: "Contact Developer", .action: "link", .link: "mailto:developer@passforios.mssun.me?subject=Pass%20for%20iOS"],],
             
             // section 1,
             [[.title: "Open Source Components", .action: "segue", .link: "showOpenSourceComponentsSegue"],
