@@ -101,10 +101,10 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         NotificationCenter.default.addObserver(self, selector: #selector(setShouldPopCurrentView), name: .passwordStoreChangeDiscarded, object: nil)
         
         // reset the data table if some password (maybe another one) has been updated
-        NotificationCenter.default.addObserver(self, selector: #selector(showPassword), name: .passwordStoreUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(decryptThenShowPassword), name: .passwordStoreUpdated, object: nil)
         
         // reset the data table if the disaply settings have been changed
-        NotificationCenter.default.addObserver(self, selector: #selector(showPassword), name: .passwordDetailDisplaySettingChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(decryptThenShowPassword), name: .passwordDetailDisplaySettingChanged, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -140,20 +140,24 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         return passphrase
     }
     
-    private func decryptThenShowPassword() {
+    @objc private func decryptThenShowPassword() {
+        guard let passwordEntity = passwordEntity else {
+            Utils.alert(title: "Cannot Show Password", message: "The password does not exist.", controller: self, handler: {(UIAlertAction) -> Void in
+                self.navigationController!.popViewController(animated: true)
+            })
+            return
+        }
         DispatchQueue.global(qos: .userInitiated).async {
             // decrypt password
             do {
-                self.password = try self.passwordStore.decrypt(passwordEntity: self.passwordEntity!, requestPGPKeyPassphrase: self.requestPGPKeyPassphrase)
+                self.password = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: self.requestPGPKeyPassphrase)
             } catch {
                 DispatchQueue.main.async {
                     // remove the wrong passphrase so that users could enter it next time
                     self.passwordStore.pgpKeyPassphrase = nil
-                    let alert = UIAlertController(title: "Cannot Show Password", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {(UIAlertAction) -> Void in
+                    Utils.alert(title: "Cannot Show Password", message: error.localizedDescription, controller: self, handler: {(UIAlertAction) -> Void in
                         self.navigationController!.popViewController(animated: true)
-                    }))
-                    self.present(alert, animated: true, completion: nil)
+                    })
                 }
                 return
             }
@@ -162,7 +166,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
     }
     
-    @objc private func showPassword() {
+    private func showPassword() {
         DispatchQueue.main.async { [weak self] in
             self?.indicator.stopAnimating()
             self?.setTableData()
