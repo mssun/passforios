@@ -54,7 +54,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
             var numberOfCommits: UInt = 0
             
             do {
-                if let _ = try self.passwordStore.storeRepository!.currentBranch().oid {
+                if let _ = try self.passwordStore.storeRepository?.currentBranch().oid {
                     numberOfCommits = self.passwordStore.storeRepository?.numberOfCommits(inCurrentBranch: NSErrorPointer(nilLiteral: ())) ?? 0
                 }
             } catch {
