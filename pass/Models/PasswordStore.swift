@@ -39,7 +39,7 @@ class PasswordStore {
         }
     }
     
-    let pgp: ObjectivePGP = ObjectivePGP()
+    var pgp: ObjectivePGP = ObjectivePGP()
     
     var pgpKeyPassphrase: String? {
         set {
@@ -786,5 +786,31 @@ class PasswordStore {
         let plainData = password.getPlainData()
         let encryptedData = try pgp.encryptData(plainData, usingPublicKey: publicKey, armored: Defaults[.encryptInArmored])
         return encryptedData
+    }
+    
+    
+    
+    func removePGPKeys() {
+        Utils.removeFileIfExists(atPath: Globals.pgpPublicKeyPath)
+        Utils.removeFileIfExists(atPath: Globals.pgpPrivateKeyPath)
+        Defaults.remove(.pgpKeySource)
+        Defaults.remove(.pgpPublicKeyArmor)
+        Defaults.remove(.pgpPrivateKeyArmor)
+        Defaults.remove(.pgpPrivateKeyURL)
+        Defaults.remove(.pgpPublicKeyURL)
+        Utils.removeKeychain(name: ".pgpKeyPassphrase")
+        pgp = ObjectivePGP()
+        publicKey = nil
+        privateKey = nil
+    }
+    
+    func removeGitSSHKeys() {
+        Utils.removeFileIfExists(atPath: Globals.gitSSHPublicKeyPath)
+        Utils.removeFileIfExists(atPath: Globals.gitSSHPrivateKeyPath)
+        Defaults.remove(.gitSSHPublicKeyArmor)
+        Defaults.remove(.gitSSHPrivateKeyArmor)
+        Defaults.remove(.gitSSHPublicKeyURL)
+        Defaults.remove(.gitSSHPrivateKeyURL)
+        Utils.removeKeychain(name: ".gitSSHPrivateKeyPassphrase")
     }
 }

@@ -343,7 +343,7 @@ class SettingsTableViewController: UITableViewController {
         
         if Defaults[.pgpKeySource] != nil {
             let deleteAction = UIAlertAction(title: "Remove PGP Keys", style: .destructive) { _ in
-                Utils.removePGPKeys()
+                self.passwordStore.removePGPKeys()
                 self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
             }
             optionMenu.addAction(deleteAction)

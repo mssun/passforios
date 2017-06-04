@@ -156,7 +156,7 @@ class GitServerSettingTableViewController: UITableViewController {
         
         if Defaults[.gitSSHKeySource] != nil {
             let deleteAction = UIAlertAction(title: "Remove Git SSH Keys", style: .destructive) { _ in
-                Utils.removeGitSSHKeys()
+                self.passwordStore.removeGitSSHKeys()
                 Defaults[.gitSSHKeySource] = nil
                 if let sshLabel = self.sshLabel {
                     sshLabel.isEnabled = false
