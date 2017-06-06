@@ -10,7 +10,6 @@ import UIKit
 import SwiftyUserDefaults
 
 class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextViewDelegate {
-    @IBOutlet weak var armorPublicKeyTextView: UITextView!
     @IBOutlet weak var armorPrivateKeyTextView: UITextView!
     var gitSSHPrivateKeyPassphrase: String?
     let passwordStore = PasswordStore.shared
@@ -19,17 +18,13 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        armorPublicKeyTextView.text = Defaults[.gitSSHPublicKeyArmor]
         armorPrivateKeyTextView.text = Defaults[.gitSSHPrivateKeyArmor]
-        armorPublicKeyTextView.delegate = self
         armorPrivateKeyTextView.delegate = self
     }
     
     @IBAction func doneButtonTapped(_ sender: Any) {
-        Defaults[.gitSSHPublicKeyArmor] = armorPublicKeyTextView.text
         Defaults[.gitSSHPrivateKeyArmor] = armorPrivateKeyTextView.text
         do {
-            try passwordStore.initGitSSHKey(with: armorPublicKeyTextView.text, .public)
             try passwordStore.initGitSSHKey(with: armorPrivateKeyTextView.text, .secret)
         } catch {
             Utils.alert(title: "Cannot Save", message: "Cannot Save SSH Key", controller: self, completion: nil)

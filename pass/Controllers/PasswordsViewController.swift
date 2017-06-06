@@ -145,7 +145,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             gitCredential = GitCredential(
                 credential: GitCredential.Credential.ssh(
                     userName: Defaults[.gitUsername]!,
-                    publicKeyFile: Globals.gitSSHPublicKeyURL,
                     privateKeyFile: Globals.gitSSHPrivateKeyURL,
                     controller: self
                 )

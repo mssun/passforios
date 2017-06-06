@@ -807,9 +807,7 @@ class PasswordStore {
     func removeGitSSHKeys() {
         Utils.removeFileIfExists(atPath: Globals.gitSSHPublicKeyPath)
         Utils.removeFileIfExists(atPath: Globals.gitSSHPrivateKeyPath)
-        Defaults.remove(.gitSSHPublicKeyArmor)
         Defaults.remove(.gitSSHPrivateKeyArmor)
-        Defaults.remove(.gitSSHPublicKeyURL)
         Defaults.remove(.gitSSHPrivateKeyURL)
         Utils.removeKeychain(name: ".gitSSHPrivateKeyPassphrase")
     }
