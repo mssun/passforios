@@ -57,6 +57,7 @@ struct GitCredential {
                 attempts += 1
                 lastPassword = newPassword
                 credential = try? GTCredential(userName: userName, publicKeyURL: nil, privateKeyURL: privateKeyFile, passphrase: newPassword!)
+                print(privateKeyFile)
             }
             return credential
         }

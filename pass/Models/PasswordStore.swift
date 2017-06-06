@@ -104,14 +104,10 @@ class PasswordStore {
     }
     
     public func initGitSSHKey(with armorKey: String, _ keyType: SSHKeyType) throws {
-        var keyPath = ""
-        switch keyType {
-        case .public:
-            keyPath = Globals.gitSSHPublicKeyPath
-        case .secret:
-            keyPath = Globals.gitSSHPrivateKeyPath
+        guard keyType == .secret else {
+            return
         }
-        
+        let keyPath = Globals.gitSSHPrivateKeyPath
         try armorKey.write(toFile: keyPath, atomically: true, encoding: .ascii)
     }
     
@@ -692,7 +688,6 @@ class PasswordStore {
 
         Utils.removeFileIfExists(atPath: Globals.pgpPublicKeyPath)
         Utils.removeFileIfExists(atPath: Globals.pgpPrivateKeyPath)
-        Utils.removeFileIfExists(atPath: Globals.gitSSHPublicKeyPath)
         Utils.removeFileIfExists(atPath: Globals.gitSSHPrivateKeyPath)
         
         Utils.removeAllKeychain()
@@ -805,7 +800,6 @@ class PasswordStore {
     }
     
     func removeGitSSHKeys() {
-        Utils.removeFileIfExists(atPath: Globals.gitSSHPublicKeyPath)
         Utils.removeFileIfExists(atPath: Globals.gitSSHPrivateKeyPath)
         Defaults.remove(.gitSSHPrivateKeyArmor)
         Defaults.remove(.gitSSHPrivateKeyURL)

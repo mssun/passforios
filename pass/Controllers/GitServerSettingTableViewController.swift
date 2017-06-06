@@ -120,8 +120,7 @@ class GitServerSettingTableViewController: UITableViewController {
     }
     
     private func gitSSHKeyExists() -> Bool {
-        return FileManager.default.fileExists(atPath: Globals.gitSSHPublicKeyPath) &&
-            FileManager.default.fileExists(atPath: Globals.gitSSHPrivateKeyPath)
+        return FileManager.default.fileExists(atPath: Globals.gitSSHPrivateKeyPath)
     }
     
     func showSSHKeyActionSheet() {

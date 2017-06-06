@@ -648,7 +648,7 @@
             </objects>
             <point key="canvasLocation" x="4954" y="-1027"/>
         </scene>
-        <!--Scan QR Codes-->
+        <!--Scan OTP QR Codes-->
         <scene sceneID="AuR-rQ-G3V">
             <objects>
                 <viewController id="A9p-Qb-WmU" customClass="OTPScannerController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
@@ -678,7 +678,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="lOI-p4-BGb" secondAttribute="trailing" constant="30" id="qNb-4K-GGl"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Scan QR Codes" id="Hlb-5I-bfE">
+                    <navigationItem key="navigationItem" title="Scan OTP QR Codes" id="Hlb-5I-bfE">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="KBZ-N2-OGE">
                             <connections>
                                 <segue destination="0gD-ix-2NF" kind="unwind" unwindAction="cancelOTPScannerWithSegue:" id="nZe-B6-MNt"/>
@@ -1028,7 +1028,7 @@ Phone Support PIN #: 84719</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Encrypt in ASCII-Armored" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jwg-mt-woS">
-                                                    <rect key="frame" x="20" y="0.0" width="379" height="43.666666666666664"/>
+                                                    <rect key="frame" x="15" y="0.0" width="384" height="43.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -1045,18 +1045,18 @@ Phone Support PIN #: 84719</string>
                                         <rect key="frame" x="0.0" y="155" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SVj-jD-qPT" id="HaO-5w-qZt">
-                                            <rect key="frame" x="0.0" y="0.0" width="376" height="43.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="381" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Git Signature" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="87a-xY-AbR">
-                                                    <rect key="frame" x="20.000000000000007" y="11.999999999999998" width="99.666666666666671" height="20.333333333333332"/>
+                                                    <rect key="frame" x="15.000000000000007" y="11.999999999999998" width="99.666666666666671" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Not Set" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2qr-d7-0SK">
-                                                    <rect key="frame" x="318.33333333333331" y="11.999999999999998" width="57.666666666666664" height="20.333333333333332"/>
+                                                    <rect key="frame" x="321.33333333333331" y="11.999999999999998" width="57.666666666666664" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -1080,7 +1080,7 @@ Phone Support PIN #: 84719</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Discard All Local Changes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zrl-v3-fxg">
-                                                    <rect key="frame" x="20" y="0.0" width="379" height="43.666666666666664"/>
+                                                    <rect key="frame" x="15" y="0.0" width="384" height="43.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.50196081400000003" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1097,7 +1097,7 @@ Phone Support PIN #: 84719</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Erase All Password Store Data" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="K2K-Bx-g7Z">
-                                                    <rect key="frame" x="20" y="0.0" width="379" height="43.666666666666664"/>
+                                                    <rect key="frame" x="15" y="0.0" width="384" height="43.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.50196081400000003" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1447,7 +1447,7 @@ Cgo
         <scene sceneID="zWR-BT-dXv">
             <objects>
                 <tableViewController id="WgM-cY-mig" customClass="GitSSHKeyArmorSettingTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="1" id="e2Q-qC-LUk">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="1" id="e2Q-qC-LUk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -1522,6 +1522,14 @@ Cgo
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="jXO-n0-Mvx">
+                                        <rect key="frame" x="0.0" y="404" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jXO-n0-Mvx" id="AIL-mq-u7n">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -1539,6 +1547,8 @@ Cgo
                     </navigationItem>
                     <connections>
                         <outlet property="armorPrivateKeyTextView" destination="23o-MP-wQY" id="ybK-Ba-vJt"/>
+                        <outlet property="scanPrivateKeyCell" destination="jXO-n0-Mvx" id="Zdb-wm-7Ls"/>
+                        <segue destination="lLV-kB-JkG" kind="show" identifier="showSSHScannerSegue" id="orz-gu-cTp"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qJO-AN-K9p" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1670,7 +1680,7 @@ Cgo
             </objects>
             <point key="canvasLocation" x="4967" y="5333"/>
         </scene>
-        <!--Scanner-->
+        <!--Scan PGP Keys-->
         <scene sceneID="7j1-Qg-pUZ">
             <objects>
                 <viewController id="LZE-gF-IcM" customClass="QRScannerController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
@@ -1700,7 +1710,7 @@ Cgo
                             <constraint firstItem="53A-gx-tky" firstAttribute="top" secondItem="U8O-Md-w8e" secondAttribute="bottom" constant="80" id="tzL-K0-lE7"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Scanner" id="JIs-3z-Tmr">
+                    <navigationItem key="navigationItem" title="Scan PGP Keys" id="JIs-3z-Tmr">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="yma-o8-xRu">
                             <connections>
                                 <segue destination="0F8-Zv-c2C" kind="unwind" unwindAction="cancelPGPScannerWithSegue:" id="q14-fu-3N4"/>
@@ -1715,6 +1725,52 @@ Cgo
                 <exit id="0F8-Zv-c2C" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="6122" y="4302"/>
+        </scene>
+        <!--Scan SSH Keys-->
+        <scene sceneID="kmR-CX-Yi7">
+            <objects>
+                <viewController id="lLV-kB-JkG" customClass="QRScannerController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="NSI-Fp-tX4"/>
+                        <viewControllerLayoutGuide type="bottom" id="QZv-Im-xZk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GYE-sh-yvu">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="scanner output" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fsL-pq-A5q">
+                                <rect key="frame" x="50" y="567" width="314" height="45"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="IPT-kM-arz"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="QZv-Im-xZk" firstAttribute="top" secondItem="fsL-pq-A5q" secondAttribute="bottom" constant="80" id="76J-7g-eVO"/>
+                            <constraint firstItem="fsL-pq-A5q" firstAttribute="leading" secondItem="GYE-sh-yvu" secondAttribute="leadingMargin" constant="30" id="IOo-JD-FMG"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fsL-pq-A5q" secondAttribute="trailing" constant="30" id="ymC-G4-bdA"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Scan SSH Keys" id="bov-FI-Hkg">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="JhH-TO-YkO">
+                            <connections>
+                                <segue destination="J2S-Mr-s10" kind="unwind" unwindAction="cancelSSHScannerWithSegue:" id="Thj-zj-TEX"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="scannerOutput" destination="fsL-pq-A5q" id="lSv-2S-qVd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="s1p-jn-4PV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="J2S-Mr-s10" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="7133" y="2895"/>
         </scene>
     </scenes>
     <resources>
