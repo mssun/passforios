@@ -141,7 +141,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
     
     @objc private func decryptThenShowPassword() {
-        guard let passwordEntity = passwordEntity else {
+        guard let passwordEntity = passwordEntity, passwordEntity.path != nil else {
             Utils.alert(title: "Cannot Show Password", message: "The password does not exist.", controller: self, handler: {(UIAlertAction) -> Void in
                 self.navigationController!.popViewController(animated: true)
             })
