@@ -93,10 +93,10 @@ class PasswordStore {
             if FileManager.default.fileExists(atPath: storeURL.path) {
                 try storeRepository = GTRepository.init(url: storeURL)
             }
+            try initPGPKeys()
         } catch {
             print(error)
         }
-        initPGPKeys()
     }
     
     enum SSHKeyType {
@@ -111,13 +111,9 @@ class PasswordStore {
         try armorKey.write(toFile: keyPath, atomically: true, encoding: .ascii)
     }
     
-    public func initPGPKeys() {
-        do {
-            try initPGPKey(.public)
-            try initPGPKey(.secret)
-        } catch {
-            print(error)
-        }
+    public func initPGPKeys() throws {
+        try initPGPKey(.public)
+        try initPGPKey(.secret)
     }
     
     public func initPGPKey(_ keyType: PGPKeyType) throws {
@@ -139,7 +135,7 @@ class PasswordStore {
         }
     }
     
-    public func initPGPKey(from url: URL, keyType: PGPKeyType) throws{
+    public func initPGPKey(from url: URL, keyType: PGPKeyType) throws {
         var pgpKeyLocalPath = ""
         if keyType == .public {
             pgpKeyLocalPath = Globals.pgpPublicKeyPath

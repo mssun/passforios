@@ -92,6 +92,30 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
+    private func saveImportedPGPKey() {
+        // load keys
+        Defaults[.pgpKeySource] = "file"
+        
+        SVProgressHUD.setDefaultMaskType(.black)
+        SVProgressHUD.setDefaultStyle(.light)
+        SVProgressHUD.show(withStatus: "Fetching PGP Key")
+        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+            do {
+                try self.passwordStore.initPGPKeys()
+                DispatchQueue.main.async {
+                    self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
+                    SVProgressHUD.showSuccess(withStatus: "Success")
+                    SVProgressHUD.dismiss(withDelay: 1)
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
+                    Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                }
+            }
+        }
+    }
+    
     @IBAction func cancelGitServerSetting(segue: UIStoryboardSegue) {
     }
     
@@ -233,55 +257,31 @@ class SettingsTableViewController: UITableViewController {
 
         if passwordStore.pgpKeyExists() {
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
-
-                SVProgressHUD.setDefaultMaskType(.black)
-                SVProgressHUD.setDefaultStyle(.light)
-                SVProgressHUD.show(withStatus: "Reading PGP key")
-
-                let alert = UIAlertController(
-                    title: "PGP Passphrase",
-                    message: "Please fill in the passphrase for your PGP key.",
-                    preferredStyle: UIAlertControllerStyle.alert
-                )
-
-                alert.addAction(
-                    UIAlertAction(
-                        title: "OK",
-                        style: UIAlertActionStyle.default,
-                        handler: {_ in
-                            Utils.addPasswordToKeychain(
-                                name: "pgpKeyPassphrase",
-                                password: alert.textFields!.first!.text!
-                            )
-                        }
-                    )
-                )
-
-                alert.addTextField(
-                   configurationHandler: {(textField: UITextField!) in
-                            textField.text = Utils.getPasswordFromKeychain(name: "pgpKeyPassphrase") ?? ""
-                            textField.isSecureTextEntry = true
-                    }
-                )
-
-
-                DispatchQueue.main.async {
-                    self.passwordStore.initPGPKeys()
-
-                    let key: PGPKey = self.passwordStore.getPgpPrivateKey()
-                    Defaults[.pgpKeySource] = "file"
-
-                    if (key.isEncrypted) {
-                        SVProgressHUD.dismiss()
-                        self.present(alert, animated: true, completion: nil)
-                    }
-
-                    SVProgressHUD.dismiss()
-                    self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
-                }
-
+                // passphrase related
+                let savePassphraseAlert = UIAlertController(title: "Passphrase", message: "Do you want to save the passphrase for later decryption?", preferredStyle: UIAlertControllerStyle.alert)
+                // no
+                savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
+                    self.passwordStore.pgpKeyPassphrase = nil
+                    Defaults[.isRememberPassphraseOn] = false
+                    self.saveImportedPGPKey()
+                })
+                // yes
+                savePassphraseAlert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.destructive) {_ in
+                    // ask for the passphrase
+                    let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+                        self.passwordStore.pgpKeyPassphrase = alert.textFields?.first?.text
+                        Defaults[.isRememberPassphraseOn] = true
+                        self.saveImportedPGPKey()
+                    }))
+                    alert.addTextField(configurationHandler: {(textField: UITextField!) in
+                        textField.text = ""
+                        textField.isSecureTextEntry = true
+                    })
+                    self.present(alert, animated: true, completion: nil)
+                })
+                self.present(savePassphraseAlert, animated: true, completion: nil)
             }
-
             optionMenu.addAction(fileAction)
         } else {
             let fileAction = UIAlertAction(title: "iTunes File Sharing", style: .default) { _ in
