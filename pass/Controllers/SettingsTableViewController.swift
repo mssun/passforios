@@ -257,17 +257,12 @@ class SettingsTableViewController: UITableViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: Globals.passcodeConfiguration)
     }
-
-    func pgpKeyExists() -> Bool {
-        return FileManager.default.fileExists(atPath: Globals.pgpPublicKeyPath) &&
-        FileManager.default.fileExists(atPath: Globals.pgpPrivateKeyPath)
-    }
     
     func showPGPKeyActionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var urlActionTitle = "Download from URL"
         var armorActionTitle = "ASCII-Armor Encrypted Key"
-        var fileActionTitle = "Use Uploaded Keys"
+        var fileActionTitle = "Use Imported Keys"
         
         if Defaults[.pgpKeySource] == "url" {
            urlActionTitle = "✓ \(urlActionTitle)"
@@ -286,7 +281,7 @@ class SettingsTableViewController: UITableViewController {
         optionMenu.addAction(urlAction)
         optionMenu.addAction(armorAction)
 
-        if (pgpKeyExists()) {
+        if passwordStore.pgpKeyExists() {
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
 
                 SVProgressHUD.setDefaultMaskType(.black)
@@ -338,7 +333,15 @@ class SettingsTableViewController: UITableViewController {
             }
 
             optionMenu.addAction(fileAction)
+        } else {
+            let fileAction = UIAlertAction(title: "iTunes File Sharing", style: .default) { _ in
+                let title = "Import via iTunes File Sharing"
+                let message = "Copy your public and private key from your computer to Pass for iOS with the name \"gpg_key.pub\" and \"gpg_key\" (without quotes)."
+                Utils.alert(title: title, message: message, controller: self)
+            }
+            optionMenu.addAction(fileAction)
         }
+        
         
         if Defaults[.pgpKeySource] != nil {
             let deleteAction = UIAlertAction(title: "Remove PGP Keys", style: .destructive) { _ in

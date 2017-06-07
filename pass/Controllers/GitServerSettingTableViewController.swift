@@ -40,9 +40,9 @@ class GitServerSettingTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // Grey out ssh option if ssh_key and ssh_key.pub are not present
+        // Grey out ssh option if ssh_key is not present
         if let sshLabel = sshLabel {
-            sshLabel.isEnabled = gitSSHKeyExists()
+            sshLabel.isEnabled = passwordStore.gitSSHKeyExists()
         }
     }
     override func viewDidLoad() {
@@ -89,7 +89,7 @@ class GitServerSettingTableViewController: UITableViewController {
             authenticationMethod = "Password"
         } else if cell == authSSHKeyCell {
 
-            if !gitSSHKeyExists() {
+            if !passwordStore.gitSSHKeyExists() {
                 Utils.alert(title: "Cannot Select SSH Key", message: "Please setup SSH key first.", controller: self, completion: nil)
                 authenticationMethod = "Password"
             } else {
@@ -118,16 +118,12 @@ class GitServerSettingTableViewController: UITableViewController {
             doClone()
         }
     }
-    
-    private func gitSSHKeyExists() -> Bool {
-        return FileManager.default.fileExists(atPath: Globals.gitSSHPrivateKeyPath)
-    }
-    
+ 
     func showSSHKeyActionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var urlActionTitle = "Download from URL"
         var armorActionTitle = "ASCII-Armor Encrypted Key"
-        var fileActionTitle = "Use Uploaded Keys"
+        var fileActionTitle = "Use Imported Keys"
         
         if Defaults[.gitSSHKeySource] == "url" {
             urlActionTitle = "✓ \(urlActionTitle)"
@@ -146,9 +142,17 @@ class GitServerSettingTableViewController: UITableViewController {
         optionMenu.addAction(urlAction)
         optionMenu.addAction(armorAction)
         
-        if (gitSSHKeyExists()) {
+        if passwordStore.gitSSHKeyExists() {
+            // might keys updated via iTunes, or downloaded/pasted inside the app
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
                 Defaults[.gitSSHKeySource] = "file"
+            }
+            optionMenu.addAction(fileAction)
+        } else {
+            let fileAction = UIAlertAction(title: "iTunes File Sharing", style: .default) { _ in
+                let title = "Import via iTunes File Sharing"
+                let message = "Copy your private key from your computer to Pass for iOS with the name \"ssh_key\" (without quotes)."
+                Utils.alert(title: title, message: message, controller: self)
             }
             optionMenu.addAction(fileAction)
         }

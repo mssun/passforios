@@ -805,4 +805,14 @@ class PasswordStore {
         Defaults.remove(.gitSSHPrivateKeyURL)
         Utils.removeKeychain(name: ".gitSSHPrivateKeyPassphrase")
     }
+    
+    func gitSSHKeyExists() -> Bool {
+        let fm = FileManager.default
+        return fm.fileExists(atPath: Globals.gitSSHPrivateKeyPath)
+    }
+    
+    func pgpKeyExists() -> Bool {
+        let fm = FileManager.default
+        return fm.fileExists(atPath: Globals.pgpPublicKeyPath) && fm.fileExists(atPath: Globals.pgpPrivateKeyPath)
+    }
 }
