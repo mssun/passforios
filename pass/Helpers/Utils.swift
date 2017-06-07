@@ -72,7 +72,7 @@ class Utils {
     }
     
     static func getPasswordFromKeychain(name: String) -> String? {
-        let keychain = Keychain(service: "me.mssun.passforios")
+        let keychain = Keychain(service: Bundle.main.bundleIdentifier!)
         do {
             return try keychain.getString(name)
         } catch {
@@ -82,11 +82,11 @@ class Utils {
     }
     
     static func addPasswordToKeychain(name: String, password: String?) {
-        let keychain = Keychain(service: "me.mssun.passforios")
+        let keychain = Keychain(service: Bundle.main.bundleIdentifier!)
         keychain[name] = password
     }
     static func removeKeychain(name: String) {
-        let keychain = Keychain(service: "me.mssun.passforios")
+        let keychain = Keychain(service: Bundle.main.bundleIdentifier!)
         do {
             try keychain.remove(name)
         } catch {
@@ -94,7 +94,7 @@ class Utils {
         }
     }
     static func removeAllKeychain() {
-        let keychain = Keychain(service: "me.mssun.passforios")
+        let keychain = Keychain(service: Bundle.main.bundleIdentifier!)
         do {
             try keychain.removeAll()
         } catch {
