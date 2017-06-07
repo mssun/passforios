@@ -96,57 +96,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func saveGitServerSetting(segue: UIStoryboardSegue) {
-        if let controller = segue.source as? GitServerSettingTableViewController {
-            let gitRepostiroyURL = controller.gitURLTextField.text!
-            let username = controller.usernameTextField.text!
-            let auth = controller.authenticationMethod
-            
-            SVProgressHUD.setDefaultMaskType(.black)
-            SVProgressHUD.setDefaultStyle(.light)
-            SVProgressHUD.show(withStatus: "Prepare Repository")
-            var gitCredential: GitCredential
-            if auth == "Password" {
-                gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, controller: self))
-            } else {
-                gitCredential = GitCredential(
-                    credential: GitCredential.Credential.ssh(
-                        userName: username,
-                        privateKeyFile: Globals.gitSSHPrivateKeyURL,
-                        controller: self
-                    )
-                )
-            }
-            let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
-            dispatchQueue.async {
-                do {
-                    try self.passwordStore.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
-                                                             credential: gitCredential,
-                                                             transferProgressBlock:{ (git_transfer_progress, stop) in
-                                                                DispatchQueue.main.async {
-                                                                    SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Clone Remote Repository")
-                                                                }
-                    },
-                                                             checkoutProgressBlock: { (path, completedSteps, totalSteps) in
-                                                                DispatchQueue.main.async {
-                                                                    SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "Checkout Master Branch")
-                                                                }
-                    })
-                    DispatchQueue.main.async {
-                        Defaults[.gitURL] = URL(string: gitRepostiroyURL)
-                        Defaults[.gitUsername] = username
-                        Defaults[.gitAuthenticationMethod] = auth
-                        self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitURL]?.host
-                        SVProgressHUD.showSuccess(withStatus: "Done")
-                        SVProgressHUD.dismiss(withDelay: 1)
-                    }
-                } catch {
-                    DispatchQueue.main.async {
-                        Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
-                    }
-                }
-                
-            }
-        }
+        self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitURL]?.host
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

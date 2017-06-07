@@ -73,15 +73,56 @@ class GitServerSettingTableViewController: UITableViewController {
         view.endEditing(true)
     }
     
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if identifier == "saveGitServerSettingSegue" {
-            guard let _ = URL(string: gitURLTextField.text!) else {
-                Utils.alert(title: "Cannot Save", message: "Git Server is not set.", controller: self, completion: nil)
-                return false
-            }
+    private func cloneAndSegueIfSuccess() {
+        // try to clone
+        let gitRepostiroyURL = gitURLTextField.text!
+        let username = usernameTextField.text!
+        let auth = authenticationMethod
+        
+        SVProgressHUD.setDefaultMaskType(.black)
+        SVProgressHUD.setDefaultStyle(.light)
+        SVProgressHUD.show(withStatus: "Prepare Repository")
+        var gitCredential: GitCredential
+        if auth == "Password" {
+            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, controller: self))
+        } else {
+            gitCredential = GitCredential(
+                credential: GitCredential.Credential.ssh(
+                    userName: username,
+                    privateKeyFile: Globals.gitSSHPrivateKeyURL,
+                    controller: self
+                )
+            )
         }
-        return true
-    }
+        let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
+        dispatchQueue.async {
+            do {
+                try self.passwordStore.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
+                                                       credential: gitCredential,
+                                                       transferProgressBlock: { (git_transfer_progress, stop) in
+                                                        DispatchQueue.main.async {
+                                                            SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Clone Remote Repository")
+                                                        }
+                },
+                                                       checkoutProgressBlock: { (path, completedSteps, totalSteps) in
+                                                        DispatchQueue.main.async {
+                                                            SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "Checkout Master Branch")
+                                                        }
+                })
+                DispatchQueue.main.async {
+                    Defaults[.gitURL] = URL(string: gitRepostiroyURL)
+                    Defaults[.gitUsername] = username
+                    Defaults[.gitAuthenticationMethod] = auth
+                    SVProgressHUD.showSuccess(withStatus: "Done")
+                    SVProgressHUD.dismiss(withDelay: 1)
+                    self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                }
+            }
+        }    }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
@@ -100,22 +141,23 @@ class GitServerSettingTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    private func doClone() {
-        if self.shouldPerformSegue(withIdentifier: "saveGitServerSettingSegue", sender: self) {
-            self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
-        }
-    }
-    
     @IBAction func save(_ sender: Any) {
+        guard let _ = URL(string: gitURLTextField.text!) else {
+            Utils.alert(title: "Cannot Save", message: "Git Server is not set.", controller: self, completion: nil)
+            return
+        }
+        
         if passwordStore.repositoryExisted() {
             let alert = UIAlertController(title: "Erase Current Password Store Data?", message: "A cloned password store exists. This operation will erase all local data. Data on your remote server will not be affected.", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Erase", style: UIAlertActionStyle.destructive, handler: { _ in
-                self.doClone()
+                // perform segue only after a successful clone
+                self.cloneAndSegueIfSuccess()
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
         } else {
-            doClone()
+            // perform segue only after a successful clone
+            cloneAndSegueIfSuccess()
         }
     }
  
