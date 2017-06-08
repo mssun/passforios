@@ -24,19 +24,6 @@ class PGPKeySettingTableViewController: UITableViewController {
         pgpPassphrase = passwordStore.pgpKeyPassphrase
     }
     
-    private func createSavePassphraseAndSegueAlert() -> UIAlertController {
-        let savePassphraseAlert = UIAlertController(title: "Passphrase", message: "Do you want to save the passphrase for later decryption?", preferredStyle: UIAlertControllerStyle.alert)
-        savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
-            Defaults[.isRememberPassphraseOn] = false
-            self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
-        })
-        savePassphraseAlert.addAction(UIAlertAction(title: "Save", style: UIAlertActionStyle.destructive) {_ in
-            Defaults[.isRememberPassphraseOn] = true
-            self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
-        })
-        return savePassphraseAlert
-    }
-    
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "savePGPKeySegue" {
             guard validatePGPKeyURL(input: pgpPublicKeyURLTextField.text) == true,
@@ -60,16 +47,28 @@ class PGPKeySettingTableViewController: UITableViewController {
     }
     
     @IBAction func save(_ sender: Any) {
-        let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
-            self.pgpPassphrase = alert.textFields?.first?.text
-            let savePassphraseAndSegueAlert = self.createSavePassphraseAndSegueAlert()
-            self.present(savePassphraseAndSegueAlert, animated: true, completion: nil)
-        }))
-        alert.addTextField(configurationHandler: {(textField: UITextField!) in
-            textField.text = self.pgpPassphrase
-            textField.isSecureTextEntry = true
+        let savePassphraseAlert = UIAlertController(title: "Passphrase", message: "Do you want to save the passphrase for later decryption?", preferredStyle: UIAlertControllerStyle.alert)
+        // no
+        savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
+            self.pgpPassphrase = nil
+            Defaults[.isRememberPassphraseOn] = false
+            self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
         })
-        self.present(alert, animated: true, completion: nil)
+        // yes
+        savePassphraseAlert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.destructive) {_ in
+            // ask for the passphrase
+            let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+                self.pgpPassphrase = alert.textFields?.first?.text
+                Defaults[.isRememberPassphraseOn] = true
+                self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
+            }))
+            alert.addTextField(configurationHandler: {(textField: UITextField!) in
+                textField.text = self.pgpPassphrase
+                textField.isSecureTextEntry = true
+            })
+            self.present(alert, animated: true, completion: nil)
+        })
+        self.present(savePassphraseAlert, animated: true, completion: nil)
     }
 }

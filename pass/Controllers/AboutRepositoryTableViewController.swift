@@ -51,8 +51,15 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
             
             let numberOfPasswordsString = numberFormatter.string(from: NSNumber(value: self.passwordStore.numberOfPasswords))!
             let sizeOfRepositoryString = ByteCountFormatter.string(fromByteCount: Int64(self.passwordStore.sizeOfRepositoryByteCount), countStyle: ByteCountFormatter.CountStyle.file)
+            var numberOfCommits: UInt = 0
             
-            let numberOfCommits = self.passwordStore.storeRepository?.numberOfCommits(inCurrentBranch: NSErrorPointer(nilLiteral: ())) ?? 0
+            do {
+                if let _ = try self.passwordStore.storeRepository?.currentBranch().oid {
+                    numberOfCommits = self.passwordStore.storeRepository?.numberOfCommits(inCurrentBranch: NSErrorPointer(nilLiteral: ())) ?? 0
+                }
+            } catch {
+                print(error)
+            }
             let numberOfCommitsString = numberFormatter.string(from: NSNumber(value: numberOfCommits))!
             
             DispatchQueue.main.async { [weak self] in

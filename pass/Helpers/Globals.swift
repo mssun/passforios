@@ -15,15 +15,13 @@ class Globals {
     static let pgpPublicKeyPath = "\(documentPath)/gpg_key.pub"
     static let pgpPrivateKeyPath = "\(documentPath)/gpg_key"
 
-    static let gitSSHPublicKeyPath = "\(documentPath)/ssh_key.pub"
     static let gitSSHPrivateKeyPath = "\(documentPath)/ssh_key"
-    static let gitSSHPublicKeyURL = URL(fileURLWithPath: gitSSHPublicKeyPath)
     static let gitSSHPrivateKeyURL = URL(fileURLWithPath: gitSSHPrivateKeyPath)
     
     static let repositoryPath = "\(libraryPath)/password-store"
     static var passcodeConfiguration = PasscodeLockConfiguration()
     
-    static let passwordDefaultLength = ["Random": (min: 6, max: 24, def: 16),
+    static let passwordDefaultLength = ["Random": (min: 4, max: 64, def: 16),
                                         "Apple":  (min: 15, max: 15, def: 15)]
     
     static let gitSignatureDefaultName = "Pass for iOS"

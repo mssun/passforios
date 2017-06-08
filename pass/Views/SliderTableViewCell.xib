@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16F43c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16G8c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,37 +20,37 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="MwT-Jl-hhE">
-                        <rect key="frame" x="60.5" y="22.5" width="198.5" height="31"/>
+                        <rect key="frame" x="53.5" y="22.5" width="212.5" height="31"/>
                         <connections>
                             <action selector="handleSliderValueChange:" destination="KGk-i7-Jjw" eventType="valueChanged" id="WwM-ZE-yIB"/>
                         </connections>
                     </slider>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="88" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GJP-Fj-VZt" userLabel="Value">
-                        <rect key="frame" x="274" y="11" width="24" height="52"/>
+                        <rect key="frame" x="278" y="11" width="20" height="52"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="24" id="tOG-yp-eFw"/>
+                            <constraint firstAttribute="width" constant="20" id="tOG-yp-eFw"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t7T-HC-hUd" userLabel="Title">
-                        <rect key="frame" x="15" y="11" width="30" height="52"/>
+                        <rect key="frame" x="15" y="11" width="26.5" height="52"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="38" id="8Tz-Qo-Mkg"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="MwT-Jl-hhE" firstAttribute="leading" secondItem="t7T-HC-hUd" secondAttribute="trailing" constant="17" id="Cc9-kV-nZf"/>
+                    <constraint firstItem="MwT-Jl-hhE" firstAttribute="leading" secondItem="t7T-HC-hUd" secondAttribute="trailing" constant="14" id="Cc9-kV-nZf"/>
                     <constraint firstItem="t7T-HC-hUd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Kje-Zj-RaX"/>
                     <constraint firstAttribute="trailingMargin" secondItem="GJP-Fj-VZt" secondAttribute="trailing" constant="7" id="LjD-JH-dRT"/>
                     <constraint firstItem="MwT-Jl-hhE" firstAttribute="centerY" secondItem="t7T-HC-hUd" secondAttribute="centerY" id="MHN-Vl-1le"/>
                     <constraint firstAttribute="bottomMargin" secondItem="GJP-Fj-VZt" secondAttribute="bottom" id="NmC-sS-9Yt"/>
-                    <constraint firstItem="GJP-Fj-VZt" firstAttribute="leading" secondItem="MwT-Jl-hhE" secondAttribute="trailing" constant="17" id="VAG-Y2-0Lu"/>
+                    <constraint firstItem="GJP-Fj-VZt" firstAttribute="leading" secondItem="MwT-Jl-hhE" secondAttribute="trailing" constant="14" id="VAG-Y2-0Lu"/>
                     <constraint firstAttribute="bottomMargin" secondItem="t7T-HC-hUd" secondAttribute="bottom" id="mng-Ic-Ciy"/>
                     <constraint firstItem="GJP-Fj-VZt" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="oYC-wl-Lyg"/>
                     <constraint firstItem="t7T-HC-hUd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="vhu-L7-r5I"/>

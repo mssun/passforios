@@ -64,37 +64,15 @@ class Utils {
         return randomString
     }
     
-    static func alert(title: String, message: String, controller: UIViewController, completion: (() -> Void)?) {
+    static func alert(title: String, message: String, controller: UIViewController, handler: ((UIAlertAction) -> Void)? = nil, completion: (() -> Void)? = nil) {
         SVProgressHUD.dismiss()
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: handler))
         controller.present(alert, animated: true, completion: completion)
-
-    }
-    
-    static func removePGPKeys() {
-        removeFileIfExists(atPath: Globals.pgpPublicKeyPath)
-        removeFileIfExists(atPath: Globals.pgpPrivateKeyPath)
-        Defaults.remove(.pgpKeySource)
-        Defaults.remove(.pgpPublicKeyArmor)
-        Defaults.remove(.pgpPrivateKeyArmor)
-        Defaults.remove(.pgpPrivateKeyURL)
-        Defaults.remove(.pgpPublicKeyURL)
-        Utils.removeKeychain(name: ".pgpKeyPassphrase")
-    }
-    
-    static func removeGitSSHKeys() {
-        removeFileIfExists(atPath: Globals.gitSSHPublicKeyPath)
-        removeFileIfExists(atPath: Globals.gitSSHPrivateKeyPath)
-        Defaults.remove(.gitSSHPublicKeyArmor)
-        Defaults.remove(.gitSSHPrivateKeyArmor)
-        Defaults.remove(.gitSSHPublicKeyURL)
-        Defaults.remove(.gitSSHPrivateKeyURL)
-        Utils.removeKeychain(name: ".gitSSHPrivateKeyPassphrase")
     }
     
     static func getPasswordFromKeychain(name: String) -> String? {
-        let keychain = Keychain(service: "me.mssun.passforios")
+        let keychain = Keychain(service: Bundle.main.bundleIdentifier!)
         do {
             return try keychain.getString(name)
         } catch {
@@ -104,11 +82,11 @@ class Utils {
     }
     
     static func addPasswordToKeychain(name: String, password: String?) {
-        let keychain = Keychain(service: "me.mssun.passforios")
+        let keychain = Keychain(service: Bundle.main.bundleIdentifier!)
         keychain[name] = password
     }
     static func removeKeychain(name: String) {
-        let keychain = Keychain(service: "me.mssun.passforios")
+        let keychain = Keychain(service: Bundle.main.bundleIdentifier!)
         do {
             try keychain.remove(name)
         } catch {
@@ -116,7 +94,7 @@ class Utils {
         }
     }
     static func removeAllKeychain() {
-        let keychain = Keychain(service: "me.mssun.passforios")
+        let keychain = Keychain(service: Bundle.main.bundleIdentifier!)
         do {
             try keychain.removeAll()
         } catch {

@@ -145,7 +145,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             gitCredential = GitCredential(
                 credential: GitCredential.Credential.ssh(
                     userName: Defaults[.gitUsername]!,
-                    publicKeyFile: Globals.gitSSHPublicKeyURL,
                     privateKeyFile: Globals.gitSSHPrivateKeyURL,
                     controller: self
                 )
@@ -535,7 +534,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             self.tapTabBarTime = currentTime
             if duration < 0.35 {
                 let topIndexPath = IndexPath(row: 0, section: 0)
-                tableView.scrollToRow(at: topIndexPath, at: .bottom, animated: true)
+                if let _ = tableView.cellForRow(at: topIndexPath) {
+                    tableView.scrollToRow(at: topIndexPath, at: .bottom, animated: true)
+                }
                 self.tapTabBarTime = 0
                 return
             }

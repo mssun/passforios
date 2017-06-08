@@ -17,7 +17,7 @@ struct GitCredential {
     
     enum Credential {
         case http(userName: String, controller: UIViewController)
-        case ssh(userName: String, publicKeyFile: URL, privateKeyFile: URL, controller: UIViewController)
+        case ssh(userName: String, privateKeyFile: URL, controller: UIViewController)
     }
     
     init(credential: Credential) {
@@ -44,7 +44,7 @@ struct GitCredential {
                 attempts += 1
                 lastPassword = newPassword
                 credential = try? GTCredential(userName: userName, password: newPassword!)
-            case let .ssh(userName, publicKeyFile, privateKeyFile, controller):
+            case let .ssh(userName, privateKeyFile, controller):
                 var newPassword = Utils.getPasswordFromKeychain(name: "gitSSHKeyPassphrase")
                 if newPassword == nil || attempts != 0  {
                     if let requestedPassword = self.requestGitPassword(controller, lastPassword) {
@@ -56,7 +56,8 @@ struct GitCredential {
                 }
                 attempts += 1
                 lastPassword = newPassword
-                credential = try? GTCredential(userName: userName, publicKeyURL: publicKeyFile, privateKeyURL: privateKeyFile, passphrase: newPassword!)
+                credential = try? GTCredential(userName: userName, publicKeyURL: nil, privateKeyURL: privateKeyFile, passphrase: newPassword!)
+                print(privateKeyFile)
             }
             return credential
         }

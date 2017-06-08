@@ -11,6 +11,7 @@ import SVProgressHUD
 import CoreData
 import SwiftyUserDefaults
 import PasscodeLock
+import LocalAuthentication
 
 class SettingsTableViewController: UITableViewController {
     
@@ -91,64 +92,49 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
-    @IBAction func cancelGitServerSetting(segue: UIStoryboardSegue) {
-    }
-    
-    @IBAction func saveGitServerSetting(segue: UIStoryboardSegue) {
-        if let controller = segue.source as? GitServerSettingTableViewController {
-            let gitRepostiroyURL = controller.gitURLTextField.text!
-            let username = controller.usernameTextField.text!
-            let auth = controller.authenticationMethod
-            
-            SVProgressHUD.setDefaultMaskType(.black)
-            SVProgressHUD.setDefaultStyle(.light)
-            SVProgressHUD.show(withStatus: "Prepare Repository")
-            var gitCredential: GitCredential
-            if auth == "Password" {
-                gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, controller: self))
-            } else {
-                gitCredential = GitCredential(
-                    credential: GitCredential.Credential.ssh(
-                        userName: username,
-                        publicKeyFile: Globals.gitSSHPublicKeyURL,
-                        privateKeyFile: Globals.gitSSHPrivateKeyURL,
-                        controller: self
-                    )
-                )
-            }
-            let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
-            dispatchQueue.async {
-                do {
-                    try self.passwordStore.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
-                                                             credential: gitCredential,
-                                                             transferProgressBlock:{ (git_transfer_progress, stop) in
-                                                                DispatchQueue.main.async {
-                                                                    SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Clone Remote Repository")
-                                                                }
-                    },
-                                                             checkoutProgressBlock: { (path, completedSteps, totalSteps) in
-                                                                DispatchQueue.main.async {
-                                                                    SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "Checkout Master Branch")
-                                                                }
-                    })
-                    DispatchQueue.main.async {
-                        Defaults[.gitURL] = URL(string: gitRepostiroyURL)
-                        Defaults[.gitUsername] = username
-                        Defaults[.gitAuthenticationMethod] = auth
-                        self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitURL]?.host
-                        SVProgressHUD.showSuccess(withStatus: "Done")
-                        SVProgressHUD.dismiss(withDelay: 1)
-                    }
-                } catch {
-                    DispatchQueue.main.async {
-                        Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
-                    }
+    private func saveImportedPGPKey() {
+        // load keys
+        Defaults[.pgpKeySource] = "file"
+        
+        SVProgressHUD.setDefaultMaskType(.black)
+        SVProgressHUD.setDefaultStyle(.light)
+        SVProgressHUD.show(withStatus: "Fetching PGP Key")
+        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+            do {
+                try self.passwordStore.initPGPKeys()
+                DispatchQueue.main.async {
+                    self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
+                    SVProgressHUD.showSuccess(withStatus: "Success")
+                    SVProgressHUD.dismiss(withDelay: 1)
                 }
-                
+            } catch {
+                DispatchQueue.main.async {
+                    self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
+                    Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                }
             }
         }
     }
     
+    @IBAction func cancelGitServerSetting(segue: UIStoryboardSegue) {
+    }
+    
+    @IBAction func saveGitServerSetting(segue: UIStoryboardSegue) {
+        self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitURL]?.host
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // Security section, hide TouchID if the device doesn't support
+        if section == 1 {
+            if hasTouchID() {
+                return 2
+            } else {
+                return 1
+            }
+        }
+        return super.tableView(tableView, numberOfRowsInSection: section)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.actOnPasswordStoreErasedNotification), name: .passwordStoreErased, object: nil)
@@ -157,6 +143,28 @@ class SettingsTableViewController: UITableViewController {
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()
         setPasscodeLockTouchIDCells()
+    }
+    
+    private func hasTouchID() -> Bool {
+        let context = LAContext()
+        var error: NSError?
+        if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            return true
+        } else {
+            switch error!.code {
+            case LAError.Code.touchIDNotEnrolled.rawValue:
+                return true
+            case LAError.Code.passcodeNotSet.rawValue:
+                return true
+            default:
+                return false
+            }
+        }
+    }
+    
+    private func isTouchIDEnabled() -> Bool {
+        let context = LAContext()
+        return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
     }
     
     private func setPasscodeLockTouchIDCells() {
@@ -210,32 +218,25 @@ class SettingsTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     func touchIDSwitchAction(uiSwitch: UISwitch) {
-        if !Globals.passcodeConfiguration.isTouchIDAllowed {
+        if !Globals.passcodeConfiguration.isTouchIDAllowed || !isTouchIDEnabled() {
             // switch off
-            uiSwitch.isOn = Defaults[.isTouchIDOn]  // false
-            Utils.alert(title: "Notice", message: "Please set the passcode lock first.", controller: self, completion: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+                uiSwitch.isOn = Defaults[.isTouchIDOn]  // false
+                Utils.alert(title: "Notice", message: "Please enable Touch ID and set the passcode lock first.", controller: self, completion: nil)
+            }
         } else {
             Defaults[.isTouchIDOn] = uiSwitch.isOn
         }
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: Globals.passcodeConfiguration)
     }
-
-    func pgpKeyExists() -> Bool {
-        return FileManager.default.fileExists(atPath: Globals.pgpPublicKeyPath) &&
-        FileManager.default.fileExists(atPath: Globals.pgpPrivateKeyPath)
-    }
     
     func showPGPKeyActionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var urlActionTitle = "Download from URL"
         var armorActionTitle = "ASCII-Armor Encrypted Key"
-        var fileActionTitle = "Use Uploaded Keys"
+        var fileActionTitle = "Use Imported Keys"
         
         if Defaults[.pgpKeySource] == "url" {
            urlActionTitle = "✓ \(urlActionTitle)"
@@ -254,63 +255,47 @@ class SettingsTableViewController: UITableViewController {
         optionMenu.addAction(urlAction)
         optionMenu.addAction(armorAction)
 
-        if (pgpKeyExists()) {
+        if passwordStore.pgpKeyExists() {
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
-
-                SVProgressHUD.setDefaultMaskType(.black)
-                SVProgressHUD.setDefaultStyle(.light)
-                SVProgressHUD.show(withStatus: "Reading PGP key")
-
-                let alert = UIAlertController(
-                    title: "PGP Passphrase",
-                    message: "Please fill in the passphrase for your PGP key.",
-                    preferredStyle: UIAlertControllerStyle.alert
-                )
-
-                alert.addAction(
-                    UIAlertAction(
-                        title: "OK",
-                        style: UIAlertActionStyle.default,
-                        handler: {_ in
-                            Utils.addPasswordToKeychain(
-                                name: "pgpKeyPassphrase",
-                                password: alert.textFields!.first!.text!
-                            )
-                        }
-                    )
-                )
-
-                alert.addTextField(
-                   configurationHandler: {(textField: UITextField!) in
-                            textField.text = Utils.getPasswordFromKeychain(name: "pgpKeyPassphrase") ?? ""
-                            textField.isSecureTextEntry = true
-                    }
-                )
-
-
-                DispatchQueue.main.async {
-                    self.passwordStore.initPGPKeys()
-
-                    let key: PGPKey = self.passwordStore.getPgpPrivateKey()
-                    Defaults[.pgpKeySource] = "file"
-
-                    if (key.isEncrypted) {
-                        SVProgressHUD.dismiss()
-                        self.present(alert, animated: true, completion: nil)
-                    }
-
-                    SVProgressHUD.dismiss()
-                    self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
-                }
-
+                // passphrase related
+                let savePassphraseAlert = UIAlertController(title: "Passphrase", message: "Do you want to save the passphrase for later decryption?", preferredStyle: UIAlertControllerStyle.alert)
+                // no
+                savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
+                    self.passwordStore.pgpKeyPassphrase = nil
+                    Defaults[.isRememberPassphraseOn] = false
+                    self.saveImportedPGPKey()
+                })
+                // yes
+                savePassphraseAlert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.destructive) {_ in
+                    // ask for the passphrase
+                    let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+                        self.passwordStore.pgpKeyPassphrase = alert.textFields?.first?.text
+                        Defaults[.isRememberPassphraseOn] = true
+                        self.saveImportedPGPKey()
+                    }))
+                    alert.addTextField(configurationHandler: {(textField: UITextField!) in
+                        textField.text = ""
+                        textField.isSecureTextEntry = true
+                    })
+                    self.present(alert, animated: true, completion: nil)
+                })
+                self.present(savePassphraseAlert, animated: true, completion: nil)
             }
-
+            optionMenu.addAction(fileAction)
+        } else {
+            let fileAction = UIAlertAction(title: "iTunes File Sharing", style: .default) { _ in
+                let title = "Import via iTunes File Sharing"
+                let message = "Copy your public and private key from your computer to Pass for iOS with the name \"gpg_key.pub\" and \"gpg_key\" (without quotes)."
+                Utils.alert(title: title, message: message, controller: self)
+            }
             optionMenu.addAction(fileAction)
         }
         
+        
         if Defaults[.pgpKeySource] != nil {
             let deleteAction = UIAlertAction(title: "Remove PGP Keys", style: .destructive) { _ in
-                Utils.removePGPKeys()
+                self.passwordStore.removePGPKeys()
                 self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
             }
             optionMenu.addAction(deleteAction)

@@ -39,7 +39,7 @@ class PasswordStore {
         }
     }
     
-    let pgp: ObjectivePGP = ObjectivePGP()
+    var pgp: ObjectivePGP = ObjectivePGP()
     
     var pgpKeyPassphrase: String? {
         set {
@@ -93,10 +93,10 @@ class PasswordStore {
             if FileManager.default.fileExists(atPath: storeURL.path) {
                 try storeRepository = GTRepository.init(url: storeURL)
             }
+            try initPGPKeys()
         } catch {
             print(error)
         }
-        initPGPKeys()
     }
     
     enum SSHKeyType {
@@ -104,24 +104,16 @@ class PasswordStore {
     }
     
     public func initGitSSHKey(with armorKey: String, _ keyType: SSHKeyType) throws {
-        var keyPath = ""
-        switch keyType {
-        case .public:
-            keyPath = Globals.gitSSHPublicKeyPath
-        case .secret:
-            keyPath = Globals.gitSSHPrivateKeyPath
+        guard keyType == .secret else {
+            return
         }
-        
+        let keyPath = Globals.gitSSHPrivateKeyPath
         try armorKey.write(toFile: keyPath, atomically: true, encoding: .ascii)
     }
     
-    public func initPGPKeys() {
-        do {
-            try initPGPKey(.public)
-            try initPGPKey(.secret)
-        } catch {
-            print(error)
-        }
+    public func initPGPKeys() throws {
+        try initPGPKey(.public)
+        try initPGPKey(.secret)
     }
     
     public func initPGPKey(_ keyType: PGPKeyType) throws {
@@ -143,7 +135,7 @@ class PasswordStore {
         }
     }
     
-    public func initPGPKey(from url: URL, keyType: PGPKeyType) throws{
+    public func initPGPKey(from url: URL, keyType: PGPKeyType) throws {
         var pgpKeyLocalPath = ""
         if keyType == .public {
             pgpKeyLocalPath = Globals.pgpPublicKeyPath
@@ -692,7 +684,6 @@ class PasswordStore {
 
         Utils.removeFileIfExists(atPath: Globals.pgpPublicKeyPath)
         Utils.removeFileIfExists(atPath: Globals.pgpPrivateKeyPath)
-        Utils.removeFileIfExists(atPath: Globals.gitSSHPublicKeyPath)
         Utils.removeFileIfExists(atPath: Globals.gitSSHPrivateKeyPath)
         
         Utils.removeAllKeychain()
@@ -786,5 +777,38 @@ class PasswordStore {
         let plainData = password.getPlainData()
         let encryptedData = try pgp.encryptData(plainData, usingPublicKey: publicKey, armored: Defaults[.encryptInArmored])
         return encryptedData
+    }
+    
+    
+    
+    func removePGPKeys() {
+        Utils.removeFileIfExists(atPath: Globals.pgpPublicKeyPath)
+        Utils.removeFileIfExists(atPath: Globals.pgpPrivateKeyPath)
+        Defaults.remove(.pgpKeySource)
+        Defaults.remove(.pgpPublicKeyArmor)
+        Defaults.remove(.pgpPrivateKeyArmor)
+        Defaults.remove(.pgpPrivateKeyURL)
+        Defaults.remove(.pgpPublicKeyURL)
+        Utils.removeKeychain(name: ".pgpKeyPassphrase")
+        pgp = ObjectivePGP()
+        publicKey = nil
+        privateKey = nil
+    }
+    
+    func removeGitSSHKeys() {
+        Utils.removeFileIfExists(atPath: Globals.gitSSHPrivateKeyPath)
+        Defaults.remove(.gitSSHPrivateKeyArmor)
+        Defaults.remove(.gitSSHPrivateKeyURL)
+        Utils.removeKeychain(name: ".gitSSHPrivateKeyPassphrase")
+    }
+    
+    func gitSSHKeyExists() -> Bool {
+        let fm = FileManager.default
+        return fm.fileExists(atPath: Globals.gitSSHPrivateKeyPath)
+    }
+    
+    func pgpKeyExists() -> Bool {
+        let fm = FileManager.default
+        return fm.fileExists(atPath: Globals.pgpPublicKeyPath) && fm.fileExists(atPath: Globals.pgpPrivateKeyPath)
     }
 }

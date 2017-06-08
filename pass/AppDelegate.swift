@@ -29,7 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SVProgressHUD.setMinimumSize(CGSize(width: 150, height: 100))
         passcodeLockPresenter.present()
         if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
-            if shortcutItem.type == "me.mssun.passforios.search" {
+            var searchType = Bundle.main.bundleIdentifier!
+            searchType.append("search")
+            if shortcutItem.type == searchType {
                 self.perform(#selector(postSearchNotification), with: nil, afterDelay: 0.4)
             }
         }
@@ -42,7 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
-        if shortcutItem.type == "me.mssun.passforios.search" {
+        var searchType = Bundle.main.bundleIdentifier!
+        searchType.append("search")
+        if shortcutItem.type == searchType {
             let tabBarController = self.window!.rootViewController as! UITabBarController
             tabBarController.selectedIndex = 0
             let navigationController = tabBarController.selectedViewController as! UINavigationController

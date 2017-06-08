@@ -7,17 +7,21 @@
 //
 
 import UIKit
+import SwiftyUserDefaults
 
 class EditPasswordTableViewController: PasswordEditorTableViewController {
     override func viewDidLoad() {
         tableData = [
             [[.type: PasswordEditorCellType.nameCell, .title: "name", .content: password!.namePath]],
-            [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password", .content: password!.password],
-             [.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"]],
+            [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password", .content: password!.password]],
             [[.type: PasswordEditorCellType.additionsCell, .title: "additions", .content: password!.getAdditionsPlainText()]],
             [[.type: PasswordEditorCellType.scanQRCodeCell],
              [.type: PasswordEditorCellType.deletePasswordCell]]
         ]
+        if let lengthSetting = Globals.passwordDefaultLength[Defaults[.passwordGeneratorFlavor]],
+            lengthSetting.max > lengthSetting.min {
+            tableData[1].append([.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"])
+        }
         super.viewDidLoad()
     }
     
