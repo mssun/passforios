@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         passcodeLockPresenter.present()
         if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
             var searchType = Bundle.main.bundleIdentifier!
-            searchType.append("search")
+            searchType.append(".search")
             if shortcutItem.type == searchType {
                 self.perform(#selector(postSearchNotification), with: nil, afterDelay: 0.4)
             }
@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
         var searchType = Bundle.main.bundleIdentifier!
-        searchType.append("search")
+        searchType.append(".search")
         if shortcutItem.type == searchType {
             let tabBarController = self.window!.rootViewController as! UITabBarController
             tabBarController.selectedIndex = 0
