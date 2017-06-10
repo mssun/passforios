@@ -10,6 +10,7 @@
 		94BA784B85E071D25EE89B59 /* libPods-pass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADCE7A5C3CCC67D7D21BB3C4 /* libPods-pass.a */; };
 		A217ACE21E9AB17C00A1A6CF /* OTPScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */; };
 		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */; };
+		A26075721EEC6B8D005DB03E /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */; };
 		A262A58D1E68749C006B0890 /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A262A58C1E68749C006B0890 /* Base32.framework */; };
 		A26700271EEC466A00176B8A /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26700261EEC466A00176B8A /* ActionViewController.swift */; };
 		A267002A1EEC466A00176B8A /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A26700281EEC466A00176B8A /* MainInterface.storyboard */; };
@@ -198,6 +199,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A26075721EEC6B8D005DB03E /* SwiftyUserDefaults.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -738,6 +740,10 @@
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = passextension/passextension.entitlements;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = passextension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -755,6 +761,10 @@
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = passextension/passextension.entitlements;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = passextension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";

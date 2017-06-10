@@ -68,14 +68,40 @@ class PasswordStore {
         }
     }
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let fm = FileManager.default
+    lazy var context: NSManagedObjectContext = {
+        /*
+         The persistent container for the application. This implementation
+         creates and returns a container, having loaded the store for the
+         application to it. This property is optional since there are legitimate
+         error conditions that could cause the creation of the store to fail.
+         */
+        let container = NSPersistentContainer(name: "pass")
+        let description = NSPersistentStoreDescription(url: Globals.sharedContainerURL)
+        container.loadPersistentStores(completionHandler: { (description, error) in
+            if let error = error as NSError? {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                
+                /*
+                 Typical reasons for an error here include:
+                 * The parent directory does not exist, cannot be created, or disallows writing.
+                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
+                 * The device is out of space.
+                 * The store could not be migrated to the current model version.
+                 Check the error message to determine what the actual problem was.
+                 */
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container.viewContext
+    }()
     
     var numberOfPasswords : Int {
         return self.fetchPasswordEntityCoreData(withDir: false).count 
     }
     
     var sizeOfRepositoryByteCount : UInt64 {
-        let fm = FileManager.default
         var size = UInt64(0)
         do {
             if fm.fileExists(atPath: self.storeURL.path) {
@@ -89,14 +115,31 @@ class PasswordStore {
 
     
     private init() {
+        // File migration to group
+        migration()
+        
         do {
-            if FileManager.default.fileExists(atPath: storeURL.path) {
+            if fm.fileExists(atPath: storeURL.path) {
                 try storeRepository = GTRepository.init(url: storeURL)
             }
             try initPGPKeys()
         } catch {
             print(error)
         }
+    }
+    
+    private func migration() {
+        let needMigration = fm.fileExists(atPath: Globals.documentPathLegacy) && !fm.fileExists(atPath: Globals.documentPath) && fm.fileExists(atPath: Globals.libraryPathLegacy) && !fm.fileExists(atPath: Globals.libraryPath)
+        guard needMigration == true else {
+            return
+        }
+        do {
+            try fm.copyItem(atPath: Globals.documentPathLegacy, toPath: Globals.documentPath)
+            try fm.copyItem(atPath: Globals.libraryPathLegacy, toPath: Globals.libraryPath)
+        } catch {
+            print("Cannot migrate: \(error)")
+        }
+        updatePasswordEntityCoreData()
     }
     
     enum SSHKeyType {
@@ -160,7 +203,6 @@ class PasswordStore {
     
     
     private func importKey(from keyPath: String) -> PGPKey? {
-        let fm = FileManager.default
         if fm.fileExists(atPath: keyPath) {
             if let keys = pgp.importKeys(fromFile: keyPath, allowDuplicates: false) as? [PGPKey] {
                 return keys.first
@@ -230,7 +272,6 @@ class PasswordStore {
             let credentialProvider = try credential.credentialProvider()
             let options = [GTRepositoryCloneOptionsCredentialProvider: credentialProvider]
             storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: tempStoreURL, options: options, transferProgressBlock:transferProgressBlock)
-            let fm = FileManager.default
             if fm.fileExists(atPath: storeURL.path) {
                 try fm.removeItem(at: storeURL)
             }
@@ -271,7 +312,6 @@ class PasswordStore {
     
     private func updatePasswordEntityCoreData() {
         deleteCoreData(entityName: "PasswordEntity")
-        let fm = FileManager.default
         do {
             var q = try fm.contentsOfDirectory(atPath: self.storeURL.path).filter{
                 !$0.hasPrefix(".")
@@ -443,8 +483,8 @@ class PasswordStore {
             throw AppError.RepositoryNotSetError
         }
         let url = storeURL.appendingPathComponent(path)
-        if FileManager.default.fileExists(atPath: url.path) {
-            try FileManager.default.removeItem(at: url)
+        if fm.fileExists(atPath: url.path) {
+            try fm.removeItem(at: url)
         }
         try storeRepository.index().removeFile(path)
         try storeRepository.index().write()
@@ -452,7 +492,6 @@ class PasswordStore {
     
     private func deleteDirectoryTree(at url: URL) throws {
         var tempURL = storeURL.appendingPathComponent(url.deletingLastPathComponent().path)
-        let fm = FileManager.default
         var count = try fm.contentsOfDirectory(atPath: tempURL.path).count
         while count == 0 {
             try fm.removeItem(at: tempURL)
@@ -463,13 +502,12 @@ class PasswordStore {
     
     private func createDirectoryTree(at url: URL) throws {
         let tempURL = storeURL.appendingPathComponent(url.deletingLastPathComponent().path)
-        try FileManager.default.createDirectory(at: tempURL, withIntermediateDirectories: true, attributes: nil)
+        try fm.createDirectory(at: tempURL, withIntermediateDirectories: true, attributes: nil)
     }
     
     private func gitMv(from: String, to: String) throws {
         let fromURL = storeURL.appendingPathComponent(from)
         let toURL = storeURL.appendingPathComponent(to)
-        let fm = FileManager.default
         guard fm.fileExists(atPath: fromURL.path) else {
             print("\(from) not exist")
             return
@@ -779,8 +817,6 @@ class PasswordStore {
         return encryptedData
     }
     
-    
-    
     func removePGPKeys() {
         Utils.removeFileIfExists(atPath: Globals.pgpPublicKeyPath)
         Utils.removeFileIfExists(atPath: Globals.pgpPrivateKeyPath)
@@ -803,12 +839,10 @@ class PasswordStore {
     }
     
     func gitSSHKeyExists() -> Bool {
-        let fm = FileManager.default
         return fm.fileExists(atPath: Globals.gitSSHPrivateKeyPath)
     }
     
     func pgpKeyExists() -> Bool {
-        let fm = FileManager.default
         return fm.fileExists(atPath: Globals.pgpPublicKeyPath) && fm.fileExists(atPath: Globals.pgpPrivateKeyPath)
     }
 }

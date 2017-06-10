@@ -10,15 +10,26 @@ import Foundation
 import UIKit
 
 class Globals {
-    static let documentPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
-    static let libraryPath = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0];
-    static let pgpPublicKeyPath = "\(documentPath)/gpg_key.pub"
-    static let pgpPrivateKeyPath = "\(documentPath)/gpg_key"
-
-    static let gitSSHPrivateKeyPath = "\(documentPath)/ssh_key"
-    static let gitSSHPrivateKeyURL = URL(fileURLWithPath: gitSSHPrivateKeyPath)
     
-    static let repositoryPath = "\(libraryPath)/password-store"
+    // Legacy paths (not shared)
+    static let documentPathLegacy = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
+    static let libraryPathLegacy = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0];
+    static let pgpPublicKeyPathLegacy = "\(documentPathLegacy)/gpg_key.pub"
+    static let pgpPrivateKeyPathLegacy = "\(documentPathLegacy)/gpg_key"
+    static let gitSSHPrivateKeyPathLegacy = "\(documentPathLegacy)/ssh_key"
+    static let gitSSHPrivateKeyURLLegacy = URL(fileURLWithPath: gitSSHPrivateKeyPathLegacy)
+    static let repositoryPathLegacy = "\(libraryPathLegacy)/password-store"
+    
+    static let groupIdentifier = "group." + Bundle.main.bundleIdentifier!
+    static let sharedContainerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupIdentifier)!
+    static let documentPath = sharedContainerURL.appendingPathComponent("Keys").path
+    static let libraryPath = sharedContainerURL.appendingPathComponent("Repository").path
+    static let pgpPublicKeyPath = documentPath + "/gpg_key.pub"
+    static let pgpPrivateKeyPath = documentPath + "/gpg_key"
+    static let gitSSHPrivateKeyPath = documentPath + "/ssh_key"
+    static let gitSSHPrivateKeyURL = URL(fileURLWithPath: gitSSHPrivateKeyPath)
+    static let repositoryPath = libraryPath + "/password-store"
+    
     static var passcodeConfiguration = PasscodeLockConfiguration()
     
     static let passwordDefaultLength = ["Random": (min: 4, max: 64, def: 16),

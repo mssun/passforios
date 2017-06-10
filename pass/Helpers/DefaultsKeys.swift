@@ -9,6 +9,8 @@
 import Foundation
 import SwiftyUserDefaults
 
+var Defaults = UserDefaults(suiteName: Globals.groupIdentifier)!
+
 extension DefaultsKeys {
     static let pgpKeySource = DefaultsKey<String?>("pgpKeySource")
     static let pgpPublicKeyURL = DefaultsKey<URL?>("pgpPublicKeyURL")
