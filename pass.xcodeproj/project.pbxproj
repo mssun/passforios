@@ -743,7 +743,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/build/Debug-iphoneos/Base32",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -777,7 +776,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/build/Debug-iphoneos/Base32",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
