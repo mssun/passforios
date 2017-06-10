@@ -11,6 +11,11 @@
 		A217ACE21E9AB17C00A1A6CF /* OTPScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */; };
 		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */; };
 		A262A58D1E68749C006B0890 /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A262A58C1E68749C006B0890 /* Base32.framework */; };
+		A26700271EEC466A00176B8A /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26700261EEC466A00176B8A /* ActionViewController.swift */; };
+		A267002A1EEC466A00176B8A /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A26700281EEC466A00176B8A /* MainInterface.storyboard */; };
+		A267002E1EEC466A00176B8A /* passextension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A26700241EEC466A00176B8A /* passextension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A26700361EEC475600176B8A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A26700341EEC475600176B8A /* Assets.xcassets */; };
+		A26700371EEC475600176B8A /* passProcessor.js in Resources */ = {isa = PBXBuildFile; fileRef = A26700351EEC475600176B8A /* passProcessor.js */; };
 		A27424D91E7C35960093F436 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27424D81E7C35960093F436 /* NotificationNames.swift */; };
 		A2802BF91E70813A00879216 /* SliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2802BF71E70813A00879216 /* SliderTableViewCell.swift */; };
 		A2802BFA1E70813A00879216 /* SliderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2802BF81E70813A00879216 /* SliderTableViewCell.xib */; };
@@ -75,6 +80,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A267002C1EEC466A00176B8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DC917BCB1E2E8231000FDF54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A26700231EEC466A00176B8A;
+			remoteInfo = passextension;
+		};
 		DC13B1531E8640810097803F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DC917BCB1E2E8231000FDF54 /* Project object */;
@@ -84,11 +96,33 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		A26700191EEC450100176B8A /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A267002E1EEC466A00176B8A /* passextension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		274CCFCF32444A2FF46BE7F4 /* Pods-pass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.debug.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.debug.xcconfig"; sourceTree = "<group>"; };
 		A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPScannerController.swift; sourceTree = "<group>"; };
 		A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = GitConfigSettingTableViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A262A58C1E68749C006B0890 /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Base32.framework; path = Carthage/Build/iOS/Base32.framework; sourceTree = "<group>"; };
+		A26700241EEC466A00176B8A /* passextension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = passextension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A26700261EEC466A00176B8A /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
+		A26700291EEC466A00176B8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		A267002B1EEC466A00176B8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A26700321EEC46C400176B8A /* pass.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = pass.entitlements; sourceTree = "<group>"; };
+		A26700331EEC46C900176B8A /* passextension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passextension.entitlements; sourceTree = "<group>"; };
+		A26700341EEC475600176B8A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A26700351EEC475600176B8A /* passProcessor.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = passProcessor.js; sourceTree = "<group>"; };
 		A27424D81E7C35960093F436 /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		A2802BF71E70813A00879216 /* SliderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderTableViewCell.swift; sourceTree = "<group>"; };
 		A2802BF81E70813A00879216 /* SliderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SliderTableViewCell.xib; sourceTree = "<group>"; };
@@ -144,7 +178,7 @@
 		DCC408C91E30BA1300F29B0E /* pass.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = pass.xcdatamodel; sourceTree = "<group>"; };
 		DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawPasswordViewController.swift; sourceTree = "<group>"; };
 		DCC441531E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitSSHKeyArmorSettingTableViewController.swift; sourceTree = "<group>"; };
-		DCD9AD121EB678500093499A /* GitCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GitCredential.swift; path = pass/Controllers/GitCredential.swift; sourceTree = SOURCE_ROOT; };
+		DCD9AD121EB678500093499A /* GitCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GitCredential.swift; path = pass/Models/GitCredential.swift; sourceTree = SOURCE_ROOT; };
 		DCD9AD141EB6829A0093499A /* AppError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelTableViewCell.xib; sourceTree = "<group>"; };
 		DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTitleTableViewCell.swift; sourceTree = "<group>"; };
@@ -160,6 +194,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A26700211EEC466A00176B8A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DC13B14B1E8640810097803F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -186,6 +227,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A26700251EEC466A00176B8A /* passextension */ = {
+			isa = PBXGroup;
+			children = (
+				A26700341EEC475600176B8A /* Assets.xcassets */,
+				A26700351EEC475600176B8A /* passProcessor.js */,
+				A26700331EEC46C900176B8A /* passextension.entitlements */,
+				A26700261EEC466A00176B8A /* ActionViewController.swift */,
+				A26700281EEC466A00176B8A /* MainInterface.storyboard */,
+				A267002B1EEC466A00176B8A /* Info.plist */,
+			);
+			path = passextension;
+			sourceTree = "<group>";
+		};
 		A51B01737D08DB47BB58F85A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -287,6 +341,7 @@
 			children = (
 				DC917BD51E2E8231000FDF54 /* pass */,
 				DC13B14F1E8640810097803F /* passTests */,
+				A26700251EEC466A00176B8A /* passextension */,
 				DC917BD41E2E8231000FDF54 /* Products */,
 				DC917BED1E2F38C4000FDF54 /* Frameworks */,
 				A51B01737D08DB47BB58F85A /* Pods */,
@@ -298,6 +353,7 @@
 			children = (
 				DC917BD31E2E8231000FDF54 /* pass.app */,
 				DC13B14E1E8640810097803F /* passTests.xctest */,
+				A26700241EEC466A00176B8A /* passextension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -305,6 +361,7 @@
 		DC917BD51E2E8231000FDF54 /* pass */ = {
 			isa = PBXGroup;
 			children = (
+				A26700321EEC46C400176B8A /* pass.entitlements */,
 				DC917BE21E2E8231000FDF54 /* Info.plist */,
 				DC917BD61E2E8231000FDF54 /* AppDelegate.swift */,
 				DCD9AD141EB6829A0093499A /* AppError.swift */,
@@ -339,6 +396,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A26700231EEC466A00176B8A /* passextension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A267002F1EEC466A00176B8A /* Build configuration list for PBXNativeTarget "passextension" */;
+			buildPhases = (
+				A26700201EEC466A00176B8A /* Sources */,
+				A26700211EEC466A00176B8A /* Frameworks */,
+				A26700221EEC466A00176B8A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = passextension;
+			productName = passextension;
+			productReference = A26700241EEC466A00176B8A /* passextension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		DC13B14D1E8640810097803F /* passTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DC13B1571E8640810097803F /* Build configuration list for PBXNativeTarget "passTests" */;
@@ -368,10 +442,12 @@
 				DC917BEC1E2F3659000FDF54 /* Run Script */,
 				58F20B5DB8A41D610AF2145E /* [CP] Embed Pods Frameworks */,
 				D5AA0953A6BB441CE2390DE3 /* [CP] Copy Pods Resources */,
+				A26700191EEC450100176B8A /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A267002D1EEC466A00176B8A /* PBXTargetDependency */,
 			);
 			name = pass;
 			productName = pass;
@@ -388,6 +464,16 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Bob Sun";
 				TargetAttributes = {
+					A26700231EEC466A00176B8A = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 4WDM8E95VU;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
 					DC13B14D1E8640810097803F = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = 4WDM8E95VU;
@@ -398,6 +484,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 4WDM8E95VU;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -416,11 +507,22 @@
 			targets = (
 				DC917BD21E2E8231000FDF54 /* pass */,
 				DC13B14D1E8640810097803F /* passTests */,
+				A26700231EEC466A00176B8A /* passextension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A26700221EEC466A00176B8A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A26700361EEC475600176B8A /* Assets.xcassets in Resources */,
+				A26700371EEC475600176B8A /* passProcessor.js in Resources */,
+				A267002A1EEC466A00176B8A /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DC13B14C1E8640810097803F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -518,6 +620,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A26700201EEC466A00176B8A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A26700271EEC466A00176B8A /* ActionViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DC13B14A1E8640810097803F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -581,6 +691,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A267002D1EEC466A00176B8A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A26700231EEC466A00176B8A /* passextension */;
+			targetProxy = A267002C1EEC466A00176B8A /* PBXContainerItemProxy */;
+		};
 		DC13B1541E8640810097803F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DC917BD21E2E8231000FDF54 /* pass */;
@@ -589,6 +704,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		A26700281EEC466A00176B8A /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A26700291EEC466A00176B8A /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		DC917BDA1E2E8231000FDF54 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -608,6 +731,40 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A26700301EEC466A00176B8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = passextension/passextension.entitlements;
+				DEVELOPMENT_TEAM = 4WDM8E95VU;
+				INFOPLIST_FILE = passextension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios.passextension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		A26700311EEC466A00176B8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = passextension/passextension.entitlements;
+				DEVELOPMENT_TEAM = 4WDM8E95VU;
+				INFOPLIST_FILE = passextension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios.passextension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		DC13B1551E8640810097803F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -735,7 +892,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 274CCFCF32444A2FF46BE7F4 /* Pods-pass.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = pass/pass.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 2;
 				DEFINES_MODULE = NO;
@@ -768,7 +927,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AEAD6B31EAF5D061447A68CC /* Pods-pass.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = pass/pass.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 2;
 				DEFINES_MODULE = NO;
@@ -800,6 +961,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A267002F1EEC466A00176B8A /* Build configuration list for PBXNativeTarget "passextension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A26700301EEC466A00176B8A /* Debug */,
+				A26700311EEC466A00176B8A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DC13B1571E8640810097803F /* Build configuration list for PBXNativeTarget "passTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
