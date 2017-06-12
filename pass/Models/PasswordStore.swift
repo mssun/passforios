@@ -234,8 +234,7 @@ class PasswordStore {
             if fm.fileExists(atPath: storeURL.path) {
                 try fm.removeItem(at: storeURL)
             }
-            try fm.copyItem(at: tempStoreURL, to: storeURL)
-            try fm.removeItem(at: tempStoreURL)
+            try fm.moveItem(at: tempStoreURL, to: storeURL)
             storeRepository = try GTRepository(url: storeURL)
         } catch {
             credential.delete()
