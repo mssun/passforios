@@ -36,12 +36,12 @@ post_install do |installer|
     end
 end
 
-target 'pass' do
-  pod 'ObjectivePGP', :git => 'https://github.com/mssun/ObjectivePGP.git'
-  target 'passKit' do
-    inherit! :search_paths
-  end
-  target 'passextension' do
-    inherit! :search_paths
-  end
+target 'passKit' do
+    pod 'ObjectivePGP', :git => 'https://github.com/mssun/ObjectivePGP.git'
+    target 'pass' do
+        inherit! :search_paths
+    end
+    target 'passextension' do
+        inherit! :search_paths
+    end
 end
