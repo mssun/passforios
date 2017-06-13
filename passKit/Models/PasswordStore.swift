@@ -726,7 +726,7 @@ public class PasswordStore {
 
         deleteCoreData(entityName: "PasswordEntity")
         
-        Defaults.removeAll()
+        SharedDefaults.removeAll()
         storeRepository = nil
         
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
@@ -818,11 +818,11 @@ public class PasswordStore {
     public func removePGPKeys() {
         Utils.removeFileIfExists(atPath: Globals.pgpPublicKeyPath)
         Utils.removeFileIfExists(atPath: Globals.pgpPrivateKeyPath)
-        Defaults.remove(.pgpKeySource)
-        Defaults.remove(.pgpPublicKeyArmor)
-        Defaults.remove(.pgpPrivateKeyArmor)
-        Defaults.remove(.pgpPrivateKeyURL)
-        Defaults.remove(.pgpPublicKeyURL)
+        SharedDefaults.remove(.pgpKeySource)
+        SharedDefaults.remove(.pgpPublicKeyArmor)
+        SharedDefaults.remove(.pgpPrivateKeyArmor)
+        SharedDefaults.remove(.pgpPrivateKeyURL)
+        SharedDefaults.remove(.pgpPublicKeyURL)
         Utils.removeKeychain(name: ".pgpKeyPassphrase")
         pgp = ObjectivePGP()
         publicKey = nil
