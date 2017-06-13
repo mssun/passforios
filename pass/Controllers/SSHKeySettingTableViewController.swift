@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import SwiftyUserDefaults
 import SVProgressHUD
+import passKit
 
 class SSHKeySettingTableViewController: UITableViewController {
 
@@ -17,7 +17,7 @@ class SSHKeySettingTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        privateKeyURLTextField.text = Defaults[.gitSSHPrivateKeyURL]?.absoluteString
+        privateKeyURLTextField.text = SharedDefaults[.gitSSHPrivateKeyURL]?.absoluteString
     }
     
     
@@ -27,14 +27,14 @@ class SSHKeySettingTableViewController: UITableViewController {
             return
         }
         
-        Defaults[.gitSSHPrivateKeyURL] = privateKeyURL
+        SharedDefaults[.gitSSHPrivateKeyURL] = privateKeyURL
         
         do {
             try Data(contentsOf: privateKeyURL).write(to: URL(fileURLWithPath: Globals.gitSSHPrivateKeyPath), options: .atomic)
         } catch {
             Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
         }
-        Defaults[.gitSSHKeySource] = "url"
+        SharedDefaults[.gitSSHKeySource] = "url"
         self.navigationController!.popViewController(animated: true)
     }
 

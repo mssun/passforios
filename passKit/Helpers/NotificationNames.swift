@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Notification.Name {
+public extension Notification.Name {
     static let passwordStoreUpdated = Notification.Name("passwordStoreUpdated")
     static let passwordStoreErased = Notification.Name("passwordStoreErased")
     static let passwordStoreChangeDiscarded = Notification.Name("passwordStoreChangeDiscarded")

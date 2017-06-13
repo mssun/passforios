@@ -8,6 +8,7 @@
 
 import UIKit
 import SVProgressHUD
+import passKit
 
 struct LabelTableViewCellData {
     var title: String

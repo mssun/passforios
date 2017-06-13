@@ -12,8 +12,8 @@ import KeychainAccess
 import UIKit
 import SVProgressHUD
 
-class Utils {
-    static func removeFileIfExists(atPath path: String) {
+public class Utils {
+    public static func removeFileIfExists(atPath path: String) {
         let fm = FileManager.default
         do {
             if fm.fileExists(atPath: path) {
@@ -23,12 +23,12 @@ class Utils {
             print(error)
         }
     }
-    static func removeFileIfExists(at url: URL) {
+    public static func removeFileIfExists(at url: URL) {
         removeFileIfExists(atPath: url.path)
     }
-    
-    static func getLastSyncedTimeString() -> String {
-        guard let lastSyncedTime = Defaults[.lastSyncedTime] else {
+
+    public static func getLastSyncedTimeString() -> String {
+        guard let lastSyncedTime = SharedDefaults[.lastSyncedTime] else {
             return "Oops! Sync again?"
         }
         let formatter = DateFormatter()
@@ -37,8 +37,8 @@ class Utils {
         return formatter.string(from: lastSyncedTime)
     }
     
-    static func generatePassword(length: Int) -> String{
-        switch Defaults[.passwordGeneratorFlavor] {
+    public static func generatePassword(length: Int) -> String{
+        switch SharedDefaults[.passwordGeneratorFlavor] {
         case "Random":
             return randomString(length: length)
         case "Apple":
@@ -48,7 +48,7 @@ class Utils {
         }
     }
     
-    static func randomString(length: Int) -> String {
+    public static func randomString(length: Int) -> String {
         
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*_+-="
         let len = UInt32(letters.length)
@@ -64,15 +64,15 @@ class Utils {
         return randomString
     }
     
-    static func alert(title: String, message: String, controller: UIViewController, handler: ((UIAlertAction) -> Void)? = nil, completion: (() -> Void)? = nil) {
+    public static func alert(title: String, message: String, controller: UIViewController, handler: ((UIAlertAction) -> Void)? = nil, completion: (() -> Void)? = nil) {
         SVProgressHUD.dismiss()
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: handler))
         controller.present(alert, animated: true, completion: completion)
     }
     
-    static func getPasswordFromKeychain(name: String) -> String? {
-        let keychain = Keychain(service: Bundle.main.bundleIdentifier!)
+    public static func getPasswordFromKeychain(name: String) -> String? {
+        let keychain = Keychain(service: Globals.bundleIdentifier)
         do {
             return try keychain.getString(name)
         } catch {
@@ -81,27 +81,27 @@ class Utils {
         return nil
     }
     
-    static func addPasswordToKeychain(name: String, password: String?) {
-        let keychain = Keychain(service: Bundle.main.bundleIdentifier!)
+    public static func addPasswordToKeychain(name: String, password: String?) {
+        let keychain = Keychain(service: Globals.bundleIdentifier)
         keychain[name] = password
     }
-    static func removeKeychain(name: String) {
-        let keychain = Keychain(service: Bundle.main.bundleIdentifier!)
+    public static func removeKeychain(name: String) {
+        let keychain = Keychain(service: Globals.bundleIdentifier)
         do {
             try keychain.remove(name)
         } catch {
             print(error)
         }
     }
-    static func removeAllKeychain() {
-        let keychain = Keychain(service: Bundle.main.bundleIdentifier!)
+    public static func removeAllKeychain() {
+        let keychain = Keychain(service: Globals.bundleIdentifier)
         do {
             try keychain.removeAll()
         } catch {
             print(error)
         }
     }
-    static func copyToPasteboard(textToCopy: String?, expirationTime: Double = 45) {
+    public static func copyToPasteboard(textToCopy: String?, expirationTime: Double = 45) {
         guard textToCopy != nil else {
             return
         }
@@ -113,7 +113,7 @@ class Utils {
             }
         }
     }
-    static func attributedPassword(plainPassword: String) -> NSAttributedString{
+    public static func attributedPassword(plainPassword: String) -> NSAttributedString{
         let attributedPassword = NSMutableAttributedString.init(string: plainPassword)
         // draw all digits in the password into red
         // draw all punctuation characters in the password into blue
@@ -126,15 +126,15 @@ class Utils {
         }
         return attributedPassword
     }
-    static func initDefaultKeys() {
-        if Defaults[.passwordGeneratorFlavor] == "" {
-            Defaults[.passwordGeneratorFlavor] = "Random"
+    public static func initDefaultKeys() {
+        if SharedDefaults[.passwordGeneratorFlavor] == "" {
+            SharedDefaults[.passwordGeneratorFlavor] = "Random"
         }
     }
 }
 
 // https://gist.github.com/NikolaiRuhe/eeb135d20c84a7097516
-extension FileManager {
+public extension FileManager {
     
     /// This method calculates the accumulated size of a directory on the volume in bytes.
     ///
@@ -217,7 +217,7 @@ extension FileManager {
     }
 }
 
-extension String {
+public extension String {
     func stringByAddingPercentEncodingForRFC3986() -> String? {
         let unreserved = "-._~/?"
         var allowed = CharacterSet.alphanumerics

@@ -11,7 +11,7 @@ import SwiftyUserDefaults
 
 extension PasswordEntity {
     
-    var nameWithCategory: String {
+    public var nameWithCategory: String {
         get {
             if let p = path, p.hasSuffix(".gpg") {
                 return p.substring(to: p.index(p.endIndex, offsetBy: -4))
@@ -21,7 +21,7 @@ extension PasswordEntity {
         }
     }
     
-    func getCategoryText() -> String {
+    public func getCategoryText() -> String {
         var parentEntity = parent
         var passwordCategoryArray: [String] = []
         while parentEntity != nil {
@@ -32,7 +32,7 @@ extension PasswordEntity {
         return passwordCategoryArray.joined(separator: " > ")
     }
     
-    func getURL() -> URL? {
+    public func getURL() -> URL? {
         if let p = path {
             return URL(string: p.stringByAddingPercentEncodingForRFC3986()!)
         }

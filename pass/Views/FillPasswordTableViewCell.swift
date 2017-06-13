@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import passKit
 
 protocol FillPasswordTableViewCellDelegate {
     func generateAndCopyPassword()

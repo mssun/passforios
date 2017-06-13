@@ -12,15 +12,16 @@ import UIKit
 import SwiftyUserDefaults
 import ObjectiveGit
 import SVProgressHUD
+import ObjectivePGP
 
-class PasswordStore {
-    static let shared = PasswordStore()
-    let storeURL = URL(fileURLWithPath: "\(Globals.repositoryPath)")
-    let tempStoreURL = URL(fileURLWithPath: "\(Globals.repositoryPath)-temp")
+public class PasswordStore {
+    public static let shared = PasswordStore()
+    public let storeURL = URL(fileURLWithPath: "\(Globals.repositoryPath)")
+    public let tempStoreURL = URL(fileURLWithPath: "\(Globals.repositoryPath)-temp")
     
-    var storeRepository: GTRepository?
-    var pgpKeyID: String?
-    var publicKey: PGPKey? {
+    public var storeRepository: GTRepository?
+    public var pgpKeyID: String?
+    public var publicKey: PGPKey? {
         didSet {
             if publicKey != nil {
                 pgpKeyID = publicKey!.keyID!.shortKeyString
@@ -29,19 +30,19 @@ class PasswordStore {
             }
         }
     }
-    var privateKey: PGPKey?
+    public var privateKey: PGPKey?
     
-    var gitSignatureForNow: GTSignature {
+    public var gitSignatureForNow: GTSignature {
         get {
-            let gitSignatureName = Defaults[.gitSignatureName] ?? Globals.gitSignatureDefaultName
-            let gitSignatureEmail = Defaults[.gitSignatureEmail] ?? Globals.gitSignatureDefaultEmail
+            let gitSignatureName = SharedDefaults[.gitSignatureName] ?? Globals.gitSignatureDefaultName
+            let gitSignatureEmail = SharedDefaults[.gitSignatureEmail] ?? Globals.gitSignatureDefaultEmail
             return GTSignature(name: gitSignatureName, email: gitSignatureEmail, time: Date())!
         }
     }
     
-    var pgp: ObjectivePGP = ObjectivePGP()
+    public var pgp: ObjectivePGP = ObjectivePGP()
     
-    var pgpKeyPassphrase: String? {
+    public var pgpKeyPassphrase: String? {
         set {
             Utils.addPasswordToKeychain(name: "pgpKeyPassphrase", password: newValue)
         }
@@ -50,7 +51,7 @@ class PasswordStore {
         }
     }
     
-    var gitPassword: String? {
+    public var gitPassword: String? {
         set {
             Utils.addPasswordToKeychain(name: "gitPassword", password: newValue)
         }
@@ -59,7 +60,7 @@ class PasswordStore {
         }
     }
     
-    var gitSSHPrivateKeyPassphrase: String? {
+    public var gitSSHPrivateKeyPassphrase: String? {
         set {
             Utils.addPasswordToKeychain(name: "gitSSHPrivateKeyPassphrase", password: newValue)
         }
@@ -68,17 +69,13 @@ class PasswordStore {
         }
     }
     
-    let fm = FileManager.default
-    lazy var context: NSManagedObjectContext = {
-        /*
-         The persistent container for the application. This implementation
-         creates and returns a container, having loaded the store for the
-         application to it. This property is optional since there are legitimate
-         error conditions that could cause the creation of the store to fail.
-         */
-        let container = NSPersistentContainer(name: "pass")
-        let description = NSPersistentStoreDescription(url: Globals.sharedContainerURL)
-        container.loadPersistentStores(completionHandler: { (description, error) in
+    private let fm = FileManager.default
+    lazy private var context: NSManagedObjectContext = {
+        let modelURL = Bundle(identifier: Globals.passKitBundleIdentifier)!.url(forResource: "pass", withExtension: "momd")!
+        let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL)
+        let container = NSPersistentContainer(name: "pass", managedObjectModel: managedObjectModel!)
+        container.persistentStoreDescriptions = [NSPersistentStoreDescription(url: Globals.sharedContainerURL.appendingPathComponent("Documents/pass.sqlite"))]
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -97,11 +94,11 @@ class PasswordStore {
         return container.viewContext
     }()
     
-    var numberOfPasswords : Int {
+    public var numberOfPasswords : Int {
         return self.fetchPasswordEntityCoreData(withDir: false).count 
     }
     
-    var sizeOfRepositoryByteCount : UInt64 {
+    public var sizeOfRepositoryByteCount : UInt64 {
         var size = UInt64(0)
         do {
             if fm.fileExists(atPath: self.storeURL.path) {
@@ -116,8 +113,11 @@ class PasswordStore {
     
     private init() {
         // File migration to group
+        print(Globals.documentPath)
+        print(Globals.libraryPath)
+        print(Globals.documentPathLegacy)
+        print(Globals.libraryPathLegacy)
         migration()
-        
         do {
             if fm.fileExists(atPath: storeURL.path) {
                 try storeRepository = GTRepository.init(url: storeURL)
@@ -134,8 +134,9 @@ class PasswordStore {
             return
         }
         do {
-            try fm.copyItem(atPath: Globals.documentPathLegacy, toPath: Globals.documentPath)
-            try fm.copyItem(atPath: Globals.libraryPathLegacy, toPath: Globals.libraryPath)
+            try fm.moveItem(atPath: Globals.documentPathLegacy, toPath: Globals.documentPath)
+            try fm.moveItem(atPath: Globals.libraryPathLegacy, toPath: Globals.libraryPath)
+            SharedDefaults = Defaults
         } catch {
             print("Cannot migrate: \(error)")
         }
@@ -146,10 +147,7 @@ class PasswordStore {
         case `public`, secret
     }
     
-    public func initGitSSHKey(with armorKey: String, _ keyType: SSHKeyType) throws {
-        guard keyType == .secret else {
-            return
-        }
+    public func initGitSSHKey(with armorKey: String) throws {
         let keyPath = Globals.gitSSHPrivateKeyPath
         try armorKey.write(toFile: keyPath, atomically: true, encoding: .ascii)
     }
@@ -211,16 +209,16 @@ class PasswordStore {
         return nil
     }
 
-    func getPgpPrivateKey() -> PGPKey {
+    public func getPgpPrivateKey() -> PGPKey {
         return pgp.getKeysOf(.secret)[0]
     }
     
-    func repositoryExisted() -> Bool {
+    public func repositoryExisted() -> Bool {
         let fm = FileManager()
         return fm.fileExists(atPath: Globals.repositoryPath)
     }
     
-    func passwordExisted(password: Password) -> Bool {
+    public func passwordExisted(password: Password) -> Bool {
         let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         do {
             passwordEntityFetchRequest.predicate = NSPredicate(format: "name = %@ and path = %@", password.name, password.url!.path)
@@ -236,7 +234,7 @@ class PasswordStore {
         return true
     }
     
-    func passwordEntityExisted(path: String) -> Bool {
+    public func passwordEntityExisted(path: String) -> Bool {
         let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         do {
             passwordEntityFetchRequest.predicate = NSPredicate(format: "path = %@", path)
@@ -252,7 +250,7 @@ class PasswordStore {
         return true
     }
     
-    func getPasswordEntity(by path: String, isDir: Bool) -> PasswordEntity? {
+    public func getPasswordEntity(by path: String, isDir: Bool) -> PasswordEntity? {
         let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         do {
             passwordEntityFetchRequest.predicate = NSPredicate(format: "path = %@ and isDir = %@", path, isDir.description)
@@ -262,7 +260,7 @@ class PasswordStore {
         }
     }
     
-    func cloneRepository(remoteRepoURL: URL,
+    public func cloneRepository(remoteRepoURL: URL,
                          credential: GitCredential,
                          transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
                          checkoutProgressBlock: @escaping (String?, UInt, UInt) -> Void) throws {
@@ -283,13 +281,13 @@ class PasswordStore {
             throw(error)
         }
         DispatchQueue.main.async {
-            Defaults[.lastSyncedTime] = Date()
+            SharedDefaults[.lastSyncedTime] = Date()
             self.updatePasswordEntityCoreData()
             NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         }
     }
     
-    func pullRepository(credential: GitCredential, transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
+    public func pullRepository(credential: GitCredential, transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
         guard let storeRepository = storeRepository else {
             throw AppError.RepositoryNotSetError
         }
@@ -303,7 +301,7 @@ class PasswordStore {
             throw(error)
         }
         DispatchQueue.main.async {
-            Defaults[.lastSyncedTime] = Date()
+            SharedDefaults[.lastSyncedTime] = Date()
             self.setAllSynced()
             self.updatePasswordEntityCoreData()
             NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
@@ -364,7 +362,7 @@ class PasswordStore {
         }
     }
     
-    func getRecentCommits(count: Int) throws -> [GTCommit] {
+    public func getRecentCommits(count: Int) throws -> [GTCommit] {
         guard let storeRepository = storeRepository else {
             return []
         }
@@ -380,7 +378,7 @@ class PasswordStore {
         return commits
     }
     
-    func fetchPasswordEntityCoreData(parent: PasswordEntity?) -> [PasswordEntity] {
+    public func fetchPasswordEntityCoreData(parent: PasswordEntity?) -> [PasswordEntity] {
         let passwordEntityFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         do {
             passwordEntityFetch.predicate = NSPredicate(format: "parent = %@", parent ?? 0)
@@ -391,7 +389,7 @@ class PasswordStore {
         }
     }
     
-    func fetchPasswordEntityCoreData(withDir: Bool) -> [PasswordEntity] {
+    public func fetchPasswordEntityCoreData(withDir: Bool) -> [PasswordEntity] {
         let passwordEntityFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         do {
             if !withDir {
@@ -405,7 +403,7 @@ class PasswordStore {
     }
     
     
-    func fetchUnsyncedPasswords() -> [PasswordEntity] {
+    public func fetchUnsyncedPasswords() -> [PasswordEntity] {
         let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         passwordEntityFetchRequest.predicate = NSPredicate(format: "synced = %i", 0)
         do {
@@ -416,7 +414,7 @@ class PasswordStore {
         }
     }
     
-    func setAllSynced() {
+    public func setAllSynced() {
         let passwordEntities = fetchUnsyncedPasswords()
         for passwordEntity in passwordEntities {
             passwordEntity.synced = true
@@ -430,7 +428,7 @@ class PasswordStore {
         }
     }
     
-    func getNumberOfUnsyncedPasswords() -> Int {
+    public func getNumberOfUnsyncedPasswords() -> Int {
         let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         do {
             passwordEntityFetchRequest.predicate = NSPredicate(format: "synced = %i", 0)
@@ -441,7 +439,7 @@ class PasswordStore {
     }
     
     
-    func getLatestUpdateInfo(filename: String) -> String {
+    public func getLatestUpdateInfo(filename: String) -> String {
         guard let storeRepository = storeRepository else {
             return "Unknown"
         }
@@ -467,7 +465,7 @@ class PasswordStore {
         return autoFormattedDifference
     }
     
-    func updateRemoteRepo() {
+    public func updateRemoteRepo() {
     }
     
     private func gitAdd(path: String) throws {
@@ -540,7 +538,7 @@ class PasswordStore {
         return branches.first
     }
     
-    func pushRepository(credential: GitCredential, transferProgressBlock: @escaping (UInt32, UInt32, Int, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
+    public func pushRepository(credential: GitCredential, transferProgressBlock: @escaping (UInt32, UInt32, Int, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
         guard let storeRepository = storeRepository else {
             throw AppError.RepositoryNotSetError
         }
@@ -604,7 +602,7 @@ class PasswordStore {
         return ret
     }
     
-    func add(password: Password) throws -> PasswordEntity? {
+    public func add(password: Password) throws -> PasswordEntity? {
         try createDirectoryTree(at: password.url!)
         let newPasswordEntity = try addPasswordEntities(password: password)
         let saveURL = storeURL.appendingPathComponent(password.url!.path)
@@ -624,7 +622,7 @@ class PasswordStore {
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
     
-    func edit(passwordEntity: PasswordEntity, password: Password) throws -> PasswordEntity? {
+    public func edit(passwordEntity: PasswordEntity, password: Password) throws -> PasswordEntity? {
         var newPasswordEntity: PasswordEntity? = passwordEntity
 
         if password.changed&PasswordChange.content.rawValue != 0 {
@@ -670,7 +668,7 @@ class PasswordStore {
         }
     }
     
-    func saveUpdated(passwordEntity: PasswordEntity) {
+    public func saveUpdated(passwordEntity: PasswordEntity) {
         do {
             try context.save()
         } catch {
@@ -678,7 +676,7 @@ class PasswordStore {
         }
     }
     
-    func deleteCoreData(entityName: String) {
+    public func deleteCoreData(entityName: String) {
         let deleteFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetchRequest)
         
@@ -691,7 +689,7 @@ class PasswordStore {
         }
     }
     
-    func updateImage(passwordEntity: PasswordEntity, image: Data?) {
+    public func updateImage(passwordEntity: PasswordEntity, image: Data?) {
         guard let image = image else {
             return
         }
@@ -714,7 +712,7 @@ class PasswordStore {
         }
     }
     
-    func erase() {
+    public func erase() {
         publicKey = nil
         privateKey = nil
         Utils.removeFileIfExists(at: storeURL)
@@ -736,7 +734,7 @@ class PasswordStore {
     }
     
     // return the number of discarded commits 
-    func reset() throws -> Int {
+    public func reset() throws -> Int {
         guard let storeRepository = storeRepository else {
             throw AppError.RepositoryNotSetError
         }
@@ -761,7 +759,7 @@ class PasswordStore {
         }
     }
     
-    func numberOfLocalCommits() -> Int {
+    public func numberOfLocalCommits() -> Int {
         do {
             if let localCommits = try getLocalCommits() {
                 return localCommits.count
@@ -795,7 +793,7 @@ class PasswordStore {
     
     
     
-    func decrypt(passwordEntity: PasswordEntity, requestPGPKeyPassphrase: () -> String) throws -> Password? {
+    public func decrypt(passwordEntity: PasswordEntity, requestPGPKeyPassphrase: () -> String) throws -> Password? {
         let encryptedDataPath = storeURL.appendingPathComponent(passwordEntity.path!)
         let encryptedData = try Data(contentsOf: encryptedDataPath)
         var passphrase = self.pgpKeyPassphrase
@@ -808,16 +806,16 @@ class PasswordStore {
         return Password(name: passwordEntity.name!, url: URL(string: escapedPath), plainText: plainText)
     }
     
-    func encrypt(password: Password) throws -> Data {
+    public func encrypt(password: Password) throws -> Data {
         guard let publicKey = pgp.getKeysOf(.public).first else {
             throw AppError.PGPPublicKeyNotExistError
         }
         let plainData = password.getPlainData()
-        let encryptedData = try pgp.encryptData(plainData, usingPublicKey: publicKey, armored: Defaults[.encryptInArmored])
+        let encryptedData = try pgp.encryptData(plainData, usingPublicKey: publicKey, armored: SharedDefaults[.encryptInArmored])
         return encryptedData
     }
     
-    func removePGPKeys() {
+    public func removePGPKeys() {
         Utils.removeFileIfExists(atPath: Globals.pgpPublicKeyPath)
         Utils.removeFileIfExists(atPath: Globals.pgpPrivateKeyPath)
         Defaults.remove(.pgpKeySource)
@@ -831,18 +829,18 @@ class PasswordStore {
         privateKey = nil
     }
     
-    func removeGitSSHKeys() {
+    public func removeGitSSHKeys() {
         Utils.removeFileIfExists(atPath: Globals.gitSSHPrivateKeyPath)
         Defaults.remove(.gitSSHPrivateKeyArmor)
         Defaults.remove(.gitSSHPrivateKeyURL)
         Utils.removeKeychain(name: ".gitSSHPrivateKeyPassphrase")
     }
     
-    func gitSSHKeyExists() -> Bool {
+    public func gitSSHKeyExists() -> Bool {
         return fm.fileExists(atPath: Globals.gitSSHPrivateKeyPath)
     }
     
-    func pgpKeyExists() -> Bool {
+    public func pgpKeyExists() -> Bool {
         return fm.fileExists(atPath: Globals.pgpPublicKeyPath) && fm.fileExists(atPath: Globals.pgpPrivateKeyPath)
     }
 }

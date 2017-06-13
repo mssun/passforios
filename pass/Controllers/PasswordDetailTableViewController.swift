@@ -8,8 +8,8 @@
 
 import UIKit
 import FavIcon
-import SwiftyUserDefaults
 import SVProgressHUD
+import passKit
 
 class PasswordDetailTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     var passwordEntity: PasswordEntity?
@@ -134,7 +134,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self.present(alert, animated: true, completion: nil)
         }
         let _ = sem.wait(timeout: DispatchTime.distantFuture)
-        if Defaults[.isRememberPassphraseOn] {
+        if SharedDefaults[.isRememberPassphraseOn] {
             self.passwordStore.pgpKeyPassphrase = passphrase
         }
         return passphrase
@@ -281,8 +281,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         let filteredAdditionKeys = password.additionKeys.filter {
             $0.lowercased() != "username" &&
                 $0.lowercased() != "password" &&
-                (!$0.hasPrefix("unknown") || !Defaults[.isHideUnknownOn]) &&
-                (!Password.otpKeywords.contains($0) || !Defaults[.isHideOTPOn]) }
+                (!$0.hasPrefix("unknown") || !SharedDefaults[.isHideUnknownOn]) &&
+                (!Password.otpKeywords.contains($0) || !SharedDefaults[.isHideOTPOn]) }
         
         if filteredAdditionKeys.count > 0 {
             section = TableSection(type: .addition, header: "additions")

@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import SwiftyUserDefaults
 import OneTimePassword
+import passKit
 
 enum PasswordEditorCellType {
     case nameCell, fillPasswordCell, passwordLengthCell, additionsCell, deletePasswordCell, scanQRCodeCell
@@ -95,7 +95,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             return fillPasswordCell!
         case .passwordLengthCell:
             passwordLengthCell = tableView.dequeueReusableCell(withIdentifier: "passwordLengthCell", for: indexPath) as? SliderTableViewCell
-            let lengthSetting = Globals.passwordDefaultLength[Defaults[.passwordGeneratorFlavor]] ??
+            let lengthSetting = Globals.passwordDefaultLength[SharedDefaults[.passwordGeneratorFlavor]] ??
                 Globals.passwordDefaultLength["Random"]
             passwordLengthCell?.reset(title: "Length",
                                       minimumValue: lengthSetting?.min ?? 0,

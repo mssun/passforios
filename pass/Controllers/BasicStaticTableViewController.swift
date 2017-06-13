@@ -9,6 +9,7 @@
 import UIKit
 import SafariServices
 import MessageUI
+import passKit
 
 
 enum CellDataType {

@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import PasscodeLock
 import SVProgressHUD
+import passKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     lazy var passcodeLockPresenter: PasscodeLockPresenter = {
-        let presenter = PasscodeLockPresenter(mainWindow: self.window, configuration: Globals.passcodeConfiguration)
+        let presenter = PasscodeLockPresenter(mainWindow: self.window, configuration: PasscodeLockConfiguration.shared)
         return presenter
     }()
     
@@ -29,9 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SVProgressHUD.setMinimumSize(CGSize(width: 150, height: 100))
         passcodeLockPresenter.present()
         if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
-            var searchType = Bundle.main.bundleIdentifier!
-            searchType.append(".search")
-            if shortcutItem.type == searchType {
+            if shortcutItem.type == Globals.bundleIdentifier + ".search" {
                 self.perform(#selector(postSearchNotification), with: nil, afterDelay: 0.4)
             }
         }
@@ -44,9 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
-        var searchType = Bundle.main.bundleIdentifier!
-        searchType.append(".search")
-        if shortcutItem.type == searchType {
+        if shortcutItem.type == Globals.bundleIdentifier + ".search" {
             let tabBarController = self.window!.rootViewController as! UITabBarController
             tabBarController.selectedIndex = 0
             let navigationController = tabBarController.selectedViewController as! UINavigationController
@@ -112,9 +109,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
          */
-        let container = NSPersistentContainer(name: "pass")
-        let description = NSPersistentStoreDescription(url: Globals.sharedContainerURL)
-        container.loadPersistentStores(completionHandler: { (description, error) in
+        let modelURL = Bundle(identifier: Globals.passKitBundleIdentifier)!.url(forResource: "pass", withExtension: "momd")!
+        let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL)
+        let container = NSPersistentContainer(name: "pass", managedObjectModel: managedObjectModel!)
+        container.persistentStoreDescriptions = [NSPersistentStoreDescription(url: Globals.sharedContainerURL.appendingPathComponent("Documents/pass.sqlite"))]
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.

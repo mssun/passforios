@@ -8,10 +8,12 @@
 
 import UIKit
 import MobileCoreServices
+import passKit
 
 class ActionViewController: UIViewController {
 
     @IBOutlet weak var textView: UITextView!
+    let passwordStore = PasswordStore.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,9 +25,32 @@ class ActionViewController: UIViewController {
             provider.loadItem(forTypeIdentifier: propertyList, options: nil, completionHandler: { (item, error) -> Void in
                 let dictionary = item as! NSDictionary
                 let results = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as! NSDictionary
-                let url = results["url"] as? String
+                let url = URL(string: (results["url"] as? String)!)?.host
+                
+                let numberFormatter = NumberFormatter()
+                numberFormatter.numberStyle = NumberFormatter.Style.decimal
+            
+                let numberOfPasswordsString = "Number of password:" + numberFormatter.string(from: NSNumber(value: self.passwordStore.numberOfPasswords))!
+                let sizeOfRepositoryString = "Size of repo:" + ByteCountFormatter.string(fromByteCount: Int64(self.passwordStore.sizeOfRepositoryByteCount), countStyle: ByteCountFormatter.CountStyle.file)
+                var numberOfCommits: UInt = 0
+                
+                do {
+                    if let _ = try self.passwordStore.storeRepository?.currentBranch().oid {
+                        numberOfCommits = self.passwordStore.storeRepository?.numberOfCommits(inCurrentBranch: NSErrorPointer(nilLiteral: ())) ?? 0
+                    }
+                } catch {
+                    print(error)
+                }
+                let numberOfCommitsString = "Number of commits:" + numberFormatter.string(from: NSNumber(value: numberOfCommits))!
+                
+                let gitURL = SharedDefaults[.gitURL]!
+            
                 DispatchQueue.main.async { [weak self] in
-                    self?.textView.text = url
+                    self?.textView.text = url!
+                    print(numberOfPasswordsString)
+                    print(numberOfCommitsString)
+                    print(sizeOfRepositoryString)
+                    print(gitURL)
                 }
             })
         } else {

@@ -8,13 +8,15 @@
 
 import Foundation
 import PasscodeLock
-import SwiftyUserDefaults
+import passKit
 
 struct PasscodeLockConfiguration: PasscodeLockConfigurationType {
     
+    static let shared = PasscodeLockConfiguration()
+    
     let repository: PasscodeRepositoryType
     let passcodeLength = 4
-    var isTouchIDAllowed = Defaults[.isTouchIDOn]
+    var isTouchIDAllowed = SharedDefaults[.isTouchIDOn]
     let shouldRequestTouchIDImmediately = true
     let maximumInccorectPasscodeAttempts = 3
     

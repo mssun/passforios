@@ -7,25 +7,45 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		94BA784B85E071D25EE89B59 /* libPods-pass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADCE7A5C3CCC67D7D21BB3C4 /* libPods-pass.a */; };
+		1473B150643891727EB85DFE /* libPods-pass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7592A214C22CEBBEF4596CC1 /* libPods-pass.a */; };
+		398A8F69C2230A8117820BB7 /* libPods-passKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45BAA15189E80AA544EAF7AD /* libPods-passKit.a */; };
 		A217ACE21E9AB17C00A1A6CF /* OTPScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */; };
 		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */; };
-		A26075721EEC6B8D005DB03E /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */; };
-		A262A58D1E68749C006B0890 /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A262A58C1E68749C006B0890 /* Base32.framework */; };
+		A26075811EEC6F34005DB03E /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
+		A26075881EEC6F34005DB03E /* passKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26075871EEC6F34005DB03E /* passKitTests.swift */; };
+		A260758A1EEC6F34005DB03E /* passKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A260757A1EEC6F34005DB03E /* passKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A260758D1EEC6F34005DB03E /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
+		A260758E1EEC6F34005DB03E /* passKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A26075961EEC6F8C005DB03E /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
+		A26075AD1EEC7125005DB03E /* pass.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A26075A51EEC7125005DB03E /* pass.xcdatamodeld */; };
 		A26700271EEC466A00176B8A /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26700261EEC466A00176B8A /* ActionViewController.swift */; };
 		A267002A1EEC466A00176B8A /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A26700281EEC466A00176B8A /* MainInterface.storyboard */; };
 		A267002E1EEC466A00176B8A /* passextension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A26700241EEC466A00176B8A /* passextension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A26700361EEC475600176B8A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A26700341EEC475600176B8A /* Assets.xcassets */; };
 		A26700371EEC475600176B8A /* passProcessor.js in Resources */ = {isa = PBXBuildFile; fileRef = A26700351EEC475600176B8A /* passProcessor.js */; };
-		A27424D91E7C35960093F436 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27424D81E7C35960093F436 /* NotificationNames.swift */; };
 		A2802BF91E70813A00879216 /* SliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2802BF71E70813A00879216 /* SliderTableViewCell.swift */; };
 		A2802BFA1E70813A00879216 /* SliderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2802BF81E70813A00879216 /* SliderTableViewCell.xib */; };
+		A2A61C121EEF8E4600CFE063 /* libObjectivePGP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2227D541EEE5E78002A69A9 /* libObjectivePGP.a */; };
+		A2A61C131EEF90CB00CFE063 /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A262A58C1E68749C006B0890 /* Base32.framework */; };
+		A2A61C151EEF90CB00CFE063 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA742D91E599ED400D54E16 /* KeychainAccess.framework */; };
+		A2A61C161EEF90CB00CFE063 /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1208571E35EBE60042942E /* ObjectiveGit.framework */; };
+		A2A61C171EEF90CB00CFE063 /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA671DE1E7A73B100D3ABE1 /* OneTimePassword.framework */; };
+		A2A61C1A1EEF90CB00CFE063 /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */; };
 		A2A7813F1E97DBD9001311F5 /* QRScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */; };
-		A2A89D691E954698003FB2D3 /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A89D681E954698003FB2D3 /* UITextFieldExtension.swift */; };
+		A2F4E2141EED800F0011986E /* GitCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2101EED800F0011986E /* GitCredential.swift */; };
+		A2F4E2151EED800F0011986E /* Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2111EED800F0011986E /* Password.swift */; };
+		A2F4E2161EED800F0011986E /* PasswordEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2121EED800F0011986E /* PasswordEntity.swift */; };
+		A2F4E2171EED800F0011986E /* PasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2131EED800F0011986E /* PasswordStore.swift */; };
+		A2F4E21E1EED80160011986E /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2181EED80160011986E /* AppError.swift */; };
+		A2F4E21F1EED80160011986E /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2191EED80160011986E /* DefaultsKeys.swift */; };
+		A2F4E2201EED80160011986E /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E21A1EED80160011986E /* Globals.swift */; };
+		A2F4E2211EED80160011986E /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E21B1EED80160011986E /* NotificationNames.swift */; };
+		A2F4E2221EED80160011986E /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E21C1EED80160011986E /* UITextFieldExtension.swift */; };
+		A2F4E2231EED80160011986E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E21D1EED80160011986E /* Utils.swift */; };
+		B87896CC4725EE267C66D891 /* libPods-passextension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B240CA444AC9172F3053651 /* libPods-passextension.a */; };
 		DC037CA61E4B883900609409 /* OpenSourceComponentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CA51E4B883900609409 /* OpenSourceComponentsTableViewController.swift */; };
 		DC037CA81E4B898100609409 /* BasicStaticTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CA71E4B898100609409 /* BasicStaticTableViewController.swift */; };
 		DC037CAA1E4B8EAE00609409 /* SpecialThanksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CA91E4B8EAE00609409 /* SpecialThanksTableViewController.swift */; };
-		DC037CAC1E4C1C7100609409 /* FavIcon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC037CAB1E4C1C7100609409 /* FavIcon.framework */; };
 		DC037CB01E4CA51F00609409 /* GeneralSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CAF1E4CA51F00609409 /* GeneralSettingsTableViewController.swift */; };
 		DC037CB21E4CAB1700609409 /* AboutRepositoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CB11E4CAB1700609409 /* AboutRepositoryTableViewController.swift */; };
 		DC037CB81E4DD1A500609409 /* AddPasswordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CB71E4DD1A500609409 /* AddPasswordTableViewController.swift */; };
@@ -33,47 +53,34 @@
 		DC037CBC1E4DD47B00609409 /* TextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC037CBA1E4DD47B00609409 /* TextFieldTableViewCell.xib */; };
 		DC037CBF1E4ED4E100609409 /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CBD1E4ED4E100609409 /* TextViewTableViewCell.swift */; };
 		DC037CC01E4ED4E100609409 /* TextViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC037CBE1E4ED4E100609409 /* TextViewTableViewCell.xib */; };
-		DC1208581E35EBE60042942E /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1208571E35EBE60042942E /* ObjectiveGit.framework */; };
 		DC13B1511E8640810097803F /* passTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13B1501E8640810097803F /* passTests.swift */; };
 		DC193FFA1E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC193FF91E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift */; };
 		DC193FFC1E49E0340077E0A3 /* PasscodeLock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC193FFB1E49E0340077E0A3 /* PasscodeLock.framework */; };
 		DC193FFE1E49E0760077E0A3 /* PasscodeLockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC193FFD1E49E0760077E0A3 /* PasscodeLockRepository.swift */; };
 		DC1940001E49E1A60077E0A3 /* PasscodeLockConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC193FFF1E49E1A60077E0A3 /* PasscodeLockConfiguration.swift */; };
-		DC19400B1E4B36B60077E0A3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC19400A1E4B36B60077E0A3 /* Utils.swift */; };
 		DC3E64E61E656F11009A83DE /* CommitLogsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3E64E51E656F11009A83DE /* CommitLogsTableViewController.swift */; };
 		DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914941E434301007FF592 /* LabelTableViewCell.swift */; };
 		DC4914991E434600007FF592 /* PasswordDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */; };
 		DC5734AE1E439AD400D09270 /* PasswordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5734AD1E439AD400D09270 /* PasswordsViewController.swift */; };
 		DC5F385B1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5F385A1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift */; };
-		DC7E6EEA1E432E48006C2443 /* Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7E6EE91E432E48006C2443 /* Password.swift */; };
 		DC8963C01E38EEB900828B09 /* SSHKeySettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8963BF1E38EEB900828B09 /* SSHKeySettingTableViewController.swift */; };
 		DC917BD71E2E8231000FDF54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC917BD61E2E8231000FDF54 /* AppDelegate.swift */; };
 		DC917BDC1E2E8231000FDF54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDA1E2E8231000FDF54 /* Main.storyboard */; };
 		DC917BDE1E2E8231000FDF54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
 		DC917BE11E2E8231000FDF54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDF1E2E8231000FDF54 /* LaunchScreen.storyboard */; };
 		DC962CDF1E4B62C10033B5D8 /* AboutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC962CDE1E4B62C10033B5D8 /* AboutTableViewController.swift */; };
-		DCA049961E3357E000522E8F /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */; };
-		DCA049981E33586A00522E8F /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA049971E33586A00522E8F /* DefaultsKeys.swift */; };
 		DCA0499A1E335CC800522E8F /* GitServerSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA049991E335CC800522E8F /* GitServerSettingTableViewController.swift */; };
 		DCA0499C1E3362F400522E8F /* PGPKeySettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0499B1E3362F400522E8F /* PGPKeySettingTableViewController.swift */; };
-		DCA0499E1E33BAC100522E8F /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0499D1E33BAC100522E8F /* Globals.swift */; };
-		DCA671DF1E7A73B100D3ABE1 /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA671DE1E7A73B100D3ABE1 /* OneTimePassword.framework */; };
-		DCA742DA1E599ED400D54E16 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA742D91E599ED400D54E16 /* KeychainAccess.framework */; };
 		DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */; };
-		DCC277D21E30D6EA00402246 /* pass.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCC408C81E30BA1300F29B0E /* pass.xcdatamodeld */; };
-		DCC408A41E2FCC9E00F29B0E /* PasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC408A31E2FCC9E00F29B0E /* PasswordStore.swift */; };
 		DCC408C71E307DBB00F29B0E /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */; };
 		DCC441521E8F6C06008A90C4 /* RawPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */; };
 		DCC441541E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC441531E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift */; };
-		DCD9AD131EB678500093499A /* GitCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD9AD121EB678500093499A /* GitCredential.swift */; };
-		DCD9AD151EB6829A0093499A /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD9AD141EB6829A0093499A /* AppError.swift */; };
 		DCDDEAB01E4639F300F68193 /* LabelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */; };
 		DCDDEAB31E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */; };
 		DCFB779A1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77981E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift */; };
 		DCFB779B1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCFB77991E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib */; };
 		DCFB779E1E4F40C7008DE471 /* FillPasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB779C1E4F40C7008DE471 /* FillPasswordTableViewCell.swift */; };
 		DCFB779F1E4F40C7008DE471 /* FillPasswordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCFB779D1E4F40C7008DE471 /* FillPasswordTableViewCell.xib */; };
-		DCFB77A11E4F68C8008DE471 /* PasswordEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77A01E4F68C8008DE471 /* PasswordEntity.swift */; };
 		DCFB77A31E500D9C008DE471 /* PasswordDetailTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCFB77A21E500D9C008DE471 /* PasswordDetailTitleTableViewCell.xib */; };
 		DCFB77A71E502DF9008DE471 /* EditPasswordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77A61E502DF9008DE471 /* EditPasswordTableViewController.swift */; };
 		DCFB77A91E502FF6008DE471 /* PasswordEditorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77A81E502FF6008DE471 /* PasswordEditorTableViewController.swift */; };
@@ -81,6 +88,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A26075821EEC6F34005DB03E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DC917BCB1E2E8231000FDF54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A26075771EEC6F34005DB03E;
+			remoteInfo = passKit;
+		};
+		A26075841EEC6F34005DB03E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DC917BCB1E2E8231000FDF54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DC917BD21E2E8231000FDF54;
+			remoteInfo = pass;
+		};
+		A260758B1EEC6F34005DB03E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DC917BCB1E2E8231000FDF54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A26075771EEC6F34005DB03E;
+			remoteInfo = passKit;
+		};
 		A267002C1EEC466A00176B8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DC917BCB1E2E8231000FDF54 /* Project object */;
@@ -98,6 +126,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		A26075921EEC6F34005DB03E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A260758E1EEC6F34005DB03E /* passKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A26700191EEC450100176B8A /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -112,9 +151,29 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		274CCFCF32444A2FF46BE7F4 /* Pods-pass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.debug.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.debug.xcconfig"; sourceTree = "<group>"; };
+		1B240CA444AC9172F3053651 /* libPods-passextension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-passextension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		37527F98FA7BD9E603FAB2BE /* Pods-passextension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passextension.release.xcconfig"; path = "Pods/Target Support Files/Pods-passextension/Pods-passextension.release.xcconfig"; sourceTree = "<group>"; };
+		45BAA15189E80AA544EAF7AD /* libPods-passKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-passKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A8CB4D4311C90B380B99491 /* Pods-passextension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passextension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passextension/Pods-passextension.debug.xcconfig"; sourceTree = "<group>"; };
+		7592A214C22CEBBEF4596CC1 /* libPods-pass.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pass.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E088A9255B6CB576EF757C1 /* Pods-passKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passKit/Pods-passKit.debug.xcconfig"; sourceTree = "<group>"; };
+		A02ACA4077630047EA669D05 /* Pods-pass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.debug.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.debug.xcconfig"; sourceTree = "<group>"; };
 		A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPScannerController.swift; sourceTree = "<group>"; };
 		A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = GitConfigSettingTableViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		A2227D4C1EEE5E25002A69A9 /* libObjectivePGP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libObjectivePGP.a; path = "Pods/../build/Debug-iphoneos/ObjectivePGP/libObjectivePGP.a"; sourceTree = "<group>"; };
+		A2227D4E1EEE5E31002A69A9 /* libPods-pass.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-pass.a"; path = "Pods/../build/Debug-iphoneos/libPods-pass.a"; sourceTree = "<group>"; };
+		A2227D501EEE5E35002A69A9 /* libPods-passKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passKit.a"; path = "Pods/../build/Debug-iphoneos/libPods-passKit.a"; sourceTree = "<group>"; };
+		A2227D521EEE5E46002A69A9 /* libPods-pass.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-pass.a"; path = "Pods/../build/Debug-iphoneos/libPods-pass.a"; sourceTree = "<group>"; };
+		A2227D541EEE5E78002A69A9 /* libObjectivePGP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libObjectivePGP.a; path = "../../Library/Developer/Xcode/DerivedData/pass-fwlmfsjroyvbfhdyqmglrwfhvjli/Build/Products/Debug-iphonesimulator/ObjectivePGP/libObjectivePGP.a"; sourceTree = "<group>"; };
+		A2227D551EEE5E78002A69A9 /* libPods-pass.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-pass.a"; path = "../../Library/Developer/Xcode/DerivedData/pass-fwlmfsjroyvbfhdyqmglrwfhvjli/Build/Products/Debug-iphonesimulator/libPods-pass.a"; sourceTree = "<group>"; };
+		A2227D561EEE5E78002A69A9 /* libPods-passKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passKit.a"; path = "../../Library/Developer/Xcode/DerivedData/pass-fwlmfsjroyvbfhdyqmglrwfhvjli/Build/Products/Debug-iphonesimulator/libPods-passKit.a"; sourceTree = "<group>"; };
+		A26075781EEC6F34005DB03E /* passKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = passKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A260757A1EEC6F34005DB03E /* passKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = passKit.h; sourceTree = "<group>"; };
+		A260757B1EEC6F34005DB03E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A26075801EEC6F34005DB03E /* passKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = passKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A26075871EEC6F34005DB03E /* passKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = passKitTests.swift; sourceTree = "<group>"; };
+		A26075891EEC6F34005DB03E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A26075A61EEC7125005DB03E /* pass.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = pass.xcdatamodel; sourceTree = "<group>"; };
 		A262A58C1E68749C006B0890 /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Base32.framework; path = Carthage/Build/iOS/Base32.framework; sourceTree = "<group>"; };
 		A26700241EEC466A00176B8A /* passextension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = passextension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A26700261EEC466A00176B8A /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
@@ -124,13 +183,23 @@
 		A26700331EEC46C900176B8A /* passextension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passextension.entitlements; sourceTree = "<group>"; };
 		A26700341EEC475600176B8A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A26700351EEC475600176B8A /* passProcessor.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = passProcessor.js; sourceTree = "<group>"; };
-		A27424D81E7C35960093F436 /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		A2802BF71E70813A00879216 /* SliderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderTableViewCell.swift; sourceTree = "<group>"; };
 		A2802BF81E70813A00879216 /* SliderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SliderTableViewCell.xib; sourceTree = "<group>"; };
+		A2A61C0C1EEF8DFE00CFE063 /* libPods-passextension.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passextension.a"; path = "../../Library/Developer/Xcode/DerivedData/pass-fwlmfsjroyvbfhdyqmglrwfhvjli/Build/Products/Debug-iphonesimulator/libPods-passextension.a"; sourceTree = "<group>"; };
+		A2A61C101EEF8E3500CFE063 /* libPods-passKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passKit.a"; path = "Pods/../build/Debug-iphoneos/libPods-passKit.a"; sourceTree = "<group>"; };
 		A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerController.swift; sourceTree = "<group>"; };
-		A2A89D681E954698003FB2D3 /* UITextFieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
-		ADCE7A5C3CCC67D7D21BB3C4 /* libPods-pass.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pass.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AEAD6B31EAF5D061447A68CC /* Pods-pass.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.release.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.release.xcconfig"; sourceTree = "<group>"; };
+		A2BC54C71EEE5669001FAFBD /* Objective-CBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Objective-CBridgingHeader.h"; sourceTree = "<group>"; };
+		A2F4E2101EED800F0011986E /* GitCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GitCredential.swift; path = Models/GitCredential.swift; sourceTree = "<group>"; };
+		A2F4E2111EED800F0011986E /* Password.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Password.swift; path = Models/Password.swift; sourceTree = "<group>"; };
+		A2F4E2121EED800F0011986E /* PasswordEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordEntity.swift; path = Models/PasswordEntity.swift; sourceTree = "<group>"; };
+		A2F4E2131EED800F0011986E /* PasswordStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordStore.swift; path = Models/PasswordStore.swift; sourceTree = "<group>"; };
+		A2F4E2181EED80160011986E /* AppError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppError.swift; path = Helpers/AppError.swift; sourceTree = "<group>"; };
+		A2F4E2191EED80160011986E /* DefaultsKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultsKeys.swift; path = Helpers/DefaultsKeys.swift; sourceTree = "<group>"; };
+		A2F4E21A1EED80160011986E /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Globals.swift; path = Helpers/Globals.swift; sourceTree = "<group>"; };
+		A2F4E21B1EED80160011986E /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationNames.swift; path = Helpers/NotificationNames.swift; sourceTree = "<group>"; };
+		A2F4E21C1EED80160011986E /* UITextFieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UITextFieldExtension.swift; path = Helpers/UITextFieldExtension.swift; sourceTree = "<group>"; };
+		A2F4E21D1EED80160011986E /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Helpers/Utils.swift; sourceTree = "<group>"; };
+		CF68FFBE116027CB625ABD45 /* Pods-passKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-passKit/Pods-passKit.release.xcconfig"; sourceTree = "<group>"; };
 		DC037CA51E4B883900609409 /* OpenSourceComponentsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSourceComponentsTableViewController.swift; sourceTree = "<group>"; };
 		DC037CA71E4B898100609409 /* BasicStaticTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicStaticTableViewController.swift; sourceTree = "<group>"; };
 		DC037CA91E4B8EAE00609409 /* SpecialThanksTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialThanksTableViewController.swift; sourceTree = "<group>"; };
@@ -150,14 +219,11 @@
 		DC193FFB1E49E0340077E0A3 /* PasscodeLock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PasscodeLock.framework; path = Carthage/Build/iOS/PasscodeLock.framework; sourceTree = "<group>"; };
 		DC193FFD1E49E0760077E0A3 /* PasscodeLockRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLockRepository.swift; sourceTree = "<group>"; };
 		DC193FFF1E49E1A60077E0A3 /* PasscodeLockConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLockConfiguration.swift; sourceTree = "<group>"; };
-		DC19400A1E4B36B60077E0A3 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		DC3E64E51E656F11009A83DE /* CommitLogsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitLogsTableViewController.swift; sourceTree = "<group>"; };
 		DC4914941E434301007FF592 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
 		DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTableViewController.swift; sourceTree = "<group>"; };
-		DC4A746D1E30FBDE00E8EB18 /* Objective-CBridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Objective-CBridgingHeader.h"; sourceTree = "<group>"; };
 		DC5734AD1E439AD400D09270 /* PasswordsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordsViewController.swift; sourceTree = "<group>"; };
 		DC5F385A1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPKeyArmorSettingTableViewController.swift; sourceTree = "<group>"; };
-		DC7E6EE91E432E48006C2443 /* Password.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Password.swift; sourceTree = "<group>"; };
 		DC8963BF1E38EEB900828B09 /* SSHKeySettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeySettingTableViewController.swift; sourceTree = "<group>"; };
 		DC917BD31E2E8231000FDF54 /* pass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC917BD61E2E8231000FDF54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -167,39 +233,56 @@
 		DC917BE21E2E8231000FDF54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC962CDE1E4B62C10033B5D8 /* AboutTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutTableViewController.swift; sourceTree = "<group>"; };
 		DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyUserDefaults.framework; path = Carthage/Build/iOS/SwiftyUserDefaults.framework; sourceTree = "<group>"; };
-		DCA049971E33586A00522E8F /* DefaultsKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DefaultsKeys.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		DCA049991E335CC800522E8F /* GitServerSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitServerSettingTableViewController.swift; sourceTree = "<group>"; };
 		DCA0499B1E3362F400522E8F /* PGPKeySettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPKeySettingTableViewController.swift; sourceTree = "<group>"; };
-		DCA0499D1E33BAC100522E8F /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		DCA671DE1E7A73B100D3ABE1 /* OneTimePassword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OneTimePassword.framework; path = Carthage/Build/iOS/OneTimePassword.framework; sourceTree = "<group>"; };
 		DCA742D91E599ED400D54E16 /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/iOS/KeychainAccess.framework; sourceTree = "<group>"; };
 		DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
-		DCC408A31E2FCC9E00F29B0E /* PasswordStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PasswordStore.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
-		DCC408C91E30BA1300F29B0E /* pass.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = pass.xcdatamodel; sourceTree = "<group>"; };
 		DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawPasswordViewController.swift; sourceTree = "<group>"; };
 		DCC441531E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitSSHKeyArmorSettingTableViewController.swift; sourceTree = "<group>"; };
-		DCD9AD121EB678500093499A /* GitCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GitCredential.swift; path = pass/Models/GitCredential.swift; sourceTree = SOURCE_ROOT; };
-		DCD9AD141EB6829A0093499A /* AppError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelTableViewCell.xib; sourceTree = "<group>"; };
 		DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTitleTableViewCell.swift; sourceTree = "<group>"; };
 		DCFB77981E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleTextFieldTableViewCell.swift; sourceTree = "<group>"; };
 		DCFB77991E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TitleTextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		DCFB779C1E4F40C7008DE471 /* FillPasswordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FillPasswordTableViewCell.swift; sourceTree = "<group>"; };
 		DCFB779D1E4F40C7008DE471 /* FillPasswordTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FillPasswordTableViewCell.xib; sourceTree = "<group>"; };
-		DCFB77A01E4F68C8008DE471 /* PasswordEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordEntity.swift; sourceTree = "<group>"; };
 		DCFB77A21E500D9C008DE471 /* PasswordDetailTitleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PasswordDetailTitleTableViewCell.xib; sourceTree = "<group>"; };
 		DCFB77A61E502DF9008DE471 /* EditPasswordTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPasswordTableViewController.swift; sourceTree = "<group>"; };
 		DCFB77A81E502FF6008DE471 /* PasswordEditorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordEditorTableViewController.swift; sourceTree = "<group>"; };
 		DCFB77AA1E503729008DE471 /* ContentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
+		E8E62D313271E34D1145C29D /* Pods-pass.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.release.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A26075741EEC6F34005DB03E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2A61C121EEF8E4600CFE063 /* libObjectivePGP.a in Frameworks */,
+				398A8F69C2230A8117820BB7 /* libPods-passKit.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A260757D1EEC6F34005DB03E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A26075811EEC6F34005DB03E /* passKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A26700211EEC466A00176B8A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A26075721EEC6B8D005DB03E /* SwiftyUserDefaults.framework in Frameworks */,
+				A2A61C131EEF90CB00CFE063 /* Base32.framework in Frameworks */,
+				A2A61C151EEF90CB00CFE063 /* KeychainAccess.framework in Frameworks */,
+				A2A61C161EEF90CB00CFE063 /* ObjectiveGit.framework in Frameworks */,
+				A2A61C171EEF90CB00CFE063 /* OneTimePassword.framework in Frameworks */,
+				A2A61C1A1EEF90CB00CFE063 /* SwiftyUserDefaults.framework in Frameworks */,
+				A26075961EEC6F8C005DB03E /* passKit.framework in Frameworks */,
+				B87896CC4725EE267C66D891 /* libPods-passextension.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,21 +297,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A262A58D1E68749C006B0890 /* Base32.framework in Frameworks */,
-				DCA671DF1E7A73B100D3ABE1 /* OneTimePassword.framework in Frameworks */,
-				DC037CAC1E4C1C7100609409 /* FavIcon.framework in Frameworks */,
+				A260758D1EEC6F34005DB03E /* passKit.framework in Frameworks */,
 				DCC408C71E307DBB00F29B0E /* SVProgressHUD.framework in Frameworks */,
-				DCA742DA1E599ED400D54E16 /* KeychainAccess.framework in Frameworks */,
 				DC193FFC1E49E0340077E0A3 /* PasscodeLock.framework in Frameworks */,
-				DC1208581E35EBE60042942E /* ObjectiveGit.framework in Frameworks */,
-				DCA049961E3357E000522E8F /* SwiftyUserDefaults.framework in Frameworks */,
-				94BA784B85E071D25EE89B59 /* libPods-pass.a in Frameworks */,
+				1473B150643891727EB85DFE /* libPods-pass.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A26075791EEC6F34005DB03E /* passKit */ = {
+			isa = PBXGroup;
+			children = (
+				A2F4E20E1EED7F040011986E /* Models */,
+				A26075A51EEC7125005DB03E /* pass.xcdatamodeld */,
+				A2F4E20F1EED7F0A0011986E /* Helpers */,
+				A260757A1EEC6F34005DB03E /* passKit.h */,
+				A260757B1EEC6F34005DB03E /* Info.plist */,
+			);
+			path = passKit;
+			sourceTree = "<group>";
+		};
+		A26075861EEC6F34005DB03E /* passKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				A26075871EEC6F34005DB03E /* passKitTests.swift */,
+				A26075891EEC6F34005DB03E /* Info.plist */,
+			);
+			path = passKitTests;
+			sourceTree = "<group>";
+		};
 		A26700251EEC466A00176B8A /* passextension */ = {
 			isa = PBXGroup;
 			children = (
@@ -242,11 +341,39 @@
 			path = passextension;
 			sourceTree = "<group>";
 		};
+		A2F4E20E1EED7F040011986E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A2F4E2101EED800F0011986E /* GitCredential.swift */,
+				A2F4E2111EED800F0011986E /* Password.swift */,
+				A2F4E2121EED800F0011986E /* PasswordEntity.swift */,
+				A2F4E2131EED800F0011986E /* PasswordStore.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		A2F4E20F1EED7F0A0011986E /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				A2F4E2181EED80160011986E /* AppError.swift */,
+				A2F4E2191EED80160011986E /* DefaultsKeys.swift */,
+				A2F4E21A1EED80160011986E /* Globals.swift */,
+				A2F4E21B1EED80160011986E /* NotificationNames.swift */,
+				A2F4E21C1EED80160011986E /* UITextFieldExtension.swift */,
+				A2F4E21D1EED80160011986E /* Utils.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		A51B01737D08DB47BB58F85A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				274CCFCF32444A2FF46BE7F4 /* Pods-pass.debug.xcconfig */,
-				AEAD6B31EAF5D061447A68CC /* Pods-pass.release.xcconfig */,
+				7E088A9255B6CB576EF757C1 /* Pods-passKit.debug.xcconfig */,
+				CF68FFBE116027CB625ABD45 /* Pods-passKit.release.xcconfig */,
+				A02ACA4077630047EA669D05 /* Pods-pass.debug.xcconfig */,
+				E8E62D313271E34D1145C29D /* Pods-pass.release.xcconfig */,
+				6A8CB4D4311C90B380B99491 /* Pods-passextension.debug.xcconfig */,
+				37527F98FA7BD9E603FAB2BE /* Pods-passextension.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -293,12 +420,8 @@
 		DC19400D1E4B3A340077E0A3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				DC7E6EE91E432E48006C2443 /* Password.swift */,
-				DCFB77A01E4F68C8008DE471 /* PasswordEntity.swift */,
-				DCC408A31E2FCC9E00F29B0E /* PasswordStore.swift */,
 				DC193FFF1E49E1A60077E0A3 /* PasscodeLockConfiguration.swift */,
 				DC193FFD1E49E0760077E0A3 /* PasscodeLockRepository.swift */,
-				DCD9AD121EB678500093499A /* GitCredential.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -306,12 +429,7 @@
 		DC19400E1E4B3A610077E0A3 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				DCA0499D1E33BAC100522E8F /* Globals.swift */,
-				DC4A746D1E30FBDE00E8EB18 /* Objective-CBridgingHeader.h */,
-				DCA049971E33586A00522E8F /* DefaultsKeys.swift */,
-				DC19400A1E4B36B60077E0A3 /* Utils.swift */,
-				A27424D81E7C35960093F436 /* NotificationNames.swift */,
-				A2A89D681E954698003FB2D3 /* UITextFieldExtension.swift */,
+				A2BC54C71EEE5669001FAFBD /* Objective-CBridgingHeader.h */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -344,6 +462,8 @@
 				DC917BD51E2E8231000FDF54 /* pass */,
 				DC13B14F1E8640810097803F /* passTests */,
 				A26700251EEC466A00176B8A /* passextension */,
+				A26075791EEC6F34005DB03E /* passKit */,
+				A26075861EEC6F34005DB03E /* passKitTests */,
 				DC917BD41E2E8231000FDF54 /* Products */,
 				DC917BED1E2F38C4000FDF54 /* Frameworks */,
 				A51B01737D08DB47BB58F85A /* Pods */,
@@ -356,6 +476,8 @@
 				DC917BD31E2E8231000FDF54 /* pass.app */,
 				DC13B14E1E8640810097803F /* passTests.xctest */,
 				A26700241EEC466A00176B8A /* passextension.appex */,
+				A26075781EEC6F34005DB03E /* passKit.framework */,
+				A26075801EEC6F34005DB03E /* passKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -366,7 +488,6 @@
 				A26700321EEC46C400176B8A /* pass.entitlements */,
 				DC917BE21E2E8231000FDF54 /* Info.plist */,
 				DC917BD61E2E8231000FDF54 /* AppDelegate.swift */,
-				DCD9AD141EB6829A0093499A /* AppError.swift */,
 				DC19400D1E4B3A340077E0A3 /* Models */,
 				DC19400C1E4B39400077E0A3 /* Controllers */,
 				DC19400F1E4B3A9E0077E0A3 /* Views */,
@@ -374,7 +495,6 @@
 				DC917BDD1E2E8231000FDF54 /* Assets.xcassets */,
 				DC917BDF1E2E8231000FDF54 /* LaunchScreen.storyboard */,
 				DC917BDA1E2E8231000FDF54 /* Main.storyboard */,
-				DCC408C81E30BA1300F29B0E /* pass.xcdatamodeld */,
 			);
 			path = pass;
 			sourceTree = "<group>";
@@ -382,6 +502,15 @@
 		DC917BED1E2F38C4000FDF54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A2A61C101EEF8E3500CFE063 /* libPods-passKit.a */,
+				A2A61C0C1EEF8DFE00CFE063 /* libPods-passextension.a */,
+				A2227D541EEE5E78002A69A9 /* libObjectivePGP.a */,
+				A2227D551EEE5E78002A69A9 /* libPods-pass.a */,
+				A2227D561EEE5E78002A69A9 /* libPods-passKit.a */,
+				A2227D521EEE5E46002A69A9 /* libPods-pass.a */,
+				A2227D501EEE5E35002A69A9 /* libPods-passKit.a */,
+				A2227D4E1EEE5E31002A69A9 /* libPods-pass.a */,
+				A2227D4C1EEE5E25002A69A9 /* libObjectivePGP.a */,
 				DCA671DE1E7A73B100D3ABE1 /* OneTimePassword.framework */,
 				A262A58C1E68749C006B0890 /* Base32.framework */,
 				DCA742D91E599ED400D54E16 /* KeychainAccess.framework */,
@@ -390,21 +519,75 @@
 				DC1208571E35EBE60042942E /* ObjectiveGit.framework */,
 				DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */,
 				DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */,
-				ADCE7A5C3CCC67D7D21BB3C4 /* libPods-pass.a */,
+				7592A214C22CEBBEF4596CC1 /* libPods-pass.a */,
+				45BAA15189E80AA544EAF7AD /* libPods-passKit.a */,
+				1B240CA444AC9172F3053651 /* libPods-passextension.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		A26075751EEC6F34005DB03E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A260758A1EEC6F34005DB03E /* passKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		A26075771EEC6F34005DB03E /* passKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A260758F1EEC6F34005DB03E /* Build configuration list for PBXNativeTarget "passKit" */;
+			buildPhases = (
+				736C6F64F90A20CB9A00B420 /* [CP] Check Pods Manifest.lock */,
+				A26075731EEC6F34005DB03E /* Sources */,
+				A26075741EEC6F34005DB03E /* Frameworks */,
+				A26075751EEC6F34005DB03E /* Headers */,
+				A26075761EEC6F34005DB03E /* Resources */,
+				FF64BAA847392A8690167C10 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = passKit;
+			productName = passKit;
+			productReference = A26075781EEC6F34005DB03E /* passKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		A260757F1EEC6F34005DB03E /* passKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A26075931EEC6F34005DB03E /* Build configuration list for PBXNativeTarget "passKitTests" */;
+			buildPhases = (
+				A260757C1EEC6F34005DB03E /* Sources */,
+				A260757D1EEC6F34005DB03E /* Frameworks */,
+				A260757E1EEC6F34005DB03E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A26075831EEC6F34005DB03E /* PBXTargetDependency */,
+				A26075851EEC6F34005DB03E /* PBXTargetDependency */,
+			);
+			name = passKitTests;
+			productName = passKitTests;
+			productReference = A26075801EEC6F34005DB03E /* passKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		A26700231EEC466A00176B8A /* passextension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A267002F1EEC466A00176B8A /* Build configuration list for PBXNativeTarget "passextension" */;
 			buildPhases = (
+				833CCF07B581A19455BFF5A2 /* [CP] Check Pods Manifest.lock */,
 				A26700201EEC466A00176B8A /* Sources */,
 				A26700211EEC466A00176B8A /* Frameworks */,
 				A26700221EEC466A00176B8A /* Resources */,
+				E5679233A0ECC12219075B5C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -437,19 +620,21 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DC917BE51E2E8231000FDF54 /* Build configuration list for PBXNativeTarget "pass" */;
 			buildPhases = (
-				68560E350F5EA82DA480749C /* [CP] Check Pods Manifest.lock */,
+				3D4E80016BEE92B70CE75405 /* [CP] Check Pods Manifest.lock */,
 				DC917BCF1E2E8231000FDF54 /* Sources */,
 				DC917BD01E2E8231000FDF54 /* Frameworks */,
 				DC917BD11E2E8231000FDF54 /* Resources */,
 				DC917BEC1E2F3659000FDF54 /* Run Script */,
-				58F20B5DB8A41D610AF2145E /* [CP] Embed Pods Frameworks */,
-				D5AA0953A6BB441CE2390DE3 /* [CP] Copy Pods Resources */,
 				A26700191EEC450100176B8A /* Embed App Extensions */,
+				A26075921EEC6F34005DB03E /* Embed Frameworks */,
+				3DF553C0C5F39FA193B9C51E /* [CP] Embed Pods Frameworks */,
+				580D1C34CDA2A82CF3A4A987 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				A267002D1EEC466A00176B8A /* PBXTargetDependency */,
+				A260758C1EEC6F34005DB03E /* PBXTargetDependency */,
 			);
 			name = pass;
 			productName = pass;
@@ -466,6 +651,17 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Bob Sun";
 				TargetAttributes = {
+					A26075771EEC6F34005DB03E = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 4WDM8E95VU;
+						LastSwiftMigration = 0830;
+						ProvisioningStyle = Automatic;
+					};
+					A260757F1EEC6F34005DB03E = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = DC917BD21E2E8231000FDF54;
+					};
 					A26700231EEC466A00176B8A = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 4WDM8E95VU;
@@ -510,11 +706,27 @@
 				DC917BD21E2E8231000FDF54 /* pass */,
 				DC13B14D1E8640810097803F /* passTests */,
 				A26700231EEC466A00176B8A /* passextension */,
+				A26075771EEC6F34005DB03E /* passKit */,
+				A260757F1EEC6F34005DB03E /* passKitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A26075761EEC6F34005DB03E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A260757E1EEC6F34005DB03E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A26700221EEC466A00176B8A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -552,22 +764,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		58F20B5DB8A41D610AF2145E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-pass/Pods-pass-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		68560E350F5EA82DA480749C /* [CP] Check Pods Manifest.lock */ = {
+		3D4E80016BEE92B70CE75405 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -582,7 +779,22 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		D5AA0953A6BB441CE2390DE3 /* [CP] Copy Pods Resources */ = {
+		3DF553C0C5F39FA193B9C51E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-pass/Pods-pass-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		580D1C34CDA2A82CF3A4A987 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -595,6 +807,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-pass/Pods-pass-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		736C6F64F90A20CB9A00B420 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		833CCF07B581A19455BFF5A2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		DC917BEC1E2F3659000FDF54 /* Run Script */ = {
@@ -619,9 +861,65 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
+		E5679233A0ECC12219075B5C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-passextension/Pods-passextension-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FF64BAA847392A8690167C10 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-passKit/Pods-passKit-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A26075731EEC6F34005DB03E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2F4E2151EED800F0011986E /* Password.swift in Sources */,
+				A26075AD1EEC7125005DB03E /* pass.xcdatamodeld in Sources */,
+				A2F4E21E1EED80160011986E /* AppError.swift in Sources */,
+				A2F4E2171EED800F0011986E /* PasswordStore.swift in Sources */,
+				A2F4E2211EED80160011986E /* NotificationNames.swift in Sources */,
+				A2F4E2221EED80160011986E /* UITextFieldExtension.swift in Sources */,
+				A2F4E2201EED80160011986E /* Globals.swift in Sources */,
+				A2F4E2231EED80160011986E /* Utils.swift in Sources */,
+				A2F4E21F1EED80160011986E /* DefaultsKeys.swift in Sources */,
+				A2F4E2141EED800F0011986E /* GitCredential.swift in Sources */,
+				A2F4E2161EED800F0011986E /* PasswordEntity.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A260757C1EEC6F34005DB03E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A26075881EEC6F34005DB03E /* passKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A26700201EEC466A00176B8A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -642,29 +940,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCC408A41E2FCC9E00F29B0E /* PasswordStore.swift in Sources */,
 				DC037CBF1E4ED4E100609409 /* TextViewTableViewCell.swift in Sources */,
-				DCD9AD151EB6829A0093499A /* AppError.swift in Sources */,
 				DCC441541E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift in Sources */,
 				DC8963C01E38EEB900828B09 /* SSHKeySettingTableViewController.swift in Sources */,
 				DC193FFA1E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift in Sources */,
 				DCFB77AB1E503729008DE471 /* ContentTableViewCell.swift in Sources */,
 				DCA0499C1E3362F400522E8F /* PGPKeySettingTableViewController.swift in Sources */,
-				DC7E6EEA1E432E48006C2443 /* Password.swift in Sources */,
 				DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */,
 				DC5F385B1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift in Sources */,
-				A27424D91E7C35960093F436 /* NotificationNames.swift in Sources */,
 				DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */,
 				A217ACE21E9AB17C00A1A6CF /* OTPScannerController.swift in Sources */,
 				DCFB77A71E502DF9008DE471 /* EditPasswordTableViewController.swift in Sources */,
 				DCA0499A1E335CC800522E8F /* GitServerSettingTableViewController.swift in Sources */,
 				DCDDEAB31E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift in Sources */,
 				A2A7813F1E97DBD9001311F5 /* QRScannerController.swift in Sources */,
-				DCC277D21E30D6EA00402246 /* pass.xcdatamodeld in Sources */,
 				DC4914991E434600007FF592 /* PasswordDetailTableViewController.swift in Sources */,
 				DC962CDF1E4B62C10033B5D8 /* AboutTableViewController.swift in Sources */,
 				DC5734AE1E439AD400D09270 /* PasswordsViewController.swift in Sources */,
-				DCD9AD131EB678500093499A /* GitCredential.swift in Sources */,
 				DC3E64E61E656F11009A83DE /* CommitLogsTableViewController.swift in Sources */,
 				DC037CAA1E4B8EAE00609409 /* SpecialThanksTableViewController.swift in Sources */,
 				DC037CA61E4B883900609409 /* OpenSourceComponentsTableViewController.swift in Sources */,
@@ -679,13 +971,8 @@
 				DC1940001E49E1A60077E0A3 /* PasscodeLockConfiguration.swift in Sources */,
 				DC917BD71E2E8231000FDF54 /* AppDelegate.swift in Sources */,
 				DCFB779A1E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift in Sources */,
-				A2A89D691E954698003FB2D3 /* UITextFieldExtension.swift in Sources */,
 				DC037CBB1E4DD47B00609409 /* TextFieldTableViewCell.swift in Sources */,
 				DC193FFE1E49E0760077E0A3 /* PasscodeLockRepository.swift in Sources */,
-				DCA049981E33586A00522E8F /* DefaultsKeys.swift in Sources */,
-				DC19400B1E4B36B60077E0A3 /* Utils.swift in Sources */,
-				DCA0499E1E33BAC100522E8F /* Globals.swift in Sources */,
-				DCFB77A11E4F68C8008DE471 /* PasswordEntity.swift in Sources */,
 				DCFB77A91E502FF6008DE471 /* PasswordEditorTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -693,6 +980,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A26075831EEC6F34005DB03E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A26075771EEC6F34005DB03E /* passKit */;
+			targetProxy = A26075821EEC6F34005DB03E /* PBXContainerItemProxy */;
+		};
+		A26075851EEC6F34005DB03E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DC917BD21E2E8231000FDF54 /* pass */;
+			targetProxy = A26075841EEC6F34005DB03E /* PBXContainerItemProxy */;
+		};
+		A260758C1EEC6F34005DB03E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A26075771EEC6F34005DB03E /* passKit */;
+			targetProxy = A260758B1EEC6F34005DB03E /* PBXContainerItemProxy */;
+		};
 		A267002D1EEC466A00176B8A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A26700231EEC466A00176B8A /* passextension */;
@@ -733,16 +1035,145 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		A26700301EEC466A00176B8A /* Debug */ = {
+		A26075901EEC6F34005DB03E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7E088A9255B6CB576EF757C1 /* Pods-passKit.debug.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 4WDM8E95VU;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				HEADER_SEARCH_PATHS = (
+					"${inherited}",
+					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
+				);
+				INFOPLIST_FILE = passKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/ObjectivePGP",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
+				MODULEMAP_FILE = "";
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios.passKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		A26075911EEC6F34005DB03E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CF68FFBE116027CB625ABD45 /* Pods-passKit.release.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 4WDM8E95VU;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				HEADER_SEARCH_PATHS = (
+					"${inherited}",
+					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
+				);
+				INFOPLIST_FILE = passKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/ObjectivePGP",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
+				MODULEMAP_FILE = "";
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios.passKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		A26075941EEC6F34005DB03E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				INFOPLIST_FILE = passKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios.passKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pass.app/pass";
+			};
+			name = Debug;
+		};
+		A26075951EEC6F34005DB03E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				INFOPLIST_FILE = passKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios.passKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pass.app/pass";
+			};
+			name = Release;
+		};
+		A26700301EEC466A00176B8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A8CB4D4311C90B380B99491 /* Pods-passextension.debug.xcconfig */;
+			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = passextension/passextension.entitlements;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				HEADER_SEARCH_PATHS = (
+					"${inherited}",
+					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
 				INFOPLIST_FILE = passextension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
@@ -756,14 +1187,20 @@
 		};
 		A26700311EEC466A00176B8A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 37527F98FA7BD9E603FAB2BE /* Pods-passextension.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = passextension/passextension.entitlements;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				HEADER_SEARCH_PATHS = (
+					"${inherited}",
+					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
 				INFOPLIST_FILE = passextension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
@@ -900,10 +1337,11 @@
 		};
 		DC917BE61E2E8231000FDF54 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 274CCFCF32444A2FF46BE7F4 /* Pods-pass.debug.xcconfig */;
+			baseConfigurationReference = A02ACA4077630047EA669D05 /* Pods-pass.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = pass/pass.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 2;
@@ -922,11 +1360,17 @@
 				);
 				INFOPLIST_FILE = pass/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/ObjectivePGP\"",
+					"\"${PODS_ROOT}/OpenSSL-Universal/lib-ios\"",
+				);
+				OTHER_LDFLAGS = "${inherited}";
 				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "893c10b3-79b1-46f7-914a-e625bf10d665";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development me.mssun.passforios";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/pass/Helpers/Objective-CBridgingHeader.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "pass/Helpers/Objective-CBridgingHeader.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -935,10 +1379,11 @@
 		};
 		DC917BE71E2E8231000FDF54 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AEAD6B31EAF5D061447A68CC /* Pods-pass.release.xcconfig */;
+			baseConfigurationReference = E8E62D313271E34D1145C29D /* Pods-pass.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = pass/pass.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 2;
@@ -957,11 +1402,19 @@
 				);
 				INFOPLIST_FILE = pass/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/ObjectivePGP\"",
+					"\"${PODS_ROOT}/OpenSSL-Universal/lib-ios\"",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/ObjectivePGP",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
+				OTHER_LDFLAGS = "${inherited}";
 				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "aefeea85-1194-4db2-9ce4-fb9995e2fdff";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore me.mssun.passforios";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/pass/Helpers/Objective-CBridgingHeader.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "pass/Helpers/Objective-CBridgingHeader.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -971,6 +1424,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A260758F1EEC6F34005DB03E /* Build configuration list for PBXNativeTarget "passKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A26075901EEC6F34005DB03E /* Debug */,
+				A26075911EEC6F34005DB03E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A26075931EEC6F34005DB03E /* Build configuration list for PBXNativeTarget "passKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A26075941EEC6F34005DB03E /* Debug */,
+				A26075951EEC6F34005DB03E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A267002F1EEC466A00176B8A /* Build configuration list for PBXNativeTarget "passextension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1010,12 +1481,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		DCC408C81E30BA1300F29B0E /* pass.xcdatamodeld */ = {
+		A26075A51EEC7125005DB03E /* pass.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				DCC408C91E30BA1300F29B0E /* pass.xcdatamodel */,
+				A26075A61EEC7125005DB03E /* pass.xcdatamodel */,
 			);
-			currentVersion = DCC408C91E30BA1300F29B0E /* pass.xcdatamodel */;
+			currentVersion = A26075A61EEC7125005DB03E /* pass.xcdatamodel */;
 			path = pass.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

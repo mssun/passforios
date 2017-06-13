@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SwiftyUserDefaults
+import passKit
 
 class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextViewDelegate, QRScannerControllerDelegate {
     @IBOutlet weak var armorPrivateKeyTextView: UITextView!
@@ -73,7 +73,7 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        armorPrivateKeyTextView.text = Defaults[.gitSSHPrivateKeyArmor]
+        armorPrivateKeyTextView.text = SharedDefaults[.gitSSHPrivateKeyArmor]
         armorPrivateKeyTextView.delegate = self
         
         scanPrivateKeyCell?.textLabel?.text = "Scan Private Key QR Codes"
@@ -83,13 +83,13 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
     }
     
     @IBAction func doneButtonTapped(_ sender: Any) {
-        Defaults[.gitSSHPrivateKeyArmor] = armorPrivateKeyTextView.text
+        SharedDefaults[.gitSSHPrivateKeyArmor] = armorPrivateKeyTextView.text
         do {
-            try passwordStore.initGitSSHKey(with: armorPrivateKeyTextView.text, .secret)
+            try passwordStore.initGitSSHKey(with: armorPrivateKeyTextView.text)
         } catch {
             Utils.alert(title: "Cannot Save", message: "Cannot Save SSH Key", controller: self, completion: nil)
         }
-        Defaults[.gitSSHKeySource] = "armor"
+        SharedDefaults[.gitSSHKeySource] = "armor"
         self.navigationController!.popViewController(animated: true)
     }
     

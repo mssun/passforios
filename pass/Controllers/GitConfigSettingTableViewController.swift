@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyUserDefaults
+import passKit
 
 class GitConfigSettingTableViewController: UITableViewController {
     let passwordStore = PasswordStore.shared
@@ -22,8 +23,8 @@ class GitConfigSettingTableViewController: UITableViewController {
         let signature = passwordStore.gitSignatureForNow
         nameTextField.placeholder = signature.name
         emailTextField.placeholder = signature.email
-        nameTextField.text = Defaults[.gitSignatureName]
-        emailTextField.text = Defaults[.gitSignatureEmail]
+        nameTextField.text = SharedDefaults[.gitSignatureName]
+        emailTextField.text = SharedDefaults[.gitSignatureEmail]
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {

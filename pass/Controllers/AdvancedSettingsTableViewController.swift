@@ -8,7 +8,7 @@
 
 import UIKit
 import SVProgressHUD
-import SwiftyUserDefaults
+import passKit
 
 class AdvancedSettingsTableViewController: UITableViewController {
 
@@ -28,7 +28,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        encryptInASCIIArmoredSwitch.isOn = Defaults[.encryptInArmored]
+        encryptInASCIIArmoredSwitch.isOn = SharedDefaults[.encryptInArmored]
         encryptInASCIIArmoredTableViewCell.accessoryView = encryptInASCIIArmoredSwitch
         encryptInASCIIArmoredTableViewCell.selectionStyle = .none
         setGitSignatureText()
@@ -39,7 +39,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
         let gitSignatureEmail = passwordStore.gitSignatureForNow.email!
         self.gitSignatureTableViewCell.detailTextLabel?.font = UIFont.systemFont(ofSize: 14)
         self.gitSignatureTableViewCell.detailTextLabel?.text = "\(gitSignatureName) <\(gitSignatureEmail)>"
-        if Defaults[.gitSignatureName] == nil && Defaults[.gitSignatureEmail] == nil {
+        if SharedDefaults[.gitSignatureName] == nil && SharedDefaults[.gitSignatureEmail] == nil {
             self.gitSignatureTableViewCell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17)
             gitSignatureTableViewCell.detailTextLabel?.text = "Not Set"
         }
@@ -85,7 +85,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
     }
     
     func encryptInASCIIArmoredAction(_ sender: Any?) {
-        Defaults[.encryptInArmored] = encryptInASCIIArmoredSwitch.isOn
+        SharedDefaults[.encryptInArmored] = encryptInASCIIArmoredSwitch.isOn
     }
     
     @IBAction func cancelGitConfigSetting(segue: UIStoryboardSegue) {
@@ -95,8 +95,8 @@ class AdvancedSettingsTableViewController: UITableViewController {
         if let controller = segue.source as? GitConfigSettingTableViewController {
             if let gitSignatureName = controller.nameTextField.text,
                 let gitSignatureEmail = controller.emailTextField.text {
-                Defaults[.gitSignatureName] = gitSignatureName.isEmpty ? nil : gitSignatureName
-                Defaults[.gitSignatureEmail] = gitSignatureEmail.isEmpty ? nil : gitSignatureEmail
+                SharedDefaults[.gitSignatureName] = gitSignatureName.isEmpty ? nil : gitSignatureName
+                SharedDefaults[.gitSignatureEmail] = gitSignatureEmail.isEmpty ? nil : gitSignatureEmail
             }
             setGitSignatureText()
         }

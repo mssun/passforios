@@ -9,9 +9,9 @@
 import UIKit
 import SVProgressHUD
 import CoreData
-import SwiftyUserDefaults
 import PasscodeLock
 import LocalAuthentication
+import passKit
 
 class SettingsTableViewController: UITableViewController {
     
@@ -27,26 +27,27 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var passcodeTableViewCell: UITableViewCell!
     @IBOutlet weak var passwordRepositoryTableViewCell: UITableViewCell!
     let passwordStore = PasswordStore.shared
+    var passcodeLockConfig = PasscodeLockConfiguration.shared
 
     @IBAction func cancelPGPKey(segue: UIStoryboardSegue) {
     }
     
     @IBAction func savePGPKey(segue: UIStoryboardSegue) {
         if let controller = segue.source as? PGPKeySettingTableViewController {
-            Defaults[.pgpPrivateKeyURL] = URL(string: controller.pgpPrivateKeyURLTextField.text!)
-            Defaults[.pgpPublicKeyURL] = URL(string: controller.pgpPublicKeyURLTextField.text!)
-            if Defaults[.isRememberPassphraseOn] {
+            SharedDefaults[.pgpPrivateKeyURL] = URL(string: controller.pgpPrivateKeyURLTextField.text!)
+            SharedDefaults[.pgpPublicKeyURL] = URL(string: controller.pgpPublicKeyURLTextField.text!)
+            if SharedDefaults[.isRememberPassphraseOn] {
                 self.passwordStore.pgpKeyPassphrase = controller.pgpPassphrase
             }
-            Defaults[.pgpKeySource] = "url"
+            SharedDefaults[.pgpKeySource] = "url"
             
             SVProgressHUD.setDefaultMaskType(.black)
             SVProgressHUD.setDefaultStyle(.light)
             SVProgressHUD.show(withStatus: "Fetching PGP Key")
             DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                 do {
-                    try self.passwordStore.initPGPKey(from: Defaults[.pgpPublicKeyURL]!, keyType: .public)
-                    try self.passwordStore.initPGPKey(from: Defaults[.pgpPrivateKeyURL]!, keyType: .secret)
+                    try self.passwordStore.initPGPKey(from: SharedDefaults[.pgpPublicKeyURL]!, keyType: .public)
+                    try self.passwordStore.initPGPKey(from: SharedDefaults[.pgpPrivateKeyURL]!, keyType: .secret)
                     DispatchQueue.main.async {
                         self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
                         SVProgressHUD.showSuccess(withStatus: "Success")
@@ -62,13 +63,13 @@ class SettingsTableViewController: UITableViewController {
             }
             
         } else if let controller = segue.source as? PGPKeyArmorSettingTableViewController {
-            Defaults[.pgpKeySource] = "armor"
-            if Defaults[.isRememberPassphraseOn] {
+            SharedDefaults[.pgpKeySource] = "armor"
+            if SharedDefaults[.isRememberPassphraseOn] {
                 self.passwordStore.pgpKeyPassphrase = controller.pgpPassphrase
             }
 
-            Defaults[.pgpPublicKeyArmor] = controller.armorPublicKeyTextView.text!
-            Defaults[.pgpPrivateKeyArmor] = controller.armorPrivateKeyTextView.text!
+            SharedDefaults[.pgpPublicKeyArmor] = controller.armorPublicKeyTextView.text!
+            SharedDefaults[.pgpPrivateKeyArmor] = controller.armorPrivateKeyTextView.text!
             
             SVProgressHUD.setDefaultMaskType(.black)
             SVProgressHUD.setDefaultStyle(.light)
@@ -94,7 +95,7 @@ class SettingsTableViewController: UITableViewController {
     
     private func saveImportedPGPKey() {
         // load keys
-        Defaults[.pgpKeySource] = "file"
+        SharedDefaults[.pgpKeySource] = "file"
         
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
@@ -120,7 +121,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func saveGitServerSetting(segue: UIStoryboardSegue) {
-        self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitURL]?.host
+        self.passwordRepositoryTableViewCell.detailTextLabel?.text = SharedDefaults[.gitURL]?.host
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -138,7 +139,7 @@ class SettingsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.actOnPasswordStoreErasedNotification), name: .passwordStoreErased, object: nil)
-        self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitURL]?.host
+        self.passwordRepositoryTableViewCell.detailTextLabel?.text = SharedDefaults[.gitURL]?.host
         touchIDTableViewCell.accessoryView = touchIDSwitch
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()
@@ -170,13 +171,13 @@ class SettingsTableViewController: UITableViewController {
     private func setPasscodeLockTouchIDCells() {
         if PasscodeLockRepository().hasPasscode {
             self.passcodeTableViewCell.detailTextLabel?.text = "On"
-            Globals.passcodeConfiguration.isTouchIDAllowed = true
-            touchIDSwitch.isOn = Defaults[.isTouchIDOn]
+            passcodeLockConfig.isTouchIDAllowed = true
+            touchIDSwitch.isOn = SharedDefaults[.isTouchIDOn]
         } else {
             self.passcodeTableViewCell.detailTextLabel?.text = "Off"
-            Globals.passcodeConfiguration.isTouchIDAllowed = false
-            Defaults[.isTouchIDOn] = false
-            touchIDSwitch.isOn = Defaults[.isTouchIDOn]
+            passcodeLockConfig.isTouchIDAllowed = false
+            SharedDefaults[.isTouchIDOn] = false
+            touchIDSwitch.isOn = SharedDefaults[.isTouchIDOn]
         }
     }
     
@@ -189,10 +190,10 @@ class SettingsTableViewController: UITableViewController {
     }
     
     private func setPasswordRepositoryTableViewCellDetailText() {
-        if Defaults[.gitURL] == nil {
+        if SharedDefaults[.gitURL] == nil {
             passwordRepositoryTableViewCell.detailTextLabel?.text = "Not Set"
         } else {
-            passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults[.gitURL]!.host
+            passwordRepositoryTableViewCell.detailTextLabel?.text = SharedDefaults[.gitURL]!.host
         }
     }
     
@@ -202,12 +203,12 @@ class SettingsTableViewController: UITableViewController {
         setPasscodeLockTouchIDCells()
 
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: Globals.passcodeConfiguration)
+        appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: passcodeLockConfig)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView.cellForRow(at: indexPath) == passcodeTableViewCell {
-            if Defaults[.passcodeKey] != nil{
+            if SharedDefaults[.passcodeKey] != nil{
                 showPasscodeActionSheet()
             } else {
                 setPasscodeLock()
@@ -219,17 +220,17 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func touchIDSwitchAction(uiSwitch: UISwitch) {
-        if !Globals.passcodeConfiguration.isTouchIDAllowed || !isTouchIDEnabled() {
+        if !passcodeLockConfig.isTouchIDAllowed || !isTouchIDEnabled() {
             // switch off
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-                uiSwitch.isOn = Defaults[.isTouchIDOn]  // false
+                uiSwitch.isOn = SharedDefaults[.isTouchIDOn]  // false
                 Utils.alert(title: "Notice", message: "Please enable Touch ID and set the passcode lock first.", controller: self, completion: nil)
             }
         } else {
-            Defaults[.isTouchIDOn] = uiSwitch.isOn
+            SharedDefaults[.isTouchIDOn] = uiSwitch.isOn
         }
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: Globals.passcodeConfiguration)
+        appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: passcodeLockConfig)
     }
     
     func showPGPKeyActionSheet() {
@@ -238,11 +239,11 @@ class SettingsTableViewController: UITableViewController {
         var armorActionTitle = "ASCII-Armor Encrypted Key"
         var fileActionTitle = "Use Imported Keys"
         
-        if Defaults[.pgpKeySource] == "url" {
+        if SharedDefaults[.pgpKeySource] == "url" {
            urlActionTitle = "✓ \(urlActionTitle)"
-        } else if Defaults[.pgpKeySource] == "armor" {
+        } else if SharedDefaults[.pgpKeySource] == "armor" {
             armorActionTitle = "✓ \(armorActionTitle)"
-        } else if Defaults[.pgpKeySource] == "file" {
+        } else if SharedDefaults[.pgpKeySource] == "file" {
             fileActionTitle = "✓ \(fileActionTitle)"
         }
         let urlAction = UIAlertAction(title: urlActionTitle, style: .default) { _ in
@@ -262,7 +263,7 @@ class SettingsTableViewController: UITableViewController {
                 // no
                 savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
                     self.passwordStore.pgpKeyPassphrase = nil
-                    Defaults[.isRememberPassphraseOn] = false
+                    SharedDefaults[.isRememberPassphraseOn] = false
                     self.saveImportedPGPKey()
                 })
                 // yes
@@ -271,7 +272,7 @@ class SettingsTableViewController: UITableViewController {
                     let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
                         self.passwordStore.pgpKeyPassphrase = alert.textFields?.first?.text
-                        Defaults[.isRememberPassphraseOn] = true
+                        SharedDefaults[.isRememberPassphraseOn] = true
                         self.saveImportedPGPKey()
                     }))
                     alert.addTextField(configurationHandler: {(textField: UITextField!) in
@@ -293,7 +294,7 @@ class SettingsTableViewController: UITableViewController {
         }
         
         
-        if Defaults[.pgpKeySource] != nil {
+        if SharedDefaults[.pgpKeySource] != nil {
             let deleteAction = UIAlertAction(title: "Remove PGP Keys", style: .destructive) { _ in
                 self.passwordStore.removePGPKeys()
                 self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
@@ -307,15 +308,15 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func showPasscodeActionSheet() {
-        let passcodeChangeViewController = PasscodeLockViewController(state: .change, configuration: Globals.passcodeConfiguration)
-        let passcodeRemoveViewController = PasscodeLockViewController(state: .remove, configuration: Globals.passcodeConfiguration)
+        let passcodeChangeViewController = PasscodeLockViewController(state: .change, configuration: passcodeLockConfig)
+        let passcodeRemoveViewController = PasscodeLockViewController(state: .remove, configuration: passcodeLockConfig)
 
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let removePasscodeAction = UIAlertAction(title: "Remove Passcode", style: .destructive) { [weak self] _ in
             passcodeRemoveViewController.successCallback  = { _ in
                 self?.setPasscodeLockTouchIDCells()
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: Globals.passcodeConfiguration)
+                appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: (self?.passcodeLockConfig)!)
             }
             self?.present(passcodeRemoveViewController, animated: true, completion: nil)
         }
@@ -334,7 +335,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func setPasscodeLock() {
-        let passcodeSetViewController = PasscodeLockViewController(state: .set, configuration: Globals.passcodeConfiguration)
+        let passcodeSetViewController = PasscodeLockViewController(state: .set, configuration: passcodeLockConfig)
         passcodeSetViewController.successCallback = { _ in
             self.setPasscodeLockTouchIDCells()
         }

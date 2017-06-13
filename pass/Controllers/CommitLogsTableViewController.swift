@@ -8,6 +8,7 @@
 
 import UIKit
 import ObjectiveGit
+import passKit
 
 class CommitLogsTableViewController: UITableViewController {
     var commits: [GTCommit] = []

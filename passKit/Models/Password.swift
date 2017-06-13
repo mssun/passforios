@@ -22,12 +22,12 @@ enum PasswordChange: Int {
     case none = 0x00
 }
 
-class Password {
-    static let otpKeywords = ["otp_secret", "otp_type", "otp_algorithm", "otp_period", "otp_digits", "otp_counter", "otpauth"]
+public class Password {
+    public static let otpKeywords = ["otp_secret", "otp_type", "otp_algorithm", "otp_period", "otp_digits", "otp_counter", "otpauth"]
 
-    var name = ""
-    var url: URL?
-    var namePath: String {
+    public var name = ""
+    public var url: URL?
+    public var namePath: String {
         get {
             if url == nil {
                 return ""
@@ -35,20 +35,20 @@ class Password {
             return url!.deletingPathExtension().path
         }
     }
-    var password = ""
-    var additions = [String: String]()
-    var additionKeys = [String]()
-    var changed: Int = 0
-    var plainText = ""
+    public var password = ""
+    public var additions = [String: String]()
+    public var additionKeys = [String]()
+    public var changed: Int = 0
+    public var plainText = ""
     
     private var firstLineIsOTPField = false
     private var otpToken: Token?
     
-    enum OtpType {
+    public enum OtpType {
         case totp, hotp, none
     }
     
-    var otpType: OtpType {
+    public var otpType: OtpType {
         get {
             guard let token = self.otpToken else {
                 return OtpType.none
@@ -62,11 +62,11 @@ class Password {
         }
     }
     
-    init(name: String, url: URL?, plainText: String) {
+    public init(name: String, url: URL?, plainText: String) {
         self.initEverything(name: name, url: url, plainText: plainText)
     }
     
-    func updatePassword(name: String, url: URL?, plainText: String) {
+    public func updatePassword(name: String, url: URL?, plainText: String) {
         if self.plainText != plainText || self.url != url {
             if self.plainText != plainText {
                 changed = changed|PasswordChange.content.rawValue
@@ -108,17 +108,17 @@ class Password {
         self.updateOtpToken()
     }
     
-    func getUsername() -> String? {
+    public func getUsername() -> String? {
         return getAdditionValue(withKey: "Username") ?? getAdditionValue(withKey: "username")
     }
     
-    func getURLString() -> String? {
+    public func getURLString() -> String? {
         return getAdditionValue(withKey: "URL") ?? getAdditionValue(withKey: "url") ?? getAdditionValue(withKey: "Url")
     }
     
     // return a key-value pair from the line
     // key might be nil, if there is no ":" in the line
-    static private func getKeyValuePair(from line: String) -> (key: String?, value: String) {
+    private static func getKeyValuePair(from line: String) -> (key: String?, value: String) {
         let items = line.components(separatedBy: ": ").map{String($0).trimmingCharacters(in: .whitespaces)}
         var key : String? = nil
         var value = ""
@@ -138,7 +138,7 @@ class Password {
         return (key, value)
     }
     
-    static private func getAdditionFields(from additionFieldsPlainText: String) -> ([String: String], [String]){
+    private static func getAdditionFields(from additionFieldsPlainText: String) -> ([String: String], [String]){
         var additions = [String: String]()
         var additionKeys = [String]()
         var unknownIndex = 0
@@ -159,7 +159,7 @@ class Password {
         return (additions, additionKeys)
     }
     
-    func getAdditionsPlainText() -> String {
+    public func getAdditionsPlainText() -> String {
         // lines starting from the second
         let plainTextSplit = plainText.characters.split(maxSplits: 1, omittingEmptySubsequences: false) {
             $0 == "\n" || $0 == "\r\n"
@@ -175,7 +175,7 @@ class Password {
         return self.plainText
     }
     
-    func getPlainData() -> Data {
+    public func getPlainData() -> Data {
         return getPlainText().data(using: .utf8)!
     }
     
@@ -290,7 +290,7 @@ class Password {
     }
     
     // return the description and the password strings
-    func getOtpStrings() -> (description: String, otp: String)? {
+    public func getOtpStrings() -> (description: String, otp: String)? {
         guard let token = self.otpToken else {
             return nil
         }
@@ -310,7 +310,7 @@ class Password {
     }
     
     // return the password strings
-    func getOtp() -> String? {
+    public func getOtp() -> String? {
         if let otp = self.otpToken?.currentPassword {
             return otp
         } else {
@@ -320,7 +320,7 @@ class Password {
     
     // return the password strings
     // it is guaranteed that it is a HOTP password when we call this
-    func getNextHotp() -> String? {
+    public func getNextHotp() -> String? {
         // increase the counter
         otpToken = otpToken?.updatedToken()
         
@@ -349,7 +349,7 @@ class Password {
         return self.otpToken?.currentPassword
     }
     
-    static func LooksLikeOTP(line: String) -> Bool {
+    public static func LooksLikeOTP(line: String) -> Bool {
         let (key, _) = getKeyValuePair(from: line)
         return Password.otpKeywords.contains(key ?? "")
     }

@@ -8,8 +8,7 @@
 
 import UIKit
 import SVProgressHUD
-import SwiftyUserDefaults
-import PasscodeLock
+import passKit
 
 fileprivate class PasswordsTableEntry : NSObject {
     var title: String
@@ -87,7 +86,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         filteredPasswordsTableEntries.removeAll()
         var passwordEntities = [PasswordEntity]()
         var passwordAllEntities = [PasswordEntity]()
-        if Defaults[.isShowFolderOn] {
+        if SharedDefaults[.isShowFolderOn] {
             passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(parent: parent)
         } else {
             passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
@@ -139,12 +138,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         SVProgressHUD.show(withStatus: "Sync Password Store")
         let numberOfLocalCommits = self.passwordStore.numberOfLocalCommits()
         var gitCredential: GitCredential
-        if Defaults[.gitAuthenticationMethod] == "Password" {
-            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: Defaults[.gitUsername]!, controller: self))
+        if SharedDefaults[.gitAuthenticationMethod] == "Password" {
+            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: SharedDefaults[.gitUsername]!, controller: self))
         } else {
             gitCredential = GitCredential(
                 credential: GitCredential.Credential.ssh(
-                    userName: Defaults[.gitUsername]!,
+                    userName: SharedDefaults[.gitUsername]!,
                     privateKeyFile: Globals.gitSSHPrivateKeyURL,
                     controller: self
                 )
@@ -184,7 +183,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if Defaults[.isShowFolderOn] {
+        if SharedDefaults[.isShowFolderOn] {
             searchController.searchBar.scopeButtonTitles = ["Current", "All"]
         } else {
             searchController.searchBar.scopeButtonTitles = nil
@@ -238,7 +237,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
         longPressGestureRecognizer.minimumPressDuration = 0.6
-        if Defaults[.isShowFolderOn] && searchController.searchBar.selectedScopeButtonIndex == 0{
+        if SharedDefaults[.isShowFolderOn] && searchController.searchBar.selectedScopeButtonIndex == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
             
             let entry = getPasswordEntry(by: indexPath)
@@ -296,7 +295,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func backAction(_ sender: Any?) {
-        guard Defaults[.isShowFolderOn] else { return }
+        guard SharedDefaults[.isShowFolderOn] else { return }
         var anim: CATransition? = transitionFromLeft
         if parentPasswordEntity == nil {
             anim = nil
@@ -363,7 +362,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             // bring back
             SVProgressHUD.show(withStatus: "Decrypting")
         }
-        if Defaults[.isRememberPassphraseOn] {
+        if SharedDefaults[.isRememberPassphraseOn] {
             self.passwordStore.pgpKeyPassphrase = passphrase
         }
         return passphrase

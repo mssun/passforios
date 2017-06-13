@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SwiftyUserDefaults
+import passKit
 
 class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDelegate, QRScannerControllerDelegate {
     @IBOutlet weak var armorPublicKeyTextView: UITextView!
@@ -92,8 +92,8 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        armorPublicKeyTextView.text = Defaults[.pgpPublicKeyArmor]
-        armorPrivateKeyTextView.text = Defaults[.pgpPrivateKeyArmor]
+        armorPublicKeyTextView.text = SharedDefaults[.pgpPublicKeyArmor]
+        armorPrivateKeyTextView.text = SharedDefaults[.pgpPrivateKeyArmor]
         pgpPassphrase = passwordStore.pgpKeyPassphrase
         
         scanPublicKeyCell?.textLabel?.text = "Scan Public Key QR Codes"
@@ -126,7 +126,7 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
         // no
         savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
             self.pgpPassphrase = nil
-            Defaults[.isRememberPassphraseOn] = false
+            SharedDefaults[.isRememberPassphraseOn] = false
             self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
         })
         // yes
@@ -135,7 +135,7 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
             let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
                 self.pgpPassphrase = alert.textFields?.first?.text
-                Defaults[.isRememberPassphraseOn] = true
+                SharedDefaults[.isRememberPassphraseOn] = true
                 self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
             }))
             alert.addTextField(configurationHandler: {(textField: UITextField!) in

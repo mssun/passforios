@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SwiftyUserDefaults
+import passKit
 
 class PGPKeySettingTableViewController: UITableViewController {
 
@@ -19,8 +19,8 @@ class PGPKeySettingTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = UITableViewAutomaticDimension
-        pgpPublicKeyURLTextField.text = Defaults[.pgpPublicKeyURL]?.absoluteString
-        pgpPrivateKeyURLTextField.text = Defaults[.pgpPrivateKeyURL]?.absoluteString
+        pgpPublicKeyURLTextField.text = SharedDefaults[.pgpPublicKeyURL]?.absoluteString
+        pgpPrivateKeyURLTextField.text = SharedDefaults[.pgpPrivateKeyURL]?.absoluteString
         pgpPassphrase = passwordStore.pgpKeyPassphrase
     }
     
@@ -51,7 +51,7 @@ class PGPKeySettingTableViewController: UITableViewController {
         // no
         savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
             self.pgpPassphrase = nil
-            Defaults[.isRememberPassphraseOn] = false
+            SharedDefaults[.isRememberPassphraseOn] = false
             self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
         })
         // yes
@@ -60,7 +60,7 @@ class PGPKeySettingTableViewController: UITableViewController {
             let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
                 self.pgpPassphrase = alert.textFields?.first?.text
-                Defaults[.isRememberPassphraseOn] = true
+                SharedDefaults[.isRememberPassphraseOn] = true
                 self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
             }))
             alert.addTextField(configurationHandler: {(textField: UITextField!) in

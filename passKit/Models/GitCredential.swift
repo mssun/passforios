@@ -12,19 +12,19 @@ import SwiftyUserDefaults
 import ObjectiveGit
 import SVProgressHUD
 
-struct GitCredential {
-    var credential: Credential
+public struct GitCredential {
+    public var credential: Credential
     
-    enum Credential {
+    public enum Credential {
         case http(userName: String, controller: UIViewController)
         case ssh(userName: String, privateKeyFile: URL, controller: UIViewController)
     }
     
-    init(credential: Credential) {
+    public init(credential: Credential) {
         self.credential = credential
     }
     
-    func credentialProvider() throws -> GTCredentialProvider {
+    public func credentialProvider() throws -> GTCredentialProvider {
         var attempts = 0
         var lastPassword: String? = nil
         return GTCredentialProvider { (_, _, _) -> (GTCredential?) in
@@ -63,7 +63,7 @@ struct GitCredential {
         }
     }
     
-    func delete() {
+    public func delete() {
         switch credential {
         case .http:
             Utils.removeKeychain(name: "gitPassword")

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SwiftyUserDefaults
+import passKit
 
 class AddPasswordTableViewController: PasswordEditorTableViewController {
     var tempContent: String = ""
@@ -20,7 +20,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
             [[.type: PasswordEditorCellType.additionsCell, .title: "additions"]],
             [[.type: PasswordEditorCellType.scanQRCodeCell]]
         ]
-        if let lengthSetting = Globals.passwordDefaultLength[Defaults[.passwordGeneratorFlavor]],
+        if let lengthSetting = Globals.passwordDefaultLength[SharedDefaults[.passwordGeneratorFlavor]],
             lengthSetting.max > lengthSetting.min {
             tableData[1].append([.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"])
         }

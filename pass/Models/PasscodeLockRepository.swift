@@ -8,7 +8,7 @@
 
 import Foundation
 import PasscodeLock
-import SwiftyUserDefaults
+import passKit
 
 public class PasscodeLockRepository: PasscodeRepositoryType {
     private let passcodeKey = "passcode.lock.passcode"
@@ -23,11 +23,11 @@ public class PasscodeLockRepository: PasscodeRepositoryType {
     }
     
     private var passcode: String? {
-        return Defaults[.passcodeKey]
+        return SharedDefaults[.passcodeKey]
     }
     
     public func save(passcode: String) {
-        Defaults[.passcodeKey] = passcode
+        SharedDefaults[.passcodeKey] = passcode
     }
     
     public func check(passcode: String) -> Bool {
@@ -35,6 +35,6 @@ public class PasscodeLockRepository: PasscodeRepositoryType {
     }
     
     public func delete() {
-        Defaults[.passcodeKey] = nil
+        SharedDefaults[.passcodeKey] = nil
     }
 }

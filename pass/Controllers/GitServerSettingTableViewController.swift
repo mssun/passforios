@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import SwiftyUserDefaults
 import SVProgressHUD
+import passKit
 
 class GitServerSettingTableViewController: UITableViewController {
 
@@ -19,7 +19,7 @@ class GitServerSettingTableViewController: UITableViewController {
     let passwordStore = PasswordStore.shared
     var sshLabel: UILabel? = nil
 
-    var authenticationMethod = Defaults[.gitAuthenticationMethod] ?? "Password"
+    var authenticationMethod = SharedDefaults[.gitAuthenticationMethod] ?? "Password"
 
     private func checkAuthenticationMethod(method: String) {
         let passwordCheckView = authPasswordCell.viewWithTag(1001)!
@@ -47,10 +47,10 @@ class GitServerSettingTableViewController: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let url = Defaults[.gitURL] {
+        if let url = SharedDefaults[.gitURL] {
             gitURLTextField.text = url.absoluteString
         }
-        usernameTextField.text = Defaults[.gitUsername]
+        usernameTextField.text = SharedDefaults[.gitUsername]
         sshLabel = authSSHKeyCell.subviews[0].subviews[0] as? UILabel
         checkAuthenticationMethod(method: authenticationMethod)
         authSSHKeyCell.accessoryType = .detailButton
@@ -110,9 +110,9 @@ class GitServerSettingTableViewController: UITableViewController {
                                                         }
                 })
                 DispatchQueue.main.async {
-                    Defaults[.gitURL] = URL(string: gitRepostiroyURL)
-                    Defaults[.gitUsername] = username
-                    Defaults[.gitAuthenticationMethod] = auth
+                    SharedDefaults[.gitURL] = URL(string: gitRepostiroyURL)
+                    SharedDefaults[.gitUsername] = username
+                    SharedDefaults[.gitAuthenticationMethod] = auth
                     SVProgressHUD.showSuccess(withStatus: "Done")
                     SVProgressHUD.dismiss(withDelay: 1)
                     self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
@@ -167,11 +167,11 @@ class GitServerSettingTableViewController: UITableViewController {
         var armorActionTitle = "ASCII-Armor Encrypted Key"
         var fileActionTitle = "Use Imported Keys"
         
-        if Defaults[.gitSSHKeySource] == "url" {
+        if SharedDefaults[.gitSSHKeySource] == "url" {
             urlActionTitle = "✓ \(urlActionTitle)"
-        } else if Defaults[.gitSSHKeySource] == "armor" {
+        } else if SharedDefaults[.gitSSHKeySource] == "armor" {
             armorActionTitle = "✓ \(armorActionTitle)"
-        } else if Defaults[.gitSSHKeySource] == "file" {
+        } else if SharedDefaults[.gitSSHKeySource] == "file" {
             fileActionTitle = "✓ \(fileActionTitle)"
         }
         let urlAction = UIAlertAction(title: urlActionTitle, style: .default) { _ in
@@ -187,7 +187,7 @@ class GitServerSettingTableViewController: UITableViewController {
         if passwordStore.gitSSHKeyExists() {
             // might keys updated via iTunes, or downloaded/pasted inside the app
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
-                Defaults[.gitSSHKeySource] = "file"
+                SharedDefaults[.gitSSHKeySource] = "file"
             }
             optionMenu.addAction(fileAction)
         } else {
@@ -199,10 +199,10 @@ class GitServerSettingTableViewController: UITableViewController {
             optionMenu.addAction(fileAction)
         }
         
-        if Defaults[.gitSSHKeySource] != nil {
+        if SharedDefaults[.gitSSHKeySource] != nil {
             let deleteAction = UIAlertAction(title: "Remove Git SSH Keys", style: .destructive) { _ in
                 self.passwordStore.removeGitSSHKeys()
-                Defaults[.gitSSHKeySource] = nil
+                SharedDefaults[.gitSSHKeySource] = nil
                 if let sshLabel = self.sshLabel {
                     sshLabel.isEnabled = false
                     self.checkAuthenticationMethod(method: "Password")
