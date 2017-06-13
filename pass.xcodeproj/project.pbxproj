@@ -31,6 +31,7 @@
 		A2A61C161EEF90CB00CFE063 /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1208571E35EBE60042942E /* ObjectiveGit.framework */; };
 		A2A61C171EEF90CB00CFE063 /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA671DE1E7A73B100D3ABE1 /* OneTimePassword.framework */; };
 		A2A61C1A1EEF90CB00CFE063 /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */; };
+		A2A61C201EEFABAD00CFE063 /* UtilsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */; };
 		A2A7813F1E97DBD9001311F5 /* QRScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */; };
 		A2F4E2141EED800F0011986E /* GitCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2101EED800F0011986E /* GitCredential.swift */; };
 		A2F4E2151EED800F0011986E /* Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2111EED800F0011986E /* Password.swift */; };
@@ -187,6 +188,7 @@
 		A2802BF81E70813A00879216 /* SliderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SliderTableViewCell.xib; sourceTree = "<group>"; };
 		A2A61C0C1EEF8DFE00CFE063 /* libPods-passextension.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passextension.a"; path = "../../Library/Developer/Xcode/DerivedData/pass-fwlmfsjroyvbfhdyqmglrwfhvjli/Build/Products/Debug-iphonesimulator/libPods-passextension.a"; sourceTree = "<group>"; };
 		A2A61C101EEF8E3500CFE063 /* libPods-passKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passKit.a"; path = "Pods/../build/Debug-iphoneos/libPods-passKit.a"; sourceTree = "<group>"; };
+		A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilsExtension.swift; sourceTree = "<group>"; };
 		A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerController.swift; sourceTree = "<group>"; };
 		A2BC54C71EEE5669001FAFBD /* Objective-CBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Objective-CBridgingHeader.h"; sourceTree = "<group>"; };
 		A2F4E2101EED800F0011986E /* GitCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GitCredential.swift; path = Models/GitCredential.swift; sourceTree = "<group>"; };
@@ -430,6 +432,7 @@
 			isa = PBXGroup;
 			children = (
 				A2BC54C71EEE5669001FAFBD /* Objective-CBridgingHeader.h */,
+				A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -942,6 +945,7 @@
 			files = (
 				DC037CBF1E4ED4E100609409 /* TextViewTableViewCell.swift in Sources */,
 				DCC441541E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift in Sources */,
+				A2A61C201EEFABAD00CFE063 /* UtilsExtension.swift in Sources */,
 				DC8963C01E38EEB900828B09 /* SSHKeySettingTableViewController.swift in Sources */,
 				DC193FFA1E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift in Sources */,
 				DCFB77AB1E503729008DE471 /* ContentTableViewCell.swift in Sources */,

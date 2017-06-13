@@ -11,7 +11,6 @@ import CoreData
 import UIKit
 import SwiftyUserDefaults
 import ObjectiveGit
-import SVProgressHUD
 import ObjectivePGP
 
 public class PasswordStore {
@@ -262,12 +261,13 @@ public class PasswordStore {
     
     public func cloneRepository(remoteRepoURL: URL,
                          credential: GitCredential,
+                         requestGitPassword: @escaping (GitCredential.Credential, String?) -> String?,
                          transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
                          checkoutProgressBlock: @escaping (String?, UInt, UInt) -> Void) throws {
         Utils.removeFileIfExists(at: storeURL)
         Utils.removeFileIfExists(at: tempStoreURL)
         do {
-            let credentialProvider = try credential.credentialProvider()
+            let credentialProvider = try credential.credentialProvider(requestGitPassword: requestGitPassword)
             let options = [GTRepositoryCloneOptionsCredentialProvider: credentialProvider]
             storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: tempStoreURL, options: options, transferProgressBlock:transferProgressBlock)
             if fm.fileExists(atPath: storeURL.path) {
@@ -287,12 +287,12 @@ public class PasswordStore {
         }
     }
     
-    public func pullRepository(credential: GitCredential, transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
+    public func pullRepository(credential: GitCredential, requestGitPassword: @escaping (GitCredential.Credential, String?) -> String?, transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
         guard let storeRepository = storeRepository else {
             throw AppError.RepositoryNotSetError
         }
         do {
-            let credentialProvider = try credential.credentialProvider()
+            let credentialProvider = try credential.credentialProvider(requestGitPassword: requestGitPassword)
             let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
             let remote = try GTRemote(name: "origin", in: storeRepository)
             try storeRepository.pull(storeRepository.currentBranch(), from: remote, withOptions: options, progress: transferProgressBlock)
@@ -538,12 +538,12 @@ public class PasswordStore {
         return branches.first
     }
     
-    public func pushRepository(credential: GitCredential, transferProgressBlock: @escaping (UInt32, UInt32, Int, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
+    public func pushRepository(credential: GitCredential, requestGitPassword: @escaping (GitCredential.Credential, String?) -> String?, transferProgressBlock: @escaping (UInt32, UInt32, Int, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
         guard let storeRepository = storeRepository else {
             throw AppError.RepositoryNotSetError
         }
         do {
-            let credentialProvider = try credential.credentialProvider()
+            let credentialProvider = try credential.credentialProvider(requestGitPassword: requestGitPassword)
             let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
             if let masterBranch = try getLocalBranch(withName: "master") {
                 let remote = try GTRemote(name: "origin", in: storeRepository)

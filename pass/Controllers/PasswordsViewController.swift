@@ -139,25 +139,24 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         let numberOfLocalCommits = self.passwordStore.numberOfLocalCommits()
         var gitCredential: GitCredential
         if SharedDefaults[.gitAuthenticationMethod] == "Password" {
-            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: SharedDefaults[.gitUsername]!, controller: self))
+            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: SharedDefaults[.gitUsername]!))
         } else {
             gitCredential = GitCredential(
                 credential: GitCredential.Credential.ssh(
                     userName: SharedDefaults[.gitUsername]!,
-                    privateKeyFile: Globals.gitSSHPrivateKeyURL,
-                    controller: self
+                    privateKeyFile: Globals.gitSSHPrivateKeyURL
                 )
             )
         }
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
-                try self.passwordStore.pullRepository(credential: gitCredential, transferProgressBlock: {(git_transfer_progress, stop) in
+                try self.passwordStore.pullRepository(credential: gitCredential, requestGitPassword: self.requestGitPassword(credential:lastPassword:), transferProgressBlock: {(git_transfer_progress, stop) in
                     DispatchQueue.main.async {
                         SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Pull Remote Repository")
                     }
                 })
                 if numberOfLocalCommits > 0 {
-                    try self.passwordStore.pushRepository(credential: gitCredential, transferProgressBlock: {(current, total, bytes, stop) in
+                    try self.passwordStore.pushRepository(credential: gitCredential, requestGitPassword: self.requestGitPassword(credential:lastPassword:), transferProgressBlock: {(current, total, bytes, stop) in
                         DispatchQueue.main.async {
                             SVProgressHUD.showProgress(Float(current)/Float(total), status: "Push Remote Repository")
                         }
@@ -550,6 +549,40 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         searchController.searchBar.selectedScopeButtonIndex = 0
         updateSearchResults(for: searchController)
     }
+    
+    private func requestGitPassword(credential: GitCredential.Credential, lastPassword: String?) -> String? {
+        let sem = DispatchSemaphore(value: 0)
+        var password: String?
+        var message = ""
+        switch credential {
+        case .http:
+            message = "Please fill in the password of your Git account."
+        case .ssh:
+            message = "Please fill in the password of your SSH key."
+        }
+        
+        DispatchQueue.main.async {
+            SVProgressHUD.dismiss()
+            let alert = UIAlertController(title: "Password", message: message, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addTextField(configurationHandler: {(textField: UITextField!) in
+                textField.text = lastPassword ?? ""
+                textField.isSecureTextEntry = true
+            })
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+                password = alert.textFields!.first!.text
+                sem.signal()
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+                password = nil
+                sem.signal()
+            })
+            self.present(alert, animated: true, completion: nil)
+        }
+        
+        let _ = sem.wait(timeout: .distantFuture)
+        return password
+    }
+
 }
 
 extension PasswordsViewController: UISearchResultsUpdating {

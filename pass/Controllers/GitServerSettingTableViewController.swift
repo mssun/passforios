@@ -84,13 +84,12 @@ class GitServerSettingTableViewController: UITableViewController {
         SVProgressHUD.show(withStatus: "Prepare Repository")
         var gitCredential: GitCredential
         if auth == "Password" {
-            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username, controller: self))
+            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username))
         } else {
             gitCredential = GitCredential(
                 credential: GitCredential.Credential.ssh(
                     userName: username,
-                    privateKeyFile: Globals.gitSSHPrivateKeyURL,
-                    controller: self
+                    privateKeyFile: Globals.gitSSHPrivateKeyURL
                 )
             )
         }
@@ -99,6 +98,7 @@ class GitServerSettingTableViewController: UITableViewController {
             do {
                 try self.passwordStore.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
                                                        credential: gitCredential,
+                                                       requestGitPassword: self.requestGitPassword,
                                                        transferProgressBlock: { (git_transfer_progress, stop) in
                                                         DispatchQueue.main.async {
                                                             SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Clone Remote Repository")
@@ -214,5 +214,38 @@ class GitServerSettingTableViewController: UITableViewController {
         optionMenu.popoverPresentationController?.sourceView = authSSHKeyCell
         optionMenu.popoverPresentationController?.sourceRect = authSSHKeyCell.bounds
         self.present(optionMenu, animated: true, completion: nil)
+    }
+    
+    private func requestGitPassword(credential: GitCredential.Credential, lastPassword: String?) -> String? {
+        let sem = DispatchSemaphore(value: 0)
+        var password: String?
+        var message = ""
+        switch credential {
+        case .http:
+            message = "Please fill in the password of your Git account."
+        case .ssh:
+            message = "Please fill in the password of your SSH key."
+        }
+        
+        DispatchQueue.main.async {
+            SVProgressHUD.dismiss()
+            let alert = UIAlertController(title: "Password", message: message, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addTextField(configurationHandler: {(textField: UITextField!) in
+                textField.text = lastPassword ?? ""
+                textField.isSecureTextEntry = true
+            })
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+                password = alert.textFields!.first!.text
+                sem.signal()
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+                password = nil
+                sem.signal()
+            })
+            self.present(alert, animated: true, completion: nil)
+        }
+        
+        let _ = sem.wait(timeout: .distantFuture)
+        return password
     }
 }

@@ -9,8 +9,6 @@
 import Foundation
 import SwiftyUserDefaults
 import KeychainAccess
-import UIKit
-import SVProgressHUD
 
 public class Utils {
     public static func removeFileIfExists(atPath path: String) {
@@ -62,13 +60,6 @@ public class Utils {
         }
         
         return randomString
-    }
-    
-    public static func alert(title: String, message: String, controller: UIViewController, handler: ((UIAlertAction) -> Void)? = nil, completion: (() -> Void)? = nil) {
-        SVProgressHUD.dismiss()
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: handler))
-        controller.present(alert, animated: true, completion: completion)
     }
     
     public static func getPasswordFromKeychain(name: String) -> String? {
