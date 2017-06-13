@@ -12,6 +12,9 @@
 		6930A9D26085DE7CA1A7AACC /* libPods-passextension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B240CA444AC9172F3053651 /* libPods-passextension.a */; };
 		A217ACE21E9AB17C00A1A6CF /* OTPScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */; };
 		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */; };
+		A2367B9B1EEFE1B300C8FE8B /* UtilsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2367B9A1EEFE1B300C8FE8B /* UtilsExtension.swift */; };
+		A2367B9C1EEFE2E500C8FE8B /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */; };
+		A2367BA01EF0387000C8FE8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2367B9F1EF0387000C8FE8B /* Assets.xcassets */; };
 		A26075811EEC6F34005DB03E /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		A26075881EEC6F34005DB03E /* passKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26075871EEC6F34005DB03E /* passKitTests.swift */; };
 		A260758A1EEC6F34005DB03E /* passKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A260757A1EEC6F34005DB03E /* passKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -19,10 +22,8 @@
 		A260758E1EEC6F34005DB03E /* passKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A26075961EEC6F8C005DB03E /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		A26075AD1EEC7125005DB03E /* pass.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A26075A51EEC7125005DB03E /* pass.xcdatamodeld */; };
-		A26700271EEC466A00176B8A /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26700261EEC466A00176B8A /* ActionViewController.swift */; };
 		A267002A1EEC466A00176B8A /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A26700281EEC466A00176B8A /* MainInterface.storyboard */; };
 		A267002E1EEC466A00176B8A /* passextension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A26700241EEC466A00176B8A /* passextension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		A26700361EEC475600176B8A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A26700341EEC475600176B8A /* Assets.xcassets */; };
 		A26700371EEC475600176B8A /* passProcessor.js in Resources */ = {isa = PBXBuildFile; fileRef = A26700351EEC475600176B8A /* passProcessor.js */; };
 		A2802BF91E70813A00879216 /* SliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2802BF71E70813A00879216 /* SliderTableViewCell.swift */; };
 		A2802BFA1E70813A00879216 /* SliderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2802BF81E70813A00879216 /* SliderTableViewCell.xib */; };
@@ -31,8 +32,8 @@
 		A2A61C151EEF90CB00CFE063 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA742D91E599ED400D54E16 /* KeychainAccess.framework */; };
 		A2A61C161EEF90CB00CFE063 /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1208571E35EBE60042942E /* ObjectiveGit.framework */; };
 		A2A61C171EEF90CB00CFE063 /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA671DE1E7A73B100D3ABE1 /* OneTimePassword.framework */; };
-		A2A61C1A1EEF90CB00CFE063 /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */; };
 		A2A61C201EEFABAD00CFE063 /* UtilsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */; };
+		A2A61C2C1EEFDF3300CFE063 /* ExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A61C2B1EEFDF3300CFE063 /* ExtensionViewController.swift */; };
 		A2A7813F1E97DBD9001311F5 /* QRScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */; };
 		A2F4E2141EED800F0011986E /* GitCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2101EED800F0011986E /* GitCredential.swift */; };
 		A2F4E2151EED800F0011986E /* Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2111EED800F0011986E /* Password.swift */; };
@@ -168,6 +169,8 @@
 		A2227D541EEE5E78002A69A9 /* libObjectivePGP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libObjectivePGP.a; path = "../../Library/Developer/Xcode/DerivedData/pass-fwlmfsjroyvbfhdyqmglrwfhvjli/Build/Products/Debug-iphonesimulator/ObjectivePGP/libObjectivePGP.a"; sourceTree = "<group>"; };
 		A2227D551EEE5E78002A69A9 /* libPods-pass.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-pass.a"; path = "../../Library/Developer/Xcode/DerivedData/pass-fwlmfsjroyvbfhdyqmglrwfhvjli/Build/Products/Debug-iphonesimulator/libPods-pass.a"; sourceTree = "<group>"; };
 		A2227D561EEE5E78002A69A9 /* libPods-passKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passKit.a"; path = "../../Library/Developer/Xcode/DerivedData/pass-fwlmfsjroyvbfhdyqmglrwfhvjli/Build/Products/Debug-iphonesimulator/libPods-passKit.a"; sourceTree = "<group>"; };
+		A2367B9A1EEFE1B300C8FE8B /* UtilsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilsExtension.swift; sourceTree = "<group>"; };
+		A2367B9F1EF0387000C8FE8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A26075781EEC6F34005DB03E /* passKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = passKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A260757A1EEC6F34005DB03E /* passKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = passKit.h; sourceTree = "<group>"; };
 		A260757B1EEC6F34005DB03E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -177,18 +180,17 @@
 		A26075A61EEC7125005DB03E /* pass.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = pass.xcdatamodel; sourceTree = "<group>"; };
 		A262A58C1E68749C006B0890 /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Base32.framework; path = Carthage/Build/iOS/Base32.framework; sourceTree = "<group>"; };
 		A26700241EEC466A00176B8A /* passextension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = passextension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		A26700261EEC466A00176B8A /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
 		A26700291EEC466A00176B8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		A267002B1EEC466A00176B8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A26700321EEC46C400176B8A /* pass.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = pass.entitlements; sourceTree = "<group>"; };
 		A26700331EEC46C900176B8A /* passextension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passextension.entitlements; sourceTree = "<group>"; };
-		A26700341EEC475600176B8A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A26700351EEC475600176B8A /* passProcessor.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = passProcessor.js; sourceTree = "<group>"; };
 		A2802BF71E70813A00879216 /* SliderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderTableViewCell.swift; sourceTree = "<group>"; };
 		A2802BF81E70813A00879216 /* SliderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SliderTableViewCell.xib; sourceTree = "<group>"; };
 		A2A61C0C1EEF8DFE00CFE063 /* libPods-passextension.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passextension.a"; path = "../../Library/Developer/Xcode/DerivedData/pass-fwlmfsjroyvbfhdyqmglrwfhvjli/Build/Products/Debug-iphonesimulator/libPods-passextension.a"; sourceTree = "<group>"; };
 		A2A61C101EEF8E3500CFE063 /* libPods-passKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passKit.a"; path = "Pods/../build/Debug-iphoneos/libPods-passKit.a"; sourceTree = "<group>"; };
 		A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilsExtension.swift; sourceTree = "<group>"; };
+		A2A61C2B1EEFDF3300CFE063 /* ExtensionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionViewController.swift; sourceTree = "<group>"; };
 		A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerController.swift; sourceTree = "<group>"; };
 		A2BC54C71EEE5669001FAFBD /* Objective-CBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Objective-CBridgingHeader.h"; sourceTree = "<group>"; };
 		A2F4E2101EED800F0011986E /* GitCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GitCredential.swift; path = Models/GitCredential.swift; sourceTree = "<group>"; };
@@ -279,7 +281,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A2A61C2A1EEFDCA700CFE063 /* SwiftyUserDefaults.framework in Frameworks */,
+				A2367B9C1EEFE2E500C8FE8B /* SwiftyUserDefaults.framework in Frameworks */,
 				A2A61C131EEF90CB00CFE063 /* Base32.framework in Frameworks */,
 				A2A61C151EEF90CB00CFE063 /* KeychainAccess.framework in Frameworks */,
 				A2A61C161EEF90CB00CFE063 /* ObjectiveGit.framework in Frameworks */,
@@ -334,12 +336,13 @@
 		A26700251EEC466A00176B8A /* passextension */ = {
 			isa = PBXGroup;
 			children = (
-				A26700341EEC475600176B8A /* Assets.xcassets */,
+				A2367B9F1EF0387000C8FE8B /* Assets.xcassets */,
 				A26700351EEC475600176B8A /* passProcessor.js */,
 				A26700331EEC46C900176B8A /* passextension.entitlements */,
-				A26700261EEC466A00176B8A /* ActionViewController.swift */,
 				A26700281EEC466A00176B8A /* MainInterface.storyboard */,
 				A267002B1EEC466A00176B8A /* Info.plist */,
+				A2A61C2B1EEFDF3300CFE063 /* ExtensionViewController.swift */,
+				A2367B9A1EEFE1B300C8FE8B /* UtilsExtension.swift */,
 			);
 			path = passextension;
 			sourceTree = "<group>";
@@ -675,6 +678,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.Keychain = {
+								enabled = 1;
+							};
 						};
 					};
 					DC13B14D1E8640810097803F = {
@@ -689,6 +695,9 @@
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.Keychain = {
 								enabled = 1;
 							};
 						};
@@ -736,8 +745,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A26700361EEC475600176B8A /* Assets.xcassets in Resources */,
 				A26700371EEC475600176B8A /* passProcessor.js in Resources */,
+				A2367BA01EF0387000C8FE8B /* Assets.xcassets in Resources */,
 				A267002A1EEC466A00176B8A /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -929,7 +938,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A26700271EEC466A00176B8A /* ActionViewController.swift in Sources */,
+				A2A61C2C1EEFDF3300CFE063 /* ExtensionViewController.swift in Sources */,
+				A2367B9B1EEFE1B300C8FE8B /* UtilsExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

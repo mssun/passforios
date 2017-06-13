@@ -17,7 +17,7 @@ run: function(arguments) {
     
 finalize: function(arguments) {
     var str = "username: " + arguments["username"] + "\r\npassword: " + arguments["password"];
-    alert(str)
+    // alert(str)
     // document.body.innerHTML = arguments["content"];
 }
 };

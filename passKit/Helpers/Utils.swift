@@ -63,7 +63,7 @@ public class Utils {
     }
     
     public static func getPasswordFromKeychain(name: String) -> String? {
-        let keychain = Keychain(service: Globals.bundleIdentifier)
+        let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
         do {
             return try keychain.getString(name)
         } catch {
@@ -73,19 +73,21 @@ public class Utils {
     }
     
     public static func addPasswordToKeychain(name: String, password: String?) {
-        let keychain = Keychain(service: Globals.bundleIdentifier)
+        let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
         keychain[name] = password
     }
+    
     public static func removeKeychain(name: String) {
-        let keychain = Keychain(service: Globals.bundleIdentifier)
+        let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
         do {
             try keychain.remove(name)
         } catch {
             print(error)
         }
     }
+    
     public static func removeAllKeychain() {
-        let keychain = Keychain(service: Globals.bundleIdentifier)
+        let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
         do {
             try keychain.removeAll()
         } catch {

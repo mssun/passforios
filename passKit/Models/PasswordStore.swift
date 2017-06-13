@@ -12,6 +12,7 @@ import UIKit
 import SwiftyUserDefaults
 import ObjectiveGit
 import ObjectivePGP
+import KeychainAccess
 
 public class PasswordStore {
     public static let shared = PasswordStore()
@@ -116,7 +117,8 @@ public class PasswordStore {
         print(Globals.libraryPath)
         print(Globals.documentPathLegacy)
         print(Globals.libraryPathLegacy)
-        migration()
+        migrateIfNeeded()
+        
         do {
             if fm.fileExists(atPath: storeURL.path) {
                 try storeRepository = GTRepository.init(url: storeURL)
@@ -127,15 +129,29 @@ public class PasswordStore {
         }
     }
     
-    private func migration() {
+    private func migrateIfNeeded() {
         let needMigration = fm.fileExists(atPath: Globals.documentPathLegacy) && !fm.fileExists(atPath: Globals.documentPath) && fm.fileExists(atPath: Globals.libraryPathLegacy) && !fm.fileExists(atPath: Globals.libraryPath)
         guard needMigration == true else {
             return
         }
         do {
+            // migrate files
             try fm.moveItem(atPath: Globals.documentPathLegacy, toPath: Globals.documentPath)
             try fm.moveItem(atPath: Globals.libraryPathLegacy, toPath: Globals.libraryPath)
+            // migrate Defaults
             SharedDefaults = Defaults
+            // migrate Keychain
+            let keychainLegacy = Keychain(service: Globals.bundleIdentifier)
+            if let pgpPassphrase = try keychainLegacy.getString("pgpKeyPassphrase") {
+                Utils.addPasswordToKeychain(name: "pgpKeyPassphrase", password: pgpPassphrase)
+            }
+            if let gitSSHPrivateKeyPassphrase = try keychainLegacy.getString("gitSSHPrivateKeyPassphrase") {
+                Utils.addPasswordToKeychain(name: "gitSSHPrivateKeyPassphrase", password: gitSSHPrivateKeyPassphrase)
+            }
+            if let gitPassword = try keychainLegacy.getString("gitPassword") {
+                Utils.addPasswordToKeychain(name: "gitPassword", password: gitPassword)
+            }
+            try keychainLegacy.removeAll()
         } catch {
             print("Cannot migrate: \(error)")
         }
