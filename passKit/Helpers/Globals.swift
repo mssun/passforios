@@ -32,6 +32,7 @@ public class Globals {
     public static let gitSSHPrivateKeyPath = documentPath + "/ssh_key"
     public static let gitSSHPrivateKeyURL = URL(fileURLWithPath: gitSSHPrivateKeyPath)
     public static let repositoryPath = libraryPath + "/password-store"
+    public static let dbPath = documentPath + "/pass.sqlite"
     
     public static let iTunesFileSharingPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
     public static let iTunesFileSharingPGPPublic = iTunesFileSharingPath + "/gpg_key.pub"

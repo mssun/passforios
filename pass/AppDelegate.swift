@@ -112,7 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let modelURL = Bundle(identifier: Globals.passKitBundleIdentifier)!.url(forResource: "pass", withExtension: "momd")!
         let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL)
         let container = NSPersistentContainer(name: "pass", managedObjectModel: managedObjectModel!)
-        container.persistentStoreDescriptions = [NSPersistentStoreDescription(url: Globals.sharedContainerURL.appendingPathComponent("Documents/pass.sqlite"))]
+        container.persistentStoreDescriptions = [NSPersistentStoreDescription(url: URL(fileURLWithPath: Globals.dbPath))]
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.

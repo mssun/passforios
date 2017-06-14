@@ -74,7 +74,7 @@ public class PasswordStore {
         let modelURL = Bundle(identifier: Globals.passKitBundleIdentifier)!.url(forResource: "pass", withExtension: "momd")!
         let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL)
         let container = NSPersistentContainer(name: "pass", managedObjectModel: managedObjectModel!)
-        container.persistentStoreDescriptions = [NSPersistentStoreDescription(url: Globals.sharedContainerURL.appendingPathComponent("Documents/pass.sqlite"))]
+        container.persistentStoreDescriptions = [NSPersistentStoreDescription(url: URL(fileURLWithPath: Globals.dbPath))]
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
@@ -129,30 +129,31 @@ public class PasswordStore {
     }
     
     private func migrateIfNeeded() {
-        let needMigration = fm.fileExists(atPath: Globals.documentPathLegacy) && !fm.fileExists(atPath: Globals.documentPath) && fm.fileExists(atPath: Globals.libraryPathLegacy) && !fm.fileExists(atPath: Globals.libraryPath)
+        // migrate happens only if the repository was cloned and pgp keys were set up using earlier versions
+        let needMigration = !pgpKeyExists() && !gitSSHKeyExists() && !fm.fileExists(atPath: Globals.repositoryPath) && fm.fileExists(atPath: Globals.repositoryPathLegacy)
         guard needMigration == true else {
             return
         }
+        
         do {
-            // migrate files
-            try fm.moveItem(atPath: Globals.documentPathLegacy, toPath: Globals.documentPath)
-            try fm.moveItem(atPath: Globals.libraryPathLegacy, toPath: Globals.libraryPath)
             // migrate Defaults
             SharedDefaults = Defaults
-            // migrate Keychain
-            let keychainLegacy = Keychain(service: Globals.bundleIdentifier)
-            if let pgpPassphrase = try keychainLegacy.getString("pgpKeyPassphrase") {
-                Utils.addPasswordToKeychain(name: "pgpKeyPassphrase", password: pgpPassphrase)
+            
+            // migrate files
+            try fm.createDirectory(atPath: Globals.documentPath, withIntermediateDirectories: true, attributes: nil)
+            try fm.createDirectory(atPath: Globals.libraryPath, withIntermediateDirectories: true, attributes: nil)
+            if fm.fileExists(atPath: Globals.pgpPublicKeyPathLegacy) {
+                try fm.moveItem(atPath: Globals.pgpPublicKeyPathLegacy, toPath: Globals.pgpPublicKeyPath)
             }
-            if let gitSSHPrivateKeyPassphrase = try keychainLegacy.getString("gitSSHPrivateKeyPassphrase") {
-                Utils.addPasswordToKeychain(name: "gitSSHPrivateKeyPassphrase", password: gitSSHPrivateKeyPassphrase)
+            if fm.fileExists(atPath: Globals.pgpPrivateKeyPathLegacy) {
+                try fm.moveItem(atPath: Globals.pgpPrivateKeyPathLegacy, toPath: Globals.pgpPrivateKeyPath)
             }
-            if let gitPassword = try keychainLegacy.getString("gitPassword") {
-                Utils.addPasswordToKeychain(name: "gitPassword", password: gitPassword)
+            if fm.fileExists(atPath: Globals.gitSSHPrivateKeyPathLegacy) {
+                try fm.moveItem(atPath: Globals.gitSSHPrivateKeyPathLegacy, toPath: Globals.gitSSHPrivateKeyPath)
             }
-            try keychainLegacy.removeAll()
+            try fm.moveItem(atPath: Globals.repositoryPathLegacy, toPath: Globals.repositoryPath)
         } catch {
-            print("Cannot migrate: \(error)")
+            print("Migration error: \(error)")
         }
         updatePasswordEntityCoreData()
     }
