@@ -48,6 +48,14 @@ platform :ios do
     )
     match(
       type: "appstore",
+      app_identifier: "me.mssun.passforios",
+      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
+      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+      readonly: true
+    )
+    match(
+      type: "appstore",
+      app_identifier: "me.mssun.passforios.extension",
       keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
       keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
       readonly: true
