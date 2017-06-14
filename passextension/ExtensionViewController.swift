@@ -33,6 +33,11 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
     private var passwordsTableEntries: [PasswordsTableEntry] = []
     private var filteredPasswordsTableEntries: [PasswordsTableEntry] = []
     
+    private lazy var passcodelock: PasscodeExtensionDisplay = {
+        let passcodelock = PasscodeExtensionDisplay(extensionContext: self.extensionContext)
+        return passcodelock
+    }()
+    
     private func initPasswordsTableEntries() {
         passwordsTableEntries.removeAll()
         filteredPasswordsTableEntries.removeAll()
@@ -43,9 +48,13 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        passcodelock.presentPasscodeLockIfNeeded(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // prepare
         searchBar.delegate = self
         tableView.delegate = self
