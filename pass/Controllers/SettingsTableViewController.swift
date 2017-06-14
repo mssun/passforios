@@ -169,7 +169,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     private func setPasscodeLockTouchIDCells() {
-        if PasscodeLockRepository().hasPasscode {
+        if PasscodeLockConfiguration.shared.repository.hasPasscode {
             self.passcodeTableViewCell.detailTextLabel?.text = "On"
             passcodeLockConfig.isTouchIDAllowed = true
             touchIDSwitch.isOn = SharedDefaults[.isTouchIDOn]

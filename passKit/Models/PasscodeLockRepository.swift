@@ -8,7 +8,6 @@
 
 import Foundation
 import PasscodeLock
-import passKit
 
 public class PasscodeLockRepository: PasscodeRepositoryType {
     private let passcodeKey = "passcode.lock.passcode"
