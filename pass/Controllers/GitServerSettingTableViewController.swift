@@ -165,7 +165,7 @@ class GitServerSettingTableViewController: UITableViewController {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var urlActionTitle = "Download from URL"
         var armorActionTitle = "ASCII-Armor Encrypted Key"
-        var fileActionTitle = "Use Imported Keys"
+        var fileActionTitle = "iTunes File Sharing"
         
         if SharedDefaults[.gitSSHKeySource] == "url" {
             urlActionTitle = "✓ \(urlActionTitle)"
@@ -184,16 +184,21 @@ class GitServerSettingTableViewController: UITableViewController {
         optionMenu.addAction(urlAction)
         optionMenu.addAction(armorAction)
         
-        if passwordStore.gitSSHKeyExists() {
+        if passwordStore.gitSSHKeyExists(inFileSharing: true) {
             // might keys updated via iTunes, or downloaded/pasted inside the app
+            fileActionTitle.append(" (Import)")
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
+                self.passwordStore.gitSSHKeyImportFromFileSharing()
                 SharedDefaults[.gitSSHKeySource] = "file"
+                SVProgressHUD.showSuccess(withStatus: "Imported")
+                SVProgressHUD.dismiss(withDelay: 1)
             }
             optionMenu.addAction(fileAction)
         } else {
-            let fileAction = UIAlertAction(title: "iTunes File Sharing", style: .default) { _ in
-                let title = "Import via iTunes File Sharing"
-                let message = "Copy your private key from your computer to Pass for iOS with the name \"ssh_key\" (without quotes)."
+            fileActionTitle.append(" (Tips)")
+            let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
+                let title = "Tips"
+                let message = "Copy your private key to Pass with the name \"ssh_key\" (without quotes) via iTunes. Then come back and click \"iTunes File Sharing\" to finish."
                 Utils.alert(title: title, message: message, controller: self)
             }
             optionMenu.addAction(fileAction)

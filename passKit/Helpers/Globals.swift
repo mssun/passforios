@@ -33,6 +33,11 @@ public class Globals {
     public static let gitSSHPrivateKeyURL = URL(fileURLWithPath: gitSSHPrivateKeyPath)
     public static let repositoryPath = libraryPath + "/password-store"
     
+    public static let iTunesFileSharingPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+    public static let iTunesFileSharingPGPPublic = iTunesFileSharingPath + "/gpg_key.pub"
+    public static let iTunesFileSharingPGPPrivate = iTunesFileSharingPath + "/gpg_key"
+    public static let iTunesFileSharingSSHPrivate = iTunesFileSharingPath + "/ssh_key"
+    
     public static let passwordDefaultLength = ["Random": (min: 4, max: 64, def: 16),
                                         "Apple":  (min: 15, max: 15, def: 15)]
     

@@ -109,7 +109,6 @@ public class PasswordStore {
         }
         return size
     }
-
     
     private init() {
         // File migration to group
@@ -852,11 +851,36 @@ public class PasswordStore {
         Utils.removeKeychain(name: ".gitSSHPrivateKeyPassphrase")
     }
     
-    public func gitSSHKeyExists() -> Bool {
-        return fm.fileExists(atPath: Globals.gitSSHPrivateKeyPath)
+    public func gitSSHKeyExists(inFileSharing: Bool = false) -> Bool {
+        if inFileSharing == false {
+            return fm.fileExists(atPath: Globals.gitSSHPrivateKeyPath)
+        } else {
+            return fm.fileExists(atPath: Globals.iTunesFileSharingSSHPrivate)
+        }
     }
     
-    public func pgpKeyExists() -> Bool {
-        return fm.fileExists(atPath: Globals.pgpPublicKeyPath) && fm.fileExists(atPath: Globals.pgpPrivateKeyPath)
+    public func pgpKeyExists(inFileSharing: Bool = false) -> Bool {
+        if inFileSharing == false {
+            return fm.fileExists(atPath: Globals.pgpPublicKeyPath) && fm.fileExists(atPath: Globals.pgpPrivateKeyPath)
+        } else {
+            return fm.fileExists(atPath: Globals.iTunesFileSharingPGPPublic) && fm.fileExists(atPath: Globals.iTunesFileSharingPGPPrivate)
+        }
+    }
+    
+    public func gitSSHKeyImportFromFileSharing() {
+        do {
+            try fm.moveItem(atPath: Globals.iTunesFileSharingSSHPrivate, toPath: Globals.gitSSHPrivateKeyPath)
+        } catch {
+            print(error)
+        }
+    }
+
+    public func pgpKeyImportFromFileSharing() {
+        do {
+            try fm.moveItem(atPath: Globals.iTunesFileSharingPGPPublic, toPath: Globals.pgpPublicKeyPath)
+            try fm.moveItem(atPath: Globals.iTunesFileSharingPGPPrivate, toPath: Globals.pgpPrivateKeyPath)
+        } catch {
+            print(error)
+        }
     }
 }

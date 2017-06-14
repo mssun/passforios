@@ -96,16 +96,16 @@ class SettingsTableViewController: UITableViewController {
     private func saveImportedPGPKey() {
         // load keys
         SharedDefaults[.pgpKeySource] = "file"
-        
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "Fetching PGP Key")
+        passwordStore.pgpKeyImportFromFileSharing()
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
                 try self.passwordStore.initPGPKeys()
                 DispatchQueue.main.async {
                     self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
-                    SVProgressHUD.showSuccess(withStatus: "Success")
+                    SVProgressHUD.showSuccess(withStatus: "Imported")
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
             } catch {
@@ -237,7 +237,7 @@ class SettingsTableViewController: UITableViewController {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var urlActionTitle = "Download from URL"
         var armorActionTitle = "ASCII-Armor Encrypted Key"
-        var fileActionTitle = "Use Imported Keys"
+        var fileActionTitle = "iTunes File Sharing"
         
         if SharedDefaults[.pgpKeySource] == "url" {
            urlActionTitle = "✓ \(urlActionTitle)"
@@ -256,7 +256,8 @@ class SettingsTableViewController: UITableViewController {
         optionMenu.addAction(urlAction)
         optionMenu.addAction(armorAction)
 
-        if passwordStore.pgpKeyExists() {
+        if passwordStore.pgpKeyExists(inFileSharing: true) {
+            fileActionTitle.append(" (Import)")
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
                 // passphrase related
                 let savePassphraseAlert = UIAlertController(title: "Passphrase", message: "Do you want to save the passphrase for later decryption?", preferredStyle: UIAlertControllerStyle.alert)
@@ -285,9 +286,10 @@ class SettingsTableViewController: UITableViewController {
             }
             optionMenu.addAction(fileAction)
         } else {
-            let fileAction = UIAlertAction(title: "iTunes File Sharing", style: .default) { _ in
-                let title = "Import via iTunes File Sharing"
-                let message = "Copy your public and private key from your computer to Pass for iOS with the name \"gpg_key.pub\" and \"gpg_key\" (without quotes)."
+            fileActionTitle.append(" (Tips)")
+            let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
+                let title = "Tips"
+                let message = "Copy your public and private keys to Pass with names \"gpg_key.pub\" and \"gpg_key\" (without quotes) via iTunes. Then come back and click \"iTunes File Sharing\" to finish."
                 Utils.alert(title: title, message: message, controller: self)
             }
             optionMenu.addAction(fileAction)
