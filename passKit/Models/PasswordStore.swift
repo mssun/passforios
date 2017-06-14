@@ -267,7 +267,7 @@ public class PasswordStore {
     public func getPasswordEntity(by path: String, isDir: Bool) -> PasswordEntity? {
         let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         do {
-            passwordEntityFetchRequest.predicate = NSPredicate(format: "path = %@ and isDir = %@", path, isDir.description)
+            passwordEntityFetchRequest.predicate = NSPredicate(format: "path = %@ and isDir = %@", path, isDir as NSNumber)
             return try context.fetch(passwordEntityFetchRequest).first as? PasswordEntity
         } catch {
             fatalError("Failed to fetch password entities: \(error)")
@@ -288,8 +288,7 @@ public class PasswordStore {
             if fm.fileExists(atPath: storeURL.path) {
                 try fm.removeItem(at: storeURL)
             }
-            try fm.copyItem(at: tempStoreURL, to: storeURL)
-            try fm.removeItem(at: tempStoreURL)
+            try fm.moveItem(at: tempStoreURL, to: storeURL)
             storeRepository = try GTRepository(url: storeURL)
         } catch {
             credential.delete()
