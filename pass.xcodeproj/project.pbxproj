@@ -357,7 +357,6 @@
 				A2367B9A1EEFE1B300C8FE8B /* UtilsExtension.swift */,
 				A28C66671EF10EC900A398A1 /* PasscodeExtensionDisplay.swift */,
 			);
-			name = passExtension;
 			path = passExtension;
 			sourceTree = "<group>";
 		};
