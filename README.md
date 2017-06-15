@@ -47,8 +47,8 @@ For more, please read the [wiki page](https://github.com/mssun/pass-ios/wiki).
 
 1. Install libtool, automake, cmake, carthage, and cocoapods: `brew install
    libtool automake cmake carthage cocoapods`
-2. Run carthage bootstrap in the project root directory: `carthage bootstrap
-   --platform iOS` (this could take a long time to build related frameworks)
+2. Run carthage bootstrap in the project root directory: `carthage update ` then `carthage bootstrap
+   --platform iOS` (this may take some time)
 3. Run pod install in the project root directory: `pod install`
 4. Open `.xcworkspace` file in Xcode.
 5. Build & Run.
