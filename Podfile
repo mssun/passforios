@@ -41,7 +41,7 @@ target 'passKit' do
     target 'pass' do
         inherit! :search_paths
     end
-    target 'passextension' do
+    target 'passExtension' do
         inherit! :search_paths
     end
     target 'passKitTests' do
