@@ -140,7 +140,12 @@ public class PasswordStore {
         
         do {
             // migrate Defaults
-            SharedDefaults = Defaults
+            let userDefaults = UserDefaults()
+            for key in Defaults.dictionaryRepresentation().keys {
+                if SharedDefaults.value(forKey: key) == nil {
+                    SharedDefaults.setValue(userDefaults.value(forKey: key), forKey: key)
+                }
+            }
             
             // migrate files
             try fm.createDirectory(atPath: Globals.documentPath, withIntermediateDirectories: true, attributes: nil)
