@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="YoR-iB-XAd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="17A264c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="YoR-iB-XAd">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -102,7 +102,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="ljx-el-KZL" kind="show" id="Jhf-o6-vIP"/>
+                                            <segue destination="Jzw-qC-crz" kind="showDetail" id="iCM-Fy-hkk"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="gWn-ib-STb" detailTextLabel="Myq-fV-riz" style="IBUITableViewCellStyleValue1" id="2rc-ZW-XKd">
@@ -129,7 +129,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="K0b-qZ-UOk" kind="show" identifier="showGitServerSettingSegue" id="gbo-er-kAn"/>
+                                            <segue destination="K0b-qZ-UOk" kind="showDetail" identifier="showGitServerSettingSegue" id="ov1-DN-cwJ"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="pgpKeyTableViewCell" textLabel="RR9-xr-9ko" detailTextLabel="7lc-Vh-G9W" style="IBUITableViewCellStyleValue1" id="1ze-MS-Xbj">
@@ -222,7 +222,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="Rqu-AW-ZNQ" kind="show" id="Wpt-vk-aK8"/>
+                                            <segue destination="uoO-MF-fIN" kind="showDetail" id="mZM-Tb-Uny"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -250,7 +250,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="ZcQ-fs-QEW" kind="show" id="PJC-pk-YRH"/>
+                                            <segue destination="0bw-Ed-Xsf" kind="showDetail" id="ffK-27-JkM"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -267,8 +267,8 @@
                         <outlet property="passwordRepositoryTableViewCell" destination="2rc-ZW-XKd" id="aFq-K7-eIj"/>
                         <outlet property="pgpKeyTableViewCell" destination="1ze-MS-Xbj" id="hXe-eD-0R4"/>
                         <outlet property="touchIDTableViewCell" destination="wB7-Km-Oel" id="0fi-Sb-qMa"/>
-                        <segue destination="ZUt-x1-TJu" kind="show" identifier="setPGPKeyByURLSegue" id="i0b-Yz-K9q"/>
-                        <segue destination="ffY-rC-jhq" kind="show" identifier="setPGPKeyByASCIISegue" id="cEU-6E-1aQ"/>
+                        <segue destination="ZUt-x1-TJu" kind="showDetail" identifier="setPGPKeyByURLSegue" id="qRF-S1-bqF"/>
+                        <segue destination="ffY-rC-jhq" kind="showDetail" identifier="setPGPKeyByASCIISegue" id="mgi-Oe-i2X"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="leR-cc-QPW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -288,7 +288,7 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="54"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="OfB-1N-1Am" id="fh0-au-C6q">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="54"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="53.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="201" contentMode="left" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" text="2017/04/04" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GLC-qL-55P">
@@ -334,7 +334,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dk5-pb-UNe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6082.608695652174" y="1495.9239130434785"/>
+            <point key="canvasLocation" x="6989.8550724637689" y="1495.9239130434785"/>
         </scene>
         <!--Git Server-->
         <scene sceneID="Obl-ql-ILG">
@@ -348,10 +348,10 @@
                             <tableViewSection headerTitle="Git Repository URL" id="pbe-W6-w4V">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="gitRepositoryURLTabelViewCell" rowHeight="52" id="FRr-pf-aPO">
-                                        <rect key="frame" x="0.0" y="55" width="414" height="52"/>
+                                        <rect key="frame" x="0.0" y="55.333333333333336" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="FRr-pf-aPO" id="60A-PS-qGe">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Git Repository URL" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="EVT-VU-sCi">
@@ -378,10 +378,10 @@
                             <tableViewSection headerTitle="Username" id="fRu-A2-SCk">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="usernameTableVIewCell" rowHeight="52" id="tnj-5U-kMB">
-                                        <rect key="frame" x="0.0" y="163" width="414" height="52"/>
+                                        <rect key="frame" x="0.0" y="163.33333333333334" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="tnj-5U-kMB" id="f0c-pI-MSJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="TMg-Gk-7nG">
@@ -407,10 +407,10 @@
                             <tableViewSection headerTitle="Authentication Method" id="h0N-tI-shZ">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="2" indentationWidth="0.0" shouldIndentWhileEditing="NO" id="KrP-nb-haa">
-                                        <rect key="frame" x="0.0" y="271" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="271.33333333333337" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KrP-nb-haa" id="1uB-oE-kfI">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LfQ-Af-j2O">
@@ -438,10 +438,10 @@
                                         <inset key="separatorInset" minX="62" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailButton" hidesAccessoryWhenEditing="NO" indentationLevel="2" indentationWidth="0.0" shouldIndentWhileEditing="NO" id="Qmt-bo-CuJ">
-                                        <rect key="frame" x="0.0" y="315" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="315.33333333333337" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qmt-bo-CuJ" id="p3u-8b-h3U">
-                                            <rect key="frame" x="0.0" y="0.0" width="367" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="367" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SSH Key" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ezz-76-a53">
@@ -477,11 +477,6 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Git Server" id="gXX-yl-9oj">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="LuU-Np-eBg">
-                            <connections>
-                                <segue destination="7K9-cE-9qq" kind="unwind" unwindAction="cancelGitServerSettingWithSegue:" id="SGr-tc-vDL"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Clone" style="done" id="sgQ-zB-rxv">
                             <connections>
                                 <action selector="save:" destination="ynQ-64-MfA" id="HNL-Da-fXT"/>
@@ -519,7 +514,7 @@
                                         <rect key="frame" x="0.0" y="35" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BYZ-9g-xZy" id="Zfn-rK-sN1">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="52"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public Key URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dWi-eh-7Eq">
@@ -553,7 +548,7 @@
                                         <rect key="frame" x="0.0" y="87" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vpk-J8-j7t" id="1td-qT-6ts">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="52"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Private Key URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qht-RC-Yeg">
@@ -591,11 +586,6 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="PGP Key" id="eK3-bb-419">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="LOw-J5-SOn">
-                            <connections>
-                                <segue destination="jjl-Xi-fkn" kind="unwind" unwindAction="cancelPGPKeyWithSegue:" id="Fgp-6V-y1S"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="TNt-ne-l7W">
                             <connections>
                                 <action selector="save:" destination="3WR-HY-zYj" id="uLA-oz-lPI"/>
@@ -748,12 +738,26 @@
                     </tabBar>
                     <connections>
                         <segue destination="5ZN-vm-3gw" kind="relationship" relationship="viewControllers" id="VZu-vG-Fum"/>
-                        <segue destination="ZmJ-0Z-N04" kind="relationship" relationship="viewControllers" id="6Yh-qG-26e"/>
+                        <segue destination="r3B-u1-VNM" kind="relationship" relationship="viewControllers" id="b8U-9T-jof"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h18-hY-pkk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="443" y="2096"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="Wij-1K-1HM">
+            <objects>
+                <splitViewController id="r3B-u1-VNM" customClass="SettingsSplitViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Settings" image="Settings" selectedImage="Settings" id="YLZ-cr-akY"/>
+                    <connections>
+                        <segue destination="ZmJ-0Z-N04" kind="relationship" relationship="masterViewController" id="6BE-lA-jgG"/>
+                        <segue destination="Jzw-qC-crz" kind="relationship" relationship="detailViewController" id="WfV-6d-ZUj"/>
+                    </connections>
+                </splitViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8r6-2t-h35" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="442" y="3143"/>
         </scene>
         <!--Settings-->
         <scene sceneID="sdr-gl-b19">
@@ -881,7 +885,7 @@ Phone Support PIN #: 84719</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2jy-oC-WQa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4954" y="1496"/>
+            <point key="canvasLocation" x="5860.8695652173919" y="1495.9239130434785"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yn4-1A-RA2">
@@ -916,7 +920,7 @@ Phone Support PIN #: 84719</string>
                                         <rect key="frame" x="0.0" y="35" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MA5-lE-8dT" id="pTv-Wj-psC">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="52"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Private Key URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C2w-dd-roS">
@@ -989,7 +993,7 @@ Phone Support PIN #: 84719</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j75-mg-v75" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3845" y="1496"/>
+            <point key="canvasLocation" x="4752.1739130434789" y="1495.9239130434785"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="GfH-IU-wIW">
@@ -1021,7 +1025,7 @@ Phone Support PIN #: 84719</string>
                             <tableViewSection headerTitle="GPG Configuration" id="ugP-R2-9M7">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="Jwg-mt-woS" style="IBUITableViewCellStyleDefault" id="tHt-Ro-0HF" userLabel="Encrypt in ASCII-Armored">
-                                        <rect key="frame" x="0.0" y="55" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.333333333333336" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tHt-Ro-0HF" id="Epj-ei-NtS">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
@@ -1042,7 +1046,7 @@ Phone Support PIN #: 84719</string>
                             <tableViewSection headerTitle="Git Configuration" id="ihT-OG-HTv">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="87a-xY-AbR" detailTextLabel="2qr-d7-0SK" style="IBUITableViewCellStyleValue1" id="SVj-jD-qPT" userLabel="Git Signature">
-                                        <rect key="frame" x="0.0" y="155" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="155.33333333333334" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SVj-jD-qPT" id="HaO-5w-qZt">
                                             <rect key="frame" x="0.0" y="0.0" width="381" height="43.666666666666664"/>
@@ -1065,7 +1069,7 @@ Phone Support PIN #: 84719</string>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="RHo-mb-ayc" kind="show" id="YZO-oX-Umt"/>
+                                            <segue destination="zDo-XK-ymp" kind="show" id="Bt5-Sl-jWW"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -1073,7 +1077,7 @@ Phone Support PIN #: 84719</string>
                             <tableViewSection headerTitle="PasswordStore Data" id="aVR-FE-jMg">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="zrl-v3-fxg" style="IBUITableViewCellStyleDefault" id="Jm8-B5-wKx" userLabel="Discard Changes Table View Cell">
-                                        <rect key="frame" x="0.0" y="255" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="255.33333333333334" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Jm8-B5-wKx" id="tjS-Q6-y2M">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
@@ -1090,7 +1094,7 @@ Phone Support PIN #: 84719</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="K2K-Bx-g7Z" style="IBUITableViewCellStyleDefault" id="NI1-Kd-hyH">
-                                        <rect key="frame" x="0.0" y="299" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="299.33333333333337" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NI1-Kd-hyH" id="yLe-T2-TWF">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
@@ -1124,7 +1128,7 @@ Phone Support PIN #: 84719</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="adh-5o-YYB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3845" y="5332"/>
+            <point key="canvasLocation" x="4752.1739130434789" y="5331.521739130435"/>
         </scene>
         <!--About-->
         <scene sceneID="f2e-C6-oxy">
@@ -1148,7 +1152,7 @@ Phone Support PIN #: 84719</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FCD-7i-hMu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3845" y="6500"/>
+            <point key="canvasLocation" x="4752.1739130434789" y="6499.7282608695659"/>
         </scene>
         <!--Open Source Components-->
         <scene sceneID="UFV-eK-lKM">
@@ -1168,7 +1172,7 @@ Phone Support PIN #: 84719</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AWL-FF-UWb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4954" y="6188"/>
+            <point key="canvasLocation" x="5860.8695652173919" y="6187.5000000000009"/>
         </scene>
         <!--Special Thanks-->
         <scene sceneID="FNS-LJ-tzc">
@@ -1188,7 +1192,7 @@ Phone Support PIN #: 84719</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z6I-8E-8pB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4954" y="7022"/>
+            <point key="canvasLocation" x="5860.8695652173919" y="7021.467391304348"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zfZ-pX-bff">
@@ -1305,7 +1309,7 @@ Cgo
                                         <rect key="frame" x="0.0" y="244" width="414" height="160"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Lom-iT-l16" id="eya-Tv-r0q">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="160"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="159.66666666666666"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oyB-oI-1fS">
@@ -1331,7 +1335,7 @@ Cgo
                                         <rect key="frame" x="0.0" y="404" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="F0i-XE-PGt" id="xO8-yL-W9a">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1343,7 +1347,7 @@ Cgo
                                         <rect key="frame" x="0.0" y="487" width="414" height="160"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="J8U-ev-FRQ" id="eb0-vb-Fcc">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="160"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="159.66666666666666"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lrQ-Ln-ZOv">
@@ -1369,7 +1373,7 @@ Cgo
                                         <rect key="frame" x="0.0" y="647" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b0Z-rW-sAE" id="UZX-pP-UWB">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1382,11 +1386,6 @@ Cgo
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="PGP Key" id="V4w-cf-d9g">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="TCQ-S8-kCi">
-                            <connections>
-                                <segue destination="Ul9-vk-jhw" kind="unwind" unwindAction="cancelPGPKeyWithSegue:" id="JRZ-Sx-ovq"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="lVZ-mz-KGt">
                             <connections>
                                 <action selector="save:" destination="1gA-jh-frD" id="dfU-DP-Eth"/>
@@ -1503,7 +1502,7 @@ Cgo
                                         <rect key="frame" x="0.0" y="244" width="414" height="160"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nmc-vy-Ab5" id="TQD-GC-YOY">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="160"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="159.66666666666666"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="23o-MP-wQY">
@@ -1526,7 +1525,7 @@ Cgo
                                         <rect key="frame" x="0.0" y="404" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jXO-n0-Mvx" id="AIL-mq-u7n">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1570,7 +1569,7 @@ Cgo
                                         <rect key="frame" x="0.0" y="35" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4Bh-1D-w5T" id="mIL-ig-tbp">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="52"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hlb-Zh-ega">
@@ -1603,7 +1602,7 @@ Cgo
                                         <rect key="frame" x="0.0" y="87" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JRY-pY-XtS" id="KrQ-Ih-dk8">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="52"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m25-Qy-XwU">
@@ -1641,11 +1640,6 @@ Cgo
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Git Signature" id="pPi-jd-x5U">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="fQD-Bc-Mcd">
-                            <connections>
-                                <segue destination="M5P-Ab-cIc" kind="unwind" identifier="cancelGitConfigSettingSegue" unwindAction="cancelGitConfigSettingWithSegue:" id="Z2N-nJ-04S"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="kMD-4J-wBb">
                             <connections>
                                 <segue destination="M5P-Ab-cIc" kind="unwind" identifier="saveGitConfigSettingSegue" unwindAction="saveGitConfigSettingWithSegue:" id="RGN-ff-tuP"/>
@@ -1660,25 +1654,7 @@ Cgo
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FmV-2I-aov" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="M5P-Ab-cIc" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="6109" y="5333"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="9zM-kx-OZU">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RHo-mb-ayc" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ch6-Ko-kuU">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="zDo-XK-ymp" kind="relationship" relationship="rootViewController" id="vT1-I7-q3N"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6nC-pe-hyF" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4967" y="5333"/>
+            <point key="canvasLocation" x="5861" y="5332"/>
         </scene>
         <!--Scan PGP Keys-->
         <scene sceneID="7j1-Qg-pUZ">
@@ -1693,7 +1669,7 @@ Cgo
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="scanner output" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U8O-Md-w8e">
-                                <rect key="frame" x="50" y="562" width="314" height="45"/>
+                                <rect key="frame" x="50" y="611" width="314" height="45"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="q3X-BT-aK8"/>
@@ -1710,21 +1686,14 @@ Cgo
                             <constraint firstItem="53A-gx-tky" firstAttribute="top" secondItem="U8O-Md-w8e" secondAttribute="bottom" constant="80" id="tzL-K0-lE7"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Scan PGP Keys" id="JIs-3z-Tmr">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="yma-o8-xRu">
-                            <connections>
-                                <segue destination="0F8-Zv-c2C" kind="unwind" unwindAction="cancelPGPScannerWithSegue:" id="q14-fu-3N4"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Scan PGP Keys" id="JIs-3z-Tmr"/>
                     <connections>
                         <outlet property="scannerOutput" destination="U8O-Md-w8e" id="JTW-9y-mr6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I2W-rx-CxX" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="0F8-Zv-c2C" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="6122" y="4302"/>
+            <point key="canvasLocation" x="5861" y="4304"/>
         </scene>
         <!--Scan SSH Keys-->
         <scene sceneID="kmR-CX-Yi7">
@@ -1756,21 +1725,68 @@ Cgo
                             <constraint firstAttribute="trailingMargin" secondItem="fsL-pq-A5q" secondAttribute="trailing" constant="30" id="ymC-G4-bdA"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Scan SSH Keys" id="bov-FI-Hkg">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="JhH-TO-YkO">
-                            <connections>
-                                <segue destination="J2S-Mr-s10" kind="unwind" unwindAction="cancelSSHScannerWithSegue:" id="Thj-zj-TEX"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Scan SSH Keys" id="bov-FI-Hkg"/>
                     <connections>
                         <outlet property="scannerOutput" destination="fsL-pq-A5q" id="lSv-2S-qVd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s1p-jn-4PV" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="J2S-Mr-s10" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="7133" y="2895"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Hf2-tj-DSK">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Jzw-qC-crz" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="YCA-VS-Qu8">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ljx-el-KZL" kind="relationship" relationship="rootViewController" id="yqd-o3-osr"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5oJ-VM-g5J" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3844.9275362318845" y="1495.9239130434785"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="FT9-BJ-SVt">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0bw-Ed-Xsf" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="D0D-LP-K9m">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ZcQ-fs-QEW" kind="relationship" relationship="rootViewController" id="azd-nb-7xK"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0BT-Bk-j2Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3844.9275362318845" y="6499.7282608695659"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="adg-bw-dTz">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uoO-MF-fIN" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HdT-LG-aSd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Rqu-AW-ZNQ" kind="relationship" relationship="rootViewController" id="YG1-74-4mb"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TAd-pc-0Ta" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3844.9275362318845" y="5331.521739130435"/>
         </scene>
     </scenes>
     <resources>
@@ -1778,6 +1794,7 @@ Cgo
         <image name="Settings" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="iCM-Fy-hkk"/>
         <segue reference="yyD-4H-pLE"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -234,10 +234,6 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         }
     }
     
-    @IBAction private func cancelOTPScanner(segue: UIStoryboardSegue) {
-        
-    }
-    
     // update the data table after editing
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == nameCell?.contentTextField {

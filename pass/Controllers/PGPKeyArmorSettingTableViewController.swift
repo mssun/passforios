@@ -204,9 +204,4 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
             }
         }
     }
-    
-    @IBAction private func cancelPGPScanner(segue: UIStoryboardSegue) {
-        
-    }
-
 }
