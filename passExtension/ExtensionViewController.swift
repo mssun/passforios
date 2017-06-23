@@ -26,12 +26,14 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
     private let passwordStore = PasswordStore.shared
     
     private var searchActive = false
-    
-    // the URL passed to the extension
-    private var extensionURL: String?
-    
     private var passwordsTableEntries: [PasswordsTableEntry] = []
     private var filteredPasswordsTableEntries: [PasswordsTableEntry] = []
+    
+    enum Action {
+        case findLogin, fillBrowser, unknown
+    }
+    
+    private var extensionAction = Action.unknown
     
     private lazy var passcodelock: PasscodeExtensionDisplay = {
         let passcodelock = PasscodeExtensionDisplay(extensionContext: self.extensionContext)
@@ -64,24 +66,47 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
         // initialize table entries
         initPasswordsTableEntries()
         
-        // search using the extensionContext inputs
+        // get the provider
         let item = extensionContext?.inputItems.first as! NSExtensionItem
-        let provider = item.attachments?.first as! NSItemProvider
-        let propertyList = String(kUTTypePropertyList)
-        if provider.hasItemConformingToTypeIdentifier(propertyList) {
-            provider.loadItem(forTypeIdentifier: propertyList, options: nil, completionHandler: { (item, error) -> Void in
+        let provider: NSItemProvider
+        if item.attachments?.count == 1 {
+            // Safari
+            provider = item.attachments?.first as! NSItemProvider
+        } else {
+            // e.g., Chrome, apps
+            provider = item.attachments?[1] as! NSItemProvider
+        }
+        
+        // search using the extensionContext inputs
+        if provider.hasItemConformingToTypeIdentifier(OnePasswordExtensionActions.findLogin) {
+            provider.loadItem(forTypeIdentifier: OnePasswordExtensionActions.findLogin, options: nil, completionHandler: { (item, error) -> Void in
                 let dictionary = item as! NSDictionary
-                let results = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as! NSDictionary
-                let url = URL(string: (results["url"] as? String)!)?.host
+                var url: String?
+                if var urlString = dictionary[OnePasswordExtensionKey.URLStringKey] as? String {
+                    if !urlString.hasPrefix("http://") && !urlString.hasPrefix("https://") {
+                        urlString = "http://" + urlString
+                    }
+                    url = URL(string: urlString)?.host
+                }
                 DispatchQueue.main.async { [weak self] in
+                    self?.extensionAction = .findLogin
                     // force search (set text, set active, force search)
                     self?.searchBar.text = url
                     self?.searchBar.becomeFirstResponder()
                     self?.searchBarSearchButtonClicked((self?.searchBar)!)
                 }
             })
-        } else {
-            print("error")
+        } else if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
+            provider.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil, completionHandler: { (item, error) -> Void in
+                let url = (item as? NSURL)!.host
+                DispatchQueue.main.async { [weak self] in
+                    self?.extensionAction = .fillBrowser
+                    // force search (set text, set active, force search)
+                    self?.searchBar.text = url
+                    self?.searchBar.becomeFirstResponder()
+                    self?.searchBarSearchButtonClicked((self?.searchBar)!)
+                }
+            })
         }
     }
     
@@ -116,18 +141,28 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
             do {
                 decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: self.requestPGPKeyPassphrase)
                 DispatchQueue.main.async {
-                    Utils.copyToPasteboard(textToCopy: decryptedPassword?.password)
-                    let title = "Password Copied"
-                    let message = "Usename: " + (decryptedPassword?.getUsername() ?? "Unknown") + "\r\n(Remember to clear the clipboard.)"
-                    let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
-                        // return a dictionary for JavaScript for best-effor fill in
+                    switch self.extensionAction {
+                    case .findLogin:
+                        // prepare a dictionary to return
                         let extensionItem = NSExtensionItem()
-                        let returnDictionary = [ NSExtensionJavaScriptFinalizeArgumentKey : ["username": decryptedPassword?.getUsername() ?? "", "password": decryptedPassword?.password ?? ""]]
+                        var returnDictionary = [OnePasswordExtensionKey.usernameKey: decryptedPassword?.getUsername() ?? "",
+                                                OnePasswordExtensionKey.passwordKey: decryptedPassword?.password ?? ""]
+                        if let totpPassword = decryptedPassword?.getOtp() {
+                            returnDictionary[OnePasswordExtensionKey.totpKey] = totpPassword
+                        }
                         extensionItem.attachments = [NSItemProvider(item: returnDictionary as NSSecureCoding, typeIdentifier: String(kUTTypePropertyList))]
                         self.extensionContext!.completeRequest(returningItems: [extensionItem], completionHandler: nil)
-                    }))
-                    self.present(alert, animated: true, completion: nil)
+                    default:
+                        // copy the password to the clipboard
+                        Utils.copyToPasteboard(textToCopy: decryptedPassword?.password)
+                        let title = "Password Copied"
+                        let message = "Usename: " + (decryptedPassword?.getUsername() ?? "Unknown") + "\r\n(Remember to clear the clipboard.)"
+                        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+                            self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
             } catch {
                 print(error)
