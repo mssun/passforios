@@ -12,6 +12,7 @@
 		2C58F31EECC494C7A7F00A98 /* libPods-passKitTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB6C63FA1652F925B5C9F0B5 /* libPods-passKitTests.a */; };
 		398A8F69C2230A8117820BB7 /* libPods-passKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45BAA15189E80AA544EAF7AD /* libPods-passKit.a */; };
 		6930A9D26085DE7CA1A7AACC /* libPods-passExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B240CA444AC9172F3053651 /* libPods-passExtension.a */; };
+		A2168A7F1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2168A7E1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift */; };
 		A217ACE21E9AB17C00A1A6CF /* OTPScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */; };
 		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */; };
 		A2367B9B1EEFE1B300C8FE8B /* UtilsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2367B9A1EEFE1B300C8FE8B /* UtilsExtension.swift */; };
@@ -166,6 +167,7 @@
 		7592A214C22CEBBEF4596CC1 /* libPods-pass.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pass.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E088A9255B6CB576EF757C1 /* Pods-passKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passKit/Pods-passKit.debug.xcconfig"; sourceTree = "<group>"; };
 		A02ACA4077630047EA669D05 /* Pods-pass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.debug.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.debug.xcconfig"; sourceTree = "<group>"; };
+		A2168A7E1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnePasswordExtensionConstants.swift; sourceTree = "<group>"; };
 		A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPScannerController.swift; sourceTree = "<group>"; };
 		A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = GitConfigSettingTableViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A2227D4C1EEE5E25002A69A9 /* libObjectivePGP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libObjectivePGP.a; path = "Pods/../build/Debug-iphoneos/ObjectivePGP/libObjectivePGP.a"; sourceTree = "<group>"; };
@@ -326,6 +328,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A2168A801EFD431A005EA873 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A2A61C2B1EEFDF3300CFE063 /* ExtensionViewController.swift */,
+				A28C66671EF10EC900A398A1 /* PasscodeExtensionDisplay.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		A2168A811EFD4322005EA873 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				A2367B9A1EEFE1B300C8FE8B /* UtilsExtension.swift */,
+				A2168A7E1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		A26075791EEC6F34005DB03E /* passKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,14 +370,13 @@
 		A26700251EEC466A00176B8A /* passExtension */ = {
 			isa = PBXGroup;
 			children = (
+				A26700331EEC46C900176B8A /* passExtension.entitlements */,
+				A267002B1EEC466A00176B8A /* Info.plist */,
+				A2168A801EFD431A005EA873 /* Controllers */,
+				A2168A811EFD4322005EA873 /* Helpers */,
 				A2367B9F1EF0387000C8FE8B /* Assets.xcassets */,
 				A26700351EEC475600176B8A /* passProcessor.js */,
-				A26700331EEC46C900176B8A /* passExtension.entitlements */,
 				A26700281EEC466A00176B8A /* MainInterface.storyboard */,
-				A267002B1EEC466A00176B8A /* Info.plist */,
-				A2A61C2B1EEFDF3300CFE063 /* ExtensionViewController.swift */,
-				A2367B9A1EEFE1B300C8FE8B /* UtilsExtension.swift */,
-				A28C66671EF10EC900A398A1 /* PasscodeExtensionDisplay.swift */,
 			);
 			path = passExtension;
 			sourceTree = "<group>";
@@ -1010,6 +1029,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2A61C2C1EEFDF3300CFE063 /* ExtensionViewController.swift in Sources */,
+				A2168A7F1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift in Sources */,
 				A28C66681EF10EC900A398A1 /* PasscodeExtensionDisplay.swift in Sources */,
 				A2367B9B1EEFE1B300C8FE8B /* UtilsExtension.swift in Sources */,
 			);
