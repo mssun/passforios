@@ -3,22 +3,32 @@ var PassProcessor = function() {};
 PassProcessor.prototype = {
 run: function(arguments) {
     var url
-    var html
     var error
     try {
-        url = document.URL;
-        html = document.body.innerHTML
+        url = document.URL
     } catch (e) {
         error = e
     } finally {
-        arguments.completionFunction({"url": url, "html": html, "error": error});
+        arguments.completionFunction({"url_string": url, "error": error});
     }
 },
     
 finalize: function(arguments) {
-    var str = "username: " + arguments["username"] + "\r\npassword: " + arguments["password"];
-    // alert(str)
-    // document.body.innerHTML = arguments["content"];
+    if (arguments["password"]) {
+        var passwordElement = document.querySelector("input[type=password]")
+        if (passwordElement) {
+            passwordElement.setAttribute('value', arguments["password"])
+            passwordElement.value = arguments["password"]
+        }
+    }
+    
+    if (arguments["username"]) {
+        var usernameElement = document.querySelector("input[type=email], input[type=text]")
+        if (usernameElement) {
+            usernameElement.setAttribute('value', arguments["username"])
+            usernameElement.value = arguments["username"]
+        }
+    }
 }
 };
 

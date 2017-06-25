@@ -67,46 +67,66 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
         initPasswordsTableEntries()
         
         // get the provider
-        let item = extensionContext?.inputItems.first as! NSExtensionItem
-        let provider: NSItemProvider
-        if item.attachments?.count == 1 {
-            // Safari
-            provider = item.attachments?.first as! NSItemProvider
-        } else {
-            // e.g., Chrome, apps
-            provider = item.attachments?[1] as! NSItemProvider
+        guard let extensionItems = extensionContext?.inputItems as? [NSExtensionItem] else {
+            return
         }
         
-        // search using the extensionContext inputs
-        if provider.hasItemConformingToTypeIdentifier(OnePasswordExtensionActions.findLogin) {
-            provider.loadItem(forTypeIdentifier: OnePasswordExtensionActions.findLogin, options: nil, completionHandler: { (item, error) -> Void in
-                let dictionary = item as! NSDictionary
-                var url: String?
-                if var urlString = dictionary[OnePasswordExtensionKey.URLStringKey] as? String {
-                    if !urlString.hasPrefix("http://") && !urlString.hasPrefix("https://") {
-                        urlString = "http://" + urlString
+        for extensionItem in extensionItems {
+            if let itemProviders = extensionItem.attachments as? [NSItemProvider] {
+                for provider in itemProviders {
+                    // search using the extensionContext inputs
+                    if provider.hasItemConformingToTypeIdentifier(OnePasswordExtensionActions.findLogin) {
+                        provider.loadItem(forTypeIdentifier: OnePasswordExtensionActions.findLogin, options: nil, completionHandler: { (item, error) -> Void in
+                            let dictionary = item as! NSDictionary
+                            var url: String?
+                            if var urlString = dictionary[OnePasswordExtensionKey.URLStringKey] as? String {
+                                if !urlString.hasPrefix("http://") && !urlString.hasPrefix("https://") {
+                                    urlString = "http://" + urlString
+                                }
+                                url = URL(string: urlString)?.host
+                            }
+                            DispatchQueue.main.async { [weak self] in
+                                self?.extensionAction = .findLogin
+                                // force search (set text, set active, force search)
+                                self?.searchBar.text = url
+                                self?.searchBar.becomeFirstResponder()
+                                self?.searchBarSearchButtonClicked((self?.searchBar)!)
+                            }
+                        })
                     }
-                    url = URL(string: urlString)?.host
+                    else if provider.hasItemConformingToTypeIdentifier(kUTTypePropertyList as String) {
+                        provider.loadItem(forTypeIdentifier: kUTTypePropertyList as String, options: nil, completionHandler: { (item, error) -> Void in
+                            var url: String?
+                            if let dictionary = item as? NSDictionary,
+                                let results = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary,
+                                var urlString = results[OnePasswordExtensionKey.URLStringKey] as? String {
+                                if !urlString.hasPrefix("http://") && !urlString.hasPrefix("https://") {
+                                    urlString = "http://" + urlString
+                                }
+                                url = URL(string: urlString)?.host
+                            }
+                            DispatchQueue.main.async { [weak self] in
+                                self?.extensionAction = .fillBrowser
+                                // force search (set text, set active, force search)
+                                self?.searchBar.text = url
+                                self?.searchBar.becomeFirstResponder()
+                                self?.searchBarSearchButtonClicked((self?.searchBar)!)
+                            }
+                        })
+                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
+                        provider.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil, completionHandler: { (item, error) -> Void in
+                            let url = (item as? NSURL)!.host
+                            DispatchQueue.main.async { [weak self] in
+                                self?.extensionAction = .fillBrowser
+                                // force search (set text, set active, force search)
+                                self?.searchBar.text = url
+                                self?.searchBar.becomeFirstResponder()
+                                self?.searchBarSearchButtonClicked((self?.searchBar)!)
+                            }
+                        })
+                    }
                 }
-                DispatchQueue.main.async { [weak self] in
-                    self?.extensionAction = .findLogin
-                    // force search (set text, set active, force search)
-                    self?.searchBar.text = url
-                    self?.searchBar.becomeFirstResponder()
-                    self?.searchBarSearchButtonClicked((self?.searchBar)!)
-                }
-            })
-        } else if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
-            provider.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil, completionHandler: { (item, error) -> Void in
-                let url = (item as? NSURL)!.host
-                DispatchQueue.main.async { [weak self] in
-                    self?.extensionAction = .fillBrowser
-                    // force search (set text, set active, force search)
-                    self?.searchBar.text = url
-                    self?.searchBar.becomeFirstResponder()
-                    self?.searchBarSearchButtonClicked((self?.searchBar)!)
-                }
-            })
+            }
         }
     }
     
@@ -140,28 +160,28 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
             var decryptedPassword: Password?
             do {
                 decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: self.requestPGPKeyPassphrase)
-                DispatchQueue.main.async {
+                let username = decryptedPassword?.getUsername() ?? ""
+                let password = decryptedPassword?.password ?? ""
+                DispatchQueue.main.async {// prepare a dictionary to return
                     switch self.extensionAction {
                     case .findLogin:
-                        // prepare a dictionary to return
                         let extensionItem = NSExtensionItem()
-                        var returnDictionary = [OnePasswordExtensionKey.usernameKey: decryptedPassword?.getUsername() ?? "",
-                                                OnePasswordExtensionKey.passwordKey: decryptedPassword?.password ?? ""]
+                        var returnDictionary = [OnePasswordExtensionKey.usernameKey: username,
+                                                OnePasswordExtensionKey.passwordKey: password]
                         if let totpPassword = decryptedPassword?.getOtp() {
                             returnDictionary[OnePasswordExtensionKey.totpKey] = totpPassword
                         }
                         extensionItem.attachments = [NSItemProvider(item: returnDictionary as NSSecureCoding, typeIdentifier: String(kUTTypePropertyList))]
                         self.extensionContext!.completeRequest(returningItems: [extensionItem], completionHandler: nil)
-                    default:
-                        // copy the password to the clipboard
+                    case .fillBrowser:
                         Utils.copyToPasteboard(textToCopy: decryptedPassword?.password)
-                        let title = "Password Copied"
-                        let message = "Usename: " + (decryptedPassword?.getUsername() ?? "Unknown") + "\r\n(Remember to clear the clipboard.)"
-                        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
-                            self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
-                        }))
-                        self.present(alert, animated: true, completion: nil)
+                        // return a dictionary for JavaScript for best-effor fill in
+                        let extensionItem = NSExtensionItem()
+                        let returnDictionary = [NSExtensionJavaScriptFinalizeArgumentKey : ["username": username, "password": password]]
+                        extensionItem.attachments = [NSItemProvider(item: returnDictionary as NSSecureCoding, typeIdentifier: String(kUTTypePropertyList))]
+                        self.extensionContext!.completeRequest(returningItems: [extensionItem], completionHandler: nil)
+                    default:
+                        self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
                     }
                 }
             } catch {
