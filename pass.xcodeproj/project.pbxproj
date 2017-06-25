@@ -1297,7 +1297,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).find-login-action-extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9feb619f-73bb-429c-a2a8-856ddcbb9e33";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development me.mssun.passforios.extension";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development me.mssun.passforios.find-login-action-extension";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 			};
@@ -1329,7 +1329,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).find-login-action-extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9b4419c3-a959-4af8-8810-8af134008ec5";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore me.mssun.passforios.extension";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore me.mssun.passforios.find-login-action-extension";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 			};
