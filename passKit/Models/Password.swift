@@ -122,7 +122,7 @@ public class Password {
     public func getFilteredAdditions() -> [String: String] {
         var filteredAdditions = [String: String]()
         additions.forEach { (key: String, value: String) in
-            if key.lowercased() != "username" && key.lowercased() != "password" &&
+            if key.lowercased() != "username" && key.lowercased() != "login" && key.lowercased() != "password" &&
                 (!key.hasPrefix("unknown") || !SharedDefaults[.isHideUnknownOn]) &&
                 (!Password.otpKeywords.contains(key) || !SharedDefaults[.isHideOTPOn]) {
                 filteredAdditions[key] = value
@@ -132,11 +132,15 @@ public class Password {
     }
     
     public func getUsername() -> String? {
-        return getAdditionValue(withKey: "Username") ?? getAdditionValue(withKey: "username")
+        return getAdditionValue(withKey: "username", caseSensitive: false)
+    }
+    
+    public func getLogin() -> String? {
+        return getAdditionValue(withKey: "login", caseSensitive: false)
     }
     
     public func getURLString() -> String? {
-        return getAdditionValue(withKey: "URL") ?? getAdditionValue(withKey: "url") ?? getAdditionValue(withKey: "Url")
+        return getAdditionValue(withKey: "url", caseSensitive: false)
     }
     
     // return a key-value pair from the line
@@ -181,8 +185,18 @@ public class Password {
         return getPlainText().data(using: .utf8)!
     }
     
-    private func getAdditionValue(withKey key: String) -> String? {
-        return self.additions[key]
+    private func getAdditionValue(withKey key: String, caseSensitive: Bool = true) -> String? {
+        if caseSensitive {
+            return additions[key]
+        } else {
+            let searchKey = key.lowercased()
+            for k in additions.keys {
+                if searchKey == k.lowercased() {
+                    return additions[k]
+                }
+            }
+            return nil
+        }
     }
     
     /*

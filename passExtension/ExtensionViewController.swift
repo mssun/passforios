@@ -160,7 +160,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
             var decryptedPassword: Password?
             do {
                 decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: self.requestPGPKeyPassphrase)
-                let username = decryptedPassword?.getUsername() ?? ""
+                let username = decryptedPassword?.getUsername() ?? decryptedPassword?.getLogin() ?? ""
                 let password = decryptedPassword?.password ?? ""
                 DispatchQueue.main.async {// prepare a dictionary to return
                     switch self.extensionAction {

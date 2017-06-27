@@ -261,6 +261,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         if let username = password.getUsername() {
             section.item.append(TableCell(title: "username", content: username))
         }
+        if let login = password.getLogin() {
+            section.item.append(TableCell(title: "login", content: login))
+        }
         section.item.append(TableCell(title: "password", content: password.password))
         tableData.append(section)
 
