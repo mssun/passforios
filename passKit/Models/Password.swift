@@ -36,11 +36,10 @@ public class Password {
         }
     }
     public var password = ""
-    public var additions = [String: String]()
-    public var additionKeys = [String]()
     public var changed: Int = 0
     public var plainText = ""
     
+    private var additions = [String: String]()
     private var firstLineIsOTPField = false
     private var otpToken: Token?
     
@@ -82,16 +81,29 @@ public class Password {
         self.name = name
         self.url = url
         self.plainText = plainText
-        self.additions.removeAll()
-        self.additionKeys.removeAll()
+        additions.removeAll()
         
-        // get password and additional fields
+        // split the plain text
         let plainTextSplit = plainText.characters.split(maxSplits: 1, omittingEmptySubsequences: false) {
             $0 == "\n" || $0 == "\r\n"
             }.map(String.init)
-        self.password  = plainTextSplit.first ?? ""
+    
+        // get password
+        password  = plainTextSplit.first ?? ""
+        
+        // get additonal fields
         if plainTextSplit.count == 2 {
-            (self.additions, self.additionKeys) = Password.getAdditionFields(from: plainTextSplit[1])
+            var unknownIndex = 0
+            plainTextSplit[1].enumerateLines() { line, _ in
+                if !line.isEmpty {
+                    var (key, value) = Password.getKeyValuePair(from: line)
+                    if key == nil {
+                        unknownIndex += 1
+                        key = "unknown \(unknownIndex)"
+                    }
+                    self.additions[key!] = value
+                }
+            }
         }
         
         // check whether the first line of the plainText looks like an otp entry
@@ -99,13 +111,24 @@ public class Password {
         if Password.otpKeywords.contains(key ?? "") {
             firstLineIsOTPField = true
             self.additions[key!] = value
-            self.additionKeys.insert(key!, at: 0)
         } else {
             firstLineIsOTPField = false
         }
         
         // construct the otp token
         self.updateOtpToken()
+    }
+    
+    public func getFilteredAdditions() -> [String: String] {
+        var filteredAdditions = [String: String]()
+        additions.forEach { (key: String, value: String) in
+            if key.lowercased() != "username" && key.lowercased() != "password" &&
+                (!key.hasPrefix("unknown") || !SharedDefaults[.isHideUnknownOn]) &&
+                (!Password.otpKeywords.contains(key) || !SharedDefaults[.isHideOTPOn]) {
+                filteredAdditions[key] = value
+            }
+        }
+        return filteredAdditions
     }
     
     public func getUsername() -> String? {
@@ -136,27 +159,6 @@ public class Password {
             value = items[1]
         }
         return (key, value)
-    }
-    
-    private static func getAdditionFields(from additionFieldsPlainText: String) -> ([String: String], [String]){
-        var additions = [String: String]()
-        var additionKeys = [String]()
-        var unknownIndex = 0
-
-        additionFieldsPlainText.enumerateLines() { line, _ in
-            if line == "" {
-                return
-            }
-            var (key, value) = getKeyValuePair(from: line)
-            if key == nil {
-                unknownIndex += 1
-                key = "unknown \(unknownIndex)"
-            }
-            additions[key!] = value
-            additionKeys.append(key!)
-        }
-        
-        return (additions, additionKeys)
     }
     
     public func getAdditionsPlainText() -> String {

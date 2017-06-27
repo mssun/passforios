@@ -278,17 +278,12 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
         
         // show additional information
-        let filteredAdditionKeys = password.additionKeys.filter {
-            $0.lowercased() != "username" &&
-                $0.lowercased() != "password" &&
-                (!$0.hasPrefix("unknown") || !SharedDefaults[.isHideUnknownOn]) &&
-                (!Password.otpKeywords.contains($0) || !SharedDefaults[.isHideOTPOn]) }
-        
+        let filteredAdditionKeys = password.getFilteredAdditions()
         if filteredAdditionKeys.count > 0 {
             section = TableSection(type: .addition, header: "additions")
-            for additionKey in filteredAdditionKeys {
-                section.item.append(TableCell(title: additionKey, content: password.additions[additionKey]!))
-            }
+            filteredAdditionKeys.forEach({ (key: String, value: String) in
+                section.item.append(TableCell(title: key, content: value))
+            })
             tableData.append(section)
         }
         
