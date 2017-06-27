@@ -1167,7 +1167,6 @@
 				);
 				INFOPLIST_FILE = passKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MODULEMAP_FILE = "";
@@ -1212,7 +1211,6 @@
 				);
 				INFOPLIST_FILE = passKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MODULEMAP_FILE = "";
@@ -1290,7 +1288,6 @@
 					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
 				INFOPLIST_FILE = passExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_CFLAGS = "$(inherited)";
@@ -1322,7 +1319,6 @@
 					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
 				INFOPLIST_FILE = passExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_CFLAGS = "$(inherited)";
