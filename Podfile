@@ -1,3 +1,5 @@
+platform :ios, '10.2'
+
 def generate_modulemap(name, path)
     f = File.new(File.join("#{path}/module.modulemap"), "w+")
     module_name = "#{name}"
