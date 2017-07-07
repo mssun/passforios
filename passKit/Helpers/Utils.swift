@@ -111,11 +111,13 @@ public class Utils {
         // draw all digits in the password into red
         // draw all punctuation characters in the password into blue
         for (index, element) in plainPassword.unicodeScalars.enumerated() {
+            var charColor = UIColor.darkText
             if NSCharacterSet.decimalDigits.contains(element) {
-                attributedPassword.addAttribute(NSForegroundColorAttributeName, value: Globals.red, range: NSRange(location: index, length: 1))
+                charColor = Globals.red
             } else if !NSCharacterSet.letters.contains(element) {
-                attributedPassword.addAttribute(NSForegroundColorAttributeName, value: Globals.blue, range: NSRange(location: index, length: 1))
+                charColor = Globals.blue
             }
+            attributedPassword.addAttribute(NSForegroundColorAttributeName, value: charColor, range: NSRange(location: index, length: 1))
         }
         return attributedPassword
     }
