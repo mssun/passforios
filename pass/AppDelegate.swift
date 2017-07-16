@@ -40,11 +40,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         if let _ = window?.rootViewController as? PasscodeLockViewController {
-            // Force the PasscodeLockVC to be portrait because the rotation seems bugy in some cases
-            return .portrait
-        } else {
-            return .all
+            window?.frame = UIScreen.main.bounds
         }
+        return .all
     }
     
     func postSearchNotification() {
