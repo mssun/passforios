@@ -456,7 +456,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         switch scope {
         case "All":
             filteredPasswordsTableEntries = passwordsTableAllEntries.filter { entry in
-                return entry.title.lowercased().contains(searchText.lowercased())
+                let name = entry.passwordEntity?.nameWithCategory ?? entry.title
+                return name.localizedCaseInsensitiveContains(searchText)
             }
             if searchController.isActive && searchController.searchBar.text != "" {
                 reloadTableView(data: filteredPasswordsTableEntries)

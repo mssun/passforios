@@ -55,7 +55,7 @@ platform :ios do
     )
     match(
       type: "appstore",
-      app_identifier: "me.mssun.passforios.extension",
+      app_identifier: "me.mssun.passforios.find-login-action-extension",
       keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
       keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
       readonly: true

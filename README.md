@@ -18,11 +18,12 @@ Testflight, drop an email to `developer@passforios.mssun.me`. Thank you.
 ## Features
 
 - Try to be compatible with the Password Store command line tool
-- Support to view, copy, add, and edit password entries
+- View, copy, add, and edit password entries
 - Encrypt and decrypt password entries by PGP keys
 - Synchronize with your password Git repository
 - User-friendly interface: search, long press to copy, copy and open link, etc.
-- Support one-time password (OTP) tokens (QR code and otpauth URI)
+- Support one-time password tokens (two-factor authentication codes)
+- Autofill in Safari/Chrome and [supported apps](https://github.com/agilebits/onepassword-app-extension)
 - Written in Swift
 - No need to jailbreak your devices
 
@@ -38,8 +39,8 @@ Testflight, drop an email to `developer@passforios.mssun.me`. Thank you.
 ## Usages
 
 - Setup your password-store ([official `Pass` introduction](https://www.passwordstore.org/))
-- Get Pass for iOS from the App Store or build one by yourself
-- Start to use Pass for iOS on your iPhone/iPad ([quick-start guide](https://github.com/mssun/passforios/wiki#quick-start-guide-for-pass-for-ios))
+- Get Pass for iOS from the App Store or [build by yourself](https://github.com/mssun/passforios/wiki/Building-Pass-for-iOS)
+- Setup Pass for iOS ([quick-start guide](https://github.com/mssun/passforios/wiki#quick-start-guide-for-pass-for-ios))
 
 For more, please read the [wiki page](https://github.com/mssun/pass-ios/wiki).
 

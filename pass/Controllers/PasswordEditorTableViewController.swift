@@ -88,6 +88,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         case .fillPasswordCell:
             fillPasswordCell = tableView.dequeueReusableCell(withIdentifier: "fillPasswordCell", for: indexPath) as? FillPasswordTableViewCell
             fillPasswordCell?.delegate = self
+            fillPasswordCell?.contentTextField.delegate = self
             fillPasswordCell?.setContent(content: cellData[PasswordEditorCellKey.content] as? String)
             if tableData[passwordSection].count == 1 {
                 fillPasswordCell?.settingButton.isHidden = true
@@ -97,10 +98,18 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             passwordLengthCell = tableView.dequeueReusableCell(withIdentifier: "passwordLengthCell", for: indexPath) as? SliderTableViewCell
             let lengthSetting = Globals.passwordDefaultLength[SharedDefaults[.passwordGeneratorFlavor]] ??
                 Globals.passwordDefaultLength["Random"]
+            let minimumLength = lengthSetting?.min ?? 0
+            let maximumLength = lengthSetting?.max ?? 0
+            var defaultLength = lengthSetting?.def ?? 0
+            if let currentPasswordLength = (tableData[passwordSection][0][PasswordEditorCellKey.content] as? String)?.characters.count,
+                currentPasswordLength >= minimumLength,
+                currentPasswordLength <= maximumLength {
+                defaultLength = currentPasswordLength
+            }
             passwordLengthCell?.reset(title: "Length",
-                                      minimumValue: lengthSetting?.min ?? 0,
-                                      maximumValue: lengthSetting?.max ?? 0,
-                                      defaultValue: lengthSetting?.def ?? 0)
+                                      minimumValue: minimumLength,
+                                      maximumValue: maximumLength,
+                                      defaultValue: defaultLength)
             passwordLengthCell?.delegate = self
             return passwordLengthCell!
         case .additionsCell:
@@ -234,18 +243,16 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         }
     }
     
-    @IBAction private func cancelOTPScanner(segue: UIStoryboardSegue) {
-        
-    }
-    
-    // update the data table after editing
+    // update tableData so to make sure reloadData() works correctly
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == nameCell?.contentTextField {
             tableData[nameSection][0][PasswordEditorCellKey.content] = nameCell?.getContent()
+        } else if textField == fillPasswordCell?.contentTextField {
+            tableData[passwordSection][0][PasswordEditorCellKey.content] = fillPasswordCell?.getContent()
         }
     }
     
-    // update the data table after editing
+    // update tableData so to make sure reloadData() works correctly
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView == additionsCell?.contentTextView {
             tableData[additionsSection][0][PasswordEditorCellKey.content] = additionsCell?.getContent()

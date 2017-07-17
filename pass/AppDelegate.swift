@@ -38,6 +38,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        if let _ = window?.rootViewController as? PasscodeLockViewController {
+            window?.frame = UIScreen.main.bounds
+        }
+        return .all
+    }
+    
     func postSearchNotification() {
         NotificationCenter.default.post(name: .passwordSearch, object: nil)
     }

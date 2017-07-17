@@ -28,9 +28,6 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var passwordRepositoryTableViewCell: UITableViewCell!
     let passwordStore = PasswordStore.shared
     var passcodeLockConfig = PasscodeLockConfiguration.shared
-
-    @IBAction func cancelPGPKey(segue: UIStoryboardSegue) {
-    }
     
     @IBAction func savePGPKey(segue: UIStoryboardSegue) {
         if let controller = segue.source as? PGPKeySettingTableViewController {
@@ -115,9 +112,6 @@ class SettingsTableViewController: UITableViewController {
                 }
             }
         }
-    }
-    
-    @IBAction func cancelGitServerSetting(segue: UIStoryboardSegue) {
     }
     
     @IBAction func saveGitServerSetting(segue: UIStoryboardSegue) {

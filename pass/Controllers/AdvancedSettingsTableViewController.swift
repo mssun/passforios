@@ -88,9 +88,6 @@ class AdvancedSettingsTableViewController: UITableViewController {
         SharedDefaults[.encryptInArmored] = encryptInASCIIArmoredSwitch.isOn
     }
     
-    @IBAction func cancelGitConfigSetting(segue: UIStoryboardSegue) {
-    }
-    
     @IBAction func saveGitConfigSetting(segue: UIStoryboardSegue) {
         if let controller = segue.source as? GitConfigSettingTableViewController {
             if let gitSignatureName = controller.nameTextField.text,
