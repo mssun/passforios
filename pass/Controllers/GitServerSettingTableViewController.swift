@@ -119,10 +119,16 @@ class GitServerSettingTableViewController: UITableViewController {
                 }
             } catch {
                 DispatchQueue.main.async {
-                    Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                    let error = error as NSError
+                    var message = error.localizedDescription
+                    if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
+                        message = "\(message)\nUnderlying error: \(underlyingError.localizedDescription)"
+                    }
+                    Utils.alert(title: "Error", message: message, controller: self, completion: nil)
                 }
             }
-        }    }
+        }
+    }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
