@@ -148,8 +148,30 @@ class GitServerSettingTableViewController: UITableViewController {
     }
     
     @IBAction func save(_ sender: Any) {
-        guard let _ = URL(string: gitURLTextField.text!) else {
-            Utils.alert(title: "Cannot Save", message: "Git Server is not set.", controller: self, completion: nil)
+        
+        // some sanity checks
+        guard let gitURL = URL(string: gitURLTextField.text!) else {
+            Utils.alert(title: "Cannot Save", message: "Please set the Git repository URL.", controller: self, completion: nil)
+            return
+        }
+        
+        switch gitURL.scheme {
+        case let val where val == "https":
+            break
+        case let val where val == "ssh":
+            guard let sshUsername = gitURL.user, sshUsername.isEmpty == false else {
+                Utils.alert(title: "Cannot Save", message: "Cannot find the username in the Git repository URL. Example URL: ssh://git@server/path/to/repo.git.", controller: self, completion: nil)
+                return
+            }
+            guard let username = usernameTextField.text, username == sshUsername else {
+                Utils.alert(title: "Cannot Save", message: "Please check the entered username and the username in the Git repository URL. They should match.", controller: self, completion: nil)
+                return
+            }
+        case let val where val == "http":
+            Utils.alert(title: "Cannot Save", message: "Please use https instead of http.", controller: self, completion: nil)
+            return
+        default:
+            Utils.alert(title: "Cannot Save", message: "Please specify the scheme of the Git repository URL (https or ssh).", controller: self, completion: nil)
             return
         }
         
