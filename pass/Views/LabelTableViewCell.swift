@@ -101,7 +101,7 @@ class LabelTableViewCell: UITableViewCell {
     }
 
     override func copy(_ sender: Any?) {
-        Utils.copyToPasteboard(textToCopy: cellData?.content)
+        SecurePasteboard.shared.copy(textToCopy: cellData?.content)
     }
         
     func revealPassword(_ sender: Any?) {

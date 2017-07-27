@@ -94,17 +94,11 @@ public class Utils {
             print(error)
         }
     }
-    public static func copyToPasteboard(textToCopy: String?, expirationTime: Double = 45) {
+    public static func copyToPasteboard(textToCopy: String?) {
         guard textToCopy != nil else {
             return
         }
         UIPasteboard.general.string = textToCopy
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: DispatchTime.now() + expirationTime) {
-            let pasteboardString: String? = UIPasteboard.general.string
-            if textToCopy == pasteboardString {
-                UIPasteboard.general.string = ""
-            }
-        }
     }
     public static func attributedPassword(plainPassword: String) -> NSAttributedString{
         let attributedPassword = NSMutableAttributedString.init(string: plainPassword)

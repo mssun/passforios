@@ -12,6 +12,7 @@
 		2C58F31EECC494C7A7F00A98 /* libPods-passKitTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB6C63FA1652F925B5C9F0B5 /* libPods-passKitTests.a */; };
 		398A8F69C2230A8117820BB7 /* libPods-passKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45BAA15189E80AA544EAF7AD /* libPods-passKit.a */; };
 		6930A9D26085DE7CA1A7AACC /* libPods-passExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B240CA444AC9172F3053651 /* libPods-passExtension.a */; };
+		A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */; };
 		A2168A7F1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2168A7E1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift */; };
 		A217ACE21E9AB17C00A1A6CF /* OTPScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */; };
 		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */; };
@@ -167,6 +168,7 @@
 		7592A214C22CEBBEF4596CC1 /* libPods-pass.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pass.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E088A9255B6CB576EF757C1 /* Pods-passKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passKit/Pods-passKit.debug.xcconfig"; sourceTree = "<group>"; };
 		A02ACA4077630047EA669D05 /* Pods-pass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.debug.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.debug.xcconfig"; sourceTree = "<group>"; };
+		A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurePasteboard.swift; sourceTree = "<group>"; };
 		A2168A7E1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnePasswordExtensionConstants.swift; sourceTree = "<group>"; };
 		A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPScannerController.swift; sourceTree = "<group>"; };
 		A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = GitConfigSettingTableViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -476,6 +478,7 @@
 			children = (
 				A2BC54C71EEE5669001FAFBD /* Objective-CBridgingHeader.h */,
 				A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */,
+				A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1066,6 +1069,7 @@
 				DC962CDF1E4B62C10033B5D8 /* AboutTableViewController.swift in Sources */,
 				DC5734AE1E439AD400D09270 /* PasswordsViewController.swift in Sources */,
 				DCD3C65E1EFB9BB400CBE842 /* SettingsSplitViewController.swift in Sources */,
+				A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */,
 				DC3E64E61E656F11009A83DE /* CommitLogsTableViewController.swift in Sources */,
 				DC037CAA1E4B8EAE00609409 /* SpecialThanksTableViewController.swift in Sources */,
 				DC037CA61E4B883900609409 /* OpenSourceComponentsTableViewController.swift in Sources */,
