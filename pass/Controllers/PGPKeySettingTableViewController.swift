@@ -24,16 +24,6 @@ class PGPKeySettingTableViewController: UITableViewController {
         pgpPassphrase = passwordStore.pgpKeyPassphrase
     }
     
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if identifier == "savePGPKeySegue" {
-            guard validatePGPKeyURL(input: pgpPublicKeyURLTextField.text) == true,
-                  validatePGPKeyURL(input: pgpPrivateKeyURLTextField.text) == true else {
-                return false
-            }
-        }
-        return true
-    }
-    
     private func validatePGPKeyURL(input: String?) -> Bool {
         guard let path = input, let url = URL(string: path) else {
             Utils.alert(title: "Cannot Save PGP Key", message: "Please set PGP Key URL first.", controller: self, completion: nil)
@@ -47,6 +37,10 @@ class PGPKeySettingTableViewController: UITableViewController {
     }
     
     @IBAction func save(_ sender: Any) {
+        guard validatePGPKeyURL(input: pgpPublicKeyURLTextField.text) == true,
+            validatePGPKeyURL(input: pgpPrivateKeyURLTextField.text) == true else {
+                return
+        }
         let savePassphraseAlert = UIAlertController(title: "Passphrase", message: "Do you want to save the passphrase for later decryption?", preferredStyle: UIAlertControllerStyle.alert)
         // no
         savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
