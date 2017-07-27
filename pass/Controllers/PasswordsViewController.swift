@@ -306,7 +306,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         if gesture.state == UIGestureRecognizerState.began {
             let touchPoint = gesture.location(in: tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-                copyToPasteboard(from: indexPath)
+                decryptThenCopyPassword(from: indexPath)
             }
         }
     }
@@ -324,20 +324,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        copyToPasteboard(from: indexPath)
+        decryptThenCopyPassword(from: indexPath)
     }
-    
-    private func copyToPasteboard(from indexPath: IndexPath) {
-        guard self.passwordStore.privateKey != nil else {
-            Utils.alert(title: "Cannot Copy Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
-            return
-        }
-        let password = getPasswordEntry(by: indexPath).passwordEntity!
-        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        decryptThenCopyPassword(passwordEntity: password)
-    }
-    
-    
     
     private func requestPGPKeyPassphrase() -> String {
         let sem = DispatchSemaphore(value: 0)
@@ -367,7 +355,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         return passphrase
     }
     
-    private func decryptThenCopyPassword(passwordEntity: PasswordEntity) {
+    private func decryptThenCopyPassword(from indexPath: IndexPath) {
+        guard self.passwordStore.privateKey != nil else {
+            Utils.alert(title: "Cannot Copy Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
+            return
+        }
+        let passwordEntity = getPasswordEntry(by: indexPath).passwordEntity!
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.dark)
         SVProgressHUD.show(withStatus: "Decrypting")
