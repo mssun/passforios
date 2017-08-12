@@ -291,6 +291,8 @@ public class PasswordStore {
                          checkoutProgressBlock: @escaping (String?, UInt, UInt) -> Void) throws {
         Utils.removeFileIfExists(at: storeURL)
         Utils.removeFileIfExists(at: tempStoreURL)
+        self.gitPassword = nil
+        self.gitSSHPrivateKeyPassphrase = nil
         do {
             let credentialProvider = try credential.credentialProvider(requestGitPassword: requestGitPassword)
             let options = [GTRepositoryCloneOptionsCredentialProvider: credentialProvider]
@@ -302,6 +304,11 @@ public class PasswordStore {
             storeRepository = try GTRepository(url: storeURL)
         } catch {
             credential.delete()
+            DispatchQueue.main.async {
+                SharedDefaults[.lastSyncedTime] = nil
+                self.deleteCoreData(entityName: "PasswordEntity")
+                NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+            }
             throw(error)
         }
         DispatchQueue.main.async {

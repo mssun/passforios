@@ -176,8 +176,8 @@ class GitServerSettingTableViewController: UITableViewController {
         }
         
         if passwordStore.repositoryExisted() {
-            let alert = UIAlertController(title: "Erase Current Password Store Data?", message: "A cloned password store exists. This operation will erase all local data. Data on your remote server will not be affected.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Erase", style: UIAlertActionStyle.destructive, handler: { _ in
+            let alert = UIAlertController(title: "Overwrite?", message: "This operation will overwrite your current password store data (repository). Data on your remote server will not be affected.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.destructive, handler: { _ in
                 // perform segue only after a successful clone
                 self.cloneAndSegueIfSuccess()
             }))
