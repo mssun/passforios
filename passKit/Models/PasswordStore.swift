@@ -24,7 +24,7 @@ public class PasswordStore {
     public var publicKey: PGPKey? {
         didSet {
             if publicKey != nil {
-                pgpKeyID = publicKey!.keyID!.shortKeyString
+                pgpKeyID = publicKey!.keyID.shortKeyString
             } else {
                 pgpKeyID = nil
             }
@@ -180,7 +180,7 @@ public class PasswordStore {
         try initPGPKey(.secret)
     }
     
-    public func initPGPKey(_ keyType: PGPKeyType) throws {
+    public func initPGPKey(_ keyType: PGPPartialKeyType) throws {
         switch keyType {
         case .public:
             let keyPath = Globals.pgpPublicKeyPath
@@ -199,7 +199,7 @@ public class PasswordStore {
         }
     }
     
-    public func initPGPKey(from url: URL, keyType: PGPKeyType) throws {
+    public func initPGPKey(from url: URL, keyType: PGPPartialKeyType) throws {
         var pgpKeyLocalPath = ""
         if keyType == .public {
             pgpKeyLocalPath = Globals.pgpPublicKeyPath
@@ -211,7 +211,7 @@ public class PasswordStore {
         try initPGPKey(keyType)
     }
     
-    public func initPGPKey(with armorKey: String, keyType: PGPKeyType) throws {
+    public func initPGPKey(with armorKey: String, keyType: PGPPartialKeyType) throws {
         var pgpKeyLocalPath = ""
         if keyType == .public {
             pgpKeyLocalPath = Globals.pgpPublicKeyPath
@@ -225,7 +225,8 @@ public class PasswordStore {
     
     private func importKey(from keyPath: String) -> PGPKey? {
         if fm.fileExists(atPath: keyPath) {
-            if let keys = pgp.importKeys(fromFile: keyPath, allowDuplicates: false) as? [PGPKey] {
+            let keys = pgp.importKeys(fromFile: keyPath)
+            if !keys.isEmpty {
                 return keys.first
             }
         }
@@ -233,7 +234,7 @@ public class PasswordStore {
     }
 
     public func getPgpPrivateKey() -> PGPKey {
-        return pgp.getKeysOf(.secret)[0]
+        return pgp.keys.filter({$0.secretKey != nil})[0]
     }
     
     public func repositoryExisted() -> Bool {
@@ -830,11 +831,12 @@ public class PasswordStore {
     }
     
     public func encrypt(password: Password) throws -> Data {
-        guard let publicKey = pgp.getKeysOf(.public).first else {
+        let publicKey = pgp.keys.filter({$0.publicKey != nil})
+        guard publicKey.count > 0 else {
             throw AppError.PGPPublicKeyNotExistError
         }
         let plainData = password.getPlainData()
-        let encryptedData = try pgp.encryptData(plainData, usingPublicKey: publicKey, armored: SharedDefaults[.encryptInArmored])
+        let encryptedData = try pgp.encryptData(plainData, using: publicKey, armored: SharedDefaults[.encryptInArmored])
         return encryptedData
     }
     
