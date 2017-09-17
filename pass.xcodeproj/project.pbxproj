@@ -1287,7 +1287,7 @@
 				OTHER_CFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).find-login-action-extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9feb619f-73bb-429c-a2a8-856ddcbb9e33";
+				PROVISIONING_PROFILE = "d25c9029-bca6-4b2d-b04e-4abc9d232740";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development me.mssun.passforios.find-login-action-extension";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -1318,7 +1318,7 @@
 				OTHER_CFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).find-login-action-extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9b4419c3-a959-4af8-8810-8af134008ec5";
+				PROVISIONING_PROFILE = "cbd86628-6f3e-40f3-b518-20d2330db545";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore me.mssun.passforios.find-login-action-extension";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -1477,7 +1477,7 @@
 				OTHER_LDFLAGS = "${inherited}";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "893c10b3-79b1-46f7-914a-e625bf10d665";
+				PROVISIONING_PROFILE = "2e72f4af-b935-4970-9cd3-44d4cc24b646";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development me.mssun.passforios";
 				SWIFT_OBJC_BRIDGING_HEADER = "pass/Helpers/Objective-CBridgingHeader.h";
 				SWIFT_VERSION = 3.0;
@@ -1513,7 +1513,7 @@
 				OTHER_LDFLAGS = "${inherited}";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "aefeea85-1194-4db2-9ce4-fb9995e2fdff";
+				PROVISIONING_PROFILE = "ee6e841d-ef77-4f00-b534-d7f1fd25dc1d";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore me.mssun.passforios";
 				SWIFT_OBJC_BRIDGING_HEADER = "pass/Helpers/Objective-CBridgingHeader.h";
 				SWIFT_VERSION = 3.0;
