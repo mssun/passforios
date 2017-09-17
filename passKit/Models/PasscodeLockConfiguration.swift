@@ -9,7 +9,7 @@
 import Foundation
 import PasscodeLock
 
-public struct PasscodeLockConfiguration: PasscodeLockConfigurationType {
+public class PasscodeLockConfiguration: PasscodeLockConfigurationType {
     
     public static let shared = PasscodeLockConfiguration()
     

@@ -163,7 +163,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     private func setPasscodeLockTouchIDCells() {
-        if PasscodeLockConfiguration.shared.repository.hasPasscode {
+        if passcodeLockConfig.repository.hasPasscode {
             self.passcodeTableViewCell.detailTextLabel?.text = "On"
             passcodeLockConfig.isTouchIDAllowed = SharedDefaults[.isTouchIDOn]
             touchIDSwitch.isOn = SharedDefaults[.isTouchIDOn]
@@ -214,7 +214,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func touchIDSwitchAction(uiSwitch: UISwitch) {
-        if !PasscodeLockConfiguration.shared.repository.hasPasscode || !isTouchIDEnabled() {
+        if !passcodeLockConfig.repository.hasPasscode || !isTouchIDEnabled() {
             // switch off
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
                 uiSwitch.isOn = SharedDefaults[.isTouchIDOn]  // SharedDefaults[.isTouchIDOn] should be false
