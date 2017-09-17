@@ -16,6 +16,7 @@ public struct PasscodeLockConfiguration: PasscodeLockConfigurationType {
     public let repository: PasscodeRepositoryType
     public let passcodeLength = 4
     public var isTouchIDAllowed = SharedDefaults[.isTouchIDOn]
+    
     public let shouldRequestTouchIDImmediately = true
     public let maximumInccorectPasscodeAttempts = 3
     

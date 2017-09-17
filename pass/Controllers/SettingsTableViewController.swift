@@ -165,12 +165,12 @@ class SettingsTableViewController: UITableViewController {
     private func setPasscodeLockTouchIDCells() {
         if PasscodeLockConfiguration.shared.repository.hasPasscode {
             self.passcodeTableViewCell.detailTextLabel?.text = "On"
-            passcodeLockConfig.isTouchIDAllowed = true
+            passcodeLockConfig.isTouchIDAllowed = SharedDefaults[.isTouchIDOn]
             touchIDSwitch.isOn = SharedDefaults[.isTouchIDOn]
         } else {
             self.passcodeTableViewCell.detailTextLabel?.text = "Off"
-            passcodeLockConfig.isTouchIDAllowed = false
             SharedDefaults[.isTouchIDOn] = false
+            passcodeLockConfig.isTouchIDAllowed = SharedDefaults[.isTouchIDOn]
             touchIDSwitch.isOn = SharedDefaults[.isTouchIDOn]
         }
     }
@@ -214,14 +214,15 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func touchIDSwitchAction(uiSwitch: UISwitch) {
-        if !passcodeLockConfig.isTouchIDAllowed || !isTouchIDEnabled() {
+        if !PasscodeLockConfiguration.shared.repository.hasPasscode || !isTouchIDEnabled() {
             // switch off
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-                uiSwitch.isOn = SharedDefaults[.isTouchIDOn]  // false
-                Utils.alert(title: "Notice", message: "Please enable Touch ID and set the passcode lock first.", controller: self, completion: nil)
+                uiSwitch.isOn = SharedDefaults[.isTouchIDOn]  // SharedDefaults[.isTouchIDOn] should be false
+                Utils.alert(title: "Notice", message: "Please enable Touch ID of your phone and setup the passcode lock for Pass.", controller: self, completion: nil)
             }
         } else {
             SharedDefaults[.isTouchIDOn] = uiSwitch.isOn
+            passcodeLockConfig.isTouchIDAllowed = SharedDefaults[.isTouchIDOn]
         }
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: passcodeLockConfig)
