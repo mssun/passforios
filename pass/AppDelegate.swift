@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return .all
     }
     
-    func postSearchNotification() {
+    @objc func postSearchNotification() {
         NotificationCenter.default.post(name: .passwordSearch, object: nil)
     }
     

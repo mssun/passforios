@@ -11,7 +11,7 @@ import SVProgressHUD
 import passKit
 
 fileprivate class PasswordsTableEntry : NSObject {
-    var title: String
+    @objc var title: String
     var isDir: Bool
     var passwordEntity: PasswordEntity?
     init(title: String, isDir: Bool, passwordEntity: PasswordEntity?) {
@@ -293,7 +293,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-    func backAction(_ sender: Any?) {
+    @objc func backAction(_ sender: Any?) {
         guard SharedDefaults[.isShowFolderOn] else { return }
         var anim: CATransition? = transitionFromLeft
         if parentPasswordEntity == nil {
@@ -302,7 +302,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         reloadTableView(parent: parentPasswordEntity?.parent, anim: anim)
     }
     
-    func longPressAction(_ gesture: UILongPressGestureRecognizer) {
+    @objc func longPressAction(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == UIGestureRecognizerState.began {
             let touchPoint = gesture.location(in: tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
@@ -412,7 +412,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         sections = newSections.filter {$0.entries.count > 0}
     }
     
-    func actOnSearchNotification() {
+    @objc func actOnSearchNotification() {
         searchController.searchBar.becomeFirstResponder()
     }
 
@@ -507,7 +507,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         reloadTableView(data: passwordsTableEntries, anim: anim)
     }
     
-    func actOnReloadTableViewRelatedNotification() {
+    @objc func actOnReloadTableViewRelatedNotification() {
         DispatchQueue.main.async { [weak weakSelf = self] in
             guard let strongSelf = weakSelf else { return }
             strongSelf.initPasswordsTableEntries(parent: nil)
@@ -515,7 +515,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-    func handleRefresh(_ syncControl: UIRefreshControl) {
+    @objc func handleRefresh(_ syncControl: UIRefreshControl) {
         syncPasswords()
         syncControl.endRefreshing()
     }

@@ -111,7 +111,7 @@ public class Utils {
             } else if !NSCharacterSet.letters.contains(element) {
                 charColor = Globals.blue
             }
-            attributedPassword.addAttribute(NSForegroundColorAttributeName, value: charColor, range: NSRange(location: index, length: 1))
+            attributedPassword.addAttribute(NSAttributedStringKey.foregroundColor, value: charColor, range: NSRange(location: index, length: 1))
         }
         return attributedPassword
     }

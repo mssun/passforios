@@ -191,7 +191,7 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
-    func actOnPasswordStoreErasedNotification() {
+    @objc func actOnPasswordStoreErasedNotification() {
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()
         setPasscodeLockTouchIDCells()
@@ -213,7 +213,7 @@ class SettingsTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func touchIDSwitchAction(uiSwitch: UISwitch) {
+    @objc func touchIDSwitchAction(uiSwitch: UISwitch) {
         if !passcodeLockConfig.repository.hasPasscode || !isTouchIDEnabled() {
             // switch off
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {

@@ -81,7 +81,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
         }
     }
     
-    func setNeedRefresh() {
+    @objc func setNeedRefresh() {
         needRefresh = true
     }
 }

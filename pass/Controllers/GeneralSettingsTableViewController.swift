@@ -153,37 +153,37 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         self.present(optionMenu, animated: true, completion: nil)
     }
     
-    func tapHideUnknownSwitchDetailButton(_ sender: Any?) {
+    @objc func tapHideUnknownSwitchDetailButton(_ sender: Any?) {
         let alertMessage = "Only \"key: value\" format in additional fields is supported. Unsupported fields will be given \"unknown\" keys. Turn on this switch to hide unsupported fields."
         let alertTitle = "Hide Unknown Fields"
         Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
     }
     
-    func tapHideOTPSwitchDetailButton(_ sender: Any?) {
+    @objc func tapHideOTPSwitchDetailButton(_ sender: Any?) {
         let keywordsString = Password.otpKeywords.joined(separator: ",")
         let alertMessage = "Turn on this switch to hide the fields related to one time passwords (i.e., \(keywordsString))."
         let alertTitle = "Hide One Time Password Fields"
         Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
     }
     
-    func hideUnknownSwitchAction(_ sender: Any?) {
+    @objc func hideUnknownSwitchAction(_ sender: Any?) {
         SharedDefaults[.isHideUnknownOn] = hideUnknownSwitch.isOn
         NotificationCenter.default.post(name: .passwordDetailDisplaySettingChanged, object: nil)
     }
     
-    func hideOTPSwitchAction(_ sender: Any?) {
+    @objc func hideOTPSwitchAction(_ sender: Any?) {
         SharedDefaults[.isHideOTPOn] = hideOTPSwitch.isOn
         NotificationCenter.default.post(name: .passwordDetailDisplaySettingChanged, object: nil)
     }
     
-    func rememberPassphraseSwitchAction(_ sender: Any?) {
+    @objc func rememberPassphraseSwitchAction(_ sender: Any?) {
         SharedDefaults[.isRememberPassphraseOn] = rememberPassphraseSwitch.isOn
         if rememberPassphraseSwitch.isOn == false {
             passwordStore.pgpKeyPassphrase = nil
         }
     }
     
-    func showFolderSwitchAction(_ sender: Any?) {
+    @objc func showFolderSwitchAction(_ sender: Any?) {
         SharedDefaults[.isShowFolderOn] = showFolderSwitch.isOn
         NotificationCenter.default.post(name: .passwordDisplaySettingChanged, object: nil)
     }

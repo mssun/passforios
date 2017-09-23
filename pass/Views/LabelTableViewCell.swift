@@ -104,7 +104,7 @@ class LabelTableViewCell: UITableViewCell {
         SecurePasteboard.shared.copy(textToCopy: cellData?.content)
     }
         
-    func revealPassword(_ sender: Any?) {
+    @objc func revealPassword(_ sender: Any?) {
         let plainPassword = cellData?.content ?? ""
         if type == .password {
             contentLabel.attributedText = Utils.attributedPassword(plainPassword: plainPassword)
@@ -115,7 +115,7 @@ class LabelTableViewCell: UITableViewCell {
         passwordDisplayButton?.setImage(#imageLiteral(resourceName: "Invisible"), for: .normal)
     }
     
-    func concealPassword(_ sender: Any?) {
+    @objc func concealPassword(_ sender: Any?) {
         if type == .password {
             if cellData?.content.isEmpty == false {
                 contentLabel.text = Globals.passwordDots
@@ -129,7 +129,7 @@ class LabelTableViewCell: UITableViewCell {
         passwordDisplayButton?.setImage(#imageLiteral(resourceName: "Visible"), for: .normal)
     }
     
-    func reversePasswordDisplay(_ sender: Any?) {
+    @objc func reversePasswordDisplay(_ sender: Any?) {
         if isReveal {
             // conceal
             concealPassword(sender)
@@ -139,12 +139,12 @@ class LabelTableViewCell: UITableViewCell {
         }
     }
 
-    func openLink(_ sender: Any?) {
+    @objc func openLink(_ sender: Any?) {
         // if isURLCell, passwordTableView should not be nil
         delegatePasswordTableView!.openLink()
     }
     
-    func getNextHOTP(_ sender: Any?) {
+    @objc func getNextHOTP(_ sender: Any?) {
         // if isHOTPCell, passwordTableView should not be nil
         delegatePasswordTableView!.getNextHOTP()
     }

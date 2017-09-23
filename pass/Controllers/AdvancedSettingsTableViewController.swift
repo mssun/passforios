@@ -84,7 +84,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
         }
     }
     
-    func encryptInASCIIArmoredAction(_ sender: Any?) {
+    @objc func encryptInASCIIArmoredAction(_ sender: Any?) {
         SharedDefaults[.encryptInArmored] = encryptInASCIIArmoredSwitch.isOn
     }
     

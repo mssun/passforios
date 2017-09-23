@@ -727,7 +727,7 @@ public class PasswordStore {
         let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         privateMOC.parent = context
         privateMOC.perform {
-            passwordEntity.image = NSData(data: image)
+            passwordEntity.image = NSData(data: image) as Data
             do {
                 try privateMOC.save()
                 self.context.performAndWait {
@@ -843,7 +843,7 @@ public class PasswordStore {
             throw AppError.PGPPublicKeyNotExistError
         }
         let plainData = password.getPlainData()
-        let encryptedData = try pgp.encryptData(plainData, using: publicKey, armored: SharedDefaults[.encryptInArmored])
+        let encryptedData = try pgp.encryptData(plainData, using: Array(publicKey), armored: SharedDefaults[.encryptInArmored])
         return encryptedData
     }
     

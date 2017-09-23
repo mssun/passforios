@@ -21,7 +21,7 @@ class TitleTextFieldTableViewCell: UITableViewCell {
         titleLabel.addGestureRecognizer(tapGestureRecognizer)
     }
     
-    func tap(_ sender: Any?) {
+    @objc func tap(_ sender: Any?) {
         contentTextField.becomeFirstResponder()
     }
 
