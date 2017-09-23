@@ -347,7 +347,7 @@ public class PasswordStore {
             }.map { (filename) -> PasswordEntity in
                 let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
                 if filename.hasSuffix(".gpg") {
-                    passwordEntity.name = filename.substring(to: filename.index(filename.endIndex, offsetBy: -4))
+                    passwordEntity.name = String(filename.prefix(upTo: filename.index(filename.endIndex, offsetBy: -4)))
                 } else {
                     passwordEntity.name = filename
                 }
@@ -369,7 +369,7 @@ public class PasswordStore {
                         let files = try fm.contentsOfDirectory(atPath: filePath).map { (filename) -> PasswordEntity in
                             let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
                             if filename.hasSuffix(".gpg") {
-                                passwordEntity.name = filename.substring(to: filename.index(filename.endIndex, offsetBy: -4))
+                                passwordEntity.name = String(filename.prefix(upTo: filename.index(filename.endIndex, offsetBy: -4)))
                             } else {
                                 passwordEntity.name = filename
                             }

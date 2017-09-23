@@ -14,7 +14,7 @@ extension PasswordEntity {
     public var nameWithCategory: String {
         get {
             if let p = path, p.hasSuffix(".gpg") {
-                return p.substring(to: p.index(p.endIndex, offsetBy: -4))
+                return String(p.prefix(upTo: p.index(p.endIndex, offsetBy: -4)))
             } else {
                 return ""
             }
