@@ -199,7 +199,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.contentInset = UIEdgeInsetsMake(56, 0, 0, 0)
         definesPresentationContext = true
         view.addSubview(searchBarView)
-        tableView.insertSubview(syncControl, at: 0)
+        tableView.refreshControl = syncControl
         SVProgressHUD.setDefaultMaskType(.black)
         tableView.register(UINib(nibName: "PasswordWithFolderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordWithFolderTableViewCell")
         
