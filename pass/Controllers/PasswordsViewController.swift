@@ -49,7 +49,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         return syncControl
     }()
     private lazy var searchBarView: UIView = {
-        let uiView = UIView(frame: CGRect(x: 0, y: 64, width: self.view.bounds.width, height: 44))
+        let uiView = UIView(frame: CGRect(x: 0, y: 64, width: self.view.bounds.width, height: 56))
         uiView.addSubview(self.searchController.searchBar)
         return uiView
     }()
@@ -221,9 +221,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        searchBarView.frame = CGRect(x: 0, y: navigationController!.navigationBar.bounds.size.height + UIApplication.shared.statusBarFrame.height, width: UIScreen.main.bounds.width, height: 44)
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        searchBarView.frame = CGRect(x: 0, y: navigationController!.navigationBar.bounds.size.height + UIApplication.shared.statusBarFrame.height, width: UIScreen.main.bounds.width, height: 56)
         searchController.searchBar.sizeToFit()
     }
     
