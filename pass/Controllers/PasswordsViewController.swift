@@ -196,6 +196,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         searchController.searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.contentInset = UIEdgeInsetsMake(56, 0, 0, 0)
         definesPresentationContext = true
         view.addSubview(searchBarView)
         tableView.insertSubview(syncControl, at: 0)
