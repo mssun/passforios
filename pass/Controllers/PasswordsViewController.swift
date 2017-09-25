@@ -166,6 +166,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                     self.reloadTableView(parent: nil)
                     SVProgressHUD.showSuccess(withStatus: "Done")
                     SVProgressHUD.dismiss(withDelay: 1)
+                    self.syncControl.endRefreshing()
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -518,7 +519,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     @objc func handleRefresh(_ syncControl: UIRefreshControl) {
         syncPasswords()
-        syncControl.endRefreshing()
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
