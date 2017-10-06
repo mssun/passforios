@@ -107,21 +107,15 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
         scanPrivateKeyCell?.accessoryType = .disclosureIndicator
     }
     
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if identifier == "savePGPKeySegue" {
-            if armorPublicKeyTextView.text.isEmpty {
-                Utils.alert(title: "Cannot Save", message: "Please set public key first.", controller: self, completion: nil)
-                return false
-            }
-            if armorPrivateKeyTextView.text.isEmpty {
-                Utils.alert(title: "Cannot Save", message: "Please set private key first.", controller: self, completion: nil)
-                return false
-            }
-        }
-        return true
-    }
-    
     @IBAction func save(_ sender: Any) {
+        guard armorPublicKeyTextView.text.isEmpty == false else {
+            Utils.alert(title: "Cannot Save", message: "Please set public key first.", controller: self, completion: nil)
+            return
+        }
+        guard armorPrivateKeyTextView.text.isEmpty == false else {
+            Utils.alert(title: "Cannot Save", message: "Please set private key first.", controller: self, completion: nil)
+            return
+        }
         let savePassphraseAlert = UIAlertController(title: "Passphrase", message: "Do you want to save the passphrase for later decryption?", preferredStyle: UIAlertControllerStyle.alert)
         // no
         savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in

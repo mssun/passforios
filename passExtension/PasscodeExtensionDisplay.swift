@@ -35,7 +35,7 @@ class PasscodeLockViewControllerForExtension: PasscodeLockViewController {
         cancelButton?.removeTarget(nil, action: nil, for: .allEvents)
         cancelButton?.addTarget(self, action: #selector(cancelExtension), for: .touchUpInside)
     }
-    func cancelExtension() {
+    @objc func cancelExtension() {
         originalExtensionContest?.completeRequest(returningItems: [], completionHandler: nil)
     }
 }

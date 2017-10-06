@@ -42,7 +42,7 @@ class CommitLogsTableViewController: UITableViewController {
         return cell
     }
     
-    func updateCommitLogs() {
+    @objc func updateCommitLogs() {
         commits = getCommitLogs()
         tableView.reloadData()
     }

@@ -61,7 +61,7 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
             // update full text and check whether we are done
             key.append(segment)
             if let index1 = key.range(of: "-----END")?.lowerBound,
-                let _ = key.substring(from: index1).range(of: "KEY-----")?.lowerBound {
+                let _ = key.suffix(from: index1).range(of: "KEY-----")?.lowerBound {
                 isDone = true
             }
             

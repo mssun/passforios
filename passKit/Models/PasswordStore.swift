@@ -24,7 +24,7 @@ public class PasswordStore {
     public var publicKey: PGPKey? {
         didSet {
             if publicKey != nil {
-                pgpKeyID = publicKey!.keyID!.shortKeyString
+                pgpKeyID = publicKey!.keyID.shortKeyString
             } else {
                 pgpKeyID = nil
             }
@@ -180,7 +180,7 @@ public class PasswordStore {
         try initPGPKey(.secret)
     }
     
-    public func initPGPKey(_ keyType: PGPKeyType) throws {
+    public func initPGPKey(_ keyType: PGPPartialKeyType) throws {
         switch keyType {
         case .public:
             let keyPath = Globals.pgpPublicKeyPath
@@ -199,7 +199,7 @@ public class PasswordStore {
         }
     }
     
-    public func initPGPKey(from url: URL, keyType: PGPKeyType) throws {
+    public func initPGPKey(from url: URL, keyType: PGPPartialKeyType) throws {
         var pgpKeyLocalPath = ""
         if keyType == .public {
             pgpKeyLocalPath = Globals.pgpPublicKeyPath
@@ -211,7 +211,7 @@ public class PasswordStore {
         try initPGPKey(keyType)
     }
     
-    public func initPGPKey(with armorKey: String, keyType: PGPKeyType) throws {
+    public func initPGPKey(with armorKey: String, keyType: PGPPartialKeyType) throws {
         var pgpKeyLocalPath = ""
         if keyType == .public {
             pgpKeyLocalPath = Globals.pgpPublicKeyPath
@@ -225,7 +225,8 @@ public class PasswordStore {
     
     private func importKey(from keyPath: String) -> PGPKey? {
         if fm.fileExists(atPath: keyPath) {
-            if let keys = pgp.importKeys(fromFile: keyPath, allowDuplicates: false) as? [PGPKey] {
+            let keys = pgp.importKeys(fromFile: keyPath)
+            if !keys.isEmpty {
                 return keys.first
             }
         }
@@ -233,7 +234,7 @@ public class PasswordStore {
     }
 
     public func getPgpPrivateKey() -> PGPKey {
-        return pgp.getKeysOf(.secret)[0]
+        return pgp.keys.filter({$0.secretKey != nil})[0]
     }
     
     public func repositoryExisted() -> Bool {
@@ -290,6 +291,8 @@ public class PasswordStore {
                          checkoutProgressBlock: @escaping (String?, UInt, UInt) -> Void) throws {
         Utils.removeFileIfExists(at: storeURL)
         Utils.removeFileIfExists(at: tempStoreURL)
+        self.gitPassword = nil
+        self.gitSSHPrivateKeyPassphrase = nil
         do {
             let credentialProvider = try credential.credentialProvider(requestGitPassword: requestGitPassword)
             let options = [GTRepositoryCloneOptionsCredentialProvider: credentialProvider]
@@ -301,6 +304,11 @@ public class PasswordStore {
             storeRepository = try GTRepository(url: storeURL)
         } catch {
             credential.delete()
+            DispatchQueue.main.async {
+                SharedDefaults[.lastSyncedTime] = nil
+                self.deleteCoreData(entityName: "PasswordEntity")
+                NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+            }
             throw(error)
         }
         DispatchQueue.main.async {
@@ -339,7 +347,7 @@ public class PasswordStore {
             }.map { (filename) -> PasswordEntity in
                 let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
                 if filename.hasSuffix(".gpg") {
-                    passwordEntity.name = filename.substring(to: filename.index(filename.endIndex, offsetBy: -4))
+                    passwordEntity.name = String(filename.prefix(upTo: filename.index(filename.endIndex, offsetBy: -4)))
                 } else {
                     passwordEntity.name = filename
                 }
@@ -361,7 +369,7 @@ public class PasswordStore {
                         let files = try fm.contentsOfDirectory(atPath: filePath).map { (filename) -> PasswordEntity in
                             let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
                             if filename.hasSuffix(".gpg") {
-                                passwordEntity.name = filename.substring(to: filename.index(filename.endIndex, offsetBy: -4))
+                                passwordEntity.name = String(filename.prefix(upTo: filename.index(filename.endIndex, offsetBy: -4)))
                             } else {
                                 passwordEntity.name = filename
                             }
@@ -719,7 +727,7 @@ public class PasswordStore {
         let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         privateMOC.parent = context
         privateMOC.perform {
-            passwordEntity.image = NSData(data: image)
+            passwordEntity.image = NSData(data: image) as Data
             do {
                 try privateMOC.save()
                 self.context.performAndWait {
@@ -830,11 +838,12 @@ public class PasswordStore {
     }
     
     public func encrypt(password: Password) throws -> Data {
-        guard let publicKey = pgp.getKeysOf(.public).first else {
+        let publicKey = pgp.keys.filter({$0.publicKey != nil})
+        guard publicKey.count > 0 else {
             throw AppError.PGPPublicKeyNotExistError
         }
         let plainData = password.getPlainData()
-        let encryptedData = try pgp.encryptData(plainData, usingPublicKey: publicKey, armored: SharedDefaults[.encryptInArmored])
+        let encryptedData = try pgp.encryptData(plainData, using: Array(publicKey), armored: SharedDefaults[.encryptInArmored])
         return encryptedData
     }
     

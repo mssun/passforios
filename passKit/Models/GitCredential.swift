@@ -13,6 +13,7 @@ import ObjectiveGit
 
 public struct GitCredential {
     private var credential: Credential
+    private let passwordStore = PasswordStore.shared
     
     public enum Credential {
         case http(userName: String)
@@ -31,11 +32,11 @@ public struct GitCredential {
             
             switch self.credential {
             case let .http(userName):
-                var newPassword = Utils.getPasswordFromKeychain(name: "gitPassword")
+                var newPassword = self.passwordStore.gitPassword
                 if newPassword == nil || attempts != 0 {
                     if let requestedPassword = requestGitPassword(self.credential, lastPassword) {
                         newPassword	= requestedPassword
-                        Utils.addPasswordToKeychain(name: "gitPassword", password: newPassword)
+                        self.passwordStore.gitPassword = newPassword
                     } else {
                         return nil
                     }
@@ -44,11 +45,12 @@ public struct GitCredential {
                 lastPassword = newPassword
                 credential = try? GTCredential(userName: userName, password: newPassword!)
             case let .ssh(userName, privateKeyFile):
-                var newPassword = Utils.getPasswordFromKeychain(name: "gitSSHKeyPassphrase")
+                // remarks: in fact, attempts > 1 never happens even with the wrong passphrase
+                var newPassword = self.passwordStore.gitSSHPrivateKeyPassphrase
                 if newPassword == nil || attempts != 0  {
                     if let requestedPassword = requestGitPassword(self.credential, lastPassword) {
                         newPassword	= requestedPassword
-                        Utils.addPasswordToKeychain(name: "gitSSHKeyPassphrase", password: newPassword)
+                        self.passwordStore.gitSSHPrivateKeyPassphrase = newPassword
                     } else {
                         return nil
                     }
@@ -56,7 +58,6 @@ public struct GitCredential {
                 attempts += 1
                 lastPassword = newPassword
                 credential = try? GTCredential(userName: userName, publicKeyURL: nil, privateKeyURL: privateKeyFile, passphrase: newPassword!)
-                print(privateKeyFile)
             }
             return credential
         }

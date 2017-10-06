@@ -391,7 +391,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         
         // copy HOTP to pasteboard (will update counter)
         if let plainPassword = password!.getNextHotp() {
-            Utils.copyToPasteboard(textToCopy: plainPassword)
+            SecurePasteboard.shared.copy(textToCopy: plainPassword)
         }
         
         // commit the change of HOTP counter
@@ -413,7 +413,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             }
             return;
         }
-        Utils.copyToPasteboard(textToCopy: password?.password)
+        SecurePasteboard.shared.copy(textToCopy: password?.password)
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 
@@ -480,7 +480,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     
     override func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
         if action == #selector(copy(_:)) {
-            Utils.copyToPasteboard(textToCopy: tableData[indexPath.section].item[indexPath.row].content)
+            SecurePasteboard.shared.copy(textToCopy: tableData[indexPath.section].item[indexPath.row].content)
         }
     }
     

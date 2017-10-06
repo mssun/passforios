@@ -11,7 +11,7 @@ import SVProgressHUD
 import passKit
 
 fileprivate class PasswordsTableEntry : NSObject {
-    var title: String
+    @objc var title: String
     var isDir: Bool
     var passwordEntity: PasswordEntity?
     init(title: String, isDir: Bool, passwordEntity: PasswordEntity?) {
@@ -49,7 +49,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         return syncControl
     }()
     private lazy var searchBarView: UIView = {
-        let uiView = UIView(frame: CGRect(x: 0, y: 64, width: self.view.bounds.width, height: 44))
+        let uiView = UIView(frame: CGRect(x: 0, y: 64, width: self.view.bounds.width, height: 56))
         uiView.addSubview(self.searchController.searchBar)
         return uiView
     }()
@@ -166,6 +166,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                     self.reloadTableView(parent: nil)
                     SVProgressHUD.showSuccess(withStatus: "Done")
                     SVProgressHUD.dismiss(withDelay: 1)
+                    self.syncControl.endRefreshing()
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -196,9 +197,10 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         searchController.searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.contentInset = UIEdgeInsetsMake(56, 0, 0, 0)
         definesPresentationContext = true
         view.addSubview(searchBarView)
-        tableView.insertSubview(syncControl, at: 0)
+        tableView.refreshControl = syncControl
         SVProgressHUD.setDefaultMaskType(.black)
         tableView.register(UINib(nibName: "PasswordWithFolderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordWithFolderTableViewCell")
         
@@ -219,9 +221,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        searchBarView.frame = CGRect(x: 0, y: navigationController!.navigationBar.bounds.size.height + UIApplication.shared.statusBarFrame.height, width: UIScreen.main.bounds.width, height: 44)
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        searchBarView.frame = CGRect(x: 0, y: navigationController!.navigationBar.bounds.size.height + UIApplication.shared.statusBarFrame.height, width: UIScreen.main.bounds.width, height: 56)
         searchController.searchBar.sizeToFit()
     }
     
@@ -293,7 +295,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-    func backAction(_ sender: Any?) {
+    @objc func backAction(_ sender: Any?) {
         guard SharedDefaults[.isShowFolderOn] else { return }
         var anim: CATransition? = transitionFromLeft
         if parentPasswordEntity == nil {
@@ -302,11 +304,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         reloadTableView(parent: parentPasswordEntity?.parent, anim: anim)
     }
     
-    func longPressAction(_ gesture: UILongPressGestureRecognizer) {
+    @objc func longPressAction(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == UIGestureRecognizerState.began {
             let touchPoint = gesture.location(in: tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-                copyToPasteboard(from: indexPath)
+                decryptThenCopyPassword(from: indexPath)
             }
         }
     }
@@ -324,20 +326,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        copyToPasteboard(from: indexPath)
+        decryptThenCopyPassword(from: indexPath)
     }
-    
-    private func copyToPasteboard(from indexPath: IndexPath) {
-        guard self.passwordStore.privateKey != nil else {
-            Utils.alert(title: "Cannot Copy Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
-            return
-        }
-        let password = getPasswordEntry(by: indexPath).passwordEntity!
-        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        decryptThenCopyPassword(passwordEntity: password)
-    }
-    
-    
     
     private func requestPGPKeyPassphrase() -> String {
         let sem = DispatchSemaphore(value: 0)
@@ -367,7 +357,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         return passphrase
     }
     
-    private func decryptThenCopyPassword(passwordEntity: PasswordEntity) {
+    private func decryptThenCopyPassword(from indexPath: IndexPath) {
+        guard self.passwordStore.privateKey != nil else {
+            Utils.alert(title: "Cannot Copy Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
+            return
+        }
+        let passwordEntity = getPasswordEntry(by: indexPath).passwordEntity!
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.dark)
         SVProgressHUD.show(withStatus: "Decrypting")
@@ -376,7 +372,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             do {
                 decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: self.requestPGPKeyPassphrase)
                 DispatchQueue.main.async {
-                    Utils.copyToPasteboard(textToCopy: decryptedPassword?.password)
+                    SecurePasteboard.shared.copy(textToCopy: decryptedPassword?.password)
                     SVProgressHUD.showSuccess(withStatus: "Password copied, and will be cleared in 45 seconds.")
                     SVProgressHUD.dismiss(withDelay: 0.6)
                 }
@@ -418,7 +414,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         sections = newSections.filter {$0.entries.count > 0}
     }
     
-    func actOnSearchNotification() {
+    @objc func actOnSearchNotification() {
         searchController.searchBar.becomeFirstResponder()
     }
 
@@ -513,7 +509,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         reloadTableView(data: passwordsTableEntries, anim: anim)
     }
     
-    func actOnReloadTableViewRelatedNotification() {
+    @objc func actOnReloadTableViewRelatedNotification() {
         DispatchQueue.main.async { [weak weakSelf = self] in
             guard let strongSelf = weakSelf else { return }
             strongSelf.initPasswordsTableEntries(parent: nil)
@@ -521,9 +517,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-    func handleRefresh(_ syncControl: UIRefreshControl) {
+    @objc func handleRefresh(_ syncControl: UIRefreshControl) {
         syncPasswords()
-        syncControl.endRefreshing()
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {

@@ -15,7 +15,7 @@ class OTPScannerController: QRScannerController {
     var scannedOTP: String?
     
     // MARK: - AVCaptureMetadataOutputObjectsDelegate Methods
-    override func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
+    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         
         if let metadataObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
             supportedCodeTypes.contains(metadataObj.type),

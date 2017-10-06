@@ -9,13 +9,14 @@
 import Foundation
 import PasscodeLock
 
-public struct PasscodeLockConfiguration: PasscodeLockConfigurationType {
+public class PasscodeLockConfiguration: PasscodeLockConfigurationType {
     
     public static let shared = PasscodeLockConfiguration()
     
     public let repository: PasscodeRepositoryType
     public let passcodeLength = 4
     public var isTouchIDAllowed = SharedDefaults[.isTouchIDOn]
+    
     public let shouldRequestTouchIDImmediately = true
     public let maximumInccorectPasscodeAttempts = 3
     

@@ -119,10 +119,16 @@ class GitServerSettingTableViewController: UITableViewController {
                 }
             } catch {
                 DispatchQueue.main.async {
-                    Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                    let error = error as NSError
+                    var message = error.localizedDescription
+                    if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
+                        message = "\(message)\nUnderlying error: \(underlyingError.localizedDescription)"
+                    }
+                    Utils.alert(title: "Error", message: message, controller: self, completion: nil)
                 }
             }
-        }    }
+        }
+    }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
@@ -142,14 +148,36 @@ class GitServerSettingTableViewController: UITableViewController {
     }
     
     @IBAction func save(_ sender: Any) {
-        guard let _ = URL(string: gitURLTextField.text!) else {
-            Utils.alert(title: "Cannot Save", message: "Git Server is not set.", controller: self, completion: nil)
+        
+        // some sanity checks
+        guard let gitURL = URL(string: gitURLTextField.text!) else {
+            Utils.alert(title: "Cannot Save", message: "Please set the Git repository URL.", controller: self, completion: nil)
+            return
+        }
+        
+        switch gitURL.scheme {
+        case let val where val == "https":
+            break
+        case let val where val == "ssh":
+            guard let sshUsername = gitURL.user, sshUsername.isEmpty == false else {
+                Utils.alert(title: "Cannot Save", message: "Cannot find the username in the Git repository URL. Example URL: ssh://git@server/path/to/repo.git.", controller: self, completion: nil)
+                return
+            }
+            guard let username = usernameTextField.text, username == sshUsername else {
+                Utils.alert(title: "Cannot Save", message: "Please check the entered username and the username in the Git repository URL. They should match.", controller: self, completion: nil)
+                return
+            }
+        case let val where val == "http":
+            Utils.alert(title: "Cannot Save", message: "Please use https instead of http.", controller: self, completion: nil)
+            return
+        default:
+            Utils.alert(title: "Cannot Save", message: "Please specify the scheme of the Git repository URL (https or ssh).", controller: self, completion: nil)
             return
         }
         
         if passwordStore.repositoryExisted() {
-            let alert = UIAlertController(title: "Erase Current Password Store Data?", message: "A cloned password store exists. This operation will erase all local data. Data on your remote server will not be affected.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Erase", style: UIAlertActionStyle.destructive, handler: { _ in
+            let alert = UIAlertController(title: "Overwrite?", message: "This operation will overwrite your current password store data (repository). Data on your remote server will not be affected.", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.destructive, handler: { _ in
                 // perform segue only after a successful clone
                 self.cloneAndSegueIfSuccess()
             }))
