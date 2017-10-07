@@ -39,7 +39,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         uiSearchController.searchResultsUpdater = self
         uiSearchController.dimsBackgroundDuringPresentation = false
         uiSearchController.searchBar.isTranslucent = false
-        uiSearchController.searchBar.backgroundColor = UIColor.gray
         uiSearchController.searchBar.sizeToFit()
         return uiSearchController
     }()
@@ -48,10 +47,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         syncControl.addTarget(self, action: #selector(handleRefresh(_:)), for: UIControlEvents.valueChanged)
         return syncControl
     }()
-    private lazy var searchBarView: UIView = {
-        let uiView = UIView(frame: CGRect(x: 0, y: 64, width: self.view.bounds.width, height: 56))
-        uiView.addSubview(self.searchController.searchBar)
-        return uiView
+    private lazy var searchBarView: UIView? = {
+        guard #available(iOS 11, *) else {
+                        let uiView = UIView(frame: CGRect(x: 0, y: 64, width: self.view.bounds.width, height: 56))
+            uiView.addSubview(self.searchController.searchBar)
+            return uiView
+        }
+        return nil
     }()
     private lazy var backUIBarButtonItem: UIBarButtonItem = {
         let backUIBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.backAction(_:)))
@@ -188,18 +190,28 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         } else {
             searchController.searchBar.scopeButtonTitles = nil
         }
+        if #available(iOS 11.0, *) {
+            navigationItem.hidesSearchBarWhenScrolling = true
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tabBarController!.delegate = self
         searchController.searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.contentInset = UIEdgeInsetsMake(56, 0, 0, 0)
         definesPresentationContext = true
-        view.addSubview(searchBarView)
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+            navigationController?.navigationBar.prefersLargeTitles = true
+            navigationItem.largeTitleDisplayMode = .automatic
+            navigationItem.hidesSearchBarWhenScrolling = true
+        } else {
+            // Fallback on earlier versions
+            tableView.contentInset = UIEdgeInsetsMake(56, 0, 0, 0)
+            view.addSubview(searchBarView!)
+        }
         tableView.refreshControl = syncControl
         SVProgressHUD.setDefaultMaskType(.black)
         tableView.register(UINib(nibName: "PasswordWithFolderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordWithFolderTableViewCell")
@@ -219,12 +231,18 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         if let path = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: path, animated: false)
         }
+        if #available(iOS 11.0, *) {
+            navigationItem.hidesSearchBarWhenScrolling = false
+        }
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        searchBarView.frame = CGRect(x: 0, y: navigationController!.navigationBar.bounds.size.height + UIApplication.shared.statusBarFrame.height, width: UIScreen.main.bounds.width, height: 56)
-        searchController.searchBar.sizeToFit()
+        guard #available(iOS 11, *) else {
+            searchBarView?.frame = CGRect(x: 0, y: navigationController!.navigationBar.bounds.size.height + UIApplication.shared.statusBarFrame.height, width: UIScreen.main.bounds.width, height: 56)
+            searchController.searchBar.sizeToFit()
+            return
+        }
     }
     
      func numberOfSections(in tableView: UITableView) -> Int {

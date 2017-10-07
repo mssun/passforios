@@ -776,8 +776,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZmJ-0Z-N04" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="Settings" selectedImage="Settings" id="6Xa-be-Z8g"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wWs-15-HDi">
-                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="wWs-15-HDi">
+                        <rect key="frame" x="0.0" y="20" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
