@@ -89,6 +89,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         tableView.addSubview(indicator)
         editUIBarButtonItem.isEnabled = false
         navigationItem.rightBarButtonItem = editUIBarButtonItem
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        }
         
         if let imageData = passwordEntity?.image {
             let image = UIImage(data: imageData as Data)
