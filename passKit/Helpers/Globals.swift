@@ -47,7 +47,7 @@ public class Globals {
     
     public static let passwordDots = "••••••••••••"
     public static let oneTimePasswordDots = "••••••"
-    public static let passwordFonts = "Menlo"
+    public static let passwordFonts = "Courier"
     
     // UI related
     public static let red = UIColor(red:1.00, green:0.23, blue:0.19, alpha:1.0)
