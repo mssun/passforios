@@ -120,6 +120,7 @@ public class PasswordStore {
         print(Globals.documentPathLegacy)
         print(Globals.libraryPathLegacy)
         migrateIfNeeded()
+        backwardCompatibility()
         
         do {
             if fm.fileExists(atPath: storeURL.path) {
@@ -164,6 +165,13 @@ public class PasswordStore {
             print("Migration error: \(error)")
         }
         updatePasswordEntityCoreData()
+    }
+    
+    private func backwardCompatibility() {
+        // For the newly-introduced isRememberGitCredentialPassphraseOn (20171008)
+        if (self.gitPassword != nil || self.gitSSHPrivateKeyPassphrase != nil) && SharedDefaults[.isRememberGitCredentialPassphraseOn] == false {
+            SharedDefaults[.isRememberGitCredentialPassphraseOn] = true
+        }
     }
     
     enum SSHKeyType {
@@ -328,7 +336,6 @@ public class PasswordStore {
             let remote = try GTRemote(name: "origin", in: storeRepository)
             try storeRepository.pull(storeRepository.currentBranch(), from: remote, withOptions: options, progress: transferProgressBlock)
         } catch {
-            credential.delete()
             throw(error)
         }
         DispatchQueue.main.async {
@@ -581,7 +588,6 @@ public class PasswordStore {
                 try storeRepository.push(masterBranch, to: remote, withOptions: options, progress: transferProgressBlock)
             }
         } catch {
-            credential.delete()
             throw(error)
         }
     }
@@ -865,7 +871,7 @@ public class PasswordStore {
         Utils.removeFileIfExists(atPath: Globals.gitSSHPrivateKeyPath)
         Defaults.remove(.gitSSHPrivateKeyArmor)
         Defaults.remove(.gitSSHPrivateKeyURL)
-        Utils.removeKeychain(name: ".gitSSHPrivateKeyPassphrase")
+        self.gitSSHPrivateKeyPassphrase = nil
     }
     
     public func gitSSHKeyExists(inFileSharing: Bool = false) -> Bool {

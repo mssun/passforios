@@ -93,6 +93,8 @@ class GitServerSettingTableViewController: UITableViewController {
                 )
             )
         }
+        // Remember git credential password/passphrase temporarily, ask whether users want this after a successful clone.
+        SharedDefaults[.isRememberGitCredentialPassphraseOn] = true
         let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
         dispatchQueue.async {
             do {
@@ -113,9 +115,21 @@ class GitServerSettingTableViewController: UITableViewController {
                     SharedDefaults[.gitURL] = URL(string: gitRepostiroyURL)
                     SharedDefaults[.gitUsername] = username
                     SharedDefaults[.gitAuthenticationMethod] = auth
-                    SVProgressHUD.showSuccess(withStatus: "Done")
-                    SVProgressHUD.dismiss(withDelay: 1)
-                    self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
+                    SVProgressHUD.dismiss()
+                    let savePassphraseAlert = UIAlertController(title: "Done", message: "Do you want to save the Git credential password/passphrase?", preferredStyle: UIAlertControllerStyle.alert)
+                    // no
+                    savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
+                        SharedDefaults[.isRememberGitCredentialPassphraseOn] = false
+                        self.passwordStore.gitPassword = nil
+                        self.passwordStore.gitSSHPrivateKeyPassphrase = nil
+                        self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
+                    })
+                    // yes
+                    savePassphraseAlert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.destructive) {_ in
+                        SharedDefaults[.isRememberGitCredentialPassphraseOn] = true
+                        self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
+                    })
+                    self.present(savePassphraseAlert, animated: true, completion: nil)
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -257,7 +271,7 @@ class GitServerSettingTableViewController: UITableViewController {
         case .http:
             message = "Please fill in the password of your Git account."
         case .ssh:
-            message = "Please fill in the password of your SSH key."
+            message = "Please fill in the passphrase of your SSH key."
         }
         
         DispatchQueue.main.async {

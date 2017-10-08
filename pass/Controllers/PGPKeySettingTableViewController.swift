@@ -45,7 +45,7 @@ class PGPKeySettingTableViewController: UITableViewController {
         // no
         savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
             self.pgpPassphrase = nil
-            SharedDefaults[.isRememberPassphraseOn] = false
+            SharedDefaults[.isRememberPGPPassphraseOn] = false
             self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
         })
         // yes
@@ -54,7 +54,7 @@ class PGPKeySettingTableViewController: UITableViewController {
             let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
                 self.pgpPassphrase = alert.textFields?.first?.text
-                SharedDefaults[.isRememberPassphraseOn] = true
+                SharedDefaults[.isRememberPGPPassphraseOn] = true
                 self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
             }))
             alert.addTextField(configurationHandler: {(textField: UITextField!) in

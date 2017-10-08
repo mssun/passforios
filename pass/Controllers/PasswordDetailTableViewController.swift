@@ -134,7 +134,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self.present(alert, animated: true, completion: nil)
         }
         let _ = sem.wait(timeout: DispatchTime.distantFuture)
-        if SharedDefaults[.isRememberPassphraseOn] {
+        if SharedDefaults[.isRememberPGPPassphraseOn] {
             self.passwordStore.pgpKeyPassphrase = passphrase
         }
         return passphrase

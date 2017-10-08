@@ -26,38 +26,39 @@ public struct GitCredential {
     
     public func credentialProvider(requestGitPassword: @escaping (Credential, String?) -> String?) throws -> GTCredentialProvider {
         var attempts = 0
-        var lastPassword: String? = nil
         return GTCredentialProvider { (_, _, _) -> (GTCredential?) in
             var credential: GTCredential? = nil
             
             switch self.credential {
             case let .http(userName):
-                var newPassword = self.passwordStore.gitPassword
-                if newPassword == nil || attempts != 0 {
+                var lastPassword = self.passwordStore.gitPassword
+                if lastPassword == nil || attempts != 0 {
                     if let requestedPassword = requestGitPassword(self.credential, lastPassword) {
-                        newPassword	= requestedPassword
-                        self.passwordStore.gitPassword = newPassword
+                        if SharedDefaults[.isRememberGitCredentialPassphraseOn] {
+                            self.passwordStore.gitPassword = requestedPassword
+                        }
+                        lastPassword = requestedPassword
                     } else {
                         return nil
                     }
                 }
                 attempts += 1
-                lastPassword = newPassword
-                credential = try? GTCredential(userName: userName, password: newPassword!)
+                credential = try? GTCredential(userName: userName, password: lastPassword!)
             case let .ssh(userName, privateKeyFile):
                 // remarks: in fact, attempts > 1 never happens even with the wrong passphrase
-                var newPassword = self.passwordStore.gitSSHPrivateKeyPassphrase
-                if newPassword == nil || attempts != 0  {
+                var lastPassword = self.passwordStore.gitSSHPrivateKeyPassphrase
+                if lastPassword == nil || attempts != 0  {
                     if let requestedPassword = requestGitPassword(self.credential, lastPassword) {
-                        newPassword	= requestedPassword
-                        self.passwordStore.gitSSHPrivateKeyPassphrase = newPassword
+                        if SharedDefaults[.isRememberGitCredentialPassphraseOn] {
+                            self.passwordStore.gitSSHPrivateKeyPassphrase = requestedPassword
+                        }
+                        lastPassword = requestedPassword
                     } else {
                         return nil
                     }
                 }
                 attempts += 1
-                lastPassword = newPassword
-                credential = try? GTCredential(userName: userName, publicKeyURL: nil, privateKeyURL: privateKeyFile, passphrase: newPassword!)
+                credential = try? GTCredential(userName: userName, publicKeyURL: nil, privateKeyURL: privateKeyFile, passphrase: lastPassword!)
             }
             return credential
         }
@@ -66,9 +67,9 @@ public struct GitCredential {
     public func delete() {
         switch credential {
         case .http:
-            Utils.removeKeychain(name: "gitPassword")
+            self.passwordStore.gitPassword = nil
         case .ssh:
-            Utils.removeKeychain(name: "gitSSHKeyPassphrase")
+            self.passwordStore.gitSSHPrivateKeyPassphrase = nil
         }
     }
 }

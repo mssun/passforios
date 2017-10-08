@@ -174,8 +174,17 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()
                     self.syncControl.endRefreshing()
+                    let error = error as NSError
+                    var message = error.localizedDescription
+                    if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
+                        message = "\(message)\nUnderlying error: \(underlyingError.localizedDescription)"
+                        if underlyingError.localizedDescription.contains("Wrong passphrase") {
+                            message = "\(message)\nRecovery suggestion: Wrong credential password/passphrase has been removed, please try again."
+                            gitCredential.delete()
+                        }
+                    }
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800)) {
-                        Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                        Utils.alert(title: "Error", message: message, controller: self, completion: nil)
                     }
                 }
             }
@@ -369,7 +378,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             // bring back
             SVProgressHUD.show(withStatus: "Decrypting")
         }
-        if SharedDefaults[.isRememberPassphraseOn] {
+        if SharedDefaults[.isRememberPGPPassphraseOn] {
             self.passwordStore.pgpKeyPassphrase = passphrase
         }
         return passphrase

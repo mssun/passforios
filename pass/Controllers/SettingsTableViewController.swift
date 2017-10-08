@@ -33,7 +33,7 @@ class SettingsTableViewController: UITableViewController {
         if let controller = segue.source as? PGPKeySettingTableViewController {
             SharedDefaults[.pgpPrivateKeyURL] = URL(string: controller.pgpPrivateKeyURLTextField.text!)
             SharedDefaults[.pgpPublicKeyURL] = URL(string: controller.pgpPublicKeyURLTextField.text!)
-            if SharedDefaults[.isRememberPassphraseOn] {
+            if SharedDefaults[.isRememberPGPPassphraseOn] {
                 self.passwordStore.pgpKeyPassphrase = controller.pgpPassphrase
             }
             SharedDefaults[.pgpKeySource] = "url"
@@ -61,7 +61,7 @@ class SettingsTableViewController: UITableViewController {
             
         } else if let controller = segue.source as? PGPKeyArmorSettingTableViewController {
             SharedDefaults[.pgpKeySource] = "armor"
-            if SharedDefaults[.isRememberPassphraseOn] {
+            if SharedDefaults[.isRememberPGPPassphraseOn] {
                 self.passwordStore.pgpKeyPassphrase = controller.pgpPassphrase
             }
 
@@ -259,7 +259,7 @@ class SettingsTableViewController: UITableViewController {
                 // no
                 savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
                     self.passwordStore.pgpKeyPassphrase = nil
-                    SharedDefaults[.isRememberPassphraseOn] = false
+                    SharedDefaults[.isRememberPGPPassphraseOn] = false
                     self.saveImportedPGPKey()
                 })
                 // yes
@@ -268,7 +268,7 @@ class SettingsTableViewController: UITableViewController {
                     let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
                         self.passwordStore.pgpKeyPassphrase = alert.textFields?.first?.text
-                        SharedDefaults[.isRememberPassphraseOn] = true
+                        SharedDefaults[.isRememberPGPPassphraseOn] = true
                         self.saveImportedPGPKey()
                     }))
                     alert.addTextField(configurationHandler: {(textField: UITextField!) in
