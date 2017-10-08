@@ -199,9 +199,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         } else {
             searchController.searchBar.scopeButtonTitles = nil
         }
-        if #available(iOS 11.0, *) {
-            navigationItem.hidesSearchBarWhenScrolling = true
-        }
     }
     
     override func viewDidLoad() {
@@ -215,7 +212,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             navigationItem.searchController = searchController
             navigationController?.navigationBar.prefersLargeTitles = true
             navigationItem.largeTitleDisplayMode = .automatic
-            navigationItem.hidesSearchBarWhenScrolling = true
+            navigationItem.hidesSearchBarWhenScrolling = false
         } else {
             // Fallback on earlier versions
             tableView.contentInset = UIEdgeInsetsMake(56, 0, 0, 0)
@@ -239,9 +236,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewWillAppear(animated)
         if let path = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: path, animated: false)
-        }
-        if #available(iOS 11.0, *) {
-            navigationItem.hidesSearchBarWhenScrolling = false
         }
     }
     
