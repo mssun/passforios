@@ -19,12 +19,6 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     private var shouldPopCurrentView = false
     private let passwordStore = PasswordStore.shared
     
-    private let indicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        indicator.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height * 0.382)
-        return indicator
-    }()
-    
     private lazy var editUIBarButtonItem: UIBarButtonItem = {
         let uiBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit(_:)))
         return uiBarButtonItem
@@ -85,8 +79,6 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 52
         
-        indicator.startAnimating()
-        tableView.addSubview(indicator)
         editUIBarButtonItem.isEnabled = false
         navigationItem.rightBarButtonItem = editUIBarButtonItem
         if #available(iOS 11.0, *) {
@@ -177,7 +169,6 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     
     private func showPassword() {
         DispatchQueue.main.async { [weak self] in
-            self?.indicator.stopAnimating()
             self?.setTableData()
             self?.tableView.reloadData()
             self?.editUIBarButtonItem.isEnabled = true
