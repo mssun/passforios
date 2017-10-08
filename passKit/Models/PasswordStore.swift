@@ -172,6 +172,10 @@ public class PasswordStore {
         if (self.gitPassword != nil || self.gitSSHPrivateKeyPassphrase != nil) && SharedDefaults[.isRememberGitCredentialPassphraseOn] == false {
             SharedDefaults[.isRememberGitCredentialPassphraseOn] = true
         }
+        // For the renamed isRememberPGPPassphraseOn (20171008)
+        if self.pgpKeyPassphrase != nil && SharedDefaults[.isRememberPGPPassphraseOn] == false {
+            SharedDefaults[.isRememberPGPPassphraseOn] = true
+        }
     }
     
     enum SSHKeyType {
