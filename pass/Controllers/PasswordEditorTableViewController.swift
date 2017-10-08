@@ -75,6 +75,9 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
         self.tableView.estimatedSectionFooterHeight = 0;
     }
+    override func viewDidLayoutSubviews() {
+       additionsCell?.contentTextView.setContentOffset(.zero, animated: false)
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellData = tableData[indexPath.section][indexPath.row]
