@@ -25,7 +25,7 @@ class FillPasswordTableViewCell: ContentTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        contentTextField.font = UIFont(name: Globals.passwordFonts, size: (contentTextField.font?.pointSize)!)
+        contentTextField.font = Globals.passwordFont
         
         // Force aspect ratio of button images
         settingButton.imageView?.contentMode = .scaleAspectFit
