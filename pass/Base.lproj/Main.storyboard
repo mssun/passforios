@@ -838,7 +838,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3dt-Ph-4As">
-                                <rect key="frame" x="20" y="10" width="374" height="726"/>
+                                <rect key="frame" x="20" y="72" width="374" height="664"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">K7PBbkoaJf6mLyVX3EBU
 username: passforios-demo@email.com
@@ -853,8 +853,8 @@ Phone Support PIN #: 84719</string>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="3dt-Ph-4As" secondAttribute="trailing" id="2IV-7r-9eG"/>
                             <constraint firstItem="7JD-uM-IyS" firstAttribute="top" secondItem="3dt-Ph-4As" secondAttribute="bottom" id="3yp-aL-exH"/>
-                            <constraint firstItem="3dt-Ph-4As" firstAttribute="top" secondItem="XeK-cv-AXf" secondAttribute="bottom" constant="-54" id="5y9-J3-Luj"/>
                             <constraint firstAttribute="leadingMargin" secondItem="3dt-Ph-4As" secondAttribute="leading" id="jgf-j1-lNa"/>
+                            <constraint firstItem="3dt-Ph-4As" firstAttribute="top" secondItem="XeK-cv-AXf" secondAttribute="bottom" constant="8" symbolic="YES" id="yN7-0c-t4Y"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Raw Password" id="c13-zM-tLf">
@@ -1805,7 +1805,7 @@ Cgo
         <image name="Settings" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="iCM-Fy-hkk"/>
+        <segue reference="WfV-6d-ZUj"/>
         <segue reference="yyD-4H-pLE"/>
     </inferredMetricsTieBreakers>
 </document>
