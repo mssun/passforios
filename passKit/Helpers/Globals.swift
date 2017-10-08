@@ -52,6 +52,8 @@ public class Globals {
     // UI related
     public static let red = UIColor(red:1.00, green:0.23, blue:0.19, alpha:1.0)
     public static let blue = UIColor(red:0.00, green:0.48, blue:1.00, alpha:1.0)
+    public static let letterColor = UIColor(red:200/255.0, green:40/255.0, blue:41/255.0, alpha:1.0)
+    public static let digitColor = UIColor(red:66/255.0, green:113/255.0, blue:174/255.0, alpha:1.0)
     public static let tableCellButtonSize = CGFloat(20.0)
     
     private init() { }
