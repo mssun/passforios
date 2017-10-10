@@ -84,7 +84,7 @@ public class Password {
         additions.removeAll()
         
         // split the plain text
-        let plainTextSplit = plainText.characters.split(maxSplits: 1, omittingEmptySubsequences: false) {
+        let plainTextSplit = plainText.split(maxSplits: 1, omittingEmptySubsequences: false) {
             $0 == "\n" || $0 == "\r\n"
             }.map(String.init)
     
@@ -167,7 +167,7 @@ public class Password {
     
     public func getAdditionsPlainText() -> String {
         // lines starting from the second
-        let plainTextSplit = plainText.characters.split(maxSplits: 1, omittingEmptySubsequences: false) {
+        let plainTextSplit = plainText.split(maxSplits: 1, omittingEmptySubsequences: false) {
             $0 == "\n" || $0 == "\r\n"
             }.map(String.init)
         if plainTextSplit.count == 1 {

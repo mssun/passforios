@@ -104,7 +104,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             let minimumLength = lengthSetting?.min ?? 0
             let maximumLength = lengthSetting?.max ?? 0
             var defaultLength = lengthSetting?.def ?? 0
-            if let currentPasswordLength = (tableData[passwordSection][0][PasswordEditorCellKey.content] as? String)?.characters.count,
+            if let currentPasswordLength = (tableData[passwordSection][0][PasswordEditorCellKey.content] as? String)?.count,
                 currentPasswordLength >= minimumLength,
                 currentPasswordLength <= maximumLength {
                 defaultLength = currentPasswordLength
