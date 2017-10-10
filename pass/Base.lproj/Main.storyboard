@@ -682,7 +682,7 @@
                     <navigationItem key="navigationItem" title="Scan OTP QR Codes" id="Hlb-5I-bfE">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="KBZ-N2-OGE">
                             <connections>
-                                <segue destination="0gD-ix-2NF" kind="unwind" unwindAction="cancelOTPScannerWithSegue:" id="nZe-B6-MNt"/>
+                                <action selector="pressCancel:" destination="A9p-Qb-WmU" id="SYK-Qh-Cs7"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -691,7 +691,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rqh-SR-bIq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="0gD-ix-2NF" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="7059" y="-1012"/>
         </scene>
