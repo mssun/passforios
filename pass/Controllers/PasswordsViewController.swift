@@ -499,16 +499,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     private func reloadTableView(data: [PasswordsTableEntry], anim: CAAnimation? = nil) {
         // set navigation item
-        var numberOfLocalCommitsString = ""
         let numberOfLocalCommits = self.passwordStore.numberOfLocalCommits()
         if numberOfLocalCommits > 0 {
-            numberOfLocalCommitsString = " (\(numberOfLocalCommits))"
+            navigationController?.tabBarItem.badgeValue = "\(numberOfLocalCommits)"
         }
         if parentPasswordEntity != nil {
-            navigationItem.title = "\(parentPasswordEntity!.name!)\(numberOfLocalCommitsString)"
             navigationItem.leftBarButtonItem = backUIBarButtonItem
         } else {
-            navigationItem.title = "Password Store\(numberOfLocalCommitsString)"
             navigationItem.leftBarButtonItem = nil
         }
         
