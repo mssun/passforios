@@ -674,6 +674,7 @@ public class PasswordStore {
             try gitAdd(path: passwordEntity.getURL()!.path)
             let _ = try gitCommit(message: "Edit password for \(passwordEntity.getURL()!.deletingPathExtension().path.removingPercentEncoding!) to store using Pass for iOS.")
             newPasswordEntity = passwordEntity
+            newPasswordEntity?.synced = false
         }
         
         if password.changed&PasswordChange.path.rawValue != 0 {
