@@ -21,16 +21,16 @@ public class PasswordStore {
     
     public var storeRepository: GTRepository?
     public var pgpKeyID: String?
-    public var publicKey: PGPKey? {
+    public var publicKey: Key? {
         didSet {
             if publicKey != nil {
-                pgpKeyID = publicKey!.keyID.shortKeyString
+                pgpKeyID = publicKey!.keyID.shortIdentifier
             } else {
                 pgpKeyID = nil
             }
         }
     }
-    public var privateKey: PGPKey?
+    public var privateKey: Key?
     
     public var gitSignatureForNow: GTSignature {
         get {
@@ -235,9 +235,10 @@ public class PasswordStore {
     }
     
     
-    private func importKey(from keyPath: String) -> PGPKey? {
+    private func importKey(from keyPath: String) -> Key? {
         if fm.fileExists(atPath: keyPath) {
-            let keys = pgp.importKeys(fromFile: keyPath)
+            let keys = ObjectivePGP.readKeys(from: keyPath)
+            pgp.import(keys: keys)
             if !keys.isEmpty {
                 return keys.first
             }
@@ -245,7 +246,7 @@ public class PasswordStore {
         return nil
     }
 
-    public func getPgpPrivateKey() -> PGPKey {
+    public func getPgpPrivateKey() -> Key {
         return pgp.keys.filter({$0.secretKey != nil})[0]
     }
     
@@ -841,7 +842,7 @@ public class PasswordStore {
         if passphrase == nil {
             passphrase = requestPGPKeyPassphrase()
         }
-        let decryptedData = try PasswordStore.shared.pgp.decryptData(encryptedData, passphrase: passphrase)
+        let decryptedData = try PasswordStore.shared.pgp.decrypt(encryptedData, passphrase: passphrase)
         let plainText = String(data: decryptedData, encoding: .utf8) ?? ""
         let escapedPath = passwordEntity.path!.stringByAddingPercentEncodingForRFC3986() ?? ""
         return Password(name: passwordEntity.name!, url: URL(string: escapedPath), plainText: plainText)
@@ -853,7 +854,7 @@ public class PasswordStore {
             throw AppError.PGPPublicKeyNotExistError
         }
         let plainData = password.getPlainData()
-        let encryptedData = try pgp.encryptData(plainData, using: Array(publicKey), armored: SharedDefaults[.encryptInArmored])
+        let encryptedData = try pgp.encrypt(plainData, using: Array(publicKey), armored: SharedDefaults[.encryptInArmored])
         return encryptedData
     }
     
