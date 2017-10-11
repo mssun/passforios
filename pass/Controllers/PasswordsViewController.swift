@@ -500,7 +500,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     private func reloadTableView(data: [PasswordsTableEntry], anim: CAAnimation? = nil) {
         // set navigation item
         let numberOfLocalCommits = self.passwordStore.numberOfLocalCommits()
-        if numberOfLocalCommits > 0 {
+        if numberOfLocalCommits == 0 {
+            navigationController?.tabBarItem.badgeValue = nil
+        } else {
             navigationController?.tabBarItem.badgeValue = "\(numberOfLocalCommits)"
         }
         if parentPasswordEntity != nil {
