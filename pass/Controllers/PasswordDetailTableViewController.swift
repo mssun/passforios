@@ -401,7 +401,11 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
     
     func openLink() {
-        guard let urlString = self.password?.getURLString(), let url = URL(string: urlString) else {
+        var urlString = self.password?.getURLString() ?? ""
+        if !urlString.lowercased().starts(with: "https://") && !urlString.lowercased().starts(with: "http://") {
+            urlString = "http://\(urlString)"
+        }
+        guard let url = URL(string: urlString) else {
             DispatchQueue.main.async {
                 Utils.alert(title: "Error", message: "Cannot find a valid URL", controller: self, completion: nil)
             }
