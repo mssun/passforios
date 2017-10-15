@@ -263,18 +263,16 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
             
             let entry = getPasswordEntry(by: indexPath)
+            if entry.passwordEntity!.synced {
+                cell.textLabel?.text = entry.title
+            } else {
+                cell.textLabel?.text = "↻ \(entry.title)"
+            }
             if !entry.isDir {
-                if entry.passwordEntity!.synced {
-                    cell.textLabel?.text = entry.title
-                } else {
-                    cell.textLabel?.text = "↻ \(entry.title)"
-                }
-                
                 cell.addGestureRecognizer(longPressGestureRecognizer)
                 cell.accessoryType = .none
                 cell.detailTextLabel?.text = ""
             } else {
-                cell.textLabel?.text = "\(entry.title)"
                 cell.accessoryType = .disclosureIndicator
                 cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .body)
                 cell.detailTextLabel?.text = "\(entry.passwordEntity?.children?.count ?? 0)"

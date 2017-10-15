@@ -471,17 +471,6 @@ public class PasswordStore {
         }
     }
     
-    public func getNumberOfUnsyncedPasswords() -> Int {
-        let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
-        do {
-            passwordEntityFetchRequest.predicate = NSPredicate(format: "synced = %i", 0)
-            return try context.count(for: passwordEntityFetchRequest)
-        } catch {
-            fatalError("Failed to fetch unsynced passwords: \(error)")
-        }
-    }
-    
-    
     public func getLatestUpdateInfo(filename: String) -> String {
         guard let storeRepository = storeRepository else {
             return "Unknown"
@@ -622,6 +611,7 @@ public class PasswordStore {
             if let passwordEntity = getPasswordEntity(by: path, isDir: isDir) {
                 print(passwordEntity.path!)
                 parentPasswordEntity = passwordEntity
+                passwordEntity.synced = false
             } else {
                 if !isDir {
                     return insertPasswordEntity(name: URL(string: path.stringByAddingPercentEncodingForRFC3986()!)!.deletingPathExtension().lastPathComponent, path: path, parent: parentPasswordEntity, synced: false, isDir: false)
