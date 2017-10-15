@@ -592,16 +592,16 @@ public class PasswordStore {
         }
         
         var passwordURL = password.url!
-        var previousURLLength = Int.max
+        var previousPathLength = Int.max
         var paths: [String] = []
         while passwordURL.path != "." {
             paths.append(passwordURL.path)
             passwordURL = passwordURL.deletingLastPathComponent()
             // better identify errors before saving a new password
-            if passwordURL.absoluteString.count >= previousURLLength {
+            if passwordURL.path != "." && passwordURL.path.count >= previousPathLength {
                 throw AppError.WrongPasswordFilename
             }
-            previousURLLength = passwordURL.absoluteString.count
+            previousPathLength = passwordURL.path.count
         }
         paths.reverse()
         print(paths)

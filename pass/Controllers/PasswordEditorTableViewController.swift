@@ -290,14 +290,14 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         }
         
         // check whether we can parse the filename (be consistent with PasswordStore::addPasswordEntities)
-        var previousURLLength = Int.max
+        var previousPathLength = Int.max
         while passwordURL.path != "." {
             passwordURL = passwordURL.deletingLastPathComponent()
-            if passwordURL.absoluteString.count >= previousURLLength {
+            if passwordURL.path != "." && passwordURL.path.count >= previousPathLength {
                 Utils.alert(title: "Cannot Save", message: "Cannot parse the filename. Please check and simplify the password name.", controller: self, completion: nil)
                 return false
             }
-            previousURLLength = passwordURL.absoluteString.count
+            previousPathLength = passwordURL.path.count
         }
         
         return true
