@@ -10,8 +10,8 @@ import UIKit
 import passKit
 
 class AddPasswordTableViewController: PasswordEditorTableViewController {
-    var tempContent: String = ""
     let passwordStore = PasswordStore.shared
+    var defaultDirPrefix = ""
 
     override func viewDidLoad() {
         tableData = [
@@ -24,6 +24,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
             lengthSetting.max > lengthSetting.min {
             tableData[1].append([.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"])
         }
+        tableData[0][0][PasswordEditorCellKey.content] = defaultDirPrefix
         super.viewDidLoad()
     }
     
