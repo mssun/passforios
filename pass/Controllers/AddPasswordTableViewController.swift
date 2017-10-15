@@ -39,10 +39,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
             }
             
             // check name
-            guard nameCell?.getContent()?.isEmpty == false else {
-                let alertTitle = "Cannot Add Password"
-                let alertMessage = "Please fill in the name."
-                Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
+            guard checkName() == true else {
                 return false
             }
         }
@@ -57,9 +54,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
                 plainText.append("\n")
                 plainText.append(additionsString)
             }
-            let encodedName = (nameCell?.getContent()?.stringByAddingPercentEncodingForRFC3986())!
-            let name = URL(string: encodedName)!.lastPathComponent
-            let url = URL(string: encodedName)!.appendingPathExtension("gpg")
+            let (name, url) = getNameURL()
             password = Password(name: name, url: url, plainText: plainText)
         }
     }

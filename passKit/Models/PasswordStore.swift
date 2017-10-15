@@ -603,12 +603,19 @@ public class PasswordStore {
         }
         
         var passwordURL = password.url!
+        var previousURLLength = Int.max
         var paths: [String] = []
         while passwordURL.path != "." {
             paths.append(passwordURL.path)
             passwordURL = passwordURL.deletingLastPathComponent()
+            // better identify errors before saving a new password
+            if passwordURL.absoluteString.count >= previousURLLength {
+                throw AppError.WrongPasswordFilename
+            }
+            previousURLLength = passwordURL.absoluteString.count
         }
         paths.reverse()
+        print(paths)
         var parentPasswordEntity: PasswordEntity? = nil
         for path in paths {
             let isDir = !path.hasSuffix(".gpg")
