@@ -669,7 +669,7 @@ public class PasswordStore {
             let saveURL = storeURL.appendingPathComponent(passwordEntity.getURL()!.path)
             try self.encrypt(password: password).write(to: saveURL)
             try gitAdd(path: passwordEntity.getURL()!.path)
-            let _ = try gitCommit(message: "Edit password for \(passwordEntity.getURL()!.deletingPathExtension().path.removingPercentEncoding!) to store using Pass for iOS.")
+            let _ = try gitCommit(message: "Edit password for \(passwordEntity.getURL()!.deletingPathExtension().path.removingPercentEncoding!) using Pass for iOS.")
             newPasswordEntity = passwordEntity
             newPasswordEntity?.synced = false
         }
