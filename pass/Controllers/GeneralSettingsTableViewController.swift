@@ -71,7 +71,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
                 [.title: "Remember Git Credential Passphrase", .action: "none",],
             ],
             [
-                [.title: "Show Folder", .action: "none",],
+                [.title: "Show Folders", .action: "none",],
                 [.title: "Hide Unknown Fields", .action: "none",],
                 [.title: "Hide OTP Fields", .action: "none",],
             ],
