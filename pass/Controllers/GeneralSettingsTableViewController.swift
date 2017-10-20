@@ -116,7 +116,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             cell.accessoryType = .none
             cell.selectionStyle = .none
             cell.accessoryView = rememberGitCredentialPassphraseSwitch
-        case "Show Folder":
+        case "Show Folders":
             cell.accessoryType = .none
             cell.selectionStyle = .none
             cell.accessoryView = showFolderSwitch
