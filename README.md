@@ -11,9 +11,14 @@ Pass is an iOS client compatible with [ZX2C4's Pass command line
 application](http://www.passwordstore.org/).  It is a password manager using
 GPG for encryption and Git for version control.
 
-Pass for iOS is available in the [App Store](https://appsto.re/us/DY13hb.i)
-with the name "Pass - Password Store".  If you want to join the iOS beta via 
-Testflight, drop an email to `developer@passforios.mssun.me`. Thank you.
+Pass for iOS is available in the App Store with the name "Pass - Password Store".
+
+<p>
+<a href="https://itunes.apple.com/us/app/pass-password-store/id1205820573?mt=8"><img alt="Download on the App Store" src="badge/app_store_badge.svg" width="150"/></a>
+</p>
+
+If you want to join the iOS beta via 
+TestFlight, drop an email to `developer@passforios.mssun.me`. Thank you.
 
 ## Features
 
