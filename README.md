@@ -2,7 +2,7 @@
 
 # Pass
 [![GitHub release](https://img.shields.io/github/release/mssun/pass-ios.svg)](https://github.com/mssun/pass-ios/releases)
-![Swift 3.1](https://img.shields.io/badge/Swift-3.1-orange.svg)
+![Swift 3.1](https://img.shields.io/badge/Swift-4.0-orange.svg)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/passforios/passforios)
 [![Build Status](https://travis-ci.org/mssun/passforios.svg?branch=develop)](https://travis-ci.org/mssun/passforios)
 [![Donate](https://img.shields.io/badge/Paypal-donate-blue.svg)](https://www.paypal.me/mssun)
