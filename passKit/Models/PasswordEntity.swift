@@ -22,6 +22,10 @@ extension PasswordEntity {
     }
     
     public func getCategoryText() -> String {
+        return getCategoryArray().joined(separator: " > ")
+    }
+    
+    public func getCategoryArray() -> [String] {
         var parentEntity = parent
         var passwordCategoryArray: [String] = []
         while parentEntity != nil {
@@ -29,7 +33,7 @@ extension PasswordEntity {
             parentEntity = parentEntity!.parent
         }
         passwordCategoryArray.reverse()
-        return passwordCategoryArray.joined(separator: " > ")
+        return passwordCategoryArray
     }
     
     public func getURL() -> URL? {
