@@ -12,10 +12,14 @@ import passKit
 
 fileprivate class PasswordsTableEntry : NSObject {
     var title: String
+    var categoryText: String
+    var categoryArray: [String]
     var passwordEntity: PasswordEntity?
-    init(title: String, passwordEntity: PasswordEntity?) {
-        self.title = title
-        self.passwordEntity = passwordEntity
+    init(_ entity: PasswordEntity) {
+        self.title = entity.name!
+        self.categoryText = entity.getCategoryText()
+        self.categoryArray = entity.getCategoryArray()
+        self.passwordEntity = entity
     }
 }
 
@@ -46,7 +50,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
         var passwordEntities = [PasswordEntity]()
         passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
         passwordsTableEntries = passwordEntities.map {
-            PasswordsTableEntry(title: $0.name!, passwordEntity: $0)
+            PasswordsTableEntry($0)
         }
     }
     
@@ -141,7 +145,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
         }
         cell.accessoryType = .none
         cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
-        cell.detailTextLabel?.text = entry.passwordEntity?.getCategoryText()
+        cell.detailTextLabel?.text = entry.categoryText
         return cell
     }
     
@@ -223,7 +227,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
             self.present(alert, animated: true, completion: nil)
         }
         let _ = sem.wait(timeout: DispatchTime.distantFuture)
-        if SharedDefaults[.isRememberPassphraseOn] {
+        if SharedDefaults[.isRememberPGPPassphraseOn] {
             self.passwordStore.pgpKeyPassphrase = passphrase
         }
         return passphrase
@@ -241,10 +245,15 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchText = searchBar.text, searchText.isEmpty == false {
-            let searchTextLowerCased = searchText.lowercased()
             filteredPasswordsTableEntries = passwordsTableEntries.filter { entry in
-                let entryTitle = entry.title.lowercased()
-                return entryTitle.contains(searchTextLowerCased) || searchTextLowerCased.contains(entryTitle)
+                var matched = false
+                matched = matched || entry.title.range(of: searchText, options: .caseInsensitive) != nil
+                matched = matched || searchText.range(of: entry.title, options: .caseInsensitive) != nil
+                entry.categoryArray.forEach({ (category) in
+                    matched = matched || category.range(of: searchText, options: .caseInsensitive) != nil
+                    matched = matched || searchText.range(of: category, options: .caseInsensitive) != nil
+                })
+                return matched
             }
             searchActive = true
         } else {

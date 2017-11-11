@@ -75,6 +75,9 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
         self.tableView.estimatedSectionFooterHeight = 0;
     }
+    override func viewDidLayoutSubviews() {
+       additionsCell?.contentTextView.setContentOffset(.zero, animated: false)
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellData = tableData[indexPath.section][indexPath.row]
@@ -101,7 +104,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             let minimumLength = lengthSetting?.min ?? 0
             let maximumLength = lengthSetting?.max ?? 0
             var defaultLength = lengthSetting?.def ?? 0
-            if let currentPasswordLength = (tableData[passwordSection][0][PasswordEditorCellKey.content] as? String)?.characters.count,
+            if let currentPasswordLength = (tableData[passwordSection][0][PasswordEditorCellKey.content] as? String)?.count,
                 currentPasswordLength >= minimumLength,
                 currentPasswordLength <= maximumLength {
                 defaultLength = currentPasswordLength
@@ -257,5 +260,46 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         if textView == additionsCell?.contentTextView {
             tableData[additionsSection][0][PasswordEditorCellKey.content] = additionsCell?.getContent()
         }
+    }
+    
+    func getNameURL() -> (String, URL) {
+        let encodedName = (nameCell?.getContent()?.stringByAddingPercentEncodingForRFC3986())!
+        let name = URL(string: encodedName)!.lastPathComponent
+        let url = URL(string: encodedName)!.appendingPathExtension("gpg")
+        return (name, url)
+    }
+    
+    func checkName() -> Bool {
+        // the name field should not be empty
+        guard let name = nameCell?.getContent(), name.isEmpty == false else {
+            Utils.alert(title: "Cannot Save", message: "Please fill in the name.", controller: self, completion: nil)
+            return false
+        }
+        
+        // the name should not start with /
+        guard name.hasPrefix("/") == false else {
+            Utils.alert(title: "Cannot Save", message: "Please remove the prefix \"/\" from your password name.", controller: self, completion: nil)
+            return false
+        }
+        
+        // the name field should be a valid url
+        guard let path = name.stringByAddingPercentEncodingForRFC3986(),
+            var passwordURL = URL(string: path) else {
+            Utils.alert(title: "Cannot Save", message: "Password name is invalid.", controller: self, completion: nil)
+            return false
+        }
+        
+        // check whether we can parse the filename (be consistent with PasswordStore::addPasswordEntities)
+        var previousPathLength = Int.max
+        while passwordURL.path != "." {
+            passwordURL = passwordURL.deletingLastPathComponent()
+            if passwordURL.path != "." && passwordURL.path.count >= previousPathLength {
+                Utils.alert(title: "Cannot Save", message: "Cannot parse the filename. Please check and simplify the password name.", controller: self, completion: nil)
+                return false
+            }
+            previousPathLength = passwordURL.path.count
+        }
+        
+        return true
     }
 }

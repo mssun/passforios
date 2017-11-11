@@ -14,6 +14,9 @@ class OTPScannerController: QRScannerController {
     
     var scannedOTP: String?
     
+    @IBAction func pressCancel(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
+    }
     // MARK: - AVCaptureMetadataOutputObjectsDelegate Methods
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         

@@ -15,6 +15,7 @@ public enum AppError: Error {
     case PasswordDuplicatedError
     case GitResetError
     case PGPPublicKeyNotExistError
+    case WrongPasswordFilename
     case UnknownError
 }
 
@@ -33,6 +34,8 @@ extension AppError: LocalizedError {
             return "Cannot identify the latest synced commit."
         case .PGPPublicKeyNotExistError:
             return "PGP public key doesn't exist."
+        case .WrongPasswordFilename:
+            return "Cannot write to the password file."
         case .UnknownError:
             return "Unknown error."
         }

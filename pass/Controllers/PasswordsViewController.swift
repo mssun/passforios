@@ -39,7 +39,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         uiSearchController.searchResultsUpdater = self
         uiSearchController.dimsBackgroundDuringPresentation = false
         uiSearchController.searchBar.isTranslucent = false
-        uiSearchController.searchBar.backgroundColor = UIColor.gray
         uiSearchController.searchBar.sizeToFit()
         return uiSearchController
     }()
@@ -48,10 +47,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         syncControl.addTarget(self, action: #selector(handleRefresh(_:)), for: UIControlEvents.valueChanged)
         return syncControl
     }()
-    private lazy var searchBarView: UIView = {
-        let uiView = UIView(frame: CGRect(x: 0, y: 64, width: self.view.bounds.width, height: 56))
-        uiView.addSubview(self.searchController.searchBar)
-        return uiView
+    private lazy var searchBarView: UIView? = {
+        guard #available(iOS 11, *) else {
+                        let uiView = UIView(frame: CGRect(x: 0, y: 64, width: self.view.bounds.width, height: 56))
+            uiView.addSubview(self.searchController.searchBar)
+            return uiView
+        }
+        return nil
     }()
     private lazy var backUIBarButtonItem: UIBarButtonItem = {
         let backUIBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.backAction(_:)))
@@ -172,8 +174,17 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()
                     self.syncControl.endRefreshing()
+                    let error = error as NSError
+                    var message = error.localizedDescription
+                    if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
+                        message = "\(message)\nUnderlying error: \(underlyingError.localizedDescription)"
+                        if underlyingError.localizedDescription.contains("Wrong passphrase") {
+                            message = "\(message)\nRecovery suggestion: Wrong credential password/passphrase has been removed, please try again."
+                            gitCredential.delete()
+                        }
+                    }
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800)) {
-                        Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                        Utils.alert(title: "Error", message: message, controller: self, completion: nil)
                     }
                 }
             }
@@ -192,14 +203,21 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tabBarController!.delegate = self
         searchController.searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.contentInset = UIEdgeInsetsMake(56, 0, 0, 0)
         definesPresentationContext = true
-        view.addSubview(searchBarView)
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+            navigationController?.navigationBar.prefersLargeTitles = true
+            navigationItem.largeTitleDisplayMode = .automatic
+            navigationItem.hidesSearchBarWhenScrolling = false
+        } else {
+            // Fallback on earlier versions
+            tableView.contentInset = UIEdgeInsetsMake(56, 0, 0, 0)
+            view.addSubview(searchBarView!)
+        }
         tableView.refreshControl = syncControl
         SVProgressHUD.setDefaultMaskType(.black)
         tableView.register(UINib(nibName: "PasswordWithFolderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordWithFolderTableViewCell")
@@ -223,8 +241,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        searchBarView.frame = CGRect(x: 0, y: navigationController!.navigationBar.bounds.size.height + UIApplication.shared.statusBarFrame.height, width: UIScreen.main.bounds.width, height: 56)
-        searchController.searchBar.sizeToFit()
+        guard #available(iOS 11, *) else {
+            searchBarView?.frame = CGRect(x: 0, y: navigationController!.navigationBar.bounds.size.height + UIApplication.shared.statusBarFrame.height, width: UIScreen.main.bounds.width, height: 56)
+            searchController.searchBar.sizeToFit()
+            return
+        }
     }
     
      func numberOfSections(in tableView: UITableView) -> Int {
@@ -242,18 +263,16 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
             
             let entry = getPasswordEntry(by: indexPath)
+            if entry.passwordEntity!.synced {
+                cell.textLabel?.text = entry.title
+            } else {
+                cell.textLabel?.text = "↻ \(entry.title)"
+            }
             if !entry.isDir {
-                if entry.passwordEntity!.synced {
-                    cell.textLabel?.text = entry.title
-                } else {
-                    cell.textLabel?.text = "↻ \(entry.title)"
-                }
-                
                 cell.addGestureRecognizer(longPressGestureRecognizer)
                 cell.accessoryType = .none
                 cell.detailTextLabel?.text = ""
             } else {
-                cell.textLabel?.text = "\(entry.title)"
                 cell.accessoryType = .disclosureIndicator
                 cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .body)
                 cell.detailTextLabel?.text = "\(entry.passwordEntity?.children?.count ?? 0)"
@@ -351,7 +370,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             // bring back
             SVProgressHUD.show(withStatus: "Decrypting")
         }
-        if SharedDefaults[.isRememberPassphraseOn] {
+        if SharedDefaults[.isRememberPGPPassphraseOn] {
             self.passwordStore.pgpKeyPassphrase = passphrase
         }
         return passphrase
@@ -445,6 +464,14 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 let passwordEntity = getPasswordEntry(by: selectedIndexPath).passwordEntity!
                 viewController.passwordEntity = passwordEntity
             }
+        } else if segue.identifier == "addPasswordSegue" {
+            if let navController = segue.destination as? UINavigationController {
+                if let viewController = navController.topViewController as? AddPasswordTableViewController {
+                    if let path = parentPasswordEntity?.path {
+                        viewController.defaultDirPrefix = "\(path)/"
+                    }
+                }
+            }
         }
     }
     
@@ -478,16 +505,15 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     private func reloadTableView(data: [PasswordsTableEntry], anim: CAAnimation? = nil) {
         // set navigation item
-        var numberOfLocalCommitsString = ""
         let numberOfLocalCommits = self.passwordStore.numberOfLocalCommits()
-        if numberOfLocalCommits > 0 {
-            numberOfLocalCommitsString = " (\(numberOfLocalCommits))"
+        if numberOfLocalCommits == 0 {
+            navigationController?.tabBarItem.badgeValue = nil
+        } else {
+            navigationController?.tabBarItem.badgeValue = "\(numberOfLocalCommits)"
         }
         if parentPasswordEntity != nil {
-            navigationItem.title = "\(parentPasswordEntity!.name!)\(numberOfLocalCommitsString)"
             navigationItem.leftBarButtonItem = backUIBarButtonItem
         } else {
-            navigationItem.title = "Password Store\(numberOfLocalCommitsString)"
             navigationItem.leftBarButtonItem = nil
         }
         

@@ -28,12 +28,21 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         return uiSwitch
     }()
     
-    let rememberPassphraseSwitch: UISwitch = {
+    let rememberPGPPassphraseSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Globals.blue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(rememberPassphraseSwitchAction(_:)), for: UIControlEvents.valueChanged)
-        uiSwitch.isOn = SharedDefaults[.isRememberPassphraseOn]
+        uiSwitch.addTarget(self, action: #selector(rememberPGPPassphraseSwitchAction(_:)), for: UIControlEvents.valueChanged)
+        uiSwitch.isOn = SharedDefaults[.isRememberPGPPassphraseOn]
+        return uiSwitch
+    }()
+    
+    let rememberGitCredentialPassphraseSwitch: UISwitch = {
+        let uiSwitch = UISwitch()
+        uiSwitch.onTintColor = Globals.blue
+        uiSwitch.sizeToFit()
+        uiSwitch.addTarget(self, action: #selector(rememberGitCredentialPassphraseSwitchAction(_:)), for: UIControlEvents.valueChanged)
+        uiSwitch.isOn = SharedDefaults[.isRememberGitCredentialPassphraseOn]
         return uiSwitch
     }()
     
@@ -58,10 +67,11 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             
             // section 2
             [
-                [.title: "Remember Passphrase", .action: "none",],
+                [.title: "Remember PGP Key Passphrase", .action: "none",],
+                [.title: "Remember Git Credential Passphrase", .action: "none",],
             ],
             [
-                [.title: "Show Folder", .action: "none",],
+                [.title: "Show Folders", .action: "none",],
                 [.title: "Hide Unknown Fields", .action: "none",],
                 [.title: "Hide OTP Fields", .action: "none",],
             ],
@@ -98,11 +108,15 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             cell.accessoryView = accessoryView
             cell.selectionStyle = .none
             hideOTPSwitch.isOn = SharedDefaults[.isHideOTPOn]
-        case "Remember Passphrase":
+        case "Remember PGP Key Passphrase":
             cell.accessoryType = .none
             cell.selectionStyle = .none
-            cell.accessoryView = rememberPassphraseSwitch
-        case "Show Folder":
+            cell.accessoryView = rememberPGPPassphraseSwitch
+        case "Remember Git Credential Passphrase":
+            cell.accessoryType = .none
+            cell.selectionStyle = .none
+            cell.accessoryView = rememberGitCredentialPassphraseSwitch
+        case "Show Folders":
             cell.accessoryType = .none
             cell.selectionStyle = .none
             cell.accessoryView = showFolderSwitch
@@ -176,10 +190,18 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         NotificationCenter.default.post(name: .passwordDetailDisplaySettingChanged, object: nil)
     }
     
-    @objc func rememberPassphraseSwitchAction(_ sender: Any?) {
-        SharedDefaults[.isRememberPassphraseOn] = rememberPassphraseSwitch.isOn
-        if rememberPassphraseSwitch.isOn == false {
+    @objc func rememberPGPPassphraseSwitchAction(_ sender: Any?) {
+        SharedDefaults[.isRememberPGPPassphraseOn] = rememberPGPPassphraseSwitch.isOn
+        if rememberPGPPassphraseSwitch.isOn == false {
             passwordStore.pgpKeyPassphrase = nil
+        }
+    }
+    
+    @objc func rememberGitCredentialPassphraseSwitchAction(_ sender: Any?) {
+        SharedDefaults[.isRememberGitCredentialPassphraseOn] = rememberGitCredentialPassphraseSwitch.isOn
+        if rememberGitCredentialPassphraseSwitch.isOn == false {
+            passwordStore.gitSSHPrivateKeyPassphrase = nil
+            passwordStore.gitPassword = nil
         }
     }
     

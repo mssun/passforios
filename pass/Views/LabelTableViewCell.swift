@@ -51,7 +51,7 @@ class LabelTableViewCell: UITableViewCell {
                         contentLabel.text = Globals.passwordDots
                     }
                 }
-                contentLabel.font = UIFont(name: Globals.passwordFonts, size: contentLabel.font.pointSize)
+                contentLabel.font = Globals.passwordFont
             case "hmac-based":
                 type = .HOTP
                 if isReveal {
@@ -59,7 +59,7 @@ class LabelTableViewCell: UITableViewCell {
                 } else {
                     contentLabel.text = Globals.oneTimePasswordDots
                 }
-                contentLabel.font = UIFont(name: Globals.passwordFonts, size: contentLabel.font.pointSize)
+                contentLabel.font = Globals.passwordFont
             case "url":
                 type = .URL
                 contentLabel.text = content

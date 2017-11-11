@@ -40,7 +40,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             
             // Initialize the captureSession object.
             captureSession = AVCaptureSession()
-            
+
             // Set the input device on the capture session.
             captureSession?.addInput(input)
             
@@ -90,7 +90,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
     
     // MARK: - AVCaptureMetadataOutputObjectsDelegate Methods
     
-    func metadataOutput(captureOutput: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+    func metadataOutput(_ captureOutput: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         
         if let metadataObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
             supportedCodeTypes.contains(metadataObj.type),

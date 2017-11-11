@@ -27,12 +27,8 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "saveEditPasswordSegue" {
-            if let name = nameCell?.getContent(),
-                let path = name.stringByAddingPercentEncodingForRFC3986(),
-                let _ = URL(string: path) {
-                return true
-            } else {
-                Utils.alert(title: "Cannot Save", message: "Password name is invalid.", controller: self, completion: nil)
+            // check name
+            guard checkName() == true else {
                 return false
             }
         }
@@ -47,9 +43,7 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
                 plainText.append("\n")
                 plainText.append(additionsString)
             }
-            let encodedName = (nameCell?.getContent()?.stringByAddingPercentEncodingForRFC3986())!
-            let name = URL(string: encodedName)!.lastPathComponent
-            let url = URL(string: encodedName)!.appendingPathExtension("gpg")
+            let (name, url) = getNameURL()
             if password!.plainText != plainText || password!.url!.path != url.path {
                 password!.updatePassword(name: name, url: url, plainText: plainText)
             }

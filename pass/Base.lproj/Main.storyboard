@@ -425,13 +425,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LfQ-Af-j2O">
-                                                    <rect key="frame" x="62" y="0.0" width="343" height="44"/>
+                                                    <rect key="frame" x="62" y="0.0" width="344" height="44"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="✓" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Scc-5J-bu1">
-                                                    <rect key="frame" x="23" y="11" width="16" height="22"/>
+                                                    <rect key="frame" x="23" y="11" width="15.666666666666664" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -439,9 +439,10 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Scc-5J-bu1" firstAttribute="leading" secondItem="1uB-oE-kfI" secondAttribute="leadingMargin" constant="15" id="8Z8-4c-oDD"/>
+                                                <constraint firstItem="LfQ-Af-j2O" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Scc-5J-bu1" secondAttribute="trailing" constant="20" id="I9d-Au-QVj"/>
                                                 <constraint firstItem="LfQ-Af-j2O" firstAttribute="top" secondItem="1uB-oE-kfI" secondAttribute="topMargin" constant="-8" id="OPg-oc-KZy"/>
-                                                <constraint firstItem="LfQ-Af-j2O" firstAttribute="leading" secondItem="1uB-oE-kfI" secondAttribute="leadingMargin" constant="54" id="TCp-fd-Sim"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="LfQ-Af-j2O" secondAttribute="trailing" constant="1" id="dDF-2l-XhB"/>
+                                                <constraint firstItem="LfQ-Af-j2O" firstAttribute="leading" relation="lessThanOrEqual" secondItem="1uB-oE-kfI" secondAttribute="leadingMargin" constant="54" id="TCp-fd-Sim"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="LfQ-Af-j2O" secondAttribute="trailing" id="dDF-2l-XhB"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="LfQ-Af-j2O" secondAttribute="bottom" constant="-8.3333333333333357" id="e3U-qA-37g"/>
                                                 <constraint firstItem="Scc-5J-bu1" firstAttribute="centerY" secondItem="1uB-oE-kfI" secondAttribute="centerY" id="eyS-Gb-VOi"/>
                                             </constraints>
@@ -471,10 +472,11 @@
                                             <constraints>
                                                 <constraint firstItem="wbx-rk-i8H" firstAttribute="leading" secondItem="p3u-8b-h3U" secondAttribute="leadingMargin" constant="15" id="1gS-CT-W2C"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="Ezz-76-a53" secondAttribute="bottom" constant="-8.3333333333333357" id="NW7-VO-yjh"/>
-                                                <constraint firstItem="Ezz-76-a53" firstAttribute="leading" secondItem="p3u-8b-h3U" secondAttribute="leadingMargin" constant="54" id="Ols-7H-4Lb"/>
+                                                <constraint firstItem="Ezz-76-a53" firstAttribute="leading" relation="lessThanOrEqual" secondItem="p3u-8b-h3U" secondAttribute="leadingMargin" constant="54" id="Ols-7H-4Lb"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Ezz-76-a53" secondAttribute="trailing" constant="1" id="hLu-eh-HXR"/>
                                                 <constraint firstItem="Ezz-76-a53" firstAttribute="top" secondItem="p3u-8b-h3U" secondAttribute="topMargin" constant="-8" id="jVn-3g-0ax"/>
                                                 <constraint firstItem="wbx-rk-i8H" firstAttribute="centerY" secondItem="p3u-8b-h3U" secondAttribute="centerY" id="jwk-j5-WsJ"/>
+                                                <constraint firstItem="Ezz-76-a53" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="wbx-rk-i8H" secondAttribute="trailing" constant="23" id="xcB-Dt-05o"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -487,7 +489,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Git Server" id="gXX-yl-9oj">
+                    <navigationItem key="navigationItem" title="Git Server" largeTitleDisplayMode="never" id="gXX-yl-9oj">
                         <barButtonItem key="rightBarButtonItem" title="Clone" style="done" id="sgQ-zB-rxv">
                             <connections>
                                 <action selector="save:" destination="ynQ-64-MfA" id="HNL-Da-fXT"/>
@@ -596,8 +598,8 @@
                             <outlet property="delegate" destination="3WR-HY-zYj" id="kqI-mx-f0D"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="PGP Key" id="eK3-bb-419">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="TNt-ne-l7W">
+                    <navigationItem key="navigationItem" title="PGP Key" largeTitleDisplayMode="never" id="eK3-bb-419">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="TNt-ne-l7W">
                             <connections>
                                 <action selector="save:" destination="3WR-HY-zYj" id="uLA-oz-lPI"/>
                             </connections>
@@ -634,7 +636,7 @@
                                 <segue destination="rRf-7l-IGe" kind="unwind" unwindAction="cancelAddPasswordWithSegue:" id="G4F-ci-BmD"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="FtF-nT-zRJ">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="FtF-nT-zRJ">
                             <connections>
                                 <segue destination="rRf-7l-IGe" kind="unwind" identifier="saveAddPasswordSegue" unwindAction="saveAddPasswordWithSegue:" id="eVU-Kz-JU0"/>
                             </connections>
@@ -662,10 +664,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="scanner output" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lOI-p4-BGb">
-                                <rect key="frame" x="50" y="562" width="314" height="45"/>
+                                <rect key="frame" x="57" y="562" width="300" height="45"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="bdi-FH-dMP"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="zBX-AY-wU0"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -675,14 +678,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="eYa-Io-fXF" firstAttribute="top" secondItem="lOI-p4-BGb" secondAttribute="bottom" constant="80" id="9iK-9H-fuB"/>
-                            <constraint firstItem="lOI-p4-BGb" firstAttribute="leading" secondItem="a0T-JY-UcS" secondAttribute="leadingMargin" constant="30" id="RCL-aq-Ywc"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="lOI-p4-BGb" secondAttribute="trailing" constant="30" id="qNb-4K-GGl"/>
+                            <constraint firstItem="lOI-p4-BGb" firstAttribute="centerX" secondItem="a0T-JY-UcS" secondAttribute="centerX" id="IVH-ax-fJ3"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Scan OTP QR Codes" id="Hlb-5I-bfE">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="KBZ-N2-OGE">
                             <connections>
-                                <segue destination="0gD-ix-2NF" kind="unwind" unwindAction="cancelOTPScannerWithSegue:" id="nZe-B6-MNt"/>
+                                <action selector="pressCancel:" destination="A9p-Qb-WmU" id="SYK-Qh-Cs7"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -691,7 +693,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rqh-SR-bIq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="0gD-ix-2NF" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="7059" y="-1012"/>
         </scene>
@@ -776,8 +777,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZmJ-0Z-N04" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="Settings" selectedImage="Settings" id="6Xa-be-Z8g"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wWs-15-HDi">
-                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="wWs-15-HDi">
+                        <rect key="frame" x="0.0" y="20" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -809,7 +810,7 @@
                                 <segue destination="HB6-Yu-Y3J" kind="unwind" unwindAction="cancelEditPasswordWithSegue:" id="B5h-gu-WUv"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="4l7-58-u8N">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="4l7-58-u8N">
                             <connections>
                                 <segue destination="HB6-Yu-Y3J" kind="unwind" identifier="saveEditPasswordSegue" unwindAction="saveEditPasswordWithSegue:" id="1sb-Aa-Qdy"/>
                             </connections>
@@ -838,7 +839,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3dt-Ph-4As">
-                                <rect key="frame" x="20" y="10" width="374" height="726"/>
+                                <rect key="frame" x="20" y="72" width="374" height="664"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">K7PBbkoaJf6mLyVX3EBU
 username: passforios-demo@email.com
@@ -853,8 +854,8 @@ Phone Support PIN #: 84719</string>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="3dt-Ph-4As" secondAttribute="trailing" id="2IV-7r-9eG"/>
                             <constraint firstItem="7JD-uM-IyS" firstAttribute="top" secondItem="3dt-Ph-4As" secondAttribute="bottom" id="3yp-aL-exH"/>
-                            <constraint firstItem="3dt-Ph-4As" firstAttribute="top" secondItem="XeK-cv-AXf" secondAttribute="bottom" constant="-54" id="5y9-J3-Luj"/>
                             <constraint firstAttribute="leadingMargin" secondItem="3dt-Ph-4As" secondAttribute="leading" id="jgf-j1-lNa"/>
+                            <constraint firstItem="3dt-Ph-4As" firstAttribute="top" secondItem="XeK-cv-AXf" secondAttribute="bottom" constant="8" symbolic="YES" id="yN7-0c-t4Y"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Raw Password" id="c13-zM-tLf">
@@ -969,7 +970,7 @@ Phone Support PIN #: 84719</string>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="SSH Key" id="DrT-Wk-L5K">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="DEb-eH-FHf">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="DEb-eH-FHf">
                             <connections>
                                 <action selector="doneButtonTapped:" destination="hqC-Ic-NMi" id="gIV-JX-4hk"/>
                             </connections>
@@ -997,7 +998,7 @@ Phone Support PIN #: 84719</string>
                             <outlet property="delegate" destination="ljx-el-KZL" id="suq-rR-a60"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="General" id="aAM-Iw-iBA"/>
+                    <navigationItem key="navigationItem" title="General" largeTitleDisplayMode="never" id="aAM-Iw-iBA"/>
                     <connections>
                         <segue destination="RcF-UZ-Tde" kind="show" identifier="showAboutRepositorySegue" id="X49-Em-78M"/>
                     </connections>
@@ -1129,7 +1130,7 @@ Phone Support PIN #: 84719</string>
                             <outlet property="delegate" destination="Rqu-AW-ZNQ" id="FIc-7F-8PL"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Advanced" id="tc7-wf-hG7"/>
+                    <navigationItem key="navigationItem" title="Advanced" largeTitleDisplayMode="never" id="tc7-wf-hG7"/>
                     <connections>
                         <outlet property="discardChangesTableViewCell" destination="Jm8-B5-wKx" id="rfA-G3-2OE"/>
                         <outlet property="encryptInASCIIArmoredTableViewCell" destination="tHt-Ro-0HF" id="tOi-Sj-mLJ"/>
@@ -1155,7 +1156,7 @@ Phone Support PIN #: 84719</string>
                             <outlet property="delegate" destination="ZcQ-fs-QEW" id="GET-cd-P5Q"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="About" id="Pel-JD-Z5x"/>
+                    <navigationItem key="navigationItem" title="About" largeTitleDisplayMode="never" id="Pel-JD-Z5x"/>
                     <connections>
                         <segue destination="yb5-mG-DI8" kind="show" identifier="showOpenSourceComponentsSegue" id="1lz-OC-pgC"/>
                         <segue destination="NEk-KW-Ogp" kind="show" identifier="showSpecialThanksSegue" id="nzG-Je-gqo"/>
@@ -1271,7 +1272,7 @@ Phone Support PIN #: 84719</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <attributedString key="attributedText">
                                                         <fragment>
-                                                            <string key="content">GnuPG supports a command-line option --armor that that causes output to be generated in an ASCII-armored format similar to unencoded documents rather than the binary format.
+                                                            <string key="content">GnuPG supports the command-line option "-a" that causes output to be generated in an ASCII-armored format similar to unencoded documents rather than the binary format.
 
 </string>
                                                             <attributes>
@@ -1324,7 +1325,7 @@ Cgo
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oyB-oI-1fS">
-                                                    <rect key="frame" x="15" y="8" width="391" height="144"/>
+                                                    <rect key="frame" x="15" y="8" width="391" height="143.66666666666666"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="8.5"/>
@@ -1362,7 +1363,7 @@ Cgo
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lrQ-Ln-ZOv">
-                                                    <rect key="frame" x="15" y="8" width="391" height="143"/>
+                                                    <rect key="frame" x="15" y="8" width="391" height="143.66666666666666"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="8.5"/>
@@ -1396,8 +1397,8 @@ Cgo
                             <outlet property="delegate" destination="1gA-jh-frD" id="jKb-Ie-lOh"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="PGP Key" id="V4w-cf-d9g">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="lVZ-mz-KGt">
+                    <navigationItem key="navigationItem" title="PGP Key" largeTitleDisplayMode="never" id="V4w-cf-d9g">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="lVZ-mz-KGt">
                             <connections>
                                 <action selector="save:" destination="1gA-jh-frD" id="dfU-DP-Eth"/>
                             </connections>
@@ -1517,7 +1518,7 @@ Cgo
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="23o-MP-wQY">
-                                                    <rect key="frame" x="15" y="8" width="391" height="143"/>
+                                                    <rect key="frame" x="15" y="8" width="391" height="143.66666666666666"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="8.5"/>
@@ -1549,7 +1550,7 @@ Cgo
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="SSH Key" id="gNq-BH-pj8">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="X6m-eX-dl8">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="X6m-eX-dl8">
                             <connections>
                                 <action selector="doneButtonTapped:" destination="WgM-cY-mig" id="7Yj-rw-y05"/>
                             </connections>
@@ -1651,7 +1652,7 @@ Cgo
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Git Signature" id="pPi-jd-x5U">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="kMD-4J-wBb">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="kMD-4J-wBb">
                             <connections>
                                 <segue destination="M5P-Ab-cIc" kind="unwind" identifier="saveGitConfigSettingSegue" unwindAction="saveGitConfigSettingWithSegue:" id="RGN-ff-tuP"/>
                             </connections>
@@ -1680,9 +1681,10 @@ Cgo
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="scanner output" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U8O-Md-w8e">
-                                <rect key="frame" x="50" y="611" width="314" height="45"/>
+                                <rect key="frame" x="57" y="611" width="300" height="45"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="JcM-Sy-Hw8"/>
                                     <constraint firstAttribute="height" constant="45" id="q3X-BT-aK8"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1692,8 +1694,7 @@ Cgo
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="U8O-Md-w8e" secondAttribute="trailing" constant="30" id="Sok-Wi-SXQ"/>
-                            <constraint firstItem="U8O-Md-w8e" firstAttribute="leading" secondItem="CA8-A9-019" secondAttribute="leadingMargin" constant="30" id="opY-C9-XIS"/>
+                            <constraint firstItem="U8O-Md-w8e" firstAttribute="centerX" secondItem="CA8-A9-019" secondAttribute="centerX" id="OWy-pk-0Ip"/>
                             <constraint firstItem="53A-gx-tky" firstAttribute="top" secondItem="U8O-Md-w8e" secondAttribute="bottom" constant="80" id="tzL-K0-lE7"/>
                         </constraints>
                     </view>
@@ -1719,9 +1720,10 @@ Cgo
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="scanner output" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fsL-pq-A5q">
-                                <rect key="frame" x="50" y="567" width="314" height="45"/>
+                                <rect key="frame" x="57" y="567" width="300" height="45"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="7Qj-pb-GoY"/>
                                     <constraint firstAttribute="height" constant="45" id="IPT-kM-arz"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1732,8 +1734,7 @@ Cgo
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="QZv-Im-xZk" firstAttribute="top" secondItem="fsL-pq-A5q" secondAttribute="bottom" constant="80" id="76J-7g-eVO"/>
-                            <constraint firstItem="fsL-pq-A5q" firstAttribute="leading" secondItem="GYE-sh-yvu" secondAttribute="leadingMargin" constant="30" id="IOo-JD-FMG"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="fsL-pq-A5q" secondAttribute="trailing" constant="30" id="ymC-G4-bdA"/>
+                            <constraint firstItem="fsL-pq-A5q" firstAttribute="centerX" secondItem="GYE-sh-yvu" secondAttribute="centerX" id="pev-xD-1vH"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Scan SSH Keys" id="bov-FI-Hkg"/>
@@ -1805,7 +1806,7 @@ Cgo
         <image name="Settings" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="iCM-Fy-hkk"/>
-        <segue reference="yyD-4H-pLE"/>
+        <segue reference="WfV-6d-ZUj"/>
+        <segue reference="UfP-k3-XeR"/>
     </inferredMetricsTieBreakers>
 </document>

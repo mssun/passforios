@@ -107,9 +107,11 @@ public class Utils {
         for (index, element) in plainPassword.unicodeScalars.enumerated() {
             var charColor = UIColor.darkText
             if NSCharacterSet.decimalDigits.contains(element) {
-                charColor = Globals.red
+                charColor = Globals.digitColor
             } else if !NSCharacterSet.letters.contains(element) {
-                charColor = Globals.blue
+                charColor = Globals.symbolColor
+            } else {
+                charColor = Globals.letterColor
             }
             attributedPassword.addAttribute(NSAttributedStringKey.foregroundColor, value: charColor, range: NSRange(location: index, length: 1))
         }
