@@ -49,7 +49,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }()
     private lazy var searchBarView: UIView? = {
         guard #available(iOS 11, *) else {
-                        let uiView = UIView(frame: CGRect(x: 0, y: 64, width: self.view.bounds.width, height: 56))
+            let uiView = UIView(frame: CGRect(x: 0, y: 64, width: self.view.bounds.width, height: 44))
             uiView.addSubview(self.searchController.searchBar)
             return uiView
         }
@@ -215,7 +215,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             navigationItem.hidesSearchBarWhenScrolling = false
         } else {
             // Fallback on earlier versions
-            tableView.contentInset = UIEdgeInsetsMake(56, 0, 0, 0)
+            tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0)
             view.addSubview(searchBarView!)
         }
         tableView.refreshControl = syncControl
@@ -242,7 +242,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         guard #available(iOS 11, *) else {
-            searchBarView?.frame = CGRect(x: 0, y: navigationController!.navigationBar.bounds.size.height + UIApplication.shared.statusBarFrame.height, width: UIScreen.main.bounds.width, height: 56)
+            searchBarView?.frame = CGRect(x: 0, y: navigationController!.navigationBar.bounds.size.height + UIApplication.shared.statusBarFrame.height, width: UIScreen.main.bounds.width, height: 44)
             searchController.searchBar.sizeToFit()
             return
         }
