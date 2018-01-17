@@ -203,7 +203,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBarController!.delegate = self
         searchController.searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
@@ -234,6 +233,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tabBarController!.delegate = self
         if let path = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: path, animated: false)
         }

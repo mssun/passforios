@@ -136,13 +136,17 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBarController!.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.actOnPasswordStoreErasedNotification), name: .passwordStoreErased, object: nil)
         self.passwordRepositoryTableViewCell.detailTextLabel?.text = SharedDefaults[.gitURL]?.host
         touchIDTableViewCell.accessoryView = touchIDSwitch
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()
         setPasscodeLockTouchIDCells()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        tabBarController!.delegate = self
     }
     
     private func hasTouchID() -> Bool {
