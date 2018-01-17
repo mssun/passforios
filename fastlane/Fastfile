@@ -67,7 +67,10 @@ platform :ios do
     )
     # commit_version_bump(xcodeproj: "pass.xcodeproj")
     # push_to_git_remote
-    gym(scheme: "pass")
+    gym(
+      scheme: "pass",
+      include_bitcode: true
+    )
     pilot(skip_waiting_for_build_processing: true)
     mailgun(
       postmaster: ENV["MY_POSTMASTER"],
