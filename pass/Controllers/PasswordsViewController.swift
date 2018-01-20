@@ -49,7 +49,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }()
     private lazy var searchBarView: UIView? = {
         guard #available(iOS 11, *) else {
-                        let uiView = UIView(frame: CGRect(x: 0, y: 64, width: self.view.bounds.width, height: 56))
+            let uiView = UIView(frame: CGRect(x: 0, y: 64, width: self.view.bounds.width, height: 44))
             uiView.addSubview(self.searchController.searchBar)
             return uiView
         }
@@ -203,7 +203,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBarController!.delegate = self
         searchController.searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
@@ -215,7 +214,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             navigationItem.hidesSearchBarWhenScrolling = false
         } else {
             // Fallback on earlier versions
-            tableView.contentInset = UIEdgeInsetsMake(56, 0, 0, 0)
+            tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0)
             view.addSubview(searchBarView!)
         }
         tableView.refreshControl = syncControl
@@ -234,6 +233,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tabBarController!.delegate = self
         if let path = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: path, animated: false)
         }
@@ -242,7 +242,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         guard #available(iOS 11, *) else {
-            searchBarView?.frame = CGRect(x: 0, y: navigationController!.navigationBar.bounds.size.height + UIApplication.shared.statusBarFrame.height, width: UIScreen.main.bounds.width, height: 56)
+            searchBarView?.frame = CGRect(x: 0, y: navigationController!.navigationBar.bounds.size.height + UIApplication.shared.statusBarFrame.height, width: UIScreen.main.bounds.width, height: 44)
             searchController.searchBar.sizeToFit()
             return
         }
@@ -554,9 +554,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             self.tapTabBarTime = currentTime
             if duration < 0.35 {
                 let topIndexPath = IndexPath(row: 0, section: 0)
-                if let _ = tableView.cellForRow(at: topIndexPath) {
-                    tableView.scrollToRow(at: topIndexPath, at: .bottom, animated: true)
-                }
+                    if tableView.numberOfSections > 0 {
+                        tableView.scrollToRow(at: topIndexPath, at: .bottom, animated: true)
+                    }
                 self.tapTabBarTime = 0
                 return
             }

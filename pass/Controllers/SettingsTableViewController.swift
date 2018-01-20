@@ -13,7 +13,7 @@ import PasscodeLock
 import LocalAuthentication
 import passKit
 
-class SettingsTableViewController: UITableViewController {
+class SettingsTableViewController: UITableViewController, UITabBarControllerDelegate {
     
     lazy var touchIDSwitch: UISwitch = {
         let uiSwitch = UISwitch(frame: CGRect.zero)
@@ -28,6 +28,10 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var passwordRepositoryTableViewCell: UITableViewCell!
     let passwordStore = PasswordStore.shared
     var passcodeLockConfig = PasscodeLockConfiguration.shared
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        navigationController?.popViewController(animated: true)
+    }
     
     @IBAction func savePGPKey(segue: UIStoryboardSegue) {
         if let controller = segue.source as? PGPKeySettingTableViewController {
@@ -138,6 +142,11 @@ class SettingsTableViewController: UITableViewController {
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()
         setPasscodeLockTouchIDCells()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        tabBarController!.delegate = self
     }
     
     private func hasTouchID() -> Bool {

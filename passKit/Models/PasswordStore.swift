@@ -40,7 +40,7 @@ public class PasswordStore {
         }
     }
     
-    public var pgp: ObjectivePGP = ObjectivePGP()
+    public let keyring = ObjectivePGP.defaultKeyring
     
     public var pgpKeyPassphrase: String? {
         set {
@@ -192,7 +192,7 @@ public class PasswordStore {
         try initPGPKey(.secret)
     }
     
-    public func initPGPKey(_ keyType: PGPPartialKeyType) throws {
+    public func initPGPKey(_ keyType: PGPKeyType) throws {
         switch keyType {
         case .public:
             let keyPath = Globals.pgpPublicKeyPath
@@ -211,7 +211,7 @@ public class PasswordStore {
         }
     }
     
-    public func initPGPKey(from url: URL, keyType: PGPPartialKeyType) throws {
+    public func initPGPKey(from url: URL, keyType: PGPKeyType) throws {
         var pgpKeyLocalPath = ""
         if keyType == .public {
             pgpKeyLocalPath = Globals.pgpPublicKeyPath
@@ -223,7 +223,7 @@ public class PasswordStore {
         try initPGPKey(keyType)
     }
     
-    public func initPGPKey(with armorKey: String, keyType: PGPPartialKeyType) throws {
+    public func initPGPKey(with armorKey: String, keyType: PGPKeyType) throws {
         var pgpKeyLocalPath = ""
         if keyType == .public {
             pgpKeyLocalPath = Globals.pgpPublicKeyPath
@@ -237,8 +237,8 @@ public class PasswordStore {
     
     private func importKey(from keyPath: String) -> Key? {
         if fm.fileExists(atPath: keyPath) {
-            let keys = ObjectivePGP.readKeys(from: keyPath)
-            pgp.import(keys: keys)
+            let keys = try! ObjectivePGP.readKeys(fromPath: keyPath)
+            keyring.import(keys: keys)
             if !keys.isEmpty {
                 return keys.first
             }
@@ -247,7 +247,7 @@ public class PasswordStore {
     }
 
     public func getPgpPrivateKey() -> Key {
-        return pgp.keys.filter({$0.secretKey != nil})[0]
+        return keyring.keys.filter({$0.secretKey != nil})[0]
     }
     
     public func repositoryExisted() -> Bool {
@@ -840,20 +840,23 @@ public class PasswordStore {
         if passphrase == nil {
             passphrase = requestPGPKeyPassphrase()
         }
-        let decryptedData = try PasswordStore.shared.pgp.decrypt(encryptedData, passphrase: passphrase)
+        let decryptedData = try ObjectivePGP.decrypt(encryptedData, andVerifySignature: false, using: keyring.keys, passphraseForKey: {(_) in passphrase})
         let plainText = String(data: decryptedData, encoding: .utf8) ?? ""
         let escapedPath = passwordEntity.path!.stringByAddingPercentEncodingForRFC3986() ?? ""
         return Password(name: passwordEntity.name!, url: URL(string: escapedPath), plainText: plainText)
     }
     
     public func encrypt(password: Password) throws -> Data {
-        let publicKey = pgp.keys.filter({$0.publicKey != nil})
-        guard publicKey.count > 0 else {
+        guard keyring.keys.count > 0 else {
             throw AppError.PGPPublicKeyNotExistError
         }
         let plainData = password.getPlainData()
-        let encryptedData = try pgp.encrypt(plainData, using: Array(publicKey), armored: SharedDefaults[.encryptInArmored])
-        return encryptedData
+        let encryptedData = try ObjectivePGP.encrypt(plainData, addSignature: false, using: keyring.keys, passphraseForKey: nil)
+        if SharedDefaults[.encryptInArmored] {
+            return Armor.armored(encryptedData, as: .message).data(using: .utf8)!
+        } else {
+            return encryptedData
+        }
     }
     
     public func removePGPKeys() {
@@ -865,7 +868,7 @@ public class PasswordStore {
         SharedDefaults.remove(.pgpPrivateKeyURL)
         SharedDefaults.remove(.pgpPublicKeyURL)
         Utils.removeKeychain(name: ".pgpKeyPassphrase")
-        pgp = ObjectivePGP()
+        keyring.deleteAll()
         publicKey = nil
         privateKey = nil
     }
