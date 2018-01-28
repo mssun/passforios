@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreData
-import PasscodeLock
 import SVProgressHUD
 import passKit
 
@@ -21,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     lazy var passcodeLockPresenter: PasscodeLockPresenter = {
-        let presenter = PasscodeLockPresenter(mainWindow: self.window, configuration: PasscodeLockConfiguration.shared)
+        let presenter = PasscodeLockPresenter(mainWindow: self.window)
         return presenter
     }()
     
@@ -92,7 +91,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        passcodeLockPresenter = PasscodeLockPresenter(mainWindow: self.window, configuration: PasscodeLockConfiguration.shared)
         passcodeLockPresenter.present(windowLevel: UIApplication.shared.windows.last?.windowLevel)
     }
 

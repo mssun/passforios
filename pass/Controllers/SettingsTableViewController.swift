@@ -9,25 +9,16 @@
 import UIKit
 import SVProgressHUD
 import CoreData
-import PasscodeLock
-import LocalAuthentication
 import passKit
 
 class SettingsTableViewController: UITableViewController, UITabBarControllerDelegate {
-    
-    lazy var touchIDSwitch: UISwitch = {
-        let uiSwitch = UISwitch(frame: CGRect.zero)
-        uiSwitch.onTintColor = Globals.blue
-        uiSwitch.addTarget(self, action: #selector(touchIDSwitchAction), for: UIControlEvents.valueChanged)
-        return uiSwitch
-    }()
-
     @IBOutlet weak var pgpKeyTableViewCell: UITableViewCell!
-    @IBOutlet weak var touchIDTableViewCell: UITableViewCell!
     @IBOutlet weak var passcodeTableViewCell: UITableViewCell!
     @IBOutlet weak var passwordRepositoryTableViewCell: UITableViewCell!
+    var setPasscodeLockAlert: UIAlertController?
+    
     let passwordStore = PasswordStore.shared
-    var passcodeLockConfig = PasscodeLockConfiguration.shared
+    var passcodeLock = PasscodeLock.shared
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         navigationController?.popViewController(animated: true)
@@ -123,14 +114,6 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // Security section, hide TouchID if the device doesn't support
-        if section == 1 {
-            if hasTouchID() {
-                return 2
-            } else {
-                return 1
-            }
-        }
         return super.tableView(tableView, numberOfRowsInSection: section)
     }
 
@@ -138,10 +121,9 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.actOnPasswordStoreErasedNotification), name: .passwordStoreErased, object: nil)
         self.passwordRepositoryTableViewCell.detailTextLabel?.text = SharedDefaults[.gitURL]?.host
-        touchIDTableViewCell.accessoryView = touchIDSwitch
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()
-        setPasscodeLockTouchIDCells()
+        setPasscodeLockCell()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -149,38 +131,11 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         tabBarController!.delegate = self
     }
     
-    private func hasTouchID() -> Bool {
-        let context = LAContext()
-        var error: NSError?
-        if context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            return true
-        } else {
-            switch error!.code {
-            case LAError.Code.touchIDNotEnrolled.rawValue:
-                return true
-            case LAError.Code.passcodeNotSet.rawValue:
-                return true
-            default:
-                return false
-            }
-        }
-    }
-    
-    private func isTouchIDEnabled() -> Bool {
-        let context = LAContext()
-        return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
-    }
-    
-    private func setPasscodeLockTouchIDCells() {
-        if passcodeLockConfig.repository.hasPasscode {
+    private func setPasscodeLockCell() {
+        if passcodeLock.hasPasscode {
             self.passcodeTableViewCell.detailTextLabel?.text = "On"
-            passcodeLockConfig.isTouchIDAllowed = SharedDefaults[.isTouchIDOn]
-            touchIDSwitch.isOn = SharedDefaults[.isTouchIDOn]
         } else {
             self.passcodeTableViewCell.detailTextLabel?.text = "Off"
-            SharedDefaults[.isTouchIDOn] = false
-            passcodeLockConfig.isTouchIDAllowed = SharedDefaults[.isTouchIDOn]
-            touchIDSwitch.isOn = SharedDefaults[.isTouchIDOn]
         }
     }
     
@@ -203,10 +158,10 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     @objc func actOnPasswordStoreErasedNotification() {
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()
-        setPasscodeLockTouchIDCells()
+        setPasscodeLockCell()
 
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: passcodeLockConfig)
+        appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -221,22 +176,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    @objc func touchIDSwitchAction(uiSwitch: UISwitch) {
-        if !passcodeLockConfig.repository.hasPasscode || !isTouchIDEnabled() {
-            // switch off
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-                uiSwitch.isOn = SharedDefaults[.isTouchIDOn]  // SharedDefaults[.isTouchIDOn] should be false
-                Utils.alert(title: "Notice", message: "Please enable Touch ID of your phone and setup the passcode lock for Pass.", controller: self, completion: nil)
-            }
-        } else {
-            SharedDefaults[.isTouchIDOn] = uiSwitch.isOn
-            passcodeLockConfig.isTouchIDAllowed = SharedDefaults[.isTouchIDOn]
-        }
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: passcodeLockConfig)
-    }
-    
+   
     func showPGPKeyActionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var urlActionTitle = "Download from URL"
@@ -314,21 +254,22 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     }
     
     func showPasscodeActionSheet() {
-        let passcodeChangeViewController = PasscodeLockViewController(state: .change, configuration: passcodeLockConfig)
-        let passcodeRemoveViewController = PasscodeLockViewController(state: .remove, configuration: passcodeLockConfig)
-
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let passcodeRemoveViewController = PasscodeLockViewController()
+        
+        
         let removePasscodeAction = UIAlertAction(title: "Remove Passcode", style: .destructive) { [weak self] _ in
-            passcodeRemoveViewController.successCallback  = { _ in
-                self?.setPasscodeLockTouchIDCells()
+            passcodeRemoveViewController.successCallback  = {
+                self?.passcodeLock.delete()
+                self?.setPasscodeLockCell()
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window, configuration: (self?.passcodeLockConfig)!)
+                appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window)
             }
             self?.present(passcodeRemoveViewController, animated: true, completion: nil)
         }
         
         let changePasscodeAction = UIAlertAction(title: "Change Passcode", style: .default) { [weak self] _ in
-            self?.present(passcodeChangeViewController, animated: true, completion: nil)
+            self?.setPasscodeLock()
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -339,12 +280,50 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         optionMenu.popoverPresentationController?.sourceRect = passcodeTableViewCell.bounds
         self.present(optionMenu, animated: true, completion: nil)
     }
+
+    @objc func alertTextFieldDidChange(_ sender: UITextField) {
+        // check whether we should enable the Save button in setPasscodeLockAlert
+        if let setPasscodeLockAlert = self.setPasscodeLockAlert,
+            let setPasscodeLockAlertTextFields0 = setPasscodeLockAlert.textFields?[0],
+            let setPasscodeLockAlertTextFields1 = setPasscodeLockAlert.textFields?[1] {
+            if sender == setPasscodeLockAlertTextFields0 || sender == setPasscodeLockAlertTextFields1 {
+                // two passwords should be the same, and length >= 4
+                let passcodeText = setPasscodeLockAlertTextFields0.text!
+                let passcodeConfirmationText = setPasscodeLockAlertTextFields1.text!
+                setPasscodeLockAlert.actions[0].isEnabled = passcodeText == passcodeConfirmationText && passcodeText.count >= 4
+            }
+        }
+    }
     
     func setPasscodeLock() {
-        let passcodeSetViewController = PasscodeLockViewController(state: .set, configuration: passcodeLockConfig)
-        passcodeSetViewController.successCallback = { _ in
-            self.setPasscodeLockTouchIDCells()
+        // prepare the alert for setting the passcode
+        setPasscodeLockAlert = UIAlertController(title: "Set passcode", message: "Fill in your passcode for Pass (at least 4 characters)", preferredStyle: .alert)
+        setPasscodeLockAlert?.addTextField(configurationHandler: {(_ textField: UITextField) -> Void in
+            textField.placeholder = "Password"
+            textField.isSecureTextEntry = true
+            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+        })
+        setPasscodeLockAlert?.addTextField(configurationHandler: {(_ textField: UITextField) -> Void in
+            textField.placeholder = "Password Confirmation"
+            textField.isSecureTextEntry = true
+            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+        })
+        
+        // save action
+        let saveAction = UIAlertAction(title: "Save", style: .default) { (action:UIAlertAction) -> Void in
+            let passcode: String = self.setPasscodeLockAlert!.textFields![0].text!
+            self.passcodeLock.save(passcode: passcode)
+            // refresh the passcode lock cell ("On")
+            self.setPasscodeLockCell()
         }
-        present(passcodeSetViewController, animated: true, completion: nil)
+        saveAction.isEnabled = false  // disable the Save button by default
+        
+        // cancel action
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        // present
+        setPasscodeLockAlert?.addAction(saveAction)
+        setPasscodeLockAlert?.addAction(cancelAction)
+        self.present(setPasscodeLockAlert!, animated: true, completion: nil)
     }
 }

@@ -29,8 +29,6 @@
 		A26700371EEC475600176B8A /* passProcessor.js in Resources */ = {isa = PBXBuildFile; fileRef = A26700351EEC475600176B8A /* passProcessor.js */; };
 		A2802BF91E70813A00879216 /* SliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2802BF71E70813A00879216 /* SliderTableViewCell.swift */; };
 		A2802BFA1E70813A00879216 /* SliderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2802BF81E70813A00879216 /* SliderTableViewCell.xib */; };
-		A28C66651EF109D600A398A1 /* PasscodeLockConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C66631EF109D600A398A1 /* PasscodeLockConfiguration.swift */; };
-		A28C66661EF109D600A398A1 /* PasscodeLockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C66641EF109D600A398A1 /* PasscodeLockRepository.swift */; };
 		A28C66681EF10EC900A398A1 /* PasscodeExtensionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C66671EF10EC900A398A1 /* PasscodeExtensionDisplay.swift */; };
 		A2A61C131EEF90CB00CFE063 /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A262A58C1E68749C006B0890 /* Base32.framework */; };
 		A2A61C151EEF90CB00CFE063 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA742D91E599ED400D54E16 /* KeychainAccess.framework */; };
@@ -39,6 +37,9 @@
 		A2A61C201EEFABAD00CFE063 /* UtilsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */; };
 		A2A61C2C1EEFDF3300CFE063 /* ExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A61C2B1EEFDF3300CFE063 /* ExtensionViewController.swift */; };
 		A2A7813F1E97DBD9001311F5 /* QRScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */; };
+		A2C532BB201E5A9600DB9F53 /* PasscodeLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C532BA201E5A9600DB9F53 /* PasscodeLock.swift */; };
+		A2C532BE201E5AA100DB9F53 /* PasscodeLockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C532BC201E5AA000DB9F53 /* PasscodeLockViewController.swift */; };
+		A2C532BF201E5AA100DB9F53 /* PasscodeLockPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C532BD201E5AA100DB9F53 /* PasscodeLockPresenter.swift */; };
 		A2F4E2141EED800F0011986E /* GitCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2101EED800F0011986E /* GitCredential.swift */; };
 		A2F4E2151EED800F0011986E /* Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2111EED800F0011986E /* Password.swift */; };
 		A2F4E2161EED800F0011986E /* PasswordEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2121EED800F0011986E /* PasswordEntity.swift */; };
@@ -61,7 +62,6 @@
 		DC037CC01E4ED4E100609409 /* TextViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC037CBE1E4ED4E100609409 /* TextViewTableViewCell.xib */; };
 		DC13B1511E8640810097803F /* passTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13B1501E8640810097803F /* passTests.swift */; };
 		DC193FFA1E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC193FF91E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift */; };
-		DC193FFC1E49E0340077E0A3 /* PasscodeLock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC193FFB1E49E0340077E0A3 /* PasscodeLock.framework */; };
 		DC3E64E61E656F11009A83DE /* CommitLogsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3E64E51E656F11009A83DE /* CommitLogsTableViewController.swift */; };
 		DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914941E434301007FF592 /* LabelTableViewCell.swift */; };
 		DC4914991E434600007FF592 /* PasswordDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */; };
@@ -191,8 +191,6 @@
 		A26700351EEC475600176B8A /* passProcessor.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = passProcessor.js; sourceTree = "<group>"; };
 		A2802BF71E70813A00879216 /* SliderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderTableViewCell.swift; sourceTree = "<group>"; };
 		A2802BF81E70813A00879216 /* SliderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SliderTableViewCell.xib; sourceTree = "<group>"; };
-		A28C66631EF109D600A398A1 /* PasscodeLockConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasscodeLockConfiguration.swift; path = Models/PasscodeLockConfiguration.swift; sourceTree = "<group>"; };
-		A28C66641EF109D600A398A1 /* PasscodeLockRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasscodeLockRepository.swift; path = Models/PasscodeLockRepository.swift; sourceTree = "<group>"; };
 		A28C66671EF10EC900A398A1 /* PasscodeExtensionDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeExtensionDisplay.swift; sourceTree = "<group>"; };
 		A2A61C0C1EEF8DFE00CFE063 /* libPods-passExtension.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passExtension.a"; path = "../../Library/Developer/Xcode/DerivedData/pass-fwlmfsjroyvbfhdyqmglrwfhvjli/Build/Products/Debug-iphonesimulator/libPods-passExtension.a"; sourceTree = "<group>"; };
 		A2A61C101EEF8E3500CFE063 /* libPods-passKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passKit.a"; path = "Pods/../build/Debug-iphoneos/libPods-passKit.a"; sourceTree = "<group>"; };
@@ -200,6 +198,9 @@
 		A2A61C2B1EEFDF3300CFE063 /* ExtensionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionViewController.swift; sourceTree = "<group>"; };
 		A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerController.swift; sourceTree = "<group>"; };
 		A2BC54C71EEE5669001FAFBD /* Objective-CBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Objective-CBridgingHeader.h"; sourceTree = "<group>"; };
+		A2C532BA201E5A9600DB9F53 /* PasscodeLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasscodeLock.swift; path = Models/PasscodeLock.swift; sourceTree = "<group>"; };
+		A2C532BC201E5AA000DB9F53 /* PasscodeLockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasscodeLockViewController.swift; path = Controllers/PasscodeLockViewController.swift; sourceTree = "<group>"; };
+		A2C532BD201E5AA100DB9F53 /* PasscodeLockPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasscodeLockPresenter.swift; path = Controllers/PasscodeLockPresenter.swift; sourceTree = "<group>"; };
 		A2F4E2101EED800F0011986E /* GitCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GitCredential.swift; path = Models/GitCredential.swift; sourceTree = "<group>"; };
 		A2F4E2111EED800F0011986E /* Password.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Password.swift; path = Models/Password.swift; sourceTree = "<group>"; };
 		A2F4E2121EED800F0011986E /* PasswordEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordEntity.swift; path = Models/PasswordEntity.swift; sourceTree = "<group>"; };
@@ -315,7 +316,6 @@
 			files = (
 				A260758D1EEC6F34005DB03E /* passKit.framework in Frameworks */,
 				DCC408C71E307DBB00F29B0E /* SVProgressHUD.framework in Frameworks */,
-				DC193FFC1E49E0340077E0A3 /* PasscodeLock.framework in Frameworks */,
 				18F19A67B0C07F13C17169E0 /* Pods_pass.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,11 +344,12 @@
 		A26075791EEC6F34005DB03E /* passKit */ = {
 			isa = PBXGroup;
 			children = (
+				A2C532B9201DD07500DB9F53 /* Controllers */,
+				A2F4E20F1EED7F0A0011986E /* Helpers */,
+				A260757B1EEC6F34005DB03E /* Info.plist */,
 				A2F4E20E1EED7F040011986E /* Models */,
 				A26075A51EEC7125005DB03E /* pass.xcdatamodeld */,
-				A2F4E20F1EED7F0A0011986E /* Helpers */,
 				A260757A1EEC6F34005DB03E /* passKit.h */,
-				A260757B1EEC6F34005DB03E /* Info.plist */,
 			);
 			path = passKit;
 			sourceTree = "<group>";
@@ -376,11 +377,19 @@
 			path = passExtension;
 			sourceTree = "<group>";
 		};
+		A2C532B9201DD07500DB9F53 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A2C532BD201E5AA100DB9F53 /* PasscodeLockPresenter.swift */,
+				A2C532BC201E5AA000DB9F53 /* PasscodeLockViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		A2F4E20E1EED7F040011986E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A28C66631EF109D600A398A1 /* PasscodeLockConfiguration.swift */,
-				A28C66641EF109D600A398A1 /* PasscodeLockRepository.swift */,
+				A2C532BA201E5A9600DB9F53 /* PasscodeLock.swift */,
 				A2F4E2101EED800F0011986E /* GitCredential.swift */,
 				A2F4E2111EED800F0011986E /* Password.swift */,
 				A2F4E2121EED800F0011986E /* PasswordEntity.swift */,
@@ -429,30 +438,30 @@
 		DC19400C1E4B39400077E0A3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				DCD3C65D1EFB9BB400CBE842 /* SettingsSplitViewController.swift */,
-				DC3E64E51E656F11009A83DE /* CommitLogsTableViewController.swift */,
-				DC5F385A1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift */,
 				DC037CB11E4CAB1700609409 /* AboutRepositoryTableViewController.swift */,
 				DC962CDE1E4B62C10033B5D8 /* AboutTableViewController.swift */,
 				DC037CB71E4DD1A500609409 /* AddPasswordTableViewController.swift */,
 				DC193FF91E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift */,
 				DC037CA71E4B898100609409 /* BasicStaticTableViewController.swift */,
+				DC3E64E51E656F11009A83DE /* CommitLogsTableViewController.swift */,
 				DCFB77A61E502DF9008DE471 /* EditPasswordTableViewController.swift */,
 				DC037CAF1E4CA51F00609409 /* GeneralSettingsTableViewController.swift */,
+				A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */,
 				DCA049991E335CC800522E8F /* GitServerSettingTableViewController.swift */,
+				DCC441531E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift */,
 				DC037CA51E4B883900609409 /* OpenSourceComponentsTableViewController.swift */,
+				A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */,
 				DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */,
-				DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */,
 				DCFB77A81E502FF6008DE471 /* PasswordEditorTableViewController.swift */,
 				DC5734AD1E439AD400D09270 /* PasswordsViewController.swift */,
+				DC5F385A1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift */,
 				DCA0499B1E3362F400522E8F /* PGPKeySettingTableViewController.swift */,
+				A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */,
+				DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */,
+				DCD3C65D1EFB9BB400CBE842 /* SettingsSplitViewController.swift */,
 				DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */,
 				DC037CA91E4B8EAE00609409 /* SpecialThanksTableViewController.swift */,
 				DC8963BF1E38EEB900828B09 /* SSHKeySettingTableViewController.swift */,
-				DCC441531E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift */,
-				A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */,
-				A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */,
-				A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -477,21 +486,21 @@
 		DC19400F1E4B3A9E0077E0A3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A2802BF71E70813A00879216 /* SliderTableViewCell.swift */,
-				A2802BF81E70813A00879216 /* SliderTableViewCell.xib */,
+				DCFB77AA1E503729008DE471 /* ContentTableViewCell.swift */,
 				DCFB779C1E4F40C7008DE471 /* FillPasswordTableViewCell.swift */,
 				DCFB779D1E4F40C7008DE471 /* FillPasswordTableViewCell.xib */,
-				DCFB77981E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift */,
-				DCFB77991E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib */,
 				DC4914941E434301007FF592 /* LabelTableViewCell.swift */,
 				DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */,
-				DC037CB91E4DD47B00609409 /* TextFieldTableViewCell.swift */,
-				DC037CBA1E4DD47B00609409 /* TextFieldTableViewCell.xib */,
 				DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */,
 				DCFB77A21E500D9C008DE471 /* PasswordDetailTitleTableViewCell.xib */,
+				A2802BF71E70813A00879216 /* SliderTableViewCell.swift */,
+				A2802BF81E70813A00879216 /* SliderTableViewCell.xib */,
+				DC037CB91E4DD47B00609409 /* TextFieldTableViewCell.swift */,
+				DC037CBA1E4DD47B00609409 /* TextFieldTableViewCell.xib */,
 				DC037CBD1E4ED4E100609409 /* TextViewTableViewCell.swift */,
 				DC037CBE1E4ED4E100609409 /* TextViewTableViewCell.xib */,
-				DCFB77AA1E503729008DE471 /* ContentTableViewCell.swift */,
+				DCFB77981E4F3BCF008DE471 /* TitleTextFieldTableViewCell.swift */,
+				DCFB77991E4F3BCF008DE471 /* TitleTextFieldTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -984,7 +993,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SVProgressHUD.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftyUserDefaults.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/PasscodeLock.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/FavIcon.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/KeychainAccess.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/OneTimePassword.framework",
@@ -1019,14 +1027,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A28C66661EF109D600A398A1 /* PasscodeLockRepository.swift in Sources */,
+				A2C532BB201E5A9600DB9F53 /* PasscodeLock.swift in Sources */,
 				A2F4E2151EED800F0011986E /* Password.swift in Sources */,
-				A28C66651EF109D600A398A1 /* PasscodeLockConfiguration.swift in Sources */,
 				A26075AD1EEC7125005DB03E /* pass.xcdatamodeld in Sources */,
 				A2F4E21E1EED80160011986E /* AppError.swift in Sources */,
 				A2F4E2171EED800F0011986E /* PasswordStore.swift in Sources */,
 				A2F4E2211EED80160011986E /* NotificationNames.swift in Sources */,
 				A2F4E2221EED80160011986E /* UITextFieldExtension.swift in Sources */,
+				A2C532BF201E5AA100DB9F53 /* PasscodeLockPresenter.swift in Sources */,
+				A2C532BE201E5AA100DB9F53 /* PasscodeLockViewController.swift in Sources */,
 				A2F4E2201EED80160011986E /* Globals.swift in Sources */,
 				A2F4E2231EED80160011986E /* Utils.swift in Sources */,
 				A2F4E21F1EED80160011986E /* DefaultsKeys.swift in Sources */,
