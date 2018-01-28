@@ -1530,7 +1530,7 @@
 				OTHER_LDFLAGS = "${inherited}";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2e72f4af-b935-4970-9cd3-44d4cc24b646";
+				PROVISIONING_PROFILE = "6bb836f2-68a1-44cc-8c45-f6b6e53ba64a";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development me.mssun.passforios";
 				SWIFT_OBJC_BRIDGING_HEADER = "pass/Helpers/Objective-CBridgingHeader.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
