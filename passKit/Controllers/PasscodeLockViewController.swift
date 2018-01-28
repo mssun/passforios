@@ -57,15 +57,20 @@ open class PasscodeLockViewController: UIViewController {
 
     internal func dismissPasscodeLock(completionHandler: (() -> Void)? = nil) {
         // clean up the textfield
-        enterPasscodeAlert.textFields?[0].text = ""
+        DispatchQueue.main.async {
+            self.enterPasscodeAlert.textFields?[0].text = ""
+            self.enterPasscodeAlert.dismiss(animated: false, completion: nil)
+        }
+        
+        // pop
         if presentingViewController?.presentedViewController == self {
             // if presented as modal
             dismiss(animated: true, completion: { [weak self] in
                 self?.dismissCompletionCallback?()
                 completionHandler?()
             })
-        // if pushed in a navigation controller
         } else {
+            // if pushed in a navigation controller
             _ = navigationController?.popViewController(animated: true)
             dismissCompletionCallback?()
             completionHandler?()
@@ -83,8 +88,6 @@ open class PasscodeLockViewController: UIViewController {
     }
     
     public func authenticate() {
-        print(enterPasscodeAlert.isBeingPresented)
-        
         let myContext = LAContext()
         let myLocalizedReasonString = "Authentication is needed to access Pass."
         var authError: NSError?
