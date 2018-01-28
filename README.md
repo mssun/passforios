@@ -1,7 +1,7 @@
 <img src="icon/icon_round.png" width="76"/> 
 
 # Pass
-[![GitHub release](https://img.shields.io/github/release/mssun/pass-ios.svg)](https://github.com/mssun/pass-ios/releases)
+[![GitHub release](https://img.shields.io/github/release/mssun/passforios.svg)](https://github.com/mssun/passforios/releases)
 ![Swift 3.1](https://img.shields.io/badge/Swift-4.0-orange.svg)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/passforios/passforios)
 [![Build Status](https://travis-ci.org/mssun/passforios.svg?branch=develop)](https://travis-ci.org/mssun/passforios)
