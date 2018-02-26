@@ -10,6 +10,7 @@ import Foundation
 import SwiftyUserDefaults
 import OneTimePassword
 import Base32
+import Yams
 
 struct AdditionField {
     var title: String
@@ -84,29 +85,25 @@ public class Password {
         additions.removeAll()
         
         // split the plain text
-        let plainTextSplit = plainText.split(maxSplits: 1, omittingEmptySubsequences: false) {
+        let plainTextSplit = self.plainText.split(maxSplits: 1, omittingEmptySubsequences: false) {
             $0 == "\n" || $0 == "\r\n"
             }.map(String.init)
     
         // get password
         password  = plainTextSplit.first ?? ""
         
-        // get additonal fields
-        if plainTextSplit.count == 2 {
-            var unknownIndex = 0
-            plainTextSplit[1].enumerateLines() { line, _ in
-                if !line.isEmpty {
-                    var (key, value) = Password.getKeyValuePair(from: line)
-                    if key == nil {
-                        unknownIndex += 1
-                        key = "unknown \(unknownIndex)"
-                    }
-                    self.additions.append((key!, value))
-                }
-            }
+        // get remaining lines
+        let additionalFields = plainTextSplit.last ?? ""
+
+        // try to interpret the text format as YAML first
+        do {
+            try getAdditionalFields(fromYaml: additionalFields)
         }
-        
-        // check whether the first line of the plainText looks like an otp entry
+        catch {
+            getAdditionalFields(fromPlainText: additionalFields)
+        }
+
+        // check whether the first line looks like an otp entry
         let (key, value) = Password.getKeyValuePair(from: self.password)
         if Password.otpKeywords.contains(key ?? "") {
             firstLineIsOTPField = true
@@ -117,6 +114,25 @@ public class Password {
         
         // construct the otp token
         self.updateOtpToken()
+    }
+
+    private func getAdditionalFields(fromYaml: String) throws {
+        let yamlFile = try Yams.load(yaml: fromYaml) as! [String: Any]
+        additions.append(contentsOf: yamlFile.map { ($0, String(describing: $1)) })
+    }
+
+    private func getAdditionalFields(fromPlainText: String) {
+        var unknownIndex = 0
+        fromPlainText.enumerateLines() { line, _ in
+            if !line.isEmpty {
+                var (key, value) = Password.getKeyValuePair(from: line)
+                if key == nil {
+                    unknownIndex += 1
+                    key = "unknown \(unknownIndex)"
+                }
+                self.additions.append((key!, value))
+            }
+        }
     }
     
     public func getFilteredAdditions() -> [(String, String)] {
