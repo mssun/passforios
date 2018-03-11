@@ -119,6 +119,7 @@ public class Password {
     }
 
     private func getAdditionalFields(fromYaml: String) throws {
+        guard !fromYaml.isEmpty else { return }
         let yamlFile = try Yams.load(yaml: fromYaml) as! [String: Any]
         additions.append(contentsOf: yamlFile.map { ($0, String(describing: $1)) })
     }
