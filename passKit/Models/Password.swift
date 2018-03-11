@@ -87,7 +87,7 @@ public class Password {
         additions.removeAll()
         
         // split the plain text
-        let plainTextSplit = self.plainText.split(maxSplits: 1, omittingEmptySubsequences: false) {
+        let plainTextSplit = self.plainText.split(omittingEmptySubsequences: true) {
             $0 == "\n" || $0 == "\r\n"
             }.map(String.init)
     
@@ -95,16 +95,25 @@ public class Password {
         password  = plainTextSplit.first ?? ""
         
         // get remaining lines
-        let additionalFields = plainTextSplit.last ?? ""
-
+        let additionalLines = plainTextSplit[1...]
+        
+        // separate normal lines (no otp tokens)
+        let normalAdditionalLines = additionalLines.filter {
+            !$0.hasPrefix(Password.OTPAUTH_URL_START)
+            }.joined(separator: "\n")
+        
         // try to interpret the text format as YAML first
         do {
-            try getAdditionalFields(fromYaml: additionalFields)
+            try getAdditionalFields(fromYaml: normalAdditionalLines)
         }
         catch {
-            getAdditionalFields(fromPlainText: additionalFields)
+            getAdditionalFields(fromPlainText: normalAdditionalLines)
         }
 
+        // get and append otp tokens
+        let otpAdditionalLines = additionalLines.filter { $0.hasPrefix(Password.OTPAUTH_URL_START) }
+        otpAdditionalLines.forEach { self.additions.append((Password.OTPAUTH, $0)) }
+        
         // check whether the first line looks like an otp entry
         let (key, value) = Password.getKeyValuePair(from: self.password)
         if Password.otpKeywords.contains(key ?? "") {
