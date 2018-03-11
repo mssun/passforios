@@ -25,6 +25,8 @@ enum PasswordChange: Int {
 
 public class Password {
     public static let otpKeywords = ["otp_secret", "otp_type", "otp_algorithm", "otp_period", "otp_digits", "otp_counter", "otpauth"]
+    private static let OTPAUTH = "otpauth"
+    private static let OTPAUTH_URL_START = "\(OTPAUTH)://"
 
     public var name = ""
     public var url: URL?
@@ -169,8 +171,8 @@ public class Password {
             // no ": " found, or empty on both sides of ": "
             value = line
             // otpauth special case
-            if value.hasPrefix("otpauth://") {
-                key = "otpauth"
+            if value.hasPrefix(Password.OTPAUTH_URL_START) {
+                key = Password.OTPAUTH
             }
         } else {
             if !items[0].isEmpty {
@@ -237,9 +239,9 @@ public class Password {
         self.otpToken = nil
         
         // get otpauth, if we are able to generate a token, return
-        if var otpauthString = getAdditionValue(withKey: "otpauth") {
-            if !otpauthString.hasPrefix("otpauth:") {
-                otpauthString = "otpauth:\(otpauthString)"
+        if var otpauthString = getAdditionValue(withKey: Password.OTPAUTH) {
+            if !otpauthString.hasPrefix("\(Password.OTPAUTH):") {
+                otpauthString = "\(Password.OTPAUTH):\(otpauthString)"
             }
             if let otpauthUrl = URL(string: otpauthString),
                 let token = Token(url: otpauthUrl) {
@@ -363,7 +365,7 @@ public class Password {
             let (key, _) = Password.getKeyValuePair(from: line)
             if !Password.otpKeywords.contains(key ?? "") {
                 lines.append(line)
-            } else if key == "otpauth" && newOtpauth != nil {
+            } else if key == Password.OTPAUTH && newOtpauth != nil {
                 lines.append(newOtpauth!)
                 // set to nil to prevent duplication
                 newOtpauth = nil
