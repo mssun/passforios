@@ -10,6 +10,7 @@ import Foundation
 import SwiftyUserDefaults
 import OneTimePassword
 import Base32
+import Yams
 
 struct AdditionField {
     var title: String
@@ -24,6 +25,8 @@ enum PasswordChange: Int {
 
 public class Password {
     public static let otpKeywords = ["otp_secret", "otp_type", "otp_algorithm", "otp_period", "otp_digits", "otp_counter", "otpauth"]
+    private static let OTPAUTH = "otpauth"
+    private static let OTPAUTH_URL_START = "\(OTPAUTH)://"
 
     public var name = ""
     public var url: URL?
@@ -84,29 +87,34 @@ public class Password {
         additions.removeAll()
         
         // split the plain text
-        let plainTextSplit = plainText.split(maxSplits: 1, omittingEmptySubsequences: false) {
+        let plainTextSplit = self.plainText.split(omittingEmptySubsequences: true) {
             $0 == "\n" || $0 == "\r\n"
             }.map(String.init)
     
         // get password
         password  = plainTextSplit.first ?? ""
         
-        // get additonal fields
-        if plainTextSplit.count == 2 {
-            var unknownIndex = 0
-            plainTextSplit[1].enumerateLines() { line, _ in
-                if !line.isEmpty {
-                    var (key, value) = Password.getKeyValuePair(from: line)
-                    if key == nil {
-                        unknownIndex += 1
-                        key = "unknown \(unknownIndex)"
-                    }
-                    self.additions.append((key!, value))
-                }
-            }
-        }
+        // get remaining lines
+        let additionalLines = plainTextSplit[1...]
         
-        // check whether the first line of the plainText looks like an otp entry
+        // separate normal lines (no otp tokens)
+        let normalAdditionalLines = additionalLines.filter {
+            !$0.hasPrefix(Password.OTPAUTH_URL_START)
+            }.joined(separator: "\n")
+        
+        // try to interpret the text format as YAML first
+        do {
+            try getAdditionalFields(fromYaml: normalAdditionalLines)
+        }
+        catch {
+            getAdditionalFields(fromPlainText: normalAdditionalLines)
+        }
+
+        // get and append otp tokens
+        let otpAdditionalLines = additionalLines.filter { $0.hasPrefix(Password.OTPAUTH_URL_START) }
+        otpAdditionalLines.forEach { self.additions.append((Password.OTPAUTH, $0)) }
+        
+        // check whether the first line looks like an otp entry
         let (key, value) = Password.getKeyValuePair(from: self.password)
         if Password.otpKeywords.contains(key ?? "") {
             firstLineIsOTPField = true
@@ -117,6 +125,26 @@ public class Password {
         
         // construct the otp token
         self.updateOtpToken()
+    }
+
+    private func getAdditionalFields(fromYaml: String) throws {
+        guard !fromYaml.isEmpty else { return }
+        let yamlFile = try Yams.load(yaml: fromYaml) as! [String: Any]
+        additions.append(contentsOf: yamlFile.map { ($0, String(describing: $1)) })
+    }
+
+    private func getAdditionalFields(fromPlainText: String) {
+        var unknownIndex = 0
+        fromPlainText.enumerateLines() { line, _ in
+            if !line.isEmpty {
+                var (key, value) = Password.getKeyValuePair(from: line)
+                if key == nil {
+                    unknownIndex += 1
+                    key = "unknown \(unknownIndex)"
+                }
+                self.additions.append((key!, value))
+            }
+        }
     }
     
     public func getFilteredAdditions() -> [(String, String)] {
@@ -153,8 +181,8 @@ public class Password {
             // no ": " found, or empty on both sides of ": "
             value = line
             // otpauth special case
-            if value.hasPrefix("otpauth://") {
-                key = "otpauth"
+            if value.hasPrefix(Password.OTPAUTH_URL_START) {
+                key = Password.OTPAUTH
             }
         } else {
             if !items[0].isEmpty {
@@ -221,9 +249,9 @@ public class Password {
         self.otpToken = nil
         
         // get otpauth, if we are able to generate a token, return
-        if var otpauthString = getAdditionValue(withKey: "otpauth") {
-            if !otpauthString.hasPrefix("otpauth:") {
-                otpauthString = "otpauth:\(otpauthString)"
+        if var otpauthString = getAdditionValue(withKey: Password.OTPAUTH) {
+            if !otpauthString.hasPrefix("\(Password.OTPAUTH):") {
+                otpauthString = "\(Password.OTPAUTH):\(otpauthString)"
             }
             if let otpauthUrl = URL(string: otpauthString),
                 let token = Token(url: otpauthUrl) {
@@ -347,7 +375,7 @@ public class Password {
             let (key, _) = Password.getKeyValuePair(from: line)
             if !Password.otpKeywords.contains(key ?? "") {
                 lines.append(line)
-            } else if key == "otpauth" && newOtpauth != nil {
+            } else if key == Password.OTPAUTH && newOtpauth != nil {
                 lines.append(newOtpauth!)
                 // set to nil to prevent duplication
                 newOtpauth = nil
