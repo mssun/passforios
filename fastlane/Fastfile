@@ -62,7 +62,7 @@ platform :ios do
     )
     # ensure_git_status_clean
     increment_build_number(
-      build_number: latest_testflight_build_number(version: get_version_number, initial_build_number: 0) + 1,
+      build_number: latest_testflight_build_number(version: get_version_number(target: "pass"), initial_build_number: 0) + 1,
       xcodeproj: "pass.xcodeproj"
     )
     # commit_version_bump(xcodeproj: "pass.xcodeproj")
