@@ -87,15 +87,15 @@ public class Password {
         additions.removeAll()
         
         // split the plain text
-        let plainTextSplit = self.plainText.split(omittingEmptySubsequences: true) {
+        let plainTextSplit = self.plainText.split(omittingEmptySubsequences: false) {
             $0 == "\n" || $0 == "\r\n"
             }.map(String.init)
     
         // get password
         password  = plainTextSplit.first ?? ""
         
-        // get remaining lines
-        let additionalLines = plainTextSplit[1...]
+        // get remaining lines (filter out empty lines)
+        let additionalLines = plainTextSplit[1...].filter { !$0.isEmpty }
         
         // separate normal lines (no otp tokens)
         let normalAdditionalLines = additionalLines.filter {
