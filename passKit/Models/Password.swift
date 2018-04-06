@@ -126,9 +126,29 @@ public class Password {
         // construct the otp token
         self.updateOtpToken()
     }
+    
+    // check whether the file has lines with duplicated field names
+    private func checkDuplicatedFields(lines: String) -> Bool {
+        var keys = Set<String>()
+        var hasDuplicatedFields = false
+        lines.enumerateLines { (line, stop) -> () in
+            let (key, _) = Password.getKeyValuePair(from: line)
+            if let key = key {
+                if keys.contains(key) {
+                    hasDuplicatedFields = true
+                    stop = true
+                }
+                keys.insert(key)
+            }
+        }
+        return hasDuplicatedFields
+    }
 
     private func getAdditionalFields(fromYaml: String) throws {
         guard !fromYaml.isEmpty else { return }
+        if checkDuplicatedFields(lines: fromYaml) {
+            throw AppError.YamlLoadError
+        }
         let yamlFile = try Yams.load(yaml: fromYaml) as! [String: Any]
         additions.append(contentsOf: yamlFile.map { ($0, String(describing: $1)) })
     }
