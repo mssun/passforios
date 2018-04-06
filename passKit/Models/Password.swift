@@ -149,7 +149,9 @@ public class Password {
         if checkDuplicatedFields(lines: fromYaml) {
             throw AppError.YamlLoadError
         }
-        let yamlFile = try Yams.load(yaml: fromYaml) as! [String: Any]
+        guard let yamlFile = try Yams.load(yaml: fromYaml) as? [String: Any] else {
+            throw AppError.YamlLoadError
+        }
         additions.append(contentsOf: yamlFile.map { ($0, String(describing: $1)) })
     }
 
