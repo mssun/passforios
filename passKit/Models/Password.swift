@@ -87,15 +87,15 @@ public class Password {
         additions.removeAll()
         
         // split the plain text
-        let plainTextSplit = self.plainText.split(omittingEmptySubsequences: true) {
+        let plainTextSplit = self.plainText.split(omittingEmptySubsequences: false) {
             $0 == "\n" || $0 == "\r\n"
             }.map(String.init)
     
         // get password
         password  = plainTextSplit.first ?? ""
         
-        // get remaining lines
-        let additionalLines = plainTextSplit[1...]
+        // get remaining lines (filter out empty lines)
+        let additionalLines = plainTextSplit[1...].filter { !$0.isEmpty }
         
         // separate normal lines (no otp tokens)
         let normalAdditionalLines = additionalLines.filter {
@@ -126,10 +126,32 @@ public class Password {
         // construct the otp token
         self.updateOtpToken()
     }
+    
+    // check whether the file has lines with duplicated field names
+    private func checkDuplicatedFields(lines: String) -> Bool {
+        var keys = Set<String>()
+        var hasDuplicatedFields = false
+        lines.enumerateLines { (line, stop) -> () in
+            let (key, _) = Password.getKeyValuePair(from: line)
+            if let key = key {
+                if keys.contains(key) {
+                    hasDuplicatedFields = true
+                    stop = true
+                }
+                keys.insert(key)
+            }
+        }
+        return hasDuplicatedFields
+    }
 
     private func getAdditionalFields(fromYaml: String) throws {
         guard !fromYaml.isEmpty else { return }
-        let yamlFile = try Yams.load(yaml: fromYaml) as! [String: Any]
+        if checkDuplicatedFields(lines: fromYaml) {
+            throw AppError.YamlLoadError
+        }
+        guard let yamlFile = try Yams.load(yaml: fromYaml) as? [String: Any] else {
+            throw AppError.YamlLoadError
+        }
         additions.append(contentsOf: yamlFile.map { ($0, String(describing: $1)) })
     }
 
