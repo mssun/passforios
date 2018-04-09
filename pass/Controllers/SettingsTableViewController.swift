@@ -159,9 +159,6 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()
         setPasscodeLockCell()
-
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -262,8 +259,6 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             passcodeRemoveViewController.successCallback  = {
                 self?.passcodeLock.delete()
                 self?.setPasscodeLockCell()
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDelegate.passcodeLockPresenter = PasscodeLockPresenter(mainWindow: appDelegate.window)
             }
             self?.present(passcodeRemoveViewController, animated: true, completion: nil)
         }

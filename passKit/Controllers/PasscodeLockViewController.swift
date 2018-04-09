@@ -1,29 +1,69 @@
 //
-//  PasscodeLockViewController.swift
+//  PasscodeLockPresenter.swift
 //  PasscodeLock
 //
-//  Created by Yanko Dimitrov on 8/28/15.
-//  Copyright © 2015 Yanko Dimitrov. All rights reserved.
+//  Created by Yishi Lin on 10/04/2018.
+//  Copyright © 2018 Yishi Lin. All rights reserved.
+//
+//  Inspired by SwiftPasscodeLock created by Yanko Dimitrov.
 //
 
 import UIKit
 import LocalAuthentication
 
-open class PasscodeLockViewController: UIViewController {
+open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
     
     open var dismissCompletionCallback: (()->Void)?
     open var successCallback: (()->Void)?
     open var cancelCallback: (()->Void)?
-    lazy var enterPasscodeAlert: UIAlertController = {
-        let enterPasscodeAlert = UIAlertController(title: "Authenticate Pass", message: "Unlock with passcode for Pass", preferredStyle: .alert)
-
-        enterPasscodeAlert.addTextField(configurationHandler: {(_ textField: UITextField) -> Void in
-            textField.placeholder = "passcode"
-            textField.isSecureTextEntry = true
-            textField.addTarget(self, action: #selector(self.passcodeTextFieldDidChange(_:)), for: UIControlEvents.editingChanged)
-            textField.clearButtonMode = UITextFieldViewMode.whileEditing
-            textField.becomeFirstResponder()
-        })
+    
+    weak var passcodeLabel: UILabel?
+    weak var passcodeWrongAttemptsLabel: UILabel?
+    weak var passcodeTextField: UITextField?
+    weak var biometryAuthButton: UIButton?
+    
+    var passcodeFailedAttempts = 0
+    
+    open override func loadView() {
+        super.loadView()
+        
+        let passcodeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
+        passcodeLabel.text = "Enter passcode for Pass"
+        passcodeLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        passcodeLabel.textColor = UIColor.black
+        passcodeLabel.textAlignment = .center
+        passcodeLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(passcodeLabel)
+        self.passcodeLabel = passcodeLabel
+        
+        let passcodeWrongAttemptsLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
+        passcodeWrongAttemptsLabel.text = ""
+        passcodeWrongAttemptsLabel.textColor = UIColor.red
+        passcodeWrongAttemptsLabel.textAlignment = .center
+        passcodeWrongAttemptsLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(passcodeWrongAttemptsLabel)
+        self.passcodeWrongAttemptsLabel = passcodeWrongAttemptsLabel
+        
+        let passcodeTextField =  UITextField(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
+        passcodeTextField.borderStyle = UITextBorderStyle.roundedRect
+        passcodeTextField.placeholder = "passcode"
+        passcodeTextField.isSecureTextEntry = true
+        passcodeTextField.clearButtonMode = UITextFieldViewMode.whileEditing
+        passcodeTextField.delegate = self
+        passcodeTextField.addTarget(self, action: #selector(self.passcodeTextFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+        self.view.backgroundColor = UIColor.white
+        passcodeTextField.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(passcodeTextField)
+        self.passcodeTextField = passcodeTextField
+        
+        let biometryAuthButton = UIButton(type: .custom)
+        biometryAuthButton.setTitle("", for: .normal)
+        biometryAuthButton.setTitleColor(Globals.blue, for: .normal)
+        biometryAuthButton.addTarget(self, action: #selector(bioButtonPressedAction(_:)), for: .touchUpInside)
+        biometryAuthButton.isHidden = true
+        biometryAuthButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(biometryAuthButton)
+        self.biometryAuthButton = biometryAuthButton
         
         let myContext = LAContext()
         var authError: NSError?
@@ -35,31 +75,50 @@ open class PasscodeLockViewController: UIViewController {
                         biometryType = "Face ID"
                     }
                 }
-                let bioAction = UIAlertAction(title: "Use " + biometryType, style: .default) { (action:UIAlertAction) -> Void in
-                    self.authenticate()
-                }
-                enterPasscodeAlert.addAction(bioAction)
+                biometryAuthButton.setTitle(biometryType, for: .normal)
+                biometryAuthButton.isHidden = false
             }
         }
         
-        return enterPasscodeAlert
-    }()
+        NSLayoutConstraint.activate([
+            passcodeTextField.widthAnchor.constraint(equalToConstant: 300),
+            passcodeTextField.heightAnchor.constraint(equalToConstant: 40),
+            passcodeTextField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            passcodeTextField.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -20),
+            // above passocde
+            passcodeLabel.widthAnchor.constraint(equalToConstant: 300),
+            passcodeLabel.heightAnchor.constraint(equalToConstant: 40),
+            passcodeLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            passcodeLabel.bottomAnchor.constraint(equalTo: passcodeTextField.topAnchor),
+            // below passcode
+            passcodeWrongAttemptsLabel.widthAnchor.constraint(equalToConstant: 300),
+            passcodeWrongAttemptsLabel.heightAnchor.constraint(equalToConstant: 40),
+            passcodeWrongAttemptsLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            passcodeWrongAttemptsLabel.topAnchor.constraint(equalTo: passcodeTextField.bottomAnchor),
+            // bottom of the screen
+            biometryAuthButton.widthAnchor.constraint(equalToConstant: 150),
+            biometryAuthButton.heightAnchor.constraint(equalToConstant: 40),
+            biometryAuthButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            biometryAuthButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -40),
+        ])
+        
+    }
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.white
     }
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        authenticate()
+        if let biometryAuthButton = biometryAuthButton {
+            self.bioButtonPressedAction(biometryAuthButton)
+        }
     }
 
     internal func dismissPasscodeLock(completionHandler: (() -> Void)? = nil) {
         // clean up the textfield
         DispatchQueue.main.async {
-            self.enterPasscodeAlert.textFields?[0].text = ""
-            self.enterPasscodeAlert.dismiss(animated: false, completion: nil)
+            self.passcodeTextField?.text = ""
         }
         
         // pop
@@ -80,6 +139,8 @@ open class PasscodeLockViewController: UIViewController {
     // MARK: - PasscodeLockDelegate
 
     open func passcodeLockDidSucceed() {
+        passcodeFailedAttempts = 0
+        passcodeWrongAttemptsLabel?.text = ""
         dismissPasscodeLock(completionHandler: successCallback)
     }
     
@@ -87,7 +148,7 @@ open class PasscodeLockViewController: UIViewController {
         dismissPasscodeLock(completionHandler: cancelCallback)
     }
     
-    public func authenticate() {
+    @objc public func bioButtonPressedAction(_ uiButton: UIButton) {
         let myContext = LAContext()
         let myLocalizedReasonString = "Authentication is needed to access Pass."
         var authError: NSError?
@@ -100,29 +161,30 @@ open class PasscodeLockViewController: UIViewController {
                             // user authenticated successfully, take appropriate action
                             self.passcodeLockDidSucceed()
                         }
-                    } else {
-                        // User did not authenticate successfully
-                        self.showPasswordAlert()
                     }
                 }
-            } else {
-                // could not evaluate policy; look at authError and present an appropriate message to user
-                self.showPasswordAlert()
             }
-        } else {
-            // fallback on earlier versions
-            self.showPasswordAlert()
         }
     }
     
-    @objc func passcodeTextFieldDidChange(_ sender: UITextField) {
-        // check whether the passcode is correct
-        if PasscodeLock.shared.check(passcode: sender.text ?? "") {
+    public override func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == passcodeTextField {
+            if !PasscodeLock.shared.check(passcode: textField.text ?? "") {
+                passcodeFailedAttempts = passcodeFailedAttempts + 1
+                if passcodeFailedAttempts == 1 {
+                    passcodeWrongAttemptsLabel?.text = "1 wrong attempt"
+                } else {
+                    passcodeWrongAttemptsLabel?.text = "\(passcodeFailedAttempts) wrong attempts"
+                }
+            }
+        }
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    @objc public func passcodeTextFieldDidChange(_ textField: UITextField) {
+        if PasscodeLock.shared.check(passcode: textField.text ?? "") {
             self.passcodeLockDidSucceed()
         }
-    }
-    
-    func showPasswordAlert() {
-        self.present(enterPasscodeAlert, animated: true, completion: nil)
     }
 }
