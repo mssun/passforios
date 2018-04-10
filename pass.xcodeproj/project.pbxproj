@@ -38,6 +38,7 @@
 		A2A61C201EEFABAD00CFE063 /* UtilsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */; };
 		A2A61C2C1EEFDF3300CFE063 /* ExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A61C2B1EEFDF3300CFE063 /* ExtensionViewController.swift */; };
 		A2A7813F1E97DBD9001311F5 /* QRScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */; };
+		A2BEC1BB207D2EFE00F3051C /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BEC1BA207D2EFE00F3051C /* UIViewExtension.swift */; };
 		A2C532BB201E5A9600DB9F53 /* PasscodeLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C532BA201E5A9600DB9F53 /* PasscodeLock.swift */; };
 		A2C532BE201E5AA100DB9F53 /* PasscodeLockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C532BC201E5AA000DB9F53 /* PasscodeLockViewController.swift */; };
 		A2C532BF201E5AA100DB9F53 /* PasscodeLockPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C532BD201E5AA100DB9F53 /* PasscodeLockPresenter.swift */; };
@@ -200,6 +201,7 @@
 		A2A61C2B1EEFDF3300CFE063 /* ExtensionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionViewController.swift; sourceTree = "<group>"; };
 		A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerController.swift; sourceTree = "<group>"; };
 		A2BC54C71EEE5669001FAFBD /* Objective-CBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Objective-CBridgingHeader.h"; sourceTree = "<group>"; };
+		A2BEC1BA207D2EFE00F3051C /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIViewExtension.swift; path = Helpers/UIViewExtension.swift; sourceTree = "<group>"; };
 		A2C532BA201E5A9600DB9F53 /* PasscodeLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasscodeLock.swift; path = Models/PasscodeLock.swift; sourceTree = "<group>"; };
 		A2C532BC201E5AA000DB9F53 /* PasscodeLockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasscodeLockViewController.swift; path = Controllers/PasscodeLockViewController.swift; sourceTree = "<group>"; };
 		A2C532BD201E5AA100DB9F53 /* PasscodeLockPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasscodeLockPresenter.swift; path = Controllers/PasscodeLockPresenter.swift; sourceTree = "<group>"; };
@@ -410,6 +412,7 @@
 				A2F4E21B1EED80160011986E /* NotificationNames.swift */,
 				A2F4E21C1EED80160011986E /* UITextFieldExtension.swift */,
 				A2F4E21D1EED80160011986E /* Utils.swift */,
+				A2BEC1BA207D2EFE00F3051C /* UIViewExtension.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -1032,6 +1035,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2BEC1BB207D2EFE00F3051C /* UIViewExtension.swift in Sources */,
 				A2C532BB201E5A9600DB9F53 /* PasscodeLock.swift in Sources */,
 				A2F4E2151EED800F0011986E /* Password.swift in Sources */,
 				A26075AD1EEC7125005DB03E /* pass.xcdatamodeld in Sources */,

@@ -21,8 +21,10 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
     weak var passcodeWrongAttemptsLabel: UILabel?
     weak var passcodeTextField: UITextField?
     weak var biometryAuthButton: UIButton?
+    open weak var cancelButton: UIButton?
     
     var passcodeFailedAttempts = 0
+    var isCancellable: Bool = false
     
     open override func loadView() {
         super.loadView()
@@ -80,6 +82,16 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
             }
         }
         
+        let cancelButton = UIButton(type: .custom)
+        cancelButton.setTitle("Cancel", for: .normal)
+        cancelButton.setTitleColor(Globals.blue, for: .normal)
+        cancelButton.addTarget(self, action: #selector(passcodeLockDidCancel), for: .touchUpInside)
+        cancelButton.isHidden = !self.isCancellable
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        cancelButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
+        self.view.addSubview(cancelButton)
+        self.cancelButton = cancelButton
+        
         NSLayoutConstraint.activate([
             passcodeTextField.widthAnchor.constraint(equalToConstant: 300),
             passcodeTextField.heightAnchor.constraint(equalToConstant: 40),
@@ -99,7 +111,12 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
             biometryAuthButton.widthAnchor.constraint(equalToConstant: 150),
             biometryAuthButton.heightAnchor.constraint(equalToConstant: 40),
             biometryAuthButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            biometryAuthButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -40),
+            biometryAuthButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor, constant: -40),
+            // cancel (top-left of the screen)
+            cancelButton.widthAnchor.constraint(equalToConstant: 150),
+            cancelButton.heightAnchor.constraint(equalToConstant: 40),
+            cancelButton.topAnchor.constraint(equalTo: self.view.safeTopAnchor),
+            cancelButton.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor, constant: 20)
         ])
         
     }
@@ -144,11 +161,11 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         dismissPasscodeLock(completionHandler: successCallback)
     }
     
-    open func passcodeLockDidCancel() {
+    @objc func passcodeLockDidCancel() {
         dismissPasscodeLock(completionHandler: cancelCallback)
     }
     
-    @objc public func bioButtonPressedAction(_ uiButton: UIButton) {
+    @objc func bioButtonPressedAction(_ uiButton: UIButton) {
         let myContext = LAContext()
         let myLocalizedReasonString = "Authentication is needed to access Pass."
         var authError: NSError?
@@ -182,9 +199,14 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
-    @objc public func passcodeTextFieldDidChange(_ textField: UITextField) {
+    @objc func passcodeTextFieldDidChange(_ textField: UITextField) {
         if PasscodeLock.shared.check(passcode: textField.text ?? "") {
             self.passcodeLockDidSucceed()
         }
+    }
+    
+    public func setCancellable(_ isCancellable: Bool) {
+        self.isCancellable = isCancellable
+        cancelButton?.isHidden = !isCancellable
     }
 }

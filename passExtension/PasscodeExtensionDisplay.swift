@@ -9,15 +9,35 @@
 import Foundation
 import passKit
 
+// cancel means cancel the extension
+class PasscodeLockViewControllerForExtension: PasscodeLockViewController {
+    var originalExtensionContest: NSExtensionContext?
+    public convenience init(extensionContext: NSExtensionContext?) {
+        self.init()
+        originalExtensionContest = extensionContext
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        cancelButton?.removeTarget(nil, action: nil, for: .allEvents)
+        cancelButton?.addTarget(self, action: #selector(cancelExtension), for: .touchUpInside)
+    }
+    @objc func cancelExtension() {
+        originalExtensionContest?.completeRequest(returningItems: [], completionHandler: nil)
+    }
+}
+
 class PasscodeExtensionDisplay {
     private var isPasscodePresented = false
-    private let passcodeLockVC: PasscodeLockViewController
+    private let passcodeLockVC: PasscodeLockViewControllerForExtension
+    private let extensionContext: NSExtensionContext?
     
     init(extensionContext: NSExtensionContext?) {
-        passcodeLockVC = PasscodeLockViewController()
+        self.extensionContext = extensionContext
+        passcodeLockVC = PasscodeLockViewControllerForExtension(extensionContext: extensionContext)
         passcodeLockVC.dismissCompletionCallback = { [weak self] in
             self?.dismiss()
         }
+        passcodeLockVC.setCancellable(true)
     }
     
     // present the passcode lock view if passcode is set and the view controller is not presented
