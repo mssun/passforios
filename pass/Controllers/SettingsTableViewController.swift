@@ -68,8 +68,8 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             SVProgressHUD.show(withStatus: "Fetching PGP Key")
             DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                 do {
-                    try self.passwordStore.initPGPKey(with: controller.armorPublicKeyTextView.text, keyType: .public)
-                    try self.passwordStore.initPGPKey(with: controller.armorPrivateKeyTextView.text, keyType: .secret)
+                    try self.passwordStore.initPGPKey(with: SharedDefaults[.pgpPublicKeyArmor] ?? "", keyType: .public)
+                    try self.passwordStore.initPGPKey(with: SharedDefaults[.pgpPrivateKeyArmor] ?? "", keyType: .secret)
                     DispatchQueue.main.async {
                         self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
                         SVProgressHUD.showSuccess(withStatus: "Success")
