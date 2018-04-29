@@ -17,9 +17,6 @@ class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
         ["KeychainAccess",
          "https://github.com/kishikawakatsumi/KeychainAccess",
          "https://github.com/kishikawakatsumi/KeychainAccess/blob/master/LICENSE"],
-        ["PasscodeLock",
-         "https://github.com/zahlz/SwiftPasscodeLock",
-         "https://github.com/zahlz/SwiftPasscodeLock/blob/master/LICENSE.txt"],
         ["ObjectiveGit",
          "https://github.com/libgit2/objective-git",
          "https://github.com/libgit2/objective-git/blob/master/LICENSE"],
@@ -35,6 +32,9 @@ class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
         ["SVProgressHUD",
          "https://github.com/SVProgressHUD/SVProgressHUD",
          "https://github.com/SVProgressHUD/SVProgressHUD/blob/master/LICENSE.txt"],
+        ["Yams",
+         "https://github.com/jpsim/Yams",
+         "https://github.com/jpsim/Yams/blob/master/LICENSE"],
     ]
     
     override func viewDidLoad() {

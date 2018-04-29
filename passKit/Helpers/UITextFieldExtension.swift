@@ -23,7 +23,7 @@ extension UITextField {
 }
 
 extension UIViewController {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    @objc public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField.nextField != nil {
             textField.nextField?.becomeFirstResponder()
         } else {

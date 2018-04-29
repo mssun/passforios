@@ -39,8 +39,7 @@ class LabelTableViewCell: UITableViewCell {
                 return
             }
             titleLabel.text = title
-            switch title.lowercased() {
-            case "password":
+            if title.caseInsensitiveCompare("password") == .orderedSame {
                 type = .password
                 if isReveal {
                     contentLabel.attributedText = Utils.attributedPassword(plainPassword: content)
@@ -52,7 +51,7 @@ class LabelTableViewCell: UITableViewCell {
                     }
                 }
                 contentLabel.font = Globals.passwordFont
-            case "hmac-based":
+            } else if title.caseInsensitiveCompare("hmac-based") == .orderedSame {
                 type = .HOTP
                 if isReveal {
                     contentLabel.text = content
@@ -60,11 +59,12 @@ class LabelTableViewCell: UITableViewCell {
                     contentLabel.text = Globals.oneTimePasswordDots
                 }
                 contentLabel.font = Globals.passwordFont
-            case "url":
+            } else if title.lowercased().range(of: "url") != nil || verifyUrl(content) {
                 type = .URL
                 contentLabel.text = content
                 contentLabel.font = UIFont.systemFont(ofSize: contentLabel.font.pointSize)
-            default:
+            } else {
+                // default
                 type = .other
                 contentLabel.text = content
                 contentLabel.font = UIFont.systemFont(ofSize: contentLabel.font.pointSize)
@@ -197,5 +197,13 @@ class LabelTableViewCell: UITableViewCell {
             buttons = nil
         }
         self.accessoryView = buttons
+    }
+    
+    private func verifyUrl(_ urlString: String?) -> Bool {
+        guard let urlString = urlString,
+            let _ = URL(string: urlString) else {
+                return false
+        }
+        return true
     }
 }

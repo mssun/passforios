@@ -7,27 +7,13 @@
 //
 
 import Foundation
-import PasscodeLock
 import passKit
-
-// add a cancel button in the passcode lock view
-struct CancelableEnterPasscodeState: PasscodeLockStateType {
-    let title: String = "Enter passcode"
-    let description: String = "Enter passcode"
-    let isCancellableAction = true
-    var isTouchIDAllowed = true
-    mutating func accept(passcode: String, from lock: PasscodeLockType) {
-        if lock.repository.check(passcode: passcode) {
-            lock.delegate?.passcodeLockDidSucceed(lock)
-        }
-    }
-}
 
 // cancel means cancel the extension
 class PasscodeLockViewControllerForExtension: PasscodeLockViewController {
     var originalExtensionContest: NSExtensionContext?
-    public convenience init(extensionContext: NSExtensionContext?, state: PasscodeLockStateType, configuration: PasscodeLockConfigurationType, animateOnDismiss: Bool = true) {
-        self.init(state: state, configuration: configuration, animateOnDismiss: animateOnDismiss)
+    public convenience init(extensionContext: NSExtensionContext?) {
+        self.init()
         originalExtensionContest = extensionContext
     }
     override func viewDidLoad() {
@@ -43,18 +29,20 @@ class PasscodeLockViewControllerForExtension: PasscodeLockViewController {
 class PasscodeExtensionDisplay {
     private var isPasscodePresented = false
     private let passcodeLockVC: PasscodeLockViewControllerForExtension
+    private let extensionContext: NSExtensionContext?
     
     init(extensionContext: NSExtensionContext?) {
-        let cancelableEnter = CancelableEnterPasscodeState()
-        passcodeLockVC = PasscodeLockViewControllerForExtension(extensionContext: extensionContext, state: cancelableEnter, configuration: PasscodeLockConfiguration.shared)
+        self.extensionContext = extensionContext
+        passcodeLockVC = PasscodeLockViewControllerForExtension(extensionContext: extensionContext)
         passcodeLockVC.dismissCompletionCallback = { [weak self] in
             self?.dismiss()
         }
+        passcodeLockVC.setCancellable(true)
     }
     
     // present the passcode lock view if passcode is set and the view controller is not presented
     func presentPasscodeLockIfNeeded(_ extensionVC: ExtensionViewController) {
-        guard PasscodeLockConfiguration.shared.repository.hasPasscode && !isPasscodePresented == true else {
+        guard PasscodeLock.shared.hasPasscode && !isPasscodePresented == true else {
             return
         }
         isPasscodePresented = true

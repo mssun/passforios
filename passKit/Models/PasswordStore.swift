@@ -654,9 +654,9 @@ public class PasswordStore {
     
     public func delete(passwordEntity: PasswordEntity) throws {
         let deletedFileURL = passwordEntity.getURL()!
-        try deleteDirectoryTree(at: passwordEntity.getURL()!)
-        try deletePasswordEntities(passwordEntity: passwordEntity)
         try gitRm(path: deletedFileURL.path)
+        try deletePasswordEntities(passwordEntity: passwordEntity)
+        try deleteDirectoryTree(at: deletedFileURL)
         let _ = try gitCommit(message: "Remove \(deletedFileURL.deletingPathExtension().path.removingPercentEncoding!) from store using Pass for iOS.")
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }

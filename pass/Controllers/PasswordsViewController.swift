@@ -229,6 +229,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         // reset the data table if the disaply settings have been changed
         NotificationCenter.default.addObserver(self, selector: #selector(actOnReloadTableViewRelatedNotification), name: .passwordDisplaySettingChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(actOnSearchNotification), name: .passwordSearch, object: nil)
+        
+        // listen to the swipe back guesture
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        self.view.addGestureRecognizer(swipeRight)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -311,6 +316,15 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             tableView.deselectRow(at: indexPath, animated: true)
             searchController.isActive = false
             reloadTableView(parent: entry.passwordEntity, anim: transitionFromRight)
+        }
+    }
+    
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            // swipe right -> swipe back
+            if swipeGesture.direction == .right && parentPasswordEntity != nil {
+                self.backAction(nil)
+            }
         }
     }
     
