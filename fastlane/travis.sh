@@ -3,7 +3,7 @@
 gem update fastlane
 gem install xcodeproj
 if [ "$TRAVIS_PULL_REQUEST" == "true" ]; then
-    fastlane test; 
+    fastlane test;
 else
     fastlane travis;
 fi
