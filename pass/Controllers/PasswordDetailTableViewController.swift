@@ -278,8 +278,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         let filteredAdditionKeys = password.getFilteredAdditions()
         if filteredAdditionKeys.count > 0 {
             section = TableSection(type: .addition, header: "additions")
-            filteredAdditionKeys.forEach({ (key: String, value: String) in
-                section.item.append(TableCell(title: key, content: value))
+            filteredAdditionKeys.forEach({ field in
+                section.item.append(TableCell(title: field.title, content: field.content))
             })
             tableData.append(section)
         }

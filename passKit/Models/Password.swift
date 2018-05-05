@@ -12,9 +12,16 @@ import OneTimePassword
 import Base32
 import Yams
 
-struct AdditionField {
-    var title: String
-    var content: String
+public struct AdditionField: Equatable {
+    public var title: String = ""
+    public var content: String = ""
+
+    var asString: String { return title.isEmpty ? content : title + ": " + content }
+    var asTuple: (String, String) { return (title, content) }
+
+    public static func == (first: AdditionField, second: AdditionField) -> Bool {
+        return first.asTuple == second.asTuple
+    }
 }
 
 enum PasswordChange: Int {
@@ -41,8 +48,8 @@ public class Password {
     public var password = ""
     public var changed: Int = 0
     public var plainText = ""
-    
-    private var additions = [(String, String)]()
+
+    private var additions = [AdditionField]()
     private var firstLineIsOTPField = false
     private var otpToken: Token?
     
@@ -112,13 +119,13 @@ public class Password {
 
         // get and append otp tokens
         let otpAdditionalLines = additionalLines.filter { $0.hasPrefix(Password.OTPAUTH_URL_START) }
-        otpAdditionalLines.forEach { self.additions.append((Password.OTPAUTH, $0)) }
+        otpAdditionalLines.forEach { self.additions.append(AdditionField(title: Password.OTPAUTH, content: $0)) }
         
         // check whether the first line looks like an otp entry
         let (key, value) = Password.getKeyValuePair(from: self.password)
         if Password.otpKeywords.contains(key ?? "") {
             firstLineIsOTPField = true
-            self.additions.append((key!, value))
+            self.additions.append(AdditionField(title: key!, content: value))
         } else {
             firstLineIsOTPField = false
         }
@@ -152,7 +159,7 @@ public class Password {
         guard let yamlFile = try Yams.load(yaml: fromYaml) as? [String: String] else {
             throw AppError.YamlLoadError
         }
-        additions.append(contentsOf: yamlFile.map { ($0, String(describing: $1)) })
+        additions.append(contentsOf: yamlFile.map { AdditionField(title: $0, content: String(describing: $1)) })
     }
 
     private func getAdditionalFields(fromPlainText: String) {
@@ -164,18 +171,18 @@ public class Password {
                     unknownIndex += 1
                     key = "unknown \(unknownIndex)"
                 }
-                self.additions.append((key!, value))
+                self.additions.append(AdditionField(title: key!, content: value))
             }
         }
     }
-    
-    public func getFilteredAdditions() -> [(String, String)] {
-        var filteredAdditions = [(String, String)]()
-        additions.forEach { (key: String, value: String) in
-            if key.lowercased() != "username" && key.lowercased() != "login" && key.lowercased() != "password" &&
-                (!key.hasPrefix("unknown") || !SharedDefaults[.isHideUnknownOn]) &&
-                (!Password.otpKeywords.contains(key) || !SharedDefaults[.isHideOTPOn]) {
-                filteredAdditions.append((key, value))
+
+    public func getFilteredAdditions() -> [AdditionField] {
+        var filteredAdditions = [AdditionField]()
+        additions.forEach { field in
+            if field.title.lowercased() != "username" && field.title.lowercased() != "login" && field.title.lowercased() != "password" &&
+                (!field.title.hasPrefix("unknown") || !SharedDefaults[.isHideUnknownOn]) &&
+                (!Password.otpKeywords.contains(field.title) || !SharedDefaults[.isHideOTPOn]) {
+                filteredAdditions.append(field)
             }
         }
         return filteredAdditions
@@ -237,10 +244,10 @@ public class Password {
     
     private func getAdditionValue(withKey key: String, caseSensitive: Bool = true) -> String? {
         let searchKey = caseSensitive ? key : key.lowercased()
-        for (currentKey, value) in additions {
-            let currentKeyTrans = caseSensitive ? currentKey : currentKey.lowercased()
+        for field in additions {
+            let currentKeyTrans = caseSensitive ? field.title : field.title.lowercased()
             if searchKey == currentKeyTrans {
-                return value
+                return field.content
             }
         }
         return nil
