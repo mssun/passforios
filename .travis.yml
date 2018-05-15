@@ -6,4 +6,4 @@ branches:
 before_install:
     - echo -e "machine github.com\n  login $GITHUB_ACCESS_TOKEN" >> ~/.netrc
 script:
-    - travis_wait 60 ./fastlane/travis.sh
+    - ./fastlane/travis.sh
