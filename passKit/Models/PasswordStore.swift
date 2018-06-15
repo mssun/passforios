@@ -411,8 +411,8 @@ public class PasswordStore {
         }
         var commits = [GTCommit]()
         let enumerator = try GTEnumerator(repository: storeRepository)
-        if let sha = try storeRepository.headReference().targetOID.sha {
-            try enumerator.pushSHA(sha)
+        if let targetOID = try storeRepository.headReference().targetOID {
+            try enumerator.pushSHA(targetOID.sha)
         }
         for _ in 0 ..< count {
             let commit = try enumerator.nextObject(withSuccess: nil)
@@ -554,7 +554,7 @@ public class PasswordStore {
         let newTree = try storeRepository.index().writeTree()
         let headReference = try storeRepository.headReference()
         let commitEnum = try GTEnumerator(repository: storeRepository)
-        try commitEnum.pushSHA(headReference.targetOID.sha!)
+        try commitEnum.pushSHA(headReference.targetOID!.sha)
         let parent = commitEnum.nextObject() as! GTCommit
         let signature = gitSignatureForNow
         let commit = try storeRepository.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)

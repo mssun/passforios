@@ -1,6 +1,6 @@
 github "SVProgressHUD/SVProgressHUD"
 github "radex/SwiftyUserDefaults"
-github "libgit2/objective-git" "0.13.0"
+github "libgit2/objective-git" "master"
 github "leonbreedt/FavIcon"
 github "kishikawakatsumi/KeychainAccess"
 github "mattrubin/OneTimePassword"
