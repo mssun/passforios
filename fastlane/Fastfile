@@ -18,7 +18,7 @@ default_platform :ios
 platform :ios do
   before_all do
     cocoapods
-    carthage(platform: "iOS")
+    carthage(platform: "iOS", verbose: true)
   end
 
   desc "Travis"
