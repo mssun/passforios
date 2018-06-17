@@ -10,6 +10,7 @@
 		18F19A67B0C07F13C17169E0 /* Pods_pass.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5620D17DF5E86B61761D0E /* Pods_pass.framework */; };
 		23B82F0228254275DBA609E7 /* Pods_passExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B975797E0F0B7476CADD6A7D /* Pods_passExtension.framework */; };
 		3012B06D2039D6E400BE1793 /* Yams.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3012B06C2039D6E400BE1793 /* Yams.framework */; };
+		30B04860209A5141001013CA /* PasswordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B0485F209A5141001013CA /* PasswordTests.swift */; };
 		61326CDA7A73757FB68DCB04 /* Pods_passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAB3F5541E51ADC8C6B56642 /* Pods_passKit.framework */; };
 		A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */; };
 		A2168A7F1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2168A7E1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift */; };
@@ -160,6 +161,7 @@
 
 /* Begin PBXFileReference section */
 		3012B06C2039D6E400BE1793 /* Yams.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Yams.framework; path = Carthage/Build/iOS/Yams.framework; sourceTree = "<group>"; };
+		30B0485F209A5141001013CA /* PasswordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTests.swift; sourceTree = "<group>"; };
 		31C3033E8868D05B2C55C8B1 /* Pods-passExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passExtension/Pods-passExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		3A5620D17DF5E86B61761D0E /* Pods_pass.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pass.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		666769E0B255666D02945C15 /* Pods-passKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-passKitTests/Pods-passKitTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 			children = (
 				A26075871EEC6F34005DB03E /* passKitTests.swift */,
 				A26075891EEC6F34005DB03E /* Info.plist */,
+				30B0485F209A5141001013CA /* PasswordTests.swift */,
 			);
 			path = passKitTests;
 			sourceTree = "<group>";
@@ -993,6 +996,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30B04860209A5141001013CA /* PasswordTests.swift in Sources */,
 				A26075881EEC6F34005DB03E /* passKitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
