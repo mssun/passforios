@@ -35,6 +35,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>We need to access your camera for scanning QR code.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Enable access to Face ID to unlock Pass</string>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>

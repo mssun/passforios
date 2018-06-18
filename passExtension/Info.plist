@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Enable access to Face ID to unlock Pass</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -31,9 +33,9 @@
     SUBQUERY (
     $extensionItem.attachments,
     $attachment,
-    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "org.appextension.find-login-action" ||
-    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.url" ||
-    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.plain-text"
+    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO &quot;org.appextension.find-login-action&quot; ||
+    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO &quot;public.url&quot; ||
+    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO &quot;public.plain-text&quot;
     ).@count == $extensionItem.attachments.@count
     ).@count == 1</string>
 			<key>NSExtensionJavaScriptPreprocessingFile</key>
