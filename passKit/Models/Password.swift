@@ -62,6 +62,10 @@ public class Password {
     public var password = ""
     public var changed: Int = 0
     public var plainText = ""
+    public var plainData: Data { return plainText.data(using: .utf8)! }
+    public var username: String? { return getAdditionValue(withKey: Password.USERNAME_KEYWORD, caseSensitive: false) }
+    public var login: String? { return getAdditionValue(withKey: Password.LOGIN_KEYWORD, caseSensitive: false) }
+    public var urlString: String? { return getAdditionValue(withKey: Password.URL_KEYWORD, caseSensitive: false) }
 
     private var additions = [AdditionField]()
     private var firstLineIsOTPField = false
@@ -180,18 +184,6 @@ public class Password {
         }
     }
     
-    public func getUsername() -> String? {
-        return getAdditionValue(withKey: Password.USERNAME_KEYWORD, caseSensitive: false)
-    }
-    
-    public func getLogin() -> String? {
-        return getAdditionValue(withKey: Password.LOGIN_KEYWORD, caseSensitive: false)
-    }
-    
-    public func getURLString() -> String? {
-        return getAdditionValue(withKey: Password.URL_KEYWORD, caseSensitive: false)
-    }
-    
     // return a key-value pair from the line
     // key might be nil, if there is no ":" in the line
     private static func getKeyValuePair(from line: String) -> (key: String?, value: String) {
@@ -220,14 +212,6 @@ public class Password {
             $0 == "\n" || $0 == "\r\n"
             }.map(String.init)
         return plainTextSplit.count == 1 ? "" : plainTextSplit[1]
-    }
-    
-    private func getPlainText() -> String {
-        return self.plainText
-    }
-    
-    public func getPlainData() -> Data {
-        return getPlainText().data(using: .utf8)!
     }
     
     private func getAdditionValue(withKey key: String, caseSensitive: Bool = true) -> String? {

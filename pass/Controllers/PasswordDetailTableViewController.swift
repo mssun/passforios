@@ -172,7 +172,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self?.setTableData()
             self?.tableView.reloadData()
             self?.editUIBarButtonItem.isEnabled = true
-            if let urlString = self?.password?.getURLString() {
+            if let urlString = self?.password?.urlString {
                 if self?.passwordEntity?.image == nil {
                     self?.updatePasswordImage(urlString: urlString)
                 }
@@ -252,10 +252,10 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         // main section
         section = TableSection(type: .main)
         let password = self.password!
-        if let username = password.getUsername() {
+        if let username = password.username {
             section.item.append(TableCell(title: "username", content: username))
         }
-        if let login = password.getLogin() {
+        if let login = password.login {
             section.item.append(TableCell(title: "login", content: login))
         }
         section.item.append(TableCell(title: "password", content: password.password))
@@ -401,7 +401,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
     
     func openLink() {
-        var urlString = self.password?.getURLString() ?? ""
+        var urlString = self.password?.urlString ?? ""
         if !urlString.lowercased().starts(with: "https://") && !urlString.lowercased().starts(with: "http://") {
             urlString = "http://\(urlString)"
         }

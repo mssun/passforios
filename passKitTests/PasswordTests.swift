@@ -41,14 +41,14 @@ class PasswordTest: XCTestCase {
         let password = getPasswordObjectWith(content: fileContent)
 
         XCTAssertEqual(password.password, PasswordTest.EMPTY_STRING)
-        XCTAssertEqual(password.getPlainData(), fileContent.data(using: .utf8))
+        XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
 
         XCTAssertEqual(password.getAdditionsPlainText(), PasswordTest.EMPTY_STRING)
         XCTAssertTrue(password.getFilteredAdditions().isEmpty)
 
-        XCTAssertNil(password.getUsername())
-        XCTAssertNil(password.getURLString())
-        XCTAssertNil(password.getLogin())
+        XCTAssertNil(password.username)
+        XCTAssertNil(password.urlString)
+        XCTAssertNil(password.login)
     }
 
     func testOneEmptyLine() {
@@ -58,14 +58,14 @@ class PasswordTest: XCTestCase {
         let password = getPasswordObjectWith(content: fileContent)
 
         XCTAssertEqual(password.password, PasswordTest.EMPTY_STRING)
-        XCTAssertEqual(password.getPlainData(), fileContent.data(using: .utf8))
+        XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
 
         XCTAssertEqual(password.getAdditionsPlainText(), PasswordTest.EMPTY_STRING)
         XCTAssertTrue(password.getFilteredAdditions().isEmpty)
 
-        XCTAssertNil(password.getUsername())
-        XCTAssertNil(password.getURLString())
-        XCTAssertNil(password.getLogin())
+        XCTAssertNil(password.username)
+        XCTAssertNil(password.urlString)
+        XCTAssertNil(password.login)
     }
 
     func testSimplePasswordFile() {
@@ -84,7 +84,7 @@ class PasswordTest: XCTestCase {
         let password = getPasswordObjectWith(content: fileContent)
 
         XCTAssertEqual(password.password, passwordString)
-        XCTAssertEqual(password.getPlainData(), fileContent.data(using: .utf8))
+        XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
 
         XCTAssertEqual(password.getAdditionsPlainText(), asPlainText(urlField, loginField, usernameField, noteField))
         XCTAssertTrue(does(password: password, contain: urlField))
@@ -92,9 +92,9 @@ class PasswordTest: XCTestCase {
         XCTAssertFalse(does(password: password, contain: usernameField))
         XCTAssertTrue(does(password: password, contain: noteField))
 
-        XCTAssertEqual(password.getURLString(), urlField.content)
-        XCTAssertEqual(password.getLogin(), loginField.content)
-        XCTAssertEqual(password.getUsername(), usernameField.content)
+        XCTAssertEqual(password.urlString, urlField.content)
+        XCTAssertEqual(password.login, loginField.content)
+        XCTAssertEqual(password.username, usernameField.content)
     }
 
     func testTwoPasswords() {
@@ -109,15 +109,15 @@ class PasswordTest: XCTestCase {
         let password = getPasswordObjectWith(content: fileContent)
 
         XCTAssertEqual(password.password, firstPasswordString)
-        XCTAssertEqual(password.getPlainData(), fileContent.data(using: .utf8))
+        XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
         XCTAssertEqual(password.getAdditionsPlainText(), asPlainText(secondPasswordString, urlField.asString))
 
         XCTAssertTrue(does(password: password, contain: urlField))
         XCTAssertTrue(does(password: password, contain: AdditionField(title: "unknown 1", content: secondPasswordString)))
 
-        XCTAssertNil(password.getUsername())
-        XCTAssertEqual(password.getURLString(), urlField.content)
-        XCTAssertNil(password.getLogin())
+        XCTAssertNil(password.username)
+        XCTAssertEqual(password.urlString, urlField.content)
+        XCTAssertNil(password.login)
     }
 
     func testNoPassword() {
@@ -130,14 +130,14 @@ class PasswordTest: XCTestCase {
         let password = getPasswordObjectWith(content: fileContent)
 
         XCTAssertEqual(password.password, urlField.asString)
-        XCTAssertEqual(password.getPlainData(), fileContent.data(using: .utf8))
+        XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
 
         XCTAssertEqual(password.getAdditionsPlainText(), asPlainText(noteField))
         XCTAssertTrue(does(password: password, contain: noteField))
 
-        XCTAssertNil(password.getUsername())
-        XCTAssertNil(password.getURLString())
-        XCTAssertNil(password.getLogin())
+        XCTAssertNil(password.username)
+        XCTAssertNil(password.urlString)
+        XCTAssertNil(password.login)
     }
 
     func testDuplicateKeys() {
@@ -152,15 +152,15 @@ class PasswordTest: XCTestCase {
         let password = getPasswordObjectWith(content: fileContent)
 
         XCTAssertEqual(password.password, passwordString)
-        XCTAssertEqual(password.getPlainData(), fileContent.data(using: .utf8))
+        XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
 
         XCTAssertEqual(password.getAdditionsPlainText(), asPlainText(urlField1, urlField2))
         XCTAssertTrue(does(password: password, contain: urlField1))
         XCTAssertTrue(does(password: password, contain: urlField2))
 
-        XCTAssertNil(password.getUsername())
-        XCTAssertEqual(password.getURLString(), urlField1.content)
-        XCTAssertNil(password.getLogin())
+        XCTAssertNil(password.username)
+        XCTAssertEqual(password.urlString, urlField1.content)
+        XCTAssertNil(password.login)
     }
 
     func testUnknownKeys() {
@@ -183,7 +183,7 @@ class PasswordTest: XCTestCase {
         let password = getPasswordObjectWith(content: fileContent)
 
         XCTAssertEqual(password.password, passwordString)
-        XCTAssertEqual(password.getPlainData(), fileContent.data(using: .utf8))
+        XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
 
         XCTAssertEqual(password.getAdditionsPlainText(), asPlainText(value1, noteField.asString, value2, value3, urlField.asString, value4))
         XCTAssertTrue(does(password: password, contain: AdditionField(title: "unknown 1", content: value1)))
@@ -193,9 +193,9 @@ class PasswordTest: XCTestCase {
         XCTAssertTrue(does(password: password, contain: urlField))
         XCTAssertTrue(does(password: password, contain: AdditionField(title: "unknown 4", content: value4)))
 
-        XCTAssertNil(password.getUsername())
-        XCTAssertEqual(password.getURLString(), urlField.content)
-        XCTAssertNil(password.getLogin())
+        XCTAssertNil(password.username)
+        XCTAssertEqual(password.urlString, urlField.content)
+        XCTAssertNil(password.login)
     }
 
     func testPasswordFileWithOtpToken() {
@@ -210,7 +210,7 @@ class PasswordTest: XCTestCase {
         let password = getPasswordObjectWith(content: fileContent)
 
         XCTAssertEqual(password.password, passwordString)
-        XCTAssertEqual(password.getPlainData(), fileContent.data(using: .utf8))
+        XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
 
         XCTAssertEqual(password.getAdditionsPlainText(), asPlainText(noteField.asString, otpToken))
 
@@ -226,13 +226,13 @@ class PasswordTest: XCTestCase {
         let password = getPasswordObjectWith(content: fileContent)
 
         XCTAssertEqual(password.password, otpToken)
-        XCTAssertEqual(password.getPlainData(), fileContent.data(using: .utf8))
+        XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
 
         XCTAssertEqual(password.getAdditionsPlainText(), PasswordTest.EMPTY_STRING)
 
-        XCTAssertNil(password.getUsername())
-        XCTAssertNil(password.getURLString())
-        XCTAssertNil(password.getLogin())
+        XCTAssertNil(password.username)
+        XCTAssertNil(password.urlString)
+        XCTAssertNil(password.login)
 
         XCTAssertEqual(password.otpType, OtpType.totp)
         XCTAssertNotNil(password.getOtp())
@@ -246,9 +246,7 @@ class PasswordTest: XCTestCase {
         let password = getPasswordObjectWith(content: fileContent)
 
         XCTAssertEqual(password.password, otpToken)
-        XCTAssertEqual(password.getPlainData(), fileContent.data(using: .utf8))
-
-        XCTAssertEqual(password.getAdditionsPlainText(), PasswordTest.EMPTY_STRING)
+        XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
 
         XCTAssertEqual(password.otpType, OtpType.none)
         XCTAssertNil(password.getOtp())
