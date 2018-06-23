@@ -850,7 +850,7 @@ public class PasswordStore {
         guard keyring.keys.count > 0 else {
             throw AppError.PGPPublicKeyNotExistError
         }
-        let plainData = password.getPlainData()
+        let plainData = password.plainData
         let encryptedData = try ObjectivePGP.encrypt(plainData, addSignature: false, using: keyring.keys, passphraseForKey: nil)
         if SharedDefaults[.encryptInArmored] {
             return Armor.armored(encryptedData, as: .message).data(using: .utf8)!
