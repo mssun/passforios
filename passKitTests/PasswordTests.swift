@@ -22,6 +22,7 @@ class PasswordTest: XCTestCase {
     static let LOGIN_FIELD = AdditionField(title: "login", content: "login name")
     static let USERNAME_FIELD = AdditionField(title: "username", content: "some username")
     static let NOTE_FIELD = AdditionField(title: "note", content: "A NOTE")
+    static let HINT_FIELD = AdditionField(title: "some hints", content: "äöüß // €³ %% −° && @²` | [{\\}],.<>")
 
     func testUrl() {
         let password1 = getPasswordObjectWith(content: PasswordTest.EMPTY_STRING)
@@ -87,10 +88,10 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
 
         XCTAssertEqual(password.getAdditionsPlainText(), asPlainText(urlField, loginField, usernameField, noteField))
-        XCTAssertTrue(does(password: password, contain: urlField))
-        XCTAssertFalse(does(password: password, contain: loginField))
-        XCTAssertFalse(does(password: password, contain: usernameField))
-        XCTAssertTrue(does(password: password, contain: noteField))
+        XCTAssertTrue(does(password, contain: urlField))
+        XCTAssertFalse(does(password, contain: loginField))
+        XCTAssertFalse(does(password, contain: usernameField))
+        XCTAssertTrue(does(password, contain: noteField))
 
         XCTAssertEqual(password.urlString, urlField.content)
         XCTAssertEqual(password.login, loginField.content)
@@ -112,8 +113,8 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
         XCTAssertEqual(password.getAdditionsPlainText(), asPlainText(secondPasswordString, urlField.asString))
 
-        XCTAssertTrue(does(password: password, contain: urlField))
-        XCTAssertTrue(does(password: password, contain: AdditionField(title: "unknown 1", content: secondPasswordString)))
+        XCTAssertTrue(does(password, contain: urlField))
+        XCTAssertTrue(does(password, contain: AdditionField(title: "unknown 1", content: secondPasswordString)))
 
         XCTAssertNil(password.username)
         XCTAssertEqual(password.urlString, urlField.content)
@@ -133,7 +134,7 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
 
         XCTAssertEqual(password.getAdditionsPlainText(), asPlainText(noteField))
-        XCTAssertTrue(does(password: password, contain: noteField))
+        XCTAssertTrue(does(password, contain: noteField))
 
         XCTAssertNil(password.username)
         XCTAssertNil(password.urlString)
@@ -155,8 +156,8 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
 
         XCTAssertEqual(password.getAdditionsPlainText(), asPlainText(urlField1, urlField2))
-        XCTAssertTrue(does(password: password, contain: urlField1))
-        XCTAssertTrue(does(password: password, contain: urlField2))
+        XCTAssertTrue(does(password, contain: urlField1))
+        XCTAssertTrue(does(password, contain: urlField2))
 
         XCTAssertNil(password.username)
         XCTAssertEqual(password.urlString, urlField1.content)
@@ -186,12 +187,12 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
 
         XCTAssertEqual(password.getAdditionsPlainText(), asPlainText(value1, noteField.asString, value2, value3, urlField.asString, value4))
-        XCTAssertTrue(does(password: password, contain: AdditionField(title: "unknown 1", content: value1)))
-        XCTAssertTrue(does(password: password, contain: noteField))
-        XCTAssertTrue(does(password: password, contain: AdditionField(title: "unknown 2", content: value2)))
-        XCTAssertTrue(does(password: password, contain: AdditionField(title: "unknown 3", content: value3)))
-        XCTAssertTrue(does(password: password, contain: urlField))
-        XCTAssertTrue(does(password: password, contain: AdditionField(title: "unknown 4", content: value4)))
+        XCTAssertTrue(does(password, contain: AdditionField(title: "unknown 1", content: value1)))
+        XCTAssertTrue(does(password, contain: noteField))
+        XCTAssertTrue(does(password, contain: AdditionField(title: "unknown 2", content: value2)))
+        XCTAssertTrue(does(password, contain: AdditionField(title: "unknown 3", content: value3)))
+        XCTAssertTrue(does(password, contain: urlField))
+        XCTAssertTrue(does(password, contain: AdditionField(title: "unknown 4", content: value4)))
 
         XCTAssertNil(password.username)
         XCTAssertEqual(password.urlString, urlField.content)
@@ -252,11 +253,83 @@ class PasswordTest: XCTestCase {
         XCTAssertNil(password.getOtp())
     }
 
+    func testEmptyMultilineValues() {
+        let passwordString = PasswordTest.PASSWORD_STRING
+        let lineBreakField1 = AdditionField(title: "with line breaks", content: "| \n")
+        let lineBreakField2 = AdditionField(title: "with line breaks", content: "| \n   ")
+        let noteField = PasswordTest.NOTE_FIELD
+        let noLineBreakField = AdditionField(title: "without line breaks", content: " >   ")
+        let fileContent = """
+            \(passwordString)
+            \(lineBreakField1.asString)
+            \(lineBreakField2.asString)
+            \(noteField.asString)
+            \(noLineBreakField.asString)
+            """
+        let password = getPasswordObjectWith(content: fileContent)
+
+        XCTAssertEqual(password.password, passwordString)
+        XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
+
+        XCTAssertEqual(password.getAdditionsPlainText(), asPlainText(lineBreakField1, lineBreakField2, noteField, noLineBreakField))
+        XCTAssertTrue(does(password, contain: AdditionField(title: lineBreakField1.title, content: "")))
+        XCTAssertTrue(does(password, contain: AdditionField(title: lineBreakField2.title, content: "")))
+        XCTAssertTrue(does(password, contain: noteField))
+        XCTAssertTrue(does(password, contain: AdditionField(title: noLineBreakField.title, content: "")))
+    }
+
+    func testMultilineValues() {
+        let passwordString = PasswordTest.PASSWORD_STRING
+        let noteField = PasswordTest.NOTE_FIELD
+        let lineBreakField = AdditionField(title: "with line breaks", content: "|\n  This is \n   text spread over \n  multiple lines!  ")
+        let noLineBreakField = AdditionField(title: "without line breaks", content: " > \n This is \n  text spread over\n   multiple lines!")
+        let fileContent = """
+            \(passwordString)
+            \(lineBreakField.asString)
+            \(noteField.asString)
+            \(noLineBreakField.asString)
+            """
+        let password = getPasswordObjectWith(content: fileContent)
+
+        XCTAssertEqual(password.password, passwordString)
+        XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
+
+        XCTAssertEqual(password.getAdditionsPlainText(), asPlainText(lineBreakField, noteField, noLineBreakField))
+        XCTAssertTrue(does(password, contain: AdditionField(title: lineBreakField.title, content: "This is \n text spread over \nmultiple lines!")))
+        XCTAssertTrue(does(password, contain: noteField))
+        XCTAssertTrue(does(password, contain: AdditionField(title: noLineBreakField.title, content: "This is   text spread over   multiple lines!")))
+    }
+    
+    func testMultilineValuesMixed() {
+        let passwordString = PasswordTest.PASSWORD_STRING
+        let hintField = PasswordTest.HINT_FIELD
+        let noteField = PasswordTest.NOTE_FIELD
+        let lineBreakField = AdditionField(title: "with line breaks", content: "|\n  This is \n  \(hintField.asString) spread over\n multiple lines!")
+        let noLineBreakField = AdditionField(title: "without line breaks", content: " > \n This is \n | \n text spread over\nmultiple lines!")
+        let fileContent = """
+            \(passwordString)
+            \(lineBreakField.asString)
+            \(noLineBreakField.asString)
+            \(noteField.asString)
+            """
+        let password = getPasswordObjectWith(content: fileContent)
+        
+        XCTAssertEqual(password.password, passwordString)
+        XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
+        
+        XCTAssertEqual(password.getAdditionsPlainText(), asPlainText(lineBreakField, noLineBreakField, noteField))
+        XCTAssertTrue(does(password, contain: AdditionField(title: lineBreakField.title, content: "This is \n\(hintField.asString) spread over")))
+        XCTAssertTrue(does(password, contain: AdditionField(title: "unknown 1", content: " multiple lines!")))
+        XCTAssertTrue(does(password, contain: AdditionField(title: noLineBreakField.title, content: "This is  |  text spread over")))
+        XCTAssertTrue(does(password, contain: AdditionField(title: "unknown 2", content: "multiple lines!")))
+        XCTAssertTrue(does(password, contain: noteField))
+    }
+
     private func getPasswordObjectWith(content: String, url: URL? = PasswordTest.PASSWORD_URL) -> Password {
         return Password(name: PasswordTest.PASSWORD_NAME, url: url, plainText: content)
     }
 
-    private func does(password: Password, contain field: AdditionField) -> Bool {
+    private func does(_ password: Password, contain field: AdditionField) -> Bool {
         return password.getFilteredAdditions().contains(field)
     }
 

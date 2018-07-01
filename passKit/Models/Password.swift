@@ -10,7 +10,6 @@ import Foundation
 import SwiftyUserDefaults
 import OneTimePassword
 import Base32
-import Yams
 
 public struct AdditionField: Equatable {
     public var title: String = ""
@@ -47,6 +46,13 @@ enum PasswordChange: Int {
 
 public class Password {
     public static let OTP_KEYWORDS = ["otp_secret", "otp_type", "otp_algorithm", "otp_period", "otp_digits", "otp_counter", "otpauth"]
+
+    public static let BLANK = " "
+    public static let MULTILINE_WITH_LINE_BREAK_INDICATOR = "|"
+    public static let MULTILINE_WITH_LINE_BREAK_SEPARATOR = "\n"
+    public static let MULTILINE_WITHOUT_LINE_BREAK_INDICATOR = ">"
+    public static let MULTILINE_WITHOUT_LINE_BREAK_SEPARATOR = BLANK
+
     private static let OTPAUTH = "otpauth"
     private static let OTPAUTH_URL_START = "\(OTPAUTH)://"
     private static let PASSWORD_KEYWORD = "password"
@@ -104,73 +110,58 @@ public class Password {
 
         // get remaining lines (filter out empty lines)
         let additionalLines = plainTextSplit[1...].filter { !$0.isEmpty }
-        
-        // separate normal lines (no otp tokens)
-        let normalAdditionalLines = additionalLines.filter {
-            !$0.hasPrefix(Password.OTPAUTH_URL_START)
-            }.joined(separator: "\n")
-        
-        // try to interpret the text format as YAML first
-        do {
-            try getAdditionalFields(fromYaml: normalAdditionalLines)
-        }
-        catch {
-            getAdditionalFields(fromPlainText: normalAdditionalLines)
-        }
 
-        // get and append otp tokens
-        let otpAdditionalLines = additionalLines.filter { $0.hasPrefix(Password.OTPAUTH_URL_START) }
-        otpAdditionalLines.forEach { self.additions.append(AdditionField(title: Password.OTPAUTH, content: $0)) }
-        
+        // parse lines to get key-value pairs
+        parseDataFrom(lines: additionalLines)
+
         // check whether the first line looks like an otp entry
+        checkPasswordForOtpToken()
+
+        // construct the otp token
+        updateOtpToken()
+    }
+
+    private func parseDataFrom(lines: [String]) {
+        var unknownIndex = 0
+        var i = lines.startIndex
+        while i < lines.count {
+            let line = lines[i]
+            i += 1
+            var (key, value) = Password.getKeyValuePair(from: line)
+            if key == nil {
+                unknownIndex += 1
+                key = "\(Password.UNKNOWN) \(unknownIndex)"
+            } else if value == Password.MULTILINE_WITH_LINE_BREAK_INDICATOR {
+                value = gatherMultilineValue(from: lines, startingAt: &i, removingLineBreaks: false)
+            } else if value == Password.MULTILINE_WITHOUT_LINE_BREAK_INDICATOR {
+                value = gatherMultilineValue(from: lines, startingAt: &i, removingLineBreaks: true)
+            }
+            additions.append(AdditionField(title: key!, content: value))
+        }
+    }
+
+    private func gatherMultilineValue(from content: [String], startingAt i: inout Int, removingLineBreaks: Bool) -> String {
+        var result = ""
+        guard i < content.count else { return result }
+        let numberInitialBlanks = content[i].enumerated().first(where: { $1 != Character(Password.BLANK) })?.0 ?? content[i].count
+        guard numberInitialBlanks != 0 else { return result }
+        let initialBlanks = String(repeating: Password.BLANK, count: numberInitialBlanks)
+        
+        while i < content.count && content[i].starts(with: initialBlanks) {
+            result.append(String(content[i].dropFirst(numberInitialBlanks)))
+            result.append(removingLineBreaks ? Password.MULTILINE_WITHOUT_LINE_BREAK_SEPARATOR : Password.MULTILINE_WITH_LINE_BREAK_SEPARATOR)
+            i += 1
+        }
+        return result.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private func checkPasswordForOtpToken() {
         let (key, value) = Password.getKeyValuePair(from: self.password)
         if Password.OTP_KEYWORDS.contains(key ?? "") {
             firstLineIsOTPField = true
             self.additions.append(AdditionField(title: key!, content: value))
         } else {
             firstLineIsOTPField = false
-        }
-        
-        // construct the otp token
-        updateOtpToken()
-    }
-    
-    // check whether the file has lines with duplicated field names
-    private func checkDuplicatedFields(lines: String) -> Bool {
-        var keys = Set<String>()
-        var hasDuplicatedFields = false
-        lines.enumerateLines { (line, stop) -> () in
-            let (key, _) = Password.getKeyValuePair(from: line)
-            if let key = key {
-                hasDuplicatedFields = !keys.insert(key).0
-                stop = hasDuplicatedFields
-            }
-        }
-        return hasDuplicatedFields
-    }
-
-    private func getAdditionalFields(fromYaml: String) throws {
-        guard !fromYaml.isEmpty else { return }
-        if checkDuplicatedFields(lines: fromYaml) {
-            throw AppError.YamlLoadError
-        }
-        guard let yamlFile = try Yams.load(yaml: fromYaml) as? [String: String] else {
-            throw AppError.YamlLoadError
-        }
-        additions.append(contentsOf: yamlFile.map { AdditionField(title: $0, content: String(describing: $1)) })
-    }
-
-    private func getAdditionalFields(fromPlainText: String) {
-        var unknownIndex = 0
-        fromPlainText.enumerateLines() { line, _ in
-            if !line.isEmpty {
-                var (key, value) = Password.getKeyValuePair(from: line)
-                if key == nil {
-                    unknownIndex += 1
-                    key = "\(Password.UNKNOWN) \(unknownIndex)"
-                }
-                self.additions.append(AdditionField(title: key!, content: value))
-            }
         }
     }
 

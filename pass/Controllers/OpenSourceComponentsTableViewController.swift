@@ -32,9 +32,6 @@ class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
         ["SVProgressHUD",
          "https://github.com/SVProgressHUD/SVProgressHUD",
          "https://github.com/SVProgressHUD/SVProgressHUD/blob/master/LICENSE.txt"],
-        ["Yams",
-         "https://github.com/jpsim/Yams",
-         "https://github.com/jpsim/Yams/blob/master/LICENSE"],
     ]
     
     override func viewDidLoad() {
