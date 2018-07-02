@@ -214,7 +214,7 @@ class PasswordTest: XCTestCase {
 
         XCTAssertEqual(password.getAdditionsPlainText(), asPlainText(noteField.asString, otpToken))
 
-        XCTAssertEqual(password.otpType, Password.OtpType.totp)
+        XCTAssertEqual(password.otpType, OtpType.totp)
         XCTAssertNotNil(password.getOtp())
     }
 
@@ -234,7 +234,7 @@ class PasswordTest: XCTestCase {
         XCTAssertNil(password.getURLString())
         XCTAssertNil(password.getLogin())
 
-        XCTAssertEqual(password.otpType, Password.OtpType.totp)
+        XCTAssertEqual(password.otpType, OtpType.totp)
         XCTAssertNotNil(password.getOtp())
     }
 
@@ -250,7 +250,7 @@ class PasswordTest: XCTestCase {
 
         XCTAssertEqual(password.getAdditionsPlainText(), PasswordTest.EMPTY_STRING)
 
-        XCTAssertEqual(password.otpType, Password.OtpType.none)
+        XCTAssertEqual(password.otpType, OtpType.none)
         XCTAssertNil(password.getOtp())
     }
 
