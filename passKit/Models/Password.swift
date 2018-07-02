@@ -24,6 +24,21 @@ public struct AdditionField: Equatable {
     }
 }
 
+public enum OtpType {
+    case totp, hotp, none
+
+    static func from(token: Token?) -> OtpType {
+        switch token?.generator.factor {
+        case .some(.counter):
+            return .hotp
+        case .some(.timer):
+            return .totp
+        default:
+            return .none
+        }
+    }
+}
+
 enum PasswordChange: Int {
     case path = 0x01
     case content = 0x02
@@ -31,20 +46,19 @@ enum PasswordChange: Int {
 }
 
 public class Password {
-    public static let otpKeywords = ["otp_secret", "otp_type", "otp_algorithm", "otp_period", "otp_digits", "otp_counter", "otpauth"]
+    public static let OTP_KEYWORDS = ["otp_secret", "otp_type", "otp_algorithm", "otp_period", "otp_digits", "otp_counter", "otpauth"]
     private static let OTPAUTH = "otpauth"
     private static let OTPAUTH_URL_START = "\(OTPAUTH)://"
+    private static let PASSWORD_KEYWORD = "password"
+    private static let USERNAME_KEYWORD = "username"
+    private static let LOGIN_KEYWORD = "login"
+    private static let URL_KEYWORD = "url"
+    private static let UNKNOWN = "unknown"
 
     public var name = ""
     public var url: URL?
-    public var namePath: String {
-        get {
-            if url == nil {
-                return ""
-            }
-            return url!.deletingPathExtension().path
-        }
-    }
+    public var namePath: String { return url?.deletingPathExtension().path ?? "" }
+
     public var password = ""
     public var changed: Int = 0
     public var plainText = ""
@@ -52,25 +66,8 @@ public class Password {
     private var additions = [AdditionField]()
     private var firstLineIsOTPField = false
     private var otpToken: Token?
-    
-    public enum OtpType {
-        case totp, hotp, none
-    }
-    
-    public var otpType: OtpType {
-        get {
-            guard let token = self.otpToken else {
-                return OtpType.none
-            }
-            switch token.generator.factor {
-            case .counter:
-                return OtpType.hotp
-            case .timer:
-                return OtpType.totp
-            }
-        }
-    }
-    
+    public var otpType: OtpType { return OtpType.from(token: self.otpToken) }
+
     public init(name: String, url: URL?, plainText: String) {
         self.initEverything(name: name, url: url, plainText: plainText)
     }
@@ -94,13 +91,13 @@ public class Password {
         additions.removeAll()
         
         // split the plain text
-        let plainTextSplit = self.plainText.split(omittingEmptySubsequences: false) {
-            $0 == "\n" || $0 == "\r\n"
-            }.map(String.init)
-    
+        let plainTextSplit = self.plainText
+            .split(omittingEmptySubsequences: false) { $0 == "\n" || $0 == "\r\n" }
+            .map(String.init)
+
         // get password
-        password  = plainTextSplit.first ?? ""
-        
+        password = plainTextSplit.first ?? ""
+
         // get remaining lines (filter out empty lines)
         let additionalLines = plainTextSplit[1...].filter { !$0.isEmpty }
         
@@ -123,7 +120,7 @@ public class Password {
         
         // check whether the first line looks like an otp entry
         let (key, value) = Password.getKeyValuePair(from: self.password)
-        if Password.otpKeywords.contains(key ?? "") {
+        if Password.OTP_KEYWORDS.contains(key ?? "") {
             firstLineIsOTPField = true
             self.additions.append(AdditionField(title: key!, content: value))
         } else {
@@ -131,7 +128,7 @@ public class Password {
         }
         
         // construct the otp token
-        self.updateOtpToken()
+        updateOtpToken()
     }
     
     // check whether the file has lines with duplicated field names
@@ -141,11 +138,8 @@ public class Password {
         lines.enumerateLines { (line, stop) -> () in
             let (key, _) = Password.getKeyValuePair(from: line)
             if let key = key {
-                if keys.contains(key) {
-                    hasDuplicatedFields = true
-                    stop = true
-                }
-                keys.insert(key)
+                hasDuplicatedFields = !keys.insert(key).0
+                stop = hasDuplicatedFields
             }
         }
         return hasDuplicatedFields
@@ -169,7 +163,7 @@ public class Password {
                 var (key, value) = Password.getKeyValuePair(from: line)
                 if key == nil {
                     unknownIndex += 1
-                    key = "unknown \(unknownIndex)"
+                    key = "\(Password.UNKNOWN) \(unknownIndex)"
                 }
                 self.additions.append(AdditionField(title: key!, content: value))
             }
@@ -177,27 +171,25 @@ public class Password {
     }
 
     public func getFilteredAdditions() -> [AdditionField] {
-        var filteredAdditions = [AdditionField]()
-        additions.forEach { field in
-            if field.title.lowercased() != "username" && field.title.lowercased() != "login" && field.title.lowercased() != "password" &&
-                (!field.title.hasPrefix("unknown") || !SharedDefaults[.isHideUnknownOn]) &&
-                (!Password.otpKeywords.contains(field.title) || !SharedDefaults[.isHideOTPOn]) {
-                filteredAdditions.append(field)
-            }
+        return additions.filter { field in
+            field.title.lowercased() != Password.USERNAME_KEYWORD
+            && field.title.lowercased() != Password.LOGIN_KEYWORD
+            && field.title.lowercased() != Password.PASSWORD_KEYWORD
+            && (!field.title.hasPrefix(Password.UNKNOWN) || !SharedDefaults[.isHideUnknownOn])
+            && (!Password.OTP_KEYWORDS.contains(field.title) || !SharedDefaults[.isHideOTPOn])
         }
-        return filteredAdditions
     }
     
     public func getUsername() -> String? {
-        return getAdditionValue(withKey: "username", caseSensitive: false)
+        return getAdditionValue(withKey: Password.USERNAME_KEYWORD, caseSensitive: false)
     }
     
     public func getLogin() -> String? {
-        return getAdditionValue(withKey: "login", caseSensitive: false)
+        return getAdditionValue(withKey: Password.LOGIN_KEYWORD, caseSensitive: false)
     }
     
     public func getURLString() -> String? {
-        return getAdditionValue(withKey: "url", caseSensitive: false)
+        return getAdditionValue(withKey: Password.URL_KEYWORD, caseSensitive: false)
     }
     
     // return a key-value pair from the line
@@ -227,11 +219,7 @@ public class Password {
         let plainTextSplit = plainText.split(maxSplits: 1, omittingEmptySubsequences: false) {
             $0 == "\n" || $0 == "\r\n"
             }.map(String.init)
-        if plainTextSplit.count == 1 {
-            return ""
-        } else {
-            return plainTextSplit[1]
-        }
+        return plainTextSplit.count == 1 ? "" : plainTextSplit[1]
     }
     
     private func getPlainText() -> String {
@@ -244,13 +232,8 @@ public class Password {
     
     private func getAdditionValue(withKey key: String, caseSensitive: Bool = true) -> String? {
         let searchKey = caseSensitive ? key : key.lowercased()
-        for field in additions {
-            let currentKeyTrans = caseSensitive ? field.title : field.title.lowercased()
-            if searchKey == currentKeyTrans {
-                return field.content
-            }
-        }
-        return nil
+        let matchingField = additions.first { (caseSensitive ? $0.title : $0.title.lowercased()) == searchKey }
+        return matchingField?.content
     }
     
     /*
@@ -381,11 +364,7 @@ public class Password {
     
     // return the password strings
     public func getOtp() -> String? {
-        if let otp = self.otpToken?.currentPassword {
-            return otp
-        } else {
-            return nil
-        }
+        return self.otpToken?.currentPassword
     }
     
     // return the password strings
@@ -402,7 +381,7 @@ public class Password {
         var lines : [String] = []
         self.plainText.enumerateLines() { line, _ in
             let (key, _) = Password.getKeyValuePair(from: line)
-            if !Password.otpKeywords.contains(key ?? "") {
+            if !Password.OTP_KEYWORDS.contains(key ?? "") {
                 lines.append(line)
             } else if key == Password.OTPAUTH && newOtpauth != nil {
                 lines.append(newOtpauth!)
@@ -421,6 +400,6 @@ public class Password {
     
     public static func LooksLikeOTP(line: String) -> Bool {
         let (key, _) = getKeyValuePair(from: line)
-        return Password.otpKeywords.contains(key ?? "")
+        return Password.OTP_KEYWORDS.contains(key ?? "")
     }
 }
