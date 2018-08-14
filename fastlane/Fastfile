@@ -3,8 +3,7 @@ default_platform :ios
 platform :ios do
   desc "Runs all the tests"
   lane :test do
-    run_tests(scheme: "passTests")
-    run_tests(scheme: "passKitTests")
+    run_tests()
   end
 
   desc "Submit a new Beta Build to Apple TestFlight"
