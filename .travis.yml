@@ -8,6 +8,9 @@ before_install:
 install:
   - gem update fastlane
   - gem install xcodeproj
+before_script:
+  - pod install
+  - travis_wait carthage bootstrap --platform iOS
 script:
   - fastlane test
   - if [ "$TRAVIS_EVENT_TYPE" = "push" ]; then fastlane beta; fi
