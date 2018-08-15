@@ -1,8 +1,5 @@
 language: objective-c
 osx_image: xcode9.4
-branches:
-  only:
-    - develop
 before_install:
   - echo -e "machine github.com\n  login $GITHUB_ACCESS_TOKEN" >> ~/.netrc
 install:
