@@ -5,11 +5,10 @@
 ![Swift 3.1](https://img.shields.io/badge/Swift-4.0-orange.svg)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/passforios/passforios)
 [![Build Status](https://travis-ci.org/mssun/passforios.svg?branch=develop)](https://travis-ci.org/mssun/passforios)
-[![Donate](https://img.shields.io/badge/Paypal-donate-blue.svg)](https://www.paypal.me/mssun)
+[![Donate](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.me/mssun)
 
-Pass is an iOS client compatible with [ZX2C4's Pass command line
-application](http://www.passwordstore.org/).  It is a password manager using
-GPG for encryption and Git for version control.
+Pass is an iOS client compatible with [ZX2C4's Pass command line application](http://www.passwordstore.org/).
+It is a password manager using GPG for encryption and Git for version control.
 
 Pass for iOS is available in the App Store with the name "Pass - Password Store".
 
@@ -17,8 +16,7 @@ Pass for iOS is available in the App Store with the name "Pass - Password Store"
 <a href="https://itunes.apple.com/us/app/pass-password-store/id1205820573?mt=8"><img alt="Download on the App Store" src="badge/app_store_badge.svg" width="150"/></a>
 </p>
 
-If you want to join the iOS beta via 
-TestFlight, drop an email to `developer@passforios.mssun.me`. Thank you.
+If you want to join the iOS beta via TestFlight, drop an email to `developer@passforios.mssun.me`. Thank you.
 
 ## Features
 
@@ -51,10 +49,8 @@ For more, please read the [wiki page](https://github.com/mssun/pass-ios/wiki).
 
 ## Building Pass for iOS
 
-1. Install libtool, automake, cmake, carthage, and cocoapods: `brew install
-   libtool automake cmake carthage cocoapods`
-2. Run carthage bootstrap in the project root directory: `carthage update ` then `carthage bootstrap
-   --platform iOS` (this may take some time)
+1. Install libtool, automake, cmake, carthage, and cocoapods: `brew install libtool automake cmake carthage cocoapods`
+2. Run carthage bootstrap in the project root directory: `carthage update ` then `carthage bootstrap --platform iOS` (this may take some time)
 3. Run pod install in the project root directory: `pod install`
 4. Open `.xcworkspace` file in Xcode.
 5. Build & Run.
