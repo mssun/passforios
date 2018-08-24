@@ -577,13 +577,29 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             backAction(self)
         }
     }
+    
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        // update the default search scope
+        SharedDefaults[.isSearchDefaultAll] = searchController.searchBar.scopeButtonTitles![selectedScope] == "All"
         updateSearchResults(for: searchController)
     }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        // set the default search scope to "all"
+        if SharedDefaults[.isShowFolderOn] && SharedDefaults[.isSearchDefaultAll] {
+            searchController.searchBar.selectedScopeButtonIndex = searchController.searchBar.scopeButtonTitles?.index(of: "All") ?? 0
+        } else {
+            searchController.searchBar.selectedScopeButtonIndex = 0
+        }
+        return true
+    }
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        // set the default search scope to "current"
         searchController.searchBar.selectedScopeButtonIndex = 0
         updateSearchResults(for: searchController)
+        return true
     }
     
     private func requestGitPassword(credential: GitCredential.Credential, lastPassword: String?) -> String? {
