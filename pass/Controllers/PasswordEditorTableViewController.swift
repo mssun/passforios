@@ -196,10 +196,8 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     // generate the password, don't care whether the original line is otp
     func generateAndCopyPasswordNoOtpCheck() {
         // show password settings (e.g., the length slider)
-        if hidePasswordSettings == true {
-            hidePasswordSettings = false
-            tableView.reloadSections([passwordSection], with: .fade)
-        }
+        showPasswordSettings()
+        
         let length = passwordLengthCell?.roundedValue ?? 0
         let plainPassword = Utils.generatePassword(length: length)
         SecurePasteboard.shared.copy(textToCopy: plainPassword)
@@ -211,6 +209,15 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         fillPasswordCell?.setContent(content: plainPassword)
     }
     
+    // show password settings (e.g., the length slider)
+    func showPasswordSettings() {
+        if hidePasswordSettings == true {
+            hidePasswordSettings = false
+            tableView.reloadSections([passwordSection], with: .fade)
+        }
+    }
+    
+    // show/hide password settings (e.g., the length slider)
     func showHidePasswordSettings() {
         hidePasswordSettings = !hidePasswordSettings
         tableView.reloadSections([passwordSection], with: .fade)
@@ -272,6 +279,13 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView == additionsCell?.contentTextView {
             tableData[additionsSection][0][PasswordEditorCellKey.content] = additionsCell?.getContent()
+        }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == fillPasswordCell?.contentTextField {
+            // show password generation settings automatically
+            showPasswordSettings()
         }
     }
     
