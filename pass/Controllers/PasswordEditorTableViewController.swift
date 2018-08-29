@@ -11,7 +11,7 @@ import OneTimePassword
 import passKit
 
 enum PasswordEditorCellType {
-    case nameCell, fillPasswordCell, passwordLengthCell, additionsCell, deletePasswordCell, scanQRCodeCell
+    case nameCell, fillPasswordCell, passwordLengthCell, additionsCell, deletePasswordCell, scanQRCodeCell, memorablePasswordGeneratorCell
 }
 
 enum PasswordEditorCellKey {
@@ -40,6 +40,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     var additionsCell: TextViewTableViewCell?
     private var deletePasswordCell: UITableViewCell?
     private var scanQRCodeCell: UITableViewCell?
+    private var memorablePasswordGeneratorCell: UITableViewCell?
     
     override func loadView() {
         super.loadView()
@@ -54,9 +55,12 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         scanQRCodeCell?.textLabel?.textColor = Globals.blue
         scanQRCodeCell?.selectionStyle = .default
         scanQRCodeCell?.accessoryType = .disclosureIndicator
-//        scanQRCodeCell?.imageView?.image = #imageLiteral(resourceName: "Camera").withRenderingMode(.alwaysTemplate)
-//        scanQRCodeCell?.imageView?.tintColor = Globals.blue
-//        scanQRCodeCell?.imageView?.contentMode = .scaleAspectFit
+        
+        memorablePasswordGeneratorCell = UITableViewCell(style: .default, reuseIdentifier: "default")
+        memorablePasswordGeneratorCell?.textLabel?.text = "Get a Memorable One: xkpasswd"
+        memorablePasswordGeneratorCell?.textLabel?.textColor = Globals.blue
+        memorablePasswordGeneratorCell?.selectionStyle = .default
+        memorablePasswordGeneratorCell?.accessoryType = .disclosureIndicator
     }
     
     override func viewDidLoad() {
@@ -115,6 +119,8 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
                                       defaultValue: defaultLength)
             passwordLengthCell?.delegate = self
             return passwordLengthCell!
+        case .memorablePasswordGeneratorCell:
+            return memorablePasswordGeneratorCell!
         case .additionsCell:
             additionsCell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as?TextViewTableViewCell
             additionsCell?.contentTextView.delegate = self
@@ -163,6 +169,10 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             self.present(alert, animated: true, completion: nil)
         } else if selectedCell == scanQRCodeCell {
             self.performSegue(withIdentifier: "showQRScannerSegue", sender: self)
+        } else if selectedCell == memorablePasswordGeneratorCell {
+            // open the webpage
+            guard let url = URL(string: "https://xkpasswd.net/") else { return }
+            UIApplication.shared.open(url)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -251,7 +261,10 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         if textField == nameCell?.contentTextField {
             tableData[nameSection][0][PasswordEditorCellKey.content] = nameCell?.getContent()
         } else if textField == fillPasswordCell?.contentTextField {
-            tableData[passwordSection][0][PasswordEditorCellKey.content] = fillPasswordCell?.getContent()
+            if let plainPassword = fillPasswordCell?.getContent() {
+                tableData[passwordSection][0][PasswordEditorCellKey.content] = plainPassword
+                SecurePasteboard.shared.copy(textToCopy: plainPassword)
+            }
         }
     }
     

@@ -24,6 +24,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
             lengthSetting.max > lengthSetting.min {
             tableData[1].append([.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"])
         }
+        tableData[1].append([.type: PasswordEditorCellType.memorablePasswordGeneratorCell])
         tableData[0][0][PasswordEditorCellKey.content] = defaultDirPrefix
         super.viewDidLoad()
     }
