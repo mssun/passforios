@@ -31,9 +31,12 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if AVCaptureDevice.authorizationStatus(for: .video) == .denied {
+            presentCameraSettings()
+        }
+        
         // Get an instance of the AVCaptureDevice class to initialize a device object and provide the video as the media type parameter.
         let captureDevice = AVCaptureDevice.default(for: AVMediaType.video)
-        
         do {
             // Get an instance of the AVCaptureDeviceInput class using the previous device object.
             let input = try AVCaptureDeviceInput(device: captureDevice!)
@@ -78,6 +81,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             
         } catch {
             print(error)
+            scannerOutput.text = error.localizedDescription
             return
         }
     }
@@ -124,5 +128,21 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             qrCodeFrameView?.frame = CGRect.zero
             scannerOutput.text = "No QR code detected"
         }
+    }
+    
+    func presentCameraSettings() {
+        let alertController = UIAlertController(title: "Error",
+                                                message: "Camera access denied.\nWARNING: Toggle the camera permission resets the app! Save your changes.",
+                                                preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .default))
+        alertController.addAction(UIAlertAction(title: "Settings", style: .cancel) { _ in
+            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                UIApplication.shared.open(url, options: [:], completionHandler: { _ in
+                    // Handle
+                })
+            }
+        })
+        
+        present(alertController, animated: true)
     }
 }
