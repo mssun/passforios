@@ -18,6 +18,8 @@
 		A2367B9B1EEFE1B300C8FE8B /* UtilsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2367B9A1EEFE1B300C8FE8B /* UtilsExtension.swift */; };
 		A2367B9C1EEFE2E500C8FE8B /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */; };
 		A2367BA01EF0387000C8FE8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2367B9F1EF0387000C8FE8B /* Assets.xcassets */; };
+		A239F51F2157B72700576CBF /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A239F51E2157B72700576CBF /* StringExtension.swift */; };
+		A239F5212157B75E00576CBF /* FileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A239F5202157B75E00576CBF /* FileManagerExtension.swift */; };
 		A26075811EEC6F34005DB03E /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		A26075881EEC6F34005DB03E /* passKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26075871EEC6F34005DB03E /* passKitTests.swift */; };
 		A260758A1EEC6F34005DB03E /* passKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A260757A1EEC6F34005DB03E /* passKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -178,6 +180,8 @@
 		A2227D561EEE5E78002A69A9 /* libPods-passKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passKit.a"; path = "../../Library/Developer/Xcode/DerivedData/pass-fwlmfsjroyvbfhdyqmglrwfhvjli/Build/Products/Debug-iphonesimulator/libPods-passKit.a"; sourceTree = "<group>"; };
 		A2367B9A1EEFE1B300C8FE8B /* UtilsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilsExtension.swift; sourceTree = "<group>"; };
 		A2367B9F1EF0387000C8FE8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A239F51E2157B72700576CBF /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StringExtension.swift; path = Helpers/StringExtension.swift; sourceTree = "<group>"; };
+		A239F5202157B75E00576CBF /* FileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FileManagerExtension.swift; path = Helpers/FileManagerExtension.swift; sourceTree = "<group>"; };
 		A26075781EEC6F34005DB03E /* passKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = passKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A260757A1EEC6F34005DB03E /* passKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = passKit.h; sourceTree = "<group>"; };
 		A260757B1EEC6F34005DB03E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -410,9 +414,11 @@
 				A2F4E2191EED80160011986E /* DefaultsKeys.swift */,
 				A2F4E21A1EED80160011986E /* Globals.swift */,
 				A2F4E21B1EED80160011986E /* NotificationNames.swift */,
-				A2F4E21C1EED80160011986E /* UITextFieldExtension.swift */,
 				A2F4E21D1EED80160011986E /* Utils.swift */,
+				A2F4E21C1EED80160011986E /* UITextFieldExtension.swift */,
 				A2BEC1BA207D2EFE00F3051C /* UIViewExtension.swift */,
+				A239F51E2157B72700576CBF /* StringExtension.swift */,
+				A239F5202157B75E00576CBF /* FileManagerExtension.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -973,6 +979,8 @@
 				A2C532BB201E5A9600DB9F53 /* PasscodeLock.swift in Sources */,
 				A2F4E2151EED800F0011986E /* Password.swift in Sources */,
 				A26075AD1EEC7125005DB03E /* pass.xcdatamodeld in Sources */,
+				A239F51F2157B72700576CBF /* StringExtension.swift in Sources */,
+				A239F5212157B75E00576CBF /* FileManagerExtension.swift in Sources */,
 				A2F4E21E1EED80160011986E /* AppError.swift in Sources */,
 				A2F4E2171EED800F0011986E /* PasswordStore.swift in Sources */,
 				A2F4E2211EED80160011986E /* NotificationNames.swift in Sources */,
