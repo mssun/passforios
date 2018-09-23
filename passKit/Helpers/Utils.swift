@@ -24,43 +24,6 @@ public class Utils {
     public static func removeFileIfExists(at url: URL) {
         removeFileIfExists(atPath: url.path)
     }
-
-    public static func getLastSyncedTimeString() -> String {
-        guard let lastSyncedTime = SharedDefaults[.lastSyncedTime] else {
-            return "Oops! Sync again?"
-        }
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return formatter.string(from: lastSyncedTime)
-    }
-    
-    public static func generatePassword(length: Int) -> String{
-        switch SharedDefaults[.passwordGeneratorFlavor] {
-        case "Random":
-            return randomString(length: length)
-        case "Apple":
-            return Keychain.generatePassword()
-        default:
-            return randomString(length: length)
-        }
-    }
-    
-    public static func randomString(length: Int) -> String {
-        
-        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*_+-="
-        let len = UInt32(letters.length)
-        
-        var randomString = ""
-        
-        for _ in 0 ..< length {
-            let rand = arc4random_uniform(len)
-            var nextChar = letters.character(at: Int(rand))
-            randomString += NSString(characters: &nextChar, length: 1) as String
-        }
-        
-        return randomString
-    }
     
     public static func getPasswordFromKeychain(name: String) -> String? {
         let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)

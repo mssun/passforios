@@ -540,7 +540,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         self.tableView.layer.removeAnimation(forKey: "UITableViewReloadDataAnimationKey")
         
         // set the sync control title
-        let atribbutedTitle = "Last Synced: \(Utils.getLastSyncedTimeString())"
+        let atribbutedTitle = "Last Synced: \(passwordStore.getLastSyncedTimeString())"
         syncControl.attributedTitle = NSAttributedString(string: atribbutedTitle)
     }
     

@@ -199,7 +199,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         showPasswordSettings()
         
         let length = passwordLengthCell?.roundedValue ?? 0
-        let plainPassword = Utils.generatePassword(length: length)
+        let plainPassword = Password.generatePassword(length: length)
         SecurePasteboard.shared.copy(textToCopy: plainPassword)
         
         // update tableData so to make sure reloadData() works correctly

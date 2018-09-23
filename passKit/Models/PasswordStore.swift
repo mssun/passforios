@@ -912,4 +912,14 @@ public class PasswordStore {
             print(error)
         }
     }
+    
+    public func getLastSyncedTimeString() -> String {
+        guard let lastSyncedTime = SharedDefaults[.lastSyncedTime] else {
+            return "Oops! Sync again?"
+        }
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter.string(from: lastSyncedTime)
+    }
 }

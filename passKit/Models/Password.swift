@@ -10,6 +10,7 @@ import Foundation
 import SwiftyUserDefaults
 import OneTimePassword
 import Base32
+import KeychainAccess
 
 public struct AdditionField: Equatable {
     public var title: String = ""
@@ -376,5 +377,32 @@ public class Password {
     public static func LooksLikeOTP(line: String) -> Bool {
         let (key, _) = getKeyValuePair(from: line)
         return Password.OTP_KEYWORDS.contains(key ?? "")
+    }
+    
+    public static func generatePassword(length: Int) -> String{
+        switch SharedDefaults[.passwordGeneratorFlavor] {
+        case "Random":
+            return randomString(length: length)
+        case "Apple":
+            return Keychain.generatePassword()
+        default:
+            return randomString(length: length)
+        }
+    }
+    
+    private static func randomString(length: Int) -> String {
+        
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*_+-="
+        let len = UInt32(letters.length)
+        
+        var randomString = ""
+        
+        for _ in 0 ..< length {
+            let rand = arc4random_uniform(len)
+            var nextChar = letters.character(at: Int(rand))
+            randomString += NSString(characters: &nextChar, length: 1) as String
+        }
+        
+        return randomString
     }
 }
