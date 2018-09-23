@@ -85,5 +85,11 @@ public class Utils {
             SharedDefaults[.passwordGeneratorFlavor] = "Random"
         }
     }
+    
+    public static func alert(title: String, message: String, controller: UIViewController, handler: ((UIAlertAction) -> Void)? = nil, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: handler))
+        controller.present(alert, animated: true, completion: completion)
+    }
 }
 
