@@ -31,6 +31,13 @@ platform :ios do
       keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
       readonly: true
     )
+    match(
+      type: "appstore",
+      app_identifier: "me.mssun.passforios.auto-fill-credential-extension",
+      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
+      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+      readonly: true
+    )
     increment_build_number(
       build_number: latest_testflight_build_number(version: get_version_number(target: "pass"), initial_build_number: 0) + 1,
       xcodeproj: "pass.xcodeproj"
