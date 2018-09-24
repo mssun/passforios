@@ -11,7 +11,7 @@ import UIKit
 
 class SecurePasteboard {
     public static let shared = SecurePasteboard()
-    private var backgroundTaskID: UIBackgroundTaskIdentifier? = nil
+    private var backgroundTaskID = UIBackgroundTaskInvalid
     
     func copy(textToCopy: String?, expirationTime: Double = 45) {
         // copy to the pasteboard
@@ -23,32 +23,21 @@ class SecurePasteboard {
         }
         
         // exit the existing background task, if any
-        if let backgroundTaskID = backgroundTaskID {
-            UIApplication.shared.endBackgroundTask(backgroundTaskID)
-            self.backgroundTaskID = nil
+        if backgroundTaskID != UIBackgroundTaskInvalid {
+            UIApplication.shared.endBackgroundTask(UIBackgroundTaskInvalid)
+            self.backgroundTaskID = UIBackgroundTaskInvalid
         }
         
         backgroundTaskID = UIApplication.shared.beginBackgroundTask(expirationHandler: { [weak self] in
-            guard let taskID = self?.backgroundTaskID else {
-                return
-            }
-            if textToCopy == UIPasteboard.general.string {
-                UIPasteboard.general.string = ""
-            }
-            UIApplication.shared.endBackgroundTask(taskID)
+            UIPasteboard.general.string = ""
+            UIApplication.shared.endBackgroundTask(UIBackgroundTaskInvalid)
+            self?.backgroundTaskID = UIBackgroundTaskInvalid
         })
         
         DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + expirationTime) { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            if textToCopy == UIPasteboard.general.string {
-                UIPasteboard.general.string = ""
-            }
-            if let backgroundTaskID = strongSelf.backgroundTaskID {
-                UIApplication.shared.endBackgroundTask(backgroundTaskID)
-                strongSelf.backgroundTaskID = nil
-            }
+            UIPasteboard.general.string = ""
+            UIApplication.shared.endBackgroundTask(UIBackgroundTaskInvalid)
+            self?.backgroundTaskID = UIBackgroundTaskInvalid
         }
     }
     

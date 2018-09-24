@@ -406,7 +406,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: self.requestPGPKeyPassphrase)
                 DispatchQueue.main.async {
                     SecurePasteboard.shared.copy(textToCopy: decryptedPassword?.password)
-                    SVProgressHUD.showSuccess(withStatus: "Password copied, and will be cleared in 45 seconds.")
+                    SVProgressHUD.showSuccess(withStatus: "Password copied. We will clear the pasteboard in 45 seconds.")
                     SVProgressHUD.dismiss(withDelay: 0.6)
                 }
             } catch {
