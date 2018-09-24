@@ -19,13 +19,14 @@
 		A2367BA01EF0387000C8FE8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2367B9F1EF0387000C8FE8B /* Assets.xcassets */; };
 		A239F51F2157B72700576CBF /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A239F51E2157B72700576CBF /* StringExtension.swift */; };
 		A239F5212157B75E00576CBF /* FileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A239F5202157B75E00576CBF /* FileManagerExtension.swift */; };
-		A239F5612157EEB000576CBF /* PasscodeExtensionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C66671EF10EC900A398A1 /* PasscodeExtensionDisplay.swift */; };
 		A239F5902158C07D00576CBF /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A239F58F2158C07D00576CBF /* AuthenticationServices.framework */; };
 		A239F5962158C08C00576CBF /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A239F58F2158C07D00576CBF /* AuthenticationServices.framework */; };
 		A239F5992158C08C00576CBF /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A239F5982158C08C00576CBF /* CredentialProviderViewController.swift */; };
 		A239F59C2158C08C00576CBF /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A239F59A2158C08C00576CBF /* MainInterface.storyboard */; };
 		A239F5A12158C08C00576CBF /* passAutoFillExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A239F5952158C08B00576CBF /* passAutoFillExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A239F5A52158C3F400576CBF /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
+		A239F5A621591C3200576CBF /* PasscodeExtensionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C66671EF10EC900A398A1 /* PasscodeExtensionDisplay.swift */; };
+		A239F5A821591C5C00576CBF /* PasscodeExtensionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A239F5A721591C5C00576CBF /* PasscodeExtensionDisplay.swift */; };
 		A26075811EEC6F34005DB03E /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		A26075881EEC6F34005DB03E /* passKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26075871EEC6F34005DB03E /* passKitTests.swift */; };
 		A260758A1EEC6F34005DB03E /* passKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A260757A1EEC6F34005DB03E /* passKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -200,6 +201,7 @@
 		A239F59B2158C08C00576CBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		A239F59D2158C08C00576CBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A239F59E2158C08C00576CBF /* passAutoFillExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passAutoFillExtension.entitlements; sourceTree = "<group>"; };
+		A239F5A721591C5C00576CBF /* PasscodeExtensionDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeExtensionDisplay.swift; sourceTree = "<group>"; };
 		A26075781EEC6F34005DB03E /* passKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = passKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A260757A1EEC6F34005DB03E /* passKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = passKit.h; sourceTree = "<group>"; };
 		A260757B1EEC6F34005DB03E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -216,7 +218,7 @@
 		A26700351EEC475600176B8A /* passProcessor.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = passProcessor.js; sourceTree = "<group>"; };
 		A2802BF71E70813A00879216 /* SliderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderTableViewCell.swift; sourceTree = "<group>"; };
 		A2802BF81E70813A00879216 /* SliderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SliderTableViewCell.xib; sourceTree = "<group>"; };
-		A28C66671EF10EC900A398A1 /* PasscodeExtensionDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasscodeExtensionDisplay.swift; path = ../passExtension/PasscodeExtensionDisplay.swift; sourceTree = "<group>"; };
+		A28C66671EF10EC900A398A1 /* PasscodeExtensionDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeExtensionDisplay.swift; sourceTree = "<group>"; };
 		A2A61C0C1EEF8DFE00CFE063 /* libPods-passExtension.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passExtension.a"; path = "../../Library/Developer/Xcode/DerivedData/pass-fwlmfsjroyvbfhdyqmglrwfhvjli/Build/Products/Debug-iphonesimulator/libPods-passExtension.a"; sourceTree = "<group>"; };
 		A2A61C101EEF8E3500CFE063 /* libPods-passKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passKit.a"; path = "Pods/../build/Debug-iphoneos/libPods-passKit.a"; sourceTree = "<group>"; };
 		A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilsExtension.swift; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 			isa = PBXGroup;
 			children = (
 				A2A61C2B1EEFDF3300CFE063 /* ExtensionViewController.swift */,
+				A28C66671EF10EC900A398A1 /* PasscodeExtensionDisplay.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -378,12 +381,29 @@
 		A239F5972158C08C00576CBF /* passAutoFillExtension */ = {
 			isa = PBXGroup;
 			children = (
-				A239F5982158C08C00576CBF /* CredentialProviderViewController.swift */,
+				A239F5A921591E3700576CBF /* Controllers */,
+				A239F5AA21591E3D00576CBF /* Helpers */,
 				A239F59A2158C08C00576CBF /* MainInterface.storyboard */,
 				A239F59D2158C08C00576CBF /* Info.plist */,
 				A239F59E2158C08C00576CBF /* passAutoFillExtension.entitlements */,
 			);
 			path = passAutoFillExtension;
+			sourceTree = "<group>";
+		};
+		A239F5A921591E3700576CBF /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A239F5982158C08C00576CBF /* CredentialProviderViewController.swift */,
+				A239F5A721591C5C00576CBF /* PasscodeExtensionDisplay.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		A239F5AA21591E3D00576CBF /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 		A26075791EEC6F34005DB03E /* passKit */ = {
@@ -428,7 +448,6 @@
 			children = (
 				A2C532BD201E5AA100DB9F53 /* PasscodeLockPresenter.swift */,
 				A2C532BC201E5AA000DB9F53 /* PasscodeLockViewController.swift */,
-				A28C66671EF10EC900A398A1 /* PasscodeExtensionDisplay.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -559,11 +578,11 @@
 			isa = PBXGroup;
 			children = (
 				DC917BD51E2E8231000FDF54 /* pass */,
-				DC13B14F1E8640810097803F /* passTests */,
-				A26700251EEC466A00176B8A /* passExtension */,
 				A26075791EEC6F34005DB03E /* passKit */,
-				A26075861EEC6F34005DB03E /* passKitTests */,
+				A26700251EEC466A00176B8A /* passExtension */,
 				A239F5972158C08C00576CBF /* passAutoFillExtension */,
+				DC13B14F1E8640810097803F /* passTests */,
+				A26075861EEC6F34005DB03E /* passKitTests */,
 				DC917BD41E2E8231000FDF54 /* Products */,
 				DC917BED1E2F38C4000FDF54 /* Frameworks */,
 				A51B01737D08DB47BB58F85A /* Pods */,
@@ -1059,6 +1078,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A239F5A821591C5C00576CBF /* PasscodeExtensionDisplay.swift in Sources */,
 				A239F5992158C08C00576CBF /* CredentialProviderViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1067,7 +1087,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A239F5612157EEB000576CBF /* PasscodeExtensionDisplay.swift in Sources */,
 				A2BEC1BB207D2EFE00F3051C /* UIViewExtension.swift in Sources */,
 				A2C532BB201E5A9600DB9F53 /* PasscodeLock.swift in Sources */,
 				A2F4E2151EED800F0011986E /* Password.swift in Sources */,
@@ -1101,6 +1120,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A239F5A621591C3200576CBF /* PasscodeExtensionDisplay.swift in Sources */,
 				A2A61C2C1EEFDF3300CFE063 /* ExtensionViewController.swift in Sources */,
 				A2168A7F1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift in Sources */,
 			);

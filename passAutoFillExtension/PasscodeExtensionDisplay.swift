@@ -8,11 +8,12 @@
 
 import Foundation
 import passKit
+import AuthenticationServices
 
 // cancel means cancel the extension
 class PasscodeLockViewControllerForExtension: PasscodeLockViewController {
-    var originalExtensionContest: NSExtensionContext?
-    public convenience init(extensionContext: NSExtensionContext?) {
+    var originalExtensionContest: ASCredentialProviderExtensionContext?
+    public convenience init(extensionContext: ASCredentialProviderExtensionContext?) {
         self.init()
         originalExtensionContest = extensionContext
     }
@@ -22,16 +23,16 @@ class PasscodeLockViewControllerForExtension: PasscodeLockViewController {
         cancelButton?.addTarget(self, action: #selector(cancelExtension), for: .touchUpInside)
     }
     @objc func cancelExtension() {
-        originalExtensionContest?.completeRequest(returningItems: [], completionHandler: nil)
+        originalExtensionContest?.cancelRequest(withError: NSError(domain: ASExtensionErrorDomain, code: ASExtensionError.userCanceled.rawValue))
     }
 }
 
 class PasscodeExtensionDisplay {
     private var isPasscodePresented = false
     private let passcodeLockVC: PasscodeLockViewControllerForExtension
-    private let extensionContext: NSExtensionContext?
+    private let extensionContext: ASCredentialProviderExtensionContext?
     
-    public init(extensionContext: NSExtensionContext?) {
+    public init(extensionContext: ASCredentialProviderExtensionContext?) {
         self.extensionContext = extensionContext
         passcodeLockVC = PasscodeLockViewControllerForExtension(extensionContext: extensionContext)
         passcodeLockVC.dismissCompletionCallback = { [weak self] in

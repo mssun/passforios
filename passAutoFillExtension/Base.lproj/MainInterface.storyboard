@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14092" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Xki-Si-B7m">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Xki-Si-B7m">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14081.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,7 +12,7 @@
         <!--Credential Provider View Controller-->
         <scene sceneID="Uma-9u-xWV">
             <objects>
-                <viewController id="Xki-Si-B7m" customClass="CredentialProviderViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Xki-Si-B7m" customClass="CredentialProviderViewController" customModule="passAutoFillExtension" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BuU-Ak-iZz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -30,28 +29,52 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a7v-ug-QzG">
-                                <rect key="frame" x="87.5" y="327" width="199" height="33"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="Return Example Password"/>
-                                <connections>
-                                    <action selector="passwordSelected:" destination="Xki-Si-B7m" eventType="touchUpInside" id="ODd-lr-mud"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="6fX-Sk-6qN">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <subviews>
+                                    <searchBar contentMode="redraw" text="" translatesAutoresizingMaskIntoConstraints="NO" id="MmN-WX-sur">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </searchBar>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XmI-l4-SgT">
+                                        <rect key="frame" x="0.0" y="56" width="375" height="547"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="passwordTableViewCell" id="fXA-SG-IOe" customClass="PasswordDetailTitleTableViewCell" customModule="pass">
+                                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fXA-SG-IOe" id="KPa-Az-i6V">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Ky8-vK-JVj" firstAttribute="trailing" secondItem="6fX-Sk-6qN" secondAttribute="trailing" id="17t-mv-eRl"/>
                             <constraint firstItem="Ky8-vK-JVj" firstAttribute="top" secondItem="3wq-kG-lGu" secondAttribute="top" id="BIN-jb-uNd"/>
+                            <constraint firstItem="6fX-Sk-6qN" firstAttribute="leading" secondItem="Ky8-vK-JVj" secondAttribute="leading" id="Cd5-jJ-hSk"/>
+                            <constraint firstItem="6fX-Sk-6qN" firstAttribute="top" secondItem="3wq-kG-lGu" secondAttribute="bottom" id="Clz-JE-ME7"/>
+                            <constraint firstItem="6fX-Sk-6qN" firstAttribute="trailing" secondItem="Ky8-vK-JVj" secondAttribute="trailing" id="T5d-Qv-N42"/>
                             <constraint firstItem="3wq-kG-lGu" firstAttribute="width" secondItem="BuU-Ak-iZz" secondAttribute="width" id="UkD-v4-BcH"/>
-                            <constraint firstItem="a7v-ug-QzG" firstAttribute="centerY" secondItem="Ky8-vK-JVj" secondAttribute="centerY" id="fAC-0v-NFE"/>
-                            <constraint firstItem="a7v-ug-QzG" firstAttribute="centerX" secondItem="3wq-kG-lGu" secondAttribute="centerX" id="io1-ZS-gwn"/>
+                            <constraint firstItem="6fX-Sk-6qN" firstAttribute="bottom" secondItem="Ky8-vK-JVj" secondAttribute="bottom" id="Zrc-7l-kYX"/>
+                            <constraint firstItem="Ky8-vK-JVj" firstAttribute="bottom" secondItem="6fX-Sk-6qN" secondAttribute="bottom" id="kH5-f1-kuv"/>
                             <constraint firstItem="3wq-kG-lGu" firstAttribute="centerX" secondItem="BuU-Ak-iZz" secondAttribute="centerX" id="rtV-5c-0bl"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Ky8-vK-JVj"/>
                     </view>
+                    <connections>
+                        <outlet property="searchBar" destination="MmN-WX-sur" id="KZk-g3-9Ox"/>
+                        <outlet property="tableView" destination="XmI-l4-SgT" id="2yd-Uj-96H"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RwB-HB-TSk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="53.600000000000001" y="26.53673163418291"/>
         </scene>
     </scenes>
 </document>
