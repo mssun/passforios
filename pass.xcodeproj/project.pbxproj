@@ -20,6 +20,12 @@
 		A239F51F2157B72700576CBF /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A239F51E2157B72700576CBF /* StringExtension.swift */; };
 		A239F5212157B75E00576CBF /* FileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A239F5202157B75E00576CBF /* FileManagerExtension.swift */; };
 		A239F5612157EEB000576CBF /* PasscodeExtensionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C66671EF10EC900A398A1 /* PasscodeExtensionDisplay.swift */; };
+		A239F5902158C07D00576CBF /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A239F58F2158C07D00576CBF /* AuthenticationServices.framework */; };
+		A239F5962158C08C00576CBF /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A239F58F2158C07D00576CBF /* AuthenticationServices.framework */; };
+		A239F5992158C08C00576CBF /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A239F5982158C08C00576CBF /* CredentialProviderViewController.swift */; };
+		A239F59C2158C08C00576CBF /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A239F59A2158C08C00576CBF /* MainInterface.storyboard */; };
+		A239F5A12158C08C00576CBF /* passAutoFillExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A239F5952158C08B00576CBF /* passAutoFillExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A239F5A52158C3F400576CBF /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		A26075811EEC6F34005DB03E /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		A26075881EEC6F34005DB03E /* passKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26075871EEC6F34005DB03E /* passKitTests.swift */; };
 		A260758A1EEC6F34005DB03E /* passKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A260757A1EEC6F34005DB03E /* passKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -97,6 +103,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A239F59F2158C08C00576CBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DC917BCB1E2E8231000FDF54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A239F5942158C08B00576CBF;
+			remoteInfo = passAutoFillExtension;
+		};
 		A26075821EEC6F34005DB03E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DC917BCB1E2E8231000FDF54 /* Project object */;
@@ -153,6 +166,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				A267002E1EEC466A00176B8A /* passExtension.appex in Embed App Extensions */,
+				A239F5A12158C08C00576CBF /* passAutoFillExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -180,6 +194,12 @@
 		A2367B9F1EF0387000C8FE8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A239F51E2157B72700576CBF /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StringExtension.swift; path = Helpers/StringExtension.swift; sourceTree = "<group>"; };
 		A239F5202157B75E00576CBF /* FileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FileManagerExtension.swift; path = Helpers/FileManagerExtension.swift; sourceTree = "<group>"; };
+		A239F58F2158C07D00576CBF /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
+		A239F5952158C08B00576CBF /* passAutoFillExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = passAutoFillExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A239F5982158C08C00576CBF /* CredentialProviderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProviderViewController.swift; sourceTree = "<group>"; };
+		A239F59B2158C08C00576CBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		A239F59D2158C08C00576CBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A239F59E2158C08C00576CBF /* passAutoFillExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passAutoFillExtension.entitlements; sourceTree = "<group>"; };
 		A26075781EEC6F34005DB03E /* passKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = passKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A260757A1EEC6F34005DB03E /* passKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = passKit.h; sourceTree = "<group>"; };
 		A260757B1EEC6F34005DB03E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -278,6 +298,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A239F5922158C08B00576CBF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A239F5A52158C3F400576CBF /* passKit.framework in Frameworks */,
+				A239F5962158C08C00576CBF /* AuthenticationServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A26075741EEC6F34005DB03E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -320,6 +349,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A239F5902158C07D00576CBF /* AuthenticationServices.framework in Frameworks */,
 				A260758D1EEC6F34005DB03E /* passKit.framework in Frameworks */,
 				DCC408C71E307DBB00F29B0E /* SVProgressHUD.framework in Frameworks */,
 				18F19A67B0C07F13C17169E0 /* Pods_pass.framework in Frameworks */,
@@ -343,6 +373,17 @@
 				A2168A7E1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		A239F5972158C08C00576CBF /* passAutoFillExtension */ = {
+			isa = PBXGroup;
+			children = (
+				A239F5982158C08C00576CBF /* CredentialProviderViewController.swift */,
+				A239F59A2158C08C00576CBF /* MainInterface.storyboard */,
+				A239F59D2158C08C00576CBF /* Info.plist */,
+				A239F59E2158C08C00576CBF /* passAutoFillExtension.entitlements */,
+			);
+			path = passAutoFillExtension;
 			sourceTree = "<group>";
 		};
 		A26075791EEC6F34005DB03E /* passKit */ = {
@@ -522,6 +563,7 @@
 				A26700251EEC466A00176B8A /* passExtension */,
 				A26075791EEC6F34005DB03E /* passKit */,
 				A26075861EEC6F34005DB03E /* passKitTests */,
+				A239F5972158C08C00576CBF /* passAutoFillExtension */,
 				DC917BD41E2E8231000FDF54 /* Products */,
 				DC917BED1E2F38C4000FDF54 /* Frameworks */,
 				A51B01737D08DB47BB58F85A /* Pods */,
@@ -536,6 +578,7 @@
 				A26700241EEC466A00176B8A /* passExtension.appex */,
 				A26075781EEC6F34005DB03E /* passKit.framework */,
 				A26075801EEC6F34005DB03E /* passKitTests.xctest */,
+				A239F5952158C08B00576CBF /* passAutoFillExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -560,6 +603,7 @@
 		DC917BED1E2F38C4000FDF54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A239F58F2158C07D00576CBF /* AuthenticationServices.framework */,
 				A2A61C101EEF8E3500CFE063 /* libPods-passKit.a */,
 				A2A61C0C1EEF8DFE00CFE063 /* libPods-passExtension.a */,
 				A2227D541EEE5E78002A69A9 /* libObjectivePGP.a */,
@@ -600,6 +644,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		A239F5942158C08B00576CBF /* passAutoFillExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A239F5A22158C08C00576CBF /* Build configuration list for PBXNativeTarget "passAutoFillExtension" */;
+			buildPhases = (
+				A239F5912158C08B00576CBF /* Sources */,
+				A239F5922158C08B00576CBF /* Frameworks */,
+				A239F5932158C08B00576CBF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = passAutoFillExtension;
+			productName = passAutoFillExtension;
+			productReference = A239F5952158C08B00576CBF /* passAutoFillExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		A26075771EEC6F34005DB03E /* passKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A260758F1EEC6F34005DB03E /* Build configuration list for PBXNativeTarget "passKit" */;
@@ -694,6 +755,7 @@
 			dependencies = (
 				A267002D1EEC466A00176B8A /* PBXTargetDependency */,
 				A260758C1EEC6F34005DB03E /* PBXTargetDependency */,
+				A239F5A02158C08C00576CBF /* PBXTargetDependency */,
 			);
 			name = pass;
 			productName = pass;
@@ -706,10 +768,23 @@
 		DC917BCB1E2E8231000FDF54 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
+				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Bob Sun";
 				TargetAttributes = {
+					A239F5942158C08B00576CBF = {
+						CreatedOnToolsVersion = 10.0;
+						DevelopmentTeam = 4WDM8E95VU;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
+					};
 					A26075771EEC6F34005DB03E = {
 						CreatedOnToolsVersion = 8.3.3;
 						LastSwiftMigration = 0900;
@@ -751,6 +826,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.AutoFillCredentialProvider = {
+								enabled = 1;
+							};
 							com.apple.Keychain = {
 								enabled = 1;
 							};
@@ -776,11 +854,20 @@
 				A26700231EEC466A00176B8A /* passExtension */,
 				A26075771EEC6F34005DB03E /* passKit */,
 				A260757F1EEC6F34005DB03E /* passKitTests */,
+				A239F5942158C08B00576CBF /* passAutoFillExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A239F5932158C08B00576CBF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A239F59C2158C08C00576CBF /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A26075761EEC6F34005DB03E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -968,6 +1055,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A239F5912158C08B00576CBF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A239F5992158C08C00576CBF /* CredentialProviderViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A26075731EEC6F34005DB03E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1064,6 +1159,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A239F5A02158C08C00576CBF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A239F5942158C08B00576CBF /* passAutoFillExtension */;
+			targetProxy = A239F59F2158C08C00576CBF /* PBXContainerItemProxy */;
+		};
 		A26075831EEC6F34005DB03E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A26075771EEC6F34005DB03E /* passKit */;
@@ -1092,6 +1192,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		A239F59A2158C08C00576CBF /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A239F59B2158C08C00576CBF /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		A26700281EEC466A00176B8A /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1119,6 +1227,59 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A239F5A32158C08C00576CBF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = passAutoFillExtension/passAutoFillExtension.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 4WDM8E95VU;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = passAutoFillExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.mssun.passforios.auto-fill-credential-extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development me.mssun.passforios.auto-fill-credential-extension";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A239F5A42158C08C00576CBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = passAutoFillExtension/passAutoFillExtension.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 4WDM8E95VU;
+				ENABLE_BITCODE = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = passAutoFillExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.mssun.passforios.auto-fill-credential-extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "match Development me.mssun.passforios.auto-fill-credential-extension";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		A26075901EEC6F34005DB03E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7E088A9255B6CB576EF757C1 /* Pods-passKit.debug.xcconfig */;
@@ -1463,6 +1624,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = pass/pass.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 2;
 				DEFINES_MODULE = NO;
@@ -1495,6 +1657,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = pass/pass.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 2;
 				DEFINES_MODULE = NO;
@@ -1522,6 +1685,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A239F5A22158C08C00576CBF /* Build configuration list for PBXNativeTarget "passAutoFillExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A239F5A32158C08C00576CBF /* Debug */,
+				A239F5A42158C08C00576CBF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A260758F1EEC6F34005DB03E /* Build configuration list for PBXNativeTarget "passKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
