@@ -19,7 +19,7 @@
 		A2367BA01EF0387000C8FE8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2367B9F1EF0387000C8FE8B /* Assets.xcassets */; };
 		A239F51F2157B72700576CBF /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A239F51E2157B72700576CBF /* StringExtension.swift */; };
 		A239F5212157B75E00576CBF /* FileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A239F5202157B75E00576CBF /* FileManagerExtension.swift */; };
-		A239F5902158C07D00576CBF /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A239F58F2158C07D00576CBF /* AuthenticationServices.framework */; };
+		A239F5902158C07D00576CBF /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A239F58F2158C07D00576CBF /* AuthenticationServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A239F5962158C08C00576CBF /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A239F58F2158C07D00576CBF /* AuthenticationServices.framework */; };
 		A239F5992158C08C00576CBF /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A239F5982158C08C00576CBF /* CredentialProviderViewController.swift */; };
 		A239F59C2158C08C00576CBF /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A239F59A2158C08C00576CBF /* MainInterface.storyboard */; };
