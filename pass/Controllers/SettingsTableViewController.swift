@@ -230,7 +230,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             fileActionTitle.append(" (Tips)")
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
                 let title = "Tips"
-                let message = "Copy your public and private keys to Pass with names \"gpg_key.pub\" and \"gpg_key\" (without quotes) via iTunes. Then come back and click \"iTunes File Sharing\" to finish."
+                let message = "Copy your ASCII-armored public and private keys to Pass with names \"gpg_key.pub\" and \"gpg_key\" (without quotes) via iTunes. Then come back and click \"iTunes File Sharing\" to finish."
                 Utils.alert(title: title, message: message, controller: self)
             }
             optionMenu.addAction(fileAction)

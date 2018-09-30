@@ -65,4 +65,6 @@ class PGPKeySettingTableViewController: UITableViewController {
         })
         self.present(savePassphraseAlert, animated: true, completion: nil)
     }
+    
+    
 }

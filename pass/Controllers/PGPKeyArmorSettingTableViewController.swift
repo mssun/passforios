@@ -18,8 +18,6 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
     var pgpPassphrase: String?
     let passwordStore = PasswordStore.shared
     
-    private var recentPastedText = ""
-    
     class ScannedPGPKey {
         static let maxNumberOfGif = 100
         enum KeyType {
@@ -143,14 +141,8 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == UIPasteboard.general.string {
-            // user pastes something, get ready to clear in 10s
-            recentPastedText = text
-            DispatchQueue.global(qos: .background).asyncAfter(deadline: DispatchTime.now() + 10) { [weak weakSelf = self] in
-                if let pasteboardString = UIPasteboard.general.string,
-                    pasteboardString == weakSelf?.recentPastedText {
-                    UIPasteboard.general.string = ""
-                }
-            }
+            // user pastes something, do the copy here again and clear the pasteboard in 45s
+            SecurePasteboard.shared.copy(textToCopy: text)
         }
         return true
     }

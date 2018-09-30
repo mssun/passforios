@@ -240,7 +240,7 @@ class GitServerSettingTableViewController: UITableViewController {
             fileActionTitle.append(" (Tips)")
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
                 let title = "Tips"
-                let message = "Copy your private key to Pass with the name \"ssh_key\" (without quotes) via iTunes. Then come back and click \"iTunes File Sharing\" to finish."
+                let message = "Copy your ASCII-armored private key to Pass with the name \"ssh_key\" (without quotes) via iTunes. Then come back and click \"iTunes File Sharing\" to finish."
                 Utils.alert(title: title, message: message, controller: self)
             }
             optionMenu.addAction(fileAction)
