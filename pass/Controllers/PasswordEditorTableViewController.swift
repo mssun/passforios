@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 import OneTimePassword
 import passKit
 
@@ -18,7 +19,7 @@ enum PasswordEditorCellKey {
     case type, title, content, placeholders
 }
 
-class PasswordEditorTableViewController: UITableViewController, FillPasswordTableViewCellDelegate, PasswordSettingSliderTableViewCellDelegate, QRScannerControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
+class PasswordEditorTableViewController: UITableViewController, FillPasswordTableViewCellDelegate, PasswordSettingSliderTableViewCellDelegate, QRScannerControllerDelegate, UITextFieldDelegate, UITextViewDelegate, SFSafariViewControllerDelegate {
     
     var tableData = [
         [Dictionary<PasswordEditorCellKey, Any>]
@@ -171,8 +172,12 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             self.performSegue(withIdentifier: "showQRScannerSegue", sender: self)
         } else if selectedCell == memorablePasswordGeneratorCell {
             // open the webpage
-            guard let url = URL(string: "https://xkpasswd.net/") else { return }
-            UIApplication.shared.open(url)
+            if let url = URL(string: "https://xkpasswd.net/") {
+                let vc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+                vc.delegate = self
+                present(vc, animated: true)
+                
+            }
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -329,4 +334,26 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         
         return true
     }
+    
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        let copiedLinesSplit = UIPasteboard.general.string?.components(separatedBy: CharacterSet.whitespacesAndNewlines).filter({ !$0.isEmpty })
+        if copiedLinesSplit?.count ?? 0 > 0 {
+            let generatedPassword = copiedLinesSplit![0]
+            let alert = UIAlertController(title: "Wanna use it?", message: "", preferredStyle: UIAlertControllerStyle.alert)
+            let message = NSMutableAttributedString(string: "It seems like you have copied something. The first string is:\n")
+            message.append(Utils.attributedPassword(plainPassword: generatedPassword))
+            alert.setValue(message, forKey: "attributedMessage")
+            alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.default, handler: {[unowned self] (action) -> Void in
+                // update tableData so to make sure reloadData() works correctly
+                self.tableData[self.passwordSection][0][PasswordEditorCellKey.content] = generatedPassword
+                // update cell manually, no need to call reloadData()
+                self.fillPasswordCell?.setContent(content: generatedPassword)
+                // make sure the clipboard gets cleared in 45s
+                SecurePasteboard.shared.copy(textToCopy: generatedPassword)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler:nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
 }
