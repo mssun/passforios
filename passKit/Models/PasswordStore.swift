@@ -415,8 +415,9 @@ public class PasswordStore {
             try enumerator.pushSHA(targetOID.sha)
         }
         for _ in 0 ..< count {
-            let commit = try enumerator.nextObject(withSuccess: nil)
-            commits.append(commit)
+            if let commit = try? enumerator.nextObject(withSuccess: nil) {
+                commits.append(commit)
+            }
         }
         return commits
     }
