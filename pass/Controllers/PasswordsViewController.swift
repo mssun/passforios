@@ -351,6 +351,10 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        if sections.count < 12 {
+            return nil
+        }
+
         return sections.map { $0.title }
     }
 
