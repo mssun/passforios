@@ -9,7 +9,16 @@
 /* Begin PBXBuildFile section */
 		18F19A67B0C07F13C17169E0 /* Pods_pass.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5620D17DF5E86B61761D0E /* Pods_pass.framework */; };
 		23B82F0228254275DBA609E7 /* Pods_passExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B975797E0F0B7476CADD6A7D /* Pods_passExtension.framework */; };
-		30B04860209A5141001013CA /* PasswordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B0485F209A5141001013CA /* PasswordTests.swift */; };
+		301F6463216162550071A4CE /* AdditionField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6462216162550071A4CE /* AdditionField.swift */; };
+		301F6466216164830071A4CE /* PasswordHelpersTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6465216164830071A4CE /* PasswordHelpersTest.swift */; };
+		301F6468216165290071A4CE /* ConstantsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6467216165290071A4CE /* ConstantsTest.swift */; };
+		301F646A216166000071A4CE /* StringExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6469216166000071A4CE /* StringExtensionTest.swift */; };
+		301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F646C216166AA0071A4CE /* AdditionFieldTest.swift */; };
+		302E85612125ECC70031BA64 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302E85602125ECC70031BA64 /* Parser.swift */; };
+		302E85632125EE550031BA64 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302E85622125EE550031BA64 /* Constants.swift */; };
+		30AAC05321989DCE00F656CE /* PasswordHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AAC05221989DCE00F656CE /* PasswordHelpers.swift */; };
+		30B04860209A5141001013CA /* PasswordTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B0485F209A5141001013CA /* PasswordTest.swift */; };
+		30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD2F77214D9E0E005E0A92 /* ParserTest.swift */; };
 		61326CDA7A73757FB68DCB04 /* Pods_passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAB3F5541E51ADC8C6B56642 /* Pods_passKit.framework */; };
 		A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */; };
 		A2168A7F1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2168A7E1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift */; };
@@ -175,7 +184,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		30B0485F209A5141001013CA /* PasswordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTests.swift; sourceTree = "<group>"; };
+		301F6462216162550071A4CE /* AdditionField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionField.swift; sourceTree = "<group>"; };
+		301F6465216164830071A4CE /* PasswordHelpersTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordHelpersTest.swift; sourceTree = "<group>"; };
+		301F6467216165290071A4CE /* ConstantsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsTest.swift; sourceTree = "<group>"; };
+		301F6469216166000071A4CE /* StringExtensionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionTest.swift; sourceTree = "<group>"; };
+		301F646C216166AA0071A4CE /* AdditionFieldTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionFieldTest.swift; sourceTree = "<group>"; };
+		302E85602125ECC70031BA64 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		302E85622125EE550031BA64 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		30AAC05221989DCE00F656CE /* PasswordHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordHelpers.swift; path = Helpers/PasswordHelpers.swift; sourceTree = "<group>"; };
+		30B0485F209A5141001013CA /* PasswordTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTest.swift; sourceTree = "<group>"; };
+		30FD2F77214D9E0E005E0A92 /* ParserTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
 		31C3033E8868D05B2C55C8B1 /* Pods-passExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passExtension/Pods-passExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		3A5620D17DF5E86B61761D0E /* Pods_pass.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pass.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		666769E0B255666D02945C15 /* Pods-passKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-passKitTests/Pods-passKitTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -361,6 +379,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		301F6464216164670071A4CE /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				301F6465216164830071A4CE /* PasswordHelpersTest.swift */,
+				301F6469216166000071A4CE /* StringExtensionTest.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		30C015A3214ECF2B005BB6DF /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				301F6462216162550071A4CE /* AdditionField.swift */,
+				302E85622125EE550031BA64 /* Constants.swift */,
+				302E85602125ECC70031BA64 /* Parser.swift */,
+			);
+			path = Parser;
+			sourceTree = "<group>";
+		};
+		30C015A6214ED32A005BB6DF /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				301F646C216166AA0071A4CE /* AdditionFieldTest.swift */,
+				301F6467216165290071A4CE /* ConstantsTest.swift */,
+				30FD2F77214D9E0E005E0A92 /* ParserTest.swift */,
+			);
+			path = Parser;
+			sourceTree = "<group>";
+		};
+		30C015A7214ED378005BB6DF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				30B0485F209A5141001013CA /* PasswordTest.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		A2168A801EFD431A005EA873 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -413,6 +468,7 @@
 				A2F4E20F1EED7F0A0011986E /* Helpers */,
 				A260757B1EEC6F34005DB03E /* Info.plist */,
 				A2F4E20E1EED7F040011986E /* Models */,
+				30C015A3214ECF2B005BB6DF /* Parser */,
 				A26075A51EEC7125005DB03E /* pass.xcdatamodeld */,
 				A260757A1EEC6F34005DB03E /* passKit.h */,
 			);
@@ -422,9 +478,11 @@
 		A26075861EEC6F34005DB03E /* passKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				301F6464216164670071A4CE /* Helpers */,
+				30C015A7214ED378005BB6DF /* Models */,
+				30C015A6214ED32A005BB6DF /* Parser */,
 				A26075871EEC6F34005DB03E /* passKitTests.swift */,
 				A26075891EEC6F34005DB03E /* Info.plist */,
-				30B0485F209A5141001013CA /* PasswordTests.swift */,
 			);
 			path = passKitTests;
 			sourceTree = "<group>";
@@ -455,8 +513,8 @@
 		A2F4E20E1EED7F040011986E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A2C532BA201E5A9600DB9F53 /* PasscodeLock.swift */,
 				A2F4E2101EED800F0011986E /* GitCredential.swift */,
+				A2C532BA201E5A9600DB9F53 /* PasscodeLock.swift */,
 				A2F4E2111EED800F0011986E /* Password.swift */,
 				A2F4E2121EED800F0011986E /* PasswordEntity.swift */,
 				A2F4E2131EED800F0011986E /* PasswordStore.swift */,
@@ -469,13 +527,14 @@
 			children = (
 				A2F4E2181EED80160011986E /* AppError.swift */,
 				A2F4E2191EED80160011986E /* DefaultsKeys.swift */,
+				A239F5202157B75E00576CBF /* FileManagerExtension.swift */,
 				A2F4E21A1EED80160011986E /* Globals.swift */,
 				A2F4E21B1EED80160011986E /* NotificationNames.swift */,
-				A2F4E21D1EED80160011986E /* Utils.swift */,
+				30AAC05221989DCE00F656CE /* PasswordHelpers.swift */,
+				A239F51E2157B72700576CBF /* StringExtension.swift */,
 				A2F4E21C1EED80160011986E /* UITextFieldExtension.swift */,
 				A2BEC1BA207D2EFE00F3051C /* UIViewExtension.swift */,
-				A239F51E2157B72700576CBF /* StringExtension.swift */,
-				A239F5202157B75E00576CBF /* FileManagerExtension.swift */,
+				A2F4E21D1EED80160011986E /* Utils.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -577,15 +636,15 @@
 		DC917BCA1E2E8231000FDF54 = {
 			isa = PBXGroup;
 			children = (
-				DC917BD51E2E8231000FDF54 /* pass */,
-				A26075791EEC6F34005DB03E /* passKit */,
-				A26700251EEC466A00176B8A /* passExtension */,
-				A239F5972158C08C00576CBF /* passAutoFillExtension */,
-				DC13B14F1E8640810097803F /* passTests */,
-				A26075861EEC6F34005DB03E /* passKitTests */,
-				DC917BD41E2E8231000FDF54 /* Products */,
 				DC917BED1E2F38C4000FDF54 /* Frameworks */,
+				DC917BD51E2E8231000FDF54 /* pass */,
+				A239F5972158C08C00576CBF /* passAutoFillExtension */,
+				A26700251EEC466A00176B8A /* passExtension */,
+				A26075791EEC6F34005DB03E /* passKit */,
+				A26075861EEC6F34005DB03E /* passKitTests */,
+				DC13B14F1E8640810097803F /* passTests */,
 				A51B01737D08DB47BB58F85A /* Pods */,
+				DC917BD41E2E8231000FDF54 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1088,6 +1147,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2BEC1BB207D2EFE00F3051C /* UIViewExtension.swift in Sources */,
+				302E85632125EE550031BA64 /* Constants.swift in Sources */,
+				301F6463216162550071A4CE /* AdditionField.swift in Sources */,
 				A2C532BB201E5A9600DB9F53 /* PasscodeLock.swift in Sources */,
 				A2F4E2151EED800F0011986E /* Password.swift in Sources */,
 				A26075AD1EEC7125005DB03E /* pass.xcdatamodeld in Sources */,
@@ -1095,10 +1156,12 @@
 				A239F5212157B75E00576CBF /* FileManagerExtension.swift in Sources */,
 				A2F4E21E1EED80160011986E /* AppError.swift in Sources */,
 				A2F4E2171EED800F0011986E /* PasswordStore.swift in Sources */,
+				302E85612125ECC70031BA64 /* Parser.swift in Sources */,
 				A2F4E2211EED80160011986E /* NotificationNames.swift in Sources */,
 				A2F4E2221EED80160011986E /* UITextFieldExtension.swift in Sources */,
 				A2C532BF201E5AA100DB9F53 /* PasscodeLockPresenter.swift in Sources */,
 				A2C532BE201E5AA100DB9F53 /* PasscodeLockViewController.swift in Sources */,
+				30AAC05321989DCE00F656CE /* PasswordHelpers.swift in Sources */,
 				A2F4E2201EED80160011986E /* Globals.swift in Sources */,
 				A2F4E2231EED80160011986E /* Utils.swift in Sources */,
 				A2F4E21F1EED80160011986E /* DefaultsKeys.swift in Sources */,
@@ -1111,7 +1174,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30B04860209A5141001013CA /* PasswordTests.swift in Sources */,
+				301F646A216166000071A4CE /* StringExtensionTest.swift in Sources */,
+				301F6466216164830071A4CE /* PasswordHelpersTest.swift in Sources */,
+				301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */,
+				30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */,
+				30B04860209A5141001013CA /* PasswordTest.swift in Sources */,
+				301F6468216165290071A4CE /* ConstantsTest.swift in Sources */,
 				A26075881EEC6F34005DB03E /* passKitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
