@@ -174,7 +174,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     }
     
     @objc func tapHideOTPSwitchDetailButton(_ sender: Any?) {
-        let keywordsString = Password.OTP_KEYWORDS.joined(separator: ",")
+        let keywordsString = Constants.OTP_KEYWORDS.joined(separator: ",")
         let alertMessage = "Turn on this switch to hide the fields related to one time passwords (i.e., \(keywordsString))."
         let alertTitle = "Hide One Time Password Fields"
         Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)

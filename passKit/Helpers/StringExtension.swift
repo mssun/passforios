@@ -16,3 +16,9 @@ public extension String {
         return addingPercentEncoding(withAllowedCharacters: allowed)
     }
 }
+
+extension String {
+    static func | (left: String, right: String) -> String {
+        return right.isEmpty ? left : left + "\n" + right
+    }
+}

@@ -185,8 +185,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     // generate password, copy to pasteboard, and set the cell
     // check whether the current password looks like an OTP field
     func generateAndCopyPassword() {
-        if let currentPassword = fillPasswordCell?.getContent(),
-            Password.LooksLikeOTP(line: currentPassword) {
+        if let currentPassword = fillPasswordCell?.getContent(), Constants.isOtpRelated(line: currentPassword) {
             let alert = UIAlertController(title: "Overwrite?", message: "Overwrite the one-time password configuration?", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.destructive, handler: {_ in
                 self.generateAndCopyPasswordNoOtpCheck()
