@@ -62,9 +62,9 @@ public class Password {
     private static let URL_KEYWORD = "url"
     private static let UNKNOWN = "unknown"
 
-    public var name = ""
-    public var url: URL?
-    public var namePath: String { return url?.deletingPathExtension().path ?? "" }
+    public var name: String
+    public var url: URL
+    public var namePath: String { return url.deletingPathExtension().path }
 
     public var password = ""
     public var changed: Int = 0
@@ -79,11 +79,13 @@ public class Password {
     private var otpToken: Token?
     public var otpType: OtpType { return OtpType.from(token: self.otpToken) }
 
-    public init(name: String, url: URL?, plainText: String) {
+    public init(name: String, url: URL, plainText: String) {
+        self.name = name
+        self.url = url
         self.initEverything(name: name, url: url, plainText: plainText)
     }
     
-    public func updatePassword(name: String, url: URL?, plainText: String) {
+    public func updatePassword(name: String, url: URL, plainText: String) {
         if self.plainText != plainText || self.url != url {
             if self.plainText != plainText {
                 changed = changed|PasswordChange.content.rawValue
@@ -95,7 +97,7 @@ public class Password {
         }
     }
     
-    private func initEverything(name: String, url: URL?, plainText: String) {
+    private func initEverything(name: String, url: URL, plainText: String) {
         self.name = name
         self.url = url
         self.plainText = plainText

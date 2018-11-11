@@ -481,7 +481,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         } else if segue.identifier == "addPasswordSegue" {
             if let navController = segue.destination as? UINavigationController {
                 if let viewController = navController.topViewController as? AddPasswordTableViewController {
-                    if let path = parentPasswordEntity?.path {
+                    if let path = parentPasswordEntity?.getPath() {
                         viewController.defaultDirPrefix = "\(path)/"
                     }
                 }

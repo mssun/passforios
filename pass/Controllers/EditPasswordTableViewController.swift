@@ -45,7 +45,7 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
                 plainText.append(additionsString)
             }
             let (name, url) = getNameURL()
-            if password!.plainText != plainText || password!.url!.path != url.path {
+            if password!.plainText != plainText || password!.url.path != url.path {
                 password!.updatePassword(name: name, url: url, plainText: plainText)
             }
         }

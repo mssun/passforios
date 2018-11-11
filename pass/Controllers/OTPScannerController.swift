@@ -52,7 +52,8 @@ class OTPScannerController: QRScannerController {
     
     private func presentSaveAlert() {
         // initialize alert
-        let password = Password(name: "empty", url: nil, plainText: scannedOTP!)
+        // XXX: use Password class for now, we need to come up a better structure to oranize this
+        let password = Password(name: "empty", url: URL(string: ".")!, plainText: scannedOTP!)
         let (title, content) = password.getOtpStrings()!
         let alert = UIAlertController(title: "Success", message: "\(title): \(content)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Save", style: UIAlertActionStyle.default, handler: {[unowned self] (action) -> Void in

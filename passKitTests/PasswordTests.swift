@@ -27,9 +27,6 @@ class PasswordTest: XCTestCase {
     func testUrl() {
         let password1 = getPasswordObjectWith(content: PasswordTest.EMPTY_STRING)
         XCTAssertEqual(password1.namePath, PasswordTest.PASSWORD_PATH)
-
-        let password2 = getPasswordObjectWith(content: PasswordTest.EMPTY_STRING, url: nil)
-        XCTAssertEqual(password2.namePath, PasswordTest.EMPTY_STRING)
     }
 
     func testLooksLikeOTP() {
@@ -325,7 +322,7 @@ class PasswordTest: XCTestCase {
         XCTAssertTrue(does(password, contain: noteField))
     }
 
-    private func getPasswordObjectWith(content: String, url: URL? = PasswordTest.PASSWORD_URL) -> Password {
+    private func getPasswordObjectWith(content: String, url: URL = PasswordTest.PASSWORD_URL) -> Password {
         return Password(name: PasswordTest.PASSWORD_NAME, url: url, plainText: content)
     }
 

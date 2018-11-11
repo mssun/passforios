@@ -85,7 +85,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             navigationItem.largeTitleDisplayMode = .never
         }
         
-        if let imageData = passwordEntity?.image {
+        if let imageData = passwordEntity?.getImage() {
             let image = UIImage(data: imageData as Data)
             passwordImage = image
         }
@@ -136,7 +136,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
     
     @objc private func decryptThenShowPassword() {
-        guard let passwordEntity = passwordEntity, passwordEntity.path != nil else {
+        guard let passwordEntity = passwordEntity else {
             Utils.alert(title: "Cannot Show Password", message: "The password does not exist.", controller: self, handler: {(UIAlertAction) -> Void in
                 self.navigationController!.popViewController(animated: true)
             })
@@ -173,7 +173,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self?.tableView.reloadData()
             self?.editUIBarButtonItem.isEnabled = true
             if let urlString = self?.password?.urlString {
-                if self?.passwordEntity?.image == nil {
+                if self?.passwordEntity?.getImage() == nil {
                     self?.updatePasswordImage(urlString: urlString)
                 }
             }
@@ -431,12 +431,11 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         case .name:
             let cell = tableView.dequeueReusableCell(withIdentifier: "passwordDetailTitleTableViewCell", for: indexPath) as! PasswordDetailTitleTableViewCell
             cell.passwordImageImageView.image = passwordImage ?? #imageLiteral(resourceName: "PasswordImagePlaceHolder")
-            if let passwordName = passwordEntity!.name {
-                if passwordEntity!.synced == false {
-                    cell.nameLabel.text = "\(passwordName) ↻"
-                } else {
-                    cell.nameLabel.text = passwordName
-                }
+            let passwordName = passwordEntity!.getName()
+            if passwordEntity!.synced == false {
+                cell.nameLabel.text = "\(passwordName) ↻"
+            } else {
+                cell.nameLabel.text = passwordName
             }
             cell.categoryLabel.text = passwordEntity!.getCategoryText()
             cell.selectionStyle = .none
@@ -468,7 +467,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             footerLabel.numberOfLines = 0
             footerLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
             footerLabel.textColor = UIColor.gray
-            let dateString = self.passwordStore.getLatestUpdateInfo(filename: password!.url!.path)
+            let dateString = self.passwordStore.getLatestUpdateInfo(filename: password!.url.path)
             footerLabel.text = "Last Updated: \(dateString)"
             view.addSubview(footerLabel)
             return view

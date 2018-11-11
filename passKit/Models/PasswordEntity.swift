@@ -37,9 +37,27 @@ extension PasswordEntity {
     }
     
     public func getURL() -> URL? {
-        if let p = path {
-            return URL(string: p.stringByAddingPercentEncodingForRFC3986()!)
+        if let p = getPath().stringByAddingPercentEncodingForRFC3986() {
+            return URL(string: p)
         }
         return nil
     }
+
+    // XXX: define some getters to get core data, we need to consider
+    // manually write models instead auto generation.
+
+    public func getImage() -> Data? {
+        return image
+    }
+
+    public func getName() -> String {
+        // unwrap non-optional core data
+        return name ?? ""
+    }
+
+    public func getPath() -> String {
+        // unwrap non-optional core data
+        return path ?? ""
+    }
+
 }

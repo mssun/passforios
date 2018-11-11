@@ -258,7 +258,7 @@ public class PasswordStore {
     public func passwordExisted(password: Password) -> Bool {
         let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         do {
-            passwordEntityFetchRequest.predicate = NSPredicate(format: "name = %@ and path = %@", password.name, password.url!.path)
+            passwordEntityFetchRequest.predicate = NSPredicate(format: "name = %@ and path = %@", password.name, password.url.path)
             let count = try context.count(for: passwordEntityFetchRequest)
             if count > 0 {
                 return true
@@ -592,7 +592,7 @@ public class PasswordStore {
             throw AppError.PasswordDuplicatedError
         }
         
-        var passwordURL = password.url!
+        var passwordURL = password.url
         var previousPathLength = Int.max
         var paths: [String] = []
         while passwordURL.path != "." {
@@ -610,7 +610,6 @@ public class PasswordStore {
         for path in paths {
             let isDir = !path.hasSuffix(".gpg")
             if let passwordEntity = getPasswordEntity(by: path, isDir: isDir) {
-                print(passwordEntity.path!)
                 parentPasswordEntity = passwordEntity
                 passwordEntity.synced = false
             } else {
@@ -643,12 +642,12 @@ public class PasswordStore {
     }
     
     public func add(password: Password) throws -> PasswordEntity? {
-        try createDirectoryTree(at: password.url!)
+        try createDirectoryTree(at: password.url)
         let newPasswordEntity = try addPasswordEntities(password: password)
-        let saveURL = storeURL.appendingPathComponent(password.url!.path)
+        let saveURL = storeURL.appendingPathComponent(password.url.path)
         try self.encrypt(password: password).write(to: saveURL)
-        try gitAdd(path: password.url!.path)
-        let _ = try gitCommit(message: "Add password for \(password.url!.deletingPathExtension().path) to store using Pass for iOS.")
+        try gitAdd(path: password.url.path)
+        let _ = try gitCommit(message: "Add password for \(password.url.deletingPathExtension().path) to store using Pass for iOS.")
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         return newPasswordEntity
     }
@@ -679,16 +678,16 @@ public class PasswordStore {
             print("change path")
             let deletedFileURL = passwordEntity.getURL()!
             // add
-            try createDirectoryTree(at: password.url!)
+            try createDirectoryTree(at: password.url)
             newPasswordEntity = try addPasswordEntities(password: password)
             
             // mv
-            try gitMv(from: deletedFileURL.path, to: password.url!.path)
+            try gitMv(from: deletedFileURL.path, to: password.url.path)
             
             // delete
             try deleteDirectoryTree(at: deletedFileURL)
             try deletePasswordEntities(passwordEntity: passwordEntity)
-            let _ = try gitCommit(message: "Rename \(deletedFileURL.deletingPathExtension().path.removingPercentEncoding!) to \(password.url!.deletingPathExtension().path.removingPercentEncoding!) using Pass for iOS.")
+            let _ = try gitCommit(message: "Rename \(deletedFileURL.deletingPathExtension().path.removingPercentEncoding!) to \(password.url.deletingPathExtension().path.removingPercentEncoding!) using Pass for iOS.")
 
         }
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
@@ -737,7 +736,7 @@ public class PasswordStore {
         let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         privateMOC.parent = context
         privateMOC.perform {
-            passwordEntity.image = NSData(data: image) as Data
+            passwordEntity.image = image
             do {
                 try privateMOC.save()
                 self.context.performAndWait {
@@ -835,7 +834,7 @@ public class PasswordStore {
     
     
     public func decrypt(passwordEntity: PasswordEntity, requestPGPKeyPassphrase: () -> String) throws -> Password? {
-        let encryptedDataPath = storeURL.appendingPathComponent(passwordEntity.path!)
+        let encryptedDataPath = storeURL.appendingPathComponent(passwordEntity.getPath())
         let encryptedData = try Data(contentsOf: encryptedDataPath)
         var passphrase = self.pgpKeyPassphrase
         if passphrase == nil {
@@ -843,8 +842,10 @@ public class PasswordStore {
         }
         let decryptedData = try ObjectivePGP.decrypt(encryptedData, andVerifySignature: false, using: keyring.keys, passphraseForKey: {(_) in passphrase})
         let plainText = String(data: decryptedData, encoding: .utf8) ?? ""
-        let escapedPath = passwordEntity.path!.stringByAddingPercentEncodingForRFC3986() ?? ""
-        return Password(name: passwordEntity.name!, url: URL(string: escapedPath), plainText: plainText)
+        guard let url = passwordEntity.getURL() else {
+            throw AppError.DecryptionError
+        }
+        return Password(name: passwordEntity.getName(), url: url, plainText: plainText)
     }
     
     public func encrypt(password: Password) throws -> Data {
