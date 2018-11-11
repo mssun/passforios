@@ -10,7 +10,7 @@ before_script:
   - travis_wait 45 carthage bootstrap --platform iOS
 script:
   - fastlane test
-  - if [ "$TRAVIS_EVENT_TYPE" = "push" ]; then fastlane beta; fi
+  - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_EVENT_TYPE" = "push" ]; then fastlane beta; fi
 env:
   global:
   - secure: NsbIgKZAO1Rhr/QUFsvs5LjOGf4vFIWqCJNr+zhw9DKnOd+G8m1z9wsfNyUhg+v1eUONVMxI/FTeAobnn20kxetw1dMQn4/rL4+IB4UsmODuwcFF7JCUAzEB2Wv82O91nVwT48zEmNyOG2VkgfqOgHeASStQyDPFzJuyXFy+RzoBNKK3X7Uxk19UQI80UmXvW9bmQuY8O37g/qwFj4mnluNvPIvGHry0LPMlbh6fRPsHwXlDmD2FSLoW3GI3PLN1pWsIXLURUr3bioLBJ3E0tzZsFA4AM0xs9Y7Td9f87zo4pRTAH5p2EieSq5IfNS2RDQh5aftrLFBZPUui/86yc9hoceLuOVQKkByBavMBVzfIAiAoJZdBX9cTNDh+zzFs+WZKfP4jYnN1xrFPBmHOG5kVRiA++UbepferDjr80A5aXU3FLjOeuKKrkLvAphGRMwsbx9omYHjAa2eaf2oaLeKLENkl/C/6CeG4D1F/PLsdsjilfHEQKroDRWgxU2Se+bKYucmpBXa8fjWHUyr4pfcgc6qB/R62TxYBI94QSbWAEwE6eEzUlmBoids1l5KTWqnMqXYHlxNXNao2RxV2aqwq5OuWqg1hYBxXVBUKGvzXYONnsxfgcc7NLuTPfeR/h1v7CYcs6VG+z2rYJNY5pBTHrYzeNG0RbDNq3ofMl+M=
