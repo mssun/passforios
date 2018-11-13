@@ -230,7 +230,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     func insertScannedOTPFields(_ otpauth: String) {
         // update tableData
         var additionsString = ""
-        if let additionsPlainText = (tableData[additionsSection][0][PasswordEditorCellKey.content] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines), additionsPlainText != "" {
+        if let additionsPlainText = (tableData[additionsSection][0][PasswordEditorCellKey.content] as? String)?.trimmed, additionsPlainText != "" {
             additionsString = additionsPlainText + "\n" + otpauth
         } else {
             additionsString = otpauth
