@@ -9,6 +9,11 @@
 import Foundation
 
 public extension String {
+
+    var trimmed: String {
+        return trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
     func stringByAddingPercentEncodingForRFC3986() -> String? {
         let unreserved = "-._~/?"
         var allowed = CharacterSet.alphanumerics

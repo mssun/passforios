@@ -38,7 +38,7 @@ class CommitLogsTableViewController: UITableViewController {
         let messageLabel = cell.contentView.viewWithTag(202) as? UILabel
         author?.text = commits[indexPath.row].author?.name
         dateLabel?.text = dateString
-        messageLabel?.text = commits[indexPath.row].message?.trimmingCharacters(in: .whitespacesAndNewlines)
+        messageLabel?.text = commits[indexPath.row].message?.trimmed
         return cell
     }
     

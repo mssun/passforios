@@ -12,6 +12,16 @@ import XCTest
 
 class StringExtensionTest: XCTestCase {
 
+    func testTrimmed() {
+        [
+            ("  ", ""),
+            (" \n\t\r", ""),
+            ("\t  a \n b \t c \r d  \n ", "a \n b \t c \r d"),
+        ].forEach { untrimmed, trimmed in
+            XCTAssertEqual(untrimmed.trimmed, trimmed)
+        }
+    }
+
     func testStringByAddingPercentEncodingForRFC3986() {
         [
             ("!#$&'()*+,/:;=?@[]^", "%21%23%24%26%27%28%29%2A%2B%2C/%3A%3B%3D?%40%5B%5D%5E"),

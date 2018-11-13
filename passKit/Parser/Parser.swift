@@ -64,7 +64,7 @@ class Parser {
             result.append(Constants.getSeparator(breakingLines: !removingLineBreaks))
             i += 1
         }
-        return result.trimmingCharacters(in: .whitespacesAndNewlines)
+        return result.trimmed
     }
 
     /// Split line from password file in to a key-value pair separted by `: `.
