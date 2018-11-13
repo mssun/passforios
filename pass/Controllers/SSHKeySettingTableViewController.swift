@@ -22,7 +22,7 @@ class SSHKeySettingTableViewController: UITableViewController {
     
     
     @IBAction func doneButtonTapped(_ sender: UIButton) {
-        guard let privateKeyURL = URL(string: privateKeyURLTextField.text!) else {
+        guard let privateKeyURL = URL(string: privateKeyURLTextField.text!.trimmed) else {
             Utils.alert(title: "Cannot Save", message: "Please set Private Key URL first.", controller: self, completion: nil)
             return
         }

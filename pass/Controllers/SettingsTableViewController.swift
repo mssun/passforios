@@ -26,8 +26,8 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     
     @IBAction func savePGPKey(segue: UIStoryboardSegue) {
         if let controller = segue.source as? PGPKeySettingTableViewController {
-            SharedDefaults[.pgpPrivateKeyURL] = URL(string: controller.pgpPrivateKeyURLTextField.text!)
-            SharedDefaults[.pgpPublicKeyURL] = URL(string: controller.pgpPublicKeyURLTextField.text!)
+            SharedDefaults[.pgpPrivateKeyURL] = URL(string: controller.pgpPrivateKeyURLTextField.text!.trimmed)
+            SharedDefaults[.pgpPublicKeyURL] = URL(string: controller.pgpPublicKeyURLTextField.text!.trimmed)
             if SharedDefaults[.isRememberPGPPassphraseOn] {
                 self.passwordStore.pgpKeyPassphrase = controller.pgpPassphrase
             }

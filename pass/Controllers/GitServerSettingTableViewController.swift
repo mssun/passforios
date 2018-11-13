@@ -75,7 +75,7 @@ class GitServerSettingTableViewController: UITableViewController {
     
     private func cloneAndSegueIfSuccess() {
         // try to clone
-        let gitRepostiroyURL = gitURLTextField.text!
+        let gitRepostiroyURL = gitURLTextField.text!.trimmed
         let username = usernameTextField.text!
         let auth = authenticationMethod
         
