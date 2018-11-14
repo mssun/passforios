@@ -16,7 +16,6 @@ public enum AppError: Error {
     case GitResetError
     case PGPPublicKeyNotExistError
     case WrongPasswordFilename
-    case YamlLoadError
     case DecryptionError
     case UnknownError
 }
@@ -38,8 +37,6 @@ extension AppError: LocalizedError {
             return "PGP public key doesn't exist."
         case .WrongPasswordFilename:
             return "Cannot write to the password file."
-        case .YamlLoadError:
-            return "Cannot be parsed as a YAML file."
         case .DecryptionError:
             return "Cannot decrypt password."
         case .UnknownError:
