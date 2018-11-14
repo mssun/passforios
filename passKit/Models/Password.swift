@@ -156,7 +156,7 @@ public class Password {
         }
         
         // get secret data
-        guard let secretString = getAdditionValue(withKey: "otp_secret"),
+        guard let secretString = getAdditionValue(withKey: Constants.OTP_SECRET),
             let secretData = MF_Base32Codec.data(fromBase32String: secretString),
             !secretData.isEmpty else {
                 // Missing / Invalid otp secret
@@ -164,19 +164,19 @@ public class Password {
         }
         
         // get type
-        guard let type = getAdditionValue(withKey: "otp_type")?.lowercased(),
-            (type == "totp" || type == "hotp") else {
-                // Missing / Invalid otp type
+        guard let type = getAdditionValue(withKey: Constants.OTP_TYPE)?.lowercased(),
+            (type == Constants.TOTP || type == Constants.HOTP) else {
+                // Missing/Invalid OTP type
                 return
         }
         
         // get algorithm (optional)
         var algorithm = Generator.Algorithm.sha1
-        if let algoString = getAdditionValue(withKey: "otp_algorithm") {
+        if let algoString = getAdditionValue(withKey: Constants.OTP_ALGORITHM) {
             switch algoString.lowercased() {
-                case "sha256":
+                case Constants.SHA256:
                     algorithm = .sha256
-                case "sha512":
+                case Constants.SHA512:
                     algorithm = .sha512
                 default:
                     algorithm = .sha1
@@ -184,12 +184,12 @@ public class Password {
         }
     
         // construct the token
-        if type == "totp" {
+        if type == Constants.TOTP {
             // HOTP
             // default: 6 digits, 30 seconds
-            guard let digits = Int(getAdditionValue(withKey: "otp_digits") ?? "6"),
-                let period = Double(getAdditionValue(withKey: "otp_period") ?? "30.0") else {
-                    // Invalid otp_digits or otp_period.
+            guard let digits = Int(getAdditionValue(withKey: Constants.OTP_DIGITS) ?? Constants.DEFAULT_DIGITS),
+                let period = Double(getAdditionValue(withKey: Constants.OTP_PERIOD) ?? Constants.DEFAULT_PERIOD) else {
+                    // Invalid OTP digits or OTP period.
                     return
             }
             guard let generator = Generator(
@@ -204,9 +204,9 @@ public class Password {
         } else {
             // HOTP
             // default: 6 digits
-            guard let digits = Int(getAdditionValue(withKey: "otp_digits") ?? "6"),
-                let counter = UInt64(getAdditionValue(withKey: "otp_counter") ?? "") else {
-                    // Invalid otp_digits or otp_counter.
+            guard let digits = Int(getAdditionValue(withKey: Constants.OTP_DIGITS) ?? Constants.DEFAULT_DIGITS),
+                let counter = UInt64(getAdditionValue(withKey: Constants.OTP_COUNTER) ?? Constants.DEFAULT_COUNTER) else {
+                    // Invalid OTP digits or OTP counter.
                     return
             }
             guard let generator = Generator(
