@@ -10,6 +10,8 @@ import UIKit
 import SVProgressHUD
 import passKit
 
+fileprivate let hideSectionheaderTreshold = 8
+
 fileprivate class PasswordsTableEntry : NSObject {
     @objc var title: String
     var isDir: Bool
@@ -350,8 +352,17 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         return sections[section].title
     }
 
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if sections.count < hideSectionheaderTreshold && SharedDefaults[.isShowFolderOn]{
+            return 0.0
+        } else {
+            return tableView.sectionHeaderHeight
+        }
+
+    }
+
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        if sections.count < 12 {
+        if sections.count < hideSectionheaderTreshold {
             return nil
         }
 
