@@ -1621,7 +1621,7 @@ The clipboard will be cleared 45s after pasting.</string>
                     <connections>
                         <outlet property="armorPrivateKeyTextView" destination="23o-MP-wQY" id="ybK-Ba-vJt"/>
                         <outlet property="scanPrivateKeyCell" destination="jXO-n0-Mvx" id="Zdb-wm-7Ls"/>
-                        <segue destination="lLV-kB-JkG" kind="show" identifier="showSSHScannerSegue" id="orz-gu-cTp"/>
+                        <segue destination="LZE-gF-IcM" kind="show" identifier="showSSHScannerSegue" id="oxP-I1-Mke"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qJO-AN-K9p" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1730,7 +1730,7 @@ The clipboard will be cleared 45s after pasting.</string>
             </objects>
             <point key="canvasLocation" x="5861" y="5332"/>
         </scene>
-        <!--Scan PGP Keys-->
+        <!--Scan QR Code-->
         <scene sceneID="7j1-Qg-pUZ">
             <objects>
                 <viewController id="LZE-gF-IcM" customClass="QRScannerController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
@@ -1743,7 +1743,7 @@ The clipboard will be cleared 45s after pasting.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="scanner output" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U8O-Md-w8e">
-                                <rect key="frame" x="57" y="562" width="300" height="45"/>
+                                <rect key="frame" x="57" y="518" width="300" height="45"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="JcM-Sy-Hw8"/>
@@ -1760,53 +1760,14 @@ The clipboard will be cleared 45s after pasting.</string>
                             <constraint firstItem="53A-gx-tky" firstAttribute="top" secondItem="U8O-Md-w8e" secondAttribute="bottom" constant="80" id="tzL-K0-lE7"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Scan PGP Keys" id="JIs-3z-Tmr"/>
+                    <navigationItem key="navigationItem" title="Scan QR Code" id="JIs-3z-Tmr"/>
                     <connections>
                         <outlet property="scannerOutput" destination="U8O-Md-w8e" id="JTW-9y-mr6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I2W-rx-CxX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5861" y="4304"/>
-        </scene>
-        <!--Scan SSH Keys-->
-        <scene sceneID="kmR-CX-Yi7">
-            <objects>
-                <viewController id="lLV-kB-JkG" customClass="QRScannerController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="NSI-Fp-tX4"/>
-                        <viewControllerLayoutGuide type="bottom" id="QZv-Im-xZk"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="GYE-sh-yvu">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="scanner output" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fsL-pq-A5q">
-                                <rect key="frame" x="57" y="518" width="300" height="45"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="7Qj-pb-GoY"/>
-                                    <constraint firstAttribute="height" constant="45" id="IPT-kM-arz"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="QZv-Im-xZk" firstAttribute="top" secondItem="fsL-pq-A5q" secondAttribute="bottom" constant="80" id="76J-7g-eVO"/>
-                            <constraint firstItem="fsL-pq-A5q" firstAttribute="centerX" secondItem="GYE-sh-yvu" secondAttribute="centerX" id="pev-xD-1vH"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Scan SSH Keys" id="bov-FI-Hkg"/>
-                    <connections>
-                        <outlet property="scannerOutput" destination="fsL-pq-A5q" id="lSv-2S-qVd"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="s1p-jn-4PV" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="7133" y="2895"/>
+            <point key="canvasLocation" x="6083" y="4304"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Hf2-tj-DSK">
@@ -1869,6 +1830,7 @@ The clipboard will be cleared 45s after pasting.</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="iCM-Fy-hkk"/>
-        <segue reference="yyD-4H-pLE"/>
+        <segue reference="oxP-I1-Mke"/>
+        <segue reference="UfP-k3-XeR"/>
     </inferredMetricsTieBreakers>
 </document>
