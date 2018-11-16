@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="YoR-iB-XAd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="YoR-iB-XAd">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -667,7 +667,7 @@
         <!--Scan OTP QR Codes-->
         <scene sceneID="AuR-rQ-G3V">
             <objects>
-                <viewController id="A9p-Qb-WmU" customClass="OTPScannerController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="A9p-Qb-WmU" customClass="QRScannerController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="75M-B3-rK2"/>
                         <viewControllerLayoutGuide type="bottom" id="eYa-Io-fXF"/>
@@ -694,13 +694,7 @@
                             <constraint firstItem="lOI-p4-BGb" firstAttribute="centerX" secondItem="a0T-JY-UcS" secondAttribute="centerX" id="IVH-ax-fJ3"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Scan OTP QR Codes" id="Hlb-5I-bfE">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="KBZ-N2-OGE">
-                            <connections>
-                                <action selector="pressCancel:" destination="A9p-Qb-WmU" id="SYK-Qh-Cs7"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Scan OTP QR Codes" id="Hlb-5I-bfE"/>
                     <connections>
                         <outlet property="scannerOutput" destination="lOI-p4-BGb" id="LZa-eC-1Lc"/>
                     </connections>
@@ -1548,92 +1542,14 @@ Cgo
                                                             <attributes>
                                                                 <color key="NSColor" white="0.40782000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <font key="NSFont" size="14" name="HelveticaNeue"/>
-                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                                                    <tabStops>
-                                                                        <textTab alignment="left" location="28">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="56">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="84">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="112">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="140">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="168">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="196">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="224">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="252">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="280">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="308">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="336">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                    </tabStops>
-                                                                </paragraphStyle>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                                             </attributes>
                                                         </fragment>
                                                         <fragment content="  $ cat ~/.ssh/id_rsa">
                                                             <attributes>
                                                                 <color key="NSColor" white="0.40782000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <font key="NSFont" size="13" name="Menlo-Regular"/>
-                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                                                    <tabStops>
-                                                                        <textTab alignment="left" location="28">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="56">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="84">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="112">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="140">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="168">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="196">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="224">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="252">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="280">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="308">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="336">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                    </tabStops>
-                                                                </paragraphStyle>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                                             </attributes>
                                                         </fragment>
                                                         <fragment>
@@ -1643,46 +1559,7 @@ The clipboard will be cleared 45s after pasting.</string>
                                                             <attributes>
                                                                 <color key="NSColor" white="0.40782000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <font key="NSFont" size="14" name="HelveticaNeue"/>
-                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                                                    <tabStops>
-                                                                        <textTab alignment="left" location="28">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="56">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="84">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="112">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="140">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="168">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="196">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="224">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="252">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="280">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="308">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                        <textTab alignment="left" location="336">
-                                                                            <options/>
-                                                                        </textTab>
-                                                                    </tabStops>
-                                                                </paragraphStyle>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                                             </attributes>
                                                         </fragment>
                                                     </attributedString>
@@ -1987,11 +1864,11 @@ The clipboard will be cleared 45s after pasting.</string>
         </scene>
     </scenes>
     <resources>
-        <image name="Lock" width="25" height="25"/>
-        <image name="Settings" width="25" height="25"/>
+        <image name="Lock" width="75" height="75"/>
+        <image name="Settings" width="75" height="75"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="iCM-Fy-hkk"/>
-        <segue reference="UfP-k3-XeR"/>
+        <segue reference="yyD-4H-pLE"/>
     </inferredMetricsTieBreakers>
 </document>

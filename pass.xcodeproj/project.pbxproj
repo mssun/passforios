@@ -22,7 +22,6 @@
 		61326CDA7A73757FB68DCB04 /* Pods_passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAB3F5541E51ADC8C6B56642 /* Pods_passKit.framework */; };
 		A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */; };
 		A2168A7F1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2168A7E1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift */; };
-		A217ACE21E9AB17C00A1A6CF /* OTPScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */; };
 		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */; };
 		A2367B9C1EEFE2E500C8FE8B /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */; };
 		A2367BA01EF0387000C8FE8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2367B9F1EF0387000C8FE8B /* Assets.xcassets */; };
@@ -201,7 +200,6 @@
 		7E088A9255B6CB576EF757C1 /* Pods-passKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passKit/Pods-passKit.debug.xcconfig"; sourceTree = "<group>"; };
 		A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurePasteboard.swift; sourceTree = "<group>"; };
 		A2168A7E1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnePasswordExtensionConstants.swift; sourceTree = "<group>"; };
-		A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPScannerController.swift; sourceTree = "<group>"; };
 		A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = GitConfigSettingTableViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A2227D4C1EEE5E25002A69A9 /* libObjectivePGP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libObjectivePGP.a; path = "Pods/../build/Debug-iphoneos/ObjectivePGP/libObjectivePGP.a"; sourceTree = "<group>"; };
 		A2227D4E1EEE5E31002A69A9 /* libPods-pass.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-pass.a"; path = "Pods/../build/Debug-iphoneos/libPods-pass.a"; sourceTree = "<group>"; };
@@ -578,7 +576,6 @@
 				DCA049991E335CC800522E8F /* GitServerSettingTableViewController.swift */,
 				DCC441531E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift */,
 				DC037CA51E4B883900609409 /* OpenSourceComponentsTableViewController.swift */,
-				A217ACE11E9AB17C00A1A6CF /* OTPScannerController.swift */,
 				DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */,
 				DCFB77A81E502FF6008DE471 /* PasswordEditorTableViewController.swift */,
 				DC5734AD1E439AD400D09270 /* PasswordsViewController.swift */,
@@ -1216,7 +1213,6 @@
 				DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */,
 				DC5F385B1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift in Sources */,
 				DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */,
-				A217ACE21E9AB17C00A1A6CF /* OTPScannerController.swift in Sources */,
 				DCFB77A71E502DF9008DE471 /* EditPasswordTableViewController.swift in Sources */,
 				DCA0499A1E335CC800522E8F /* GitServerSettingTableViewController.swift in Sources */,
 				DCDDEAB31E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift in Sources */,
@@ -1712,7 +1708,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = pass/pass.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 2;
 				DEFINES_MODULE = NO;
