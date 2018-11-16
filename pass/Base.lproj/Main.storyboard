@@ -101,7 +101,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="Jzw-qC-crz" kind="show" id="iCM-Fy-hkk"/>
+                                            <segue destination="Jzw-qC-crz" kind="showDetail" id="wCk-aN-a4J"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="gWn-ib-STb" detailTextLabel="Myq-fV-riz" style="IBUITableViewCellStyleValue1" id="2rc-ZW-XKd">
@@ -128,7 +128,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="K0b-qZ-UOk" kind="show" identifier="showGitServerSettingSegue" id="ov1-DN-cwJ"/>
+                                            <segue destination="K0b-qZ-UOk" kind="showDetail" identifier="showGitServerSettingSegue" id="ov1-DN-cwJ"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="pgpKeyTableViewCell" textLabel="RR9-xr-9ko" detailTextLabel="7lc-Vh-G9W" style="IBUITableViewCellStyleValue1" id="1ze-MS-Xbj">
@@ -204,7 +204,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="uoO-MF-fIN" kind="show" id="mZM-Tb-Uny"/>
+                                            <segue destination="uoO-MF-fIN" kind="showDetail" id="mZM-Tb-Uny"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -228,7 +228,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="0bw-Ed-Xsf" kind="show" id="ffK-27-JkM"/>
+                                            <segue destination="0bw-Ed-Xsf" kind="showDetail" id="ffK-27-JkM"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -771,7 +771,7 @@
                     <tabBarItem key="tabBarItem" title="Settings" image="Settings" selectedImage="Settings" id="YLZ-cr-akY"/>
                     <connections>
                         <segue destination="ZmJ-0Z-N04" kind="relationship" relationship="masterViewController" id="6BE-lA-jgG"/>
-                        <segue destination="Jzw-qC-crz" kind="relationship" relationship="detailViewController" id="WfV-6d-ZUj"/>
+                        <segue destination="Jzw-qC-crz" kind="relationship" relationship="detailViewController" id="QFy-OX-cAa"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8r6-2t-h35" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1772,6 +1772,7 @@ The clipboard will be cleared 45s after pasting.</string>
         <!--Navigation Controller-->
         <scene sceneID="Hf2-tj-DSK">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5oJ-VM-g5J" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Jzw-qC-crz" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="YCA-VS-Qu8">
@@ -1783,13 +1784,13 @@ The clipboard will be cleared 45s after pasting.</string>
                         <segue destination="ljx-el-KZL" kind="relationship" relationship="rootViewController" id="yqd-o3-osr"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5oJ-VM-g5J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3844.9275362318845" y="1495.9239130434785"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="FT9-BJ-SVt">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0BT-Bk-j2Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0bw-Ed-Xsf" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="D0D-LP-K9m">
@@ -1801,7 +1802,6 @@ The clipboard will be cleared 45s after pasting.</string>
                         <segue destination="ZcQ-fs-QEW" kind="relationship" relationship="rootViewController" id="azd-nb-7xK"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0BT-Bk-j2Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3844.9275362318845" y="6499.7282608695659"/>
         </scene>
@@ -1829,7 +1829,7 @@ The clipboard will be cleared 45s after pasting.</string>
         <image name="Settings" width="75" height="75"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="iCM-Fy-hkk"/>
+        <segue reference="QFy-OX-cAa"/>
         <segue reference="oxP-I1-Mke"/>
         <segue reference="UfP-k3-XeR"/>
     </inferredMetricsTieBreakers>
