@@ -801,15 +801,10 @@ public class PasswordStore {
     
     public func numberOfLocalCommits() -> Int {
         do {
-            if let localCommits = try getLocalCommits() {
-                return localCommits.count
-            } else {
-                return 0
-            }
+            return try getLocalCommits()?.count ?? 0
         } catch {
-            print(error)
+            return 0
         }
-        return 0
     }
     
     private func getLocalCommits() throws -> [GTCommit]? {
