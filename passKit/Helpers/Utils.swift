@@ -11,20 +11,6 @@ import SwiftyUserDefaults
 import KeychainAccess
 
 public class Utils {
-    public static func removeFileIfExists(atPath path: String) {
-        let fm = FileManager.default
-        do {
-            if fm.fileExists(atPath: path) {
-                try fm.removeItem(atPath: path)
-            }
-        } catch {
-            print(error)
-        }
-    }
-    public static func removeFileIfExists(at url: URL) {
-        removeFileIfExists(atPath: url.path)
-    }
-    
     public static func getPasswordFromKeychain(name: String) -> String? {
         let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
         do {

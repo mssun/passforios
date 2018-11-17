@@ -302,17 +302,14 @@ public class PasswordStore {
                          requestGitPassword: @escaping (GitCredential.Credential, String?) -> String?,
                          transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
                          checkoutProgressBlock: @escaping (String?, UInt, UInt) -> Void) throws {
-        Utils.removeFileIfExists(at: storeURL)
-        Utils.removeFileIfExists(at: tempStoreURL)
+        try? fm.removeItem(at: storeURL)
+        try? fm.removeItem(at: tempStoreURL)
         self.gitPassword = nil
         self.gitSSHPrivateKeyPassphrase = nil
         do {
             let credentialProvider = try credential.credentialProvider(requestGitPassword: requestGitPassword)
             let options = [GTRepositoryCloneOptionsCredentialProvider: credentialProvider]
             storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: tempStoreURL, options: options, transferProgressBlock:transferProgressBlock)
-            if fm.fileExists(atPath: storeURL.path) {
-                try fm.removeItem(at: storeURL)
-            }
             try fm.moveItem(at: tempStoreURL, to: storeURL)
             storeRepository = try GTRepository(url: storeURL)
         } catch {
@@ -755,12 +752,12 @@ public class PasswordStore {
     public func erase() {
         publicKey = nil
         privateKey = nil
-        Utils.removeFileIfExists(at: storeURL)
-        Utils.removeFileIfExists(at: tempStoreURL)
+        try? fm.removeItem(at: storeURL)
+        try? fm.removeItem(at: tempStoreURL)
 
-        Utils.removeFileIfExists(atPath: Globals.pgpPublicKeyPath)
-        Utils.removeFileIfExists(atPath: Globals.pgpPrivateKeyPath)
-        Utils.removeFileIfExists(atPath: Globals.gitSSHPrivateKeyPath)
+        try? fm.removeItem(atPath: Globals.pgpPublicKeyPath)
+        try? fm.removeItem(atPath: Globals.pgpPrivateKeyPath)
+        try? fm.removeItem(atPath: Globals.gitSSHPrivateKeyPath)
         
         Utils.removeAllKeychain()
 
@@ -850,8 +847,8 @@ public class PasswordStore {
     }
     
     public func removePGPKeys() {
-        Utils.removeFileIfExists(atPath: Globals.pgpPublicKeyPath)
-        Utils.removeFileIfExists(atPath: Globals.pgpPrivateKeyPath)
+        try? fm.removeItem(atPath: Globals.pgpPublicKeyPath)
+        try? fm.removeItem(atPath: Globals.pgpPrivateKeyPath)
         SharedDefaults.remove(.pgpKeySource)
         SharedDefaults.remove(.pgpPublicKeyArmor)
         SharedDefaults.remove(.pgpPrivateKeyArmor)
@@ -864,7 +861,7 @@ public class PasswordStore {
     }
     
     public func removeGitSSHKeys() {
-        Utils.removeFileIfExists(atPath: Globals.gitSSHPrivateKeyPath)
+        try? fm.removeItem(atPath: Globals.gitSSHPrivateKeyPath)
         Defaults.remove(.gitSSHPrivateKeyArmor)
         Defaults.remove(.gitSSHPrivateKeyURL)
         self.gitSSHPrivateKeyPassphrase = nil
