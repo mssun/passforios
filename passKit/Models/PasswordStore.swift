@@ -102,15 +102,15 @@ public class PasswordStore {
     }
     
     public var sizeOfRepositoryByteCount : UInt64 {
-        var size = UInt64(0)
-        do {
-            if fm.fileExists(atPath: self.storeURL.path) {
-                size = try fm.allocatedSizeOfDirectoryAtURL(directoryURL: self.storeURL)
-            }
-        } catch {
-            print(error)
-        }
-        return size
+        return (try? fm.allocatedSizeOfDirectoryAtURL(directoryURL: self.storeURL)) ?? 0
+    }
+
+    public var numberOfLocalCommits: Int {
+        return (try? getLocalCommits()?.count ?? 0) ?? 0
+    }
+
+    public var lastSyncedTime: Date? {
+        return SharedDefaults[.lastSyncedTime]
     }
     
     private init() {
@@ -799,13 +799,6 @@ public class PasswordStore {
         }
     }
     
-    public func numberOfLocalCommits() -> Int {
-        do {
-            return try getLocalCommits()?.count ?? 0
-        } catch {
-            return 0
-        }
-    }
     
     private func getLocalCommits() throws -> [GTCommit]? {
         guard let storeRepository = storeRepository else {
@@ -908,15 +901,5 @@ public class PasswordStore {
         } catch {
             print(error)
         }
-    }
-    
-    public func getLastSyncedTimeString() -> String {
-        guard let lastSyncedTime = SharedDefaults[.lastSyncedTime] else {
-            return "Oops! Sync again?"
-        }
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return formatter.string(from: lastSyncedTime)
     }
 }

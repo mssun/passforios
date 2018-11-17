@@ -47,38 +47,69 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
         
         // reload the table
         DispatchQueue.global(qos: .userInitiated).async {
-            let numberFormatter = NumberFormatter()
-            numberFormatter.numberStyle = NumberFormatter.Style.decimal
-            
-            let numberOfPasswordsString = numberFormatter.string(from: NSNumber(value: self.passwordStore.numberOfPasswords))!
-            let sizeOfRepositoryString = ByteCountFormatter.string(fromByteCount: Int64(self.passwordStore.sizeOfRepositoryByteCount), countStyle: ByteCountFormatter.CountStyle.file)
-            var numberOfCommits: UInt = 0
-            
-            do {
-                if let _ = try self.passwordStore.storeRepository?.currentBranch().oid {
-                    numberOfCommits = self.passwordStore.storeRepository?.numberOfCommits(inCurrentBranch: NSErrorPointer(nilLiteral: ())) ?? 0
-                }
-            } catch {
-                print(error)
-            }
-            let numberOfCommitsString = numberFormatter.string(from: NSNumber(value: numberOfCommits))!
+            let passwords = self.numberOfPasswordsString()
+            let size = self.sizeOfRepositoryString()
+            let localCommits = self.numberOfLocalCommitsString()
+            let lastSynced = self.lastSyncedTimeString()
+            let commits = self.numberOfPasswordsString()
             
             DispatchQueue.main.async { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
                 let type = UITableViewCellAccessoryType.none
-                self?.tableData = [
+                strongSelf.tableData = [
                     // section 0
-                    [[.style: CellDataStyle.value1, .accessoryType: type, .title: "Passwords", .detailText: numberOfPasswordsString],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Size", .detailText: sizeOfRepositoryString],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Local Commits", .detailText: String(self?.passwordStore.numberOfLocalCommits() ?? 0)],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Last Synced", .detailText: self?.passwordStore.getLastSyncedTimeString() ?? "Unknown"],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Commits", .detailText: numberOfCommitsString],
+                    [[.style: CellDataStyle.value1, .accessoryType: type, .title: "Passwords", .detailText: passwords],
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Size", .detailText: size],
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Local Commits", .detailText: localCommits],
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Last Synced", .detailText: lastSynced],
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Commits", .detailText: commits],
                      [.title: "Commit Logs", .action: "segue", .link: "showCommitLogsSegue"],
                      ],
                 ]
-                self?.indicator.stopAnimating()
-                self?.tableView.reloadData()
+                strongSelf.indicator.stopAnimating()
+                strongSelf.tableView.reloadData()
             }
         }
+    }
+
+    private func numberOfPasswordString() -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = NumberFormatter.Style.decimal
+        var numberOfCommits: UInt = 0
+        do {
+            if let _ = try self.passwordStore.storeRepository?.currentBranch().oid {
+                numberOfCommits = self.passwordStore.storeRepository?.numberOfCommits(inCurrentBranch: NSErrorPointer(nilLiteral: ())) ?? 0
+            }
+        } catch {
+            print(error)
+        }
+        return formatter.string(from: NSNumber(value: numberOfCommits)) ?? ""
+    }
+
+    private func numberOfPasswordsString() -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = NumberFormatter.Style.decimal
+        return formatter.string(from: NSNumber(value: self.passwordStore.numberOfPasswords)) ?? ""
+    }
+
+    private func sizeOfRepositoryString() -> String {
+        return ByteCountFormatter.string(fromByteCount: Int64(self.passwordStore.sizeOfRepositoryByteCount), countStyle: ByteCountFormatter.CountStyle.file)
+    }
+
+    private func numberOfLocalCommitsString() -> String {
+        return String(passwordStore.numberOfLocalCommits)
+    }
+
+    private func lastSyncedTimeString() -> String {
+        guard let date = self.passwordStore.lastSyncedTime else {
+            return "Oops! Sync again?"
+        }
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
     }
     
     @objc func setNeedRefresh() {

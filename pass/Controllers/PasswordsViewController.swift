@@ -138,7 +138,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "Sync Password Store")
-        let numberOfLocalCommits = self.passwordStore.numberOfLocalCommits()
+        let numberOfLocalCommits = self.passwordStore.numberOfLocalCommits
         var gitCredential: GitCredential
         if SharedDefaults[.gitAuthenticationMethod] == "Password" {
             gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: SharedDefaults[.gitUsername]!))
@@ -519,7 +519,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     
     private func reloadTableView(data: [PasswordsTableEntry], anim: CAAnimation? = nil) {
         // set navigation item
-        let numberOfLocalCommits = self.passwordStore.numberOfLocalCommits()
+        let numberOfLocalCommits = self.passwordStore.numberOfLocalCommits
         if numberOfLocalCommits == 0 {
             navigationController?.tabBarItem.badgeValue = nil
         } else {
@@ -540,8 +540,18 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         self.tableView.layer.removeAnimation(forKey: "UITableViewReloadDataAnimationKey")
         
         // set the sync control title
-        let atribbutedTitle = "Last Synced: \(passwordStore.getLastSyncedTimeString())"
+        let atribbutedTitle = "Last Synced: \(lastSyncedTimeString())"
         syncControl.attributedTitle = NSAttributedString(string: atribbutedTitle)
+    }
+
+    private func lastSyncedTimeString() -> String {
+        guard let date = self.passwordStore.lastSyncedTime else {
+            return "Oops! Sync again?"
+        }
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
     }
     
     private func reloadTableView(parent: PasswordEntity?, anim: CAAnimation? = nil) {
