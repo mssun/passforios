@@ -74,20 +74,6 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
         }
     }
 
-    private func numberOfPasswordString() -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = NumberFormatter.Style.decimal
-        var numberOfCommits: UInt = 0
-        do {
-            if let _ = try self.passwordStore.storeRepository?.currentBranch().oid {
-                numberOfCommits = self.passwordStore.storeRepository?.numberOfCommits(inCurrentBranch: NSErrorPointer(nilLiteral: ())) ?? 0
-            }
-        } catch {
-            print(error)
-        }
-        return formatter.string(from: NSNumber(value: numberOfCommits)) ?? ""
-    }
-
     private func numberOfPasswordsString() -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = NumberFormatter.Style.decimal
