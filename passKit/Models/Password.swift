@@ -159,14 +159,14 @@ public class Password {
         guard let secretString = getAdditionValue(withKey: "otp_secret"),
             let secretData = MF_Base32Codec.data(fromBase32String: secretString),
             !secretData.isEmpty else {
-                // print("Missing / Invalid otp secret")
+                // Missing / Invalid otp secret
                 return
         }
         
         // get type
         guard let type = getAdditionValue(withKey: "otp_type")?.lowercased(),
             (type == "totp" || type == "hotp") else {
-                // print("Missing  / Invalid otp type")
+                // Missing / Invalid otp type
                 return
         }
         
@@ -189,8 +189,7 @@ public class Password {
             // default: 6 digits, 30 seconds
             guard let digits = Int(getAdditionValue(withKey: "otp_digits") ?? "6"),
                 let period = Double(getAdditionValue(withKey: "otp_period") ?? "30.0") else {
-                    let alertMessage = "Invalid otp_digits or otp_period."
-                    print(alertMessage)
+                    // Invalid otp_digits or otp_period.
                     return
             }
             guard let generator = Generator(
@@ -198,8 +197,7 @@ public class Password {
                 secret: secretData,
                 algorithm: algorithm,
                 digits: digits) else {
-                    let alertMessage = "Invalid OTP generator parameters."
-                    print(alertMessage)
+                    // Invalid OTP generator parameters.
                     return
             }
             self.otpToken = Token(name: self.name, issuer: "", generator: generator)
@@ -208,8 +206,7 @@ public class Password {
             // default: 6 digits
             guard let digits = Int(getAdditionValue(withKey: "otp_digits") ?? "6"),
                 let counter = UInt64(getAdditionValue(withKey: "otp_counter") ?? "") else {
-                    let alertMessage = "Invalid otp_digits or otp_counter."
-                    print(alertMessage)
+                    // Invalid otp_digits or otp_counter.
                     return
             }
             guard let generator = Generator(
@@ -217,8 +214,7 @@ public class Password {
                 secret: secretData,
                 algorithm: algorithm,
                 digits: digits) else {
-                    let alertMessage = "Invalid OTP generator parameters."
-                    print(alertMessage)
+                    // Invalid OTP generator parameters.
                     return
             }
             self.otpToken = Token(name: self.name, issuer: "", generator: generator)

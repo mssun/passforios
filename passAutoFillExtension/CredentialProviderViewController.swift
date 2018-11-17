@@ -43,8 +43,6 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
      prioritize the most relevant credentials in the list.
     */
     override func prepareCredentialList(for serviceIdentifiers: [ASCredentialServiceIdentifier]) {
-        print("prepareCredentialList")
-        
         // clean up the search bar
         guard serviceIdentifiers.count > 0 else {
             searchBar.text = ""

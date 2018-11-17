@@ -115,10 +115,6 @@ public class PasswordStore {
     
     private init() {
         // File migration to group
-        print(Globals.documentPath)
-        print(Globals.libraryPath)
-        print(Globals.documentPathLegacy)
-        print(Globals.libraryPathLegacy)
         migrateIfNeeded()
         backwardCompatibility()
         
@@ -332,14 +328,10 @@ public class PasswordStore {
         guard let storeRepository = storeRepository else {
             throw AppError.RepositoryNotSetError
         }
-        do {
-            let credentialProvider = try credential.credentialProvider(requestGitPassword: requestGitPassword)
-            let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
-            let remote = try GTRemote(name: "origin", in: storeRepository)
-            try storeRepository.pull(storeRepository.currentBranch(), from: remote, withOptions: options, progress: transferProgressBlock)
-        } catch {
-            throw(error)
-        }
+        let credentialProvider = try credential.credentialProvider(requestGitPassword: requestGitPassword)
+        let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
+        let remote = try GTRemote(name: "origin", in: storeRepository)
+        try storeRepository.pull(storeRepository.currentBranch(), from: remote, withOptions: options, progress: transferProgressBlock)
         DispatchQueue.main.async {
             SharedDefaults[.lastSyncedTime] = Date()
             self.setAllSynced()
@@ -602,7 +594,6 @@ public class PasswordStore {
             previousPathLength = passwordURL.path.count
         }
         paths.reverse()
-        print(paths)
         var parentPasswordEntity: PasswordEntity? = nil
         for path in paths {
             let isDir = !path.hasSuffix(".gpg")
@@ -662,7 +653,6 @@ public class PasswordStore {
         var newPasswordEntity: PasswordEntity? = passwordEntity
 
         if password.changed&PasswordChange.content.rawValue != 0 {
-            print("chagne content")
             let saveURL = storeURL.appendingPathComponent(passwordEntity.getURL()!.path)
             try self.encrypt(password: password).write(to: saveURL)
             try gitAdd(path: passwordEntity.getURL()!.path)
@@ -672,7 +662,6 @@ public class PasswordStore {
         }
         
         if password.changed&PasswordChange.path.rawValue != 0 {
-            print("change path")
             let deletedFileURL = passwordEntity.getURL()!
             // add
             try createDirectoryTree(at: password.url)
