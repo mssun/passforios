@@ -13,12 +13,7 @@ import KeychainAccess
 public class Utils {
     public static func getPasswordFromKeychain(name: String) -> String? {
         let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
-        do {
-            return try keychain.getString(name)
-        } catch {
-            print(error)
-        }
-        return nil
+        return (try? keychain.getString(name)) ?? nil
     }
     
     public static func addPasswordToKeychain(name: String, password: String?) {
@@ -28,20 +23,12 @@ public class Utils {
     
     public static func removeKeychain(name: String) {
         let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
-        do {
-            try keychain.remove(name)
-        } catch {
-            print(error)
-        }
+        try? keychain.remove(name)
     }
     
     public static func removeAllKeychain() {
         let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
-        do {
-            try keychain.removeAll()
-        } catch {
-            print(error)
-        }
+        try? keychain.removeAll()
     }
     public static func copyToPasteboard(textToCopy: String?) {
         guard textToCopy != nil else {

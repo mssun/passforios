@@ -163,7 +163,6 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
                     self.extensionContext.completeRequest(withSelectedCredential: passwordCredential, completionHandler: nil)
                 }
             } catch {
-                print(error)
                 DispatchQueue.main.async {
                     // remove the wrong passphrase so that users could enter it next time
                     self.passwordStore.pgpKeyPassphrase = nil

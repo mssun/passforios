@@ -80,9 +80,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             }
             
         } catch {
-            print(error)
             scannerOutput.text = error.localizedDescription
-            return
         }
     }
     

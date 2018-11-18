@@ -91,9 +91,9 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "Fetching PGP Key")
-        passwordStore.pgpKeyImportFromFileSharing()
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
+                try self.passwordStore.pgpKeyImportFromFileSharing()
                 try self.passwordStore.initPGPKeys()
                 DispatchQueue.main.async {
                     self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID

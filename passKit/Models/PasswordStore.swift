@@ -528,10 +528,6 @@ public class PasswordStore {
     private func gitMv(from: String, to: String) throws {
         let fromURL = storeURL.appendingPathComponent(from)
         let toURL = storeURL.appendingPathComponent(to)
-        guard fm.fileExists(atPath: fromURL.path) else {
-            print("\(from) not exist")
-            return
-        }
         try fm.moveItem(at: fromURL, to: toURL)
         try gitAdd(path: to)
         try gitRm(path: from)
@@ -872,20 +868,12 @@ public class PasswordStore {
         }
     }
     
-    public func gitSSHKeyImportFromFileSharing() {
-        do {
-            try fm.moveItem(atPath: Globals.iTunesFileSharingSSHPrivate, toPath: Globals.gitSSHPrivateKeyPath)
-        } catch {
-            print(error)
-        }
+    public func gitSSHKeyImportFromFileSharing() throws {
+        try fm.moveItem(atPath: Globals.iTunesFileSharingSSHPrivate, toPath: Globals.gitSSHPrivateKeyPath)
     }
 
-    public func pgpKeyImportFromFileSharing() {
-        do {
-            try fm.moveItem(atPath: Globals.iTunesFileSharingPGPPublic, toPath: Globals.pgpPublicKeyPath)
-            try fm.moveItem(atPath: Globals.iTunesFileSharingPGPPrivate, toPath: Globals.pgpPrivateKeyPath)
-        } catch {
-            print(error)
-        }
+    public func pgpKeyImportFromFileSharing() throws {
+        try fm.moveItem(atPath: Globals.iTunesFileSharingPGPPublic, toPath: Globals.pgpPublicKeyPath)
+        try fm.moveItem(atPath: Globals.iTunesFileSharingPGPPrivate, toPath: Globals.pgpPrivateKeyPath)
     }
 }

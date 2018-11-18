@@ -230,10 +230,14 @@ class GitServerSettingTableViewController: UITableViewController {
             // might keys updated via iTunes, or downloaded/pasted inside the app
             fileActionTitle.append(" (Import)")
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
-                self.passwordStore.gitSSHKeyImportFromFileSharing()
-                SharedDefaults[.gitSSHKeySource] = "file"
-                SVProgressHUD.showSuccess(withStatus: "Imported")
-                SVProgressHUD.dismiss(withDelay: 1)
+                do {
+                    try self.passwordStore.gitSSHKeyImportFromFileSharing()
+                    SharedDefaults[.gitSSHKeySource] = "file"
+                    SVProgressHUD.showSuccess(withStatus: "Imported")
+                    SVProgressHUD.dismiss(withDelay: 1)
+                } catch {
+                    Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                }
             }
             optionMenu.addAction(fileAction)
         } else {

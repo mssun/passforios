@@ -410,7 +410,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                     SVProgressHUD.dismiss(withDelay: 0.6)
                 }
             } catch {
-                print(error)
                 DispatchQueue.main.async {
                     // remove the wrong passphrase so that users could enter it next time
                     self.passwordStore.pgpKeyPassphrase = nil
