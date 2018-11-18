@@ -845,24 +845,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3dt-Ph-4As">
-                                <rect key="frame" x="20" y="72" width="374" height="664"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3dt-Ph-4As">
+                                <rect key="frame" x="20" y="84" width="374" height="644"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">K7PBbkoaJf6mLyVX3EBU
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <string key="content">K7PBbkoaJf6mLyVX3EBU
 username: passforios-demo@email.com
 URL: https://www.amazon.com
 Secret Question 1: What is your childhood best friend's most bizarre superhero fantasy? Oh god, Amazon, it's too awful to say...
 Phone Support PIN #: 84719</string>
-                                <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="14"/>
+                                        <attributes>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="1" paragraphSpacing="3" paragraphSpacingBefore="3" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="3dt-Ph-4As" secondAttribute="trailing" id="2IV-7r-9eG"/>
-                            <constraint firstItem="7JD-uM-IyS" firstAttribute="top" secondItem="3dt-Ph-4As" secondAttribute="bottom" id="3yp-aL-exH"/>
+                            <constraint firstItem="7JD-uM-IyS" firstAttribute="top" secondItem="3dt-Ph-4As" secondAttribute="bottom" constant="8" symbolic="YES" id="3yp-aL-exH"/>
                             <constraint firstAttribute="leadingMargin" secondItem="3dt-Ph-4As" secondAttribute="leading" id="jgf-j1-lNa"/>
-                            <constraint firstItem="3dt-Ph-4As" firstAttribute="top" secondItem="XeK-cv-AXf" secondAttribute="bottom" constant="8" symbolic="YES" id="yN7-0c-t4Y"/>
+                            <constraint firstItem="3dt-Ph-4As" firstAttribute="top" secondItem="XeK-cv-AXf" secondAttribute="bottom" constant="20" id="yN7-0c-t4Y"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Raw Password" id="c13-zM-tLf">
@@ -1772,7 +1780,6 @@ The clipboard will be cleared 45s after pasting.</string>
         <!--Navigation Controller-->
         <scene sceneID="Hf2-tj-DSK">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5oJ-VM-g5J" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Jzw-qC-crz" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="YCA-VS-Qu8">
@@ -1784,13 +1791,13 @@ The clipboard will be cleared 45s after pasting.</string>
                         <segue destination="ljx-el-KZL" kind="relationship" relationship="rootViewController" id="yqd-o3-osr"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5oJ-VM-g5J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3844.9275362318845" y="1495.9239130434785"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="FT9-BJ-SVt">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0BT-Bk-j2Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0bw-Ed-Xsf" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="D0D-LP-K9m">
@@ -1802,6 +1809,7 @@ The clipboard will be cleared 45s after pasting.</string>
                         <segue destination="ZcQ-fs-QEW" kind="relationship" relationship="rootViewController" id="azd-nb-7xK"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0BT-Bk-j2Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3844.9275362318845" y="6499.7282608695659"/>
         </scene>
