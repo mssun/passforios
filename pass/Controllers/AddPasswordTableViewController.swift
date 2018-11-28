@@ -20,8 +20,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
             [[.type: PasswordEditorCellType.additionsCell, .title: "additions"]],
             [[.type: PasswordEditorCellType.scanQRCodeCell]]
         ]
-        if let lengthSetting = Globals.passwordDefaultLength[SharedDefaults[.passwordGeneratorFlavor]],
-            lengthSetting.max > lengthSetting.min {
+        if PasswordGeneratorFlavour.from(SharedDefaults[.passwordGeneratorFlavor]) == PasswordGeneratorFlavour.RANDOM {
             tableData[1].append([.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"])
         }
         tableData[1].append([.type: PasswordEditorCellType.memorablePasswordGeneratorCell])

@@ -104,11 +104,10 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             return fillPasswordCell!
         case .passwordLengthCell:
             passwordLengthCell = tableView.dequeueReusableCell(withIdentifier: "passwordLengthCell", for: indexPath) as? SliderTableViewCell
-            let lengthSetting = Globals.passwordDefaultLength[SharedDefaults[.passwordGeneratorFlavor]] ??
-                Globals.passwordDefaultLength["Random"]
-            let minimumLength = lengthSetting?.min ?? 0
-            let maximumLength = lengthSetting?.max ?? 0
-            var defaultLength = lengthSetting?.def ?? 0
+            let lengthSetting = PasswordGeneratorFlavour.from(SharedDefaults[.passwordGeneratorFlavor]).defaultLength
+            let minimumLength = lengthSetting.min
+            let maximumLength = lengthSetting.max
+            var defaultLength = lengthSetting.def
             if let currentPasswordLength = (tableData[passwordSection][0][PasswordEditorCellKey.content] as? String)?.count,
                 currentPasswordLength >= minimumLength,
                 currentPasswordLength <= maximumLength {
@@ -203,7 +202,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         showPasswordSettings()
         
         let length = passwordLengthCell?.roundedValue ?? 0
-        let plainPassword = Password.generatePassword(length: length)
+        let plainPassword = PasswordGeneratorFlavour.from(SharedDefaults[.passwordGeneratorFlavor]).generatePassword(length: length)
         SecurePasteboard.shared.copy(textToCopy: plainPassword)
         
         // update tableData so to make sure reloadData() works correctly

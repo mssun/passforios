@@ -39,9 +39,6 @@ public class Globals {
     public static let iTunesFileSharingPGPPrivate = iTunesFileSharingPath + "/gpg_key"
     public static let iTunesFileSharingSSHPrivate = iTunesFileSharingPath + "/ssh_key"
     
-    public static let passwordDefaultLength = ["Random": (min: 4, max: 64, def: 16),
-                                        "Apple":  (min: 15, max: 15, def: 15)]
-    
     public static let gitSignatureDefaultName = "Pass for iOS"
     public static let gitSignatureDefaultEmail = "user@passforios"
     

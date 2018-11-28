@@ -18,8 +18,7 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
             [[.type: PasswordEditorCellType.scanQRCodeCell],
              [.type: PasswordEditorCellType.deletePasswordCell]]
         ]
-        if let lengthSetting = Globals.passwordDefaultLength[SharedDefaults[.passwordGeneratorFlavor]],
-            lengthSetting.max > lengthSetting.min {
+        if PasswordGeneratorFlavour.from(SharedDefaults[.passwordGeneratorFlavor]) == PasswordGeneratorFlavour.RANDOM {
             tableData[1].append([.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"])
         }
         tableData[1].append([.type: PasswordEditorCellType.memorablePasswordGeneratorCell])
