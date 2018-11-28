@@ -33,7 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.perform(#selector(postSearchNotification), with: nil, afterDelay: 0.4)
             }
         }
-        Utils.initDefaultKeys()
         return true
     }
     
