@@ -167,7 +167,7 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.additionsPlainText, additions)
 
         XCTAssertEqual(password.otpType, OtpType.totp)
-        XCTAssertNotNil(password.getOtp())
+        XCTAssertNotNil(password.currentOtp)
     }
 
     func testFirstLineIsOtpToken() {
@@ -182,7 +182,7 @@ class PasswordTest: XCTestCase {
         XCTAssertNil(password.login)
 
         XCTAssertEqual(password.otpType, OtpType.totp)
-        XCTAssertNotNil(password.getOtp())
+        XCTAssertNotNil(password.currentOtp)
     }
 
     func testWrongOtpToken() {
@@ -194,7 +194,7 @@ class PasswordTest: XCTestCase {
         XCTAssertTrue(password.additionsPlainText.isEmpty)
 
         XCTAssertEqual(password.otpType, OtpType.none)
-        XCTAssertNil(password.getOtp())
+        XCTAssertNil(password.currentOtp)
     }
 
     func testEmptyMultilineValues() {
