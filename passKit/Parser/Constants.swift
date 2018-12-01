@@ -30,9 +30,9 @@ public struct Constants {
     static let HOTP = "hotp"
     static let SHA256 = "sha256"
     static let SHA512 = "sha512"
-    static let DEFAULT_DIGITS = "6"
-    static let DEFAULT_PERIOD = "30.0"
-    static let DEFAULT_COUNTER = ""
+    static let DEFAULT_DIGITS = 6
+    static let DEFAULT_PERIOD = 30.0
+    static let DEFAULT_COUNTER: UInt64? = nil
 
     static let BLANK = " "
     static let MULTILINE_WITH_LINE_BREAK_INDICATOR = "|"

@@ -17,9 +17,11 @@
 		302E85632125EE550031BA64 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302E85622125EE550031BA64 /* Constants.swift */; };
 		30A1D29C21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D29B21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift */; };
 		30A1D29E21AF468F00E2D1F7 /* PasswordGeneratorFlavour.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D29D21AF468E00E2D1F7 /* PasswordGeneratorFlavour.swift */; };
+		30A1D2A221B2BC6F00E2D1F7 /* TokenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A121B2BC6F00E2D1F7 /* TokenBuilder.swift */; };
 		30A1D2A621B2D46100E2D1F7 /* OtpType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A521B2D46100E2D1F7 /* OtpType.swift */; };
 		30A1D2A821B2D53200E2D1F7 /* PasswordChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A721B2D53200E2D1F7 /* PasswordChange.swift */; };
 		30A1D2AA21B32A0100E2D1F7 /* OtpTypeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A921B32A0100E2D1F7 /* OtpTypeTest.swift */; };
+		30A1D2AC21B32C2A00E2D1F7 /* TokenBuilderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2AB21B32C2A00E2D1F7 /* TokenBuilderTest.swift */; };
 		30B04860209A5141001013CA /* PasswordTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B0485F209A5141001013CA /* PasswordTest.swift */; };
 		30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD2F77214D9E0E005E0A92 /* ParserTest.swift */; };
 		61326CDA7A73757FB68DCB04 /* Pods_passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAB3F5541E51ADC8C6B56642 /* Pods_passKit.framework */; };
@@ -194,9 +196,11 @@
 		302E85622125EE550031BA64 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		30A1D29B21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorFlavourTest.swift; sourceTree = "<group>"; };
 		30A1D29D21AF468E00E2D1F7 /* PasswordGeneratorFlavour.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordGeneratorFlavour.swift; path = Helpers/PasswordGeneratorFlavour.swift; sourceTree = "<group>"; };
+		30A1D2A121B2BC6F00E2D1F7 /* TokenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenBuilder.swift; sourceTree = "<group>"; };
 		30A1D2A521B2D46100E2D1F7 /* OtpType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtpType.swift; sourceTree = "<group>"; };
 		30A1D2A721B2D53200E2D1F7 /* PasswordChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordChange.swift; sourceTree = "<group>"; };
 		30A1D2A921B32A0100E2D1F7 /* OtpTypeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtpTypeTest.swift; sourceTree = "<group>"; };
+		30A1D2AB21B32C2A00E2D1F7 /* TokenBuilderTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenBuilderTest.swift; sourceTree = "<group>"; };
 		30B0485F209A5141001013CA /* PasswordTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTest.swift; sourceTree = "<group>"; };
 		30FD2F77214D9E0E005E0A92 /* ParserTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
 		31C3033E8868D05B2C55C8B1 /* Pods-passExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passExtension/Pods-passExtension.debug.xcconfig"; sourceTree = "<group>"; };
@@ -400,6 +404,7 @@
 				30A1D2A521B2D46100E2D1F7 /* OtpType.swift */,
 				302E85602125ECC70031BA64 /* Parser.swift */,
 				30A1D2A721B2D53200E2D1F7 /* PasswordChange.swift */,
+				30A1D2A121B2BC6F00E2D1F7 /* TokenBuilder.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -411,6 +416,7 @@
 				301F6467216165290071A4CE /* ConstantsTest.swift */,
 				30A1D2A921B32A0100E2D1F7 /* OtpTypeTest.swift */,
 				30FD2F77214D9E0E005E0A92 /* ParserTest.swift */,
+				30A1D2AB21B32C2A00E2D1F7 /* TokenBuilderTest.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -1152,6 +1158,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30A1D2A221B2BC6F00E2D1F7 /* TokenBuilder.swift in Sources */,
 				A2BEC1BB207D2EFE00F3051C /* UIViewExtension.swift in Sources */,
 				302E85632125EE550031BA64 /* Constants.swift in Sources */,
 				301F6463216162550071A4CE /* AdditionField.swift in Sources */,
@@ -1183,6 +1190,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				301F646A216166000071A4CE /* StringExtensionTest.swift in Sources */,
+				30A1D2AC21B32C2A00E2D1F7 /* TokenBuilderTest.swift in Sources */,
 				301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */,
 				30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */,
 				30B04860209A5141001013CA /* PasswordTest.swift in Sources */,
