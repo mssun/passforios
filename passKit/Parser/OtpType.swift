@@ -1,8 +1,8 @@
 //
-//  PasswordHelpers.swift
+//  OtpType.swift
 //  passKit
 //
-//  Created by Danny Moesch on 17.08.18.
+//  Created by Danny Moesch on 01.12.2018.
 //  Copyright © 2018 Bob Sun. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import OneTimePassword
 
 public enum OtpType {
     case totp, hotp, none
-    
+
     init(token: Token?) {
         switch token?.generator.factor {
         case .some(.counter):
@@ -21,10 +21,15 @@ public enum OtpType {
             self = .none
         }
     }
-}
 
-enum PasswordChange: Int {
-    case path = 0x01
-    case content = 0x02
-    case none = 0x00
+    init(name: String?) {
+        switch name?.lowercased() {
+        case Constants.HOTP:
+            self = .hotp
+        case Constants.TOTP:
+            self = .totp
+        default:
+            self = .none
+        }
+    }
 }
