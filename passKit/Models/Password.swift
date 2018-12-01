@@ -6,7 +6,6 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import SwiftyUserDefaults
 import OneTimePassword
 import Base32
 
@@ -56,6 +55,10 @@ public class Password {
         return getAdditionValue(withKey: Constants.URL_KEYWORD)
     }
 
+    public var currentOtp: String? {
+        return otpToken?.currentPassword
+    }
+
     public init(name: String, url: URL, plainText: String) {
         self.name = name
         self.url = url
@@ -83,7 +86,7 @@ public class Password {
     }
 
     private func initEverything() {
-        parser = Parser(plainText: self.plainText)
+        parser = Parser(plainText: plainText)
         additions = parser.additionFields
 
         // Check whether the first line looks like an otp entry.
@@ -95,9 +98,9 @@ public class Password {
 
     private func checkPasswordForOtpToken() {
         let (key, value) = Parser.getKeyValuePair(from: password)
-        if Constants.OTP_KEYWORDS.contains(key ?? "") {
+        if let key = key, Constants.OTP_KEYWORDS.contains(key) {
             firstLineIsOTPField = true
-            additions.append(key! => value)
+            additions.append(key => value)
         } else {
             firstLineIsOTPField = false
         }
@@ -114,7 +117,7 @@ public class Password {
     }
 
     private func getAdditionValue(withKey key: String, caseSensitive: Bool = false) -> String? {
-        let toLowercase = { (string: String) -> String in return caseSensitive ? string : string.lowercased() }
+        let toLowercase = { (string: String) -> String in caseSensitive ? string : string.lowercased() }
         return additions.first(where: { toLowercase($0.title) == toLowercase(key) })?.content
     }
     
@@ -238,11 +241,6 @@ public class Password {
         }
         let otp = self.otpToken?.currentPassword ?? "error"
         return (description, otp)
-    }
-    
-    // return the password strings
-    public func getOtp() -> String? {
-        return self.otpToken?.currentPassword
     }
     
     // return the password strings
