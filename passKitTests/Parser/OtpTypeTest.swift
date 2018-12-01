@@ -1,8 +1,8 @@
 //
-//  PasswordHelpersTest.swift
+//  OtpTypeTest.swift
 //  passKitTests
 //
-//  Created by Danny Moesch on 30.09.18.
+//  Created by Danny Moesch on 01.12.18.
 //  Copyright © 2018 Bob Sun. All rights reserved.
 //
 
@@ -11,9 +11,9 @@ import XCTest
 
 @testable import passKit
 
-class PasswordHelpersTest: XCTestCase {
+class OtpTypeTest: XCTestCase {
 
-    func testOtpType() {
+    func testInitFromToken() {
         let secret = "secret".data(using: .utf8)!
 
         let totpGenerator = Generator(factor: .timer(period: 30.0), secret: secret, algorithm: .sha1, digits: 6)!
@@ -25,5 +25,15 @@ class PasswordHelpersTest: XCTestCase {
         XCTAssertEqual(OtpType(token: hotpToken), .hotp)
 
         XCTAssertEqual(OtpType(token: nil), .none)
+    }
+
+    func testInitFromString() {
+        XCTAssertEqual(OtpType(name: "totp"), .totp)
+        XCTAssertEqual(OtpType(name: "tOtP"), .totp)
+        XCTAssertEqual(OtpType(name: "hotp"), .hotp)
+        XCTAssertEqual(OtpType(name: "HoTp"), .hotp)
+        XCTAssertEqual(OtpType(name: nil), .none)
+        XCTAssertEqual(OtpType(name: ""), .none)
+        XCTAssertEqual(OtpType(name: "something"), .none)
     }
 }

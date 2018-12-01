@@ -10,7 +10,6 @@
 		18F19A67B0C07F13C17169E0 /* Pods_pass.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5620D17DF5E86B61761D0E /* Pods_pass.framework */; };
 		23B82F0228254275DBA609E7 /* Pods_passExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B975797E0F0B7476CADD6A7D /* Pods_passExtension.framework */; };
 		301F6463216162550071A4CE /* AdditionField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6462216162550071A4CE /* AdditionField.swift */; };
-		301F6466216164830071A4CE /* PasswordHelpersTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6465216164830071A4CE /* PasswordHelpersTest.swift */; };
 		301F6468216165290071A4CE /* ConstantsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6467216165290071A4CE /* ConstantsTest.swift */; };
 		301F646A216166000071A4CE /* StringExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6469216166000071A4CE /* StringExtensionTest.swift */; };
 		301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F646C216166AA0071A4CE /* AdditionFieldTest.swift */; };
@@ -18,7 +17,9 @@
 		302E85632125EE550031BA64 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302E85622125EE550031BA64 /* Constants.swift */; };
 		30A1D29C21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D29B21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift */; };
 		30A1D29E21AF468F00E2D1F7 /* PasswordGeneratorFlavour.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D29D21AF468E00E2D1F7 /* PasswordGeneratorFlavour.swift */; };
-		30AAC05321989DCE00F656CE /* PasswordHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AAC05221989DCE00F656CE /* PasswordHelpers.swift */; };
+		30A1D2A621B2D46100E2D1F7 /* OtpType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A521B2D46100E2D1F7 /* OtpType.swift */; };
+		30A1D2A821B2D53200E2D1F7 /* PasswordChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A721B2D53200E2D1F7 /* PasswordChange.swift */; };
+		30A1D2AA21B32A0100E2D1F7 /* OtpTypeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A921B32A0100E2D1F7 /* OtpTypeTest.swift */; };
 		30B04860209A5141001013CA /* PasswordTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B0485F209A5141001013CA /* PasswordTest.swift */; };
 		30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD2F77214D9E0E005E0A92 /* ParserTest.swift */; };
 		61326CDA7A73757FB68DCB04 /* Pods_passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAB3F5541E51ADC8C6B56642 /* Pods_passKit.framework */; };
@@ -186,7 +187,6 @@
 
 /* Begin PBXFileReference section */
 		301F6462216162550071A4CE /* AdditionField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionField.swift; sourceTree = "<group>"; };
-		301F6465216164830071A4CE /* PasswordHelpersTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordHelpersTest.swift; sourceTree = "<group>"; };
 		301F6467216165290071A4CE /* ConstantsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsTest.swift; sourceTree = "<group>"; };
 		301F6469216166000071A4CE /* StringExtensionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionTest.swift; sourceTree = "<group>"; };
 		301F646C216166AA0071A4CE /* AdditionFieldTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionFieldTest.swift; sourceTree = "<group>"; };
@@ -194,7 +194,9 @@
 		302E85622125EE550031BA64 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		30A1D29B21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorFlavourTest.swift; sourceTree = "<group>"; };
 		30A1D29D21AF468E00E2D1F7 /* PasswordGeneratorFlavour.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordGeneratorFlavour.swift; path = Helpers/PasswordGeneratorFlavour.swift; sourceTree = "<group>"; };
-		30AAC05221989DCE00F656CE /* PasswordHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordHelpers.swift; path = Helpers/PasswordHelpers.swift; sourceTree = "<group>"; };
+		30A1D2A521B2D46100E2D1F7 /* OtpType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtpType.swift; sourceTree = "<group>"; };
+		30A1D2A721B2D53200E2D1F7 /* PasswordChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordChange.swift; sourceTree = "<group>"; };
+		30A1D2A921B32A0100E2D1F7 /* OtpTypeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtpTypeTest.swift; sourceTree = "<group>"; };
 		30B0485F209A5141001013CA /* PasswordTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTest.swift; sourceTree = "<group>"; };
 		30FD2F77214D9E0E005E0A92 /* ParserTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
 		31C3033E8868D05B2C55C8B1 /* Pods-passExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passExtension/Pods-passExtension.debug.xcconfig"; sourceTree = "<group>"; };
@@ -384,7 +386,6 @@
 		301F6464216164670071A4CE /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				301F6465216164830071A4CE /* PasswordHelpersTest.swift */,
 				301F6469216166000071A4CE /* StringExtensionTest.swift */,
 				30A1D29B21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift */,
 			);
@@ -396,7 +397,9 @@
 			children = (
 				301F6462216162550071A4CE /* AdditionField.swift */,
 				302E85622125EE550031BA64 /* Constants.swift */,
+				30A1D2A521B2D46100E2D1F7 /* OtpType.swift */,
 				302E85602125ECC70031BA64 /* Parser.swift */,
+				30A1D2A721B2D53200E2D1F7 /* PasswordChange.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 			children = (
 				301F646C216166AA0071A4CE /* AdditionFieldTest.swift */,
 				301F6467216165290071A4CE /* ConstantsTest.swift */,
+				30A1D2A921B32A0100E2D1F7 /* OtpTypeTest.swift */,
 				30FD2F77214D9E0E005E0A92 /* ParserTest.swift */,
 			);
 			path = Parser;
@@ -534,7 +538,6 @@
 				A2F4E21A1EED80160011986E /* Globals.swift */,
 				A2F4E21B1EED80160011986E /* NotificationNames.swift */,
 				30A1D29D21AF468E00E2D1F7 /* PasswordGeneratorFlavour.swift */,
-				30AAC05221989DCE00F656CE /* PasswordHelpers.swift */,
 				A239F51E2157B72700576CBF /* StringExtension.swift */,
 				A2F4E21C1EED80160011986E /* UITextFieldExtension.swift */,
 				A2BEC1BA207D2EFE00F3051C /* UIViewExtension.swift */,
@@ -1156,6 +1159,7 @@
 				A2F4E2151EED800F0011986E /* Password.swift in Sources */,
 				A26075AD1EEC7125005DB03E /* pass.xcdatamodeld in Sources */,
 				30A1D29E21AF468F00E2D1F7 /* PasswordGeneratorFlavour.swift in Sources */,
+				30A1D2A821B2D53200E2D1F7 /* PasswordChange.swift in Sources */,
 				A239F51F2157B72700576CBF /* StringExtension.swift in Sources */,
 				A239F5212157B75E00576CBF /* FileManagerExtension.swift in Sources */,
 				A2F4E21E1EED80160011986E /* AppError.swift in Sources */,
@@ -1165,10 +1169,10 @@
 				A2F4E2221EED80160011986E /* UITextFieldExtension.swift in Sources */,
 				A2C532BF201E5AA100DB9F53 /* PasscodeLockPresenter.swift in Sources */,
 				A2C532BE201E5AA100DB9F53 /* PasscodeLockViewController.swift in Sources */,
-				30AAC05321989DCE00F656CE /* PasswordHelpers.swift in Sources */,
 				A2F4E2201EED80160011986E /* Globals.swift in Sources */,
 				A2F4E2231EED80160011986E /* Utils.swift in Sources */,
 				A2F4E21F1EED80160011986E /* DefaultsKeys.swift in Sources */,
+				30A1D2A621B2D46100E2D1F7 /* OtpType.swift in Sources */,
 				A2F4E2141EED800F0011986E /* GitCredential.swift in Sources */,
 				A2F4E2161EED800F0011986E /* PasswordEntity.swift in Sources */,
 			);
@@ -1179,10 +1183,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				301F646A216166000071A4CE /* StringExtensionTest.swift in Sources */,
-				301F6466216164830071A4CE /* PasswordHelpersTest.swift in Sources */,
 				301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */,
 				30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */,
 				30B04860209A5141001013CA /* PasswordTest.swift in Sources */,
+				30A1D2AA21B32A0100E2D1F7 /* OtpTypeTest.swift in Sources */,
 				301F6468216165290071A4CE /* ConstantsTest.swift in Sources */,
 				30A1D29C21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift in Sources */,
 				A26075881EEC6F34005DB03E /* passKitTests.swift in Sources */,
