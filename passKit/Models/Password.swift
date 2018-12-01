@@ -143,84 +143,26 @@ public class Password {
      
      */
     private func updateOtpToken() {
-        self.otpToken = nil
-        
         // get otpauth, if we are able to generate a token, return
         if var otpauthString = getAdditionValue(withKey: Constants.OTPAUTH, caseSensitive: true) {
             if !otpauthString.hasPrefix("\(Constants.OTPAUTH):") {
                 otpauthString = "\(Constants.OTPAUTH):\(otpauthString)"
             }
-            if let otpauthUrl = URL(string: otpauthString),
-                let token = Token(url: otpauthUrl) {
-                self.otpToken = token
+            if let otpauthUrl = URL(string: otpauthString), let token = Token(url: otpauthUrl) {
+                otpToken = token
                 return
             }
         }
         
-        // get secret data
-        guard let secretString = getAdditionValue(withKey: Constants.OTP_SECRET),
-            let secretData = MF_Base32Codec.data(fromBase32String: secretString),
-            !secretData.isEmpty else {
-                // Missing / Invalid otp secret
-                return
-        }
-        
-        // get type
-        guard let type = getAdditionValue(withKey: Constants.OTP_TYPE)?.lowercased(),
-            (type == Constants.TOTP || type == Constants.HOTP) else {
-                // Missing/Invalid OTP type
-                return
-        }
-        
-        // get algorithm (optional)
-        var algorithm = Generator.Algorithm.sha1
-        if let algoString = getAdditionValue(withKey: Constants.OTP_ALGORITHM) {
-            switch algoString.lowercased() {
-                case Constants.SHA256:
-                    algorithm = .sha256
-                case Constants.SHA512:
-                    algorithm = .sha512
-                default:
-                    algorithm = .sha1
-            }
-        }
-    
-        // construct the token
-        if type == Constants.TOTP {
-            // HOTP
-            // default: 6 digits, 30 seconds
-            guard let digits = Int(getAdditionValue(withKey: Constants.OTP_DIGITS) ?? Constants.DEFAULT_DIGITS),
-                let period = Double(getAdditionValue(withKey: Constants.OTP_PERIOD) ?? Constants.DEFAULT_PERIOD) else {
-                    // Invalid OTP digits or OTP period.
-                    return
-            }
-            guard let generator = Generator(
-                factor: .timer(period: period),
-                secret: secretData,
-                algorithm: algorithm,
-                digits: digits) else {
-                    // Invalid OTP generator parameters.
-                    return
-            }
-            self.otpToken = Token(name: self.name, issuer: "", generator: generator)
-        } else {
-            // HOTP
-            // default: 6 digits
-            guard let digits = Int(getAdditionValue(withKey: Constants.OTP_DIGITS) ?? Constants.DEFAULT_DIGITS),
-                let counter = UInt64(getAdditionValue(withKey: Constants.OTP_COUNTER) ?? Constants.DEFAULT_COUNTER) else {
-                    // Invalid OTP digits or OTP counter.
-                    return
-            }
-            guard let generator = Generator(
-                factor: .counter(counter),
-                secret: secretData,
-                algorithm: algorithm,
-                digits: digits) else {
-                    // Invalid OTP generator parameters.
-                    return
-            }
-            self.otpToken = Token(name: self.name, issuer: "", generator: generator)
-        }
+        otpToken = TokenBuilder()
+            .usingName(name)
+            .usingSecret(getAdditionValue(withKey: Constants.OTP_SECRET))
+            .usingType(getAdditionValue(withKey: Constants.OTP_TYPE))
+            .usingAlgorithm(getAdditionValue(withKey: Constants.OTP_ALGORITHM))
+            .usingDigits(getAdditionValue(withKey: Constants.OTP_DIGITS))
+            .usingPeriod(getAdditionValue(withKey: Constants.OTP_PERIOD))
+            .usingCounter(getAdditionValue(withKey: Constants.OTP_COUNTER))
+            .build()
     }
     
     // return the description and the password strings

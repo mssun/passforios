@@ -15,7 +15,8 @@ class PasswordTest: XCTestCase {
     private let PASSWORD_PATH = "/path/to/password"
     private let PASSWORD_URL = URL(fileURLWithPath: "/path/to/password")
     private let PASSWORD_STRING = "abcd1234"
-    private let OTP_TOKEN = "otpauth://totp/email@email.com?secret=abcd1234"
+    private let TOTP_URL = "otpauth://totp/email@email.com?secret=abcd1234"
+    private let HOTP_URL = "otpauth://hotp/email@email.com?secret=abcd1234"
 
     private let SECURE_URL_FIELD = "url" => "https://secure.com"
     private let INSECURE_URL_FIELD = "url" => "http://insecure.com"
@@ -23,6 +24,7 @@ class PasswordTest: XCTestCase {
     private let USERNAME_FIELD = "username" => "some username"
     private let NOTE_FIELD = "note" => "A NOTE"
     private let HINT_FIELD = "some hints" => "äöüß // €³ %% −° && @²` | [{\\}],.<>"
+    private let TOTP_URL_FIELD = "otpauth" => "//totp/email@email.com?secret=abcd1234"
 
     func testUrl() {
         let password = getPasswordObjectWith(content: "")
@@ -158,7 +160,7 @@ class PasswordTest: XCTestCase {
     }
 
     func testPasswordFileWithOtpToken() {
-        let additions = NOTE_FIELD | OTP_TOKEN
+        let additions = NOTE_FIELD | TOTP_URL
         let fileContent = PASSWORD_STRING | additions
         let password = getPasswordObjectWith(content: fileContent)
 
@@ -166,22 +168,52 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
         XCTAssertEqual(password.additionsPlainText, additions)
 
-        XCTAssertEqual(password.otpType, OtpType.totp)
+        XCTAssertEqual(password.otpType, .totp)
         XCTAssertNotNil(password.currentOtp)
     }
 
     func testFirstLineIsOtpToken() {
-        let password = getPasswordObjectWith(content: OTP_TOKEN)
+        let password = getPasswordObjectWith(content: TOTP_URL)
 
-        XCTAssertEqual(password.password, OTP_TOKEN)
-        XCTAssertEqual(password.plainData, OTP_TOKEN.data(using: .utf8))
+        XCTAssertEqual(password.password, TOTP_URL)
+        XCTAssertEqual(password.plainData, TOTP_URL.data(using: .utf8))
         XCTAssertEqual(password.additionsPlainText, "")
 
         XCTAssertNil(password.username)
         XCTAssertNil(password.urlString)
         XCTAssertNil(password.login)
 
-        XCTAssertEqual(password.otpType, OtpType.totp)
+        XCTAssertEqual(password.otpType, .totp)
+        XCTAssertNotNil(password.currentOtp)
+    }
+
+    func testOtpTokenAsField() {
+        let additions = TOTP_URL_FIELD.asString
+        let fileContent = PASSWORD_STRING | additions
+        let password = getPasswordObjectWith(content: fileContent)
+
+        XCTAssertEqual(password.password, PASSWORD_STRING)
+        XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
+        XCTAssertEqual(password.additionsPlainText, additions)
+
+        XCTAssertEqual(password.otpType, .totp)
+        XCTAssertNotNil(password.currentOtp)
+    }
+
+    func testOtpTokenFromFields() {
+        let additions =
+            Constants.OTP_SECRET => "secret" |
+            Constants.OTP_TYPE => "hotp" |
+            Constants.OTP_COUNTER => "12" |
+            Constants.OTP_DIGITS => "7"
+        let fileContent = PASSWORD_STRING | additions
+        let password = getPasswordObjectWith(content: fileContent)
+
+        XCTAssertEqual(password.password, PASSWORD_STRING)
+        XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
+        XCTAssertEqual(password.additionsPlainText, additions)
+
+        XCTAssertEqual(password.otpType, .hotp)
         XCTAssertNotNil(password.currentOtp)
     }
 
