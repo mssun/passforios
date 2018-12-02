@@ -156,24 +156,18 @@ public class Password {
             .build()
     }
     
-    // return the description and the password strings
+    /// Get the OTP description and the current password.
     public func getOtpStrings() -> (description: String, otp: String)? {
-        guard let token = self.otpToken else {
+        guard otpToken != nil else {
             return nil
         }
-        var description : String
-        switch token.generator.factor {
-        case .counter:
-            // htop
-            description = "HMAC-based"
-        case .timer(let period):
-            // totp
+        var description = otpType.description
+        if case let .timer(period)? = otpToken?.generator.factor {
             let timeSinceEpoch = Date().timeIntervalSince1970
             let validTime = Int(period - timeSinceEpoch.truncatingRemainder(dividingBy: period))
-            description = "time-based (expiring in \(validTime)s)"
+            description += " (expires in \(validTime)s)"
         }
-        let otp = self.otpToken?.currentPassword ?? "error"
-        return (description, otp)
+        return (description, otpToken!.currentPassword ?? "error")
     }
     
     // return the password strings

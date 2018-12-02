@@ -8,9 +8,15 @@
 
 import OneTimePassword
 
-public enum OtpType {
-    case totp, hotp, none
+public enum OtpType: String {
+    case totp = "time-based"
+    case hotp = "HMAC-based"
+    case none
 
+    var description: String {
+        return rawValue
+    }
+    
     init(token: Token?) {
         switch token?.generator.factor {
         case .some(.counter):

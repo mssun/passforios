@@ -298,6 +298,29 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.changed, 3)
     }
 
+    func testOtpStringsNoOtpToken() {
+        let password = getPasswordObjectWith(content: "")
+        let otpStrings = password.getOtpStrings()
+
+        XCTAssertNil(otpStrings)
+    }
+
+    func testOtpStringsTotpToken() {
+        let password = getPasswordObjectWith(content: TOTP_URL)
+        let otpStrings = password.getOtpStrings()
+
+        XCTAssertNotNil(otpStrings)
+        XCTAssertTrue(otpStrings!.description.hasPrefix("time-based (expires in"))
+    }
+
+    func testOtpStringsHotpToken() {
+        let password = getPasswordObjectWith(content: HOTP_URL)
+        let otpStrings = password.getOtpStrings()
+
+        XCTAssertNotNil(otpStrings)
+        XCTAssertEqual(otpStrings!.description, "HMAC-based")
+    }
+
     private func getPasswordObjectWith(content: String, url: URL? = nil) -> Password {
         return Password(name: "password", url: url ?? PASSWORD_URL, plainText: content)
     }
