@@ -121,29 +121,19 @@ public class Password {
         return additions.first(where: { toLowercase($0.title) == toLowercase(key) })?.content
     }
     
-    /*
-     Set otpType and otpToken, if we are able to construct a valid token.
-     
-     Example of TOTP otpauth
-     (Key Uri Format: https://github.com/google/google-authenticator/wiki/Key-Uri-Format)
-     otpauth://totp/totp-secret?secret=AAAAAAAAAAAAAAAA&issuer=totp-secret
-     
-     Example of TOTP fields [Legacy, lower priority]
-     otp_secret: secretsecretsecretsecretsecretsecret
-     otp_type: totp
-     otp_algorithm: sha1 (default: sha1, optional)
-     otp_period: 30 (default: 30, optional)
-     otp_digits: 6 (default: 6, optional)
-     
-     Example of HOTP fields [Legacy, lower priority]
-     otp_secret: secretsecretsecretsecretsecretsecret
-     otp_type: hotp
-     otp_counter: 1
-     otp_digits: 6 (default: 6, optional)
-     
-     */
+    /// Set the OTP token if we are able to construct a valid one.
+    ///
+    /// Example of TOTP otpauth:
+    ///
+    ///     otpauth://totp/totp-secret?secret=AAAAAAAAAAAAAAAA&issuer=totp-secret
+    ///
+    /// See also [Key Uri Format](https://github.com/google/google-authenticator/wiki/Key-Uri-Format).
+    ///
+    /// In case no otpauth is given in the password file, try to construct the token from separate fields using a
+    /// `TokenBuilder`. This means that tokens provided as otpauth have higher priority.
+    ///
     private func updateOtpToken() {
-        // get otpauth, if we are able to generate a token, return
+        // Get otpauth. If we are able to generate a token, return.
         if var otpauthString = getAdditionValue(withKey: Constants.OTPAUTH, caseSensitive: true) {
             if !otpauthString.hasPrefix("\(Constants.OTPAUTH):") {
                 otpauthString = "\(Constants.OTPAUTH):\(otpauthString)"
@@ -153,7 +143,8 @@ public class Password {
                 return
             }
         }
-        
+
+        // Construct OTP token from separate fields provided in the password file.
         otpToken = TokenBuilder()
             .usingName(name)
             .usingSecret(getAdditionValue(withKey: Constants.OTP_SECRET))

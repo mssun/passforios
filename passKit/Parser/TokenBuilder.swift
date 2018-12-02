@@ -9,6 +9,23 @@
 import Base32
 import OneTimePassword
 
+/// Help building an OTP token from given data.
+///
+/// There is currently support TOTP and HOTP tokens:
+///
+/// * Necessary TOTP data
+///   * secret: `secretsecretsecretsecretsecretsecret`
+///   * type: `totp`
+///   * algorithm: `sha1` (default: `sha1`, optional)
+///   * period: `30` (default: `30`, optional)
+///   * digits: `6` (default: `6`, optional)
+///
+/// * Necessary HOTP data
+///   * secret: `secretsecretsecretsecretsecretsecret`
+///   * type: `hotp`
+///   * counter: `1`
+///   * digits: `6` (default: `6`, optional)
+///
 class TokenBuilder {
 
     private var name: String = ""
