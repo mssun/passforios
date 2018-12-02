@@ -108,11 +108,12 @@ public class Password {
 
     public func getFilteredAdditions() -> [AdditionField] {
         return additions.filter { field in
-            field.title.lowercased() != Constants.USERNAME_KEYWORD
-            && field.title.lowercased() != Constants.LOGIN_KEYWORD
-            && field.title.lowercased() != Constants.PASSWORD_KEYWORD
-            && (!field.title.hasPrefix(Constants.UNKNOWN) || !SharedDefaults[.isHideUnknownOn])
-            && (!Constants.OTP_KEYWORDS.contains(field.title) || !SharedDefaults[.isHideOTPOn])
+            let title = field.title.lowercased()
+            return title != Constants.USERNAME_KEYWORD
+                && title != Constants.LOGIN_KEYWORD
+                && title != Constants.PASSWORD_KEYWORD
+                && (!field.title.hasPrefix(Constants.UNKNOWN) || !SharedDefaults[.isHideUnknownOn])
+                && (!Constants.OTP_KEYWORDS.contains(title) || !SharedDefaults[.isHideOTPOn])
         }
     }
 
