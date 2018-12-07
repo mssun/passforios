@@ -141,7 +141,7 @@ class LabelTableViewCell: UITableViewCell {
 
     @objc func openLink(_ sender: Any?) {
         // if isURLCell, passwordTableView should not be nil
-        delegatePasswordTableView!.openLink()
+        delegatePasswordTableView!.openLink(to: cellData?.content)
     }
     
     @objc func getNextHOTP(_ sender: Any?) {
