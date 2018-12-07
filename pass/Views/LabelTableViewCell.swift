@@ -59,7 +59,7 @@ class LabelTableViewCell: UITableViewCell {
                     contentLabel.text = Globals.oneTimePasswordDots
                 }
                 contentLabel.font = Globals.passwordFont
-            } else if title.lowercased().range(of: "url") != nil || verifyUrl(content) {
+            } else if title.lowercased().contains("url") {
                 type = .URL
                 contentLabel.text = content
                 contentLabel.font = UIFont.systemFont(ofSize: contentLabel.font.pointSize)
@@ -197,13 +197,5 @@ class LabelTableViewCell: UITableViewCell {
             buttons = nil
         }
         self.accessoryView = buttons
-    }
-    
-    private func verifyUrl(_ urlString: String?) -> Bool {
-        guard let urlString = urlString,
-            let _ = URL(string: urlString) else {
-                return false
-        }
-        return true
     }
 }
