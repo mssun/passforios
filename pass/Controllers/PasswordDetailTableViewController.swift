@@ -402,7 +402,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     private func formActualWebAddress(from: String) -> String {
         let lowercased = from.lowercased()
         if !(lowercased.starts(with: "https://") || lowercased.starts(with: "http://")) {
-            return "http://\(from)"
+            return "https://\(from)"
         }
         return from
     }
