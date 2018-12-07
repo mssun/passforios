@@ -441,11 +441,29 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             cell.selectionStyle = .none
             return cell
         case .misc:
-            let cell = UITableViewCell()
+            let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
             cell.textLabel?.text = tableDataItem.title
             cell.selectionStyle = .default
+            addHiddenFieldInformation(to: cell)
             return cell
         }
+    }
+
+    private func addHiddenFieldInformation(to cell: UITableViewCell) {
+        guard password != nil, let detailTextLabel = cell.detailTextLabel else {
+            return
+        }
+
+        var numberOfHiddenFields = 0
+        numberOfHiddenFields += SharedDefaults[.isHideUnknownOn] ? password!.numberOfUnknowns : 0
+        numberOfHiddenFields += SharedDefaults[.isHideOTPOn] ? password!.numberOfOtpRelated : 0
+        guard numberOfHiddenFields > 0 else {
+            return
+        }
+
+        detailTextLabel.textAlignment = .center
+        detailTextLabel.textColor = .gray
+        detailTextLabel.text = "\(numberOfHiddenFields) hidden field\(numberOfHiddenFields > 1 ? "s" : "")"
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

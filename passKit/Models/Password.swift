@@ -59,6 +59,14 @@ public class Password {
         return otpToken?.currentPassword
     }
 
+    public var numberOfUnknowns: Int {
+        return additions.map { $0.title }.filter(Constants.isUnknown).count
+    }
+
+    public var numberOfOtpRelated: Int {
+        return additions.map { $0.title }.filter(Constants.isOtpKeyword).count - (firstLineIsOTPField ? 1 : 0)
+    }
+
     public init(name: String, url: URL, plainText: String) {
         self.name = name
         self.url = url
