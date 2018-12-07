@@ -388,20 +388,23 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             SVProgressHUD.dismiss(withDelay: 1)
         }
     }
-    
-    func openLink() {
-        var urlString = self.password?.urlString ?? ""
-        if !urlString.lowercased().starts(with: "https://") && !urlString.lowercased().starts(with: "http://") {
-            urlString = "http://\(urlString)"
-        }
-        guard let url = URL(string: urlString) else {
-            DispatchQueue.main.async {
+
+    func openLink(to address: String?) {
+        guard address != nil, let url = URL(string: formActualWebAddress(from: address!)) else {
+            return DispatchQueue.main.async {
                 Utils.alert(title: "Error", message: "Cannot find a valid URL", controller: self, completion: nil)
             }
-            return;
         }
         SecurePasteboard.shared.copy(textToCopy: password?.password)
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+
+    private func formActualWebAddress(from: String) -> String {
+        let lowercased = from.lowercased()
+        if !(lowercased.starts(with: "https://") || lowercased.starts(with: "http://")) {
+            return "http://\(from)"
+        }
+        return from
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
