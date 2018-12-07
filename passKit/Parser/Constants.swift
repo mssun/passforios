@@ -49,7 +49,15 @@ public struct Constants {
 
     public static func isOtpRelated(line: String) -> Bool {
         let (key, _) = Parser.getKeyValuePair(from: line)
-        return OTP_KEYWORDS.contains(key ?? "")
+        return key != nil && isOtpKeyword(key!)
+    }
+
+    static func isOtpKeyword(_ keyword: String) -> Bool {
+        return OTP_KEYWORDS.contains(keyword.lowercased())
+    }
+
+    static func isUnknown(_ string: String) -> Bool {
+        return string.starts(with: UNKNOWN)
     }
 
     static func unknown(_ number: UInt) -> String {
