@@ -112,8 +112,8 @@ public class Password {
             return title != Constants.USERNAME_KEYWORD
                 && title != Constants.LOGIN_KEYWORD
                 && title != Constants.PASSWORD_KEYWORD
-                && (!field.title.hasPrefix(Constants.UNKNOWN) || !SharedDefaults[.isHideUnknownOn])
-                && (!Constants.OTP_KEYWORDS.contains(title) || !SharedDefaults[.isHideOTPOn])
+                && (!Constants.isUnknown(title) || !SharedDefaults[.isHideUnknownOn])
+                && (!Constants.isOtpKeyword(title) || !SharedDefaults[.isHideOTPOn])
         }
     }
 
