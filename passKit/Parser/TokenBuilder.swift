@@ -11,7 +11,7 @@ import OneTimePassword
 
 /// Help building an OTP token from given data.
 ///
-/// There is currently support TOTP and HOTP tokens:
+/// There is currently support for TOTP and HOTP tokens:
 ///
 /// * Necessary TOTP data
 ///   * secret: `secretsecretsecretsecretsecretsecret`
