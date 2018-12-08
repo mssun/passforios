@@ -1,5 +1,5 @@
 //
-//  PasswordTests.swift
+//  PasswordTest.swift
 //  passKitTests
 //
 //  Created by Danny Moesch on 02.05.18.
@@ -11,20 +11,6 @@ import XCTest
 @testable import passKit
 
 class PasswordTest: XCTestCase {
-
-    private let PASSWORD_PATH = "/path/to/password"
-    private let PASSWORD_URL = URL(fileURLWithPath: "/path/to/password")
-    private let PASSWORD_STRING = "abcd1234"
-    private let TOTP_URL = "otpauth://totp/email@email.com?secret=abcd1234"
-    private let HOTP_URL = "otpauth://hotp/email@email.com?secret=abcd1234"
-
-    private let SECURE_URL_FIELD = "url" => "https://secure.com"
-    private let INSECURE_URL_FIELD = "url" => "http://insecure.com"
-    private let LOGIN_FIELD = "login" => "login name"
-    private let USERNAME_FIELD = "username" => "some username"
-    private let NOTE_FIELD = "note" => "A NOTE"
-    private let HINT_FIELD = "some hints" => "äöüß // €³ %% −° && @²` | [{\\}],.<>"
-    private let TOTP_URL_FIELD = "otpauth" => "//totp/email@email.com?secret=abcd1234"
 
     func testUrl() {
         let password = getPasswordObjectWith(content: "")
@@ -319,13 +305,5 @@ class PasswordTest: XCTestCase {
 
         XCTAssertNotNil(otpStrings)
         XCTAssertEqual(otpStrings!.description, "HMAC-based")
-    }
-
-    private func getPasswordObjectWith(content: String, url: URL? = nil) -> Password {
-        return Password(name: "password", url: url ?? PASSWORD_URL, plainText: content)
-    }
-
-    private func does(_ password: Password, contain field: AdditionField) -> Bool {
-        return password.getFilteredAdditions().contains(field)
     }
 }
