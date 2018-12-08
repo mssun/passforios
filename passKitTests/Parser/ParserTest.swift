@@ -11,15 +11,6 @@ import XCTest
 
 class ParserTest: XCTestCase {
 
-    private let FIELD = "key" => "value"
-    private let LOGIN_FIELD = "login" => "login name"
-    private let SECURE_URL_FIELD = "url" => "https://secure.com"
-    private let INSECURE_URL_FIELD = "url" => "http://insecure.com"
-    private let USERNAME_FIELD = "username" => "微 分 方 程"
-    private let NOTE_FIELD = "note" => "A NOTE"
-    private let MULTILINE_BLOCK_START = "multiline block" => "|"
-    private let MULTILINE_LINE_START = "multiline line" => ">"
-
     func testInit() {
         [
             ("", "", "", []),
