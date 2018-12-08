@@ -216,10 +216,7 @@ class PasswordTest: XCTestCase {
     }
 
     func testEmptyMultilineValues() {
-        let lineBreakField1 = "with line breaks" => "| \n"
-        let lineBreakField2 = "with line breaks" => "| \n   "
-        let noLineBreakField = "without line breaks" => " >   "
-        let additions = lineBreakField1 | lineBreakField2 | NOTE_FIELD | noLineBreakField
+        let additions = MULTILINE_BLOCK_START | "\n" | MULTILINE_BLOCK_START | " \n" | NOTE_FIELD | MULTILINE_LINE_START
         let fileContent = PASSWORD_STRING | additions
         let password = getPasswordObjectWith(content: fileContent)
 
@@ -227,10 +224,10 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
         XCTAssertEqual(password.additionsPlainText, additions)
 
-        XCTAssertTrue(does(password, contain: lineBreakField1.title => ""))
-        XCTAssertTrue(does(password, contain: lineBreakField2.title => ""))
+        XCTAssertTrue(does(password, contain: MULTILINE_BLOCK_START.title => ""))
+        XCTAssertTrue(does(password, contain: MULTILINE_BLOCK_START.title => ""))
         XCTAssertTrue(does(password, contain: NOTE_FIELD))
-        XCTAssertTrue(does(password, contain: noLineBreakField.title => ""))
+        XCTAssertTrue(does(password, contain: MULTILINE_LINE_START.title => ""))
     }
 
     func testMultilineValues() {
