@@ -30,10 +30,13 @@ class PasswordTest: XCTestCase {
             XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
             XCTAssertEqual(password.additionsPlainText, "")
             XCTAssertTrue(password.getFilteredAdditions().isEmpty)
+            XCTAssertEqual(password.numberOfUnknowns, 0)
 
             XCTAssertNil(password.username)
             XCTAssertNil(password.urlString)
             XCTAssertNil(password.login)
+
+            XCTAssertEqual(password.numberOfOtpRelated, 0)
         }
     }
 
@@ -75,6 +78,7 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.password, PASSWORD_STRING)
         XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
         XCTAssertEqual(password.additionsPlainText, additions)
+        XCTAssertEqual(password.numberOfUnknowns, 1)
 
         XCTAssert(INSECURE_URL_FIELD ∈ password)
         XCTAssert(Constants.unknown(1) => "efgh5678" ∈ password)
@@ -82,6 +86,8 @@ class PasswordTest: XCTestCase {
         XCTAssertNil(password.username)
         XCTAssertEqual(password.urlString, INSECURE_URL_FIELD.content)
         XCTAssertNil(password.login)
+
+        XCTAssertEqual(password.numberOfOtpRelated, 0)
     }
 
     func testNoPassword() {
@@ -124,6 +130,7 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.password, PASSWORD_STRING)
         XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
         XCTAssertEqual(password.additionsPlainText, additions)
+        XCTAssertEqual(password.numberOfUnknowns, 4)
 
         XCTAssert(Constants.unknown(1) => value1 ∈ password)
         XCTAssert(NOTE_FIELD ∈ password)
@@ -135,6 +142,8 @@ class PasswordTest: XCTestCase {
         XCTAssertNil(password.username)
         XCTAssertEqual(password.urlString, SECURE_URL_FIELD.content)
         XCTAssertNil(password.login)
+
+        XCTAssertEqual(password.numberOfOtpRelated, 0)
     }
 
     func testPasswordFileWithOtpToken() {
@@ -145,7 +154,9 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.password, PASSWORD_STRING)
         XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
         XCTAssertEqual(password.additionsPlainText, additions)
+        XCTAssertEqual(password.numberOfUnknowns, 0)
 
+        XCTAssertEqual(password.numberOfOtpRelated, 1)
         XCTAssertEqual(password.otpType, .totp)
         XCTAssertNotNil(password.currentOtp)
     }
@@ -156,11 +167,13 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.password, TOTP_URL)
         XCTAssertEqual(password.plainData, TOTP_URL.data(using: .utf8))
         XCTAssertEqual(password.additionsPlainText, "")
+        XCTAssertEqual(password.numberOfUnknowns, 0)
 
         XCTAssertNil(password.username)
         XCTAssertNil(password.urlString)
         XCTAssertNil(password.login)
 
+        XCTAssertEqual(password.numberOfOtpRelated, 0)
         XCTAssertEqual(password.otpType, .totp)
         XCTAssertNotNil(password.currentOtp)
     }
@@ -173,7 +186,9 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.password, PASSWORD_STRING)
         XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
         XCTAssertEqual(password.additionsPlainText, additions)
+        XCTAssertEqual(password.numberOfUnknowns, 0)
 
+        XCTAssertEqual(password.numberOfOtpRelated, 1)
         XCTAssertEqual(password.otpType, .totp)
         XCTAssertNotNil(password.currentOtp)
     }
@@ -190,7 +205,9 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.password, PASSWORD_STRING)
         XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
         XCTAssertEqual(password.additionsPlainText, additions)
+        XCTAssertEqual(password.numberOfUnknowns, 0)
 
+        XCTAssertEqual(password.numberOfOtpRelated, 4)
         XCTAssertEqual(password.otpType, .hotp)
         XCTAssertNotNil(password.currentOtp)
     }
@@ -202,7 +219,9 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.password, fileContent)
         XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
         XCTAssertTrue(password.additionsPlainText.isEmpty)
+        XCTAssertEqual(password.numberOfUnknowns, 0)
 
+        XCTAssertEqual(password.numberOfOtpRelated, 0)
         XCTAssertEqual(password.otpType, OtpType.none)
         XCTAssertNil(password.currentOtp)
     }
