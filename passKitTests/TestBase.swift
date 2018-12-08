@@ -32,7 +32,21 @@ func getPasswordObjectWith(content: String, url: URL? = nil) -> Password {
     return Password(name: "password", url: url ?? PASSWORD_URL, plainText: content)
 }
 
-func does(_ password: Password, contain field: AdditionField) -> Bool {
+func assertDefaults(in password: Password, with passwordString: String, and additions: String,
+                    at file: StaticString = #file, line: UInt = #line) {
+    let fileContent = (passwordString | additions).data(using: .utf8)
+    XCTAssertEqual(password.password, passwordString, "Actual passwords do not match.", file: file, line: line)
+    XCTAssertEqual(password.plainData, fileContent, "Plain data are not equal.", file: file, line: line)
+    XCTAssertEqual(password.additionsPlainText, additions, "Plain texts are not equal.", file: file, line: line)
+    XCTAssertEqual(password.otpType, .none, "OTP type is not .none.", file: file, line: line)
+}
+
+infix operator ∈: AdditionPrecedence
+func ∈(field: AdditionField, password: Password) -> Bool {
     return password.getFilteredAdditions().contains(field)
 }
 
+infix operator ∉: AdditionPrecedence
+func ∉(field: AdditionField, password: Password) -> Bool {
+    return !(field ∈ password)
+}
