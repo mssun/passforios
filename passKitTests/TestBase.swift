@@ -38,6 +38,8 @@ func assertDefaults(in password: Password, with passwordString: String, and addi
     XCTAssertEqual(password.password, passwordString, "Actual passwords do not match.", file: file, line: line)
     XCTAssertEqual(password.plainData, fileContent, "Plain data are not equal.", file: file, line: line)
     XCTAssertEqual(password.additionsPlainText, additions, "Plain texts are not equal.", file: file, line: line)
+    XCTAssertEqual(password.numberOfUnknowns, 0, "Number of unknowns is not 0.", file: file, line: line)
+    XCTAssertEqual(password.numberOfOtpRelated, 0, "Number of OTP related fields is not 0.", file: file, line: line)
     XCTAssertEqual(password.otpType, .none, "OTP type is not .none.", file: file, line: line)
 }
 
