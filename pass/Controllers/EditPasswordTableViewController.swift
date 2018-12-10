@@ -24,7 +24,7 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
         tableData[1].append([.type: PasswordEditorCellType.memorablePasswordGeneratorCell])
         super.viewDidLoad()
     }
-    
+
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "saveEditPasswordSegue" {
             // check name
@@ -34,7 +34,7 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
         }
         return true
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "saveEditPasswordSegue" {

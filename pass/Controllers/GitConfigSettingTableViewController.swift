@@ -12,21 +12,21 @@ import passKit
 
 class GitConfigSettingTableViewController: UITableViewController {
     let passwordStore = PasswordStore.shared
-    
+
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = UITableViewAutomaticDimension
-        
+
         let signature = passwordStore.gitSignatureForNow
         nameTextField.placeholder = signature.name
         emailTextField.placeholder = signature.email
         nameTextField.text = SharedDefaults[.gitSignatureName]
         emailTextField.text = SharedDefaults[.gitSignatureEmail]
     }
-    
+
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "saveGitConfigSettingSegue" {
             let name = nameTextField.text!.isEmpty ? Globals.gitSignatureDefaultName : nameTextField.text!

@@ -11,7 +11,7 @@
 import UIKit
 
 open class PasscodeLockPresenter {
-    
+
     fileprivate var mainWindow: UIWindow?
     fileprivate var passcodeLockWindow: UIWindow?
 
@@ -21,16 +21,16 @@ open class PasscodeLockPresenter {
 
     open func present(windowLevel: CGFloat?) {
         guard PasscodeLock.shared.hasPasscode else { return }
-        
+
         // dismiss the original window
         dismiss()
-        
+
         // new window
         mainWindow?.endEditing(true)
         passcodeLockWindow = UIWindow(frame: self.mainWindow!.frame)
         moveWindowsToFront(windowLevel: windowLevel)
         passcodeLockWindow?.isHidden = false
-        
+
         // new vc
         let passcodeLockVC = PasscodeLockViewController()
         let userDismissCompletionCallback = passcodeLockVC.dismissCompletionCallback

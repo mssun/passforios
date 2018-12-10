@@ -10,7 +10,7 @@ import OneTimePassword
 import Base32
 
 public class Password {
-    
+
     public var name: String
     public var url: URL
     public var plainText: String
@@ -50,7 +50,7 @@ public class Password {
     public var login: String? {
         return getAdditionValue(withKey: Constants.LOGIN_KEYWORD)
     }
-    
+
     public var urlString: String? {
         return getAdditionValue(withKey: Constants.URL_KEYWORD)
     }
@@ -73,7 +73,7 @@ public class Password {
         self.plainText = plainText
         initEverything()
     }
-    
+
 
     public func updatePassword(name: String, url: URL, plainText: String) {
         guard self.plainText != plainText || self.url != url else {
@@ -129,7 +129,7 @@ public class Password {
         let toLowercase = { (string: String) -> String in caseSensitive ? string : string.lowercased() }
         return additions.first(where: { toLowercase($0.title) == toLowercase(key) })?.content
     }
-    
+
     /// Set the OTP token if we are able to construct a valid one.
     ///
     /// Example of TOTP otpauth:
@@ -164,7 +164,7 @@ public class Password {
             .usingCounter(getAdditionValue(withKey: Constants.OTP_COUNTER))
             .build()
     }
-    
+
     /// Get the OTP description and the current password.
     public func getOtpStrings() -> (description: String, otp: String)? {
         guard otpToken != nil else {
@@ -178,18 +178,18 @@ public class Password {
         }
         return (description, otpToken!.currentPassword ?? "error")
     }
-    
+
     // return the password strings
     // it is guaranteed that it is a HOTP password when we call this
     public func getNextHotp() -> String? {
         // increase the counter
         otpToken = otpToken?.updatedToken()
-        
+
         // replace old HOTP settings with the new otpauth
         var newOtpauth = try! otpToken?.toURL().absoluteString
         newOtpauth?.append("&secret=")
         newOtpauth?.append(MF_Base32Codec.base32String(from: otpToken?.generator.secret))
-        
+
         var lines : [String] = []
         self.plainText.enumerateLines() { line, _ in
             let (key, _) = Parser.getKeyValuePair(from: line)
@@ -205,7 +205,7 @@ public class Password {
             lines.append(newOtpauth!)
         }
         self.updatePassword(name: self.name, url: self.url, plainText: lines.joined(separator: "\n"))
-        
+
         // get and return the password
         return self.otpToken?.currentPassword
     }

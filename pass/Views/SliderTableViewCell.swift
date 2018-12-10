@@ -18,15 +18,15 @@ class SliderTableViewCell: ContentTableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var slider: UISlider!
-    
+
     var delegate: UITableViewController?
-    
+
     var roundedValue: Int {
         get {
             return Int(valueLabel.text!)!
         }
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -37,7 +37,7 @@ class SliderTableViewCell: ContentTableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
     @IBAction func handleSliderValueChange(_ sender: UISlider) {
         let oldRoundedValue = self.roundedValue
         let newRoundedValue = Int(sender.value)
@@ -51,14 +51,14 @@ class SliderTableViewCell: ContentTableViewCell {
             delegate.generateAndCopyPassword()
         }
     }
-    
+
     func reset(title: String, minimumValue: Int, maximumValue: Int, defaultValue: Int) {
         titleLabel.text = title
         slider.minimumValue = Float(minimumValue)
         slider.maximumValue = Float(maximumValue)
         slider.value = Float(defaultValue)
         valueLabel.text = String(defaultValue)
-        
+
         // "not editable"
         if minimumValue == maximumValue {
             titleLabel.textColor = UIColor.gray
@@ -66,5 +66,5 @@ class SliderTableViewCell: ContentTableViewCell {
             slider.isUserInteractionEnabled = false
         }
     }
-    
+
 }

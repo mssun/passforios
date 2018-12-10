@@ -18,15 +18,15 @@ class FillPasswordTableViewCell: ContentTableViewCell {
 
     @IBOutlet weak var contentTextField: UITextField!
     var delegate: FillPasswordTableViewCellDelegate?
-    
+
     @IBOutlet weak var settingButton: UIButton!
     @IBOutlet weak var generateButton: UIButton!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         contentTextField.font = Globals.passwordFont
-        
+
         // Force aspect ratio of button images
         settingButton.imageView?.contentMode = .scaleAspectFit
         generateButton.imageView?.contentMode = .scaleAspectFit
@@ -37,24 +37,24 @@ class FillPasswordTableViewCell: ContentTableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
     @IBAction func generatePassword(_ sender: UIButton) {
         self.delegate?.generateAndCopyPassword()
     }
-    
+
     @IBAction func showHidePasswordSettings() {
         self.delegate?.showHidePasswordSettings()
     }
-    
+
     // re-color
     @IBAction func textFieldDidChange(_ sender: UITextField) {
         contentTextField.attributedText = Utils.attributedPassword(plainPassword: sender.text ?? "")
     }
-    
+
     override func getContent() -> String? {
         return contentTextField.attributedText?.string
     }
-    
+
     override func setContent(content: String?) {
         contentTextField.attributedText = Utils.attributedPassword(plainPassword: content ?? "")
     }

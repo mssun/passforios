@@ -27,7 +27,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
         tableData[0][0][PasswordEditorCellKey.content] = defaultDirPrefix
         super.viewDidLoad()
     }
-    
+
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "saveAddPasswordSegue" {
             // check PGP key
@@ -37,7 +37,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
                 Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
                 return false
             }
-            
+
             // check name
             guard checkName() == true else {
                 return false
@@ -45,7 +45,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
         }
         return true
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "saveAddPasswordSegue" {

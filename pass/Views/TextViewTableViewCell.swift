@@ -19,11 +19,11 @@ class TextViewTableViewCell: ContentTableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     override func getContent() -> String? {
         return contentTextView.text
     }
-    
+
     override func setContent(content: String?) {
         contentTextView.text = content
     }

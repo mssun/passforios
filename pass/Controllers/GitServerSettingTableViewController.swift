@@ -37,7 +37,7 @@ class GitServerSettingTableViewController: UITableViewController {
             sshKeyCheckView.isHidden = true
         }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Grey out ssh option if ssh_key is not present
@@ -55,30 +55,30 @@ class GitServerSettingTableViewController: UITableViewController {
         checkAuthenticationMethod(method: authenticationMethod)
         authSSHKeyCell.accessoryType = .detailButton
     }
-    
+
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         if cell == authSSHKeyCell {
             showSSHKeyActionSheet()
         }
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         view.endEditing(true)
     }
-    
+
     private func cloneAndSegueIfSuccess() {
         // try to clone
         let gitRepostiroyURL = gitURLTextField.text!.trimmed
         let username = usernameTextField.text!
         let auth = authenticationMethod
-        
+
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "Prepare Repository")
@@ -160,15 +160,15 @@ class GitServerSettingTableViewController: UITableViewController {
         checkAuthenticationMethod(method: authenticationMethod)
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
+
     @IBAction func save(_ sender: Any) {
-        
+
         // some sanity checks
         guard let gitURL = URL(string: gitURLTextField.text!) else {
             Utils.alert(title: "Cannot Save", message: "Please set the Git repository URL.", controller: self, completion: nil)
             return
         }
-        
+
         switch gitURL.scheme {
         case let val where val == "https":
             break
@@ -188,7 +188,7 @@ class GitServerSettingTableViewController: UITableViewController {
             Utils.alert(title: "Cannot Save", message: "Please specify the scheme of the Git repository URL (https or ssh).", controller: self, completion: nil)
             return
         }
-        
+
         if passwordStore.repositoryExisted() {
             let alert = UIAlertController(title: "Overwrite?", message: "This operation will overwrite your current password store data (repository). Data on your remote server will not be affected.", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.destructive, handler: { _ in
@@ -202,13 +202,13 @@ class GitServerSettingTableViewController: UITableViewController {
             cloneAndSegueIfSuccess()
         }
     }
- 
+
     func showSSHKeyActionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var urlActionTitle = "Download from URL"
         var armorActionTitle = "ASCII-Armor Encrypted Key"
         var fileActionTitle = "iTunes File Sharing"
-        
+
         if SharedDefaults[.gitSSHKeySource] == "url" {
             urlActionTitle = "✓ \(urlActionTitle)"
         } else if SharedDefaults[.gitSSHKeySource] == "armor" {
@@ -225,7 +225,7 @@ class GitServerSettingTableViewController: UITableViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         optionMenu.addAction(urlAction)
         optionMenu.addAction(armorAction)
-        
+
         if passwordStore.gitSSHKeyExists(inFileSharing: true) {
             // might keys updated via iTunes, or downloaded/pasted inside the app
             fileActionTitle.append(" (Import)")
@@ -249,7 +249,7 @@ class GitServerSettingTableViewController: UITableViewController {
             }
             optionMenu.addAction(fileAction)
         }
-        
+
         if SharedDefaults[.gitSSHKeySource] != nil {
             let deleteAction = UIAlertAction(title: "Remove Git SSH Keys", style: .destructive) { _ in
                 self.passwordStore.removeGitSSHKeys()
@@ -266,7 +266,7 @@ class GitServerSettingTableViewController: UITableViewController {
         optionMenu.popoverPresentationController?.sourceRect = authSSHKeyCell.bounds
         self.present(optionMenu, animated: true, completion: nil)
     }
-    
+
     private func requestGitPassword(credential: GitCredential.Credential, lastPassword: String?) -> String? {
         let sem = DispatchSemaphore(value: 0)
         var password: String?
@@ -277,7 +277,7 @@ class GitServerSettingTableViewController: UITableViewController {
         case .ssh:
             message = "Please fill in the passphrase of your SSH key."
         }
-        
+
         DispatchQueue.main.async {
             SVProgressHUD.dismiss()
             let alert = UIAlertController(title: "Password", message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -295,7 +295,7 @@ class GitServerSettingTableViewController: UITableViewController {
             })
             self.present(alert, animated: true, completion: nil)
         }
-        
+
         let _ = sem.wait(timeout: .distantFuture)
         return password
     }

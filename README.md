@@ -1,4 +1,4 @@
-<img src="icon/icon_round.png" width="76"/> 
+<img src="icon/icon_round.png" width="76"/>
 
 # Pass
 [![GitHub release](https://img.shields.io/github/release/mssun/passforios.svg)](https://github.com/mssun/passforios/releases)

@@ -28,7 +28,7 @@ class OnePasswordExtensionKey {
     static let returnedFieldsKey = "returned_fields"
     static let oldPasswordKey = "old_password"
     static let passwordGeneratorOptionsKey = "password_generator_options"
-    
+
     // Password Generator options - Used to set the 1Password Password Generator options when saving a new Login or when changing the password for for an existing Login
     static let generatedPasswordMinLengthKey = "password_min_length"
     static let generatedPasswordMaxLengthKey = "password_max_length"

@@ -25,18 +25,18 @@ fileprivate class PasswordsTableEntry : NSObject {
 class CredentialProviderViewController: ASCredentialProviderViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
-    
+
     private let passwordStore = PasswordStore.shared
-    
+
     private var searchActive = false
     private var passwordsTableEntries: [PasswordsTableEntry] = []
     private var filteredPasswordsTableEntries: [PasswordsTableEntry] = []
-    
+
     private lazy var passcodelock: PasscodeExtensionDisplay = {
         let passcodelock = PasscodeExtensionDisplay(extensionContext: self.extensionContext)
         return passcodelock
     }()
-    
+
     /*
      Prepare your UI to list available credentials for the user to choose from. The items in
      'serviceIdentifiers' describe the service the user is logging in to, so your extension can
@@ -50,14 +50,14 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
             searchBarSearchButtonClicked(searchBar)
             return
         }
-        
+
         // get the domain
         var identifier = serviceIdentifiers[0].identifier
         if !identifier.hasPrefix("http://") && !identifier.hasPrefix("https://") {
             identifier = "http://" + identifier
         }
         let url = URL(string: identifier)?.host ?? ""
-        
+
         // "click" search
         searchBar.text = url
         searchBar.becomeFirstResponder()
@@ -102,20 +102,20 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
         super.viewWillAppear(animated)
         passcodelock.presentPasscodeLockIfNeeded(self)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // prepare
         searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "PasswordWithFolderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordWithFolderTableViewCell")
-        
+
         // initialize table entries
         initPasswordsTableEntries()
     }
-    
+
     private func initPasswordsTableEntries() {
         passwordsTableEntries.removeAll()
         filteredPasswordsTableEntries.removeAll()
@@ -125,7 +125,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
             PasswordsTableEntry($0)
         }
     }
-    
+
     // define cell contents, and set long press action
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
@@ -140,16 +140,16 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
         cell.detailTextLabel?.text = entry.categoryText
         return cell
     }
-    
+
     // select row -> extension returns (with username and password)
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let entry = getPasswordEntry(by: indexPath)
-        
+
         guard self.passwordStore.privateKey != nil else {
             Utils.alert(title: "Cannot Copy Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
             return
         }
-        
+
         let passwordEntity = entry.passwordEntity!
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         DispatchQueue.global(qos: .userInteractive).async {
@@ -171,18 +171,18 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
             }
         }
     }
-    
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchActive {
             return filteredPasswordsTableEntries.count
         }
         return passwordsTableEntries.count;
     }
-    
+
     private func requestPGPKeyPassphrase() -> String {
         let sem = DispatchSemaphore(value: 0)
         var passphrase = ""
@@ -204,13 +204,13 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
         }
         return passphrase
     }
-    
+
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         searchActive = false
         self.tableView.reloadData()
     }
-    
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchText = searchBar.text, searchText.isEmpty == false {
             filteredPasswordsTableEntries = passwordsTableEntries.filter { entry in
@@ -229,11 +229,11 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
         }
         self.tableView.reloadData()
     }
-    
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchBarSearchButtonClicked(searchBar)
     }
-    
+
     private func getPasswordEntry(by indexPath: IndexPath) -> PasswordsTableEntry {
         if searchActive {
             return filteredPasswordsTableEntries[indexPath.row]

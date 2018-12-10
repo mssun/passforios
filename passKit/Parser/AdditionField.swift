@@ -35,7 +35,7 @@ extension AdditionField {
 }
 
 extension AdditionField: Equatable {
-    
+
     public static func == (first: AdditionField, second: AdditionField) -> Bool {
         return first.asTuple == second.asTuple
     }

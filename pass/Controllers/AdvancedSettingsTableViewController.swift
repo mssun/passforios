@@ -17,7 +17,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
     @IBOutlet weak var eraseDataTableViewCell: UITableViewCell!
     @IBOutlet weak var discardChangesTableViewCell: UITableViewCell!
     let passwordStore = PasswordStore.shared
-    
+
     let encryptInASCIIArmoredSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Globals.blue
@@ -33,7 +33,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
         encryptInASCIIArmoredTableViewCell.selectionStyle = .none
         setGitSignatureText()
     }
-    
+
     private func setGitSignatureText() {
         let gitSignatureName = passwordStore.gitSignatureForNow.name!
         let gitSignatureEmail = passwordStore.gitSignatureForNow.email!
@@ -77,17 +77,17 @@ class AdvancedSettingsTableViewController: UITableViewController {
                 } catch {
                     Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
                 }
-                    
+
             }))
             alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.cancel, handler:nil))
             self.present(alert, animated: true, completion: nil)
         }
     }
-    
+
     @objc func encryptInASCIIArmoredAction(_ sender: Any?) {
         SharedDefaults[.encryptInArmored] = encryptInASCIIArmoredSwitch.isOn
     }
-    
+
     @IBAction func saveGitConfigSetting(segue: UIStoryboardSegue) {
         if let controller = segue.source as? GitConfigSettingTableViewController {
             if let gitSignatureName = controller.nameTextField.text,

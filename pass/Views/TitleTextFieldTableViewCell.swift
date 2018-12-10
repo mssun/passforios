@@ -12,7 +12,7 @@ class TitleTextFieldTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var contentTextField: UITextField!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -20,7 +20,7 @@ class TitleTextFieldTableViewCell: UITableViewCell {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tap(_:)))
         titleLabel.addGestureRecognizer(tapGestureRecognizer)
     }
-    
+
     @objc func tap(_ sender: Any?) {
         contentTextField.becomeFirstResponder()
     }
@@ -28,5 +28,5 @@ class TitleTextFieldTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
 }

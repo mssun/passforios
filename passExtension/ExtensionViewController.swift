@@ -26,24 +26,24 @@ fileprivate class PasswordsTableEntry : NSObject {
 class ExtensionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UINavigationBarDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
-    
+
     private let passwordStore = PasswordStore.shared
-    
+
     private var searchActive = false
     private var passwordsTableEntries: [PasswordsTableEntry] = []
     private var filteredPasswordsTableEntries: [PasswordsTableEntry] = []
-    
+
     enum Action {
         case findLogin, fillBrowser, unknown
     }
-    
+
     private var extensionAction = Action.unknown
-    
+
     private lazy var passcodelock: PasscodeExtensionDisplay = {
         let passcodelock = PasscodeExtensionDisplay(extensionContext: self.extensionContext)
         return passcodelock
     }()
-    
+
     private func initPasswordsTableEntries() {
         passwordsTableEntries.removeAll()
         filteredPasswordsTableEntries.removeAll()
@@ -53,12 +53,12 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
             PasswordsTableEntry($0)
         }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         passcodelock.presentPasscodeLockIfNeeded(self)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // prepare
@@ -66,15 +66,15 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "PasswordWithFolderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordWithFolderTableViewCell")
-        
+
         // initialize table entries
         initPasswordsTableEntries()
-        
+
         // get the provider
         guard let extensionItems = extensionContext?.inputItems as? [NSExtensionItem] else {
             return
         }
-        
+
         for extensionItem in extensionItems {
             if let itemProviders = extensionItem.attachments as? [NSItemProvider] {
                 for provider in itemProviders {
@@ -133,7 +133,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
             }
         }
     }
-    
+
     // define cell contents, and set long press action
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
@@ -148,16 +148,16 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
         cell.detailTextLabel?.text = entry.categoryText
         return cell
     }
-    
+
     // select row -> extension returns (with username and password)
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let entry = getPasswordEntry(by: indexPath)
-        
+
         guard self.passwordStore.privateKey != nil else {
             Utils.alert(title: "Cannot Copy Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
             return
         }
-        
+
         let passwordEntity = entry.passwordEntity!
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         DispatchQueue.global(qos: .userInteractive).async {
@@ -197,19 +197,19 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
             }
         }
     }
-    
-    
+
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchActive{
             return filteredPasswordsTableEntries.count
         }
         return passwordsTableEntries.count;
     }
-    
+
     private func requestPGPKeyPassphrase() -> String {
         let sem = DispatchSemaphore(value: 0)
         var passphrase = ""
@@ -231,17 +231,17 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
         }
         return passphrase
     }
-    
+
     @IBAction func cancelExtension(_ sender: Any) {
         extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
     }
-    
+
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         searchActive = false
         self.tableView.reloadData()
     }
-    
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchText = searchBar.text, searchText.isEmpty == false {
             filteredPasswordsTableEntries = passwordsTableEntries.filter { entry in
@@ -260,11 +260,11 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
         }
         self.tableView.reloadData()
     }
-    
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchBarSearchButtonClicked(searchBar)
     }
-    
+
     private func getPasswordEntry(by indexPath: IndexPath) -> PasswordsTableEntry {
         if searchActive {
             return filteredPasswordsTableEntries[indexPath.row]

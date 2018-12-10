@@ -12,10 +12,10 @@ import passKit
 class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextViewDelegate, QRScannerControllerDelegate {
     @IBOutlet weak var armorPrivateKeyTextView: UITextView!
     @IBOutlet weak var scanPrivateKeyCell: UITableViewCell!
-    
+
     var gitSSHPrivateKeyPassphrase: String?
     let passwordStore = PasswordStore.shared
-    
+
     class ScannedSSHKey {
         static let maxNumberOfGif = 100
         var numberOfSegments = 0
@@ -24,7 +24,7 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
         var message = ""
         var hasStarted = false
         var isDone = false
-        
+
         func reset() {
             numberOfSegments = 0
             previousSegment = ""
@@ -33,14 +33,14 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
             hasStarted = false
             isDone = false
         }
-        
+
         func addSegment(segment: String) {
             // skip duplicated segments
             guard segment != previousSegment else {
                 return
             }
             previousSegment = segment
-            
+
             // check whether we have found the first block
             if hasStarted == false {
                 hasStarted = segment.contains("-----BEGIN")
@@ -48,38 +48,38 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
             guard hasStarted == true else {
                 return
             }
-            
+
             // check the number of segments
             numberOfSegments = numberOfSegments + 1
             guard numberOfSegments <= ScannedSSHKey.maxNumberOfGif else {
                 key = "Too many QR codes"
                 return
             }
-            
+
             // update full text and check whether we are done
             key.append(segment)
             if let index1 = key.range(of: "-----END")?.lowerBound,
                 let _ = key.suffix(from: index1).range(of: "KEY-----")?.lowerBound {
                 isDone = true
             }
-            
+
             // update message
             message = "\(numberOfSegments) scanned QR codes."
         }
     }
     var scanned = ScannedSSHKey()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         armorPrivateKeyTextView.text = SharedDefaults[.gitSSHPrivateKeyArmor]
         armorPrivateKeyTextView.delegate = self
-        
+
         scanPrivateKeyCell?.textLabel?.text = "Scan Private Key QR Codes"
         scanPrivateKeyCell?.textLabel?.textColor = Globals.blue
         scanPrivateKeyCell?.selectionStyle = .default
         scanPrivateKeyCell?.accessoryType = .disclosureIndicator
     }
-    
+
     @IBAction func doneButtonTapped(_ sender: Any) {
         SharedDefaults[.gitSSHPrivateKeyArmor] = armorPrivateKeyTextView.text
         do {
@@ -90,7 +90,7 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
         SharedDefaults[.gitSSHKeySource] = "armor"
         self.navigationController!.popViewController(animated: true)
     }
-    
+
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == UIPasteboard.general.string {
             // user pastes something, do the copy here again and clear the pasteboard in 45s
@@ -98,7 +98,7 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
         }
         return true
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCell = tableView.cellForRow(at: indexPath)
         if selectedCell == scanPrivateKeyCell {
@@ -107,8 +107,8 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    
+
+
     // MARK: - QRScannerControllerDelegate Methods
     func checkScannedOutput(line: String) -> (accept: Bool, message: String) {
         scanned.addSegment(segment: line)
@@ -118,12 +118,12 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
             return (accept: false, message: scanned.message)
         }
     }
-    
+
     // MARK: - QRScannerControllerDelegate Methods
     func handleScannedOutput(line: String) {
         armorPrivateKeyTextView.text = scanned.key
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showSSHScannerSegue" {
             if let navController = segue.destination as? UINavigationController {
@@ -135,9 +135,9 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
             }
         }
     }
-    
+
     @IBAction private func cancelSSHScanner(segue: UIStoryboardSegue) {
-        
+
     }
 
 }

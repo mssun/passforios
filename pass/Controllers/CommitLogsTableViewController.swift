@@ -13,7 +13,7 @@ import passKit
 class CommitLogsTableViewController: UITableViewController {
     var commits: [GTCommit] = []
     let passwordStore = PasswordStore.shared
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(updateCommitLogs), name: .passwordStoreUpdated, object: nil)
@@ -25,14 +25,14 @@ class CommitLogsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return commits.count
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "commitLogCell", for: indexPath)
         let formatter = DateFormatter()
         formatter.dateStyle = DateFormatter.Style.medium
         formatter.timeStyle = .medium
         let dateString = formatter.string(from: commits[indexPath.row].commitDate)
-        
+
         let author = cell.contentView.viewWithTag(200) as? UILabel
         let dateLabel = cell.contentView.viewWithTag(201) as? UILabel
         let messageLabel = cell.contentView.viewWithTag(202) as? UILabel
@@ -41,12 +41,12 @@ class CommitLogsTableViewController: UITableViewController {
         messageLabel?.text = commits[indexPath.row].message?.trimmed
         return cell
     }
-    
+
     @objc func updateCommitLogs() {
         commits = getCommitLogs()
         tableView.reloadData()
     }
-    
+
     private func getCommitLogs() -> [GTCommit] {
         do {
             return try passwordStore.getRecentCommits(count: 20)

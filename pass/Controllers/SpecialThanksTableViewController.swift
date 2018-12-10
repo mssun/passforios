@@ -19,7 +19,7 @@ class SpecialThanksTableViewController: BasicStaticTableViewController {
         ["FlatIcon",
          "https://www.flaticon.com"],
         ]
-    
+
     override func viewDidLoad() {
         tableData.append([])
         for item in openSourceComponents {

@@ -10,7 +10,7 @@ import Foundation
 import SwiftyUserDefaults
 
 extension PasswordEntity {
-    
+
     public var nameWithCategory: String {
         get {
             if let p = path, p.hasSuffix(".gpg") {
@@ -20,11 +20,11 @@ extension PasswordEntity {
             }
         }
     }
-    
+
     public func getCategoryText() -> String {
         return getCategoryArray().joined(separator: " > ")
     }
-    
+
     public func getCategoryArray() -> [String] {
         var parentEntity = parent
         var passwordCategoryArray: [String] = []
@@ -35,7 +35,7 @@ extension PasswordEntity {
         passwordCategoryArray.reverse()
         return passwordCategoryArray
     }
-    
+
     public func getURL() -> URL? {
         if let p = getPath().stringByAddingPercentEncodingForRFC3986() {
             return URL(string: p)

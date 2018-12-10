@@ -13,7 +13,7 @@ class SettingsSplitViewController: UISplitViewController, UISplitViewControllerD
         self.delegate = self
         self.preferredDisplayMode = .allVisible
     }
-    
+
     func splitViewController(
         _ splitViewController: UISplitViewController,
         collapseSecondary secondaryViewController: UIViewController,

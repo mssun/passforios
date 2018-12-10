@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let presenter = PasscodeLockPresenter(mainWindow: self.window)
         return presenter
     }()
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         SVProgressHUD.setMinimumSize(CGSize(width: 150, height: 100))
@@ -35,18 +35,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return true
     }
-    
+
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         if let _ = window?.rootViewController as? PasscodeLockViewController {
             window?.frame = UIScreen.main.bounds
         }
         return .all
     }
-    
+
     @objc func postSearchNotification() {
         NotificationCenter.default.post(name: .passwordSearch, object: nil)
     }
-    
+
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
         if shortcutItem.type == Globals.bundleIdentifier + ".search" {
             let tabBarController = self.window!.rootViewController as! UITabBarController
@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-        
+
         // Display a blur effect view
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         blurEffectView.tag = ViewTag.blur.rawValue
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.window?.addSubview(blurEffectView)
-        
+
         // Display the Pass icon in the middle of the screen
         let iconsDictionary = Bundle.main.infoDictionary?["CFBundleIcons"] as? NSDictionary
         let primaryIconsDictionary = iconsDictionary?["CFBundlePrimaryIcon"] as? NSDictionary
@@ -85,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        
+
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -95,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        
+
         self.window?.viewWithTag(ViewTag.appicon.rawValue)?.removeFromSuperview()
         self.window?.viewWithTag(ViewTag.blur.rawValue)?.removeFromSuperview()
     }
@@ -107,7 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: - Core Data stack
-    
+
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
@@ -126,7 +126,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                
+
                 /*
                  Typical reasons for an error here include:
                  * The parent directory does not exist, cannot be created, or disallows writing.
@@ -140,9 +140,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
         return container
     }()
-    
+
     // MARK: - Core Data Saving support
-    
+
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {

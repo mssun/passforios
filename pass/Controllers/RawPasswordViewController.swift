@@ -13,7 +13,7 @@ class RawPasswordViewController: UIViewController {
 
     @IBOutlet weak var rawPasswordTextView: UITextView!
     var password: Password?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = password?.name

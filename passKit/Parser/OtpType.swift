@@ -16,7 +16,7 @@ public enum OtpType: String {
     var description: String {
         return rawValue
     }
-    
+
     init(token: Token?) {
         switch token?.generator.factor {
         case .some(.counter):

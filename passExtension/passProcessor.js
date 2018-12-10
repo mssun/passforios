@@ -12,7 +12,7 @@ run: function(arguments) {
         arguments.completionFunction({"url_string": url, "error": error});
     }
 },
-    
+
 finalize: function(arguments) {
     if (arguments["password"]) {
         var passwordElement = document.querySelector("input[type=password]")
@@ -21,7 +21,7 @@ finalize: function(arguments) {
             passwordElement.value = arguments["password"]
         }
     }
-    
+
     if (arguments["username"]) {
         var usernameElement = document.querySelector("input[type=email], input[type=text]")
         if (usernameElement) {

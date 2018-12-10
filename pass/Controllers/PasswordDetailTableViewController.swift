@@ -18,7 +18,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     private var oneTimePasswordIndexPath : IndexPath?
     private var shouldPopCurrentView = false
     private let passwordStore = PasswordStore.shared
-    
+
     private lazy var editUIBarButtonItem: UIBarButtonItem = {
         let uiBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit(_:)))
         return uiBarButtonItem
@@ -31,18 +31,18 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             title = ""
             content = ""
         }
-        
+
         init(title: String) {
             self.title = title
             self.content = ""
         }
-        
+
         init(title: String, content: String) {
             self.title = title
             self.content = content
         }
     }
-    
+
     private struct TableSection {
         var type: PasswordDetailTableViewControllerSectionType
         var header: String?
@@ -52,56 +52,56 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             header = nil
             item = [TableCell]()
         }
-        
+
         init(type: PasswordDetailTableViewControllerSectionType, header: String) {
             self.init(type: type)
             self.header = header
         }
     }
-    
+
     private var tableData = Array<TableSection>()
-    
+
     private enum PasswordDetailTableViewControllerSectionType {
         case name, main, addition, misc
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "LabelTableViewCell", bundle: nil), forCellReuseIdentifier: "labelCell")
         tableView.register(UINib(nibName: "PasswordDetailTitleTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordDetailTitleTableViewCell")
-        
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PasswordDetailTableViewController.tapMenu(recognizer:)))
         tapGesture.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tapGesture)
         tapGesture.delegate = self
-        
+
         tableView.contentInset = UIEdgeInsetsMake(-36, 0, 44, 0);
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 52
-        
+
         editUIBarButtonItem.isEnabled = false
         navigationItem.rightBarButtonItem = editUIBarButtonItem
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         }
-        
+
         if let imageData = passwordEntity?.getImage() {
             let image = UIImage(data: imageData as Data)
             passwordImage = image
         }
         self.decryptThenShowPassword()
         self.setupOneTimePasswordAutoRefresh()
-        
+
         // pop the current view because this password might be "discarded"
         NotificationCenter.default.addObserver(self, selector: #selector(setShouldPopCurrentView), name: .passwordStoreChangeDiscarded, object: nil)
-        
+
         // reset the data table if some password (maybe another one) has been updated
         NotificationCenter.default.addObserver(self, selector: #selector(decryptThenShowPassword), name: .passwordStoreUpdated, object: nil)
-        
+
         // reset the data table if the disaply settings have been changed
         NotificationCenter.default.addObserver(self, selector: #selector(decryptThenShowPassword), name: .passwordDetailDisplaySettingChanged, object: nil)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if self.shouldPopCurrentView {
@@ -112,7 +112,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self.present(alert, animated: true, completion: nil)
         }
     }
-    
+
     private func requestPGPKeyPassphrase() -> String {
         let sem = DispatchSemaphore(value: 0)
         var passphrase = ""
@@ -134,7 +134,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
         return passphrase
     }
-    
+
     @objc private func decryptThenShowPassword() {
         guard let passwordEntity = passwordEntity else {
             Utils.alert(title: "Cannot Show Password", message: "The password does not exist.", controller: self, handler: {(UIAlertAction) -> Void in
@@ -166,7 +166,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self.showPassword()
         }
     }
-    
+
     private func showPassword() {
         DispatchQueue.main.async { [weak self] in
             self?.setTableData()
@@ -179,7 +179,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             }
         }
     }
-    
+
     private func setupOneTimePasswordAutoRefresh() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {
             [weak self] timer in
@@ -204,19 +204,19 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             }
         }
     }
-    
+
     @objc private func pressEdit(_ sender: Any?) {
         performSegue(withIdentifier: "editPasswordSegue", sender: self)
     }
-    
+
     @objc private func setShouldPopCurrentView() {
         self.shouldPopCurrentView = true
     }
-    
+
     @IBAction private func cancelEditPassword(segue: UIStoryboardSegue) {
-    
+
     }
-    
+
     @IBAction private func saveEditPassword(segue: UIStoryboardSegue) {
         if self.password!.changed != 0 {
             SVProgressHUD.show(withStatus: "Saving")
@@ -231,7 +231,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             SVProgressHUD.dismiss(withDelay: 1)
         }
     }
-    
+
     @IBAction private func deletePassword(segue: UIStoryboardSegue) {
         do {
             try passwordStore.delete(passwordEntity: passwordEntity!)
@@ -243,7 +243,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
     private func setTableData() {
         self.tableData = Array<TableSection>()
-        
+
         // name section
         var section = TableSection(type: .name)
         section.item.append(TableCell())
@@ -261,9 +261,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         section.item.append(TableCell(title: "password", content: password.password))
         tableData.append(section)
 
-        
+
         // addition section
-        
+
         // show one time password
         if password.otpType != .none {
             if let (title, otp) = self.password?.getOtpStrings() {
@@ -273,7 +273,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 oneTimePasswordIndexPath = IndexPath(row: 0, section: tableData.count - 1)
             }
         }
-        
+
         // show additional information
         let filteredAdditionKeys = password.getFilteredAdditions()
         if filteredAdditionKeys.count > 0 {
@@ -283,14 +283,14 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             })
             tableData.append(section)
         }
-        
+
         // misc section
         section = TableSection(type: .misc)
         section.item.append(TableCell(title: "Show Raw"))
         tableData.append(section)
-        
+
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "editPasswordSegue" {
             if let controller = segue.destination as? UINavigationController {
@@ -306,7 +306,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             }
         }
     }
-    
+
     private func updatePasswordImage(urlString: String) {
         var newUrlString = urlString
         if urlString.lowercased().hasPrefix("http://") {
@@ -321,7 +321,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             // if a url does not start with http or https, try to add https
             newUrlString = "https://\(urlString)"
         }
-        
+
         try? FavIcon.downloadPreferred(newUrlString) { [weak self] result in
             if case let .success(image) = result {
                 let indexPath = IndexPath(row: 0, section: 0)
@@ -334,7 +334,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             }
         }
     }
-    
+
     @objc private func tapMenu(recognizer: UITapGestureRecognizer)  {
         if recognizer.state == UIGestureRecognizerState.ended {
             let tapLocation = recognizer.location(in: self.tableView)
@@ -353,17 +353,17 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             }
         }
     }
-    
+
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if touch.view!.isKind(of: UIButton.classForCoder()) {
             return false
         }
         return true
     }
-    
+
     @IBAction func back(segue:UIStoryboardSegue) {
     }
-    
+
     func getNextHOTP() {
         guard password != nil, passwordEntity != nil, password?.otpType == .hotp else {
             DispatchQueue.main.async {
@@ -371,12 +371,12 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             }
             return;
         }
-        
+
         // copy HOTP to pasteboard (will update counter)
         if let plainPassword = password!.getNextHotp() {
             SecurePasteboard.shared.copy(textToCopy: plainPassword)
         }
-        
+
         // commit the change of HOTP counter
         if password!.changed != 0 {
             do {
@@ -465,11 +465,11 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         detailTextLabel.textColor = .gray
         detailTextLabel.text = "\(numberOfHiddenFields) hidden field\(numberOfHiddenFields > 1 ? "s" : "")"
     }
-    
+
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return tableData[section].header
     }
-    
+
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if section == tableData.count - 1 {
             let view = UIView()
@@ -484,13 +484,13 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
         return nil
     }
-    
+
     override func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
         if action == #selector(copy(_:)) {
             SecurePasteboard.shared.copy(textToCopy: tableData[indexPath.section].item[indexPath.row].content)
         }
     }
-    
+
     override func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         let section = tableData[indexPath.section]
         switch(section.type) {
@@ -500,11 +500,11 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             return false
         }
     }
-    
+
     override func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = tableData[indexPath.section]
         if section.type == .misc {

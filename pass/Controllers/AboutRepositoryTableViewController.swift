@@ -10,7 +10,7 @@ import UIKit
 import passKit
 
 class AboutRepositoryTableViewController: BasicStaticTableViewController {
-    
+
     private var needRefresh = false
     private var indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
@@ -23,13 +23,13 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
 
         indicator.center = CGPoint(x: view.bounds.midX, y: view.bounds.height * 0.382)
         tableView.addSubview(indicator)
-        
+
         setTableData()
-        
+
         // all password store updates (including erase, discard) will trigger the refresh
         NotificationCenter.default.addObserver(self, selector: #selector(setNeedRefresh), name: .passwordStoreUpdated, object: nil)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if needRefresh {
@@ -37,14 +37,14 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
             needRefresh = false
         }
     }
-    
+
     private func setTableData() {
-        
+
         // clear current contents (if any)
         self.tableData.removeAll(keepingCapacity: true)
         self.tableView.reloadData()
         indicator.startAnimating()
-        
+
         // reload the table
         DispatchQueue.global(qos: .userInitiated).async {
             let passwords = self.numberOfPasswordsString()
@@ -52,7 +52,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
             let localCommits = self.numberOfLocalCommitsString()
             let lastSynced = self.lastSyncedTimeString()
             let commits = self.numberOfPasswordsString()
-            
+
             DispatchQueue.main.async { [weak self] in
                 guard let strongSelf = self else {
                     return
@@ -97,7 +97,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
         formatter.timeStyle = .short
         return formatter.string(from: date)
     }
-    
+
     @objc func setNeedRefresh() {
         needRefresh = true
     }

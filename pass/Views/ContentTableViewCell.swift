@@ -18,11 +18,11 @@ class ContentTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+
     func getContent() -> String? {
         return nil
     }
-    
+
     func setContent(content: String?) {    }
 
 }

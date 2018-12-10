@@ -14,10 +14,10 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
     @IBOutlet weak var armorPrivateKeyTextView: UITextView!
     @IBOutlet weak var scanPublicKeyCell: UITableViewCell!
     @IBOutlet weak var scanPrivateKeyCell: UITableViewCell!
-    
+
     var pgpPassphrase: String?
     let passwordStore = PasswordStore.shared
-    
+
     class ScannedPGPKey {
         static let maxNumberOfGif = 100
         enum KeyType {
@@ -30,7 +30,7 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
         var message = ""
         var hasStarted = false
         var isDone = false
-        
+
         func reset(keytype: KeyType) {
             self.keyType = keytype
             numberOfSegments = 0
@@ -40,14 +40,14 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
             hasStarted = false
             isDone = false
         }
-        
+
         func addSegment(segment: String) {
             // skip duplicated segments
             guard segment != previousSegment else {
                 return
             }
             previousSegment = segment
-            
+
             // check whether we have found the first block
             if hasStarted == false {
                 let findPublic = segment.contains("-----BEGIN PGP PUBLIC KEY BLOCK-----")
@@ -68,32 +68,32 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
             guard hasStarted == true else {
                 return
             }
-            
+
             // check the number of segments
             numberOfSegments = numberOfSegments + 1
             guard numberOfSegments <= ScannedPGPKey.maxNumberOfGif else {
                 key = "Too many QR codes"
                 return
             }
-            
+
             // update full text and check whether we are done
             key.append(segment)
             if key.contains("-----END PGP PUBLIC KEY BLOCK-----") || key.contains("-----END PGP PRIVATE KEY BLOCK-----") {
                 isDone = true
             }
-            
+
             // update message
             message = "\(numberOfSegments) scanned QR codes."
         }
     }
     var scanned = ScannedPGPKey()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         armorPublicKeyTextView.text = SharedDefaults[.pgpPublicKeyArmor]
         armorPrivateKeyTextView.text = SharedDefaults[.pgpPrivateKeyArmor]
         pgpPassphrase = passwordStore.pgpKeyPassphrase
-        
+
         scanPublicKeyCell?.textLabel?.text = "Scan Public Key QR Codes"
         scanPublicKeyCell?.textLabel?.textColor = Globals.blue
         scanPublicKeyCell?.selectionStyle = .default
@@ -104,7 +104,7 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
         scanPrivateKeyCell?.selectionStyle = .default
         scanPrivateKeyCell?.accessoryType = .disclosureIndicator
     }
-    
+
     @IBAction func save(_ sender: Any) {
         guard armorPublicKeyTextView.text.isEmpty == false else {
             Utils.alert(title: "Cannot Save", message: "Please set public key first.", controller: self, completion: nil)
@@ -138,7 +138,7 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
         })
         self.present(savePassphraseAlert, animated: true, completion: nil)
     }
-    
+
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == UIPasteboard.general.string {
             // user pastes something, do the copy here again and clear the pasteboard in 45s
@@ -146,7 +146,7 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
         }
         return true
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCell = tableView.cellForRow(at: indexPath)
         if selectedCell == scanPublicKeyCell {
@@ -158,7 +158,7 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
+
     // MARK: - QRScannerControllerDelegate Methods
     func checkScannedOutput(line: String) -> (accept: Bool, message: String) {
         scanned.addSegment(segment: line)
@@ -168,7 +168,7 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
             return (accept: false, message: scanned.message)
         }
     }
-    
+
     // MARK: - QRScannerControllerDelegate Methods
     func handleScannedOutput(line: String) {
         switch scanned.keyType {
@@ -178,7 +178,7 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
             armorPrivateKeyTextView.text = scanned.key
         }
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showPGPScannerSegue" {
             if let navController = segue.destination as? UINavigationController {

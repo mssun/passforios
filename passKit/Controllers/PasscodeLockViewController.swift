@@ -12,23 +12,23 @@ import UIKit
 import LocalAuthentication
 
 open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
-    
+
     open var dismissCompletionCallback: (()->Void)?
     open var successCallback: (()->Void)?
     open var cancelCallback: (()->Void)?
-    
+
     weak var passcodeLabel: UILabel?
     weak var passcodeWrongAttemptsLabel: UILabel?
     weak var passcodeTextField: UITextField?
     weak var biometryAuthButton: UIButton?
     open weak var cancelButton: UIButton?
-    
+
     var passcodeFailedAttempts = 0
     var isCancellable: Bool = false
-    
+
     open override func loadView() {
         super.loadView()
-        
+
         let passcodeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
         passcodeLabel.text = "Enter passcode for Pass"
         passcodeLabel.font = UIFont.boldSystemFont(ofSize: 18)
@@ -37,7 +37,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         passcodeLabel.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(passcodeLabel)
         self.passcodeLabel = passcodeLabel
-        
+
         let passcodeWrongAttemptsLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
         passcodeWrongAttemptsLabel.text = ""
         passcodeWrongAttemptsLabel.textColor = UIColor.red
@@ -45,7 +45,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         passcodeWrongAttemptsLabel.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(passcodeWrongAttemptsLabel)
         self.passcodeWrongAttemptsLabel = passcodeWrongAttemptsLabel
-        
+
         let passcodeTextField =  UITextField(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
         passcodeTextField.borderStyle = UITextBorderStyle.roundedRect
         passcodeTextField.placeholder = "passcode"
@@ -57,7 +57,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         passcodeTextField.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(passcodeTextField)
         self.passcodeTextField = passcodeTextField
-        
+
         let biometryAuthButton = UIButton(type: .custom)
         biometryAuthButton.setTitle("", for: .normal)
         biometryAuthButton.setTitleColor(Globals.blue, for: .normal)
@@ -66,7 +66,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         biometryAuthButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(biometryAuthButton)
         self.biometryAuthButton = biometryAuthButton
-        
+
         let myContext = LAContext()
         var authError: NSError?
         if #available(iOS 8.0, macOS 10.12.1, *) {
@@ -81,7 +81,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
                 biometryAuthButton.isHidden = false
             }
         }
-        
+
         let cancelButton = UIButton(type: .custom)
         cancelButton.setTitle("Cancel", for: .normal)
         cancelButton.setTitleColor(Globals.blue, for: .normal)
@@ -91,7 +91,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         cancelButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         self.view.addSubview(cancelButton)
         self.cancelButton = cancelButton
-        
+
         NSLayoutConstraint.activate([
             passcodeTextField.widthAnchor.constraint(equalToConstant: 300),
             passcodeTextField.heightAnchor.constraint(equalToConstant: 40),
@@ -118,13 +118,13 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
             cancelButton.topAnchor.constraint(equalTo: self.view.safeTopAnchor),
             cancelButton.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor, constant: 20)
         ])
-        
+
     }
-    
+
     open override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
+
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let biometryAuthButton = biometryAuthButton {
@@ -137,7 +137,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         DispatchQueue.main.async {
             self.passcodeTextField?.text = ""
         }
-        
+
         // pop
         if presentingViewController?.presentedViewController == self {
             // if presented as modal
@@ -160,16 +160,16 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         passcodeWrongAttemptsLabel?.text = ""
         dismissPasscodeLock(completionHandler: successCallback)
     }
-    
+
     @objc func passcodeLockDidCancel() {
         dismissPasscodeLock(completionHandler: cancelCallback)
     }
-    
+
     @objc func bioButtonPressedAction(_ uiButton: UIButton) {
         let myContext = LAContext()
         let myLocalizedReasonString = "Authentication is needed to access Pass."
         var authError: NSError?
-        
+
         if #available(iOS 8.0, *) {
             if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
                 myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, evaluateError in
@@ -183,7 +183,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
-    
+
     public override func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == passcodeTextField {
             if !PasscodeLock.shared.check(passcode: textField.text ?? "") {
@@ -198,13 +198,13 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-    
+
     @objc func passcodeTextFieldDidChange(_ textField: UITextField) {
         if PasscodeLock.shared.check(passcode: textField.text ?? "") {
             self.passcodeLockDidSucceed()
         }
     }
-    
+
     public func setCancellable(_ isCancellable: Bool) {
         self.isCancellable = isCancellable
         cancelButton?.isHidden = !isCancellable

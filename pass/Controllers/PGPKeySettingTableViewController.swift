@@ -15,7 +15,7 @@ class PGPKeySettingTableViewController: UITableViewController {
     @IBOutlet weak var pgpPrivateKeyURLTextField: UITextField!
     var pgpPassphrase: String?
     let passwordStore = PasswordStore.shared
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -23,7 +23,7 @@ class PGPKeySettingTableViewController: UITableViewController {
         pgpPrivateKeyURLTextField.text = SharedDefaults[.pgpPrivateKeyURL]?.absoluteString
         pgpPassphrase = passwordStore.pgpKeyPassphrase
     }
-    
+
     private func validatePGPKeyURL(input: String?) -> Bool {
         guard let path = input, let url = URL(string: path) else {
             Utils.alert(title: "Cannot Save PGP Key", message: "Please set PGP Key URL first.", controller: self, completion: nil)
@@ -35,7 +35,7 @@ class PGPKeySettingTableViewController: UITableViewController {
         }
         return true
     }
-    
+
     @IBAction func save(_ sender: Any) {
         guard validatePGPKeyURL(input: pgpPublicKeyURLTextField.text) == true,
             validatePGPKeyURL(input: pgpPrivateKeyURLTextField.text) == true else {
@@ -65,6 +65,6 @@ class PGPKeySettingTableViewController: UITableViewController {
         })
         self.present(savePassphraseAlert, animated: true, completion: nil)
     }
-    
-    
+
+
 }

@@ -14,21 +14,21 @@ import ObjectiveGit
 public struct GitCredential {
     private var credential: Credential
     private let passwordStore = PasswordStore.shared
-    
+
     public enum Credential {
         case http(userName: String)
         case ssh(userName: String, privateKeyFile: URL)
     }
-    
+
     public init(credential: Credential) {
         self.credential = credential
     }
-    
+
     public func credentialProvider(requestGitPassword: @escaping (Credential, String?) -> String?) throws -> GTCredentialProvider {
         var attempts = 0
         return GTCredentialProvider { (_, _, _) -> (GTCredential?) in
             var credential: GTCredential? = nil
-            
+
             switch self.credential {
             case let .http(userName):
                 var lastPassword = self.passwordStore.gitPassword
@@ -63,7 +63,7 @@ public struct GitCredential {
             return credential
         }
     }
-    
+
     public func delete() {
         switch credential {
         case .http:

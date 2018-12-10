@@ -9,7 +9,7 @@
 import Foundation
 
 extension UIView {
-    
+
     // Save anchors: https://stackoverflow.com/questions/46317061/use-safe-area-layout-programmatically
     var safeTopAnchor: NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
@@ -18,7 +18,7 @@ extension UIView {
             return self.topAnchor
         }
     }
-    
+
     var safeLeftAnchor: NSLayoutXAxisAnchor {
         if #available(iOS 11.0, *){
             return self.safeAreaLayoutGuide.leftAnchor
@@ -26,7 +26,7 @@ extension UIView {
             return self.leftAnchor
         }
     }
-    
+
     var safeRightAnchor: NSLayoutXAxisAnchor {
         if #available(iOS 11.0, *){
             return self.safeAreaLayoutGuide.rightAnchor
@@ -34,7 +34,7 @@ extension UIView {
             return self.rightAnchor
         }
     }
-    
+
     var safeBottomAnchor: NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
             return self.safeAreaLayoutGuide.bottomAnchor

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 public class Globals {
-    
+
     // Legacy paths (not shared)
     public static let documentPathLegacy = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
     public static let libraryPathLegacy = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0];
@@ -19,11 +19,11 @@ public class Globals {
     public static let gitSSHPrivateKeyPathLegacy = "\(documentPathLegacy)/ssh_key"
     public static let gitSSHPrivateKeyURLLegacy = URL(fileURLWithPath: gitSSHPrivateKeyPathLegacy)
     public static let repositoryPathLegacy = "\(libraryPathLegacy)/password-store"
-    
+
     public static let bundleIdentifier = "me.mssun.passforios"
     public static let groupIdentifier = "group." + bundleIdentifier
     public static let passKitBundleIdentifier = bundleIdentifier + ".passKit"
-    
+
     public static let sharedContainerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupIdentifier)!
     public static let documentPath = sharedContainerURL.appendingPathComponent("Documents").path
     public static let libraryPath = sharedContainerURL.appendingPathComponent("Library").path
@@ -33,19 +33,19 @@ public class Globals {
     public static let gitSSHPrivateKeyURL = URL(fileURLWithPath: gitSSHPrivateKeyPath)
     public static let repositoryPath = libraryPath + "/password-store"
     public static let dbPath = documentPath + "/pass.sqlite"
-    
+
     public static let iTunesFileSharingPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
     public static let iTunesFileSharingPGPPublic = iTunesFileSharingPath + "/gpg_key.pub"
     public static let iTunesFileSharingPGPPrivate = iTunesFileSharingPath + "/gpg_key"
     public static let iTunesFileSharingSSHPrivate = iTunesFileSharingPath + "/ssh_key"
-    
+
     public static let gitSignatureDefaultName = "Pass for iOS"
     public static let gitSignatureDefaultEmail = "user@passforios"
-    
+
     public static let passwordDots = "••••••••••••"
     public static let oneTimePasswordDots = "••••••"
     public static let passwordFont = UIFont(name: "Courier-Bold", size: UIFont.labelFontSize - 1)
-    
+
     // UI related
     public static let red = UIColor(red:1.00, green:0.23, blue:0.19, alpha:1.0)
     public static let blue = UIColor(red:0.00, green:0.48, blue:1.00, alpha:1.0)
@@ -53,7 +53,7 @@ public class Globals {
     public static let symbolColor = UIColor(red:200/255.0, green:40/255.0, blue:41/255.0, alpha:1.0)
     public static let digitColor = UIColor(red:66/255.0, green:113/255.0, blue:174/255.0, alpha:1.0)
     public static let tableCellButtonSize = CGFloat(20.0)
-    
+
     private init() { }
 }
 

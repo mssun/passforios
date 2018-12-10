@@ -15,17 +15,17 @@ public class Utils {
         let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
         return (try? keychain.getString(name)) ?? nil
     }
-    
+
     public static func addPasswordToKeychain(name: String, password: String?) {
         let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
         keychain[name] = password
     }
-    
+
     public static func removeKeychain(name: String) {
         let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
         try? keychain.remove(name)
     }
-    
+
     public static func removeAllKeychain() {
         let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
         try? keychain.removeAll()
@@ -53,7 +53,7 @@ public class Utils {
         }
         return attributedPassword
     }
-    
+
     public static func alert(title: String, message: String, controller: UIViewController, handler: ((UIAlertAction) -> Void)? = nil, completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: handler))
