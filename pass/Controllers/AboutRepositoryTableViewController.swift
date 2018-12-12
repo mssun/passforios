@@ -20,6 +20,9 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Get rid of lines in tableview.
+        tableView.tableFooterView = UIView()
 
         indicator.center = CGPoint(x: view.bounds.midX, y: view.bounds.height * 0.382)
         tableView.addSubview(indicator)
