@@ -10,6 +10,11 @@ public struct AdditionField: Hashable {
 
     public let title: String, content: String
 
+    public init(title: String = "", content: String = "") {
+        self.title = title
+        self.content = content
+    }
+
     var asString: String {
         return title.isEmpty ? content : title + ": " + content
     }
@@ -42,6 +47,6 @@ extension AdditionField: Equatable {
 }
 
 infix operator =>: MultiplicationPrecedence
-func => (key: String, value: String) -> AdditionField {
+public func => (key: String, value: String) -> AdditionField {
     return AdditionField(title: key, content: value)
 }

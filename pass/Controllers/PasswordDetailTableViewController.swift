@@ -24,42 +24,18 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         return uiBarButtonItem
     }()
 
-    private struct TableCell {
-        var title: String
-        var content: String
-        init() {
-            title = ""
-            content = ""
-        }
-
-        init(title: String) {
-            self.title = title
-            self.content = ""
-        }
-
-        init(title: String, content: String) {
-            self.title = title
-            self.content = content
-        }
-    }
-
     private struct TableSection {
         var type: PasswordDetailTableViewControllerSectionType
         var header: String?
-        var item: Array<TableCell>
-        init(type: PasswordDetailTableViewControllerSectionType) {
-            self.type = type
-            header = nil
-            item = [TableCell]()
-        }
+        var item: [AdditionField] = []
 
-        init(type: PasswordDetailTableViewControllerSectionType, header: String) {
-            self.init(type: type)
+        init(type: PasswordDetailTableViewControllerSectionType, header: String? = nil) {
+            self.type = type
             self.header = header
         }
     }
 
-    private var tableData = Array<TableSection>()
+    private var tableData = [TableSection]()
 
     private enum PasswordDetailTableViewControllerSectionType {
         case name, main, addition, misc
@@ -194,8 +170,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             switch otpType {
             case .totp:
                 if let (title, otp) = strongSelf.password?.getOtpStrings() {
-                    strongSelf.tableData[indexPath.section].item[indexPath.row].title = title
-                    strongSelf.tableData[indexPath.section].item[indexPath.row].content = otp
+                    strongSelf.tableData[indexPath.section].item[indexPath.row] = title => otp
                     cell.cellData?.title = title
                     cell.cellData?.content = otp
                 }
@@ -246,19 +221,19 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
         // name section
         var section = TableSection(type: .name)
-        section.item.append(TableCell())
+        section.item.append(AdditionField())
         tableData.append(section)
 
         // main section
         section = TableSection(type: .main)
         let password = self.password!
         if let username = password.username {
-            section.item.append(TableCell(title: "username", content: username))
+            section.item.append(Constants.USERNAME_KEYWORD => username)
         }
         if let login = password.login {
-            section.item.append(TableCell(title: "login", content: login))
+            section.item.append(Constants.LOGIN_KEYWORD => login)
         }
-        section.item.append(TableCell(title: "password", content: password.password))
+        section.item.append(Constants.PASSWORD_KEYWORD => password.password)
         tableData.append(section)
 
 
@@ -268,7 +243,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         if password.otpType != .none {
             if let (title, otp) = self.password?.getOtpStrings() {
                 section = TableSection(type: .addition, header: "One Time Password")
-                section.item.append(TableCell(title: title, content: otp))
+                section.item.append(title => otp)
                 tableData.append(section)
                 oneTimePasswordIndexPath = IndexPath(row: 0, section: tableData.count - 1)
             }
@@ -278,15 +253,13 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         let filteredAdditionKeys = password.getFilteredAdditions()
         if filteredAdditionKeys.count > 0 {
             section = TableSection(type: .addition, header: "additions")
-            filteredAdditionKeys.forEach({ field in
-                section.item.append(TableCell(title: field.title, content: field.content))
-            })
+            section.item.append(contentsOf: filteredAdditionKeys)
             tableData.append(section)
         }
 
         // misc section
         section = TableSection(type: .misc)
-        section.item.append(TableCell(title: "Show Raw"))
+        section.item.append(AdditionField(title: "Show Raw"))
         tableData.append(section)
 
     }

@@ -13,16 +13,16 @@ import XCTest
 class AdditionFieldTest: XCTestCase {
 
     func testAdditionField() {
-        let field1 = "key" => "value"
-        let field2 = "some other key" => "some other value"
-        let field3 = "" => "no title"
+        let field1 = AdditionField(title: "key", content: "value")
+        let field2 = AdditionField(title: "no content")
+        let field3 = AdditionField(content: "no title")
 
         XCTAssertEqual(field1.asString, "key: value")
-        XCTAssertEqual(field2.asString, "some other key: some other value")
+        XCTAssertEqual(field2.asString, "no content: ")
         XCTAssertEqual(field3.asString, "no title")
 
         XCTAssertTrue(field1.asTuple == ("key", "value"))
-        XCTAssertTrue(field2.asTuple == ("some other key", "some other value"))
+        XCTAssertTrue(field2.asTuple == ("no content", ""))
         XCTAssertTrue(field3.asTuple == ("", "no title"))
     }
 

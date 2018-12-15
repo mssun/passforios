@@ -41,11 +41,12 @@ public struct Constants {
     static let MULTILINE_WITHOUT_LINE_BREAK_SEPARATOR = BLANK
 
     static let OTPAUTH_URL_START = "\(OTPAUTH)://"
-    static let PASSWORD_KEYWORD = "password"
-    static let USERNAME_KEYWORD = "username"
-    static let LOGIN_KEYWORD = "login"
-    static let URL_KEYWORD = "url"
-    static let UNKNOWN = "unknown"
+
+    public static let PASSWORD_KEYWORD = "password"
+    public static let USERNAME_KEYWORD = "username"
+    public static let LOGIN_KEYWORD = "login"
+    public static let URL_KEYWORD = "url"
+    public static let UNKNOWN = "unknown"
 
     public static func isOtpRelated(line: String) -> Bool {
         let (key, _) = Parser.getKeyValuePair(from: line)
