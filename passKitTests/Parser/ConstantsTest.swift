@@ -13,22 +13,22 @@ import XCTest
 class ConstantsTest: XCTestCase {
 
     func testIsOtpRelated() {
-        XCTAssertTrue(Constants.isOtpRelated(line: "otpauth://something"))
-        XCTAssertTrue(Constants.isOtpRelated(line: "otp_algorithm: algorithm"))
+        XCTAssert(Constants.isOtpRelated(line: "otpauth://something"))
+        XCTAssert(Constants.isOtpRelated(line: "otp_algorithm: algorithm"))
         XCTAssertFalse(Constants.isOtpRelated(line: "otp: something"))
         XCTAssertFalse(Constants.isOtpRelated(line: "otp"))
     }
 
     func testIsOtpKeyword() {
-        XCTAssertTrue(Constants.isOtpKeyword("otpauth"))
-        XCTAssertTrue(Constants.isOtpKeyword("oTP_DigITS"))
+        XCTAssert(Constants.isOtpKeyword("otpauth"))
+        XCTAssert(Constants.isOtpKeyword("oTP_DigITS"))
         XCTAssertFalse(Constants.isOtpKeyword("otp"))
         XCTAssertFalse(Constants.isOtpKeyword("no keyword"))
     }
 
     func testIsUnknown() {
-        XCTAssertTrue(Constants.isUnknown("unknown"))
-        XCTAssertTrue(Constants.isUnknown("unknown string"))
+        XCTAssert(Constants.isUnknown("unknown"))
+        XCTAssert(Constants.isUnknown("unknown string"))
         XCTAssertFalse(Constants.isUnknown("otp"))
         XCTAssertFalse(Constants.isUnknown("Unknown"))
     }
