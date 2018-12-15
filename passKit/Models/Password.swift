@@ -21,6 +21,7 @@ public class Password {
     private var parser = Parser(plainText: "")
     private var additions = [AdditionField]()
     private var firstLineIsOTPField = false
+
     private var otpToken: Token? {
         didSet {
             otpType = OtpType(token: otpToken)
@@ -82,11 +83,11 @@ public class Password {
 
         if self.plainText != plainText {
             self.plainText = plainText
-            changed = changed|PasswordChange.content.rawValue
+            changed |= PasswordChange.content.rawValue
         }
         if self.url != url {
             self.url = url
-            changed = changed|PasswordChange.path.rawValue
+            changed |= PasswordChange.path.rawValue
         }
 
         self.name = name
@@ -171,7 +172,7 @@ public class Password {
             return nil
         }
         var description = otpType.description
-        if case let .timer(period)? = otpToken?.generator.factor {
+        if case let .timer(period) = otpToken!.generator.factor {
             let timeSinceEpoch = Date().timeIntervalSince1970
             let validTime = Int(period - timeSinceEpoch.truncatingRemainder(dividingBy: period))
             description += " (expires in \(validTime)s)"
