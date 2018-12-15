@@ -12,13 +12,10 @@ import SwiftyUserDefaults
 extension PasswordEntity {
 
     public var nameWithCategory: String {
-        get {
-            if let p = path, p.hasSuffix(".gpg") {
-                return String(p.prefix(upTo: p.index(p.endIndex, offsetBy: -4)))
-            } else {
-                return ""
-            }
+        if let p = path, p.hasSuffix(".gpg") {
+            return String(p.prefix(upTo: p.index(p.endIndex, offsetBy: -4)))
         }
+        return ""
     }
 
     public func getCategoryText() -> String {
