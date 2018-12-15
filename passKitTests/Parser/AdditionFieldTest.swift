@@ -21,9 +21,9 @@ class AdditionFieldTest: XCTestCase {
         XCTAssertEqual(field2.asString, "no content: ")
         XCTAssertEqual(field3.asString, "no title")
 
-        XCTAssertTrue(field1.asTuple == ("key", "value"))
-        XCTAssertTrue(field2.asTuple == ("no content", ""))
-        XCTAssertTrue(field3.asTuple == ("", "no title"))
+        XCTAssert(field1.asTuple == ("key", "value"))
+        XCTAssert(field2.asTuple == ("no content", ""))
+        XCTAssert(field3.asTuple == ("", "no title"))
     }
 
     func testAdditionFieldEquals() {

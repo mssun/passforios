@@ -35,7 +35,7 @@ class PasswordTest: XCTestCase {
             XCTAssertEqual(password.password, "")
             XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
             XCTAssertEqual(password.additionsPlainText, "")
-            XCTAssertTrue(password.getFilteredAdditions().isEmpty)
+            XCTAssert(password.getFilteredAdditions().isEmpty)
             XCTAssertEqual(password.numberOfUnknowns, 0)
 
             XCTAssertNil(password.username)
@@ -224,7 +224,7 @@ class PasswordTest: XCTestCase {
 
         XCTAssertEqual(password.password, fileContent)
         XCTAssertEqual(password.plainData, fileContent.data(using: .utf8))
-        XCTAssertTrue(password.additionsPlainText.isEmpty)
+        XCTAssert(password.additionsPlainText.isEmpty)
         XCTAssertEqual(password.numberOfUnknowns, 0)
 
         XCTAssertEqual(password.numberOfOtpRelated, 0)
@@ -306,7 +306,7 @@ class PasswordTest: XCTestCase {
         let otpStrings = password.getOtpStrings()
 
         XCTAssertNotNil(otpStrings)
-        XCTAssertTrue(otpStrings!.description.hasPrefix("time-based (expires in"))
+        XCTAssert(otpStrings!.description.hasPrefix("time-based (expires in"))
     }
 
     func testOtpStringsHotpToken() {
