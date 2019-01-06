@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import SVProgressHUD
 import passKit
+import SwiftyUserDefaults
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -33,6 +34,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.perform(#selector(postSearchNotification), with: nil, afterDelay: 0.4)
             }
         }
+
+        // Assign default values to global settings.
+        SharedDefaults.register(defaults: [DefaultsKeys.gitBranchName._key: "master"])
+
         return true
     }
 

@@ -10,7 +10,8 @@ import Foundation
 
 public enum AppError: Error {
     case RepositoryNotSetError
-    case RepositoryRemoteMasterNotFoundError
+    case RepositoryRemoteBranchNotFoundError(_: String)
+    case RepositoryBranchNotFound(_: String)
     case KeyImportError
     case PasswordDuplicatedError
     case GitResetError
@@ -25,8 +26,10 @@ extension AppError: LocalizedError {
         switch self {
         case .RepositoryNotSetError:
             return "Git repository is not set."
-        case .RepositoryRemoteMasterNotFoundError:
-            return "Cannot find remote branch origin/master."
+        case let .RepositoryRemoteBranchNotFoundError(remoteBranchName):
+            return "Cannot find remote branch 'origin/\(remoteBranchName)'."
+        case let .RepositoryBranchNotFound(branchName):
+            return "Branch with name '\(branchName)' not found in repository."
         case .KeyImportError:
             return "Cannot import the key."
         case .PasswordDuplicatedError:

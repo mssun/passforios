@@ -14,6 +14,7 @@ class GitServerSettingTableViewController: UITableViewController {
 
     @IBOutlet weak var gitURLTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var branchNameTextField: UITextField!
     @IBOutlet weak var authSSHKeyCell: UITableViewCell!
     @IBOutlet weak var authPasswordCell: UITableViewCell!
     let passwordStore = PasswordStore.shared
@@ -51,6 +52,7 @@ class GitServerSettingTableViewController: UITableViewController {
             gitURLTextField.text = url.absoluteString
         }
         usernameTextField.text = SharedDefaults[.gitUsername]
+        branchNameTextField.text = SharedDefaults[.gitBranchName]
         sshLabel = authSSHKeyCell.subviews[0].subviews[0] as? UILabel
         checkAuthenticationMethod(method: authenticationMethod)
         authSSHKeyCell.accessoryType = .detailButton
@@ -77,6 +79,7 @@ class GitServerSettingTableViewController: UITableViewController {
         // try to clone
         let gitRepostiroyURL = gitURLTextField.text!.trimmed
         let username = usernameTextField.text!
+        let branchName = branchNameTextField.text!
         let auth = authenticationMethod
 
         SVProgressHUD.setDefaultMaskType(.black)
@@ -100,6 +103,7 @@ class GitServerSettingTableViewController: UITableViewController {
             do {
                 try self.passwordStore.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
                                                        credential: gitCredential,
+                                                       branchName: branchName,
                                                        requestGitPassword: self.requestGitPassword,
                                                        transferProgressBlock: { (git_transfer_progress, stop) in
                                                         DispatchQueue.main.async {
@@ -114,6 +118,7 @@ class GitServerSettingTableViewController: UITableViewController {
                 DispatchQueue.main.async {
                     SharedDefaults[.gitURL] = URL(string: gitRepostiroyURL)
                     SharedDefaults[.gitUsername] = username
+                    SharedDefaults[.gitBranchName] = branchName
                     SharedDefaults[.gitAuthenticationMethod] = auth
                     SVProgressHUD.dismiss()
                     let savePassphraseAlert = UIAlertController(title: "Done", message: "Do you want to save the Git credential password/passphrase?", preferredStyle: UIAlertControllerStyle.alert)

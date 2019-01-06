@@ -295,6 +295,7 @@ public class PasswordStore {
 
     public func cloneRepository(remoteRepoURL: URL,
                          credential: GitCredential,
+                         branchName: String,
                          requestGitPassword: @escaping (GitCredential.Credential, String?) -> String?,
                          transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
                          checkoutProgressBlock: @escaping (String?, UInt, UInt) -> Void) throws {
@@ -308,6 +309,7 @@ public class PasswordStore {
             storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: tempStoreURL, options: options, transferProgressBlock:transferProgressBlock)
             try fm.moveItem(at: tempStoreURL, to: storeURL)
             storeRepository = try GTRepository(url: storeURL)
+            try checkoutAndChangeBranch(withName: branchName)
         } catch {
             credential.delete()
             DispatchQueue.main.async {
@@ -322,6 +324,27 @@ public class PasswordStore {
             self.updatePasswordEntityCoreData()
             NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         }
+    }
+
+    private func checkoutAndChangeBranch(withName localBranchName: String) throws {
+        if (localBranchName == "master") {
+            return
+        }
+        guard let storeRepository = storeRepository else {
+            throw AppError.RepositoryNotSetError
+        }
+        let remoteBranchName = "origin/\(localBranchName)"
+        guard let remoteBranch = try? storeRepository.lookUpBranch(withName: remoteBranchName, type: .remote, success: nil) else {
+            throw AppError.RepositoryRemoteBranchNotFoundError(remoteBranchName)
+        }
+        guard let remoteBranchOid = remoteBranch.oid else {
+            throw AppError.RepositoryRemoteBranchNotFoundError(remoteBranchName)
+        }
+        let localBranch = try storeRepository.createBranchNamed(localBranchName, from: remoteBranchOid, message: nil)
+        try localBranch.updateTrackingBranch(remoteBranch)
+        let checkoutOptions = GTCheckoutOptions.init(strategy: .force)
+        try storeRepository.checkoutReference(localBranch.reference, options: checkoutOptions)
+        try storeRepository.moveHEAD(to: localBranch.reference)
     }
 
     public func pullRepository(credential: GitCredential, requestGitPassword: @escaping (GitCredential.Credential, String?) -> String?, transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
@@ -563,9 +586,9 @@ public class PasswordStore {
         do {
             let credentialProvider = try credential.credentialProvider(requestGitPassword: requestGitPassword)
             let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
-            if let masterBranch = try getLocalBranch(withName: "master") {
+            if let branch = try getLocalBranch(withName: SharedDefaults[.gitBranchName]!) {
                 let remote = try GTRemote(name: "origin", in: storeRepository)
-                try storeRepository.push(masterBranch, to: remote, withOptions: options, progress: transferProgressBlock)
+                try storeRepository.push(branch, to: remote, withOptions: options, progress: transferProgressBlock)
             }
         } catch {
             throw(error)
@@ -786,19 +809,18 @@ public class PasswordStore {
         guard let storeRepository = storeRepository else {
             throw AppError.RepositoryNotSetError
         }
-        // get the remote origin/master branch
-        guard let index = try storeRepository.remoteBranches().index(where: { $0.shortName == "master" }) else {
-            throw AppError.RepositoryRemoteMasterNotFoundError
+        // get the remote branch
+        let remoteBranchName = SharedDefaults[.gitBranchName]!
+        guard let remoteBranch = try storeRepository.remoteBranches().first(where: { $0.shortName == remoteBranchName }) else {
+            throw AppError.RepositoryRemoteBranchNotFoundError(remoteBranchName)
         }
-        let remoteMasterBranch = try storeRepository.remoteBranches()[index]
-
         // check oid before calling localCommitsRelative
-        guard remoteMasterBranch.oid != nil else {
-            throw AppError.RepositoryRemoteMasterNotFoundError
+        guard remoteBranch.oid != nil else {
+            throw AppError.RepositoryRemoteBranchNotFoundError(remoteBranchName)
         }
 
         // get a list of local commits
-        return try storeRepository.localCommitsRelative(toRemoteBranch: remoteMasterBranch)
+        return try storeRepository.localCommitsRelative(toRemoteBranch: remoteBranch)
     }
 
 
