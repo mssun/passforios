@@ -51,7 +51,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
             let size = self.sizeOfRepositoryString()
             let localCommits = self.numberOfLocalCommitsString()
             let lastSynced = self.lastSyncedTimeString()
-            let commits = self.numberOfPasswordsString()
+            let commits = self.numberOfCommitsString()
 
             DispatchQueue.main.async { [weak self] in
                 guard let strongSelf = self else {
@@ -96,6 +96,10 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
         return formatter.string(from: date)
+    }
+
+    private func numberOfCommitsString() -> String {
+        return String(passwordStore.numberOfCommits)
     }
 
     @objc func setNeedRefresh() {
