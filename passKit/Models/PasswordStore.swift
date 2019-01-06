@@ -113,6 +113,10 @@ public class PasswordStore {
         return SharedDefaults[.lastSyncedTime]
     }
 
+    public var numberOfCommits: UInt {
+        return storeRepository?.numberOfCommits(inCurrentBranch: nil) ?? 0
+    }
+
     private init() {
         // File migration to group
         migrateIfNeeded()
