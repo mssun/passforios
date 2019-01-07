@@ -11,6 +11,8 @@ import passKit
 
 class AboutRepositoryTableViewController: BasicStaticTableViewController {
 
+    private static let VALUE_NOT_AVAILABLE = "Value not available"
+
     private var needRefresh = false
     private var indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
@@ -85,7 +87,10 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
     }
 
     private func numberOfLocalCommitsString() -> String {
-        return String(passwordStore.numberOfLocalCommits)
+        if let numberOfLocalCommits = passwordStore.numberOfLocalCommits {
+            return String(numberOfLocalCommits)
+        }
+        return AboutRepositoryTableViewController.VALUE_NOT_AVAILABLE
     }
 
     private func lastSyncedTimeString() -> String {
@@ -99,7 +104,10 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
     }
 
     private func numberOfCommitsString() -> String {
-        return String(passwordStore.numberOfCommits)
+        if let numberOfCommits = passwordStore.numberOfCommits {
+            return String(numberOfCommits)
+        }
+        return AboutRepositoryTableViewController.VALUE_NOT_AVAILABLE
     }
 
     @objc func setNeedRefresh() {
