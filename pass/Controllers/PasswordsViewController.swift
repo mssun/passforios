@@ -138,7 +138,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "Sync Password Store")
-        let numberOfLocalCommits = self.passwordStore.numberOfLocalCommits
         var gitCredential: GitCredential
         if SharedDefaults[.gitAuthenticationMethod] == "Password" {
             gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: SharedDefaults[.gitUsername]!))
@@ -157,7 +156,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                         SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Pull Remote Repository")
                     }
                 })
-                if numberOfLocalCommits > 0 {
+                if self.passwordStore.numberOfLocalCommits ?? 0 > 0 {
                     try self.passwordStore.pushRepository(credential: gitCredential, requestGitPassword: self.requestGitPassword(credential:lastPassword:), transferProgressBlock: {(current, total, bytes, stop) in
                         DispatchQueue.main.async {
                             SVProgressHUD.showProgress(Float(current)/Float(total), status: "Push Remote Repository")
@@ -518,11 +517,10 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     private func reloadTableView(data: [PasswordsTableEntry], anim: CAAnimation? = nil) {
         // set navigation item
-        let numberOfLocalCommits = self.passwordStore.numberOfLocalCommits
-        if numberOfLocalCommits == 0 {
-            navigationController?.tabBarItem.badgeValue = nil
-        } else {
+        if let numberOfLocalCommits = passwordStore.numberOfLocalCommits, numberOfLocalCommits != 0 {
             navigationController?.tabBarItem.badgeValue = "\(numberOfLocalCommits)"
+        } else {
+            navigationController?.tabBarItem.badgeValue = nil
         }
         if parentPasswordEntity != nil {
             navigationItem.leftBarButtonItem = backUIBarButtonItem

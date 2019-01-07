@@ -105,16 +105,16 @@ public class PasswordStore {
         return (try? fm.allocatedSizeOfDirectoryAtURL(directoryURL: self.storeURL)) ?? 0
     }
 
-    public var numberOfLocalCommits: Int {
-        return (try? getLocalCommits()?.count ?? 0) ?? 0
+    public var numberOfLocalCommits: Int? {
+        return (try? getLocalCommits())?.flatMap { $0.count }
     }
 
     public var lastSyncedTime: Date? {
         return SharedDefaults[.lastSyncedTime]
     }
 
-    public var numberOfCommits: UInt {
-        return storeRepository?.numberOfCommits(inCurrentBranch: nil) ?? 0
+    public var numberOfCommits: UInt? {
+        return storeRepository?.numberOfCommits(inCurrentBranch: nil)
     }
 
     private init() {
