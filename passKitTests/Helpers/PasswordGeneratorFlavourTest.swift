@@ -22,6 +22,11 @@ class PasswordGeneratorFlavourTest: XCTestCase {
         XCTAssertEqual(PasswordGeneratorFlavour.from(""), PasswordGeneratorFlavour.RANDOM)
     }
 
+    func testLocalizedName() {
+        XCTAssertEqual(PasswordGeneratorFlavour.APPLE.name, "Apple".localize())
+        XCTAssertEqual(PasswordGeneratorFlavour.RANDOM.name, "Random".localize())
+    }
+
     func testDefaultLength() {
         // Ensure properly chosen default length values. So this check no longer needs to be performed in the code.
         PasswordGeneratorFlavour.allCases.map { $0.defaultLength }.forEach { defaultLength in
