@@ -24,6 +24,8 @@
 		30A1D2AA21B32A0100E2D1F7 /* OtpTypeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A921B32A0100E2D1F7 /* OtpTypeTest.swift */; };
 		30A1D2AC21B32C2A00E2D1F7 /* TokenBuilderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2AB21B32C2A00E2D1F7 /* TokenBuilderTest.swift */; };
 		30B04860209A5141001013CA /* PasswordTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B0485F209A5141001013CA /* PasswordTest.swift */; };
+		30BF5EC821EA8FB5000E4154 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ECA21EA8FB5000E4154 /* Localizable.strings */; };
+		30BF5ECF21EA90D1000E4154 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BF5ECE21EA90D1000E4154 /* String.swift */; };
 		30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD2F77214D9E0E005E0A92 /* ParserTest.swift */; };
 		61326CDA7A73757FB68DCB04 /* Pods_passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAB3F5541E51ADC8C6B56642 /* Pods_passKit.framework */; };
 		A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */; };
@@ -204,6 +206,8 @@
 		30A1D2A921B32A0100E2D1F7 /* OtpTypeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtpTypeTest.swift; sourceTree = "<group>"; };
 		30A1D2AB21B32C2A00E2D1F7 /* TokenBuilderTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenBuilderTest.swift; sourceTree = "<group>"; };
 		30B0485F209A5141001013CA /* PasswordTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTest.swift; sourceTree = "<group>"; };
+		30BF5EC921EA8FB5000E4154 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		30BF5ECE21EA90D1000E4154 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = String.swift; path = Localization/String.swift; sourceTree = "<group>"; };
 		30FD2F77214D9E0E005E0A92 /* ParserTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
 		31C3033E8868D05B2C55C8B1 /* Pods-passExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passExtension/Pods-passExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		3A5620D17DF5E86B61761D0E /* Pods_pass.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pass.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -398,6 +402,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		30BF5ECD21EA90C0000E4154 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				30BF5ECE21EA90D1000E4154 /* String.swift */,
+			);
+			name = Localization;
+			sourceTree = "<group>";
+		};
 		30C015A3214ECF2B005BB6DF /* Parser */ = {
 			isa = PBXGroup;
 			children = (
@@ -482,6 +494,7 @@
 				A2C532B9201DD07500DB9F53 /* Controllers */,
 				A2F4E20F1EED7F0A0011986E /* Helpers */,
 				A260757B1EEC6F34005DB03E /* Info.plist */,
+				30BF5ECD21EA90C0000E4154 /* Localization */,
 				A2F4E20E1EED7F040011986E /* Models */,
 				30C015A3214ECF2B005BB6DF /* Parser */,
 				A26075A51EEC7125005DB03E /* pass.xcdatamodeld */,
@@ -689,6 +702,7 @@
 				DC917BDD1E2E8231000FDF54 /* Assets.xcassets */,
 				DC917BDF1E2E8231000FDF54 /* LaunchScreen.storyboard */,
 				DC917BDA1E2E8231000FDF54 /* Main.storyboard */,
+				30BF5ECA21EA8FB5000E4154 /* Localizable.strings */,
 			);
 			path = pass;
 			sourceTree = "<group>";
@@ -998,6 +1012,7 @@
 			files = (
 				DC917BE11E2E8231000FDF54 /* LaunchScreen.storyboard in Resources */,
 				DC037CBC1E4DD47B00609409 /* TextFieldTableViewCell.xib in Resources */,
+				30BF5EC821EA8FB5000E4154 /* Localizable.strings in Resources */,
 				DCFB77A31E500D9C008DE471 /* PasswordDetailTitleTableViewCell.xib in Resources */,
 				DC917BDE1E2E8231000FDF54 /* Assets.xcassets in Resources */,
 				DCDDEAB01E4639F300F68193 /* LabelTableViewCell.xib in Resources */,
@@ -1178,6 +1193,7 @@
 				A2F4E2211EED80160011986E /* NotificationNames.swift in Sources */,
 				A2F4E2221EED80160011986E /* UITextFieldExtension.swift in Sources */,
 				A2C532BF201E5AA100DB9F53 /* PasscodeLockPresenter.swift in Sources */,
+				30BF5ECF21EA90D1000E4154 /* String.swift in Sources */,
 				A2C532BE201E5AA100DB9F53 /* PasscodeLockViewController.swift in Sources */,
 				A2F4E2201EED80160011986E /* Globals.swift in Sources */,
 				A2F4E2231EED80160011986E /* Utils.swift in Sources */,
@@ -1300,6 +1316,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		30BF5ECA21EA8FB5000E4154 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				30BF5EC921EA8FB5000E4154 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		A239F59A2158C08C00576CBF /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
