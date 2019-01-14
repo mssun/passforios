@@ -20,7 +20,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
             [[.type: PasswordEditorCellType.additionsCell, .title: "additions"]],
             [[.type: PasswordEditorCellType.scanQRCodeCell]]
         ]
-        if PasswordGeneratorFlavour.from(SharedDefaults[.passwordGeneratorFlavor]) == PasswordGeneratorFlavour.RANDOM {
+        if PasswordGeneratorFlavour.from(SharedDefaults[.passwordGeneratorFlavor]) == .RANDOM {
             tableData[1].append([.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"])
         }
         tableData[1].append([.type: PasswordEditorCellType.memorablePasswordGeneratorCell])

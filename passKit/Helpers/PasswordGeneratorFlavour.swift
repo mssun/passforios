@@ -18,6 +18,10 @@ public enum PasswordGeneratorFlavour: String {
         return PasswordGeneratorFlavour(rawValue: option) ?? PasswordGeneratorFlavour.RANDOM
     }
 
+    public var name: String {
+        return rawValue.localize()
+    }
+
     public var defaultLength: (min: Int, max: Int, def: Int) {
         switch self {
         case .APPLE:

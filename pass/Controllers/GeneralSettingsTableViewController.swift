@@ -122,7 +122,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             cell.accessoryView = showFolderSwitch
         case "Password Generator Flavor":
             cell.accessoryType = .disclosureIndicator
-            cell.detailTextLabel?.text = SharedDefaults[.passwordGeneratorFlavor]
+            cell.detailTextLabel?.text = PasswordGeneratorFlavour.from(SharedDefaults[.passwordGeneratorFlavor]).name
         default: break
         }
         return cell
@@ -141,21 +141,21 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var randomFlavorActionTitle = ""
         var appleFlavorActionTitle = ""
-        if SharedDefaults[.passwordGeneratorFlavor] == "Random" {
             randomFlavorActionTitle = "✓ Random String"
             appleFlavorActionTitle = "Apple's Keychain Style"
+        if SharedDefaults[.passwordGeneratorFlavor] == PasswordGeneratorFlavour.RANDOM.rawValue {
         } else {
             randomFlavorActionTitle = "Random String"
             appleFlavorActionTitle = "✓ Apple's Keychain Style"
         }
         let randomFlavorAction = UIAlertAction(title: randomFlavorActionTitle, style: .default) { _ in
-            SharedDefaults[.passwordGeneratorFlavor] = "Random"
-            sourceCell.detailTextLabel?.text = "Random"
+            SharedDefaults[.passwordGeneratorFlavor] = PasswordGeneratorFlavour.RANDOM.rawValue
+            sourceCell.detailTextLabel?.text = PasswordGeneratorFlavour.RANDOM.name
         }
 
         let appleFlavorAction = UIAlertAction(title: appleFlavorActionTitle, style: .default) { _ in
-            SharedDefaults[.passwordGeneratorFlavor] = "Apple"
-            sourceCell.detailTextLabel?.text = "Apple"
+            SharedDefaults[.passwordGeneratorFlavor] = PasswordGeneratorFlavour.APPLE.rawValue
+            sourceCell.detailTextLabel?.text = PasswordGeneratorFlavour.APPLE.name
         }
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
