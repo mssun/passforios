@@ -66,7 +66,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
 
             // Move the message label to the front
             scannerOutput.layer.cornerRadius = 10
-            scannerOutput.text = "No QR code detected"
+            scannerOutput.text = "NoQrCodeDetected.".localize()
             view.bringSubview(toFront: scannerOutput)
 
             // Initialize QR Code Frame to highlight the QR code
@@ -109,7 +109,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
                         captureSession?.stopRunning()
                         delegate?.handleScannedOutput(line: scanned)
                         DispatchQueue.main.async {
-                            SVProgressHUD.showSuccess(withStatus: "Done")
+                            SVProgressHUD.showSuccess(withStatus: "Done".localize())
                             SVProgressHUD.dismiss(withDelay: 1)
                             self.navigationController?.popViewController(animated: true)
                         }
@@ -119,21 +119,21 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
                     scannerOutput.text = scanned
                 }
             } else {
-                scannerOutput.text = "No string value"
+                scannerOutput.text = "NoStringValue".localize()
             }
 
         } else {
             qrCodeFrameView?.frame = CGRect.zero
-            scannerOutput.text = "No QR code detected"
+            scannerOutput.text = "NoQrCodeDetected.".localize()
         }
     }
 
     func presentCameraSettings() {
-        let alertController = UIAlertController(title: "Error",
-                                                message: "Camera access denied.\nWARNING: Toggle the camera permission resets the app! Save your changes.",
+        let alertController = UIAlertController(title: "Error".localize(),
+                                                message: "CameraAccessDenied.".localize() + "\n" + "WarningToggleCameraPermissionsResetsApp.".localize(),
                                                 preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .default))
-        alertController.addAction(UIAlertAction(title: "Settings", style: .cancel) { _ in
+        alertController.addAction(UIAlertAction(title: "Cancel".localize(), style: .default))
+        alertController.addAction(UIAlertAction(title: "Settings".localize(), style: .cancel) { _ in
             if let url = URL(string: UIApplicationOpenSettingsURLString) {
                 UIApplication.shared.open(url, options: [:], completionHandler: { _ in
                     // Handle

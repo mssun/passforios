@@ -91,7 +91,7 @@ public class PasswordStore {
                  * The store could not be migrated to the current model version.
                  Check the error message to determine what the actual problem was.
                  */
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                fatalError("UnresolvedError".localize("\(error.localizedDescription), \(error.userInfo)"))
             }
         })
         return container.viewContext
@@ -162,7 +162,7 @@ public class PasswordStore {
             }
             try fm.moveItem(atPath: Globals.repositoryPathLegacy, toPath: Globals.repositoryPath)
         } catch {
-            print("Migration error: \(error)")
+            print("MigrationError".localize(error))
         }
         updatePasswordEntityCoreData()
     }
@@ -266,7 +266,7 @@ public class PasswordStore {
                 return false
             }
         } catch {
-            fatalError("Failed to fetch password entities: \(error)")
+            fatalError("FailedToFetchPasswordEntities".localize(error))
         }
         return true
     }
@@ -282,7 +282,7 @@ public class PasswordStore {
                 return false
             }
         } catch {
-            fatalError("Failed to fetch password entities: \(error)")
+            fatalError("FailedToFetchPasswordEntities".localize(error))
         }
         return true
     }
@@ -293,7 +293,7 @@ public class PasswordStore {
             passwordEntityFetchRequest.predicate = NSPredicate(format: "path = %@ and isDir = %@", path, isDir as NSNumber)
             return try context.fetch(passwordEntityFetchRequest).first as? PasswordEntity
         } catch {
-            fatalError("Failed to fetch password entities: \(error)")
+            fatalError("FailedToFetchPasswordEntities".localize(error))
         }
     }
 
@@ -417,7 +417,7 @@ public class PasswordStore {
         do {
             try context.save()
         } catch {
-            print("Error with save: \(error)")
+            print("ErrorSaving".localize(error))
         }
     }
 
@@ -445,7 +445,7 @@ public class PasswordStore {
             let fetchedPasswordEntities = try context.fetch(passwordEntityFetch) as! [PasswordEntity]
             return fetchedPasswordEntities.sorted { $0.name!.caseInsensitiveCompare($1.name!) == .orderedAscending }
         } catch {
-            fatalError("Failed to fetch passwords: \(error)")
+            fatalError("FailedToFetchPasswords".localize(error))
         }
     }
 
@@ -458,7 +458,7 @@ public class PasswordStore {
             let fetchedPasswordEntities = try context.fetch(passwordEntityFetch) as! [PasswordEntity]
             return fetchedPasswordEntities.sorted { $0.name!.caseInsensitiveCompare($1.name!) == .orderedAscending }
         } catch {
-            fatalError("Failed to fetch passwords: \(error)")
+            fatalError("FailedToFetchPasswords".localize(error))
         }
     }
 
@@ -470,7 +470,7 @@ public class PasswordStore {
             let passwordEntities = try context.fetch(passwordEntityFetchRequest) as! [PasswordEntity]
             return passwordEntities
         } catch {
-            fatalError("Failed to fetch passwords: \(error)")
+            fatalError("FailedToFetchPasswords".localize(error))
         }
     }
 
@@ -484,32 +484,32 @@ public class PasswordStore {
                 try context.save()
             }
         } catch {
-            fatalError("Failed to save: \(error)")
+            fatalError("ErrorSaving".localize(error))
         }
     }
 
     public func getLatestUpdateInfo(filename: String) -> String {
         guard let storeRepository = storeRepository else {
-            return "Unknown"
+            return "Unknown".localize()
         }
         guard let blameHunks = try? storeRepository.blame(withFile: filename, options: nil).hunks,
             let latestCommitTime = blameHunks.map({
                  $0.finalSignature?.time?.timeIntervalSince1970 ?? 0
             }).max() else {
-            return "Unknown"
+            return "Unknown".localize()
         }
         let lastCommitDate = Date(timeIntervalSince1970: latestCommitTime)
         let currentDate = Date()
         var autoFormattedDifference: String
         if currentDate.timeIntervalSince(lastCommitDate) <= 60 {
-            autoFormattedDifference = "Just now"
+            autoFormattedDifference = "JustNow".localize()
         } else {
             let diffDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: lastCommitDate, to: currentDate)
             let dateComponentsFormatter = DateComponentsFormatter()
             dateComponentsFormatter.unitsStyle = .full
             dateComponentsFormatter.maximumUnitCount = 2
             dateComponentsFormatter.includesApproximationPhrase = true
-            autoFormattedDifference = dateComponentsFormatter.string(from: diffDate)!.appending(" ago")
+            autoFormattedDifference = "TimeAgo".localize(dateComponentsFormatter.string(from: diffDate)!)
         }
         return autoFormattedDifference
     }
@@ -646,7 +646,7 @@ public class PasswordStore {
                 try self.context.save()
                 ret = passwordEntity
             } catch {
-                fatalError("Failed to insert a PasswordEntity: \(error)")
+                fatalError("FailedToInsertPasswordEntity".localize(error))
             }
         }
         return ret
@@ -658,7 +658,7 @@ public class PasswordStore {
         let saveURL = storeURL.appendingPathComponent(password.url.path)
         try self.encrypt(password: password).write(to: saveURL)
         try gitAdd(path: password.url.path)
-        let _ = try gitCommit(message: "Add password for \(password.url.deletingPathExtension().path) to store using Pass for iOS.")
+        let _ = try gitCommit(message: "AddPassword.".localize(password.url.deletingPathExtension().path))
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         return newPasswordEntity
     }
@@ -668,7 +668,7 @@ public class PasswordStore {
         try gitRm(path: deletedFileURL.path)
         try deletePasswordEntities(passwordEntity: passwordEntity)
         try deleteDirectoryTree(at: deletedFileURL)
-        let _ = try gitCommit(message: "Remove \(deletedFileURL.deletingPathExtension().path.removingPercentEncoding!) from store using Pass for iOS.")
+        let _ = try gitCommit(message: "RemovePassword.".localize(deletedFileURL.deletingPathExtension().path.removingPercentEncoding!))
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
 
@@ -679,7 +679,7 @@ public class PasswordStore {
             let saveURL = storeURL.appendingPathComponent(passwordEntity.getURL()!.path)
             try self.encrypt(password: password).write(to: saveURL)
             try gitAdd(path: passwordEntity.getURL()!.path)
-            let _ = try gitCommit(message: "Edit password for \(passwordEntity.getURL()!.deletingPathExtension().path.removingPercentEncoding!) using Pass for iOS.")
+            let _ = try gitCommit(message: "EditPassword.".localize(passwordEntity.getURL()!.deletingPathExtension().path.removingPercentEncoding!))
             newPasswordEntity = passwordEntity
             newPasswordEntity?.synced = false
         }
@@ -696,8 +696,7 @@ public class PasswordStore {
             // delete
             try deleteDirectoryTree(at: deletedFileURL)
             try deletePasswordEntities(passwordEntity: passwordEntity)
-            let _ = try gitCommit(message: "Rename \(deletedFileURL.deletingPathExtension().path.removingPercentEncoding!) to \(password.url.deletingPathExtension().path.removingPercentEncoding!) using Pass for iOS.")
-
+            let _ = try gitCommit(message: "RenamePassword.".localize(deletedFileURL.deletingPathExtension().path.removingPercentEncoding!, password.url.deletingPathExtension().path.removingPercentEncoding!))
         }
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         return newPasswordEntity
@@ -712,7 +711,7 @@ public class PasswordStore {
             do {
                 try self.context.save()
             } catch {
-                fatalError("Failed to delete a PasswordEntity: \(error)")
+                fatalError("FailedToDeletePasswordEntity".localize(error))
             }
         }
     }
@@ -721,7 +720,7 @@ public class PasswordStore {
         do {
             try context.save()
         } catch {
-            fatalError("Failed to save a PasswordEntity: \(error)")
+            fatalError("FailedToSavePasswordEntity".localize(error))
         }
     }
 
@@ -752,11 +751,11 @@ public class PasswordStore {
                     do {
                         try self.context.save()
                     } catch {
-                        fatalError("Failure to save context: \(error)")
+                        fatalError("FailureToSaveContext".localize(error))
                     }
                 }
             } catch {
-                fatalError("Failure to save context: \(error)")
+                fatalError("FailureToSaveContext".localize(error))
             }
         }
     }

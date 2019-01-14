@@ -58,22 +58,22 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     override func viewDidLoad() {
         tableData = [
             // section 0
-            [[.title: "About Repository", .action: "segue", .link: "showAboutRepositorySegue"],],
+            [[.title: "AboutRepository".localize(), .action: "segue", .link: "showAboutRepositorySegue"],],
 
             // section 1
             [
-                [.title: "Password Generator Flavor", .action: "none", .style: CellDataStyle.value1],
+                [.title: "PasswordGeneratorFlavor".localize(), .action: "none", .style: CellDataStyle.value1],
             ],
 
             // section 2
             [
-                [.title: "Remember PGP Key Passphrase", .action: "none",],
-                [.title: "Remember Git Credential Passphrase", .action: "none",],
+                [.title: "RememberPgpKeyPassphrase".localize(), .action: "none",],
+                [.title: "RememberGitCredentialPassphrase".localize(), .action: "none",],
             ],
             [
-                [.title: "Show Folders", .action: "none",],
-                [.title: "Hide Unknown Fields", .action: "none",],
-                [.title: "Hide OTP Fields", .action: "none",],
+                [.title: "ShowFolders".localize(), .action: "none",],
+                [.title: "HideUnknownFields".localize(), .action: "none",],
+                [.title: "HideOtpFields".localize(), .action: "none",],
             ],
 
         ]
@@ -84,7 +84,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell =  super.tableView(tableView, cellForRowAt: indexPath)
         switch cell.textLabel!.text! {
-        case "Hide Unknown Fields":
+        case "HideUnknownFields".localize():
             cell.accessoryType = .none
             let detailButton = UIButton(type: .detailDisclosure)
             hideUnknownSwitch.frame = CGRect(x: detailButton.bounds.width+10, y: 0, width: hideUnknownSwitch.bounds.width, height: hideUnknownSwitch.bounds.height)
@@ -96,7 +96,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             cell.accessoryView = accessoryView
             cell.selectionStyle = .none
             hideUnknownSwitch.isOn = SharedDefaults[.isHideUnknownOn]
-        case "Hide OTP Fields":
+        case "HideOtpFields".localize():
             cell.accessoryType = .none
             let detailButton = UIButton(type: .detailDisclosure)
             hideOTPSwitch.frame = CGRect(x: detailButton.bounds.width+10, y: 0, width: hideOTPSwitch.bounds.width, height: hideOTPSwitch.bounds.height)
@@ -108,19 +108,19 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             cell.accessoryView = accessoryView
             cell.selectionStyle = .none
             hideOTPSwitch.isOn = SharedDefaults[.isHideOTPOn]
-        case "Remember PGP Key Passphrase":
+        case "RememberPgpKeyPassphrase".localize():
             cell.accessoryType = .none
             cell.selectionStyle = .none
             cell.accessoryView = rememberPGPPassphraseSwitch
-        case "Remember Git Credential Passphrase":
+        case "RememberGitCredentialPassphrase".localize():
             cell.accessoryType = .none
             cell.selectionStyle = .none
             cell.accessoryView = rememberGitCredentialPassphraseSwitch
-        case "Show Folders":
+        case "ShowFolders".localize():
             cell.accessoryType = .none
             cell.selectionStyle = .none
             cell.accessoryView = showFolderSwitch
-        case "Password Generator Flavor":
+        case "PasswordGeneratorFlavor".localize():
             cell.accessoryType = .disclosureIndicator
             cell.detailTextLabel?.text = PasswordGeneratorFlavour.from(SharedDefaults[.passwordGeneratorFlavor]).name
         default: break
@@ -131,7 +131,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         super.tableView(tableView, didSelectRowAt: indexPath)
         let cell = tableView.cellForRow(at: indexPath)!
-        if cell.textLabel!.text! == "Password Generator Flavor" {
+        if cell.textLabel!.text! == "PasswordGeneratorFlavor".localize() {
             tableView.deselectRow(at: indexPath, animated: true)
             showPasswordGeneratorFlavorActionSheet(sourceCell: cell)
         }
@@ -141,12 +141,12 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var randomFlavorActionTitle = ""
         var appleFlavorActionTitle = ""
-            randomFlavorActionTitle = "✓ Random String"
-            appleFlavorActionTitle = "Apple's Keychain Style"
         if SharedDefaults[.passwordGeneratorFlavor] == PasswordGeneratorFlavour.RANDOM.rawValue {
+            randomFlavorActionTitle = "✓ " + "RandomString".localize()
+            appleFlavorActionTitle = "ApplesKeychainStyle".localize()
         } else {
-            randomFlavorActionTitle = "Random String"
-            appleFlavorActionTitle = "✓ Apple's Keychain Style"
+            randomFlavorActionTitle = "RandomString".localize()
+            appleFlavorActionTitle = "✓ " + "ApplesKeychainStyle".localize()
         }
         let randomFlavorAction = UIAlertAction(title: randomFlavorActionTitle, style: .default) { _ in
             SharedDefaults[.passwordGeneratorFlavor] = PasswordGeneratorFlavour.RANDOM.rawValue
@@ -158,7 +158,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             sourceCell.detailTextLabel?.text = PasswordGeneratorFlavour.APPLE.name
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil)
         optionMenu.addAction(randomFlavorAction)
         optionMenu.addAction(appleFlavorAction)
         optionMenu.addAction(cancelAction)
@@ -168,15 +168,15 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     }
 
     @objc func tapHideUnknownSwitchDetailButton(_ sender: Any?) {
-        let alertMessage = "Only \"key: value\" format in additional fields is supported. Unsupported fields will be given \"unknown\" keys. Turn on this switch to hide unsupported fields."
-        let alertTitle = "Hide Unknown Fields"
+        let alertMessage = "HideUnknownFieldsExplanation.".localize()
+        let alertTitle = "HideUnknownFields".localize()
         Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
     }
 
     @objc func tapHideOTPSwitchDetailButton(_ sender: Any?) {
-        let keywordsString = Constants.OTP_KEYWORDS.joined(separator: ",")
-        let alertMessage = "Turn on this switch to hide the fields related to one time passwords (i.e., \(keywordsString))."
-        let alertTitle = "Hide One Time Password Fields"
+        let keywordsString = Constants.OTP_KEYWORDS.joined(separator: ", ")
+        let alertMessage = "HideOtpFieldsExplanation.".localize(keywordsString)
+        let alertTitle = "HideOtpFields".localize()
         Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
     }
 

@@ -51,7 +51,7 @@ class LabelTableViewCell: UITableViewCell {
                     }
                 }
                 contentLabel.font = Globals.passwordFont
-            } else if title.caseInsensitiveCompare("hmac-based") == .orderedSame {
+            } else if title.caseInsensitiveCompare("HmacBased".localize()) == .orderedSame {
                 type = .HOTP
                 if isReveal {
                     contentLabel.text = content

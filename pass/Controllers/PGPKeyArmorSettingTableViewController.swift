@@ -36,7 +36,7 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
             numberOfSegments = 0
             previousSegment = ""
             key = ""
-            message = "Looking for the starting frame."
+            message = "LookingForStartingFrame.".localize()
             hasStarted = false
             isDone = false
         }
@@ -55,12 +55,12 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
                 switch keyType {
                 case .publicKey:
                     if findPrivate {
-                        message = "Please scan public key."
+                        message = "ScanPrivateKey.".localize()
                     }
                     hasStarted = findPublic
                 case .privateKey:
                     if findPublic {
-                        message = "Please scan private key."
+                        message = "ScanPrivateKey.".localize()
                     }
                     hasStarted = findPrivate
                 }
@@ -72,7 +72,7 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
             // check the number of segments
             numberOfSegments = numberOfSegments + 1
             guard numberOfSegments <= ScannedPGPKey.maxNumberOfGif else {
-                key = "Too many QR codes"
+                key = "TooManyQrCodes"
                 return
             }
 
@@ -83,7 +83,7 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
             }
 
             // update message
-            message = "\(numberOfSegments) scanned QR codes."
+            message = "ScannedQrCodes(%d)".localize(numberOfSegments)
         }
     }
     var scanned = ScannedPGPKey()
@@ -94,12 +94,12 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
         armorPrivateKeyTextView.text = SharedDefaults[.pgpPrivateKeyArmor]
         pgpPassphrase = passwordStore.pgpKeyPassphrase
 
-        scanPublicKeyCell?.textLabel?.text = "Scan Public Key QR Codes"
+        scanPublicKeyCell?.textLabel?.text = "ScanPublicKeyQrCodes".localize()
         scanPublicKeyCell?.textLabel?.textColor = Globals.blue
         scanPublicKeyCell?.selectionStyle = .default
         scanPublicKeyCell?.accessoryType = .disclosureIndicator
 
-        scanPrivateKeyCell?.textLabel?.text = "Scan Private Key QR Codes"
+        scanPrivateKeyCell?.textLabel?.text = "ScanPrivateKeyQrCodes".localize()
         scanPrivateKeyCell?.textLabel?.textColor = Globals.blue
         scanPrivateKeyCell?.selectionStyle = .default
         scanPrivateKeyCell?.accessoryType = .disclosureIndicator
@@ -107,25 +107,25 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
 
     @IBAction func save(_ sender: Any) {
         guard armorPublicKeyTextView.text.isEmpty == false else {
-            Utils.alert(title: "Cannot Save", message: "Please set public key first.", controller: self, completion: nil)
+            Utils.alert(title: "CannotSave".localize(), message: "SetPublicKey.".localize(), controller: self, completion: nil)
             return
         }
         guard armorPrivateKeyTextView.text.isEmpty == false else {
-            Utils.alert(title: "Cannot Save", message: "Please set private key first.", controller: self, completion: nil)
+            Utils.alert(title: "CannotSave".localize(), message: "SetPrivateKey.".localize(), controller: self, completion: nil)
             return
         }
-        let savePassphraseAlert = UIAlertController(title: "Passphrase", message: "Do you want to save the passphrase for later decryption?", preferredStyle: UIAlertControllerStyle.alert)
+        let savePassphraseAlert = UIAlertController(title: "Passphrase".localize(), message: "WantToSavePassphrase?".localize(), preferredStyle: UIAlertControllerStyle.alert)
         // no
-        savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
+        savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: UIAlertActionStyle.default) { _ in
             self.pgpPassphrase = nil
             SharedDefaults[.isRememberPGPPassphraseOn] = false
             self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
         })
         // yes
-        savePassphraseAlert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.destructive) {_ in
+        savePassphraseAlert.addAction(UIAlertAction(title: "Yes".localize(), style: UIAlertActionStyle.destructive) {_ in
             // ask for the passphrase
-            let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+            let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: {_ in
                 self.pgpPassphrase = alert.textFields?.first?.text
                 SharedDefaults[.isRememberPGPPassphraseOn] = true
                 self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
@@ -163,7 +163,7 @@ class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDe
     func checkScannedOutput(line: String) -> (accept: Bool, message: String) {
         scanned.addSegment(segment: line)
         if scanned.isDone {
-            return (accept: true, message: "Done")
+            return (accept: true, message: "Done".localize())
         } else {
             return (accept: false, message: scanned.message)
         }

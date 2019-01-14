@@ -26,6 +26,7 @@
 		30B04860209A5141001013CA /* PasswordTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B0485F209A5141001013CA /* PasswordTest.swift */; };
 		30BF5EC821EA8FB5000E4154 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ECA21EA8FB5000E4154 /* Localizable.strings */; };
 		30BF5ECF21EA90D1000E4154 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BF5ECE21EA90D1000E4154 /* String.swift */; };
+		30BF5ED721ED2434000E4154 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ED521ED2434000E4154 /* Localizable.stringsdict */; };
 		30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD2F77214D9E0E005E0A92 /* ParserTest.swift */; };
 		61326CDA7A73757FB68DCB04 /* Pods_passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAB3F5541E51ADC8C6B56642 /* Pods_passKit.framework */; };
 		A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */; };
@@ -208,6 +209,7 @@
 		30B0485F209A5141001013CA /* PasswordTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTest.swift; sourceTree = "<group>"; };
 		30BF5EC921EA8FB5000E4154 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		30BF5ECE21EA90D1000E4154 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = String.swift; path = Localization/String.swift; sourceTree = "<group>"; };
+		30BF5ED621ED2434000E4154 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		30FD2F77214D9E0E005E0A92 /* ParserTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
 		31C3033E8868D05B2C55C8B1 /* Pods-passExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passExtension/Pods-passExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		3A5620D17DF5E86B61761D0E /* Pods_pass.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pass.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -703,6 +705,7 @@
 				DC917BDF1E2E8231000FDF54 /* LaunchScreen.storyboard */,
 				DC917BDA1E2E8231000FDF54 /* Main.storyboard */,
 				30BF5ECA21EA8FB5000E4154 /* Localizable.strings */,
+				30BF5ED521ED2434000E4154 /* Localizable.stringsdict */,
 			);
 			path = pass;
 			sourceTree = "<group>";
@@ -1015,6 +1018,7 @@
 				30BF5EC821EA8FB5000E4154 /* Localizable.strings in Resources */,
 				DCFB77A31E500D9C008DE471 /* PasswordDetailTitleTableViewCell.xib in Resources */,
 				DC917BDE1E2E8231000FDF54 /* Assets.xcassets in Resources */,
+				30BF5ED721ED2434000E4154 /* Localizable.stringsdict in Resources */,
 				DCDDEAB01E4639F300F68193 /* LabelTableViewCell.xib in Resources */,
 				DC917BDC1E2E8231000FDF54 /* Main.storyboard in Resources */,
 				A2802BFA1E70813A00879216 /* SliderTableViewCell.xib in Resources */,
@@ -1322,6 +1326,14 @@
 				30BF5EC921EA8FB5000E4154 /* en */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		30BF5ED521ED2434000E4154 /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				30BF5ED621ED2434000E4154 /* en */,
+			);
+			name = Localizable.stringsdict;
 			sourceTree = "<group>";
 		};
 		A239F59A2158C08C00576CBF /* MainInterface.storyboard */ = {

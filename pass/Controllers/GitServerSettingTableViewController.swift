@@ -84,7 +84,7 @@ class GitServerSettingTableViewController: UITableViewController {
 
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
-        SVProgressHUD.show(withStatus: "Prepare Repository")
+        SVProgressHUD.show(withStatus: "PrepareRepository".localize())
         var gitCredential: GitCredential
         if auth == "Password" {
             gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username))
@@ -112,7 +112,7 @@ class GitServerSettingTableViewController: UITableViewController {
                 },
                                                        checkoutProgressBlock: { (path, completedSteps, totalSteps) in
                                                         DispatchQueue.main.async {
-                                                            SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "Checkout Master Branch")
+                                                            SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "CheckingOutBranch".localize(branchName))
                                                         }
                 })
                 DispatchQueue.main.async {
@@ -121,16 +121,16 @@ class GitServerSettingTableViewController: UITableViewController {
                     SharedDefaults[.gitBranchName] = branchName
                     SharedDefaults[.gitAuthenticationMethod] = auth
                     SVProgressHUD.dismiss()
-                    let savePassphraseAlert = UIAlertController(title: "Done", message: "Do you want to save the Git credential password/passphrase?", preferredStyle: UIAlertControllerStyle.alert)
+                    let savePassphraseAlert = UIAlertController(title: "Done".localize(), message: "WantToSaveGitCredential?".localize(), preferredStyle: UIAlertControllerStyle.alert)
                     // no
-                    savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
+                    savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: UIAlertActionStyle.default) { _ in
                         SharedDefaults[.isRememberGitCredentialPassphraseOn] = false
                         self.passwordStore.gitPassword = nil
                         self.passwordStore.gitSSHPrivateKeyPassphrase = nil
                         self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
                     })
                     // yes
-                    savePassphraseAlert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.destructive) {_ in
+                    savePassphraseAlert.addAction(UIAlertAction(title: "Yes".localize(), style: UIAlertActionStyle.destructive) {_ in
                         SharedDefaults[.isRememberGitCredentialPassphraseOn] = true
                         self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
                     })
@@ -141,9 +141,9 @@ class GitServerSettingTableViewController: UITableViewController {
                     let error = error as NSError
                     var message = error.localizedDescription
                     if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
-                        message = "\(message)\nUnderlying error: \(underlyingError.localizedDescription)"
+                        message = "\(message)\n\("UnderlyingError".localize()): \(underlyingError.localizedDescription)"
                     }
-                    Utils.alert(title: "Error", message: message, controller: self, completion: nil)
+                    Utils.alert(title: "Error".localize(), message: message, controller: self, completion: nil)
                 }
             }
         }
@@ -156,7 +156,7 @@ class GitServerSettingTableViewController: UITableViewController {
         } else if cell == authSSHKeyCell {
 
             if !passwordStore.gitSSHKeyExists() {
-                Utils.alert(title: "Cannot Select SSH Key", message: "Please setup SSH key first.", controller: self, completion: nil)
+                Utils.alert(title: "CannotSelectSshKey".localize(), message: "PleaseSetupSshKeyFirst.".localize(), controller: self, completion: nil)
                 authenticationMethod = "Password"
             } else {
                 authenticationMethod = "SSH Key"
@@ -170,7 +170,7 @@ class GitServerSettingTableViewController: UITableViewController {
 
         // some sanity checks
         guard let gitURL = URL(string: gitURLTextField.text!) else {
-            Utils.alert(title: "Cannot Save", message: "Please set the Git repository URL.", controller: self, completion: nil)
+            Utils.alert(title: "CannotSave".localize(), message: "SetGitRepositoryUrl".localize(), controller: self, completion: nil)
             return
         }
 
@@ -179,28 +179,28 @@ class GitServerSettingTableViewController: UITableViewController {
             break
         case let val where val == "ssh":
             guard let sshUsername = gitURL.user, sshUsername.isEmpty == false else {
-                Utils.alert(title: "Cannot Save", message: "Cannot find the username in the Git repository URL. Example URL: ssh://git@server/path/to/repo.git.", controller: self, completion: nil)
+                Utils.alert(title: "CannotSave".localize(), message: "CannotFindUsername.".localize(), controller: self, completion: nil)
                 return
             }
             guard let username = usernameTextField.text, username == sshUsername else {
-                Utils.alert(title: "Cannot Save", message: "Please check the entered username and the username in the Git repository URL. They should match.", controller: self, completion: nil)
+                Utils.alert(title: "CannotSave".localize(), message: "CheckEnteredUsername.".localize(), controller: self, completion: nil)
                 return
             }
         case let val where val == "http":
-            Utils.alert(title: "Cannot Save", message: "Please use https instead of http.", controller: self, completion: nil)
+            Utils.alert(title: "CannotSave".localize(), message: "UseHttps.".localize(), controller: self, completion: nil)
             return
         default:
-            Utils.alert(title: "Cannot Save", message: "Please specify the scheme of the Git repository URL (https or ssh).", controller: self, completion: nil)
+            Utils.alert(title: "CannotSave".localize(), message: "SpecifySchema.".localize(), controller: self, completion: nil)
             return
         }
 
         if passwordStore.repositoryExisted() {
-            let alert = UIAlertController(title: "Overwrite?", message: "This operation will overwrite your current password store data (repository). Data on your remote server will not be affected.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.destructive, handler: { _ in
+            let alert = UIAlertController(title: "Overwrite?".localize(), message: "OperationWillOverwriteData.".localize(), preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Overwrite".localize(), style: UIAlertActionStyle.destructive, handler: { _ in
                 // perform segue only after a successful clone
                 self.cloneAndSegueIfSuccess()
             }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertActionStyle.cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
         } else {
             // perform segue only after a successful clone
@@ -210,9 +210,9 @@ class GitServerSettingTableViewController: UITableViewController {
 
     func showSSHKeyActionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        var urlActionTitle = "Download from URL"
-        var armorActionTitle = "ASCII-Armor Encrypted Key"
-        var fileActionTitle = "iTunes File Sharing"
+        var urlActionTitle = "DownloadFromUrl".localize()
+        var armorActionTitle = "AsciiArmorEncryptedKey".localize()
+        var fileActionTitle = "ITunesFileSharing".localize()
 
         if SharedDefaults[.gitSSHKeySource] == "url" {
             urlActionTitle = "✓ \(urlActionTitle)"
@@ -227,41 +227,41 @@ class GitServerSettingTableViewController: UITableViewController {
         let armorAction = UIAlertAction(title: armorActionTitle, style: .default) { _ in
             self.performSegue(withIdentifier: "setGitSSHKeyByArmorSegue", sender: self)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil)
         optionMenu.addAction(urlAction)
         optionMenu.addAction(armorAction)
 
         if passwordStore.gitSSHKeyExists(inFileSharing: true) {
             // might keys updated via iTunes, or downloaded/pasted inside the app
-            fileActionTitle.append(" (Import)")
+            fileActionTitle.append(" (\("Import".localize()))")
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
                 do {
                     try self.passwordStore.gitSSHKeyImportFromFileSharing()
                     SharedDefaults[.gitSSHKeySource] = "file"
-                    SVProgressHUD.showSuccess(withStatus: "Imported")
+                    SVProgressHUD.showSuccess(withStatus: "Imported".localize())
                     SVProgressHUD.dismiss(withDelay: 1)
                 } catch {
-                    Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                    Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
             optionMenu.addAction(fileAction)
         } else {
-            fileActionTitle.append(" (Tips)")
+            fileActionTitle.append(" (\("Tips".localize()))")
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
-                let title = "Tips"
-                let message = "Copy your ASCII-armored private key to Pass with the name \"ssh_key\" (without quotes) via iTunes. Then come back and click \"iTunes File Sharing\" to finish."
+                let title = "Tips".localize()
+                let message = "CopyPrivateKeyToPass.".localize()
                 Utils.alert(title: title, message: message, controller: self)
             }
             optionMenu.addAction(fileAction)
         }
 
         if SharedDefaults[.gitSSHKeySource] != nil {
-            let deleteAction = UIAlertAction(title: "Remove Git SSH Keys", style: .destructive) { _ in
+            let deleteAction = UIAlertAction(title: "RemoveSShKeys".localize(), style: .destructive) { _ in
                 self.passwordStore.removeGitSSHKeys()
                 SharedDefaults[.gitSSHKeySource] = nil
                 if let sshLabel = self.sshLabel {
                     sshLabel.isEnabled = false
-                    self.checkAuthenticationMethod(method: "Password")
+                    self.checkAuthenticationMethod(method: "Password".localize())
                 }
             }
             optionMenu.addAction(deleteAction)
@@ -278,23 +278,23 @@ class GitServerSettingTableViewController: UITableViewController {
         var message = ""
         switch credential {
         case .http:
-            message = "Please fill in the password of your Git account."
+            message = "FillInGitAccountPassword.".localize()
         case .ssh:
-            message = "Please fill in the passphrase of your SSH key."
+            message = "FillInSshKeyPassphrase.".localize()
         }
 
         DispatchQueue.main.async {
             SVProgressHUD.dismiss()
-            let alert = UIAlertController(title: "Password", message: message, preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "Password".localize(), message: message, preferredStyle: UIAlertControllerStyle.alert)
             alert.addTextField(configurationHandler: {(textField: UITextField!) in
                 textField.text = lastPassword ?? ""
                 textField.isSecureTextEntry = true
             })
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: {_ in
                 password = alert.textFields!.first!.text
                 sem.signal()
             }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: .cancel) { _ in
                 password = nil
                 sem.signal()
             })

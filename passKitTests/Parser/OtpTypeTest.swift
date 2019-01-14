@@ -38,8 +38,8 @@ class OtpTypeTest: XCTestCase {
     }
 
     func testDescription() {
-        XCTAssertEqual(OtpType(name: "totp").description, "time-based")
-        XCTAssertEqual(OtpType(name: "hotp").description, "HMAC-based")
-        XCTAssertEqual(OtpType(name: nil).description, "none")
+        XCTAssertEqual(OtpType(name: "totp").description, "TimeBased".localize())
+        XCTAssertEqual(OtpType(name: "hotp").description, "HmacBased".localize())
+        XCTAssertEqual(OtpType(name: nil).description, "None".localize())
     }
 }

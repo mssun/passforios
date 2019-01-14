@@ -11,7 +11,7 @@ import passKit
 
 class AboutRepositoryTableViewController: BasicStaticTableViewController {
 
-    private static let VALUE_NOT_AVAILABLE = "Value not available"
+    private static let VALUE_NOT_AVAILABLE = "ValueNotAvailable".localize()
 
     private var needRefresh = false
     private var indicator: UIActivityIndicatorView = {
@@ -62,12 +62,12 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
                 let type = UITableViewCellAccessoryType.none
                 strongSelf.tableData = [
                     // section 0
-                    [[.style: CellDataStyle.value1, .accessoryType: type, .title: "Passwords", .detailText: passwords],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Size", .detailText: size],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Local Commits", .detailText: localCommits],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Last Synced", .detailText: lastSynced],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Commits", .detailText: commits],
-                     [.title: "Commit Logs", .action: "segue", .link: "showCommitLogsSegue"],
+                    [[.style: CellDataStyle.value1, .accessoryType: type, .title: "Passwords".localize(), .detailText: passwords],
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Size".localize(), .detailText: size],
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "LocalCommits".localize(), .detailText: localCommits],
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "LastSynced".localize(), .detailText: lastSynced],
+                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Commits".localize(), .detailText: commits],
+                     [.title: "CommitLogs".localize(), .action: "segue", .link: "showCommitLogsSegue"],
                      ],
                 ]
                 strongSelf.indicator.stopAnimating()
@@ -95,7 +95,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
 
     private func lastSyncedTimeString() -> String {
         guard let date = self.passwordStore.lastSyncedTime else {
-            return "Oops! Sync again?"
+            return "SyncAgain?".localize()
         }
         let formatter = DateFormatter()
         formatter.dateStyle = .medium

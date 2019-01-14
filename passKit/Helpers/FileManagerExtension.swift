@@ -77,7 +77,7 @@ public extension FileManager {
             fileSize = try fileSize ?? resourceValueForKey(URLResourceKey.fileAllocatedSizeKey)
 
             guard let size = fileSize else {
-                preconditionFailure("huh? NSURLFileAllocatedSizeKey should always return a value")
+                preconditionFailure("NSURLFileAllocatedSizeKeyShouldAlwaysReturnValue.".localize())
             }
 
             // We're good, add up the value.

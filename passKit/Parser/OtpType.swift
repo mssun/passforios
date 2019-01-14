@@ -9,12 +9,12 @@
 import OneTimePassword
 
 public enum OtpType: String {
-    case totp = "time-based"
-    case hotp = "HMAC-based"
-    case none
+    case totp = "TimeBased"
+    case hotp = "HmacBased"
+    case none = "None"
 
     var description: String {
-        return rawValue
+        return rawValue.localize()
     }
 
     init(token: Token?) {

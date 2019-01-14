@@ -13,13 +13,13 @@ class AboutTableViewController: BasicStaticTableViewController {
     override func viewDidLoad() {
         tableData = [
             // section 0
-            [[.title: "Website", .action: "link", .link: "https://github.com/mssun/pass-ios.git"],
-             [.title: "Help", .action: "link", .link: "https://github.com/mssun/passforios/wiki"],
-             [.title: "Contact Developer", .action: "link", .link: "mailto:developer@passforios.mssun.me?subject=Pass%20for%20iOS"],],
+            [[.title: "Website".localize(), .action: "link", .link: "https://github.com/mssun/pass-ios.git"],
+             [.title: "Help".localize(), .action: "link", .link: "https://github.com/mssun/passforios/wiki"],
+             [.title: "ContactDeveloper".localize(), .action: "link", .link: "mailto:developer@passforios.mssun.me?subject=Pass%20for%20iOS"],],
 
             // section 1,
-            [[.title: "Open Source Components", .action: "segue", .link: "showOpenSourceComponentsSegue"],
-             [.title: "Special Thanks", .action: "segue", .link: "showSpecialThanksSegue"],],
+            [[.title: "OpenSourceComponents".localize(), .action: "segue", .link: "showOpenSourceComponentsSegue"],
+             [.title: "SpecialThanks".localize(), .action: "segue", .link: "showSpecialThanksSegue"],],
         ]
         super.viewDidLoad()
     }
@@ -29,7 +29,7 @@ class AboutTableViewController: BasicStaticTableViewController {
             let view = UIView()
             let footerLabel = UILabel(frame: CGRect(x: 8, y: 15, width: tableView.frame.width, height: 60))
             footerLabel.numberOfLines = 0
-            footerLabel.text = "Pass for iOS \(Bundle.main.releaseVersionNumber!) (\(Bundle.main.buildVersionNumber!))"
+            footerLabel.text = "PassForIos".localize() + " \(Bundle.main.releaseVersionNumber!) (\(Bundle.main.buildVersionNumber!))"
             footerLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
             footerLabel.textColor = UIColor.lightGray
             footerLabel.textAlignment = .center
@@ -41,7 +41,7 @@ class AboutTableViewController: BasicStaticTableViewController {
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 1 {
-            return "Acknowledgements".uppercased()
+            return "Acknowledgements".localize().uppercased()
         }
         return nil
     }

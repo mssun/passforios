@@ -29,7 +29,7 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
             numberOfSegments = 0
             previousSegment = ""
             key = ""
-            message = "Looking for the starting frame."
+            message = "LookingForStartingFrame.".localize()
             hasStarted = false
             isDone = false
         }
@@ -52,7 +52,7 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
             // check the number of segments
             numberOfSegments = numberOfSegments + 1
             guard numberOfSegments <= ScannedSSHKey.maxNumberOfGif else {
-                key = "Too many QR codes"
+                key = "TooManyQrCodes".localize()
                 return
             }
 
@@ -64,7 +64,7 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
             }
 
             // update message
-            message = "\(numberOfSegments) scanned QR codes."
+            message = "ScannedQrCodes(%d)".localize(numberOfSegments)
         }
     }
     var scanned = ScannedSSHKey()
@@ -74,7 +74,7 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
         armorPrivateKeyTextView.text = SharedDefaults[.gitSSHPrivateKeyArmor]
         armorPrivateKeyTextView.delegate = self
 
-        scanPrivateKeyCell?.textLabel?.text = "Scan Private Key QR Codes"
+        scanPrivateKeyCell?.textLabel?.text = "ScanPrivateKeyQrCodes".localize()
         scanPrivateKeyCell?.textLabel?.textColor = Globals.blue
         scanPrivateKeyCell?.selectionStyle = .default
         scanPrivateKeyCell?.accessoryType = .disclosureIndicator
@@ -85,7 +85,7 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
         do {
             try passwordStore.initGitSSHKey(with: armorPrivateKeyTextView.text)
         } catch {
-            Utils.alert(title: "Cannot Save", message: "Cannot Save SSH Key", controller: self, completion: nil)
+            Utils.alert(title: "CannotSave".localize(), message: "CannotSaveSshKey".localize(), controller: self, completion: nil)
         }
         SharedDefaults[.gitSSHKeySource] = "armor"
         self.navigationController!.popViewController(animated: true)
@@ -113,7 +113,7 @@ class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextVie
     func checkScannedOutput(line: String) -> (accept: Bool, message: String) {
         scanned.addSegment(segment: line)
         if scanned.isDone {
-            return (accept: true, message: "Done")
+            return (accept: true, message: "Done".localize())
         } else {
             return (accept: false, message: scanned.message)
         }

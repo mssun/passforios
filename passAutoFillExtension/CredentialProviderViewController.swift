@@ -146,7 +146,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
         let entry = getPasswordEntry(by: indexPath)
 
         guard self.passwordStore.privateKey != nil else {
-            Utils.alert(title: "Cannot Copy Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
+            Utils.alert(title: "CannotCopyPassword".localize(), message: "PgpKeyNotSet.".localize(), controller: self, completion: nil)
             return
         }
 
@@ -166,7 +166,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
                 DispatchQueue.main.async {
                     // remove the wrong passphrase so that users could enter it next time
                     self.passwordStore.pgpKeyPassphrase = nil
-                    Utils.alert(title: "Cannot Copy Password", message: error.localizedDescription, controller: self, completion: nil)
+                    Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
         }
@@ -187,8 +187,8 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
         let sem = DispatchSemaphore(value: 0)
         var passphrase = ""
         DispatchQueue.main.async {
-            let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: {_ in
+            let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
                 passphrase = alert.textFields!.first!.text!
                 sem.signal()
             }))

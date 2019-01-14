@@ -304,9 +304,11 @@ class PasswordTest: XCTestCase {
     func testOtpStringsTotpToken() {
         let password = getPasswordObjectWith(content: TOTP_URL)
         let otpStrings = password.getOtpStrings()
+        let otpDescription = otpStrings!.description
 
         XCTAssertNotNil(otpStrings)
-        XCTAssert(otpStrings!.description.hasPrefix("time-based (expires in"))
+        XCTAssert(otpDescription.hasPrefix("TimeBased".localize() + " ("))
+        XCTAssert(otpDescription.hasSuffix(")"))
     }
 
     func testOtpStringsHotpToken() {
@@ -314,6 +316,6 @@ class PasswordTest: XCTestCase {
         let otpStrings = password.getOtpStrings()
 
         XCTAssertNotNil(otpStrings)
-        XCTAssertEqual(otpStrings!.description, "HMAC-based")
+        XCTAssertEqual(otpStrings!.description, "HmacBased".localize())
     }
 }

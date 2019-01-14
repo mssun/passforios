@@ -101,8 +101,8 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
                     sendEmail(toRecipients: [urlComponents.path], subject: subject)
                 } else {
                     let email = urlComponents.path
-                    let alertTitle = "Cannot open Mail App"
-                    let alertMessage = "Email copied: \(email)"
+                    let alertTitle = "CannotOpenMail".localize()
+                    let alertMessage = "CopiedEmail".localize(email)
                     Utils.copyToPasteboard(textToCopy: email)
                     Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
                 }
