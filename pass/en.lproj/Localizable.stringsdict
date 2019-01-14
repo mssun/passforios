@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ScannedQrCodes(%d)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@code@</string>
+		<key>codes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>zero</key>
+			<string>No scanned QR code</string>
+			<key>one</key>
+			<string>One scanned QR code</string>
+			<key>other</key>
+			<string>%d scanned QR codes</string>
+		</dict>
+	</dict>
+	<key>DiscardedCommits(%d)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@commits@</string>
+		<key>commits</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>No local commits</string>
+			<key>one</key>
+			<string>Discarded one commit</string>
+			<key>other</key>
+			<string>Discarded %d commits</string>
+		</dict>
+	</dict>
+	<key>HiddenFields(%d)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@fields@</string>
+		<key>fields</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>No hidden field</string>
+			<key>one</key>
+			<string>One hidden field</string>
+			<key>other</key>
+			<string>%d hidden fields</string>
+		</dict>
+	</dict>
+	<key>WrongAttempts(%d)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@attempts@</string>
+		<key>attempts</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>No wrong attempt</string>
+			<key>one</key>
+			<string>One wrong attempt</string>
+			<key>other</key>
+			<string>%d wrong attempts</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

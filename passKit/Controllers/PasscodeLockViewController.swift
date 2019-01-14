@@ -30,7 +30,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         super.loadView()
 
         let passcodeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
-        passcodeLabel.text = "Enter passcode for Pass"
+        passcodeLabel.text = "EnterPasscode".localize()
         passcodeLabel.font = UIFont.boldSystemFont(ofSize: 18)
         passcodeLabel.textColor = UIColor.black
         passcodeLabel.textAlignment = .center
@@ -48,7 +48,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
 
         let passcodeTextField =  UITextField(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
         passcodeTextField.borderStyle = UITextBorderStyle.roundedRect
-        passcodeTextField.placeholder = "passcode"
+        passcodeTextField.placeholder = "Passcode".localize()
         passcodeTextField.isSecureTextEntry = true
         passcodeTextField.clearButtonMode = UITextFieldViewMode.whileEditing
         passcodeTextField.delegate = self
@@ -71,10 +71,10 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         var authError: NSError?
         if #available(iOS 8.0, macOS 10.12.1, *) {
             if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-                var biometryType = "Touch ID"
+                var biometryType = "TouchId".localize()
                 if #available(iOS 11.0, *) {
                     if myContext.biometryType == LABiometryType.faceID {
-                        biometryType = "Face ID"
+                        biometryType = "FaceId".localize()
                     }
                 }
                 biometryAuthButton.setTitle(biometryType, for: .normal)
@@ -83,7 +83,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         }
 
         let cancelButton = UIButton(type: .custom)
-        cancelButton.setTitle("Cancel", for: .normal)
+        cancelButton.setTitle("Cancel".localize(), for: .normal)
         cancelButton.setTitleColor(Globals.blue, for: .normal)
         cancelButton.addTarget(self, action: #selector(passcodeLockDidCancel), for: .touchUpInside)
         cancelButton.isHidden = !self.isCancellable
@@ -167,7 +167,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
 
     @objc func bioButtonPressedAction(_ uiButton: UIButton) {
         let myContext = LAContext()
-        let myLocalizedReasonString = "Authentication is needed to access Pass."
+        let myLocalizedReasonString = "AuthenticationNeeded.".localize()
         var authError: NSError?
 
         if #available(iOS 8.0, *) {
@@ -188,11 +188,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         if textField == passcodeTextField {
             if !PasscodeLock.shared.check(passcode: textField.text ?? "") {
                 passcodeFailedAttempts = passcodeFailedAttempts + 1
-                if passcodeFailedAttempts == 1 {
-                    passcodeWrongAttemptsLabel?.text = "1 wrong attempt"
-                } else {
-                    passcodeWrongAttemptsLabel?.text = "\(passcodeFailedAttempts) wrong attempts"
-                }
+                passcodeWrongAttemptsLabel?.text = "WrongAttempts(%d)".localize(passcodeFailedAttempts)
             }
         }
         textField.resignFirstResponder()

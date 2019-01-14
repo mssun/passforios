@@ -56,7 +56,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         return nil
     }()
     private lazy var backUIBarButtonItem: UIBarButtonItem = {
-        let backUIBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(self.backAction(_:)))
+        let backUIBarButtonItem = UIBarButtonItem(title: "Back".localize(), style: .plain, target: self, action: #selector(self.backAction(_:)))
         return backUIBarButtonItem
     }()
 
@@ -110,18 +110,18 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         if let controller = segue.source as? AddPasswordTableViewController {
             SVProgressHUD.setDefaultMaskType(.black)
             SVProgressHUD.setDefaultStyle(.light)
-            SVProgressHUD.show(withStatus: "Saving")
+            SVProgressHUD.show(withStatus: "Saving".localize())
             DispatchQueue.global(qos: .userInitiated).async {
                 do {
                     let _ = try self.passwordStore.add(password: controller.password!)
                     DispatchQueue.main.async {
                         // will trigger reloadTableView() by a notification
-                        SVProgressHUD.showSuccess(withStatus: "Done")
+                        SVProgressHUD.showSuccess(withStatus: "Done".localize())
                         SVProgressHUD.dismiss(withDelay: 1)
                     }
                 } catch {
                     DispatchQueue.main.async {
-                        Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                        Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
                     }
                 }
             }
@@ -131,13 +131,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     private func syncPasswords() {
         guard passwordStore.repositoryExisted() else {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800)) {
-                Utils.alert(title: "Error", message: "There is no password store right now.", controller: self, completion: nil)
+                Utils.alert(title: "Error".localize(), message: "NoPasswordStore.".localize(), controller: self, completion: nil)
             }
             return
         }
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
-        SVProgressHUD.show(withStatus: "Sync Password Store")
+        SVProgressHUD.show(withStatus: "SyncingPasswordStore".localize())
         var gitCredential: GitCredential
         if SharedDefaults[.gitAuthenticationMethod] == "Password" {
             gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: SharedDefaults[.gitUsername]!))
@@ -159,13 +159,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 if self.passwordStore.numberOfLocalCommits ?? 0 > 0 {
                     try self.passwordStore.pushRepository(credential: gitCredential, requestGitPassword: self.requestGitPassword(credential:lastPassword:), transferProgressBlock: {(current, total, bytes, stop) in
                         DispatchQueue.main.async {
-                            SVProgressHUD.showProgress(Float(current)/Float(total), status: "Push Remote Repository")
+                            SVProgressHUD.showProgress(Float(current)/Float(total), status: "PushingToRemoteRepository".localize())
                         }
                     })
                 }
                 DispatchQueue.main.async {
                     self.reloadTableView(parent: nil)
-                    SVProgressHUD.showSuccess(withStatus: "Done")
+                    SVProgressHUD.showSuccess(withStatus: "Done".localize())
                     SVProgressHUD.dismiss(withDelay: 1)
                     self.syncControl.endRefreshing()
                 }
@@ -176,14 +176,14 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                     let error = error as NSError
                     var message = error.localizedDescription
                     if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
-                        message = "\(message)\nUnderlying error: \(underlyingError.localizedDescription)"
-                        if underlyingError.localizedDescription.contains("Wrong passphrase") {
-                            message = "\(message)\nRecovery suggestion: Wrong credential password/passphrase has been removed, please try again."
+                        message = "\(message)\n\("UnderlyingError".localize(underlyingError.localizedDescription))"
+                        if underlyingError.localizedDescription.contains("WrongPassphrase".localize()) {
+                            message = "\(message)\n\("RecoverySuggestion".localize())"
                             gitCredential.delete()
                         }
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800)) {
-                        Utils.alert(title: "Error", message: message, controller: self, completion: nil)
+                        Utils.alert(title: "Error".localize(), message: message, controller: self, completion: nil)
                     }
                 }
             }
@@ -194,7 +194,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidAppear(animated)
 
         if SharedDefaults[.isShowFolderOn] {
-            searchController.searchBar.scopeButtonTitles = ["Current", "All"]
+            searchController.searchBar.scopeButtonTitles = ["Current".localize(), "All".localize()]
         } else {
             searchController.searchBar.scopeButtonTitles = nil
         }
@@ -365,8 +365,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         let sem = DispatchSemaphore(value: 0)
         var passphrase = ""
         DispatchQueue.main.async {
-            let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+            let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: {_ in
                 passphrase = alert.textFields!.first!.text!
                 sem.signal()
             }))
@@ -381,7 +381,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         let _ = sem.wait(timeout: DispatchTime.distantFuture)
         DispatchQueue.main.async {
             // bring back
-            SVProgressHUD.show(withStatus: "Decrypting")
+            SVProgressHUD.show(withStatus: "Decrypting".localize())
         }
         if SharedDefaults[.isRememberPGPPassphraseOn] {
             self.passwordStore.pgpKeyPassphrase = passphrase
@@ -391,28 +391,28 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     private func decryptThenCopyPassword(from indexPath: IndexPath) {
         guard self.passwordStore.privateKey != nil else {
-            Utils.alert(title: "Cannot Copy Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
+            Utils.alert(title: "CannotCopyPassword".localize(), message: "SetPgpKey.".localize(), controller: self, completion: nil)
             return
         }
         let passwordEntity = getPasswordEntry(by: indexPath).passwordEntity!
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.dark)
-        SVProgressHUD.show(withStatus: "Decrypting")
+        SVProgressHUD.show(withStatus: "Decrypting".localize())
         DispatchQueue.global(qos: .userInteractive).async {
             var decryptedPassword: Password?
             do {
                 decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: self.requestPGPKeyPassphrase)
                 DispatchQueue.main.async {
                     SecurePasteboard.shared.copy(textToCopy: decryptedPassword?.password)
-                    SVProgressHUD.showSuccess(withStatus: "Password copied. We will clear the pasteboard in 45 seconds.")
+                    SVProgressHUD.showSuccess(withStatus: "PasswordCopiedToPasteboard.".localize())
                     SVProgressHUD.dismiss(withDelay: 0.6)
                 }
             } catch {
                 DispatchQueue.main.async {
                     // remove the wrong passphrase so that users could enter it next time
                     self.passwordStore.pgpKeyPassphrase = nil
-                    Utils.alert(title: "Cannot Copy Password", message: error.localizedDescription, controller: self, completion: nil)
+                    Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
         }
@@ -453,7 +453,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "showPasswordDetail" {
             guard self.passwordStore.privateKey != nil else {
-                Utils.alert(title: "Cannot Show Password", message: "PGP Key is not set. Please set your PGP Key first.", controller: self, completion: nil)
+                Utils.alert(title: "CannotShowPassword".localize(), message: "SetPgpKey.".localize(), controller: self, completion: nil)
                 if let s = sender as? UITableViewCell {
                     let selectedIndexPath = tableView.indexPath(for: s)!
                     tableView.deselectRow(at: selectedIndexPath, animated: true)
@@ -462,7 +462,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             }
         } else if identifier == "addPasswordSegue" {
             guard self.passwordStore.publicKey != nil, self.passwordStore.storeRepository != nil else {
-                Utils.alert(title: "Cannot Add Password", message: "Please make sure PGP Key and Git Server are properly set.", controller: self, completion: nil)
+                Utils.alert(title: "CannotAddPassword".localize(), message: "MakeSurePgpAndGitProperlySet.".localize(), controller: self, completion: nil)
                 return false
             }
         }
@@ -537,13 +537,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         self.tableView.layer.removeAnimation(forKey: "UITableViewReloadDataAnimationKey")
 
         // set the sync control title
-        let atribbutedTitle = "Last Synced: \(lastSyncedTimeString())"
+        let atribbutedTitle = "LastSynced".localize() + ": \(lastSyncedTimeString())"
         syncControl.attributedTitle = NSAttributedString(string: atribbutedTitle)
     }
 
     private func lastSyncedTimeString() -> String {
         guard let date = self.passwordStore.lastSyncedTime else {
-            return "Oops! Sync again?"
+            return "SyncAgain?".localize()
         }
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -615,23 +615,23 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         var message = ""
         switch credential {
         case .http:
-            message = "Please fill in the password of your Git account."
+            message = "FillInGitAccountPassword.".localize()
         case .ssh:
-            message = "Please fill in the password of your SSH key."
+            message = "FillInSshKeyPassphrase.".localize()
         }
 
         DispatchQueue.main.async {
             SVProgressHUD.dismiss()
-            let alert = UIAlertController(title: "Password", message: message, preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "Password".localize(), message: message, preferredStyle: UIAlertControllerStyle.alert)
             alert.addTextField(configurationHandler: {(textField: UITextField!) in
                 textField.text = lastPassword ?? ""
                 textField.isSecureTextEntry = true
             })
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: {_ in
                 password = alert.textFields!.first!.text
                 sem.signal()
             }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: .cancel) { _ in
                 password = nil
                 sem.signal()
             })

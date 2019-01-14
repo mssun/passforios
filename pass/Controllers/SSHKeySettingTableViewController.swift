@@ -23,7 +23,7 @@ class SSHKeySettingTableViewController: UITableViewController {
 
     @IBAction func doneButtonTapped(_ sender: UIButton) {
         guard let privateKeyURL = URL(string: privateKeyURLTextField.text!.trimmed) else {
-            Utils.alert(title: "Cannot Save", message: "Please set Private Key URL first.", controller: self, completion: nil)
+            Utils.alert(title: "CannotSave".localize(), message: "SetPrivateKeyUrl.".localize(), controller: self, completion: nil)
             return
         }
 
@@ -32,7 +32,7 @@ class SSHKeySettingTableViewController: UITableViewController {
         do {
             try Data(contentsOf: privateKeyURL).write(to: URL(fileURLWithPath: Globals.gitSSHPrivateKeyPath), options: .atomic)
         } catch {
-            Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+            Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
         }
         SharedDefaults[.gitSSHKeySource] = "url"
         self.navigationController!.popViewController(animated: true)

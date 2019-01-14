@@ -51,7 +51,7 @@ class CommitLogsTableViewController: UITableViewController {
         do {
             return try passwordStore.getRecentCommits(count: 20)
         } catch {
-            Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+            Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
             return []
         }
     }

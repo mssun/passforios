@@ -32,8 +32,8 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
         if identifier == "saveAddPasswordSegue" {
             // check PGP key
             guard passwordStore.privateKey != nil else {
-                let alertTitle = "Cannot Add Password"
-                let alertMessage = "PGP Key is not set. Please set your PGP Key first."
+                let alertTitle = "CannotAddPassword".localize()
+                let alertMessage = "PgpKeyNotSet.".localize()
                 Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
                 return false
             }

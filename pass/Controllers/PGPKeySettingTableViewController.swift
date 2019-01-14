@@ -26,11 +26,11 @@ class PGPKeySettingTableViewController: UITableViewController {
 
     private func validatePGPKeyURL(input: String?) -> Bool {
         guard let path = input, let url = URL(string: path) else {
-            Utils.alert(title: "Cannot Save PGP Key", message: "Please set PGP Key URL first.", controller: self, completion: nil)
+            Utils.alert(title: "CannotSavePgpKey".localize(), message: "SetPgpKeyUrlFirst.".localize(), controller: self, completion: nil)
             return false
         }
         guard let scheme = url.scheme, scheme == "https", scheme == "https"  else {
-            Utils.alert(title: "Cannot Save PGP Key", message: "HTTP connection is not supported.", controller: self, completion: nil)
+            Utils.alert(title: "CannotSavePgpKey".localize(), message: "HttpNotSupported.".localize(), controller: self, completion: nil)
             return false
         }
         return true
@@ -41,18 +41,18 @@ class PGPKeySettingTableViewController: UITableViewController {
             validatePGPKeyURL(input: pgpPrivateKeyURLTextField.text) == true else {
                 return
         }
-        let savePassphraseAlert = UIAlertController(title: "Passphrase", message: "Do you want to save the passphrase for later decryption?", preferredStyle: UIAlertControllerStyle.alert)
+        let savePassphraseAlert = UIAlertController(title: "Passphrase".localize(), message: "WantToSavePassphrase?".localize(), preferredStyle: UIAlertControllerStyle.alert)
         // no
-        savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
+        savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: UIAlertActionStyle.default) { _ in
             self.pgpPassphrase = nil
             SharedDefaults[.isRememberPGPPassphraseOn] = false
             self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
         })
         // yes
-        savePassphraseAlert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.destructive) {_ in
+        savePassphraseAlert.addAction(UIAlertAction(title: "Yes".localize(), style: UIAlertActionStyle.destructive) {_ in
             // ask for the passphrase
-            let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+            let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: {_ in
                 self.pgpPassphrase = alert.textFields?.first?.text
                 SharedDefaults[.isRememberPGPPassphraseOn] = true
                 self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)

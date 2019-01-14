@@ -6,5 +6,239 @@
   Copyright © 2019 Bob Sun. All rights reserved.
 */
 
-"Apple" = "Apple";
-"Random" = "Random";
+// General
+"PassForIos"    = "Pass for iOS";
+"Passphrase"    = "Passphrase";
+"Passwords"     = "Passwords";
+"Apple"         = "Apple";
+"Settings"      = "Settings";
+"Contributors"  = "Contributors";
+
+// OTP related
+"TimeBased" = "time-based";
+"HmacBased" = "HMAC-based";
+"None"      = "None";
+"ExpiresIn" = "(expires in %ds)";
+
+// General (error) messages
+"Error"                                             = "Error";
+"CannotSave"                                        = "Cannot Save";
+"UnresolvedError"                                   = "Unresolved error %@";
+"MigrationError"                                    = "Migration error: %@";
+"UnderlyingError"                                   = "Underlying Error: %@";
+"ErrorSaving"                                       = "Error saving: %@";
+"CannotCopyPassword"                                = "Cannot copy password";
+"CannotAddPassword"                                 = "Cannot add password";
+"WrongPassphrase"                                   = "Wrong passphrase";
+"MakeSurePgpAndGitProperlySet."                     = "Please make sure PGP key and Git server are properly set.";
+"RecoverySuggestion"                                = "Recovery suggestion: Wrong credential password/passphrase has been removed, please try again.";
+"NSURLFileAllocatedSizeKeyShouldAlwaysReturnValue." = "Huh? NSURLFileAllocatedSizeKey should always return a value.";
+
+// Settings
+"PasswordGeneratorFlavor"           = "Password Generator Flavor";
+"RememberPgpKeyPassphrase"          = "Remember PGP Key Passphrase";
+"RememberGitCredentialPassphrase"   = "Remember Git Credential Passphrase";
+"ShowFolders"                       = "Show Folders";
+"HideUnknownFields"                 = "Hide Unknown Fields";
+"HideUnknownFieldsExplanation."     = "Only \"key: value\" format in additional fields is supported. Unsupported fields will be given \"unknown\" keys. Turn on this switch to hide unsupported fields.";
+"HideOtpFields"                     = "Hide OTP Fields";
+"HideOtpFieldsExplanation."         = "Turn on this switch to hide the fields related to one time passwords (i.e., %@).";
+"Random"                            = "Random";
+"RandomString"                      = "Random String";
+"ApplesKeychainStyle"               = "Apple's Keychain Style";
+
+// Git
+"FailedToFetchPasswords"                = "Failed to fetch passwords";
+"FailedToFetchPasswordEntities"         = "Failed to fetch password entities: %@";
+"FailedToInsertPasswordEntity"          = "Failed to insert password entity: %@";
+"FailedToDeletePasswordEntity"          = "Failed to delete password entity: %@";
+"FailedToSavePasswordEntity"            = "Failed to save password entity: %@";
+"FailureToSaveContext"                  = "Failure to save context: %@";
+"RepositoryRemoteMasterNotFoundError."  = "Cannot find remote branch origin/master.";
+"KeyImportError."                       = "Cannot import the key.";
+"PasswordDuplicatedError."              = "Cannot add the password; password is duplicated.";
+"GitResetError."                        = "Cannot identify the latest synced commit.";
+"PGPPublicKeyNotExistError."            = "PGP public key doesn't exist.";
+"WrongPasswordFilename."                = "Cannot write to the password file.";
+"DecryptionError."                      = "Cannot decrypt password.";
+"UnknownError."                         = "Unknown error.";
+"PrepareRepository"                     = "Prepare Repository";
+"CheckingOutBranch"                     = "Checking out branch '%@'";
+"WantToSaveGitCredential?"              = "Do you want to save the Git credential password/passphrase?";
+
+// Repository
+"RepositoryNotSetError."                = "Git repository is not set.";
+"SetGitRepositoryUrl"                   = "Please set the Git repository URL.";
+"CannotFindUsername."                   = "Cannot find the username in the Git repository URL. Example URL: ssh://git@server/path/to/repo.git.";
+"CheckEnteredUsername."                 = "Please check the entered username and the username in the Git repository URL. They should match.";
+"UseHttps."                             = "Please use HTTPS instead of HTTP.";
+"SpecifySchema."                        = "Please specify the scheme of the Git repository URL (HTTPS or SSH).";
+"Overwrite?"                            = "Overwrite?";
+"Overwrite"                             = "Overwrite";
+"OperationWillOverwriteData."           = "This operation will overwrite your current password store data (repository). Data on your remote server will not be affected.";
+"DownloadFromUrl"                       = "Download from URL";
+"AsciiArmorEncryptedKey"                = "ASCII-Armor Encrypted Key";
+"ITunesFileSharing"                     = "iTunes File Sharing";
+"Import"                                = "Import";
+"Imported"                              = "Imported";
+"Tips"                                  = "Tips";
+"CopyPrivateKeyToPass."                 = "Copy your ASCII-armored private key to Pass with the name \"ssh_key\" (without quotes) via iTunes. Then come back and click \"iTunes File Sharing\" to finish.";
+"FillInGitAccountPassword."             = "Please fill in the password of your Git account.";
+"NoPasswordStore."                      = "There is no password store right now.";
+"SyncingPasswordStore"                  = "Syncing Password Store";
+"PushingToRemoteRepository"             = "Pushing to Remote Repository";
+
+// SSH
+"FillInSshKeyPassphrase."   = "Please fill in the passphrase of your SSH key.";
+"CannotSelectSshKey"        = "Cannot Select SSH Key";
+"PleaseSetupSshKeyFirst."   = "Please setup SSH key first.";
+"RemoveSShKeys"             = "Remove Git SSH Keys";
+"SetPrivateKeyUrl."         = "Please set private key URL first.";
+
+// QR code scanning
+"LookingForStartingFrame."                  = "Looking for the starting frame.";
+"TooManyQrCodes"                            = "Too many QR codes";
+"ScanPrivateKeyQrCodes"                     = "Scan Private Key QR Codes";
+"CannotSaveSshKey"                          = "Cannot Save SSH Key";
+"ScanPublicKey."                            = "Please scan public key.";
+"ScanPrivateKey."                           = "Please scan private key.";
+"ScanPrivateKeyQrCodes"                     = "Scan Private Key QR codes";
+"ScanPublicKeyQrCodes"                      = "Scan Public Key QR codes";
+"SetPrivateKey."                            = "Please set private key first.";
+"SetPublicKey."                             = "Please set public key first.";
+"NoQrCodeDetected."                         = "No QR code detected.";
+"NoStringValue"                             = "No string value";
+"CameraAccessDenied."                       = "Camera access denied.";
+"WarningToggleCameraPermissionsResetsApp."  = "WARNING: Toggle the camera permission resets the app! Save your changes.";
+
+// PGP
+"Decrypting"                        = "Decrypting";
+"PgpKeyNotSet."                     = "PGP Key is not set. Please set your PGP Key first.";
+"FillInPgpPassphrase."              = "Please fill in the passphrase of your PGP secret key.";
+"SetPgpKey."                        = "PGP Key is not set. Please set your PGP Key first.";
+"WantToSavePassphrase?"             = "Do you want to save the passphrase for later decryption?";
+"CannotSavePgpKey"                  = "Cannot Save PGP Key";
+"SetPgpKeyUrlFirst."                = "Please set PGP key URL first.";
+"FetchingPgpKey"                    = "Fetching PGP Key";
+"RememberToRemoveKey"               = "Remember to Remove the Key";
+"RememberToRemoveKeyFromServer."    = "Remember to remove the key from the server.";
+"RemovePgpKeys"                     = "Remove PGP Keys";
+
+// App passcode
+"RemovePasscode"        = "Remove Passcode";
+"ChangePasscode"        = "Change Passcode";
+"SetPasscode"           = "Set Passcode";
+"PasswordConfirmation"  = "Password Confirmation";
+"FillInAppPasscode."    = "Fill in your passcode for Pass (at least 4 characters).";
+
+// Git signature
+"NotSet"                = "Not Set";
+"InvalidNameOrEmail"    = "Invalid name or e-mail";
+
+// Erase password store
+"ErasePasswordStoreData?"   = "Erase password store data?";
+"ErasePasswordStoreData"    = "Erase Password Store Data";
+"EraseExplanation."         = "This will delete all local data and settings. Password store data on your remote server will not be affected.";
+"Erasing..."                = "Erasing ...";
+
+// Discard local changes
+"DiscardAllLocalChanges?"   = "Discard all local changes?";
+"DiscardAllLocalChanges"    = "Discard All Local Changes";
+"DiscardExplanation."       = "Do you want to permanently discard all changes to the local copy of your password data? You cannot undo this action.";
+"Resetting..."              = "Resetting ...";
+
+// Time related
+"Unknown"   = "Unknown";
+"JustNow"   = "Just now";
+"TimeAgo"   = "%@ ago";
+
+// Commit messages
+"AddPassword."     = "Add password for %@ to store using Pass for iOS.";
+"RemovePassword."  = "Remove %@ from store using Pass for iOS.";
+"EditPassword."    = "Edit password for %@ using Pass for iOS.";
+"RenamePassword."  = "Rename %@ to %@ using Pass for iOS.";
+
+// Menu buttons
+"Ok"        = "OK";
+"Cancel"    = "Cancel";
+"Dismiss"   = "Dismiss";
+"Done"      = "Done";
+"Yes"       = "Yes";
+"No"        = "No";
+"TryAgain"  = "Try Again";
+"Delete"    = "Delete";
+"Back"      = "Back";
+"Current"   = "Current";
+"All"       = "All";
+"On"        = "On";
+"Off"       = "Off";
+"Save"      = "Save";
+
+// Lock screen
+"EnterPasscode"         = "Enter passcode for Pass";
+"Passcode"              = "Passcode";
+"TouchId"               = "Touch ID";
+"FaceId"                = "Face ID";
+"AuthenticationNeeded." = "Authentication is needed to access Pass.";
+
+// About repository
+"AboutRepository"       = "About Repository";
+"ValueNotAvailable"     = "Value not available";
+"Size"                  = "Size";
+"LocalCommits"          = "Local Commits";
+"LastSynced"            = "Last Synced";
+"Commits"               = "Commits";
+"CommitLogs"            = "Commit Logs";
+"SyncAgain?"            = "Oops! Sync again?";
+
+// About app
+"Website"               = "Website";
+"Help"                  = "Help";
+"ContactDeveloper"      = "Contact Developer";
+"OpenSourceComponents"  = "Open Source Components";
+"SpecialThanks"         = "Special Thanks";
+"Acknowledgements"      = "Acknowledgements";
+"ValueNotAvailable"     = "Value not available";
+
+// External applications
+"CannotOpenMail"    = "Cannot open Mail app";
+"CopiedEmail"       = "Copied email %@";
+"HttpNotSupported." = "HTTP connection is not supported.";
+
+// Password view
+"Notice"                        = "Notice";
+"PreviousChangesDiscarded."     = "All previous local changes have been discarded. Your current Password Store will be shown.";
+"CannotShowPassword"            = "Cannot show password";
+"PasswordDoesNotExist"          = "The password does not exist.";
+"Saving"                        = "Saving";
+"Success"                       = "Success";
+"OneTimePassword"               = "One-Time Password";
+"ShowRaw"                       = "Show Raw";
+"Reveal"                        = "Reveal";
+"Conceal"                       = "Conceal";
+"NextPassword"                  = "Next Password";
+"CopyAndOpen"                   = "Copy Password & Open Link";
+"GetNextPasswordOfNonHotp."     = "Get next password of a non-HOTP entry.";
+"PasswordCopied"                = "Password Copied";
+"CounterUpdated"                = "Counter Updated";
+"CannotFindValidUrl"            = "Cannot find a valid URL";
+"LastUpdated"                   = "Last Updated: %@";
+"PasswordCopiedToPasteboard."   = "Password copied. We will clear the pasteboard in 45 seconds.";
+
+// Password editor
+"UseKeyValueFormat."                = "Use \"key: value\" format for additional fields.";
+"DeletePassword"                    = "Delete Password";
+"AddOneTimePassword"                = "Add One-Time Password";
+"GetMemorableOne"                   = "Get a Memorable One: xkpasswd";
+"Length"                            = "Length";
+"DeletePassword?"                   = "Delete Password?";
+"OverwriteOtpConfiguration?"        = "Overwrite the one-time password configuration?";
+"ValidTokenUrl"                     = "Valid token URL";
+"InvalidTokenUrl"                   = "Invalid token URL";
+"FillInName."                       = "Please fill in the name.";
+"RemovePrefix."                     = "Please remove the prefix \"/\" from your password name.";
+"PasswordNameInvalid."              = "Password name is invalid.";
+"CannotParseFilename."              = "Cannot parse the filename. Please check and simplify the password name.";
+"WannaUseIt?"                       = "Wanna use it?";
+"SeemsLikeYouHaveCopiedSomething."  = "It seems like you have copied something.";
+"FirstStringIs:"                    = "The first string is:";

@@ -81,8 +81,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if self.shouldPopCurrentView {
-            let alert = UIAlertController(title: "Notice", message: "All previous local changes have been discarded. Your current Password Store will be shown.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+            let alert = UIAlertController(title: "Notice".localize(), message: "PreviousChangesDiscarded.".localize(), preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: {_ in
                 _ = self.navigationController?.popViewController(animated: true)
             }))
             self.present(alert, animated: true, completion: nil)
@@ -93,8 +93,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         let sem = DispatchSemaphore(value: 0)
         var passphrase = ""
         DispatchQueue.main.async {
-            let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+            let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: {_ in
                 passphrase = alert.textFields!.first!.text!
                 sem.signal()
             }))
@@ -113,7 +113,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
     @objc private func decryptThenShowPassword() {
         guard let passwordEntity = passwordEntity else {
-            Utils.alert(title: "Cannot Show Password", message: "The password does not exist.", controller: self, handler: {(UIAlertAction) -> Void in
+            Utils.alert(title: "CannotShowPassword".localize(), message: "PasswordDoesNotExist".localize(), controller: self, handler: {(UIAlertAction) -> Void in
                 self.navigationController!.popViewController(animated: true)
             })
             return
@@ -127,11 +127,11 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                     // remove the wrong passphrase so that users could enter it next time
                     self.passwordStore.pgpKeyPassphrase = nil
                     // alert: cancel or try again
-                    let alert = UIAlertController(title: "Cannot Show Password", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) { _ in
+                    let alert = UIAlertController(title: "CannotShowPassword".localize(), message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertActionStyle.default) { _ in
                         self.navigationController!.popViewController(animated: true)
                     })
-                    alert.addAction(UIAlertAction(title: "Try again", style: UIAlertActionStyle.destructive) {_ in
+                    alert.addAction(UIAlertAction(title: "TryAgain".localize(), style: UIAlertActionStyle.destructive) {_ in
                         self.decryptThenShowPassword()
                     })
                     self.present(alert, animated: true, completion: nil)
@@ -194,15 +194,15 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
     @IBAction private func saveEditPassword(segue: UIStoryboardSegue) {
         if self.password!.changed != 0 {
-            SVProgressHUD.show(withStatus: "Saving")
+            SVProgressHUD.show(withStatus: "Saving".localize())
             do {
                 self.passwordEntity = try self.passwordStore.edit(passwordEntity: self.passwordEntity!, password: self.password!)
             } catch {
-                Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
             }
             self.setTableData()
             self.tableView.reloadData()
-            SVProgressHUD.showSuccess(withStatus: "Success")
+            SVProgressHUD.showSuccess(withStatus: "Success".localize())
             SVProgressHUD.dismiss(withDelay: 1)
         }
     }
@@ -211,7 +211,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         do {
             try passwordStore.delete(passwordEntity: passwordEntity!)
         } catch {
-            Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+            Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
         }
         let _ = navigationController?.popViewController(animated: true)
     }
@@ -242,7 +242,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         // show one time password
         if password.otpType != .none {
             if let (title, otp) = self.password?.getOtpStrings() {
-                section = TableSection(type: .addition, header: "One Time Password")
+                section = TableSection(type: .addition, header: "OneTimePassword".localize())
                 section.item.append(title => otp)
                 tableData.append(section)
                 oneTimePasswordIndexPath = IndexPath(row: 0, section: tableData.count - 1)
@@ -259,7 +259,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
         // misc section
         section = TableSection(type: .misc)
-        section.item.append(AdditionField(title: "Show Raw"))
+        section.item.append(AdditionField(title: "ShowRaw".localize()))
         tableData.append(section)
 
     }
@@ -315,10 +315,10 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 if let tappedCell = self.tableView.cellForRow(at: tapIndexPath) as? LabelTableViewCell {
                     tappedCell.becomeFirstResponder()
                     let menuController = UIMenuController.shared
-                    let revealItem = UIMenuItem(title: "Reveal", action: #selector(LabelTableViewCell.revealPassword(_:)))
-                    let concealItem = UIMenuItem(title: "Conceal", action: #selector(LabelTableViewCell.concealPassword(_:)))
-                    let nextHOTPItem = UIMenuItem(title: "Next Password", action: #selector(LabelTableViewCell.getNextHOTP(_:)))
-                    let openURLItem = UIMenuItem(title: "Copy Password & Open Link", action: #selector(LabelTableViewCell.openLink(_:)))
+                    let revealItem = UIMenuItem(title: "Reveal".localize(), action: #selector(LabelTableViewCell.revealPassword(_:)))
+                    let concealItem = UIMenuItem(title: "Conceal".localize(), action: #selector(LabelTableViewCell.concealPassword(_:)))
+                    let nextHOTPItem = UIMenuItem(title: "NextPassword".localize(), action: #selector(LabelTableViewCell.getNextHOTP(_:)))
+                    let openURLItem = UIMenuItem(title: "CopyAndOpen".localize(), action: #selector(LabelTableViewCell.openLink(_:)))
                     menuController.menuItems = [revealItem, concealItem, nextHOTPItem, openURLItem]
                     menuController.setTargetRect(tappedCell.contentLabel.frame, in: tappedCell.contentLabel.superview!)
                     menuController.setMenuVisible(true, animated: true)
@@ -340,7 +340,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     func getNextHOTP() {
         guard password != nil, passwordEntity != nil, password?.otpType == .hotp else {
             DispatchQueue.main.async {
-                Utils.alert(title: "Error", message: "Get next password of a non-HOTP entry.", controller: self, completion: nil)
+                Utils.alert(title: "Error".localize(), message: "GetNextPasswordOfNonHotp.".localize(), controller: self, completion: nil)
             }
             return;
         }
@@ -355,9 +355,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             do {
                 self.passwordEntity = try self.passwordStore.edit(passwordEntity: self.passwordEntity!, password: self.password!)
             } catch {
-                Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
             }
-            SVProgressHUD.showSuccess(withStatus: "Password Copied\nCounter Updated")
+            SVProgressHUD.showSuccess(withStatus: "PasswordCopied".localize() + "\n" + "CounterUpdated".localize())
             SVProgressHUD.dismiss(withDelay: 1)
         }
     }
@@ -365,7 +365,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     func openLink(to address: String?) {
         guard address != nil, let url = URL(string: formActualWebAddress(from: address!)) else {
             return DispatchQueue.main.async {
-                Utils.alert(title: "Error", message: "Cannot find a valid URL", controller: self, completion: nil)
+                Utils.alert(title: "Error".localize(), message: "CannotFindValidUrl".localize(), controller: self, completion: nil)
             }
         }
         SecurePasteboard.shared.copy(textToCopy: password?.password)
@@ -436,7 +436,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
         detailTextLabel.textAlignment = .center
         detailTextLabel.textColor = .gray
-        detailTextLabel.text = "\(numberOfHiddenFields) hidden field\(numberOfHiddenFields > 1 ? "s" : "")"
+        detailTextLabel.text = "HiddenFields(%d)".localize(numberOfHiddenFields)
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -451,7 +451,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             footerLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
             footerLabel.textColor = UIColor.gray
             let dateString = self.passwordStore.getLatestUpdateInfo(filename: password!.url.path)
-            footerLabel.text = "Last Updated: \(dateString)"
+            footerLabel.text = "LastUpdated".localize(dateString)
             view.addSubview(footerLabel)
             return view
         }
@@ -481,7 +481,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let section = tableData[indexPath.section]
         if section.type == .misc {
-            if section.item[indexPath.row].title == "Show Raw" {
+            if section.item[indexPath.row].title == "ShowRaw".localize() {
                 performSegue(withIdentifier: "showRawPasswordSegue", sender: self)
             }
         }

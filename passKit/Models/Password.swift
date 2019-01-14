@@ -175,9 +175,9 @@ public class Password {
         if case let .timer(period) = otpToken!.generator.factor {
             let timeSinceEpoch = Date().timeIntervalSince1970
             let validTime = Int(period - timeSinceEpoch.truncatingRemainder(dividingBy: period))
-            description += " (expires in \(validTime)s)"
+            description += " " + "ExpiresIn".localize(validTime)
         }
-        return (description, otpToken!.currentPassword ?? "error")
+        return (description, otpToken!.currentPassword ?? "Error".localize())
     }
 
     // return the password strings

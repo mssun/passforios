@@ -10,7 +10,7 @@ import UIKit
 
 class SpecialThanksTableViewController: BasicStaticTableViewController {
     let openSourceComponents = [
-        ["Contributors",
+        ["Contributors".localize(),
          "https://github.com/mssun/passforios/graphs/contributors"],
         ["Password Store",
          "https://passwordstore.org"],

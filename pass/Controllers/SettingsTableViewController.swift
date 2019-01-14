@@ -35,21 +35,21 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
             SVProgressHUD.setDefaultMaskType(.black)
             SVProgressHUD.setDefaultStyle(.light)
-            SVProgressHUD.show(withStatus: "Fetching PGP Key")
+            SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())
             DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                 do {
                     try self.passwordStore.initPGPKey(from: SharedDefaults[.pgpPublicKeyURL]!, keyType: .public)
                     try self.passwordStore.initPGPKey(from: SharedDefaults[.pgpPrivateKeyURL]!, keyType: .secret)
                     DispatchQueue.main.async {
                         self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
-                        SVProgressHUD.showSuccess(withStatus: "Success")
+                        SVProgressHUD.showSuccess(withStatus: "Success".localize())
                         SVProgressHUD.dismiss(withDelay: 1)
-                        Utils.alert(title: "Remember to Remove the Key", message: "Remember to remove the key from the server.", controller: self, completion: nil)
+                        Utils.alert(title: "RememberToRemoveKey".localize(), message: "RememberToRemoveKeyFromServer.".localize(), controller: self, completion: nil)
                     }
                 } catch {
                     DispatchQueue.main.async {
-                        self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
-                        Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                        self.pgpKeyTableViewCell.detailTextLabel?.text = "NotSet".localize()
+                        Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
                     }
                 }
             }
@@ -65,20 +65,20 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
             SVProgressHUD.setDefaultMaskType(.black)
             SVProgressHUD.setDefaultStyle(.light)
-            SVProgressHUD.show(withStatus: "Fetching PGP Key")
+            SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())
             DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                 do {
                     try self.passwordStore.initPGPKey(with: SharedDefaults[.pgpPublicKeyArmor] ?? "", keyType: .public)
                     try self.passwordStore.initPGPKey(with: SharedDefaults[.pgpPrivateKeyArmor] ?? "", keyType: .secret)
                     DispatchQueue.main.async {
                         self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
-                        SVProgressHUD.showSuccess(withStatus: "Success")
+                        SVProgressHUD.showSuccess(withStatus: "Success".localize())
                         SVProgressHUD.dismiss(withDelay: 1)
                     }
                 } catch {
                     DispatchQueue.main.async {
-                        self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
-                        Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                        self.pgpKeyTableViewCell.detailTextLabel?.text = "NotSet".localize()
+                        Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
                     }
                 }
             }
@@ -90,20 +90,20 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         SharedDefaults[.pgpKeySource] = "file"
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
-        SVProgressHUD.show(withStatus: "Fetching PGP Key")
+        SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
                 try self.passwordStore.pgpKeyImportFromFileSharing()
                 try self.passwordStore.initPGPKeys()
                 DispatchQueue.main.async {
                     self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
-                    SVProgressHUD.showSuccess(withStatus: "Imported")
+                    SVProgressHUD.showSuccess(withStatus: "Imported".localize())
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
             } catch {
                 DispatchQueue.main.async {
-                    self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
-                    Utils.alert(title: "Error", message: error.localizedDescription, controller: self, completion: nil)
+                    self.pgpKeyTableViewCell.detailTextLabel?.text = "NotSet".localize()
+                    Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
         }
@@ -133,9 +133,9 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
     private func setPasscodeLockCell() {
         if passcodeLock.hasPasscode {
-            self.passcodeTableViewCell.detailTextLabel?.text = "On"
+            self.passcodeTableViewCell.detailTextLabel?.text = "On".localize()
         } else {
-            self.passcodeTableViewCell.detailTextLabel?.text = "Off"
+            self.passcodeTableViewCell.detailTextLabel?.text = "Off".localize()
         }
     }
 
@@ -143,13 +143,13 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         if let pgpKeyID = self.passwordStore.pgpKeyID {
             pgpKeyTableViewCell.detailTextLabel?.text = pgpKeyID
         } else {
-            pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
+            pgpKeyTableViewCell.detailTextLabel?.text = "NotSet".localize()
         }
     }
 
     private func setPasswordRepositoryTableViewCellDetailText() {
         if SharedDefaults[.gitURL] == nil {
-            passwordRepositoryTableViewCell.detailTextLabel?.text = "Not Set"
+            passwordRepositoryTableViewCell.detailTextLabel?.text = "NotSet".localize()
         } else {
             passwordRepositoryTableViewCell.detailTextLabel?.text = SharedDefaults[.gitURL]!.host
         }
@@ -176,9 +176,9 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
     func showPGPKeyActionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        var urlActionTitle = "Download from URL"
-        var armorActionTitle = "ASCII-Armor Encrypted Key"
-        var fileActionTitle = "iTunes File Sharing"
+        var urlActionTitle = "DownloadFromUrl".localize()
+        var armorActionTitle = "AsciiArmorEncryptedKey".localize()
+        var fileActionTitle = "ITunesFileSharing".localize()
 
         if SharedDefaults[.pgpKeySource] == "url" {
            urlActionTitle = "✓ \(urlActionTitle)"
@@ -193,26 +193,26 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         let armorAction = UIAlertAction(title: armorActionTitle, style: .default) { _ in
             self.performSegue(withIdentifier: "setPGPKeyByASCIISegue", sender: self)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil)
         optionMenu.addAction(urlAction)
         optionMenu.addAction(armorAction)
 
         if passwordStore.pgpKeyExists(inFileSharing: true) {
-            fileActionTitle.append(" (Import)")
+            fileActionTitle.append(" (\("Import".localize()))")
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
                 // passphrase related
-                let savePassphraseAlert = UIAlertController(title: "Passphrase", message: "Do you want to save the passphrase for later decryption?", preferredStyle: UIAlertControllerStyle.alert)
+                let savePassphraseAlert = UIAlertController(title: "Passphrase".localize(), message: "WantToSavePassphrase?".localize(), preferredStyle: UIAlertControllerStyle.alert)
                 // no
-                savePassphraseAlert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.default) { _ in
+                savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: UIAlertActionStyle.default) { _ in
                     self.passwordStore.pgpKeyPassphrase = nil
                     SharedDefaults[.isRememberPGPPassphraseOn] = false
                     self.saveImportedPGPKey()
                 })
                 // yes
-                savePassphraseAlert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.destructive) {_ in
+                savePassphraseAlert.addAction(UIAlertAction(title: "Yes".localize(), style: UIAlertActionStyle.destructive) {_ in
                     // ask for the passphrase
-                    let alert = UIAlertController(title: "Passphrase", message: "Please fill in the passphrase of your PGP secret key.", preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: {_ in
+                    let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: {_ in
                         self.passwordStore.pgpKeyPassphrase = alert.textFields?.first?.text
                         SharedDefaults[.isRememberPGPPassphraseOn] = true
                         self.saveImportedPGPKey()
@@ -227,10 +227,10 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             }
             optionMenu.addAction(fileAction)
         } else {
-            fileActionTitle.append(" (Tips)")
+            fileActionTitle.append(" (\("Tips".localize()))")
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
-                let title = "Tips"
-                let message = "Copy your ASCII-armored public and private keys to Pass with names \"gpg_key.pub\" and \"gpg_key\" (without quotes) via iTunes. Then come back and click \"iTunes File Sharing\" to finish."
+                let title = "Tips".localize()
+                let message = "CopyPrivateKeyToPass.".localize()
                 Utils.alert(title: title, message: message, controller: self)
             }
             optionMenu.addAction(fileAction)
@@ -238,9 +238,9 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
 
         if SharedDefaults[.pgpKeySource] != nil {
-            let deleteAction = UIAlertAction(title: "Remove PGP Keys", style: .destructive) { _ in
+            let deleteAction = UIAlertAction(title: "RemovePgpKeys".localize(), style: .destructive) { _ in
                 self.passwordStore.removePGPKeys()
-                self.pgpKeyTableViewCell.detailTextLabel?.text = "Not Set"
+                self.pgpKeyTableViewCell.detailTextLabel?.text = "NotSet".localize()
             }
             optionMenu.addAction(deleteAction)
         }
@@ -255,7 +255,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         let passcodeRemoveViewController = PasscodeLockViewController()
 
 
-        let removePasscodeAction = UIAlertAction(title: "Remove Passcode", style: .destructive) { [weak self] _ in
+        let removePasscodeAction = UIAlertAction(title: "RemovePasscode".localize(), style: .destructive) { [weak self] _ in
             passcodeRemoveViewController.successCallback  = {
                 self?.passcodeLock.delete()
                 self?.setPasscodeLockCell()
@@ -263,11 +263,11 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             self?.present(passcodeRemoveViewController, animated: true, completion: nil)
         }
 
-        let changePasscodeAction = UIAlertAction(title: "Change Passcode", style: .default) { [weak self] _ in
+        let changePasscodeAction = UIAlertAction(title: "ChangePasscode".localize(), style: .default) { [weak self] _ in
             self?.setPasscodeLock()
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil)
         optionMenu.addAction(removePasscodeAction)
         optionMenu.addAction(changePasscodeAction)
         optionMenu.addAction(cancelAction)
@@ -292,20 +292,20 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
     func setPasscodeLock() {
         // prepare the alert for setting the passcode
-        setPasscodeLockAlert = UIAlertController(title: "Set passcode", message: "Fill in your passcode for Pass (at least 4 characters)", preferredStyle: .alert)
+        setPasscodeLockAlert = UIAlertController(title: "SetPasscode".localize(), message: "FillInAppPasscode.".localize(), preferredStyle: .alert)
         setPasscodeLockAlert?.addTextField(configurationHandler: {(_ textField: UITextField) -> Void in
-            textField.placeholder = "Password"
+            textField.placeholder = "Password".localize()
             textField.isSecureTextEntry = true
             textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         })
         setPasscodeLockAlert?.addTextField(configurationHandler: {(_ textField: UITextField) -> Void in
-            textField.placeholder = "Password Confirmation"
+            textField.placeholder = "PasswordConfirmation".localize()
             textField.isSecureTextEntry = true
             textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         })
 
         // save action
-        let saveAction = UIAlertAction(title: "Save", style: .default) { (action:UIAlertAction) -> Void in
+        let saveAction = UIAlertAction(title: "Save".localize(), style: .default) { (action:UIAlertAction) -> Void in
             let passcode: String = self.setPasscodeLockAlert!.textFields![0].text!
             self.passcodeLock.save(passcode: passcode)
             // refresh the passcode lock cell ("On")
@@ -314,7 +314,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         saveAction.isEnabled = false  // disable the Save button by default
 
         // cancel action
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil)
 
         // present
         setPasscodeLockAlert?.addAction(saveAction)
