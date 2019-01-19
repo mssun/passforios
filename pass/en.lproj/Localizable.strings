@@ -82,7 +82,7 @@
 "Import"                                = "Import";
 "Imported"                              = "Imported";
 "Tips"                                  = "Tips";
-"CopyPrivateKeyToPass."                 = "Copy your ASCII-armored private key to Pass with the name \"ssh_key\" (without quotes) via iTunes. Then come back and click \"iTunes File Sharing\" to finish.";
+"CopyPublicAndPrivateKeyToPass."        = "Copy your ASCII-armored public and private keys to Pass with names \"gpg_key.pub\" and \"gpg_key\" (without quotes) via iTunes. Then come back and click \"iTunes File Sharing\" to finish.";
 "FillInGitAccountPassword."             = "Please fill in the password of your Git account.";
 "NoPasswordStore."                      = "There is no password store right now.";
 "SyncingPasswordStore"                  = "Syncing Password Store";
