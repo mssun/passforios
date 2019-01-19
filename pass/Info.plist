@@ -34,9 +34,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>We need to access your camera for scanning QR code.</string>
+	<string>We need to access your camera for scanning QR codes.</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>Enable access to Face ID to unlock Pass</string>
+	<string>Enable access to Face ID to unlock Pass.</string>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>

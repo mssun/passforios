@@ -1,0 +1,10 @@
+/*
+ Localizable.strings
+ pass
+
+ Created by Danny Moesch on 19.01.19.
+ Copyright © 2019 Bob Sun. All rights reserved.
+ */
+
+"NSCameraUsageDescription" = "We need to access your camera for scanning QR codes.";
+"NSFaceIDUsageDescription" = "Enable access to Face ID to unlock Pass.";

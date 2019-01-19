@@ -45,6 +45,6 @@
 		<string>com.apple.ui-services</string>
 	</dict>
 	<key>NSFaceIDUsageDescription</key>
-	<string>Enable access to Face ID to unlock Pass</string>
+	<string>Enable access to Face ID to unlock Pass.</string>
 </dict>
 </plist>

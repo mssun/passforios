@@ -1,0 +1,9 @@
+/*
+ Localizable.strings
+ pass
+
+ Created by Danny Moesch on 19.01.19.
+ Copyright © 2019 Bob Sun. All rights reserved.
+ */
+
+"NSFaceIDUsageDescription" = "Enable access to Face ID to unlock Pass.";
