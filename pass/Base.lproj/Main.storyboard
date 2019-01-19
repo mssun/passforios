@@ -1176,7 +1176,7 @@ Phone Support PIN #: 84719</string>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="PasswordStore Data" id="aVR-FE-jMg">
+                            <tableViewSection headerTitle="Password Store Data" id="aVR-FE-jMg">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="zrl-v3-fxg" style="IBUITableViewCellStyleDefault" id="Jm8-B5-wKx" userLabel="Discard Changes Table View Cell">
                                         <rect key="frame" x="0.0" y="255.33333333333337" width="414" height="44"/>

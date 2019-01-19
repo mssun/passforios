@@ -143,8 +143,8 @@
 /* Class = "UINavigationItem"; title = "Recent Commit Log"; ObjectID = "aRM-mj-MAt"; */
 "aRM-mj-MAt.title" = "Recent Commit Log";
 
-/* Class = "UITableViewSection"; headerTitle = "PasswordStore Data"; ObjectID = "aVR-FE-jMg"; */
-"aVR-FE-jMg.headerTitle" = "PasswordStore Data";
+/* Class = "UITableViewSection"; headerTitle = "Password Store Data"; ObjectID = "aVR-FE-jMg"; */
+"aVR-FE-jMg.headerTitle" = "Password Store Data";
 
 /* Class = "UINavigationItem"; title = "Raw Password"; ObjectID = "c13-zM-tLf"; */
 "c13-zM-tLf.title" = "Raw Password";
