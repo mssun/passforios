@@ -1382,7 +1382,7 @@ Phone Support PIN #: 84719</string>
                                                         </fragment>
                                                         <fragment>
                                                             <string key="content" base64-UTF8="YES">
-Cgo
+Cg
 </string>
                                                             <attributes>
                                                                 <color key="NSColor" white="0.40782000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1390,7 +1390,9 @@ Cgo
                                                                 <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                                             </attributes>
                                                         </fragment>
-                                                        <fragment content="The clipboard will be cleared 45s after pasting.">
+                                                        <fragment>
+                                                            <string key="content">
+The clipboard will be cleared 45s after pasting.</string>
                                                             <attributes>
                                                                 <color key="NSColor" white="0.40782000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <font key="NSFont" size="13" name="HelveticaNeue"/>
@@ -1781,7 +1783,7 @@ The clipboard will be cleared 45s after pasting.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="scanner output" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U8O-Md-w8e">
-                                <rect key="frame" x="57" y="518" width="300" height="45"/>
+                                <rect key="frame" x="57" y="562" width="300" height="45"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="JcM-Sy-Hw8"/>
@@ -1868,7 +1870,7 @@ The clipboard will be cleared 45s after pasting.</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="QFy-OX-cAa"/>
-        <segue reference="oxP-I1-Mke"/>
+        <segue reference="5iZ-y9-FCH"/>
         <segue reference="UfP-k3-XeR"/>
     </inferredMetricsTieBreakers>
 </document>
