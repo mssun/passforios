@@ -27,6 +27,8 @@
 		30BF5EC821EA8FB5000E4154 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ECA21EA8FB5000E4154 /* Localizable.strings */; };
 		30BF5ECF21EA90D1000E4154 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BF5ECE21EA90D1000E4154 /* String.swift */; };
 		30BF5ED721ED2434000E4154 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ED521ED2434000E4154 /* Localizable.stringsdict */; };
+		30C25DBD21F3599E00BB27BB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DBF21F3599E00BB27BB /* InfoPlist.strings */; };
+		30C25DC021F35A6900BB27BB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DC221F35A6900BB27BB /* InfoPlist.strings */; };
 		30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD2F77214D9E0E005E0A92 /* ParserTest.swift */; };
 		61326CDA7A73757FB68DCB04 /* Pods_passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAB3F5541E51ADC8C6B56642 /* Pods_passKit.framework */; };
 		A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */; };
@@ -210,6 +212,9 @@
 		30BF5EC921EA8FB5000E4154 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		30BF5ECE21EA90D1000E4154 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = String.swift; path = Localization/String.swift; sourceTree = "<group>"; };
 		30BF5ED621ED2434000E4154 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		30C25DA921F34D2800BB27BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		30C25DBE21F3599E00BB27BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		30C25DC121F35A6900BB27BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		30FD2F77214D9E0E005E0A92 /* ParserTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
 		31C3033E8868D05B2C55C8B1 /* Pods-passExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passExtension/Pods-passExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		3A5620D17DF5E86B61761D0E /* Pods_pass.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pass.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -528,6 +533,7 @@
 				A2367B9F1EF0387000C8FE8B /* Assets.xcassets */,
 				A26700351EEC475600176B8A /* passProcessor.js */,
 				A26700281EEC466A00176B8A /* MainInterface.storyboard */,
+				30C25DC221F35A6900BB27BB /* InfoPlist.strings */,
 			);
 			path = passExtension;
 			sourceTree = "<group>";
@@ -706,6 +712,7 @@
 				DC917BDA1E2E8231000FDF54 /* Main.storyboard */,
 				30BF5ECA21EA8FB5000E4154 /* Localizable.strings */,
 				30BF5ED521ED2434000E4154 /* Localizable.stringsdict */,
+				30C25DBF21F3599E00BB27BB /* InfoPlist.strings */,
 			);
 			path = pass;
 			sourceTree = "<group>";
@@ -997,6 +1004,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A26700371EEC475600176B8A /* passProcessor.js in Resources */,
+				30C25DC021F35A6900BB27BB /* InfoPlist.strings in Resources */,
 				A2367BA01EF0387000C8FE8B /* Assets.xcassets in Resources */,
 				A267002A1EEC466A00176B8A /* MainInterface.storyboard in Resources */,
 			);
@@ -1016,6 +1024,7 @@
 				DC917BE11E2E8231000FDF54 /* LaunchScreen.storyboard in Resources */,
 				DC037CBC1E4DD47B00609409 /* TextFieldTableViewCell.xib in Resources */,
 				30BF5EC821EA8FB5000E4154 /* Localizable.strings in Resources */,
+				30C25DBD21F3599E00BB27BB /* InfoPlist.strings in Resources */,
 				DCFB77A31E500D9C008DE471 /* PasswordDetailTitleTableViewCell.xib in Resources */,
 				DC917BDE1E2E8231000FDF54 /* Assets.xcassets in Resources */,
 				30BF5ED721ED2434000E4154 /* Localizable.stringsdict in Resources */,
@@ -1336,6 +1345,22 @@
 			name = Localizable.stringsdict;
 			sourceTree = "<group>";
 		};
+		30C25DBF21F3599E00BB27BB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				30C25DBE21F3599E00BB27BB /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		30C25DC221F35A6900BB27BB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				30C25DC121F35A6900BB27BB /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		A239F59A2158C08C00576CBF /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1356,6 +1381,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				DC917BDB1E2E8231000FDF54 /* Base */,
+				30C25DA921F34D2800BB27BB /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
