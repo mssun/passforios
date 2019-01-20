@@ -1,5 +1,5 @@
 /*
- String.swift
+ String+Localization.swift
  passKit
 
  Created by Danny Moesch on 12.01.19.

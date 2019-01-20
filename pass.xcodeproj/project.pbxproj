@@ -11,13 +11,36 @@
 		23B82F0228254275DBA609E7 /* Pods_passExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B975797E0F0B7476CADD6A7D /* Pods_passExtension.framework */; };
 		301F6463216162550071A4CE /* AdditionField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6462216162550071A4CE /* AdditionField.swift */; };
 		301F6468216165290071A4CE /* ConstantsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6467216165290071A4CE /* ConstantsTest.swift */; };
-		301F646A216166000071A4CE /* StringExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6469216166000071A4CE /* StringExtensionTest.swift */; };
 		301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F646C216166AA0071A4CE /* AdditionFieldTest.swift */; };
 		302E85612125ECC70031BA64 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302E85602125ECC70031BA64 /* Parser.swift */; };
 		302E85632125EE550031BA64 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302E85622125EE550031BA64 /* Constants.swift */; };
+		30697C2A21F63C5A0064FCAC /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2321F63C580064FCAC /* NotificationNames.swift */; };
+		30697C2B21F63C5A0064FCAC /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2421F63C590064FCAC /* Globals.swift */; };
+		30697C2C21F63C5A0064FCAC /* FileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2521F63C590064FCAC /* FileManagerExtension.swift */; };
+		30697C2D21F63C5A0064FCAC /* PasswordGeneratorFlavour.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2621F63C590064FCAC /* PasswordGeneratorFlavour.swift */; };
+		30697C2E21F63C5A0064FCAC /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2721F63C590064FCAC /* Utils.swift */; };
+		30697C2F21F63C5A0064FCAC /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2821F63C590064FCAC /* DefaultsKeys.swift */; };
+		30697C3021F63C5A0064FCAC /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2921F63C590064FCAC /* AppError.swift */; };
+		30697C3321F63C8B0064FCAC /* PasscodeLockPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C3121F63C8B0064FCAC /* PasscodeLockPresenter.swift */; };
+		30697C3421F63C8B0064FCAC /* PasscodeLockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C3221F63C8B0064FCAC /* PasscodeLockViewController.swift */; };
+		30697C3A21F63C990064FCAC /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C3521F63C990064FCAC /* UIViewControllerExtension.swift */; };
+		30697C3B21F63C990064FCAC /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C3621F63C990064FCAC /* String+Localization.swift */; };
+		30697C3C21F63C990064FCAC /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C3721F63C990064FCAC /* UITextFieldExtension.swift */; };
+		30697C3D21F63C990064FCAC /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C3821F63C990064FCAC /* UIViewExtension.swift */; };
+		30697C3E21F63C990064FCAC /* String+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C3921F63C990064FCAC /* String+Utilities.swift */; };
+		30697C4421F63CAB0064FCAC /* PasswordEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C3F21F63CAA0064FCAC /* PasswordEntity.swift */; };
+		30697C4521F63CAB0064FCAC /* Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C4021F63CAB0064FCAC /* Password.swift */; };
+		30697C4621F63CAB0064FCAC /* GitCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C4121F63CAB0064FCAC /* GitCredential.swift */; };
+		30697C4721F63CAB0064FCAC /* PasscodeLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C4221F63CAB0064FCAC /* PasscodeLock.swift */; };
+		30697C4821F63CAB0064FCAC /* PasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C4321F63CAB0064FCAC /* PasswordStore.swift */; };
+		30697C4B21F63D460064FCAC /* ExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C4921F63D460064FCAC /* ExtensionViewController.swift */; };
+		30697C4C21F63D460064FCAC /* PasscodeExtensionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C4A21F63D460064FCAC /* PasscodeExtensionDisplay.swift */; };
+		30697C5021F63D7F0064FCAC /* OnePasswordExtensionConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C4F21F63D7F0064FCAC /* OnePasswordExtensionConstants.swift */; };
+		30697C5321F63E0B0064FCAC /* PasscodeExtensionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C5121F63E0B0064FCAC /* PasscodeExtensionDisplay.swift */; };
+		30697C5421F63E0B0064FCAC /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C5221F63E0B0064FCAC /* CredentialProviderViewController.swift */; };
+		30697C5F21F674800064FCAC /* String+UtilitiesTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C5E21F674800064FCAC /* String+UtilitiesTest.swift */; };
 		307BF39921BC2298003A082D /* TestBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307BF39821BC2297003A082D /* TestBase.swift */; };
 		30A1D29C21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D29B21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift */; };
-		30A1D29E21AF468F00E2D1F7 /* PasswordGeneratorFlavour.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D29D21AF468E00E2D1F7 /* PasswordGeneratorFlavour.swift */; };
 		30A1D2A221B2BC6F00E2D1F7 /* TokenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A121B2BC6F00E2D1F7 /* TokenBuilder.swift */; };
 		30A1D2A621B2D46100E2D1F7 /* OtpType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A521B2D46100E2D1F7 /* OtpType.swift */; };
 		30A1D2A821B2D53200E2D1F7 /* PasswordChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A721B2D53200E2D1F7 /* PasswordChange.swift */; };
@@ -25,7 +48,6 @@
 		30A1D2AC21B32C2A00E2D1F7 /* TokenBuilderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2AB21B32C2A00E2D1F7 /* TokenBuilderTest.swift */; };
 		30B04860209A5141001013CA /* PasswordTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B0485F209A5141001013CA /* PasswordTest.swift */; };
 		30BF5EC821EA8FB5000E4154 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ECA21EA8FB5000E4154 /* Localizable.strings */; };
-		30BF5ECF21EA90D1000E4154 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BF5ECE21EA90D1000E4154 /* String.swift */; };
 		30BF5ED721ED2434000E4154 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ED521ED2434000E4154 /* Localizable.stringsdict */; };
 		30C25DBD21F3599E00BB27BB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DBF21F3599E00BB27BB /* InfoPlist.strings */; };
 		30C25DC021F35A6900BB27BB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DC221F35A6900BB27BB /* InfoPlist.strings */; };
@@ -34,20 +56,14 @@
 		30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD2F77214D9E0E005E0A92 /* ParserTest.swift */; };
 		61326CDA7A73757FB68DCB04 /* Pods_passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAB3F5541E51ADC8C6B56642 /* Pods_passKit.framework */; };
 		A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */; };
-		A2168A7F1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2168A7E1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift */; };
 		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */; };
 		A2367B9C1EEFE2E500C8FE8B /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */; };
 		A2367BA01EF0387000C8FE8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2367B9F1EF0387000C8FE8B /* Assets.xcassets */; };
-		A239F51F2157B72700576CBF /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A239F51E2157B72700576CBF /* StringExtension.swift */; };
-		A239F5212157B75E00576CBF /* FileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A239F5202157B75E00576CBF /* FileManagerExtension.swift */; };
 		A239F5902158C07D00576CBF /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A239F58F2158C07D00576CBF /* AuthenticationServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A239F5962158C08C00576CBF /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A239F58F2158C07D00576CBF /* AuthenticationServices.framework */; };
-		A239F5992158C08C00576CBF /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A239F5982158C08C00576CBF /* CredentialProviderViewController.swift */; };
 		A239F59C2158C08C00576CBF /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A239F59A2158C08C00576CBF /* MainInterface.storyboard */; };
 		A239F5A12158C08C00576CBF /* passAutoFillExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A239F5952158C08B00576CBF /* passAutoFillExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A239F5A52158C3F400576CBF /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
-		A239F5A621591C3200576CBF /* PasscodeExtensionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C66671EF10EC900A398A1 /* PasscodeExtensionDisplay.swift */; };
-		A239F5A821591C5C00576CBF /* PasscodeExtensionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A239F5A721591C5C00576CBF /* PasscodeExtensionDisplay.swift */; };
 		A26075811EEC6F34005DB03E /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		A26075881EEC6F34005DB03E /* passKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26075871EEC6F34005DB03E /* passKitTests.swift */; };
 		A260758A1EEC6F34005DB03E /* passKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A260757A1EEC6F34005DB03E /* passKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -65,22 +81,7 @@
 		A2A61C161EEF90CB00CFE063 /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1208571E35EBE60042942E /* ObjectiveGit.framework */; };
 		A2A61C171EEF90CB00CFE063 /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA671DE1E7A73B100D3ABE1 /* OneTimePassword.framework */; };
 		A2A61C201EEFABAD00CFE063 /* UtilsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */; };
-		A2A61C2C1EEFDF3300CFE063 /* ExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A61C2B1EEFDF3300CFE063 /* ExtensionViewController.swift */; };
 		A2A7813F1E97DBD9001311F5 /* QRScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */; };
-		A2BEC1BB207D2EFE00F3051C /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BEC1BA207D2EFE00F3051C /* UIViewExtension.swift */; };
-		A2C532BB201E5A9600DB9F53 /* PasscodeLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C532BA201E5A9600DB9F53 /* PasscodeLock.swift */; };
-		A2C532BE201E5AA100DB9F53 /* PasscodeLockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C532BC201E5AA000DB9F53 /* PasscodeLockViewController.swift */; };
-		A2C532BF201E5AA100DB9F53 /* PasscodeLockPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C532BD201E5AA100DB9F53 /* PasscodeLockPresenter.swift */; };
-		A2F4E2141EED800F0011986E /* GitCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2101EED800F0011986E /* GitCredential.swift */; };
-		A2F4E2151EED800F0011986E /* Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2111EED800F0011986E /* Password.swift */; };
-		A2F4E2161EED800F0011986E /* PasswordEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2121EED800F0011986E /* PasswordEntity.swift */; };
-		A2F4E2171EED800F0011986E /* PasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2131EED800F0011986E /* PasswordStore.swift */; };
-		A2F4E21E1EED80160011986E /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2181EED80160011986E /* AppError.swift */; };
-		A2F4E21F1EED80160011986E /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E2191EED80160011986E /* DefaultsKeys.swift */; };
-		A2F4E2201EED80160011986E /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E21A1EED80160011986E /* Globals.swift */; };
-		A2F4E2211EED80160011986E /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E21B1EED80160011986E /* NotificationNames.swift */; };
-		A2F4E2221EED80160011986E /* UITextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E21C1EED80160011986E /* UITextFieldExtension.swift */; };
-		A2F4E2231EED80160011986E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F4E21D1EED80160011986E /* Utils.swift */; };
 		DC037CA61E4B883900609409 /* OpenSourceComponentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CA51E4B883900609409 /* OpenSourceComponentsTableViewController.swift */; };
 		DC037CA81E4B898100609409 /* BasicStaticTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CA71E4B898100609409 /* BasicStaticTableViewController.swift */; };
 		DC037CAA1E4B8EAE00609409 /* SpecialThanksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CA91E4B8EAE00609409 /* SpecialThanksTableViewController.swift */; };
@@ -198,13 +199,36 @@
 /* Begin PBXFileReference section */
 		301F6462216162550071A4CE /* AdditionField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionField.swift; sourceTree = "<group>"; };
 		301F6467216165290071A4CE /* ConstantsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsTest.swift; sourceTree = "<group>"; };
-		301F6469216166000071A4CE /* StringExtensionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionTest.swift; sourceTree = "<group>"; };
 		301F646C216166AA0071A4CE /* AdditionFieldTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionFieldTest.swift; sourceTree = "<group>"; };
 		302E85602125ECC70031BA64 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		302E85622125EE550031BA64 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		30697C2321F63C580064FCAC /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
+		30697C2421F63C590064FCAC /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
+		30697C2521F63C590064FCAC /* FileManagerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerExtension.swift; sourceTree = "<group>"; };
+		30697C2621F63C590064FCAC /* PasswordGeneratorFlavour.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorFlavour.swift; sourceTree = "<group>"; };
+		30697C2721F63C590064FCAC /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		30697C2821F63C590064FCAC /* DefaultsKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultsKeys.swift; sourceTree = "<group>"; };
+		30697C2921F63C590064FCAC /* AppError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		30697C3121F63C8B0064FCAC /* PasscodeLockPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLockPresenter.swift; sourceTree = "<group>"; };
+		30697C3221F63C8B0064FCAC /* PasscodeLockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLockViewController.swift; sourceTree = "<group>"; };
+		30697C3521F63C990064FCAC /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		30697C3621F63C990064FCAC /* String+Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
+		30697C3721F63C990064FCAC /* UITextFieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldExtension.swift; sourceTree = "<group>"; };
+		30697C3821F63C990064FCAC /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		30697C3921F63C990064FCAC /* String+Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Utilities.swift"; sourceTree = "<group>"; };
+		30697C3F21F63CAA0064FCAC /* PasswordEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordEntity.swift; sourceTree = "<group>"; };
+		30697C4021F63CAB0064FCAC /* Password.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Password.swift; sourceTree = "<group>"; };
+		30697C4121F63CAB0064FCAC /* GitCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitCredential.swift; sourceTree = "<group>"; };
+		30697C4221F63CAB0064FCAC /* PasscodeLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLock.swift; sourceTree = "<group>"; };
+		30697C4321F63CAB0064FCAC /* PasswordStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
+		30697C4921F63D460064FCAC /* ExtensionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionViewController.swift; sourceTree = "<group>"; };
+		30697C4A21F63D460064FCAC /* PasscodeExtensionDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeExtensionDisplay.swift; sourceTree = "<group>"; };
+		30697C4F21F63D7F0064FCAC /* OnePasswordExtensionConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnePasswordExtensionConstants.swift; sourceTree = "<group>"; };
+		30697C5121F63E0B0064FCAC /* PasscodeExtensionDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeExtensionDisplay.swift; sourceTree = "<group>"; };
+		30697C5221F63E0B0064FCAC /* CredentialProviderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialProviderViewController.swift; sourceTree = "<group>"; };
+		30697C5E21F674800064FCAC /* String+UtilitiesTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+UtilitiesTest.swift"; sourceTree = "<group>"; };
 		307BF39821BC2297003A082D /* TestBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestBase.swift; sourceTree = "<group>"; };
 		30A1D29B21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorFlavourTest.swift; sourceTree = "<group>"; };
-		30A1D29D21AF468E00E2D1F7 /* PasswordGeneratorFlavour.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordGeneratorFlavour.swift; path = Helpers/PasswordGeneratorFlavour.swift; sourceTree = "<group>"; };
 		30A1D2A121B2BC6F00E2D1F7 /* TokenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenBuilder.swift; sourceTree = "<group>"; };
 		30A1D2A521B2D46100E2D1F7 /* OtpType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtpType.swift; sourceTree = "<group>"; };
 		30A1D2A721B2D53200E2D1F7 /* PasswordChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordChange.swift; sourceTree = "<group>"; };
@@ -212,7 +236,6 @@
 		30A1D2AB21B32C2A00E2D1F7 /* TokenBuilderTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenBuilderTest.swift; sourceTree = "<group>"; };
 		30B0485F209A5141001013CA /* PasswordTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTest.swift; sourceTree = "<group>"; };
 		30BF5EC921EA8FB5000E4154 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		30BF5ECE21EA90D1000E4154 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = String.swift; path = Localization/String.swift; sourceTree = "<group>"; };
 		30BF5ED621ED2434000E4154 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		30C25DA921F34D2800BB27BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		30C25DBE21F3599E00BB27BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -226,7 +249,6 @@
 		74083EA8C8D450E0AE34ED2F /* Pods-pass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.debug.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.debug.xcconfig"; sourceTree = "<group>"; };
 		7E088A9255B6CB576EF757C1 /* Pods-passKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passKit/Pods-passKit.debug.xcconfig"; sourceTree = "<group>"; };
 		A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurePasteboard.swift; sourceTree = "<group>"; };
-		A2168A7E1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnePasswordExtensionConstants.swift; sourceTree = "<group>"; };
 		A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = GitConfigSettingTableViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A2227D4C1EEE5E25002A69A9 /* libObjectivePGP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libObjectivePGP.a; path = "Pods/../build/Debug-iphoneos/ObjectivePGP/libObjectivePGP.a"; sourceTree = "<group>"; };
 		A2227D4E1EEE5E31002A69A9 /* libPods-pass.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-pass.a"; path = "Pods/../build/Debug-iphoneos/libPods-pass.a"; sourceTree = "<group>"; };
@@ -236,15 +258,11 @@
 		A2227D551EEE5E78002A69A9 /* libPods-pass.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-pass.a"; path = "../../Library/Developer/Xcode/DerivedData/pass-fwlmfsjroyvbfhdyqmglrwfhvjli/Build/Products/Debug-iphonesimulator/libPods-pass.a"; sourceTree = "<group>"; };
 		A2227D561EEE5E78002A69A9 /* libPods-passKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passKit.a"; path = "../../Library/Developer/Xcode/DerivedData/pass-fwlmfsjroyvbfhdyqmglrwfhvjli/Build/Products/Debug-iphonesimulator/libPods-passKit.a"; sourceTree = "<group>"; };
 		A2367B9F1EF0387000C8FE8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A239F51E2157B72700576CBF /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StringExtension.swift; path = Helpers/StringExtension.swift; sourceTree = "<group>"; };
-		A239F5202157B75E00576CBF /* FileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FileManagerExtension.swift; path = Helpers/FileManagerExtension.swift; sourceTree = "<group>"; };
 		A239F58F2158C07D00576CBF /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		A239F5952158C08B00576CBF /* passAutoFillExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = passAutoFillExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		A239F5982158C08C00576CBF /* CredentialProviderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProviderViewController.swift; sourceTree = "<group>"; };
 		A239F59B2158C08C00576CBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		A239F59D2158C08C00576CBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A239F59E2158C08C00576CBF /* passAutoFillExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passAutoFillExtension.entitlements; sourceTree = "<group>"; };
-		A239F5A721591C5C00576CBF /* PasscodeExtensionDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeExtensionDisplay.swift; sourceTree = "<group>"; };
 		A26075781EEC6F34005DB03E /* passKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = passKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A260757A1EEC6F34005DB03E /* passKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = passKit.h; sourceTree = "<group>"; };
 		A260757B1EEC6F34005DB03E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -261,27 +279,11 @@
 		A26700351EEC475600176B8A /* passProcessor.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = passProcessor.js; sourceTree = "<group>"; };
 		A2802BF71E70813A00879216 /* SliderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderTableViewCell.swift; sourceTree = "<group>"; };
 		A2802BF81E70813A00879216 /* SliderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SliderTableViewCell.xib; sourceTree = "<group>"; };
-		A28C66671EF10EC900A398A1 /* PasscodeExtensionDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeExtensionDisplay.swift; sourceTree = "<group>"; };
 		A2A61C0C1EEF8DFE00CFE063 /* libPods-passExtension.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passExtension.a"; path = "../../Library/Developer/Xcode/DerivedData/pass-fwlmfsjroyvbfhdyqmglrwfhvjli/Build/Products/Debug-iphonesimulator/libPods-passExtension.a"; sourceTree = "<group>"; };
 		A2A61C101EEF8E3500CFE063 /* libPods-passKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-passKit.a"; path = "Pods/../build/Debug-iphoneos/libPods-passKit.a"; sourceTree = "<group>"; };
 		A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilsExtension.swift; sourceTree = "<group>"; };
-		A2A61C2B1EEFDF3300CFE063 /* ExtensionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionViewController.swift; sourceTree = "<group>"; };
 		A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerController.swift; sourceTree = "<group>"; };
 		A2BC54C71EEE5669001FAFBD /* Objective-CBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Objective-CBridgingHeader.h"; sourceTree = "<group>"; };
-		A2BEC1BA207D2EFE00F3051C /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIViewExtension.swift; path = Helpers/UIViewExtension.swift; sourceTree = "<group>"; };
-		A2C532BA201E5A9600DB9F53 /* PasscodeLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasscodeLock.swift; path = Models/PasscodeLock.swift; sourceTree = "<group>"; };
-		A2C532BC201E5AA000DB9F53 /* PasscodeLockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasscodeLockViewController.swift; path = Controllers/PasscodeLockViewController.swift; sourceTree = "<group>"; };
-		A2C532BD201E5AA100DB9F53 /* PasscodeLockPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasscodeLockPresenter.swift; path = Controllers/PasscodeLockPresenter.swift; sourceTree = "<group>"; };
-		A2F4E2101EED800F0011986E /* GitCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GitCredential.swift; path = Models/GitCredential.swift; sourceTree = "<group>"; };
-		A2F4E2111EED800F0011986E /* Password.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Password.swift; path = Models/Password.swift; sourceTree = "<group>"; };
-		A2F4E2121EED800F0011986E /* PasswordEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordEntity.swift; path = Models/PasswordEntity.swift; sourceTree = "<group>"; };
-		A2F4E2131EED800F0011986E /* PasswordStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasswordStore.swift; path = Models/PasswordStore.swift; sourceTree = "<group>"; };
-		A2F4E2181EED80160011986E /* AppError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppError.swift; path = Helpers/AppError.swift; sourceTree = "<group>"; };
-		A2F4E2191EED80160011986E /* DefaultsKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultsKeys.swift; path = Helpers/DefaultsKeys.swift; sourceTree = "<group>"; };
-		A2F4E21A1EED80160011986E /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Globals.swift; path = Helpers/Globals.swift; sourceTree = "<group>"; };
-		A2F4E21B1EED80160011986E /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationNames.swift; path = Helpers/NotificationNames.swift; sourceTree = "<group>"; };
-		A2F4E21C1EED80160011986E /* UITextFieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UITextFieldExtension.swift; path = Helpers/UITextFieldExtension.swift; sourceTree = "<group>"; };
-		A2F4E21D1EED80160011986E /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Helpers/Utils.swift; sourceTree = "<group>"; };
 		B714FCC4AB231C45BE800C1C /* libPods-passKit-passExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-passKit-passExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B916EC71CFADE2EB8A741282 /* Pods-pass.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.release.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.release.xcconfig"; sourceTree = "<group>"; };
 		B975797E0F0B7476CADD6A7D /* Pods_passExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -407,18 +409,29 @@
 		301F6464216164670071A4CE /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				301F6469216166000071A4CE /* StringExtensionTest.swift */,
 				30A1D29B21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		30BF5ECD21EA90C0000E4154 /* Localization */ = {
+		30697C5521F63F870064FCAC /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				30BF5ECE21EA90D1000E4154 /* String.swift */,
+				30697C5E21F674800064FCAC /* String+UtilitiesTest.swift */,
 			);
-			name = Localization;
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		30B6AABA21F49095006B352D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				30697C3621F63C990064FCAC /* String+Localization.swift */,
+				30697C3921F63C990064FCAC /* String+Utilities.swift */,
+				30697C3721F63C990064FCAC /* UITextFieldExtension.swift */,
+				30697C3521F63C990064FCAC /* UIViewControllerExtension.swift */,
+				30697C3821F63C990064FCAC /* UIViewExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		30C015A3214ECF2B005BB6DF /* Parser */ = {
@@ -466,28 +479,27 @@
 		A2168A801EFD431A005EA873 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				A2A61C2B1EEFDF3300CFE063 /* ExtensionViewController.swift */,
-				A28C66671EF10EC900A398A1 /* PasscodeExtensionDisplay.swift */,
+				30697C4921F63D460064FCAC /* ExtensionViewController.swift */,
+				30697C4A21F63D460064FCAC /* PasscodeExtensionDisplay.swift */,
 			);
-			name = Controllers;
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		A2168A811EFD4322005EA873 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				A2168A7E1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift */,
+				30697C4F21F63D7F0064FCAC /* OnePasswordExtensionConstants.swift */,
 			);
-			name = Helpers;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		A239F5972158C08C00576CBF /* passAutoFillExtension */ = {
 			isa = PBXGroup;
 			children = (
 				A239F5A921591E3700576CBF /* Controllers */,
-				A239F5AA21591E3D00576CBF /* Helpers */,
+				A239F59E2158C08C00576CBF /* passAutoFillExtension.entitlements */,
 				A239F59A2158C08C00576CBF /* MainInterface.storyboard */,
 				A239F59D2158C08C00576CBF /* Info.plist */,
-				A239F59E2158C08C00576CBF /* passAutoFillExtension.entitlements */,
 			);
 			path = passAutoFillExtension;
 			sourceTree = "<group>";
@@ -495,30 +507,23 @@
 		A239F5A921591E3700576CBF /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				A239F5982158C08C00576CBF /* CredentialProviderViewController.swift */,
-				A239F5A721591C5C00576CBF /* PasscodeExtensionDisplay.swift */,
+				30697C5221F63E0B0064FCAC /* CredentialProviderViewController.swift */,
+				30697C5121F63E0B0064FCAC /* PasscodeExtensionDisplay.swift */,
 			);
-			name = Controllers;
-			sourceTree = "<group>";
-		};
-		A239F5AA21591E3D00576CBF /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Helpers;
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		A26075791EEC6F34005DB03E /* passKit */ = {
 			isa = PBXGroup;
 			children = (
 				A2C532B9201DD07500DB9F53 /* Controllers */,
+				30B6AABA21F49095006B352D /* Extensions */,
 				A2F4E20F1EED7F0A0011986E /* Helpers */,
-				A260757B1EEC6F34005DB03E /* Info.plist */,
-				30BF5ECD21EA90C0000E4154 /* Localization */,
 				A2F4E20E1EED7F040011986E /* Models */,
 				30C015A3214ECF2B005BB6DF /* Parser */,
-				A26075A51EEC7125005DB03E /* pass.xcdatamodeld */,
 				A260757A1EEC6F34005DB03E /* passKit.h */,
+				A26075A51EEC7125005DB03E /* pass.xcdatamodeld */,
+				A260757B1EEC6F34005DB03E /* Info.plist */,
 			);
 			path = passKit;
 			sourceTree = "<group>";
@@ -526,11 +531,12 @@
 		A26075861EEC6F34005DB03E /* passKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				30697C5521F63F870064FCAC /* Extensions */,
 				301F6464216164670071A4CE /* Helpers */,
 				30C015A7214ED378005BB6DF /* Models */,
 				30C015A6214ED32A005BB6DF /* Parser */,
-				307BF39821BC2297003A082D /* TestBase.swift */,
 				A26075871EEC6F34005DB03E /* passKitTests.swift */,
+				307BF39821BC2297003A082D /* TestBase.swift */,
 				A26075891EEC6F34005DB03E /* Info.plist */,
 			);
 			path = passKitTests;
@@ -539,14 +545,14 @@
 		A26700251EEC466A00176B8A /* passExtension */ = {
 			isa = PBXGroup;
 			children = (
-				A26700331EEC46C900176B8A /* passExtension.entitlements */,
-				A267002B1EEC466A00176B8A /* Info.plist */,
 				A2168A801EFD431A005EA873 /* Controllers */,
 				A2168A811EFD4322005EA873 /* Helpers */,
 				A2367B9F1EF0387000C8FE8B /* Assets.xcassets */,
 				A26700351EEC475600176B8A /* passProcessor.js */,
+				A26700331EEC46C900176B8A /* passExtension.entitlements */,
 				A26700281EEC466A00176B8A /* MainInterface.storyboard */,
 				30C25DC221F35A6900BB27BB /* InfoPlist.strings */,
+				A267002B1EEC466A00176B8A /* Info.plist */,
 			);
 			path = passExtension;
 			sourceTree = "<group>";
@@ -554,39 +560,36 @@
 		A2C532B9201DD07500DB9F53 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				A2C532BD201E5AA100DB9F53 /* PasscodeLockPresenter.swift */,
-				A2C532BC201E5AA000DB9F53 /* PasscodeLockViewController.swift */,
+				30697C3121F63C8B0064FCAC /* PasscodeLockPresenter.swift */,
+				30697C3221F63C8B0064FCAC /* PasscodeLockViewController.swift */,
 			);
-			name = Controllers;
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		A2F4E20E1EED7F040011986E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A2F4E2101EED800F0011986E /* GitCredential.swift */,
-				A2C532BA201E5A9600DB9F53 /* PasscodeLock.swift */,
-				A2F4E2111EED800F0011986E /* Password.swift */,
-				A2F4E2121EED800F0011986E /* PasswordEntity.swift */,
-				A2F4E2131EED800F0011986E /* PasswordStore.swift */,
+				30697C4121F63CAB0064FCAC /* GitCredential.swift */,
+				30697C4221F63CAB0064FCAC /* PasscodeLock.swift */,
+				30697C4021F63CAB0064FCAC /* Password.swift */,
+				30697C3F21F63CAA0064FCAC /* PasswordEntity.swift */,
+				30697C4321F63CAB0064FCAC /* PasswordStore.swift */,
 			);
-			name = Models;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		A2F4E20F1EED7F0A0011986E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				A2F4E2181EED80160011986E /* AppError.swift */,
-				A2F4E2191EED80160011986E /* DefaultsKeys.swift */,
-				A239F5202157B75E00576CBF /* FileManagerExtension.swift */,
-				A2F4E21A1EED80160011986E /* Globals.swift */,
-				A2F4E21B1EED80160011986E /* NotificationNames.swift */,
-				30A1D29D21AF468E00E2D1F7 /* PasswordGeneratorFlavour.swift */,
-				A239F51E2157B72700576CBF /* StringExtension.swift */,
-				A2F4E21C1EED80160011986E /* UITextFieldExtension.swift */,
-				A2BEC1BA207D2EFE00F3051C /* UIViewExtension.swift */,
-				A2F4E21D1EED80160011986E /* Utils.swift */,
+				30697C2921F63C590064FCAC /* AppError.swift */,
+				30697C2821F63C590064FCAC /* DefaultsKeys.swift */,
+				30697C2521F63C590064FCAC /* FileManagerExtension.swift */,
+				30697C2421F63C590064FCAC /* Globals.swift */,
+				30697C2321F63C580064FCAC /* NotificationNames.swift */,
+				30697C2621F63C590064FCAC /* PasswordGeneratorFlavour.swift */,
+				30697C2721F63C590064FCAC /* Utils.swift */,
 			);
-			name = Helpers;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		A51B01737D08DB47BB58F85A /* Pods */ = {
@@ -641,13 +644,6 @@
 				DC8963BF1E38EEB900828B09 /* SSHKeySettingTableViewController.swift */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		DC19400D1E4B3A340077E0A3 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		DC19400E1E4B3A610077E0A3 /* Helpers */ = {
@@ -713,20 +709,19 @@
 		DC917BD51E2E8231000FDF54 /* pass */ = {
 			isa = PBXGroup;
 			children = (
-				A26700321EEC46C400176B8A /* pass.entitlements */,
-				DC917BE21E2E8231000FDF54 /* Info.plist */,
-				DC917BD61E2E8231000FDF54 /* AppDelegate.swift */,
-				DC19400D1E4B3A340077E0A3 /* Models */,
 				DC19400C1E4B39400077E0A3 /* Controllers */,
+				DC19400E1E4B3A610077E0A3 /* Helpers */,
 				30C25DD421F4831200BB27BB /* UserInterface */,
 				DC19400F1E4B3A9E0077E0A3 /* Views */,
-				DC19400E1E4B3A610077E0A3 /* Helpers */,
 				DC917BDD1E2E8231000FDF54 /* Assets.xcassets */,
+				DC917BD61E2E8231000FDF54 /* AppDelegate.swift */,
+				A26700321EEC46C400176B8A /* pass.entitlements */,
 				DC917BDF1E2E8231000FDF54 /* LaunchScreen.storyboard */,
 				DC917BDA1E2E8231000FDF54 /* Main.storyboard */,
+				30C25DBF21F3599E00BB27BB /* InfoPlist.strings */,
 				30BF5ECA21EA8FB5000E4154 /* Localizable.strings */,
 				30BF5ED521ED2434000E4154 /* Localizable.stringsdict */,
-				30C25DBF21F3599E00BB27BB /* InfoPlist.strings */,
+				DC917BE21E2E8231000FDF54 /* Info.plist */,
 			);
 			path = pass;
 			sourceTree = "<group>";
@@ -1194,8 +1189,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A239F5A821591C5C00576CBF /* PasscodeExtensionDisplay.swift in Sources */,
-				A239F5992158C08C00576CBF /* CredentialProviderViewController.swift in Sources */,
+				30697C5421F63E0B0064FCAC /* CredentialProviderViewController.swift in Sources */,
+				30697C5321F63E0B0064FCAC /* PasscodeExtensionDisplay.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1204,30 +1199,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				30A1D2A221B2BC6F00E2D1F7 /* TokenBuilder.swift in Sources */,
-				A2BEC1BB207D2EFE00F3051C /* UIViewExtension.swift in Sources */,
+				30697C3C21F63C990064FCAC /* UITextFieldExtension.swift in Sources */,
 				302E85632125EE550031BA64 /* Constants.swift in Sources */,
 				301F6463216162550071A4CE /* AdditionField.swift in Sources */,
-				A2C532BB201E5A9600DB9F53 /* PasscodeLock.swift in Sources */,
-				A2F4E2151EED800F0011986E /* Password.swift in Sources */,
+				30697C3021F63C5A0064FCAC /* AppError.swift in Sources */,
+				30697C2B21F63C5A0064FCAC /* Globals.swift in Sources */,
+				30697C4821F63CAB0064FCAC /* PasswordStore.swift in Sources */,
 				A26075AD1EEC7125005DB03E /* pass.xcdatamodeld in Sources */,
-				30A1D29E21AF468F00E2D1F7 /* PasswordGeneratorFlavour.swift in Sources */,
+				30697C2D21F63C5A0064FCAC /* PasswordGeneratorFlavour.swift in Sources */,
+				30697C2F21F63C5A0064FCAC /* DefaultsKeys.swift in Sources */,
 				30A1D2A821B2D53200E2D1F7 /* PasswordChange.swift in Sources */,
-				A239F51F2157B72700576CBF /* StringExtension.swift in Sources */,
-				A239F5212157B75E00576CBF /* FileManagerExtension.swift in Sources */,
-				A2F4E21E1EED80160011986E /* AppError.swift in Sources */,
-				A2F4E2171EED800F0011986E /* PasswordStore.swift in Sources */,
+				30697C3E21F63C990064FCAC /* String+Utilities.swift in Sources */,
+				30697C3B21F63C990064FCAC /* String+Localization.swift in Sources */,
 				302E85612125ECC70031BA64 /* Parser.swift in Sources */,
-				A2F4E2211EED80160011986E /* NotificationNames.swift in Sources */,
-				A2F4E2221EED80160011986E /* UITextFieldExtension.swift in Sources */,
-				A2C532BF201E5AA100DB9F53 /* PasscodeLockPresenter.swift in Sources */,
-				30BF5ECF21EA90D1000E4154 /* String.swift in Sources */,
-				A2C532BE201E5AA100DB9F53 /* PasscodeLockViewController.swift in Sources */,
-				A2F4E2201EED80160011986E /* Globals.swift in Sources */,
-				A2F4E2231EED80160011986E /* Utils.swift in Sources */,
-				A2F4E21F1EED80160011986E /* DefaultsKeys.swift in Sources */,
+				30697C4621F63CAB0064FCAC /* GitCredential.swift in Sources */,
 				30A1D2A621B2D46100E2D1F7 /* OtpType.swift in Sources */,
-				A2F4E2141EED800F0011986E /* GitCredential.swift in Sources */,
-				A2F4E2161EED800F0011986E /* PasswordEntity.swift in Sources */,
+				30697C2A21F63C5A0064FCAC /* NotificationNames.swift in Sources */,
+				30697C4721F63CAB0064FCAC /* PasscodeLock.swift in Sources */,
+				30697C3421F63C8B0064FCAC /* PasscodeLockViewController.swift in Sources */,
+				30697C2C21F63C5A0064FCAC /* FileManagerExtension.swift in Sources */,
+				30697C3321F63C8B0064FCAC /* PasscodeLockPresenter.swift in Sources */,
+				30697C3D21F63C990064FCAC /* UIViewExtension.swift in Sources */,
+				30697C3A21F63C990064FCAC /* UIViewControllerExtension.swift in Sources */,
+				30697C2E21F63C5A0064FCAC /* Utils.swift in Sources */,
+				30697C4521F63CAB0064FCAC /* Password.swift in Sources */,
+				30697C4421F63CAB0064FCAC /* PasswordEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1235,12 +1231,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				301F646A216166000071A4CE /* StringExtensionTest.swift in Sources */,
 				30A1D2AC21B32C2A00E2D1F7 /* TokenBuilderTest.swift in Sources */,
 				301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */,
 				30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */,
 				30B04860209A5141001013CA /* PasswordTest.swift in Sources */,
 				307BF39921BC2298003A082D /* TestBase.swift in Sources */,
+				30697C5F21F674800064FCAC /* String+UtilitiesTest.swift in Sources */,
 				30A1D2AA21B32A0100E2D1F7 /* OtpTypeTest.swift in Sources */,
 				301F6468216165290071A4CE /* ConstantsTest.swift in Sources */,
 				30A1D29C21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift in Sources */,
@@ -1252,9 +1248,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A239F5A621591C3200576CBF /* PasscodeExtensionDisplay.swift in Sources */,
-				A2A61C2C1EEFDF3300CFE063 /* ExtensionViewController.swift in Sources */,
-				A2168A7F1EFD40D5005EA873 /* OnePasswordExtensionConstants.swift in Sources */,
+				30697C4C21F63D460064FCAC /* PasscodeExtensionDisplay.swift in Sources */,
+				30697C5021F63D7F0064FCAC /* OnePasswordExtensionConstants.swift in Sources */,
+				30697C4B21F63D460064FCAC /* ExtensionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
