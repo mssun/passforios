@@ -6,23 +6,27 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import Foundation
-
 public enum AppError: Error {
-    case RepositoryNotSetError
-    case RepositoryRemoteBranchNotFoundError(_: String)
+    case RepositoryNotSet
+    case RepositoryRemoteBranchNotFound(_: String)
     case RepositoryBranchNotFound(_: String)
-    case KeyImportError
-    case PasswordDuplicatedError
-    case GitResetError
-    case PGPPublicKeyNotExistError
+    case KeyImport
+    case PasswordDuplicated
+    case GitReset
+    case PgpPublicKeyNotExist
     case WrongPasswordFilename
-    case DecryptionError
-    case UnknownError
+    case Decryption
+    case Unknown
 }
 
 extension AppError: LocalizedError {
     public var errorDescription: String? {
-        return String(describing: self).localize()
+        let localizationKey = "\(String(describing: self).prefix(while: { $0 != "(" }))Error."
+        switch self {
+        case let .RepositoryRemoteBranchNotFound(name), let .RepositoryBranchNotFound(name):
+            return localizationKey.localize(name)
+        default:
+            return localizationKey.localize()
+        }
     }
 }
