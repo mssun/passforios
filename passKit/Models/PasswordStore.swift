@@ -198,16 +198,16 @@ public class PasswordStore {
             let keyPath = Globals.pgpPublicKeyPath
             self.publicKey = importKey(from: keyPath)
             if self.publicKey == nil {
-                throw AppError.KeyImportError
+                throw AppError.KeyImport
             }
         case .secret:
             let keyPath = Globals.pgpPrivateKeyPath
             self.privateKey = importKey(from: keyPath)
             if self.privateKey == nil  {
-                throw AppError.KeyImportError
+                throw AppError.KeyImport
             }
         default:
-            throw AppError.UnknownError
+            throw AppError.Unknown
         }
     }
 
@@ -335,14 +335,14 @@ public class PasswordStore {
             return
         }
         guard let storeRepository = storeRepository else {
-            throw AppError.RepositoryNotSetError
+            throw AppError.RepositoryNotSet
         }
         let remoteBranchName = "origin/\(localBranchName)"
         guard let remoteBranch = try? storeRepository.lookUpBranch(withName: remoteBranchName, type: .remote, success: nil) else {
-            throw AppError.RepositoryRemoteBranchNotFoundError(remoteBranchName)
+            throw AppError.RepositoryRemoteBranchNotFound(remoteBranchName)
         }
         guard let remoteBranchOid = remoteBranch.oid else {
-            throw AppError.RepositoryRemoteBranchNotFoundError(remoteBranchName)
+            throw AppError.RepositoryRemoteBranchNotFound(remoteBranchName)
         }
         let localBranch = try storeRepository.createBranchNamed(localBranchName, from: remoteBranchOid, message: nil)
         try localBranch.updateTrackingBranch(remoteBranch)
@@ -353,7 +353,7 @@ public class PasswordStore {
 
     public func pullRepository(credential: GitCredential, requestGitPassword: @escaping (GitCredential.Credential, String?) -> String?, transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
         guard let storeRepository = storeRepository else {
-            throw AppError.RepositoryNotSetError
+            throw AppError.RepositoryNotSet
         }
         let credentialProvider = try credential.credentialProvider(requestGitPassword: requestGitPassword)
         let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
@@ -519,7 +519,7 @@ public class PasswordStore {
 
     private func gitAdd(path: String) throws {
         guard let storeRepository = storeRepository else {
-            throw AppError.RepositoryNotSetError
+            throw AppError.RepositoryNotSet
         }
         try storeRepository.index().addFile(path)
         try storeRepository.index().write()
@@ -527,7 +527,7 @@ public class PasswordStore {
 
     private func gitRm(path: String) throws {
         guard let storeRepository = storeRepository else {
-            throw AppError.RepositoryNotSetError
+            throw AppError.RepositoryNotSet
         }
         let url = storeURL.appendingPathComponent(path)
         if fm.fileExists(atPath: url.path) {
@@ -562,7 +562,7 @@ public class PasswordStore {
 
     private func gitCommit(message: String) throws -> GTCommit? {
         guard let storeRepository = storeRepository else {
-            throw AppError.RepositoryNotSetError
+            throw AppError.RepositoryNotSet
         }
         let newTree = try storeRepository.index().writeTree()
         let headReference = try storeRepository.headReference()
@@ -576,7 +576,7 @@ public class PasswordStore {
 
     private func getLocalBranch(withName branchName: String) throws -> GTBranch? {
         guard let storeRepository = storeRepository else {
-            throw AppError.RepositoryNotSetError
+            throw AppError.RepositoryNotSet
         }
         let reference = GTBranch.localNamePrefix().appending(branchName)
         let branches = try storeRepository.branches(withPrefix: reference)
@@ -585,7 +585,7 @@ public class PasswordStore {
 
     public func pushRepository(credential: GitCredential, requestGitPassword: @escaping (GitCredential.Credential, String?) -> String?, transferProgressBlock: @escaping (UInt32, UInt32, Int, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
         guard let storeRepository = storeRepository else {
-            throw AppError.RepositoryNotSetError
+            throw AppError.RepositoryNotSet
         }
         do {
             let credentialProvider = try credential.credentialProvider(requestGitPassword: requestGitPassword)
@@ -601,7 +601,7 @@ public class PasswordStore {
 
     private func addPasswordEntities(password: Password) throws -> PasswordEntity? {
         guard !passwordExisted(password: password) else {
-            throw AppError.PasswordDuplicatedError
+            throw AppError.PasswordDuplicated
         }
 
         var passwordURL = password.url
@@ -784,7 +784,7 @@ public class PasswordStore {
     // return the number of discarded commits
     public func reset() throws -> Int {
         guard let storeRepository = storeRepository else {
-            throw AppError.RepositoryNotSetError
+            throw AppError.RepositoryNotSet
         }
         // get a list of local commits
         if let localCommits = try getLocalCommits(),
@@ -793,7 +793,7 @@ public class PasswordStore {
             guard let firstLocalCommit = localCommits.last,
                 firstLocalCommit.parents.count == 1,
                 let newHead = firstLocalCommit.parents.first else {
-                    throw AppError.GitResetError
+                    throw AppError.GitReset
             }
             try storeRepository.reset(to: newHead, resetType: .hard)
             self.setAllSynced()
@@ -810,16 +810,16 @@ public class PasswordStore {
 
     private func getLocalCommits() throws -> [GTCommit]? {
         guard let storeRepository = storeRepository else {
-            throw AppError.RepositoryNotSetError
+            throw AppError.RepositoryNotSet
         }
         // get the remote branch
         let remoteBranchName = SharedDefaults[.gitBranchName]!
         guard let remoteBranch = try storeRepository.remoteBranches().first(where: { $0.shortName == remoteBranchName }) else {
-            throw AppError.RepositoryRemoteBranchNotFoundError(remoteBranchName)
+            throw AppError.RepositoryRemoteBranchNotFound(remoteBranchName)
         }
         // check oid before calling localCommitsRelative
         guard remoteBranch.oid != nil else {
-            throw AppError.RepositoryRemoteBranchNotFoundError(remoteBranchName)
+            throw AppError.RepositoryRemoteBranchNotFound(remoteBranchName)
         }
 
         // get a list of local commits
@@ -838,14 +838,14 @@ public class PasswordStore {
         let decryptedData = try ObjectivePGP.decrypt(encryptedData, andVerifySignature: false, using: keyring.keys, passphraseForKey: {(_) in passphrase})
         let plainText = String(data: decryptedData, encoding: .utf8) ?? ""
         guard let url = passwordEntity.getURL() else {
-            throw AppError.DecryptionError
+            throw AppError.Decryption
         }
         return Password(name: passwordEntity.getName(), url: url, plainText: plainText)
     }
 
     public func encrypt(password: Password) throws -> Data {
         guard keyring.keys.count > 0 else {
-            throw AppError.PGPPublicKeyNotExistError
+            throw AppError.PgpPublicKeyNotExist
         }
         let plainData = password.plainData
         let encryptedData = try ObjectivePGP.encrypt(plainData, addSignature: false, using: keyring.keys, passphraseForKey: nil)

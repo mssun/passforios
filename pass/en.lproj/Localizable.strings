@@ -54,12 +54,13 @@
 "FailedToDeletePasswordEntity"          = "Failed to delete password entity: %@";
 "FailedToSavePasswordEntity"            = "Failed to save password entity: %@";
 "FailureToSaveContext"                  = "Failure to save context: %@";
-"RepositoryRemoteMasterNotFoundError."  = "Cannot find remote branch origin/master.";
+"RepositoryRemoteBranchNotFoundError."  = "Cannot find remote branch %@.";
+"RepositoryBranchNotFoundError."        = "Branch %@ not found in repository.";
 "KeyImportError."                       = "Cannot import the key.";
 "PasswordDuplicatedError."              = "Cannot add the password; password is duplicated.";
 "GitResetError."                        = "Cannot identify the latest synced commit.";
-"PGPPublicKeyNotExistError."            = "PGP public key doesn't exist.";
-"WrongPasswordFilename."                = "Cannot write to the password file.";
+"PgpPublicKeyNotExistError."            = "PGP public key doesn't exist.";
+"WrongPasswordFilenameError."           = "Cannot write to the password file.";
 "DecryptionError."                      = "Cannot decrypt password.";
 "UnknownError."                         = "Unknown error.";
 "PrepareRepository"                     = "Prepare Repository";
