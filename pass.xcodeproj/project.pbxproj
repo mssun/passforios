@@ -29,6 +29,8 @@
 		30BF5ED721ED2434000E4154 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ED521ED2434000E4154 /* Localizable.stringsdict */; };
 		30C25DBD21F3599E00BB27BB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DBF21F3599E00BB27BB /* InfoPlist.strings */; };
 		30C25DC021F35A6900BB27BB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DC221F35A6900BB27BB /* InfoPlist.strings */; };
+		30C25DD721F4834D00BB27BB /* UILocalizedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C25DD521F4834D00BB27BB /* UILocalizedLabel.swift */; };
+		30C25DD821F4834D00BB27BB /* UICodeHighlightingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C25DD621F4834D00BB27BB /* UICodeHighlightingLabel.swift */; };
 		30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD2F77214D9E0E005E0A92 /* ParserTest.swift */; };
 		61326CDA7A73757FB68DCB04 /* Pods_passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAB3F5541E51ADC8C6B56642 /* Pods_passKit.framework */; };
 		A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */; };
@@ -215,6 +217,8 @@
 		30C25DA921F34D2800BB27BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		30C25DBE21F3599E00BB27BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		30C25DC121F35A6900BB27BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		30C25DD521F4834D00BB27BB /* UILocalizedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILocalizedLabel.swift; sourceTree = "<group>"; };
+		30C25DD621F4834D00BB27BB /* UICodeHighlightingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICodeHighlightingLabel.swift; sourceTree = "<group>"; };
 		30FD2F77214D9E0E005E0A92 /* ParserTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
 		31C3033E8868D05B2C55C8B1 /* Pods-passExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passExtension/Pods-passExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		3A5620D17DF5E86B61761D0E /* Pods_pass.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pass.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -448,6 +452,15 @@
 				30B0485F209A5141001013CA /* PasswordTest.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		30C25DD421F4831200BB27BB /* UserInterface */ = {
+			isa = PBXGroup;
+			children = (
+				30C25DD621F4834D00BB27BB /* UICodeHighlightingLabel.swift */,
+				30C25DD521F4834D00BB27BB /* UILocalizedLabel.swift */,
+			);
+			path = UserInterface;
 			sourceTree = "<group>";
 		};
 		A2168A801EFD431A005EA873 /* Controllers */ = {
@@ -705,6 +718,7 @@
 				DC917BD61E2E8231000FDF54 /* AppDelegate.swift */,
 				DC19400D1E4B3A340077E0A3 /* Models */,
 				DC19400C1E4B39400077E0A3 /* Controllers */,
+				30C25DD421F4831200BB27BB /* UserInterface */,
 				DC19400F1E4B3A9E0077E0A3 /* Views */,
 				DC19400E1E4B3A610077E0A3 /* Helpers */,
 				DC917BDD1E2E8231000FDF54 /* Assets.xcassets */,
@@ -1271,7 +1285,9 @@
 				DCDDEAB31E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift in Sources */,
 				A2A7813F1E97DBD9001311F5 /* QRScannerController.swift in Sources */,
 				DC4914991E434600007FF592 /* PasswordDetailTableViewController.swift in Sources */,
+				30C25DD821F4834D00BB27BB /* UICodeHighlightingLabel.swift in Sources */,
 				DC962CDF1E4B62C10033B5D8 /* AboutTableViewController.swift in Sources */,
+				30C25DD721F4834D00BB27BB /* UILocalizedLabel.swift in Sources */,
 				DC5734AE1E439AD400D09270 /* PasswordsViewController.swift in Sources */,
 				DCD3C65E1EFB9BB400CBE842 /* SettingsSplitViewController.swift in Sources */,
 				A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */,

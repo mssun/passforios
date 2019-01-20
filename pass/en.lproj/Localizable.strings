@@ -243,3 +243,30 @@
 "WannaUseIt?"                       = "Wanna use it?";
 "SeemsLikeYouHaveCopiedSomething."  = "It seems like you have copied something.";
 "FirstStringIs:"                    = "The first string is:";
+
+// Multiline strings
+"SshAsciiArmorCopyExplanation." = "The ASCII-armored key format is similar to unencoded documents rather than the binary format. Use
+
+$ cat ~/.ssh/id_rsa
+
+to get the key in this specific format. The clipboard will be cleared 45s after pasting.";
+
+"SshAsciiArmorServerExplanation." = "The ASCII-armored key format is similar to unencoded documents rather than the binary format. Use
+
+$ cat ~/.ssh/id_rsa
+
+to get the key in this specific format. Subsequently, copy it to your secured key server.";
+
+"GpgAsciiArmorCopyExplanation." = "GnuPG supports the command-line option \"-a\" that causes output to be generated in an ASCII-armored format similar to unencoded documents rather than the binary format. Use
+
+$ gpg --export -a KEY_ID
+$ gpg --export-secret-keys -a KEY_ID
+
+to get the public and the private key in this specific format. The clipboard will be cleared 45s after pasting.";
+
+"GpgAsciiArmorServerExplanation." = "GnuPG supports the command-line option \"-a\" that causes output to be generated in an ASCII-armored format similar to unencoded documents rather than the binary format. Use
+
+$ gpg --export -a KEY_ID
+$ gpg --export-secret-keys -a KEY_ID
+
+to get the public and the private key in this specific format. Subsequently, copy them to your secured key server.";
