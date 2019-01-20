@@ -23,7 +23,7 @@ public extension String {
 }
 
 extension String {
-    static func | (left: String, right: String) -> String {
+    public static func | (left: String, right: String) -> String {
         return right.isEmpty ? left : left + "\n" + right
     }
 }

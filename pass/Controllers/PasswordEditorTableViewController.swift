@@ -64,7 +64,6 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         memorablePasswordGeneratorCell?.accessoryType = .disclosureIndicator
     }
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         if navigationItemTitle != nil {
