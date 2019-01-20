@@ -249,7 +249,7 @@ class GitServerSettingTableViewController: UITableViewController {
             fileActionTitle.append(" (\("Tips".localize()))")
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
                 let title = "Tips".localize()
-                let message = "CopyPrivateKeyToPass.".localize()
+                let message = "SshCopyPrivateKeyToPass.".localize()
                 Utils.alert(title: title, message: message, controller: self)
             }
             optionMenu.addAction(fileAction)
