@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import OneTimePassword
 import SVProgressHUD
+import passKit
 
 protocol QRScannerControllerDelegate {
     func checkScannedOutput(line: String) -> (accept: Bool, message: String)
@@ -130,7 +131,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
 
     func presentCameraSettings() {
         let alertController = UIAlertController(title: "Error".localize(),
-                                                message: "CameraAccessDenied.".localize() + "\n" + "WarningToggleCameraPermissionsResetsApp.".localize(),
+                                                message: "CameraAccessDenied.".localize() | "WarningToggleCameraPermissionsResetsApp.".localize(),
                                                 preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Cancel".localize(), style: .default))
         alertController.addAction(UIAlertAction(title: "Settings".localize(), style: .cancel) { _ in

@@ -357,7 +357,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             } catch {
                 Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
             }
-            SVProgressHUD.showSuccess(withStatus: "PasswordCopied".localize() + "\n" + "CounterUpdated".localize())
+            SVProgressHUD.showSuccess(withStatus: "PasswordCopied".localize() | "CounterUpdated".localize())
             SVProgressHUD.dismiss(withDelay: 1)
         }
     }
