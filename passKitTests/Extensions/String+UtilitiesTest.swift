@@ -1,5 +1,5 @@
 //
-//  StringExtensionTest.swift
+//  String+UtilitiesTest.swift
 //  passKitTests
 //
 //  Created by Danny Moesch on 30.09.18.
@@ -10,7 +10,7 @@ import XCTest
 
 @testable import passKit
 
-class StringExtensionTest: XCTestCase {
+class StringUtilitiesTest: XCTestCase {
 
     func testTrimmed() {
         [

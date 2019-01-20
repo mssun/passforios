@@ -1,5 +1,5 @@
 //
-//  UIViewControllerExtionsion.swift
+//  UITextFieldExtension.swift
 //  pass
 //
 //  Created by Yishi Lin on 5/4/17.
@@ -19,16 +19,5 @@ extension UITextField {
         set(newField) {
             objc_setAssociatedObject(self, &kAssociationKeyNextField, newField, .OBJC_ASSOCIATION_RETAIN)
         }
-    }
-}
-
-extension UIViewController {
-    @objc public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField.nextField != nil {
-            textField.nextField?.becomeFirstResponder()
-        } else {
-            textField.resignFirstResponder()
-        }
-        return true
     }
 }
