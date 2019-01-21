@@ -240,6 +240,11 @@
 		30C25DA921F34D2800BB27BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		30C25DBE21F3599E00BB27BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		30C25DC121F35A6900BB27BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		30C25DC321F3BEF500BB27BB /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
+		30C25DC421F3BEF500BB27BB /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		30C25DC521F3BEF500BB27BB /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = de; path = de.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		30C25DC621F3BEF500BB27BB /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		30C25DC721F3BEF600BB27BB /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		30C25DD521F4834D00BB27BB /* UILocalizedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILocalizedLabel.swift; sourceTree = "<group>"; };
 		30C25DD621F4834D00BB27BB /* UICodeHighlightingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICodeHighlightingLabel.swift; sourceTree = "<group>"; };
 		30FD2F77214D9E0E005E0A92 /* ParserTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
@@ -969,6 +974,7 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
 			);
 			mainGroup = DC917BCA1E2E8231000FDF54;
 			productRefGroup = DC917BD41E2E8231000FDF54 /* Products */;
@@ -1345,6 +1351,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				30BF5EC921EA8FB5000E4154 /* en */,
+				30C25DC421F3BEF500BB27BB /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1353,6 +1360,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				30BF5ED621ED2434000E4154 /* en */,
+				30C25DC521F3BEF500BB27BB /* de */,
 			);
 			name = Localizable.stringsdict;
 			sourceTree = "<group>";
@@ -1361,6 +1369,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				30C25DBE21F3599E00BB27BB /* en */,
+				30C25DC621F3BEF500BB27BB /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1369,6 +1378,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				30C25DC121F35A6900BB27BB /* en */,
+				30C25DC721F3BEF600BB27BB /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1394,6 +1404,7 @@
 			children = (
 				DC917BDB1E2E8231000FDF54 /* Base */,
 				30C25DA921F34D2800BB27BB /* en */,
+				30C25DC321F3BEF500BB27BB /* de */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1681,6 +1692,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1745,6 +1757,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";

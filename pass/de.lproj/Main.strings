@@ -1,0 +1,240 @@
+
+/* Class = "UITableViewSection"; headerTitle = "ASCII-ARMOR ENCRYPTED PRIVATE KEY"; ObjectID = "0RP-Jn-j5G"; */
+"0RP-Jn-j5G.headerTitle" = "PRIVATER SCHLÜSSEL IM ASCII-FORMAT";
+
+/* Class = "UILabel"; text = "Not Set"; ObjectID = "2qr-d7-0SK"; */
+"2qr-d7-0SK.text" = "Nicht angegeben";
+
+/* Class = "UITextField"; placeholder = "Private Key URL"; ObjectID = "4iJ-oB-R1f"; */
+"4iJ-oB-R1f.placeholder" = "URL des privaten Schlüssels";
+
+/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "6Xa-be-Z8g"; */
+"6Xa-be-Z8g.title" = "Einstellungen";
+
+/* Class = "UILabel"; text = "Not Set"; ObjectID = "7lc-Vh-G9W"; */
+"7lc-Vh-G9W.text" = "Nicht angegeben";
+
+/* Class = "UILabel"; text = "Git Signature"; ObjectID = "87a-xY-AbR"; */
+"87a-xY-AbR.text" = "Git-Signatur";
+
+/* Class = "UILabel"; text = "Bob Sun"; ObjectID = "8Dc-U9-AVf"; */
+"8Dc-U9-AVf.text" = "Bob Sun";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "9yM-Mg-Cg8"; */
+"9yM-Mg-Cg8.title" = "Zurück";
+
+/* Class = "UILabel"; text = "Private Key URL"; ObjectID = "C2w-dd-roS"; */
+"C2w-dd-roS.text" = "URL des privaten Schlüssels";
+
+/* Class = "UINavigationItem"; title = "Password Store"; ObjectID = "Cio-ZG-zCS"; */
+"Cio-ZG-zCS.title" = "Password Store";
+
+/* Class = "UITableViewSection"; headerTitle = "SECURITY"; ObjectID = "Cx7-e4-wCO"; */
+"Cx7-e4-wCO.headerTitle" = "SICHERHEIT";
+
+/* Class = "UINavigationItem"; title = "SSH Key"; ObjectID = "DrT-Wk-L5K"; */
+"DrT-Wk-L5K.title" = "SSH-Schlüssel";
+
+/* Class = "UITextField"; placeholder = "Git Repository URL"; ObjectID = "EVT-VU-sCi"; */
+"EVT-VU-sCi.placeholder" = "URL des Git-Repositorys";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "Eu3-i0-M5v"; */
+"Eu3-i0-M5v.text" = "Titel";
+
+/* Class = "UILabel"; text = "SSH Key"; ObjectID = "Ezz-76-a53"; */
+"Ezz-76-a53.text" = "SSH-Schlüssel";
+
+/* Class = "UILabel"; text = "2017/04/04"; ObjectID = "GLC-qL-55P"; */
+"GLC-qL-55P.text" = "04.04.2017";
+
+/* Class = "UILabel"; text = "Off"; ObjectID = "HXb-ZX-HUv"; */
+"HXb-ZX-HUv.text" = "Aus";
+
+/* Class = "UIBarButtonItem"; title = "About"; ObjectID = "HhH-eq-XdK"; */
+"HhH-eq-XdK.title" = "Über die App";
+
+/* Class = "UINavigationItem"; title = "Edit Password"; ObjectID = "Hj9-Iq-kId"; */
+"Hj9-Iq-kId.title" = "Passwort bearbeiten";
+
+/* Class = "UINavigationItem"; title = "Scan OTP QR Codes"; ObjectID = "Hlb-5I-bfE"; */
+"Hlb-5I-bfE.title" = "Scanne OTP-QR-Codes";
+
+/* Class = "UILabel"; text = "Name"; ObjectID = "Hlb-Zh-ega"; */
+"Hlb-Zh-ega.text" = "Name";
+
+/* Class = "UINavigationItem"; title = "Scan QR Code"; ObjectID = "JIs-3z-Tmr"; */
+"JIs-3z-Tmr.title" = "Scanne einen QR-Code";
+
+/* Class = "UILabel"; text = "Encrypt in ASCII-Armored"; ObjectID = "Jwg-mt-woS"; */
+"Jwg-mt-woS.text" = "Im ASCII-Format verschlüsseln";
+
+/* Class = "UILabel"; text = "Erase All Password Store Data"; ObjectID = "K2K-Bx-g7Z"; */
+"K2K-Bx-g7Z.text" = "Alle Daten im Password Store löschen";
+
+/* Class = "UINavigationItem"; title = "Add Password"; ObjectID = "KOg-Gn-Buk"; */
+"KOg-Gn-Buk.title" = "Passwort hinzufügen";
+
+/* Class = "UILabel"; text = "Edit password for baidu.com using Pass for iOS."; ObjectID = "L1p-Dm-Mnh"; */
+"L1p-Dm-Mnh.text" = "Passwort für baidu.com wurde in Pass for iOS hinzugefügt.";
+
+/* Class = "UILabel"; text = "Password"; ObjectID = "LfQ-Af-j2O"; */
+"LfQ-Af-j2O.text" = "Passwort";
+
+/* Class = "UILabel"; text = "ASCII-Armor Keys"; ObjectID = "M32-yr-IfE"; */
+"M32-yr-IfE.text" = "Schlüssel im ASCII-Format";
+
+/* Class = "UILabel"; text = "Advanced"; ObjectID = "MKj-d0-8q3"; */
+"MKj-d0-8q3.text" = "Erweitert";
+
+/* Class = "UITableViewSection"; headerTitle = "ASCII-Armor Encrypted Public Key"; ObjectID = "MZz-mp-v5N"; */
+"MZz-mp-v5N.headerTitle" = "Öffentlicher Schlüssel im ASCII-Format";
+
+/* Class = "UILabel"; text = "Not Set"; ObjectID = "Myq-fV-riz"; */
+"Myq-fV-riz.text" = "Nicht angegeben";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "New-sD-9Z1"; */
+"New-sD-9Z1.title" = "Zurück";
+
+/* Class = "UINavigationItem"; title = "About"; ObjectID = "Pel-JD-Z5x"; */
+"Pel-JD-Z5x.title" = "Über die App";
+
+/* Class = "UILabel"; text = "Private Key URL"; ObjectID = "Qht-RC-Yeg"; */
+"Qht-RC-Yeg.text" = "URL des privaten Schlüssels";
+
+/* Class = "UILabel"; text = "PGP Key"; ObjectID = "RR9-xr-9ko"; */
+"RR9-xr-9ko.text" = "PGP-Schlüssel";
+
+/* Class = "UILabel"; text = "Passcode Lock"; ObjectID = "RaZ-6t-0CU"; */
+"RaZ-6t-0CU.text" = "Passwortsperre";
+
+/* Class = "UITextField"; placeholder = "Public Key URL"; ObjectID = "Rb8-zs-TGa"; */
+"Rb8-zs-TGa.placeholder" = "URL des öffentlichen Schlüssels";
+
+/* Class = "UILabel"; text = "✓"; ObjectID = "Scc-5J-bu1"; */
+"Scc-5J-bu1.text" = "✓";
+
+/* Class = "UITextField"; placeholder = "Username"; ObjectID = "TMg-Gk-7nG"; */
+"TMg-Gk-7nG.placeholder" = "Benutzername";
+
+/* Class = "UILabel"; text = "scanner output"; ObjectID = "U8O-Md-w8e"; */
+"U8O-Md-w8e.text" = "Ausgabe des Scanners";
+
+/* Class = "UITableViewSection"; headerTitle = "Branch Name"; ObjectID = "Uoy-58-5ug"; */
+"Uoy-58-5ug.headerTitle" = "Name des Branches";
+
+/* Class = "UINavigationItem"; title = "PGP Key"; ObjectID = "V4w-cf-d9g"; */
+"V4w-cf-d9g.title" = "PGP-Schlüssel";
+
+/* Class = "UITextField"; placeholder = "Branch Name"; ObjectID = "VVI-gJ-e37"; */
+"VVI-gJ-e37.placeholder" = "Name des Branches";
+
+/* Class = "UINavigationItem"; title = "Settings"; ObjectID = "WH4-7R-4TQ"; */
+"WH4-7R-4TQ.title" = "Einstellungen";
+
+/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "YLZ-cr-akY"; */
+"YLZ-cr-akY.title" = "Einstellungen";
+
+/* Class = "UITextField"; placeholder = "email"; ObjectID = "YY9-za-MNV"; */
+"YY9-za-MNV.placeholder" = "E-Mail";
+
+/* Class = "UINavigationItem"; title = "General"; ObjectID = "aAM-Iw-iBA"; */
+"aAM-Iw-iBA.title" = "Allgemein";
+
+/* Class = "UINavigationItem"; title = "Recent Commit Log"; ObjectID = "aRM-mj-MAt"; */
+"aRM-mj-MAt.title" = "Letzte Commits";
+
+/* Class = "UITableViewSection"; headerTitle = "Password Store Data"; ObjectID = "aVR-FE-jMg"; */
+"aVR-FE-jMg.headerTitle" = "Daten im Password Store";
+
+/* Class = "UINavigationItem"; title = "Raw Password"; ObjectID = "c13-zM-tLf"; */
+"c13-zM-tLf.title" = "Reines Passwort";
+
+/* Class = "UITextField"; placeholder = "Private Key URL"; ObjectID = "cGJ-1g-Ztc"; */
+"cGJ-1g-Ztc.placeholder" = "URL des privaten Schlüssels";
+
+/* Class = "UILabel"; text = "ASCII-Armor Keys"; ObjectID = "cMp-Iy-NUj"; */
+"cMp-Iy-NUj.text" = "Schlüssel im ASCII-Format";
+
+/* Class = "UILabel"; text = "ASCII-Armor Keys"; ObjectID = "cd7-0l-AZW"; */
+"cd7-0l-AZW.text" = "Schlüssel im ASCII-Format";
+
+/* Class = "UINavigationItem"; title = "About Repository"; ObjectID = "cjL-hB-P6y"; */
+"cjL-hB-P6y.title" = "Über das Repository";
+
+/* Class = "UILabel"; text = "General"; ObjectID = "dOt-Rj-vWD"; */
+"dOt-Rj-vWD.text" = "Allgemein";
+
+/* Class = "UILabel"; text = "Public Key URL"; ObjectID = "dWi-eh-7Eq"; */
+"dWi-eh-7Eq.text" = "URL des öffentlichen Schlüssels";
+
+/* Class = "UINavigationItem"; title = "Open Source Components"; ObjectID = "duN-f7-Rak"; */
+"duN-f7-Rak.title" = "Open-Source-Komponenten";
+
+/* Class = "UINavigationItem"; title = "PGP Key"; ObjectID = "eK3-bb-419"; */
+"eK3-bb-419.title" = "PGP-Schlüssel";
+
+/* Class = "UITableViewSection"; headerTitle = "Username"; ObjectID = "fRu-A2-SCk"; */
+"fRu-A2-SCk.headerTitle" = "Benutzername";
+
+/* Class = "UITextField"; placeholder = "name"; ObjectID = "fa8-Vc-w8F"; */
+"fa8-Vc-w8F.placeholder" = "Name";
+
+/* Class = "UITabBarItem"; title = "Passwords"; ObjectID = "gNg-YT-cGW"; */
+"gNg-YT-cGW.title" = "Passwörter";
+
+/* Class = "UINavigationItem"; title = "SSH Key"; ObjectID = "gNq-BH-pj8"; */
+"gNq-BH-pj8.title" = "SSH-Schlüssel";
+
+/* Class = "UILabel"; text = "Password Repository"; ObjectID = "gWn-ib-STb"; */
+"gWn-ib-STb.text" = "Passwort-Repository";
+
+/* Class = "UINavigationItem"; title = "Git Server"; ObjectID = "gXX-yl-9oj"; */
+"gXX-yl-9oj.title" = "Git-Server";
+
+/* Class = "UITableViewSection"; headerTitle = "Authentication Method"; ObjectID = "h0N-tI-shZ"; */
+"h0N-tI-shZ.headerTitle" = "Authentifizierungsmethode";
+
+/* Class = "UILabel"; text = "ASCII-Armor Keys"; ObjectID = "i78-t7-fP9"; */
+"i78-t7-fP9.text" = "Schlüssel im ASCII-Format";
+
+/* Class = "UITableViewSection"; headerTitle = "Git Configuration"; ObjectID = "ihT-OG-HTv"; */
+"ihT-OG-HTv.headerTitle" = "Git-Konfiguration";
+
+/* Class = "UILabel"; text = "scanner output"; ObjectID = "lOI-p4-BGb"; */
+"lOI-p4-BGb.text" = "Ausgabe des Scanners";
+
+/* Class = "UILabel"; text = "Email"; ObjectID = "m25-Qy-XwU"; */
+"m25-Qy-XwU.text" = "E-Mail";
+
+/* Class = "UIViewController"; title = "Raw Password"; ObjectID = "mlB-OK-hLo"; */
+"mlB-OK-hLo.title" = "Reines Passwort";
+
+/* Class = "UINavigationItem"; title = "Special Thanks"; ObjectID = "oKe-r8-1EF"; */
+"oKe-r8-1EF.title" = "Besonderer Dank";
+
+/* Class = "UILabel"; text = "About"; ObjectID = "oqz-Hr-RAl"; */
+"oqz-Hr-RAl.text" = "Über die App";
+
+/* Class = "UINavigationItem"; title = "Git Signature"; ObjectID = "pPi-jd-x5U"; */
+"pPi-jd-x5U.title" = "Git-Signatur";
+
+/* Class = "UITableViewSection"; headerTitle = "Git Repository URL"; ObjectID = "pbe-W6-w4V"; */
+"pbe-W6-w4V.headerTitle" = "URL des Git-Repositorys";
+
+/* Class = "UIBarButtonItem"; title = "Clone"; ObjectID = "sgQ-zB-rxv"; */
+"sgQ-zB-rxv.title" = "Klonen";
+
+/* Class = "UITableViewSection"; headerTitle = "ASCII-ARMOR ENCRYPTED PRIVATE KEY"; ObjectID = "sxk-Yb-Y3x"; */
+"sxk-Yb-Y3x.headerTitle" = "PRIVATER SCHLÜSSEL IM ASCII-FORMAT";
+
+/* Class = "UINavigationItem"; title = "Advanced"; ObjectID = "tc7-wf-hG7"; */
+"tc7-wf-hG7.title" = "Erweitert";
+
+/* Class = "UITableViewSection"; headerTitle = "GPG Configuration"; ObjectID = "ugP-R2-9M7"; */
+"ugP-R2-9M7.headerTitle" = "GPG-Konfiguration";
+
+/* Class = "UILabel"; text = "✓"; ObjectID = "wbx-rk-i8H"; */
+"wbx-rk-i8H.text" = "✓";
+
+/* Class = "UILabel"; text = "Discard All Local Changes"; ObjectID = "zrl-v3-fxg"; */
+"zrl-v3-fxg.text" = "Alle lokalen Änderungen verwerfen";
