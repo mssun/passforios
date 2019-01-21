@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ScannedQrCodes(%d)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@code@</string>
+		<key>codes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>zero</key>
+			<string>Keine gescannten QR-Codes</string>
+			<key>one</key>
+			<string>Ein gescannter QR-Code</string>
+			<key>other</key>
+			<string>%d gescannte QR-Codes</string>
+		</dict>
+	</dict>
+	<key>DiscardedCommits(%d)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@commits@</string>
+		<key>commits</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Keine lokalen Commits</string>
+			<key>one</key>
+			<string>Ein Commit verworfen</string>
+			<key>other</key>
+			<string>%d Commits verworfen</string>
+		</dict>
+	</dict>
+	<key>HiddenFields(%d)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@fields@</string>
+		<key>fields</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Keine verborgenen Felder</string>
+			<key>one</key>
+			<string>Ein verborgenes Feld</string>
+			<key>other</key>
+			<string>%d verborgene Felder</string>
+		</dict>
+	</dict>
+	<key>WrongAttempts(%d)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@attempts@</string>
+		<key>attempts</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Kein falscher Entsperrversuch</string>
+			<key>one</key>
+			<string>Ein falscher Entsperrversuch</string>
+			<key>other</key>
+			<string>%d falsche Entsperrversuche</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
