@@ -39,13 +39,6 @@ extension AdditionField {
     }
 }
 
-extension AdditionField: Equatable {
-
-    public static func == (first: AdditionField, second: AdditionField) -> Bool {
-        return first.asTuple == second.asTuple
-    }
-}
-
 infix operator =>: MultiplicationPrecedence
 public func => (key: String, value: String) -> AdditionField {
     return AdditionField(title: key, content: value)
