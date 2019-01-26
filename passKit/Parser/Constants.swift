@@ -58,7 +58,8 @@ public struct Constants {
     }
 
     static func isUnknown(_ string: String) -> Bool {
-        return string.starts(with: UNKNOWN)
+        let components = string.components(separatedBy: " ")
+        return components.count == 2 && components[0] == UNKNOWN && UInt(components[1]) != nil
     }
 
     static func unknown(_ number: UInt) -> String {

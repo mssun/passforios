@@ -27,10 +27,13 @@ class ConstantsTest: XCTestCase {
     }
 
     func testIsUnknown() {
-        XCTAssert(Constants.isUnknown("unknown"))
-        XCTAssert(Constants.isUnknown("unknown string"))
+        XCTAssert(Constants.isUnknown("unknown 1"))
+        XCTAssert(Constants.isUnknown("unknown 435"))
         XCTAssertFalse(Constants.isUnknown("otp"))
-        XCTAssertFalse(Constants.isUnknown("Unknown"))
+        XCTAssertFalse(Constants.isUnknown("unknown "))
+        XCTAssertFalse(Constants.isUnknown("unknown something"))
+        XCTAssertFalse(Constants.isUnknown("unknown 123 something"))
+        XCTAssertFalse(Constants.isUnknown("Unknown 1"))
     }
 
     func testUnknown() {
