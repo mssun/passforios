@@ -13,7 +13,7 @@ protocol PasswordSettingSliderTableViewCellDelegate {
     func generateAndCopyPassword()
 }
 
-class SliderTableViewCell: ContentTableViewCell {
+class SliderTableViewCell: UITableViewCell, ContentProvider {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
@@ -25,17 +25,6 @@ class SliderTableViewCell: ContentTableViewCell {
         get {
             return Int(valueLabel.text!)!
         }
-    }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     @IBAction func handleSliderValueChange(_ sender: UISlider) {
@@ -67,4 +56,9 @@ class SliderTableViewCell: ContentTableViewCell {
         }
     }
 
+    func getContent() -> String? {
+        return nil
+    }
+
+    func setContent(content: String?) {}
 }

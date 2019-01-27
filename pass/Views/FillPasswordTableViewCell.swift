@@ -14,7 +14,7 @@ protocol FillPasswordTableViewCellDelegate {
     func showHidePasswordSettings()
 }
 
-class FillPasswordTableViewCell: ContentTableViewCell {
+class FillPasswordTableViewCell: UITableViewCell, ContentProvider {
 
     @IBOutlet weak var contentTextField: UITextField!
     var delegate: FillPasswordTableViewCellDelegate?
@@ -32,12 +32,6 @@ class FillPasswordTableViewCell: ContentTableViewCell {
         generateButton.imageView?.contentMode = .scaleAspectFit
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     @IBAction func generatePassword(_ sender: UIButton) {
         self.delegate?.generateAndCopyPassword()
     }
@@ -51,11 +45,11 @@ class FillPasswordTableViewCell: ContentTableViewCell {
         contentTextField.attributedText = Utils.attributedPassword(plainPassword: sender.text ?? "")
     }
 
-    override func getContent() -> String? {
+    func getContent() -> String? {
         return contentTextField.attributedText?.string
     }
 
-    override func setContent(content: String?) {
+    func setContent(content: String?) {
         contentTextField.attributedText = Utils.attributedPassword(plainPassword: content ?? "")
     }
 }
