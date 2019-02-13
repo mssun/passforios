@@ -178,7 +178,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                     if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
                         message = message | "UnderlyingError".localize(underlyingError.localizedDescription)
                         if underlyingError.localizedDescription.contains("WrongPassphrase".localize()) {
-                            message = message | "RecoverySuggestion".localize()
+                            message = message | "RecoverySuggestion.".localize()
                             gitCredential.delete()
                         }
                     }
