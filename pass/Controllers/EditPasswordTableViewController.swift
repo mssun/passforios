@@ -12,9 +12,9 @@ import passKit
 class EditPasswordTableViewController: PasswordEditorTableViewController {
     override func viewDidLoad() {
         tableData = [
-            [[.type: PasswordEditorCellType.nameCell, .title: "name", .content: password!.namePath]],
-            [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password", .content: password!.password]],
-            [[.type: PasswordEditorCellType.additionsCell, .title: "additions", .content: password!.additionsPlainText]],
+            [[.type: PasswordEditorCellType.nameCell, .title: "Name".localize(), .content: password!.namePath]],
+            [[.type: PasswordEditorCellType.fillPasswordCell, .title: "Password".localize(), .content: password!.password]],
+            [[.type: PasswordEditorCellType.additionsCell, .title: "Additions".localize(), .content: password!.additionsPlainText]],
             [[.type: PasswordEditorCellType.scanQRCodeCell],
              [.type: PasswordEditorCellType.deletePasswordCell]]
         ]

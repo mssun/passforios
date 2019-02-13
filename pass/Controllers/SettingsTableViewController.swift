@@ -294,7 +294,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         // prepare the alert for setting the passcode
         setPasscodeLockAlert = UIAlertController(title: "SetPasscode".localize(), message: "FillInAppPasscode.".localize(), preferredStyle: .alert)
         setPasscodeLockAlert?.addTextField(configurationHandler: {(_ textField: UITextField) -> Void in
-            textField.placeholder = "Password".localize()
+            textField.placeholder = "Passcode".localize()
             textField.isSecureTextEntry = true
             textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         })
