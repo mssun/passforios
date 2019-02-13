@@ -28,7 +28,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
 
     private var navigationItemTitle: String?
 
-    private var sectionHeaderTitles = ["name", "password", "additions",""].map {$0.uppercased()}
+    private var sectionHeaderTitles = ["Name".localize(), "Password".localize(), "Additions".localize(),""].map {$0.uppercased()}
     private var sectionFooterTitles = ["", "", "UseKeyValueFormat.".localize(), ""]
     private let nameSection = 0
     private let passwordSection = 1

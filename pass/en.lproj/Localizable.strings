@@ -9,7 +9,9 @@
 // General
 "PassForIos"    = "Pass for iOS";
 "Passphrase"    = "Passphrase";
+"Password"      = "Password";
 "Passwords"     = "Passwords";
+"Passcode"      = "Passcode";
 "Apple"         = "Apple";
 "Settings"      = "Settings";
 "Contributors"  = "Contributors";
@@ -208,6 +210,8 @@
 "HttpNotSupported." = "HTTP connection is not supported.";
 
 // Password view
+"Name"                          = "Name";
+"Additions"                     = "Additions";
 "Notice"                        = "Notice";
 "PreviousChangesDiscarded."     = "All previous local changes have been discarded. Your current Password Store will be shown.";
 "CannotShowPassword"            = "Cannot show password";

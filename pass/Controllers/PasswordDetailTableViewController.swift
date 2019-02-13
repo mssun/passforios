@@ -252,7 +252,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         // show additional information
         let filteredAdditionKeys = password.getFilteredAdditions()
         if filteredAdditionKeys.count > 0 {
-            section = TableSection(type: .addition, header: "additions")
+            section = TableSection(type: .addition, header: "Additions".localize())
             section.item.append(contentsOf: filteredAdditionKeys)
             tableData.append(section)
         }
