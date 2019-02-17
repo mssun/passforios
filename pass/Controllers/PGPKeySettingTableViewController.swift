@@ -9,7 +9,7 @@
 import UIKit
 import passKit
 
-class PGPKeySettingTableViewController: UITableViewController {
+class PGPKeySettingTableViewController: AutoCellHeightUITableViewController {
 
     @IBOutlet weak var pgpPublicKeyURLTextField: UITextField!
     @IBOutlet weak var pgpPrivateKeyURLTextField: UITextField!
@@ -18,7 +18,6 @@ class PGPKeySettingTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = UITableViewAutomaticDimension
         pgpPublicKeyURLTextField.text = SharedDefaults[.pgpPublicKeyURL]?.absoluteString
         pgpPrivateKeyURLTextField.text = SharedDefaults[.pgpPrivateKeyURL]?.absoluteString
         pgpPassphrase = passwordStore.pgpKeyPassphrase

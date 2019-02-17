@@ -9,7 +9,7 @@
 import UIKit
 import passKit
 
-class GitSSHKeyArmorSettingTableViewController: UITableViewController, UITextViewDelegate, QRScannerControllerDelegate {
+class GitSSHKeyArmorSettingTableViewController: AutoCellHeightUITableViewController, UITextViewDelegate, QRScannerControllerDelegate {
     @IBOutlet weak var armorPrivateKeyTextView: UITextView!
     @IBOutlet weak var scanPrivateKeyCell: UITableViewCell!
 

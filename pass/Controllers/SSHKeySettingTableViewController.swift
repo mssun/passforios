@@ -10,7 +10,7 @@ import UIKit
 import SVProgressHUD
 import passKit
 
-class SSHKeySettingTableViewController: UITableViewController {
+class SSHKeySettingTableViewController: AutoCellHeightUITableViewController {
 
     @IBOutlet weak var privateKeyURLTextField: UITextField!
     let passwordStore = PasswordStore.shared
