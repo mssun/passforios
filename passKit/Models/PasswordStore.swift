@@ -16,6 +16,13 @@ import KeychainAccess
 
 public class PasswordStore {
     public static let shared = PasswordStore()
+    private static let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        return dateFormatter
+    }()
+
     public let storeURL = URL(fileURLWithPath: "\(Globals.repositoryPath)")
     public let tempStoreURL = URL(fileURLWithPath: "\(Globals.repositoryPath)-temp")
 
@@ -499,19 +506,10 @@ public class PasswordStore {
             return "Unknown".localize()
         }
         let lastCommitDate = Date(timeIntervalSince1970: latestCommitTime)
-        let currentDate = Date()
-        var autoFormattedDifference: String
-        if currentDate.timeIntervalSince(lastCommitDate) <= 60 {
-            autoFormattedDifference = "JustNow".localize()
-        } else {
-            let diffDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: lastCommitDate, to: currentDate)
-            let dateComponentsFormatter = DateComponentsFormatter()
-            dateComponentsFormatter.unitsStyle = .full
-            dateComponentsFormatter.maximumUnitCount = 2
-            dateComponentsFormatter.includesApproximationPhrase = true
-            autoFormattedDifference = "TimeAgo".localize(dateComponentsFormatter.string(from: diffDate)!)
+        if Date().timeIntervalSince(lastCommitDate) <= 60 {
+            return "JustNow".localize()
         }
-        return autoFormattedDifference
+        return PasswordStore.dateFormatter.string(from: lastCommitDate)
     }
 
     public func updateRemoteRepo() {

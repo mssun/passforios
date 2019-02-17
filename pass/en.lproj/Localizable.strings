@@ -154,7 +154,6 @@
 // Time related
 "Unknown"   = "Unknown";
 "JustNow"   = "Just now";
-"TimeAgo"   = "%@ ago";
 
 // Commit messages
 "AddPassword."     = "Add password for %@ to store using Pass for iOS.";
