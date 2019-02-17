@@ -519,22 +519,22 @@
                         <sections>
                             <tableViewSection id="t4W-Ph-FQ7">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeyURLTableViewCell" textLabel="cd7-0l-AZW" detailTextLabel="s90-cp-Qxp" rowHeight="170" style="IBUITableViewCellStyleSubtitle" id="9bH-ha-yOA">
-                                        <rect key="frame" x="0.0" y="35" width="414" height="170"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeyURLTableViewCell" textLabel="cd7-0l-AZW" detailTextLabel="s90-cp-Qxp" style="IBUITableViewCellStyleSubtitle" id="9bH-ha-yOA">
+                                        <rect key="frame" x="0.0" y="35" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9bH-ha-yOA" id="EeF-hE-hJM">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="169.66666666666666"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="ASCII-Armor Keys" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cd7-0l-AZW">
-                                                    <rect key="frame" x="20.000000000000007" y="66.666666666666671" width="121.66666666666667" height="17"/>
+                                                    <rect key="frame" x="20.000000000000007" y="6" width="121.66666666666667" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="GpgAsciiArmorServerExplanation." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s90-cp-Qxp" customClass="UICodeHighlightingLabel" customModule="pass" customModuleProvider="target">
-                                                    <rect key="frame" x="20" y="86" width="197.66666666666666" height="15.333333333333334"/>
+                                                    <rect key="frame" x="20" y="23" width="197.66666666666666" height="15.333333333333334"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.29804000000000003" green="0.29804000000000003" blue="0.29804000000000003" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -548,7 +548,7 @@
                             <tableViewSection id="Mfu-PE-VT0">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeyURLTableViewCell" rowHeight="52" id="BYZ-9g-xZy">
-                                        <rect key="frame" x="0.0" y="241" width="414" height="52"/>
+                                        <rect key="frame" x="0.0" y="115" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BYZ-9g-xZy" id="Zfn-rK-sN1">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
@@ -582,7 +582,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeyURLTableViewCell" rowHeight="52" id="vpk-J8-j7t">
-                                        <rect key="frame" x="0.0" y="293" width="414" height="52"/>
+                                        <rect key="frame" x="0.0" y="167" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vpk-J8-j7t" id="1td-qT-6ts">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
@@ -954,22 +954,22 @@ Phone Support PIN #: 84719</string>
                         <sections>
                             <tableViewSection id="LqY-qH-UrV">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="11" reuseIdentifier="pgpKeyURLTableViewCell" textLabel="cMp-Iy-NUj" detailTextLabel="rWo-ji-Ayq" rowHeight="170" style="IBUITableViewCellStyleSubtitle" id="duc-DB-5zZ">
-                                        <rect key="frame" x="0.0" y="35" width="414" height="170"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="11" reuseIdentifier="pgpKeyURLTableViewCell" textLabel="cMp-Iy-NUj" detailTextLabel="rWo-ji-Ayq" style="IBUITableViewCellStyleSubtitle" id="duc-DB-5zZ">
+                                        <rect key="frame" x="0.0" y="35" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="duc-DB-5zZ" id="ht5-Qh-apF">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="169.66666666666666"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="ASCII-Armor Keys" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cMp-Iy-NUj">
-                                                    <rect key="frame" x="20.000000000000007" y="66.666666666666671" width="121.66666666666667" height="17"/>
+                                                    <rect key="frame" x="20.000000000000007" y="6" width="121.66666666666667" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="SshAsciiArmorServerExplanation." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rWo-ji-Ayq" customClass="UICodeHighlightingLabel" customModule="pass" customModuleProvider="target">
-                                                    <rect key="frame" x="20" y="86" width="210" height="16.333333333333332"/>
+                                                    <rect key="frame" x="20" y="23" width="210" height="16.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                     <color key="textColor" white="0.40782000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -983,7 +983,7 @@ Phone Support PIN #: 84719</string>
                             <tableViewSection id="7c6-yg-Aab">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="privateKeyURLTableViewCell" rowHeight="52" id="MA5-lE-8dT">
-                                        <rect key="frame" x="0.0" y="241" width="414" height="52"/>
+                                        <rect key="frame" x="0.0" y="115" width="414" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MA5-lE-8dT" id="pTv-Wj-psC">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
@@ -1307,22 +1307,22 @@ Phone Support PIN #: 84719</string>
                         <sections>
                             <tableViewSection id="hfl-ky-QVG">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeyURLTableViewCell" textLabel="M32-yr-IfE" detailTextLabel="sMx-qd-MTJ" rowHeight="170" style="IBUITableViewCellStyleSubtitle" id="Pv0-ev-stj">
-                                        <rect key="frame" x="0.0" y="35" width="414" height="170"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeyURLTableViewCell" textLabel="M32-yr-IfE" detailTextLabel="sMx-qd-MTJ" style="IBUITableViewCellStyleSubtitle" id="Pv0-ev-stj">
+                                        <rect key="frame" x="0.0" y="35" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Pv0-ev-stj" id="ywz-II-W1g">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="169.66666666666666"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="ASCII-Armor Keys" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="M32-yr-IfE">
-                                                    <rect key="frame" x="20.000000000000007" y="66.666666666666671" width="121.66666666666667" height="17"/>
+                                                    <rect key="frame" x="20.000000000000007" y="6" width="121.66666666666667" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="GpgAsciiArmorCopyExplanation." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sMx-qd-MTJ" customClass="UICodeHighlightingLabel" customModule="pass" customModuleProvider="target">
-                                                    <rect key="frame" x="20" y="86" width="191.33333333333334" height="15.333333333333334"/>
+                                                    <rect key="frame" x="20" y="23" width="191.33333333333334" height="15.333333333333334"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.29804000000000003" green="0.29804000000000003" blue="0.29804000000000003" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -1336,7 +1336,7 @@ Phone Support PIN #: 84719</string>
                             <tableViewSection headerTitle="ASCII-Armor Encrypted Public Key" id="MZz-mp-v5N">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeyURLTableViewCell" rowHeight="160" id="Lom-iT-l16">
-                                        <rect key="frame" x="0.0" y="244" width="414" height="160"/>
+                                        <rect key="frame" x="0.0" y="118" width="414" height="160"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Lom-iT-l16" id="eya-Tv-r0q">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="159.66666666666666"/>
@@ -1362,7 +1362,7 @@ Phone Support PIN #: 84719</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="F0i-XE-PGt" userLabel="scanQRCodeCell">
-                                        <rect key="frame" x="0.0" y="404" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="278" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="F0i-XE-PGt" id="xO8-yL-W9a">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
@@ -1374,7 +1374,7 @@ Phone Support PIN #: 84719</string>
                             <tableViewSection headerTitle="ASCII-ARMOR ENCRYPTED PRIVATE KEY" id="0RP-Jn-j5G">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeyURLTableViewCell" rowHeight="160" id="J8U-ev-FRQ">
-                                        <rect key="frame" x="0.0" y="487" width="414" height="160"/>
+                                        <rect key="frame" x="0.0" y="361" width="414" height="160"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="J8U-ev-FRQ" id="eb0-vb-Fcc">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="159.66666666666666"/>
@@ -1400,7 +1400,7 @@ Phone Support PIN #: 84719</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="b0Z-rW-sAE" userLabel="scanQRCodeCell">
-                                        <rect key="frame" x="0.0" y="647" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="521" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b0Z-rW-sAE" id="UZX-pP-UWB">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
@@ -1483,22 +1483,22 @@ Phone Support PIN #: 84719</string>
                         <sections>
                             <tableViewSection id="HgL-ju-8xi">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="11" reuseIdentifier="pgpKeyURLTableViewCell" textLabel="i78-t7-fP9" detailTextLabel="Oit-sd-wa5" rowHeight="170" style="IBUITableViewCellStyleSubtitle" id="EMz-nP-2Om">
-                                        <rect key="frame" x="0.0" y="35" width="414" height="170"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="11" reuseIdentifier="pgpKeyURLTableViewCell" textLabel="i78-t7-fP9" detailTextLabel="Oit-sd-wa5" style="IBUITableViewCellStyleSubtitle" id="EMz-nP-2Om">
+                                        <rect key="frame" x="0.0" y="35" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EMz-nP-2Om" id="XW5-mL-PRC">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="169.66666666666666"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="ASCII-Armor Keys" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="i78-t7-fP9">
-                                                    <rect key="frame" x="20.000000000000007" y="66.666666666666671" width="121.66666666666667" height="17"/>
+                                                    <rect key="frame" x="20.000000000000007" y="6" width="121.66666666666667" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="SshAsciiArmorCopyExplanation." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Oit-sd-wa5" customClass="UICodeHighlightingLabel" customModule="pass" customModuleProvider="target">
-                                                    <rect key="frame" x="20" y="86" width="203" height="16.333333333333332"/>
+                                                    <rect key="frame" x="20" y="23" width="203" height="16.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                     <color key="textColor" white="0.40782000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1512,7 +1512,7 @@ Phone Support PIN #: 84719</string>
                             <tableViewSection headerTitle="ASCII-ARMOR ENCRYPTED PRIVATE KEY" id="sxk-Yb-Y3x">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeyURLTableViewCell" rowHeight="160" id="nmc-vy-Ab5">
-                                        <rect key="frame" x="0.0" y="244" width="414" height="160"/>
+                                        <rect key="frame" x="0.0" y="118" width="414" height="160"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nmc-vy-Ab5" id="TQD-GC-YOY">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="159.66666666666666"/>
@@ -1535,7 +1535,7 @@ Phone Support PIN #: 84719</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="jXO-n0-Mvx">
-                                        <rect key="frame" x="0.0" y="404" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="278" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jXO-n0-Mvx" id="AIL-mq-u7n">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
@@ -1682,7 +1682,7 @@ Phone Support PIN #: 84719</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="scanner output" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U8O-Md-w8e">
-                                <rect key="frame" x="57" y="562" width="300" height="45"/>
+                                <rect key="frame" x="57" y="518" width="300" height="45"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="JcM-Sy-Hw8"/>
@@ -1714,7 +1714,7 @@ Phone Support PIN #: 84719</string>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Jzw-qC-crz" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="YCA-VS-Qu8">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		18F19A67B0C07F13C17169E0 /* Pods_pass.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5620D17DF5E86B61761D0E /* Pods_pass.framework */; };
 		23B82F0228254275DBA609E7 /* Pods_passExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B975797E0F0B7476CADD6A7D /* Pods_passExtension.framework */; };
+		300713C52219D54100F553AC /* AutoCellHeightUITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300713C42219D54100F553AC /* AutoCellHeightUITableViewController.swift */; };
 		301F6463216162550071A4CE /* AdditionField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6462216162550071A4CE /* AdditionField.swift */; };
 		301F6468216165290071A4CE /* ConstantsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6467216165290071A4CE /* ConstantsTest.swift */; };
 		301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F646C216166AA0071A4CE /* AdditionFieldTest.swift */; };
@@ -197,6 +198,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		300713C42219D54100F553AC /* AutoCellHeightUITableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCellHeightUITableViewController.swift; sourceTree = "<group>"; };
 		301F6462216162550071A4CE /* AdditionField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionField.swift; sourceTree = "<group>"; };
 		301F6467216165290071A4CE /* ConstantsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsTest.swift; sourceTree = "<group>"; };
 		301F646C216166AA0071A4CE /* AdditionFieldTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionFieldTest.swift; sourceTree = "<group>"; };
@@ -477,6 +479,7 @@
 			children = (
 				30C25DD621F4834D00BB27BB /* UICodeHighlightingLabel.swift */,
 				30C25DD521F4834D00BB27BB /* UILocalizedLabel.swift */,
+				300713C42219D54100F553AC /* AutoCellHeightUITableViewController.swift */,
 			);
 			path = UserInterface;
 			sourceTree = "<group>";
@@ -1291,6 +1294,7 @@
 				DC962CDF1E4B62C10033B5D8 /* AboutTableViewController.swift in Sources */,
 				30C25DD721F4834D00BB27BB /* UILocalizedLabel.swift in Sources */,
 				DC5734AE1E439AD400D09270 /* PasswordsViewController.swift in Sources */,
+				300713C52219D54100F553AC /* AutoCellHeightUITableViewController.swift in Sources */,
 				DCD3C65E1EFB9BB400CBE842 /* SettingsSplitViewController.swift in Sources */,
 				A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */,
 				DC3E64E61E656F11009A83DE /* CommitLogsTableViewController.swift in Sources */,

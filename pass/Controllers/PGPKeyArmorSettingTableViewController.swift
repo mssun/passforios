@@ -9,7 +9,7 @@
 import UIKit
 import passKit
 
-class PGPKeyArmorSettingTableViewController: UITableViewController, UITextViewDelegate, QRScannerControllerDelegate {
+class PGPKeyArmorSettingTableViewController: AutoCellHeightUITableViewController, UITextViewDelegate, QRScannerControllerDelegate {
     @IBOutlet weak var armorPublicKeyTextView: UITextView!
     @IBOutlet weak var armorPrivateKeyTextView: UITextView!
     @IBOutlet weak var scanPublicKeyCell: UITableViewCell!
