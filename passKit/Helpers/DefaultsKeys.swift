@@ -39,6 +39,7 @@ public extension DefaultsKeys {
     static let isRememberPGPPassphraseOn = DefaultsKey<Bool>("isRememberPGPPassphraseOn")
     static let isRememberGitCredentialPassphraseOn = DefaultsKey<Bool>("isRememberGitCredentialPassphraseOn")
     static let isShowFolderOn = DefaultsKey<Bool>("isShowFolderOn")
+    static let isHidePasswordImagesOn = DefaultsKey<Bool>("isHidePasswordImagesOn")
     static let isSearchDefaultAll = DefaultsKey<Bool>("isSearchDefaultAll")
     static let passwordGeneratorFlavor = DefaultsKey<String>("passwordGeneratorFlavor")
 

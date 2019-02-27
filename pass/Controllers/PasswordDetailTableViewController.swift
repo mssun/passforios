@@ -148,9 +148,11 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self?.setTableData()
             self?.tableView.reloadData()
             self?.editUIBarButtonItem.isEnabled = true
-            if let urlString = self?.password?.urlString {
-                if self?.passwordEntity?.getImage() == nil {
-                    self?.updatePasswordImage(urlString: urlString)
+            if !SharedDefaults[.isHidePasswordImagesOn] {
+                if let urlString = self?.password?.urlString {
+                    if self?.passwordEntity?.getImage() == nil {
+                        self?.updatePasswordImage(urlString: urlString)
+                    }
                 }
             }
         }
@@ -395,7 +397,11 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         switch(tableData[sectionIndex].type) {
         case .name:
             let cell = tableView.dequeueReusableCell(withIdentifier: "passwordDetailTitleTableViewCell", for: indexPath) as! PasswordDetailTitleTableViewCell
-            cell.passwordImageImageView.image = passwordImage ?? #imageLiteral(resourceName: "PasswordImagePlaceHolder")
+            if !SharedDefaults[.isHidePasswordImagesOn] {
+              cell.passwordImageImageView.image = passwordImage ?? #imageLiteral(resourceName: "PasswordImagePlaceHolder")
+            } else {
+              cell.passwordImageImageView.image = #imageLiteral(resourceName: "PasswordImagePlaceHolder")
+            }
             let passwordName = passwordEntity!.getName()
             if passwordEntity!.synced == false {
                 cell.nameLabel.text = "\(passwordName) ↻"
