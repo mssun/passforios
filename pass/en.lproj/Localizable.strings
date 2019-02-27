@@ -41,6 +41,8 @@
 "RememberPgpKeyPassphrase"          = "Remember PGP Key Passphrase";
 "RememberGitCredentialPassphrase"   = "Remember Git Credential Passphrase";
 "ShowFolders"                       = "Show Folders";
+"HidePasswordImages"                = "Hide Password Images";
+"HidePasswordImagesExplanation."    = "Associated favicon images are loaded and shown based upon the URL associated with an entry. Enable this option to hide these images and prevent them from being loaded.";
 "HideUnknownFields"                 = "Hide Unknown Fields";
 "HideUnknownFieldsExplanation."     = "Only \"key: value\" format in additional fields is supported. Unsupported fields will be given \"unknown\" keys. Turn on this switch to hide unsupported fields.";
 "HideOtpFields"                     = "Hide OTP Fields";

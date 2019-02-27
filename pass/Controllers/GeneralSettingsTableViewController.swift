@@ -55,6 +55,15 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         return uiSwitch
     }()
 
+    let hidePasswordImagesSwitch: UISwitch = {
+        let uiSwitch = UISwitch()
+        uiSwitch.onTintColor = Globals.blue
+        uiSwitch.sizeToFit()
+        uiSwitch.addTarget(self, action: #selector(hidePasswordImagesSwitchAction(_:)), for: UIControlEvents.valueChanged)
+        uiSwitch.isOn = SharedDefaults[.isHidePasswordImagesOn]
+        return uiSwitch
+    }()
+
     override func viewDidLoad() {
         tableData = [
             // section 0
@@ -72,6 +81,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             ],
             [
                 [.title: "ShowFolders".localize(), .action: "none",],
+                [.title: "HidePasswordImages".localize(), .action: "none",],
                 [.title: "HideUnknownFields".localize(), .action: "none",],
                 [.title: "HideOtpFields".localize(), .action: "none",],
             ],
@@ -120,6 +130,18 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             cell.accessoryType = .none
             cell.selectionStyle = .none
             cell.accessoryView = showFolderSwitch
+        case "HidePasswordImages".localize():
+            cell.accessoryType = .none
+            let detailButton = UIButton(type: .detailDisclosure)
+            hidePasswordImagesSwitch.frame = CGRect(x: detailButton.bounds.width+10, y: 0, width: hidePasswordImagesSwitch.bounds.width, height: hidePasswordImagesSwitch.bounds.height)
+            detailButton.frame = CGRect(x: 0, y: 5, width: detailButton.bounds.width, height: detailButton.bounds.height)
+            detailButton.addTarget(self, action: #selector(GeneralSettingsTableViewController.tapHidePasswordImagesSwitchDetailButton(_:)), for: UIControlEvents.touchDown)
+            let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: detailButton.bounds.width + hidePasswordImagesSwitch.bounds.width+10, height: hidePasswordImagesSwitch.bounds.height))
+            accessoryView.addSubview(detailButton)
+            accessoryView.addSubview(hidePasswordImagesSwitch)
+            cell.accessoryView = accessoryView
+            cell.selectionStyle = .none
+            hidePasswordImagesSwitch.isOn = SharedDefaults[.isHidePasswordImagesOn]
         case "PasswordGeneratorFlavor".localize():
             cell.accessoryType = .disclosureIndicator
             cell.detailTextLabel?.text = PasswordGeneratorFlavour.from(SharedDefaults[.passwordGeneratorFlavor]).name
@@ -180,6 +202,12 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
     }
 
+    @objc func tapHidePasswordImagesSwitchDetailButton(_ sender: Any?) {
+        let alertMessage = "HidePasswordImagesExplanation.".localize()
+        let alertTitle = "HidePasswordImages".localize()
+        Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
+    }
+
     @objc func hideUnknownSwitchAction(_ sender: Any?) {
         SharedDefaults[.isHideUnknownOn] = hideUnknownSwitch.isOn
         NotificationCenter.default.post(name: .passwordDetailDisplaySettingChanged, object: nil)
@@ -208,6 +236,11 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     @objc func showFolderSwitchAction(_ sender: Any?) {
         SharedDefaults[.isShowFolderOn] = showFolderSwitch.isOn
         NotificationCenter.default.post(name: .passwordDisplaySettingChanged, object: nil)
+    }
+
+    @objc func hidePasswordImagesSwitchAction(_ sender: Any?) {
+        SharedDefaults[.isHidePasswordImagesOn] = hidePasswordImagesSwitch.isOn
+        NotificationCenter.default.post(name: .passwordDetailDisplaySettingChanged, object: nil)
     }
 
 }
