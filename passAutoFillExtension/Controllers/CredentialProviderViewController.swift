@@ -126,7 +126,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
         }
     }
 
-    // define cell contents, and set long press action
+    // define cell contents
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
         let entry = getPasswordEntry(by: indexPath)
@@ -137,7 +137,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
         }
         cell.accessoryType = .none
         cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
-        cell.detailTextLabel?.text = entry.categoryText
+        cell.detailTextLabel?.text = entry.passwordEntity?.getCategoryText()
         return cell
     }
 
