@@ -194,7 +194,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidAppear(animated)
 
         if SharedDefaults[.isShowFolderOn] {
-            searchController.searchBar.scopeButtonTitles = ["Current".localize(), "All".localize()]
+            searchController.searchBar.scopeButtonTitles = SearchBarScope.allCases.map { $0.localizedName }
         } else {
             searchController.searchBar.scopeButtonTitles = nil
         }
@@ -487,9 +487,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
 
-    func filterContentForSearchText(searchText: String, scope: String = "All") {
+    func filterContentForSearchText(searchText: String, scope: SearchBarScope = .all) {
         switch scope {
-        case "All":
+        case .all:
             filteredPasswordsTableEntries = passwordsTableAllEntries.filter { entry in
                 let name = entry.passwordEntity?.nameWithCategory ?? entry.title
                 return name.localizedCaseInsensitiveContains(searchText)
@@ -499,7 +499,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             } else {
                 reloadTableView(data: passwordsTableAllEntries)
             }
-        case "Current":
+        case .current:
             filteredPasswordsTableEntries = passwordsTableEntries.filter { entry in
                 return entry.title.lowercased().contains(searchText.lowercased())
             }
@@ -508,8 +508,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             } else {
                 reloadTableView(data: passwordsTableEntries)
             }
-        default:
-            break
         }
 
 
@@ -587,7 +585,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         // update the default search scope
-        SharedDefaults[.isSearchDefaultAll] = searchController.searchBar.scopeButtonTitles![selectedScope] == "All"
+        SharedDefaults[.isSearchDefaultAll] = SearchBarScope(rawValue: selectedScope) == .all
         updateSearchResults(for: searchController)
     }
 
@@ -595,16 +593,16 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         // set the default search scope to "all"
         if SharedDefaults[.isShowFolderOn] && SharedDefaults[.isSearchDefaultAll] {
-            searchController.searchBar.selectedScopeButtonIndex = searchController.searchBar.scopeButtonTitles?.index(of: "All") ?? 0
+            searchController.searchBar.selectedScopeButtonIndex = SearchBarScope.all.rawValue
         } else {
-            searchController.searchBar.selectedScopeButtonIndex = 0
+            searchController.searchBar.selectedScopeButtonIndex = SearchBarScope.current.rawValue
         }
         return true
     }
 
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
         // set the default search scope to "current"
-        searchController.searchBar.selectedScopeButtonIndex = 0
+        searchController.searchBar.selectedScopeButtonIndex = SearchBarScope.current.rawValue
         updateSearchResults(for: searchController)
         return true
     }
@@ -646,10 +644,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
 extension PasswordsViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        var scope = "All"
-        if let scopeButtonTitles = searchController.searchBar.scopeButtonTitles {
-            scope = scopeButtonTitles[searchController.searchBar.selectedScopeButtonIndex]
-        }
+        let scope = SearchBarScope(rawValue: searchController.searchBar.selectedScopeButtonIndex) ?? .all
         filterContentForSearchText(searchText: searchController.searchBar.text!, scope: scope)
     }
 }
