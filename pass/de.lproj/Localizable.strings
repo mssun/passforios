@@ -41,6 +41,8 @@
 "RememberPgpKeyPassphrase"          = "GPG-Schlüssel-Passwort merken";
 "RememberGitCredentialPassphrase"   = "Git-Server-Passwort merken";
 "ShowFolders"                       = "Ordner anzeigen";
+"HidePasswordImages"                = "Favicons verstecken";
+"HidePasswordImagesExplanation."    = "Favicons werden basierend auf der assoziierten URL geladen und in Passworteinträgen angezeigt. Aktiviere diese Option, um das Laden dieser Bilder zu unterbinden und sie nicht anzuzeigen.";
 "HideUnknownFields"                 = "Unbekannte Felder verstecken";
 "HideUnknownFieldsExplanation."     = "Nur das Format \"key: value\" wird für zusätzliche Felder unterstützt. Felder, die nicht in dieser Form vorliegen, bekommen den Namen \"unknown\". Aktiviere diese Option, um solche Felder nicht anzuzeigen.";
 "HideOtpFields"                     = "OTP-Felder verstecken";
