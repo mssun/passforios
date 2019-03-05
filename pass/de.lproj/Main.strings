@@ -51,7 +51,7 @@
 "HXb-ZX-HUv.text" = "Aus";
 
 /* Class = "UIBarButtonItem"; title = "About"; ObjectID = "HhH-eq-XdK"; */
-"HhH-eq-XdK.title" = "Über die App";
+"HhH-eq-XdK.title" = "Repository";
 
 /* Class = "UINavigationItem"; title = "Edit Password"; ObjectID = "Hj9-Iq-kId"; */
 "Hj9-Iq-kId.title" = "Passwort bearbeiten";
@@ -96,7 +96,7 @@
 "New-sD-9Z1.title" = "Zurück";
 
 /* Class = "UINavigationItem"; title = "About"; ObjectID = "Pel-JD-Z5x"; */
-"Pel-JD-Z5x.title" = "Über die App";
+"Pel-JD-Z5x.title" = "App";
 
 /* Class = "UILabel"; text = "Private Key URL"; ObjectID = "Qht-RC-Yeg"; */
 "Qht-RC-Yeg.text" = "URL des privaten Schlüssels";
@@ -159,7 +159,7 @@
 "cd7-0l-AZW.text" = "Schlüssel im ASCII-Format";
 
 /* Class = "UINavigationItem"; title = "About Repository"; ObjectID = "cjL-hB-P6y"; */
-"cjL-hB-P6y.title" = "Über das Repository";
+"cjL-hB-P6y.title" = "Repository";
 
 /* Class = "UILabel"; text = "General"; ObjectID = "dOt-Rj-vWD"; */
 "dOt-Rj-vWD.text" = "Allgemein";
