@@ -398,9 +398,15 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         case .name:
             let cell = tableView.dequeueReusableCell(withIdentifier: "passwordDetailTitleTableViewCell", for: indexPath) as! PasswordDetailTitleTableViewCell
             if !SharedDefaults[.isHidePasswordImagesOn] {
-              cell.passwordImageImageView.image = passwordImage ?? #imageLiteral(resourceName: "PasswordImagePlaceHolder")
+                cell.labelCellConstraint.isActive = false
+                cell.labelImageConstraint.isActive = true
+                cell.passwordImageImageView.image = passwordImage ?? #imageLiteral(resourceName: "PasswordImagePlaceHolder")
+                cell.passwordImageImageView.isHidden = false
             } else {
-              cell.passwordImageImageView.image = #imageLiteral(resourceName: "PasswordImagePlaceHolder")
+                cell.passwordImageImageView.image = nil
+                cell.passwordImageImageView.isHidden = true
+                cell.labelImageConstraint.isActive = false
+                cell.labelCellConstraint.isActive = true
             }
             let passwordName = passwordEntity!.getName()
             if passwordEntity!.synced == false {
