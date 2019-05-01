@@ -30,11 +30,7 @@ public class PasswordStore {
     public var pgpKeyID: String?
     public var publicKey: Key? {
         didSet {
-            if publicKey != nil {
-                pgpKeyID = publicKey!.keyID.shortIdentifier
-            } else {
-                pgpKeyID = nil
-            }
+            pgpKeyID = publicKey?.keyID.shortIdentifier
         }
     }
     public var privateKey: Key?
