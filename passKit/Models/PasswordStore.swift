@@ -275,7 +275,6 @@ public class PasswordStore {
         } catch {
             fatalError("FailedToFetchPasswordEntities".localize(error))
         }
-        return true
     }
 
     public func passwordEntityExisted(path: String) -> Bool {
@@ -291,7 +290,6 @@ public class PasswordStore {
         } catch {
             fatalError("FailedToFetchPasswordEntities".localize(error))
         }
-        return true
     }
 
     public func getPasswordEntity(by path: String, isDir: Bool) -> PasswordEntity? {
