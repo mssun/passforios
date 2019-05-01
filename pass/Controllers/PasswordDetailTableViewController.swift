@@ -51,8 +51,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         tableView.addGestureRecognizer(tapGesture)
         tapGesture.delegate = self
 
-        tableView.contentInset = UIEdgeInsetsMake(-36, 0, 44, 0);
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.contentInset = UIEdgeInsets.init(top: -36, left: 0, bottom: 44, right: 0);
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 52
 
         editUIBarButtonItem.isEnabled = false
@@ -81,8 +81,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if self.shouldPopCurrentView {
-            let alert = UIAlertController(title: "Notice".localize(), message: "PreviousChangesDiscarded.".localize(), preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: {_ in
+            let alert = UIAlertController(title: "Notice".localize(), message: "PreviousChangesDiscarded.".localize(), preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
                 _ = self.navigationController?.popViewController(animated: true)
             }))
             self.present(alert, animated: true, completion: nil)
@@ -93,8 +93,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         let sem = DispatchSemaphore(value: 0)
         var passphrase = ""
         DispatchQueue.main.async {
-            let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: {_ in
+            let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
                 passphrase = alert.textFields!.first!.text!
                 sem.signal()
             }))
@@ -127,11 +127,11 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                     // remove the wrong passphrase so that users could enter it next time
                     self.passwordStore.pgpKeyPassphrase = nil
                     // alert: cancel or try again
-                    let alert = UIAlertController(title: "CannotShowPassword".localize(), message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertActionStyle.default) { _ in
+                    let alert = UIAlertController(title: "CannotShowPassword".localize(), message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertAction.Style.default) { _ in
                         self.navigationController!.popViewController(animated: true)
                     })
-                    alert.addAction(UIAlertAction(title: "TryAgain".localize(), style: UIAlertActionStyle.destructive) {_ in
+                    alert.addAction(UIAlertAction(title: "TryAgain".localize(), style: UIAlertAction.Style.destructive) {_ in
                         self.decryptThenShowPassword()
                     })
                     self.present(alert, animated: true, completion: nil)
@@ -301,8 +301,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             if case let .success(image) = result {
                 let indexPath = IndexPath(row: 0, section: 0)
                 self?.passwordImage = image
-                self?.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
-                let imageData = UIImageJPEGRepresentation(image, 1)
+                self?.tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+                let imageData = image.jpegData(compressionQuality: 1)
                 if let entity = self?.passwordEntity {
                     self?.passwordStore.updateImage(passwordEntity: entity, image: imageData)
                 }
@@ -311,7 +311,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
 
     @objc private func tapMenu(recognizer: UITapGestureRecognizer)  {
-        if recognizer.state == UIGestureRecognizerState.ended {
+        if recognizer.state == UIGestureRecognizer.State.ended {
             let tapLocation = recognizer.location(in: self.tableView)
             if let tapIndexPath = self.tableView.indexPathForRow(at: tapLocation) {
                 if let tappedCell = self.tableView.cellForRow(at: tapIndexPath) as? LabelTableViewCell {

@@ -11,7 +11,7 @@ import UIKit
 
 class SecurePasteboard {
     public static let shared = SecurePasteboard()
-    private var backgroundTaskID = UIBackgroundTaskInvalid
+    private var backgroundTaskID = UIBackgroundTaskIdentifier.invalid
 
     func copy(textToCopy: String?, expirationTime: Double = 45) {
         // copy to the pasteboard
@@ -23,21 +23,21 @@ class SecurePasteboard {
         }
 
         // exit the existing background task, if any
-        if backgroundTaskID != UIBackgroundTaskInvalid {
-            UIApplication.shared.endBackgroundTask(UIBackgroundTaskInvalid)
-            self.backgroundTaskID = UIBackgroundTaskInvalid
+        if backgroundTaskID != UIBackgroundTaskIdentifier.invalid {
+            UIApplication.shared.endBackgroundTask(UIBackgroundTaskIdentifier.invalid)
+            self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
         }
 
         backgroundTaskID = UIApplication.shared.beginBackgroundTask(expirationHandler: { [weak self] in
             UIPasteboard.general.string = ""
-            UIApplication.shared.endBackgroundTask(UIBackgroundTaskInvalid)
-            self?.backgroundTaskID = UIBackgroundTaskInvalid
+            UIApplication.shared.endBackgroundTask(UIBackgroundTaskIdentifier.invalid)
+            self?.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
         })
 
         DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + expirationTime) { [weak self] in
             UIPasteboard.general.string = ""
-            UIApplication.shared.endBackgroundTask(UIBackgroundTaskInvalid)
-            self?.backgroundTaskID = UIBackgroundTaskInvalid
+            UIApplication.shared.endBackgroundTask(UIBackgroundTaskIdentifier.invalid)
+            self?.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
         }
     }
 

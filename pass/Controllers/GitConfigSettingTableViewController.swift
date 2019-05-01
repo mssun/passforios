@@ -18,7 +18,7 @@ class GitConfigSettingTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
 
         let signature = passwordStore.gitSignatureForNow
         nameTextField.placeholder = signature.name

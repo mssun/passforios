@@ -22,7 +22,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Globals.blue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(encryptInASCIIArmoredAction(_:)), for: UIControlEvents.valueChanged)
+        uiSwitch.addTarget(self, action: #selector(encryptInASCIIArmoredAction(_:)), for: UIControl.Event.valueChanged)
         return uiSwitch
     }()
 
@@ -48,19 +48,19 @@ class AdvancedSettingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if tableView.cellForRow(at: indexPath) == eraseDataTableViewCell {
-            let alert = UIAlertController(title: "ErasePasswordStoreData?".localize(), message: "EraseExplanation.".localize(), preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertActionStyle.destructive, handler: {[unowned self] (action) -> Void in
+            let alert = UIAlertController(title: "ErasePasswordStoreData?".localize(), message: "EraseExplanation.".localize(), preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive, handler: {[unowned self] (action) -> Void in
                 SVProgressHUD.show(withStatus: "Erasing...".localize())
                 self.passwordStore.erase()
                 self.navigationController!.popViewController(animated: true)
                 SVProgressHUD.showSuccess(withStatus: "Done".localize())
                 SVProgressHUD.dismiss(withDelay: 1)
             }))
-            alert.addAction(UIAlertAction(title: "Dismiss".localize(), style: UIAlertActionStyle.cancel, handler:nil))
+            alert.addAction(UIAlertAction(title: "Dismiss".localize(), style: UIAlertAction.Style.cancel, handler:nil))
             self.present(alert, animated: true, completion: nil)
         } else if tableView.cellForRow(at: indexPath) == discardChangesTableViewCell {
-            let alert = UIAlertController(title: "DiscardAllLocalChanges?".localize(), message: "DiscardExplanation.".localize(), preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "DiscardAllLocalChanges".localize(), style: UIAlertActionStyle.destructive, handler: {[unowned self] (action) -> Void in
+            let alert = UIAlertController(title: "DiscardAllLocalChanges?".localize(), message: "DiscardExplanation.".localize(), preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "DiscardAllLocalChanges".localize(), style: UIAlertAction.Style.destructive, handler: {[unowned self] (action) -> Void in
                 SVProgressHUD.show(withStatus: "Resetting...".localize())
                 do {
                     let numberDiscarded = try self.passwordStore.reset()
@@ -72,7 +72,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
                 }
 
             }))
-            alert.addAction(UIAlertAction(title: "Dismiss".localize(), style: UIAlertActionStyle.cancel, handler:nil))
+            alert.addAction(UIAlertAction(title: "Dismiss".localize(), style: UIAlertAction.Style.cancel, handler:nil))
             self.present(alert, animated: true, completion: nil)
         }
     }

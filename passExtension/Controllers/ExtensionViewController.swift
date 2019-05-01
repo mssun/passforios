@@ -214,8 +214,8 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
         let sem = DispatchSemaphore(value: 0)
         var passphrase = ""
         DispatchQueue.main.async {
-            let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: {_ in
+            let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
                 passphrase = alert.textFields!.first!.text!
                 sem.signal()
             }))

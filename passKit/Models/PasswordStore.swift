@@ -109,7 +109,7 @@ public class PasswordStore {
     }
 
     public var numberOfLocalCommits: Int? {
-        return (try? getLocalCommits())?.flatMap { $0.count }
+        return (try? getLocalCommits())?.count
     }
 
     public var lastSyncedTime: Date? {

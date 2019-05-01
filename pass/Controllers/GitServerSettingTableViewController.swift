@@ -121,16 +121,16 @@ class GitServerSettingTableViewController: UITableViewController {
                     SharedDefaults[.gitBranchName] = branchName
                     SharedDefaults[.gitAuthenticationMethod] = auth
                     SVProgressHUD.dismiss()
-                    let savePassphraseAlert = UIAlertController(title: "Done".localize(), message: "WantToSaveGitCredential?".localize(), preferredStyle: UIAlertControllerStyle.alert)
+                    let savePassphraseAlert = UIAlertController(title: "Done".localize(), message: "WantToSaveGitCredential?".localize(), preferredStyle: UIAlertController.Style.alert)
                     // no
-                    savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: UIAlertActionStyle.default) { _ in
+                    savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: UIAlertAction.Style.default) { _ in
                         SharedDefaults[.isRememberGitCredentialPassphraseOn] = false
                         self.passwordStore.gitPassword = nil
                         self.passwordStore.gitSSHPrivateKeyPassphrase = nil
                         self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
                     })
                     // yes
-                    savePassphraseAlert.addAction(UIAlertAction(title: "Yes".localize(), style: UIAlertActionStyle.destructive) {_ in
+                    savePassphraseAlert.addAction(UIAlertAction(title: "Yes".localize(), style: UIAlertAction.Style.destructive) {_ in
                         SharedDefaults[.isRememberGitCredentialPassphraseOn] = true
                         self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
                     })
@@ -195,12 +195,12 @@ class GitServerSettingTableViewController: UITableViewController {
         }
 
         if passwordStore.repositoryExisted() {
-            let alert = UIAlertController(title: "Overwrite?".localize(), message: "OperationWillOverwriteData.".localize(), preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Overwrite".localize(), style: UIAlertActionStyle.destructive, handler: { _ in
+            let alert = UIAlertController(title: "Overwrite?".localize(), message: "OperationWillOverwriteData.".localize(), preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Overwrite".localize(), style: UIAlertAction.Style.destructive, handler: { _ in
                 // perform segue only after a successful clone
                 self.cloneAndSegueIfSuccess()
             }))
-            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertActionStyle.cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertAction.Style.cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
         } else {
             // perform segue only after a successful clone
@@ -285,12 +285,12 @@ class GitServerSettingTableViewController: UITableViewController {
 
         DispatchQueue.main.async {
             SVProgressHUD.dismiss()
-            let alert = UIAlertController(title: "Password".localize(), message: message, preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "Password".localize(), message: message, preferredStyle: UIAlertController.Style.alert)
             alert.addTextField(configurationHandler: {(textField: UITextField!) in
                 textField.text = lastPassword ?? ""
                 textField.isSecureTextEntry = true
             })
-            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: {_ in
+            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
                 password = alert.textFields!.first!.text
                 sem.signal()
             }))
