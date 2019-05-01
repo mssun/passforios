@@ -13,7 +13,6 @@
 		301F6463216162550071A4CE /* AdditionField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6462216162550071A4CE /* AdditionField.swift */; };
 		301F6468216165290071A4CE /* ConstantsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6467216165290071A4CE /* ConstantsTest.swift */; };
 		301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F646C216166AA0071A4CE /* AdditionFieldTest.swift */; };
-		302202EF222F14E400555236 /* SearchBarScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302202EE222F14E400555236 /* SearchBarScope.swift */; };
 		302E85612125ECC70031BA64 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302E85602125ECC70031BA64 /* Parser.swift */; };
 		302E85632125EE550031BA64 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302E85622125EE550031BA64 /* Constants.swift */; };
 		30697C2A21F63C5A0064FCAC /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2321F63C580064FCAC /* NotificationNames.swift */; };
@@ -42,6 +41,7 @@
 		30697C5421F63E0B0064FCAC /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C5221F63E0B0064FCAC /* CredentialProviderViewController.swift */; };
 		30697C5F21F674800064FCAC /* String+UtilitiesTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C5E21F674800064FCAC /* String+UtilitiesTest.swift */; };
 		307BF39921BC2298003A082D /* TestBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307BF39821BC2297003A082D /* TestBase.swift */; };
+		308C273A2279F9CB0016D0E2 /* SearchBarScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302202EE222F14E400555236 /* SearchBarScope.swift */; };
 		30A1D29C21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D29B21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift */; };
 		30A1D2A221B2BC6F00E2D1F7 /* TokenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A121B2BC6F00E2D1F7 /* TokenBuilder.swift */; };
 		30A1D2A621B2D46100E2D1F7 /* OtpType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A521B2D46100E2D1F7 /* OtpType.swift */; };
@@ -602,6 +602,7 @@
 				30697C2421F63C590064FCAC /* Globals.swift */,
 				30697C2321F63C580064FCAC /* NotificationNames.swift */,
 				30697C2621F63C590064FCAC /* PasswordGeneratorFlavour.swift */,
+				302202EE222F14E400555236 /* SearchBarScope.swift */,
 				30697C2721F63C590064FCAC /* Utils.swift */,
 			);
 			path = Helpers;
@@ -665,7 +666,6 @@
 			isa = PBXGroup;
 			children = (
 				A2BC54C71EEE5669001FAFBD /* Objective-CBridgingHeader.h */,
-				302202EE222F14E400555236 /* SearchBarScope.swift */,
 				A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */,
 				A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */,
 			);
@@ -1233,6 +1233,7 @@
 				30697C4821F63CAB0064FCAC /* PasswordStore.swift in Sources */,
 				A26075AD1EEC7125005DB03E /* pass.xcdatamodeld in Sources */,
 				30697C2D21F63C5A0064FCAC /* PasswordGeneratorFlavour.swift in Sources */,
+				308C273A2279F9CB0016D0E2 /* SearchBarScope.swift in Sources */,
 				30697C2F21F63C5A0064FCAC /* DefaultsKeys.swift in Sources */,
 				30A1D2A821B2D53200E2D1F7 /* PasswordChange.swift in Sources */,
 				30697C3E21F63C990064FCAC /* String+Utilities.swift in Sources */,
@@ -1300,7 +1301,6 @@
 				DCFB77AB1E503729008DE471 /* ContentTableViewCell.swift in Sources */,
 				DCA0499C1E3362F400522E8F /* PGPKeySettingTableViewController.swift in Sources */,
 				DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */,
-				302202EF222F14E400555236 /* SearchBarScope.swift in Sources */,
 				DC5F385B1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift in Sources */,
 				DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */,
 				DCFB77A71E502DF9008DE471 /* EditPasswordTableViewController.swift in Sources */,

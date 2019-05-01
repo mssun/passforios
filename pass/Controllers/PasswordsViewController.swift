@@ -585,14 +585,14 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         // update the default search scope
-        SharedDefaults[.isSearchDefaultAll] = SearchBarScope(rawValue: selectedScope) == .all
+        SharedDefaults[.searchDefault] = SearchBarScope(rawValue: selectedScope) ?? .all
         updateSearchResults(for: searchController)
     }
 
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         // set the default search scope to "all"
-        if SharedDefaults[.isShowFolderOn] && SharedDefaults[.isSearchDefaultAll] {
+        if SharedDefaults[.isShowFolderOn] && SharedDefaults[.searchDefault] == .all {
             searchController.searchBar.selectedScopeButtonIndex = SearchBarScope.all.rawValue
         } else {
             searchController.searchBar.selectedScopeButtonIndex = SearchBarScope.current.rawValue

@@ -22,7 +22,7 @@ public extension DefaultsKeys {
     static let gitURL = DefaultsKey<URL?>("gitURL")
     static let gitAuthenticationMethod = DefaultsKey<String?>("gitAuthenticationMethod")
     static let gitUsername = DefaultsKey<String?>("gitUsername")
-    static let gitBranchName = DefaultsKey<String?>("gitBranchName")
+    static let gitBranchName = DefaultsKey<String>("gitBranchName", defaultValue: "master")
     static let gitSSHPrivateKeyURL = DefaultsKey<URL?>("gitSSHPrivateKeyURL")
     static let gitSSHKeySource = DefaultsKey<String?>("gitSSHKeySource")
     static let gitSSHPrivateKeyArmor = DefaultsKey<String?>("gitSSHPrivateKeyArmor")
@@ -40,7 +40,7 @@ public extension DefaultsKeys {
     static let isRememberGitCredentialPassphraseOn = DefaultsKey<Bool>("isRememberGitCredentialPassphraseOn", defaultValue: false)
     static let isShowFolderOn = DefaultsKey<Bool>("isShowFolderOn", defaultValue: true)
     static let isHidePasswordImagesOn = DefaultsKey<Bool>("isHidePasswordImagesOn", defaultValue: false)
-    static let isSearchDefaultAll = DefaultsKey<Bool>("isSearchDefaultAll", defaultValue: true)
+    static let searchDefault = DefaultsKey<SearchBarScope>("searchDefault", defaultValue: .all)
     static let passwordGeneratorFlavor = DefaultsKey<String>("passwordGeneratorFlavor", defaultValue: "Apple")
 
     static let encryptInArmored = DefaultsKey<Bool>("encryptInArmored", defaultValue: false)
