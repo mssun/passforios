@@ -76,7 +76,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
         }
 
         for extensionItem in extensionItems {
-            if let itemProviders = extensionItem.attachments as? [NSItemProvider] {
+            if let itemProviders = extensionItem.attachments {
                 for provider in itemProviders {
                     // search using the extensionContext inputs
                     if provider.hasItemConformingToTypeIdentifier(OnePasswordExtensionActions.findLogin) {
