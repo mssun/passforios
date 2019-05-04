@@ -585,7 +585,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         // update the default search scope
-        SharedDefaults[.searchDefault] = SearchBarScope(rawValue: selectedScope) ?? .all
+        SharedDefaults[.searchDefault] = SearchBarScope(rawValue: selectedScope)
         updateSearchResults(for: searchController)
     }
 

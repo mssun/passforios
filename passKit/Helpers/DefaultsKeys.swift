@@ -40,7 +40,7 @@ public extension DefaultsKeys {
     static let isRememberGitCredentialPassphraseOn = DefaultsKey<Bool>("isRememberGitCredentialPassphraseOn", defaultValue: false)
     static let isShowFolderOn = DefaultsKey<Bool>("isShowFolderOn", defaultValue: true)
     static let isHidePasswordImagesOn = DefaultsKey<Bool>("isHidePasswordImagesOn", defaultValue: false)
-    static let searchDefault = DefaultsKey<SearchBarScope>("searchDefault", defaultValue: .all)
+    static let searchDefault = DefaultsKey<SearchBarScope?>("searchDefault", defaultValue: .all)
     static let passwordGeneratorFlavor = DefaultsKey<String>("passwordGeneratorFlavor", defaultValue: "Apple")
 
     static let encryptInArmored = DefaultsKey<Bool>("encryptInArmored", defaultValue: false)
