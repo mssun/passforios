@@ -13,8 +13,8 @@ import passKit
 extension Utils {
     static func alert(title: String, message: String, controller: UIViewController, handler: ((UIAlertAction) -> Void)? = nil, completion: (() -> Void)? = nil) {
         SVProgressHUD.dismiss()
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: handler))
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: handler))
         controller.present(alert, animated: true, completion: completion)
     }
 }

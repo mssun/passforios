@@ -12,12 +12,6 @@ import XCTest
 
 class PasswordTest: XCTestCase {
 
-    override static func setUp() {
-        super.setUp()
-        SharedDefaults[.isHideUnknownOn] = false
-        SharedDefaults[.isHideOTPOn] = false
-    }
-
     func testUrl() {
         let password = getPasswordObjectWith(content: "")
 

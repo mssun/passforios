@@ -6,11 +6,13 @@
 //  Copyright © 2019 Bob Sun. All rights reserved.
 //
 
-enum SearchBarScope: Int, CaseIterable {
+import SwiftyUserDefaults
+
+public enum SearchBarScope: Int, CaseIterable, DefaultsSerializable {
     case current
     case all
 
-    var localizedName: String {
+    public var localizedName: String {
         switch self {
         case .current:
             return "Current".localize()

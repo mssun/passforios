@@ -44,7 +44,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }()
     private lazy var syncControl: UIRefreshControl = {
         let syncControl = UIRefreshControl()
-        syncControl.addTarget(self, action: #selector(handleRefresh(_:)), for: UIControlEvents.valueChanged)
+        syncControl.addTarget(self, action: #selector(handleRefresh(_:)), for: UIControl.Event.valueChanged)
         return syncControl
     }()
     private lazy var searchBarView: UIView? = {
@@ -62,21 +62,21 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     private lazy var transitionFromRight: CATransition = {
         let transition = CATransition()
-        transition.type = kCATransitionPush
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        transition.fillMode = kCAFillModeForwards
+        transition.type = CATransitionType.push
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.fillMode = CAMediaTimingFillMode.forwards
         transition.duration = 0.25
-        transition.subtype = kCATransitionFromRight
+        transition.subtype = CATransitionSubtype.fromRight
         return transition
     }()
 
     private lazy var transitionFromLeft: CATransition = {
         let transition = CATransition()
-        transition.type = kCATransitionPush
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        transition.fillMode = kCAFillModeForwards
+        transition.type = CATransitionType.push
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.fillMode = CAMediaTimingFillMode.forwards
         transition.duration = 0.25
-        transition.subtype = kCATransitionFromLeft
+        transition.subtype = CATransitionSubtype.fromLeft
         return transition
     }()
 
@@ -213,7 +213,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             navigationItem.hidesSearchBarWhenScrolling = false
         } else {
             // Fallback on earlier versions
-            tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0)
+            tableView.contentInset = UIEdgeInsets.init(top: 44, left: 0, bottom: 0, right: 0)
             view.addSubview(searchBarView!)
         }
         tableView.refreshControl = syncControl
@@ -231,7 +231,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
         // listen to the swipe back guesture
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
-        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
         self.view.addGestureRecognizer(swipeRight)
     }
 
@@ -337,7 +337,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     @objc func longPressAction(_ gesture: UILongPressGestureRecognizer) {
-        if gesture.state == UIGestureRecognizerState.began {
+        if gesture.state == UIGestureRecognizer.State.began {
             let touchPoint = gesture.location(in: tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
                 decryptThenCopyPassword(from: indexPath)
@@ -365,8 +365,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         let sem = DispatchSemaphore(value: 0)
         var passphrase = ""
         DispatchQueue.main.async {
-            let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: {_ in
+            let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
                 passphrase = alert.textFields!.first!.text!
                 sem.signal()
             }))
@@ -585,14 +585,14 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         // update the default search scope
-        SharedDefaults[.isSearchDefaultAll] = SearchBarScope(rawValue: selectedScope) == .all
+        SharedDefaults[.searchDefault] = SearchBarScope(rawValue: selectedScope)
         updateSearchResults(for: searchController)
     }
 
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         // set the default search scope to "all"
-        if SharedDefaults[.isShowFolderOn] && SharedDefaults[.isSearchDefaultAll] {
+        if SharedDefaults[.isShowFolderOn] && SharedDefaults[.searchDefault] == .all {
             searchController.searchBar.selectedScopeButtonIndex = SearchBarScope.all.rawValue
         } else {
             searchController.searchBar.selectedScopeButtonIndex = SearchBarScope.current.rawValue
@@ -620,12 +620,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
         DispatchQueue.main.async {
             SVProgressHUD.dismiss()
-            let alert = UIAlertController(title: "Password".localize(), message: message, preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "Password".localize(), message: message, preferredStyle: UIAlertController.Style.alert)
             alert.addTextField(configurationHandler: {(textField: UITextField!) in
                 textField.text = lastPassword ?? ""
                 textField.isSecureTextEntry = true
             })
-            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: {_ in
+            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
                 password = alert.textFields!.first!.text
                 sem.signal()
             }))

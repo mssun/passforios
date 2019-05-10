@@ -47,12 +47,12 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         self.passcodeWrongAttemptsLabel = passcodeWrongAttemptsLabel
 
         let passcodeTextField =  UITextField(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
-        passcodeTextField.borderStyle = UITextBorderStyle.roundedRect
+        passcodeTextField.borderStyle = UITextField.BorderStyle.roundedRect
         passcodeTextField.placeholder = "Passcode".localize()
         passcodeTextField.isSecureTextEntry = true
-        passcodeTextField.clearButtonMode = UITextFieldViewMode.whileEditing
+        passcodeTextField.clearButtonMode = UITextField.ViewMode.whileEditing
         passcodeTextField.delegate = self
-        passcodeTextField.addTarget(self, action: #selector(self.passcodeTextFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+        passcodeTextField.addTarget(self, action: #selector(self.passcodeTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         self.view.backgroundColor = UIColor.white
         passcodeTextField.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(passcodeTextField)
@@ -88,7 +88,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         cancelButton.addTarget(self, action: #selector(passcodeLockDidCancel), for: .touchUpInside)
         cancelButton.isHidden = !self.isCancellable
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        cancelButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
+        cancelButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
         self.view.addSubview(cancelButton)
         self.cancelButton = cancelButton
 

@@ -68,7 +68,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             // Move the message label to the front
             scannerOutput.layer.cornerRadius = 10
             scannerOutput.text = "NoQrCodeDetected.".localize()
-            view.bringSubview(toFront: scannerOutput)
+            view.bringSubviewToFront(scannerOutput)
 
             // Initialize QR Code Frame to highlight the QR code
             qrCodeFrameView = UIView()
@@ -77,7 +77,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
                 qrCodeFrameView.layer.borderColor = UIColor.green.cgColor
                 qrCodeFrameView.layer.borderWidth = 2
                 view.addSubview(qrCodeFrameView)
-                view.bringSubview(toFront: qrCodeFrameView)
+                view.bringSubviewToFront(qrCodeFrameView)
             }
 
         } catch {
@@ -135,7 +135,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
                                                 preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Cancel".localize(), style: .default))
         alertController.addAction(UIAlertAction(title: "Settings".localize(), style: .cancel) { _ in
-            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+            if let url = URL(string: UIApplication.openSettingsURLString) {
                 UIApplication.shared.open(url, options: [:], completionHandler: { _ in
                     // Handle
                 })

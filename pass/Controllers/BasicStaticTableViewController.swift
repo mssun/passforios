@@ -65,7 +65,7 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
         if let detailText = cellData[CellDataKey.detailText] as? String {
             cell?.detailTextLabel?.text = detailText
         }
-        if let accessoryType = cellData[CellDataKey.accessoryType] as? UITableViewCellAccessoryType {
+        if let accessoryType = cellData[CellDataKey.accessoryType] as? UITableViewCell.AccessoryType {
             cell?.accessoryType = accessoryType
         } else {
             cell?.accessoryType = .disclosureIndicator

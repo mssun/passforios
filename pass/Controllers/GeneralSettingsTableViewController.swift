@@ -16,7 +16,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Globals.blue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(hideUnknownSwitchAction(_:)), for: UIControlEvents.valueChanged)
+        uiSwitch.addTarget(self, action: #selector(hideUnknownSwitchAction(_:)), for: UIControl.Event.valueChanged)
         return uiSwitch
     }()
 
@@ -24,7 +24,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Globals.blue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(hideOTPSwitchAction(_:)), for: UIControlEvents.valueChanged)
+        uiSwitch.addTarget(self, action: #selector(hideOTPSwitchAction(_:)), for: UIControl.Event.valueChanged)
         return uiSwitch
     }()
 
@@ -32,7 +32,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Globals.blue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(rememberPGPPassphraseSwitchAction(_:)), for: UIControlEvents.valueChanged)
+        uiSwitch.addTarget(self, action: #selector(rememberPGPPassphraseSwitchAction(_:)), for: UIControl.Event.valueChanged)
         uiSwitch.isOn = SharedDefaults[.isRememberPGPPassphraseOn]
         return uiSwitch
     }()
@@ -41,7 +41,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Globals.blue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(rememberGitCredentialPassphraseSwitchAction(_:)), for: UIControlEvents.valueChanged)
+        uiSwitch.addTarget(self, action: #selector(rememberGitCredentialPassphraseSwitchAction(_:)), for: UIControl.Event.valueChanged)
         uiSwitch.isOn = SharedDefaults[.isRememberGitCredentialPassphraseOn]
         return uiSwitch
     }()
@@ -50,7 +50,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Globals.blue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(showFolderSwitchAction(_:)), for: UIControlEvents.valueChanged)
+        uiSwitch.addTarget(self, action: #selector(showFolderSwitchAction(_:)), for: UIControl.Event.valueChanged)
         uiSwitch.isOn = SharedDefaults[.isShowFolderOn]
         return uiSwitch
     }()
@@ -59,7 +59,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Globals.blue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(hidePasswordImagesSwitchAction(_:)), for: UIControlEvents.valueChanged)
+        uiSwitch.addTarget(self, action: #selector(hidePasswordImagesSwitchAction(_:)), for: UIControl.Event.valueChanged)
         uiSwitch.isOn = SharedDefaults[.isHidePasswordImagesOn]
         return uiSwitch
     }()
@@ -99,7 +99,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             let detailButton = UIButton(type: .detailDisclosure)
             hideUnknownSwitch.frame = CGRect(x: detailButton.bounds.width+10, y: 0, width: hideUnknownSwitch.bounds.width, height: hideUnknownSwitch.bounds.height)
             detailButton.frame = CGRect(x: 0, y: 5, width: detailButton.bounds.width, height: detailButton.bounds.height)
-            detailButton.addTarget(self, action: #selector(GeneralSettingsTableViewController.tapHideUnknownSwitchDetailButton(_:)), for: UIControlEvents.touchDown)
+            detailButton.addTarget(self, action: #selector(GeneralSettingsTableViewController.tapHideUnknownSwitchDetailButton(_:)), for: UIControl.Event.touchDown)
             let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: detailButton.bounds.width + hideUnknownSwitch.bounds.width+10, height: hideUnknownSwitch.bounds.height))
             accessoryView.addSubview(detailButton)
             accessoryView.addSubview(hideUnknownSwitch)
@@ -111,7 +111,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             let detailButton = UIButton(type: .detailDisclosure)
             hideOTPSwitch.frame = CGRect(x: detailButton.bounds.width+10, y: 0, width: hideOTPSwitch.bounds.width, height: hideOTPSwitch.bounds.height)
             detailButton.frame = CGRect(x: 0, y: 5, width: detailButton.bounds.width, height: detailButton.bounds.height)
-            detailButton.addTarget(self, action: #selector(GeneralSettingsTableViewController.tapHideOTPSwitchDetailButton(_:)), for: UIControlEvents.touchDown)
+            detailButton.addTarget(self, action: #selector(GeneralSettingsTableViewController.tapHideOTPSwitchDetailButton(_:)), for: UIControl.Event.touchDown)
             let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: detailButton.bounds.width + hideOTPSwitch.bounds.width+10, height: hideOTPSwitch.bounds.height))
             accessoryView.addSubview(detailButton)
             accessoryView.addSubview(hideOTPSwitch)
@@ -135,7 +135,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             let detailButton = UIButton(type: .detailDisclosure)
             hidePasswordImagesSwitch.frame = CGRect(x: detailButton.bounds.width+10, y: 0, width: hidePasswordImagesSwitch.bounds.width, height: hidePasswordImagesSwitch.bounds.height)
             detailButton.frame = CGRect(x: 0, y: 5, width: detailButton.bounds.width, height: detailButton.bounds.height)
-            detailButton.addTarget(self, action: #selector(GeneralSettingsTableViewController.tapHidePasswordImagesSwitchDetailButton(_:)), for: UIControlEvents.touchDown)
+            detailButton.addTarget(self, action: #selector(GeneralSettingsTableViewController.tapHidePasswordImagesSwitchDetailButton(_:)), for: UIControl.Event.touchDown)
             let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: detailButton.bounds.width + hidePasswordImagesSwitch.bounds.width+10, height: hidePasswordImagesSwitch.bounds.height))
             accessoryView.addSubview(detailButton)
             accessoryView.addSubview(hidePasswordImagesSwitch)

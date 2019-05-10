@@ -30,11 +30,7 @@ public class PasswordStore {
     public var pgpKeyID: String?
     public var publicKey: Key? {
         didSet {
-            if publicKey != nil {
-                pgpKeyID = publicKey!.keyID.shortIdentifier
-            } else {
-                pgpKeyID = nil
-            }
+            pgpKeyID = publicKey?.keyID.shortIdentifier
         }
     }
     public var privateKey: Key?
@@ -113,7 +109,7 @@ public class PasswordStore {
     }
 
     public var numberOfLocalCommits: Int? {
-        return (try? getLocalCommits())?.flatMap { $0.count }
+        return (try? getLocalCommits())?.count
     }
 
     public var lastSyncedTime: Date? {
@@ -275,7 +271,6 @@ public class PasswordStore {
         } catch {
             fatalError("FailedToFetchPasswordEntities".localize(error))
         }
-        return true
     }
 
     public func passwordEntityExisted(path: String) -> Bool {
@@ -291,7 +286,6 @@ public class PasswordStore {
         } catch {
             fatalError("FailedToFetchPasswordEntities".localize(error))
         }
-        return true
     }
 
     public func getPasswordEntity(by path: String, isDir: Bool) -> PasswordEntity? {
@@ -588,7 +582,7 @@ public class PasswordStore {
         do {
             let credentialProvider = try credential.credentialProvider(requestGitPassword: requestGitPassword)
             let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
-            if let branch = try getLocalBranch(withName: SharedDefaults[.gitBranchName]!) {
+            if let branch = try getLocalBranch(withName: SharedDefaults[.gitBranchName]) {
                 let remote = try GTRemote(name: "origin", in: storeRepository)
                 try storeRepository.push(branch, to: remote, withOptions: options, progress: transferProgressBlock)
             }
@@ -811,7 +805,7 @@ public class PasswordStore {
             throw AppError.RepositoryNotSet
         }
         // get the remote branch
-        let remoteBranchName = SharedDefaults[.gitBranchName]!
+        let remoteBranchName = SharedDefaults[.gitBranchName]
         guard let remoteBranch = try storeRepository.remoteBranches().first(where: { $0.shortName == remoteBranchName }) else {
             throw AppError.RepositoryRemoteBranchNotFound(remoteBranchName)
         }

@@ -13,7 +13,7 @@ import KeychainAccess
 public class Utils {
     public static func getPasswordFromKeychain(name: String) -> String? {
         let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
-        return (try? keychain.getString(name)) ?? nil
+        return try? keychain.getString(name)
     }
 
     public static func addPasswordToKeychain(name: String, password: String?) {
@@ -49,14 +49,14 @@ public class Utils {
             } else {
                 charColor = Globals.letterColor
             }
-            attributedPassword.addAttribute(NSAttributedStringKey.foregroundColor, value: charColor, range: NSRange(location: index, length: 1))
+            attributedPassword.addAttribute(NSAttributedString.Key.foregroundColor, value: charColor, range: NSRange(location: index, length: 1))
         }
         return attributedPassword
     }
 
     public static func alert(title: String, message: String, controller: UIViewController, handler: ((UIAlertAction) -> Void)? = nil, completion: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: handler))
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: handler))
         controller.present(alert, animated: true, completion: completion)
     }
 }

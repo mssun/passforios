@@ -75,9 +75,9 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         tableView.register(UINib(nibName: "FillPasswordTableViewCell", bundle: nil), forCellReuseIdentifier: "fillPasswordCell")
         tableView.register(UINib(nibName: "SliderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordLengthCell")
 
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 48
-        self.tableView.sectionFooterHeight = UITableViewAutomaticDimension;
+        self.tableView.sectionFooterHeight = UITableView.automaticDimension;
         self.tableView.estimatedSectionFooterHeight = 0;
     }
     override func viewDidLayoutSubviews() {
@@ -161,11 +161,11 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCell = tableView.cellForRow(at: indexPath)
         if selectedCell == deletePasswordCell {
-            let alert = UIAlertController(title: "DeletePassword?".localize(), message: nil, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Delete".localize(), style: UIAlertActionStyle.destructive, handler: {[unowned self] (action) -> Void in
+            let alert = UIAlertController(title: "DeletePassword?".localize(), message: nil, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Delete".localize(), style: UIAlertAction.Style.destructive, handler: {[unowned self] (action) -> Void in
                 self.performSegue(withIdentifier: "deletePasswordSegue", sender: self)
             }))
-            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertActionStyle.cancel, handler:nil))
+            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertAction.Style.cancel, handler:nil))
             self.present(alert, animated: true, completion: nil)
         } else if selectedCell == scanQRCodeCell {
             self.performSegue(withIdentifier: "showQRScannerSegue", sender: self)
@@ -185,11 +185,11 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     // check whether the current password looks like an OTP field
     func generateAndCopyPassword() {
         if let currentPassword = fillPasswordCell?.getContent(), Constants.isOtpRelated(line: currentPassword) {
-            let alert = UIAlertController(title: "Overwrite?".localize(), message: "OverwriteOtpConfiguration?".localize(), preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Yes".localize(), style: UIAlertActionStyle.destructive, handler: {_ in
+            let alert = UIAlertController(title: "Overwrite?".localize(), message: "OverwriteOtpConfiguration?".localize(), preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Yes".localize(), style: UIAlertAction.Style.destructive, handler: {_ in
                 self.generateAndCopyPasswordNoOtpCheck()
             }))
-            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertActionStyle.cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertAction.Style.cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
         } else {
             self.generateAndCopyPasswordNoOtpCheck()
@@ -337,11 +337,11 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         let copiedLinesSplit = UIPasteboard.general.string?.components(separatedBy: CharacterSet.whitespacesAndNewlines).filter({ !$0.isEmpty })
         if copiedLinesSplit?.count ?? 0 > 0 {
             let generatedPassword = copiedLinesSplit![0]
-            let alert = UIAlertController(title: "WannaUseIt?".localize(), message: "", preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "WannaUseIt?".localize(), message: "", preferredStyle: UIAlertController.Style.alert)
             let message = NSMutableAttributedString(string: "\("SeemsLikeYouHaveCopiedSomething.".localize()) \("FirstStringIs:".localize())\n")
             message.append(Utils.attributedPassword(plainPassword: generatedPassword))
             alert.setValue(message, forKey: "attributedMessage")
-            alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.default, handler: {[unowned self] (action) -> Void in
+            alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: {[unowned self] (action) -> Void in
                 // update tableData so to make sure reloadData() works correctly
                 self.tableData[self.passwordSection][0][PasswordEditorCellKey.content] = generatedPassword
                 // update cell manually, no need to call reloadData()
@@ -349,7 +349,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
                 // make sure the clipboard gets cleared in 45s
                 SecurePasteboard.shared.copy(textToCopy: generatedPassword)
             }))
-            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertActionStyle.cancel, handler:nil))
+            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertAction.Style.cancel, handler:nil))
             self.present(alert, animated: true, completion: nil)
         }
     }

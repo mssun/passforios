@@ -201,18 +201,18 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             fileActionTitle.append(" (\("Import".localize()))")
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
                 // passphrase related
-                let savePassphraseAlert = UIAlertController(title: "Passphrase".localize(), message: "WantToSavePassphrase?".localize(), preferredStyle: UIAlertControllerStyle.alert)
+                let savePassphraseAlert = UIAlertController(title: "Passphrase".localize(), message: "WantToSavePassphrase?".localize(), preferredStyle: UIAlertController.Style.alert)
                 // no
-                savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: UIAlertActionStyle.default) { _ in
+                savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: UIAlertAction.Style.default) { _ in
                     self.passwordStore.pgpKeyPassphrase = nil
                     SharedDefaults[.isRememberPGPPassphraseOn] = false
                     self.saveImportedPGPKey()
                 })
                 // yes
-                savePassphraseAlert.addAction(UIAlertAction(title: "Yes".localize(), style: UIAlertActionStyle.destructive) {_ in
+                savePassphraseAlert.addAction(UIAlertAction(title: "Yes".localize(), style: UIAlertAction.Style.destructive) {_ in
                     // ask for the passphrase
-                    let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertActionStyle.default, handler: {_ in
+                    let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
                         self.passwordStore.pgpKeyPassphrase = alert.textFields?.first?.text
                         SharedDefaults[.isRememberPGPPassphraseOn] = true
                         self.saveImportedPGPKey()
@@ -296,12 +296,12 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         setPasscodeLockAlert?.addTextField(configurationHandler: {(_ textField: UITextField) -> Void in
             textField.placeholder = "Passcode".localize()
             textField.isSecureTextEntry = true
-            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         })
         setPasscodeLockAlert?.addTextField(configurationHandler: {(_ textField: UITextField) -> Void in
             textField.placeholder = "PasswordConfirmation".localize()
             textField.isSecureTextEntry = true
-            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         })
 
         // save action

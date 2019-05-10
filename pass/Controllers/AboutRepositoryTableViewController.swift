@@ -15,7 +15,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
 
     private var needRefresh = false
     private var indicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        let indicator = UIActivityIndicatorView(style: .gray)
         return indicator
     }()
     private let passwordStore = PasswordStore.shared
@@ -59,7 +59,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
                 guard let strongSelf = self else {
                     return
                 }
-                let type = UITableViewCellAccessoryType.none
+                let type = UITableViewCell.AccessoryType.none
                 strongSelf.tableData = [
                     // section 0
                     [[.style: CellDataStyle.value1, .accessoryType: type, .title: "Passwords".localize(), .detailText: passwords],

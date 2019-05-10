@@ -22,7 +22,7 @@ public extension DefaultsKeys {
     static let gitURL = DefaultsKey<URL?>("gitURL")
     static let gitAuthenticationMethod = DefaultsKey<String?>("gitAuthenticationMethod")
     static let gitUsername = DefaultsKey<String?>("gitUsername")
-    static let gitBranchName = DefaultsKey<String?>("gitBranchName")
+    static let gitBranchName = DefaultsKey<String>("gitBranchName", defaultValue: "master")
     static let gitSSHPrivateKeyURL = DefaultsKey<URL?>("gitSSHPrivateKeyURL")
     static let gitSSHKeySource = DefaultsKey<String?>("gitSSHKeySource")
     static let gitSSHPrivateKeyArmor = DefaultsKey<String?>("gitSSHPrivateKeyArmor")
@@ -31,17 +31,17 @@ public extension DefaultsKeys {
 
     static let lastSyncedTime = DefaultsKey<Date?>("lastSyncedTime")
 
-    static let isTouchIDOn = DefaultsKey<Bool>("isTouchIDOn")
+    static let isTouchIDOn = DefaultsKey<Bool>("isTouchIDOn", defaultValue: false)
     static let passcodeKey = DefaultsKey<String?>("passcodeKey")
 
-    static let isHideUnknownOn = DefaultsKey<Bool>("isHideUnknownOn")
-    static let isHideOTPOn = DefaultsKey<Bool>("isHideOTPOn")
-    static let isRememberPGPPassphraseOn = DefaultsKey<Bool>("isRememberPGPPassphraseOn")
-    static let isRememberGitCredentialPassphraseOn = DefaultsKey<Bool>("isRememberGitCredentialPassphraseOn")
-    static let isShowFolderOn = DefaultsKey<Bool>("isShowFolderOn")
-    static let isHidePasswordImagesOn = DefaultsKey<Bool>("isHidePasswordImagesOn")
-    static let isSearchDefaultAll = DefaultsKey<Bool>("isSearchDefaultAll")
-    static let passwordGeneratorFlavor = DefaultsKey<String>("passwordGeneratorFlavor")
+    static let isHideUnknownOn = DefaultsKey<Bool>("isHideUnknownOn", defaultValue: false)
+    static let isHideOTPOn = DefaultsKey<Bool>("isHideOTPOn", defaultValue: false)
+    static let isRememberPGPPassphraseOn = DefaultsKey<Bool>("isRememberPGPPassphraseOn", defaultValue: false)
+    static let isRememberGitCredentialPassphraseOn = DefaultsKey<Bool>("isRememberGitCredentialPassphraseOn", defaultValue: false)
+    static let isShowFolderOn = DefaultsKey<Bool>("isShowFolderOn", defaultValue: true)
+    static let isHidePasswordImagesOn = DefaultsKey<Bool>("isHidePasswordImagesOn", defaultValue: false)
+    static let searchDefault = DefaultsKey<SearchBarScope?>("searchDefault", defaultValue: .all)
+    static let passwordGeneratorFlavor = DefaultsKey<String>("passwordGeneratorFlavor", defaultValue: "Apple")
 
-    static let encryptInArmored = DefaultsKey<Bool>("encryptInArmored")
+    static let encryptInArmored = DefaultsKey<Bool>("encryptInArmored", defaultValue: false)
 }

@@ -25,19 +25,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return presenter
     }()
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         SVProgressHUD.setMinimumSize(CGSize(width: 150, height: 100))
-        passcodeLockPresenter.present(windowLevel: UIApplication.shared.windows.last?.windowLevel)
-        if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
+        passcodeLockPresenter.present(windowLevel: UIApplication.shared.windows.last?.windowLevel.rawValue)
+        if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
             if shortcutItem.type == Globals.bundleIdentifier + ".search" {
                 self.perform(#selector(postSearchNotification), with: nil, afterDelay: 0.4)
             }
         }
-
-        // Assign default values to global settings.
-        SharedDefaults.register(defaults: [DefaultsKeys.gitBranchName._key: "master"])
-
         return true
     }
 
@@ -67,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
 
         // Display a blur effect view
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = (self.window?.frame)!
         blurEffectView.tag = ViewTag.blur.rawValue
@@ -95,7 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        passcodeLockPresenter.present(windowLevel: UIApplication.shared.windows.last?.windowLevel)
+        passcodeLockPresenter.present(windowLevel: UIApplication.shared.windows.last?.windowLevel.rawValue)
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {

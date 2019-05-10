@@ -166,8 +166,8 @@ class LabelTableViewCell: UITableViewCell {
                 passwordDisplayButton!.frame = CGRect(x: 0, y: 0, width: width, height: height)
                 passwordDisplayButton!.setImage(#imageLiteral(resourceName: "Visible"), for: .normal)
                 passwordDisplayButton!.imageView?.contentMode = .scaleAspectFit
-                passwordDisplayButton!.contentEdgeInsets = UIEdgeInsetsMake(marginY, marginX, marginY, marginX)
-                passwordDisplayButton!.addTarget(self, action: #selector(reversePasswordDisplay), for: UIControlEvents.touchUpInside)
+                passwordDisplayButton!.contentEdgeInsets = UIEdgeInsets.init(top: marginY, left: marginX, bottom: marginY, right: marginX)
+                passwordDisplayButton!.addTarget(self, action: #selector(reversePasswordDisplay), for: UIControl.Event.touchUpInside)
                 buttons = passwordDisplayButton
             }
         case .HOTP:
@@ -176,8 +176,8 @@ class LabelTableViewCell: UITableViewCell {
             nextButton.frame = CGRect(x: 0, y: 0, width: width, height: height)
             nextButton.setImage(#imageLiteral(resourceName: "Refresh"), for: .normal)
             nextButton.imageView?.contentMode = .scaleAspectFit
-            nextButton.contentEdgeInsets = UIEdgeInsetsMake(marginY, marginX, marginY, marginX)
-            nextButton.addTarget(self, action: #selector(getNextHOTP), for: UIControlEvents.touchUpInside)
+            nextButton.contentEdgeInsets = UIEdgeInsets.init(top: marginY, left: marginX, bottom: marginY, right: marginX)
+            nextButton.addTarget(self, action: #selector(getNextHOTP), for: UIControl.Event.touchUpInside)
 
             // password button
             passwordDisplayButton = UIButton(type: .system)
@@ -185,8 +185,8 @@ class LabelTableViewCell: UITableViewCell {
 
             passwordDisplayButton!.setImage(#imageLiteral(resourceName: "Visible"), for: .normal)
             passwordDisplayButton!.imageView?.contentMode = .scaleAspectFit
-            passwordDisplayButton!.contentEdgeInsets = UIEdgeInsetsMake(marginY, marginX, marginY, marginX)
-            passwordDisplayButton!.addTarget(self, action: #selector(reversePasswordDisplay), for: UIControlEvents.touchUpInside)
+            passwordDisplayButton!.contentEdgeInsets = UIEdgeInsets.init(top: marginY, left: marginX, bottom: marginY, right: marginX)
+            passwordDisplayButton!.addTarget(self, action: #selector(reversePasswordDisplay), for: UIControl.Event.touchUpInside)
 
             buttons = UIView()
             buttons!.frame = CGRect(x: 0, y: 0, width: width * 2, height: height)
