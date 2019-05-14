@@ -640,6 +640,8 @@ public class PasswordStore {
             try deletePasswordEntities(passwordEntity: passwordEntity)
             let _ = try gitCommit(message: "RenamePassword.".localize(deletedFileURL.deletingPathExtension().path.removingPercentEncoding!, password.url.deletingPathExtension().path.removingPercentEncoding!))
         }
+        
+        self.saveUpdated(passwordEntity: newPasswordEntity!)
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         return newPasswordEntity
     }
