@@ -555,6 +555,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     @objc func actOnReloadTableViewRelatedNotification() {
+        // Reset selectedScopeButtonIndex to make sure the correct reloadTableView
+        searchController.searchBar.selectedScopeButtonIndex = 0
         DispatchQueue.main.async { [weak weakSelf = self] in
             guard let strongSelf = weakSelf else { return }
             strongSelf.initPasswordsTableEntries(parent: nil)
