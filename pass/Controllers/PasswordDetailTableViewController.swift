@@ -71,9 +71,6 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         // pop the current view because this password might be "discarded"
         NotificationCenter.default.addObserver(self, selector: #selector(setShouldPopCurrentView), name: .passwordStoreChangeDiscarded, object: nil)
 
-        // reset the data table if some password (maybe another one) has been updated
-        NotificationCenter.default.addObserver(self, selector: #selector(decryptThenShowPassword), name: .passwordStoreUpdated, object: nil)
-
         // reset the data table if the disaply settings have been changed
         NotificationCenter.default.addObserver(self, selector: #selector(decryptThenShowPassword), name: .passwordDetailDisplaySettingChanged, object: nil)
     }
