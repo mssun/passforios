@@ -838,10 +838,17 @@ public class PasswordStore {
     }
 
     public func gitSSHKeyImportFromFileSharing() throws {
+        if gitSSHKeyExists() {
+            try fm.removeItem(atPath: Globals.gitSSHPrivateKeyPath)
+        }
         try fm.moveItem(atPath: Globals.iTunesFileSharingSSHPrivate, toPath: Globals.gitSSHPrivateKeyPath)
     }
 
     public func pgpKeyImportFromFileSharing() throws {
+        if pgpKeyExists() {
+            try fm.removeItem(atPath: Globals.pgpPublicKeyPath)
+            try fm.removeItem(atPath: Globals.pgpPrivateKeyPath)
+        }
         try fm.moveItem(atPath: Globals.iTunesFileSharingPGPPublic, toPath: Globals.pgpPublicKeyPath)
         try fm.moveItem(atPath: Globals.iTunesFileSharingPGPPrivate, toPath: Globals.pgpPrivateKeyPath)
     }
