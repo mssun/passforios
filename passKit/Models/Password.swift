@@ -32,6 +32,10 @@ public class Password {
         return url.deletingPathExtension().path
     }
 
+    public var nameFromPath: String? {
+        return url.deletingPathExtension().path.split(separator: "/").last.map { String($0) }
+    }
+
     public var password: String {
         return parser.firstLine
     }

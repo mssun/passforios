@@ -239,6 +239,13 @@ class PasswordTest: XCTestCase {
         XCTAssert(MULTILINE_LINE_START.title => "" ∈ password)
     }
 
+    func testUsernameInPath() {
+        let password = getPasswordObjectWith(content: "", url: URL(fileURLWithPath: "exampleservice/exampleusername.pgp"))
+
+        XCTAssertEqual(password.nameFromPath, "exampleusername")
+    }
+
+
     func testMultilineValues() {
         let lineBreakField = "with line breaks" => "|\n  This is \n   text spread over \n  multiple lines!  "
         let noLineBreakField = "without line breaks" => " > \n This is \n  text spread over\n   multiple lines!"
