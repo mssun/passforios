@@ -31,6 +31,10 @@ public struct GitCredential {
 
             switch self.credential {
             case let .http(userName):
+                if attempts > 3 {
+                    // After too many failures (say six), the error message "failed to authenticate ssh session" might be confusing.
+                    return nil
+                }
                 var lastPassword = self.passwordStore.gitPassword
                 if lastPassword == nil || attempts != 0 {
                     if let requestedPassword = requestGitPassword(self.credential, lastPassword) {
@@ -45,7 +49,10 @@ public struct GitCredential {
                 attempts += 1
                 credential = try? GTCredential(userName: userName, password: lastPassword!)
             case let .ssh(userName, privateKeyFile):
-                // remarks: in fact, attempts > 1 never happens even with the wrong passphrase
+                if attempts > 0 {
+                    // The passphrase seems correct, but the previous authentification failed.
+                    return nil
+                }
                 var lastPassword = self.passwordStore.gitSSHPrivateKeyPassphrase
                 if lastPassword == nil || attempts != 0  {
                     if let requestedPassword = requestGitPassword(self.credential, lastPassword) {
