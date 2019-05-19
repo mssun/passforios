@@ -98,8 +98,9 @@ class GitServerSettingTableViewController: UITableViewController {
         }
         // Remember git credential password/passphrase temporarily, ask whether users want this after a successful clone.
         SharedDefaults[.isRememberGitCredentialPassphraseOn] = true
+        let group = DispatchGroup()
         let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
-        dispatchQueue.async {
+        dispatchQueue.async(group: group) {
             do {
                 try self.passwordStore.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
                                                        credential: gitCredential,
@@ -111,16 +112,28 @@ class GitServerSettingTableViewController: UITableViewController {
                                                         }
                 },
                                                        checkoutProgressBlock: { (path, completedSteps, totalSteps) in
-                                                        DispatchQueue.main.async {
-                                                            SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "CheckingOutBranch".localize(branchName))
+                                                        DispatchQueue.main.async { SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "CheckingOutBranch".localize(branchName))
                                                         }
                 })
+            } catch {
                 DispatchQueue.main.async {
-                    SharedDefaults[.gitURL] = URL(string: gitRepostiroyURL)
-                    SharedDefaults[.gitUsername] = username
-                    SharedDefaults[.gitBranchName] = branchName
-                    SharedDefaults[.gitAuthenticationMethod] = auth
-                    SVProgressHUD.dismiss()
+                    let error = error as NSError
+                    var message = error.localizedDescription
+                    if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
+                        message = "\(message)\n\("UnderlyingError".localize()): \(underlyingError.localizedDescription)"
+                    }
+                    Utils.alert(title: "Error".localize(), message: message, controller: self, completion: nil)
+                }
+            }
+        }
+        group.notify(queue: dispatchQueue) {
+            NSLog("clone done")
+            DispatchQueue.main.async {
+                SharedDefaults[.gitURL] = URL(string: gitRepostiroyURL)
+                SharedDefaults[.gitUsername] = username
+                SharedDefaults[.gitBranchName] = branchName
+                SharedDefaults[.gitAuthenticationMethod] = auth
+                SVProgressHUD.dismiss {
                     let savePassphraseAlert = UIAlertController(title: "Done".localize(), message: "WantToSaveGitCredential?".localize(), preferredStyle: UIAlertController.Style.alert)
                     // no
                     savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: UIAlertAction.Style.default) { _ in
@@ -135,15 +148,6 @@ class GitServerSettingTableViewController: UITableViewController {
                         self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
                     })
                     self.present(savePassphraseAlert, animated: true, completion: nil)
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    let error = error as NSError
-                    var message = error.localizedDescription
-                    if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
-                        message = "\(message)\n\("UnderlyingError".localize()): \(underlyingError.localizedDescription)"
-                    }
-                    Utils.alert(title: "Error".localize(), message: message, controller: self, completion: nil)
                 }
             }
         }
