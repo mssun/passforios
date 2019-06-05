@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1154BEDD229AC00F00454075 /* Gopenpgpwrapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1154BEDB229AC00F00454075 /* Gopenpgpwrapper.framework */; };
 		18F19A67B0C07F13C17169E0 /* Pods_pass.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5620D17DF5E86B61761D0E /* Pods_pass.framework */; };
 		23B82F0228254275DBA609E7 /* Pods_passExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B975797E0F0B7476CADD6A7D /* Pods_passExtension.framework */; };
 		300713C52219D54100F553AC /* AutoCellHeightUITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300713C42219D54100F553AC /* AutoCellHeightUITableViewController.swift */; };
@@ -207,6 +208,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1154BEDB229AC00F00454075 /* Gopenpgpwrapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Gopenpgpwrapper.framework; path = go/dist/Gopenpgpwrapper.framework; sourceTree = "<group>"; };
 		300713C42219D54100F553AC /* AutoCellHeightUITableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCellHeightUITableViewController.swift; sourceTree = "<group>"; };
 		301F6462216162550071A4CE /* AdditionField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionField.swift; sourceTree = "<group>"; };
 		301F6467216165290071A4CE /* ConstantsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsTest.swift; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1154BEDD229AC00F00454075 /* Gopenpgpwrapper.framework in Frameworks */,
 				61326CDA7A73757FB68DCB04 /* Pods_passKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -413,6 +416,7 @@
 			files = (
 				A239F5902158C07D00576CBF /* AuthenticationServices.framework in Frameworks */,
 				A260758D1EEC6F34005DB03E /* passKit.framework in Frameworks */,
+				1154BEDC229AC00F00454075 /* Gopenpgpwrapper.framework in Frameworks */,
 				DCC408C71E307DBB00F29B0E /* SVProgressHUD.framework in Frameworks */,
 				18F19A67B0C07F13C17169E0 /* Pods_pass.framework in Frameworks */,
 			);
@@ -768,6 +772,7 @@
 				B975797E0F0B7476CADD6A7D /* Pods_passExtension.framework */,
 				DAB3F5541E51ADC8C6B56642 /* Pods_passKit.framework */,
 				CF843B3CF7D55A4070CBA1E4 /* Pods_passKitTests.framework */,
+				1154BEDB229AC00F00454075 /* Gopenpgpwrapper.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -830,7 +835,6 @@
 				A260757C1EEC6F34005DB03E /* Sources */,
 				A260757D1EEC6F34005DB03E /* Frameworks */,
 				A260757E1EEC6F34005DB03E /* Resources */,
-				6AEAED0AF4328940B21EAC44 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -890,7 +894,6 @@
 				DC917BEC1E2F3659000FDF54 /* Run Script */,
 				A26700191EEC450100176B8A /* Embed App Extensions */,
 				A26075921EEC6F34005DB03E /* Embed Frameworks */,
-				7F5ED3FD24ED627DC957D425 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1093,26 +1096,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6AEAED0AF4328940B21EAC44 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-passKitTests/Pods-passKitTests-frameworks.sh",
-				"${PODS_ROOT}/ObjectivePGP/Frameworks/ios/ObjectivePGP.framework",
-				"${PODS_ROOT}/ObjectivePGP/Frameworks/ios/ObjectivePGP.framework.dSYM",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectivePGP.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/ObjectivePGP.framework.dSYM",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-passKitTests/Pods-passKitTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		736C6F64F90A20CB9A00B420 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1129,26 +1112,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7F5ED3FD24ED627DC957D425 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-pass/Pods-pass-frameworks.sh",
-				"${PODS_ROOT}/ObjectivePGP/Frameworks/ios/ObjectivePGP.framework",
-				"${PODS_ROOT}/ObjectivePGP/Frameworks/ios/ObjectivePGP.framework.dSYM",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectivePGP.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/ObjectivePGP.framework.dSYM",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-pass/Pods-pass-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		94AA4FCF7FF3474A970BE194 /* [CP] Check Pods Manifest.lock */ = {
@@ -1502,7 +1465,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/go/dist",
+				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1541,7 +1507,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/go/dist",
+				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1830,7 +1799,10 @@
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/go/dist",
+				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = pass/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1862,7 +1834,10 @@
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/go/dist",
+				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = pass/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
