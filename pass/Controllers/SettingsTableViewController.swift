@@ -38,8 +38,8 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())
             DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                 do {
-                    try self.passwordStore.initPGPKey(from: SharedDefaults[.pgpPublicKeyURL]!, keyType: .public)
-                    try self.passwordStore.initPGPKey(from: SharedDefaults[.pgpPrivateKeyURL]!, keyType: .secret)
+                    try self.passwordStore.initPGPKey(from: SharedDefaults[.pgpPublicKeyURL]!, keyType: .PUBLIC)
+                    try self.passwordStore.initPGPKey(from: SharedDefaults[.pgpPrivateKeyURL]!, keyType: .PRIVATE)
                     DispatchQueue.main.async {
                         self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
                         SVProgressHUD.showSuccess(withStatus: "Success".localize())
@@ -68,8 +68,8 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())
             DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                 do {
-                    try self.passwordStore.initPGPKey(with: SharedDefaults[.pgpPublicKeyArmor] ?? "", keyType: .public)
-                    try self.passwordStore.initPGPKey(with: SharedDefaults[.pgpPrivateKeyArmor] ?? "", keyType: .secret)
+                    try self.passwordStore.initPGPKey(with: SharedDefaults[.pgpPublicKeyArmor] ?? "", keyType: .PUBLIC)
+                    try self.passwordStore.initPGPKey(with: SharedDefaults[.pgpPrivateKeyArmor] ?? "", keyType: .PRIVATE)
                     DispatchQueue.main.async {
                         self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
                         SVProgressHUD.showSuccess(withStatus: "Success".localize())

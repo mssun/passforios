@@ -1,0 +1,8 @@
+framework module "Gopenpgpwrapper" {
+	header "ref.h"
+    header "Gopenpgpwrapper.objc.h"
+    header "Universe.objc.h"
+    header "Gopenpgpwrapper.h"
+
+    export *
+}
