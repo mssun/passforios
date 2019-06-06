@@ -1,6 +1,7 @@
 #!/bin/bash
 
 OLDGOPATH=$GOPATH
+OLDPATH=$PATH
 
 export GOPATH=$(pwd)/go
 
@@ -21,8 +22,10 @@ GO111MODULE=on go mod vendor
 git checkout v1.0.0
 
 cd $GOPATH
+export PATH=$PATH:$GOPATH/bin
 mkdir dist
 
 $GOPATH/bin/gomobile bind -target ios -o dist/Gopenpgpwrapper.framework gopenpgpwrapper
 
 export GOPATH=$OLDGOPATH
+export PATH=$OLDPATH
