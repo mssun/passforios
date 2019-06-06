@@ -1,5 +1,9 @@
 language: objective-c
 osx_image: xcode10.2
+addons:
+  homebrew:
+    packages:
+    - go
 before_install:
   - echo -e "machine github.com\n  login $GITHUB_ACCESS_TOKEN" >> ~/.netrc
 install:
@@ -11,6 +15,7 @@ install:
 before_script:
   - pod install
   - travis_wait 45 carthage bootstrap --platform iOS
+  - ./gopenpgp_install.sh
 script:
   - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_EVENT_TYPE" = "push" ]; then fastlane test && fastlane beta; else fastlane test; fi
 env:
