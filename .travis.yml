@@ -15,7 +15,7 @@ install:
 before_script:
   - pod install
   - travis_wait 45 carthage bootstrap --platform iOS
-  - ./gopenpgp_install.sh
+  - ./gopenpgp_build.sh
 script:
   - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_EVENT_TYPE" = "push" ]; then fastlane test && fastlane beta; else fastlane test; fi
 env:
