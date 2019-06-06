@@ -55,6 +55,13 @@ Cartfile.resolved
 
 Carthage/Build
 
+# Go Mobile Build results and dependency sources
+go/bin/
+go/dist/
+go/pkg/
+go/src/*
+!go/src/gopenpgpwrapper
+
 # fastlane
 #
 # It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
