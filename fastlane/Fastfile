@@ -1,7 +1,7 @@
 default_platform :ios
 
 platform :ios do
-  desc "Runs all the tests"
+  desc "Runs all tests"
   lane :test do
     run_tests()
   end
@@ -42,11 +42,12 @@ platform :ios do
       build_number: latest_testflight_build_number(version: get_version_number(target: "pass"), initial_build_number: 0) + 1,
       xcodeproj: "pass.xcodeproj"
     )
-    gym(
+    build_app(
       scheme: "pass",
+      project: "pass.xcodeproj"
       verbose: true
     )
-    pilot(
+    upload_to_testflight(
       skip_waiting_for_build_processing: true
     )
     mailgun(
