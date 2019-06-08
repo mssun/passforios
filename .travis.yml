@@ -8,12 +8,7 @@ before_install:
   - echo -e "machine github.com\n  login $GITHUB_ACCESS_TOKEN" >> ~/.netrc
 install:
   - gem update fastlane
-  - gem install xcodeproj
-  - gem uninstall -aIx cocoapods 
-  - gem install cocoapods -v 1.5.3
-  - pod --version
 before_script:
-  - pod install
   - travis_wait 45 carthage bootstrap --platform iOS
   - ./gopenpgp_build.sh
 script:
