@@ -25,7 +25,7 @@ cd $GOPATH
 export PATH=$PATH:$GOPATH/bin
 mkdir dist
 
-$GOPATH/bin/gomobile bind -target ios -o dist/Gopenpgpwrapper.framework gopenpgpwrapper
+$GOPATH/bin/gomobile bind -v -ldflags="-s -w" -target ios -o dist/Gopenpgpwrapper.framework gopenpgpwrapper
 
 export GOPATH=$OLDGOPATH
 export PATH=$OLDPATH
