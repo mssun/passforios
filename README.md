@@ -2,7 +2,6 @@
 
 # Pass
 [![GitHub release](https://img.shields.io/github/release/mssun/passforios.svg)](https://github.com/mssun/passforios/releases)
-![Swift 3.1](https://img.shields.io/badge/Swift-4.0-orange.svg)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/passforios/passforios)
 [![Build Status](https://travis-ci.org/mssun/passforios.svg?branch=develop)](https://travis-ci.org/mssun/passforios)
 [![Donate](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.me/mssun)
@@ -49,10 +48,10 @@ For more, please read the [wiki page](https://github.com/mssun/pass-ios/wiki).
 
 ## Building Pass for iOS
 
-1. Install libtool, automake, cmake, carthage, and cocoapods: `brew install libtool automake cmake carthage cocoapods`
+1. Install libtool, automake, cmake, carthage, and go: `brew install libtool automake cmake carthage go`
 2. Run carthage bootstrap in the project root directory: `carthage update ` then `carthage bootstrap --platform iOS` (this may take some time)
-3. Run pod install in the project root directory: `pod install`
-4. Open `.xcworkspace` file in Xcode.
+3. Run `./gopenpgp_build.sh` to build go dependencies.
+4. Open `pass.xcodeproj` file in Xcode.
 5. Build & Run.
 
 ## License
