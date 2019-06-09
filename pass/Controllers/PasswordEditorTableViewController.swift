@@ -81,7 +81,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         self.tableView.estimatedSectionFooterHeight = 0;
     }
     override func viewDidLayoutSubviews() {
-       additionsCell?.contentTextView.setContentOffset(.zero, animated: false)
+        additionsCell?.contentTextView.setContentOffset(.zero, animated: false)
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -315,8 +315,8 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         // the name field should be a valid url
         guard let path = name.stringByAddingPercentEncodingForRFC3986(),
             var passwordURL = URL(string: path) else {
-            Utils.alert(title: "CannotSave".localize(), message: "PasswordNameInvalid.".localize(), controller: self, completion: nil)
-            return false
+                Utils.alert(title: "CannotSave".localize(), message: "PasswordNameInvalid.".localize(), controller: self, completion: nil)
+                return false
         }
 
         // check whether we can parse the filename (be consistent with PasswordStore::addPasswordEntities)
@@ -353,5 +353,4 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             self.present(alert, animated: true, completion: nil)
         }
     }
-
 }
