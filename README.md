@@ -12,7 +12,7 @@ It is a password manager using GPG for encryption and Git for version control.
 Pass for iOS is available in the App Store with the name "Pass - Password Store".
 
 <p>
-<a href="https://itunes.apple.com/us/app/pass-password-store/id1205820573?mt=8"><img alt="Download on the App Store" src="badge/app_store_badge.svg" width="150"/></a>
+<a href="https://itunes.apple.com/us/app/pass-password-store/id1205820573?mt=8"><img alt="Download on the App Store" src="img/app_store_badge.svg" width="150"/></a>
 </p>
 
 If you want to join the iOS beta via TestFlight, drop an email to `developer@passforios.mssun.me`. Thank you.
@@ -32,10 +32,10 @@ If you want to join the iOS beta via TestFlight, drop an email to `developer@pas
 ## Screenshots
 
 <p>
-<img src="screenshot/preview.gif" width="200"/>
-<img src="screenshot/screenshot1.png" width="200"/>
-<img src="screenshot/screenshot2.png" width="200"/>
-<img src="screenshot/screenshot3.png" width="200"/>
+<img src="img/preview.gif" width="200"/>
+<img src="img/screenshot1.png" width="200"/>
+<img src="img/screenshot2.png" width="200"/>
+<img src="img/screenshot3.png" width="200"/>
 </p>
 
 ## Usages
