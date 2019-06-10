@@ -13,9 +13,12 @@ public enum AppError: Error {
     case KeyImport
     case PasswordDuplicated
     case GitReset
+    case GitCommit
+    case PasswordEntity
     case PgpPublicKeyNotExist
     case WrongPasswordFilename
     case Decryption
+    case Encryption
     case Unknown
 }
 

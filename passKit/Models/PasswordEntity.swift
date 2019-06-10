@@ -33,11 +33,11 @@ extension PasswordEntity {
         return passwordCategoryArray
     }
 
-    public func getURL() -> URL? {
-        if let p = getPath().stringByAddingPercentEncodingForRFC3986() {
-            return URL(string: p)
+    public func getURL() throws -> URL {
+        if let p = getPath().stringByAddingPercentEncodingForRFC3986(), let u = URL(string: p) {
+            return u
         }
-        return nil
+        throw AppError.Unknown
     }
 
     // XXX: define some getters to get core data, we need to consider

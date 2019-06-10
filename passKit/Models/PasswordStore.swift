@@ -30,11 +30,7 @@ public class PasswordStore {
     public var pgpKeyID: String?
     public var publicKey: GopenpgpwrapperKey? {
         didSet {
-            if publicKey != nil {
-                pgpKeyID = publicKey!.getID()
-            } else {
-                pgpKeyID = nil
-            }
+            pgpKeyID = publicKey?.getID()
         }
     }
     public var privateKey: GopenpgpwrapperKey?
@@ -42,14 +38,14 @@ public class PasswordStore {
         case PUBLIC, PRIVATE
     }
     
-    public var gitSignatureForNow: GTSignature {
+    public var gitSignatureForNow: GTSignature? {
         get {
             let gitSignatureName = SharedDefaults[.gitSignatureName] ?? Globals.gitSignatureDefaultName
             let gitSignatureEmail = SharedDefaults[.gitSignatureEmail] ?? Globals.gitSignatureDefaultEmail
-            return GTSignature(name: gitSignatureName, email: gitSignatureEmail, time: Date())!
+            return GTSignature(name: gitSignatureName, email: gitSignatureEmail, time: Date())
         }
     }
-    
+
     public var pgpKeyPassphrase: String? {
         set {
             Utils.addPasswordToKeychain(name: "pgpKeyPassphrase", password: newValue)
@@ -557,7 +553,9 @@ public class PasswordStore {
         let commitEnum = try GTEnumerator(repository: storeRepository)
         try commitEnum.pushSHA(headReference.targetOID!.sha)
         let parent = commitEnum.nextObject() as! GTCommit
-        let signature = gitSignatureForNow
+        guard let signature = gitSignatureForNow else {
+            throw AppError.GitCommit
+        }
         let commit = try storeRepository.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)
         return commit
     }
@@ -652,7 +650,7 @@ public class PasswordStore {
     }
     
     public func delete(passwordEntity: PasswordEntity) throws {
-        let deletedFileURL = passwordEntity.getURL()!
+        let deletedFileURL = try passwordEntity.getURL()
         try gitRm(path: deletedFileURL.path)
         try deletePasswordEntities(passwordEntity: passwordEntity)
         try deleteDirectoryTree(at: deletedFileURL)
@@ -662,18 +660,19 @@ public class PasswordStore {
     
     public func edit(passwordEntity: PasswordEntity, password: Password) throws -> PasswordEntity? {
         var newPasswordEntity: PasswordEntity? = passwordEntity
+        let url = try passwordEntity.getURL()
         
         if password.changed&PasswordChange.content.rawValue != 0 {
-            let saveURL = storeURL.appendingPathComponent(passwordEntity.getURL()!.path)
+            let saveURL = storeURL.appendingPathComponent(url.path)
             try self.encrypt(password: password).write(to: saveURL)
-            try gitAdd(path: passwordEntity.getURL()!.path)
-            let _ = try gitCommit(message: "EditPassword.".localize(passwordEntity.getURL()!.deletingPathExtension().path.removingPercentEncoding!))
+            try gitAdd(path: saveURL.path)
+            let _ = try gitCommit(message: "EditPassword.".localize(url.deletingPathExtension().path.removingPercentEncoding!))
             newPasswordEntity = passwordEntity
             newPasswordEntity?.synced = false
         }
         
         if password.changed&PasswordChange.path.rawValue != 0 {
-            let deletedFileURL = passwordEntity.getURL()!
+            let deletedFileURL = url
             // add
             try createDirectoryTree(at: password.url)
             newPasswordEntity = try addPasswordEntities(password: password)
@@ -823,11 +822,11 @@ public class PasswordStore {
         if passphrase == nil {
             passphrase = requestPGPKeyPassphrase()
         }
-        let decryptedData = privateKey?.decrypt(encryptedData, passphrase: passphrase)
-        let plainText = String(data: decryptedData!, encoding: .utf8) ?? ""
-        guard let url = passwordEntity.getURL() else {
+        guard let decryptedData = privateKey?.decrypt(encryptedData, passphrase: passphrase) else {
             throw AppError.Decryption
         }
+        let plainText = String(data: decryptedData, encoding: .utf8) ?? ""
+        let url = try passwordEntity.getURL()
         return Password(name: passwordEntity.getName(), url: url, plainText: plainText)
     }
     
@@ -836,9 +835,11 @@ public class PasswordStore {
             throw AppError.PgpPublicKeyNotExist
         }
         let plainData = password.plainData
-        let encryptedData = publicKey?.encrypt(plainData, armor: SharedDefaults[.encryptInArmored])
+        guard let encryptedData = publicKey?.encrypt(plainData, armor: SharedDefaults[.encryptInArmored]) else {
+            throw AppError.Encryption
+        }
         
-        return encryptedData!
+        return encryptedData
     }
     
     public func removePGPKeys() {
