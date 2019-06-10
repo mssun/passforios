@@ -547,11 +547,11 @@
                             </tableViewSection>
                             <tableViewSection id="Mfu-PE-VT0">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeyURLTableViewCell" rowHeight="52" id="BYZ-9g-xZy">
-                                        <rect key="frame" x="0.0" y="115" width="414" height="52"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeyURLTableViewCell" rowHeight="61" id="BYZ-9g-xZy">
+                                        <rect key="frame" x="0.0" y="115" width="414" height="61"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BYZ-9g-xZy" id="Zfn-rK-sN1">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="60.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public Key URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dWi-eh-7Eq">
@@ -561,7 +561,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Public Key URL" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Rb8-zs-TGa">
-                                                    <rect key="frame" x="27" y="26" width="367" height="21"/>
+                                                    <rect key="frame" x="27" y="31" width="367" height="21"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL" returnKeyType="next"/>
@@ -576,16 +576,16 @@
                                                 <constraint firstItem="dWi-eh-7Eq" firstAttribute="leading" secondItem="Zfn-rK-sN1" secondAttribute="leadingMargin" constant="7" id="Pid-Pf-x4j"/>
                                                 <constraint firstItem="Rb8-zs-TGa" firstAttribute="leading" secondItem="dWi-eh-7Eq" secondAttribute="leading" id="Qsy-wU-9pS"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="dWi-eh-7Eq" secondAttribute="trailing" id="XyN-IH-efi"/>
-                                                <constraint firstItem="Rb8-zs-TGa" firstAttribute="top" secondItem="dWi-eh-7Eq" secondAttribute="bottom" id="cq2-xy-12a"/>
+                                                <constraint firstItem="Rb8-zs-TGa" firstAttribute="top" secondItem="dWi-eh-7Eq" secondAttribute="bottom" constant="5" id="cq2-xy-12a"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Rb8-zs-TGa" secondAttribute="trailing" id="dRB-Ba-E2u"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeyURLTableViewCell" rowHeight="52" id="vpk-J8-j7t">
-                                        <rect key="frame" x="0.0" y="167" width="414" height="52"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeyURLTableViewCell" rowHeight="61" id="vpk-J8-j7t">
+                                        <rect key="frame" x="0.0" y="176" width="414" height="61"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vpk-J8-j7t" id="1td-qT-6ts">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="60.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Private Key URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qht-RC-Yeg">
@@ -595,7 +595,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Private Key URL" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="cGJ-1g-Ztc">
-                                                    <rect key="frame" x="27" y="26" width="367" height="21"/>
+                                                    <rect key="frame" x="27" y="31" width="367" height="21"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL" returnKeyType="done"/>
@@ -606,7 +606,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="topMargin" secondItem="Qht-RC-Yeg" secondAttribute="top" id="62r-G1-4dm"/>
-                                                <constraint firstItem="cGJ-1g-Ztc" firstAttribute="top" secondItem="Qht-RC-Yeg" secondAttribute="bottom" id="EkJ-SV-G4q"/>
+                                                <constraint firstItem="cGJ-1g-Ztc" firstAttribute="top" secondItem="Qht-RC-Yeg" secondAttribute="bottom" constant="5" id="EkJ-SV-G4q"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Qht-RC-Yeg" secondAttribute="trailing" id="G77-HF-QDd"/>
                                                 <constraint firstItem="Qht-RC-Yeg" firstAttribute="leading" secondItem="1td-qT-6ts" secondAttribute="leadingMargin" constant="7" id="Idd-V5-IDA"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="cGJ-1g-Ztc" secondAttribute="trailing" id="PCt-qz-Q4p"/>
