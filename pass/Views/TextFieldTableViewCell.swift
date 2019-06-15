@@ -8,22 +8,15 @@
 
 import UIKit
 
-class TextFieldTableViewCell: ContentTableViewCell {
+class TextFieldTableViewCell: UITableViewCell, ContentProvider {
 
     @IBOutlet weak var contentTextField: UITextField!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-
-    override func getContent() -> String? {
+    func getContent() -> String? {
         return contentTextField.text
     }
-    override func setContent(content: String?) {
+
+    func setContent(content: String?) {
         contentTextField.text = content
     }
 }
