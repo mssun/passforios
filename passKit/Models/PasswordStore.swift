@@ -665,7 +665,7 @@ public class PasswordStore {
         if password.changed&PasswordChange.content.rawValue != 0 {
             let saveURL = storeURL.appendingPathComponent(url.path)
             try self.encrypt(password: password).write(to: saveURL)
-            try gitAdd(path: saveURL.path)
+            try gitAdd(path: url.path)
             let _ = try gitCommit(message: "EditPassword.".localize(url.deletingPathExtension().path.removingPercentEncoding!))
             newPasswordEntity = passwordEntity
             newPasswordEntity?.synced = false
