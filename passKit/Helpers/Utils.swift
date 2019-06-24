@@ -32,6 +32,14 @@ public class Utils {
         try? keychain.removeAll()
     }
 
+    public static func addDataToKeychain(key: String, data: Data) {
+        keychain[data: key] = data
+    }
+
+    public static func getDataFromKeychain(for key: String) -> Data? {
+        return try? keychain.getData(key)
+    }
+
     public static func copyToPasteboard(textToCopy: String?) {
         guard textToCopy != nil else {
             return
