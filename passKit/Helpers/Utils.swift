@@ -11,31 +11,32 @@ import SwiftyUserDefaults
 import KeychainAccess
 
 public class Utils {
+
+    private static let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
+
     public static func getPasswordFromKeychain(name: String) -> String? {
-        let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
         return try? keychain.getString(name)
     }
 
     public static func addPasswordToKeychain(name: String, password: String?) {
-        let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
         keychain[name] = password
     }
 
     public static func removeKeychain(name: String) {
-        let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
         try? keychain.remove(name)
     }
 
     public static func removeAllKeychain() {
-        let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
         try? keychain.removeAll()
     }
+
     public static func copyToPasteboard(textToCopy: String?) {
         guard textToCopy != nil else {
             return
         }
         UIPasteboard.general.string = textToCopy
     }
+
     public static func attributedPassword(plainPassword: String) -> NSAttributedString{
         let attributedPassword = NSMutableAttributedString.init(string: plainPassword)
         // draw all digits in the password into red
