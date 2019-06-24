@@ -13,6 +13,8 @@ import KeychainAccess
 public class Utils {
 
     private static let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
+        .accessibility(.whenUnlockedThisDeviceOnly)
+        .synchronizable(false)
 
     public static func getPasswordFromKeychain(name: String) -> String? {
         return try? keychain.getString(name)
