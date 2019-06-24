@@ -59,17 +59,13 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             if SharedDefaults[.isRememberPGPPassphraseOn] {
                 self.passwordStore.pgpKeyPassphrase = controller.pgpPassphrase
             }
-
-            SharedDefaults[.pgpPublicKeyArmor] = controller.armorPublicKeyTextView.text!
-            SharedDefaults[.pgpPrivateKeyArmor] = controller.armorPrivateKeyTextView.text!
-
             SVProgressHUD.setDefaultMaskType(.black)
             SVProgressHUD.setDefaultStyle(.light)
             SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())
             DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                 do {
-                    try self.passwordStore.initPGPKey(with: SharedDefaults[.pgpPublicKeyArmor] ?? "", keyType: .PUBLIC)
-                    try self.passwordStore.initPGPKey(with: SharedDefaults[.pgpPrivateKeyArmor] ?? "", keyType: .PRIVATE)
+                    try self.passwordStore.initPGPKey(with: controller.armorPublicKeyTextView.text ?? "", keyType: .PUBLIC)
+                    try self.passwordStore.initPGPKey(with: controller.armorPrivateKeyTextView.text ?? "", keyType: .PRIVATE)
                     DispatchQueue.main.async {
                         self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpKeyID
                         SVProgressHUD.showSuccess(withStatus: "Success".localize())

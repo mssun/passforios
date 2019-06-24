@@ -90,8 +90,8 @@ class PGPKeyArmorSettingTableViewController: AutoCellHeightUITableViewController
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        armorPublicKeyTextView.text = SharedDefaults[.pgpPublicKeyArmor]
-        armorPrivateKeyTextView.text = SharedDefaults[.pgpPrivateKeyArmor]
+        armorPublicKeyTextView.text = String(data: Utils.getDataFromKeychain(for: PasswordStore.PGPKeyType.PUBLIC.rawValue)!, encoding: .ascii)
+        armorPrivateKeyTextView.text = String(data: Utils.getDataFromKeychain(for: PasswordStore.PGPKeyType.PRIVATE.rawValue)!, encoding: .ascii)
         pgpPassphrase = passwordStore.pgpKeyPassphrase
 
         scanPublicKeyCell?.textLabel?.text = "ScanPublicKeyQrCodes".localize()

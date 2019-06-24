@@ -34,8 +34,9 @@ public class PasswordStore {
         }
     }
     public var privateKey: GopenpgpwrapperKey?
-    public enum PGPKeyType {
-        case PUBLIC, PRIVATE
+    public enum PGPKeyType: String {
+        case PUBLIC = "pgpPublicKey"
+        case PRIVATE = "pgpPrivateKey"
     }
     
     public var gitSignatureForNow: GTSignature? {
@@ -196,54 +197,30 @@ public class PasswordStore {
         try initPGPKey(.PRIVATE)
     }
     
-    public func initPGPKey(_ keyType: PGPKeyType) throws {
-        switch keyType {
-        case .PUBLIC:
-            let keyPath = Globals.pgpPublicKeyPath
-            self.publicKey = importKey(from: keyPath)
-            if self.publicKey == nil {
-                throw AppError.KeyImport
+    private func initPGPKey(_ keyType: PGPKeyType) throws {
+        if let key = GopenpgpwrapperReadKey(Utils.getDataFromKeychain(for: keyType.rawValue)) {
+            switch keyType {
+            case .PUBLIC:
+                self.publicKey = key
+            case .PRIVATE:
+                self.privateKey = key
             }
-        case .PRIVATE:
-            let keyPath = Globals.pgpPrivateKeyPath
-            self.privateKey = importKey(from: keyPath)
-            if self.privateKey == nil  {
-                throw AppError.KeyImport
-            }
+            return
         }
+        throw AppError.KeyImport
     }
     
     public func initPGPKey(from url: URL, keyType: PGPKeyType) throws {
-        var pgpKeyLocalPath = ""
-        if keyType == .PUBLIC {
-            pgpKeyLocalPath = Globals.pgpPublicKeyPath
-        } else {
-            pgpKeyLocalPath = Globals.pgpPrivateKeyPath
-        }
         let pgpKeyData = try Data(contentsOf: url)
-        try pgpKeyData.write(to: URL(fileURLWithPath: pgpKeyLocalPath), options: .atomic)
+        Utils.addDataToKeychain(key: keyType.rawValue, data: pgpKeyData)
         try initPGPKey(keyType)
     }
     
     public func initPGPKey(with armorKey: String, keyType: PGPKeyType) throws {
-        var pgpKeyLocalPath = ""
-        if keyType == .PUBLIC {
-            pgpKeyLocalPath = Globals.pgpPublicKeyPath
-        } else {
-            pgpKeyLocalPath = Globals.pgpPrivateKeyPath
-        }
-        try armorKey.write(toFile: pgpKeyLocalPath, atomically: true, encoding: .ascii)
+        let pgpKeyData = armorKey.data(using: .ascii)!
+        Utils.addDataToKeychain(key: keyType.rawValue, data: pgpKeyData)
         try initPGPKey(keyType)
     }
-    
-    
-    private func importKey(from keyPath: String) -> GopenpgpwrapperKey? {
-        if fm.fileExists(atPath: keyPath) {
-            return GopenpgpwrapperReadKey(fm.contents(atPath: keyPath))
-        }
-        return nil
-    }
-    
     
     public func repositoryExisted() -> Bool {
         let fm = FileManager()
@@ -846,11 +823,11 @@ public class PasswordStore {
         try? fm.removeItem(atPath: Globals.pgpPublicKeyPath)
         try? fm.removeItem(atPath: Globals.pgpPrivateKeyPath)
         SharedDefaults.remove(.pgpKeySource)
-        SharedDefaults.remove(.pgpPublicKeyArmor)
-        SharedDefaults.remove(.pgpPrivateKeyArmor)
         SharedDefaults.remove(.pgpPrivateKeyURL)
         SharedDefaults.remove(.pgpPublicKeyURL)
         Utils.removeKeychain(name: ".pgpKeyPassphrase")
+        Utils.removeKeychain(name: PGPKeyType.PUBLIC.rawValue)
+        Utils.removeKeychain(name: PGPKeyType.PRIVATE.rawValue)
         publicKey = nil
         privateKey = nil
     }
@@ -883,7 +860,16 @@ public class PasswordStore {
     }
     
     public func pgpKeyImportFromFileSharing() throws {
-        try fm.moveItem(atPath: Globals.iTunesFileSharingPGPPublic, toPath: Globals.pgpPublicKeyPath)
-        try fm.moveItem(atPath: Globals.iTunesFileSharingPGPPrivate, toPath: Globals.pgpPrivateKeyPath)
+        let publicKeyFileUrl = URL(fileURLWithPath: Globals.iTunesFileSharingPGPPublic)
+        let privateKeyFileUrl = URL(fileURLWithPath: Globals.iTunesFileSharingPGPPrivate)
+
+        let publicKeyFileContent = try Data(contentsOf: publicKeyFileUrl)
+        let privateKeyFileContent = try Data(contentsOf: privateKeyFileUrl)
+
+        Utils.addDataToKeychain(key: PGPKeyType.PUBLIC.rawValue, data: publicKeyFileContent)
+        Utils.addDataToKeychain(key: PGPKeyType.PRIVATE.rawValue, data: privateKeyFileContent)
+
+        try fm.removeItem(at: publicKeyFileUrl)
+        try fm.removeItem(at: privateKeyFileUrl)
     }
 }
