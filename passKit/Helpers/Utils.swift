@@ -6,39 +6,7 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import Foundation
-import SwiftyUserDefaults
-import KeychainAccess
-
 public class Utils {
-
-    private static let keychain = Keychain(service: Globals.bundleIdentifier, accessGroup: Globals.groupIdentifier)
-        .accessibility(.whenUnlockedThisDeviceOnly)
-        .synchronizable(false)
-
-    public static func getPasswordFromKeychain(name: String) -> String? {
-        return try? keychain.getString(name)
-    }
-
-    public static func addPasswordToKeychain(name: String, password: String?) {
-        keychain[name] = password
-    }
-
-    public static func removeKeychain(name: String) {
-        try? keychain.remove(name)
-    }
-
-    public static func removeAllKeychain() {
-        try? keychain.removeAll()
-    }
-
-    public static func addDataToKeychain(key: String, data: Data) {
-        keychain[data: key] = data
-    }
-
-    public static func getDataFromKeychain(for key: String) -> Data? {
-        return try? keychain.getData(key)
-    }
 
     public static func copyToPasteboard(textToCopy: String?) {
         guard textToCopy != nil else {

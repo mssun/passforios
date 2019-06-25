@@ -49,28 +49,34 @@ public class PasswordStore {
 
     public var pgpKeyPassphrase: String? {
         set {
-            Utils.addPasswordToKeychain(name: "pgpKeyPassphrase", password: newValue)
+            if newValue != nil {
+                AppKeychain.add(string: newValue!, for: "pgpKeyPassphrase")
+            }
         }
         get {
-            return Utils.getPasswordFromKeychain(name: "pgpKeyPassphrase")
+            return AppKeychain.get(for: "pgpKeyPassphrase")
         }
     }
     
     public var gitPassword: String? {
         set {
-            Utils.addPasswordToKeychain(name: "gitPassword", password: newValue)
+            if newValue != nil {
+                AppKeychain.add(string: newValue!, for: "gitPassword")
+            }
         }
         get {
-            return Utils.getPasswordFromKeychain(name: "gitPassword")
+            return AppKeychain.get(for: "gitPassword")
         }
     }
     
     public var gitSSHPrivateKeyPassphrase: String? {
         set {
-            Utils.addPasswordToKeychain(name: "gitSSHPrivateKeyPassphrase", password: newValue)
+            if newValue != nil {
+                AppKeychain.add(string: newValue!, for: "gitSSHPrivateKeyPassphrase")
+            }
         }
         get {
-            return Utils.getPasswordFromKeychain(name: "gitSSHPrivateKeyPassphrase")
+            return AppKeychain.get(for: "gitSSHPrivateKeyPassphrase")
         }
     }
     
@@ -186,10 +192,10 @@ public class PasswordStore {
 
     private func importExistingKeysIntoKeychain() {
         if let publicKey = fm.contents(atPath: Globals.pgpPublicKeyPath) {
-            Utils.addDataToKeychain(key: PGPKeyType.PUBLIC.rawValue, data: publicKey)
+            AppKeychain.add(data: publicKey, for: PGPKeyType.PUBLIC.rawValue)
         }
         if let privateKey = fm.contents(atPath: Globals.pgpPrivateKeyPath) {
-            Utils.addDataToKeychain(key: PGPKeyType.PRIVATE.rawValue, data: privateKey)
+            AppKeychain.add(data: privateKey, for: PGPKeyType.PRIVATE.rawValue)
         }
     }
     
@@ -208,7 +214,7 @@ public class PasswordStore {
     }
     
     private func initPGPKey(_ keyType: PGPKeyType) throws {
-        if let key = GopenpgpwrapperReadKey(Utils.getDataFromKeychain(for: keyType.rawValue)) {
+        if let key = GopenpgpwrapperReadKey(AppKeychain.get(for: keyType.rawValue)) {
             switch keyType {
             case .PUBLIC:
                 self.publicKey = key
@@ -222,13 +228,13 @@ public class PasswordStore {
     
     public func initPGPKey(from url: URL, keyType: PGPKeyType) throws {
         let pgpKeyData = try Data(contentsOf: url)
-        Utils.addDataToKeychain(key: keyType.rawValue, data: pgpKeyData)
+        AppKeychain.add(data: pgpKeyData, for: keyType.rawValue)
         try initPGPKey(keyType)
     }
     
     public func initPGPKey(with armorKey: String, keyType: PGPKeyType) throws {
         let pgpKeyData = armorKey.data(using: .ascii)!
-        Utils.addDataToKeychain(key: keyType.rawValue, data: pgpKeyData)
+        AppKeychain.add(data: pgpKeyData, for: keyType.rawValue)
         try initPGPKey(keyType)
     }
     
@@ -744,8 +750,8 @@ public class PasswordStore {
         try? fm.removeItem(atPath: Globals.pgpPrivateKeyPath)
         try? fm.removeItem(atPath: Globals.gitSSHPrivateKeyPath)
         
-        Utils.removeAllKeychain()
-        
+        AppKeychain.removeAllContent()
+
         deleteCoreData(entityName: "PasswordEntity")
         
         SharedDefaults.removeAll()
@@ -835,9 +841,9 @@ public class PasswordStore {
         SharedDefaults.remove(.pgpKeySource)
         SharedDefaults.remove(.pgpPrivateKeyURL)
         SharedDefaults.remove(.pgpPublicKeyURL)
-        Utils.removeKeychain(name: ".pgpKeyPassphrase")
-        Utils.removeKeychain(name: PGPKeyType.PUBLIC.rawValue)
-        Utils.removeKeychain(name: PGPKeyType.PRIVATE.rawValue)
+        AppKeychain.removeContent(for: ".pgpKeyPassphrase")
+        AppKeychain.removeContent(for: PGPKeyType.PUBLIC.rawValue)
+        AppKeychain.removeContent(for: PGPKeyType.PRIVATE.rawValue)
         publicKey = nil
         privateKey = nil
     }
@@ -876,8 +882,8 @@ public class PasswordStore {
         let publicKeyFileContent = try Data(contentsOf: publicKeyFileUrl)
         let privateKeyFileContent = try Data(contentsOf: privateKeyFileUrl)
 
-        Utils.addDataToKeychain(key: PGPKeyType.PUBLIC.rawValue, data: publicKeyFileContent)
-        Utils.addDataToKeychain(key: PGPKeyType.PRIVATE.rawValue, data: privateKeyFileContent)
+        AppKeychain.add(data: publicKeyFileContent, for: PGPKeyType.PUBLIC.rawValue)
+        AppKeychain.add(data: privateKeyFileContent, for: PGPKeyType.PRIVATE.rawValue)
 
         try fm.removeItem(at: publicKeyFileUrl)
         try fm.removeItem(at: privateKeyFileUrl)
