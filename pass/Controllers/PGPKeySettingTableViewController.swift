@@ -28,7 +28,7 @@ class PGPKeySettingTableViewController: AutoCellHeightUITableViewController {
             Utils.alert(title: "CannotSavePgpKey".localize(), message: "SetPgpKeyUrlFirst.".localize(), controller: self, completion: nil)
             return false
         }
-        guard let scheme = url.scheme, scheme == "https", scheme == "https"  else {
+        guard let scheme = url.scheme, scheme == "https"  else {
             Utils.alert(title: "CannotSavePgpKey".localize(), message: "HttpNotSupported.".localize(), controller: self, completion: nil)
             return false
         }
