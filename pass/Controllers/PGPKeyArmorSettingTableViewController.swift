@@ -72,7 +72,7 @@ class PGPKeyArmorSettingTableViewController: AutoCellHeightUITableViewController
             // check the number of segments
             numberOfSegments = numberOfSegments + 1
             guard numberOfSegments <= ScannedPGPKey.maxNumberOfGif else {
-                key = "TooManyQrCodes"
+                key = "TooManyQrCodes".localize()
                 return
             }
 
