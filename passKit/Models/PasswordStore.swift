@@ -191,11 +191,18 @@ public class PasswordStore {
     }
 
     private func importExistingKeysIntoKeychain() {
-        if let publicKey = fm.contents(atPath: Globals.pgpPublicKeyPath) {
-            AppKeychain.add(data: publicKey, for: PGPKeyType.PUBLIC.rawValue)
-        }
-        if let privateKey = fm.contents(atPath: Globals.pgpPrivateKeyPath) {
-            AppKeychain.add(data: privateKey, for: PGPKeyType.PRIVATE.rawValue)
+        do {
+            if let publicKey = fm.contents(atPath: Globals.pgpPublicKeyPath) {
+                AppKeychain.add(data: publicKey, for: PGPKeyType.PUBLIC.rawValue)
+                try fm.removeItem(atPath: Globals.pgpPublicKeyPath)
+            }
+            if let privateKey = fm.contents(atPath: Globals.pgpPrivateKeyPath) {
+                AppKeychain.add(data: privateKey, for: PGPKeyType.PRIVATE.rawValue)
+                try fm.removeItem(atPath: Globals.pgpPrivateKeyPath)
+            }
+            SharedDefaults[.pgpKeySource] = "file"
+        } catch {
+            print("MigrationError".localize(error))
         }
     }
     
