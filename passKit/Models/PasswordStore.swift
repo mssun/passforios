@@ -126,6 +126,7 @@ public class PasswordStore {
         // File migration to group
         migrateIfNeeded()
         backwardCompatibility()
+        importExistingKeysIntoKeychain()
         
         do {
             if fm.fileExists(atPath: storeURL.path) {
@@ -180,6 +181,15 @@ public class PasswordStore {
         // For the renamed isRememberPGPPassphraseOn (20171008)
         if self.pgpKeyPassphrase != nil && SharedDefaults[.isRememberPGPPassphraseOn] == false {
             SharedDefaults[.isRememberPGPPassphraseOn] = true
+        }
+    }
+
+    private func importExistingKeysIntoKeychain() {
+        if let publicKey = fm.contents(atPath: Globals.pgpPublicKeyPath) {
+            Utils.addDataToKeychain(key: PGPKeyType.PUBLIC.rawValue, data: publicKey)
+        }
+        if let privateKey = fm.contents(atPath: Globals.pgpPrivateKeyPath) {
+            Utils.addDataToKeychain(key: PGPKeyType.PRIVATE.rawValue, data: privateKey)
         }
     }
     
