@@ -34,10 +34,6 @@ public class PasswordStore {
         }
     }
     public var privateKey: GopenpgpwrapperKey?
-    public enum PGPKeyType: String {
-        case PUBLIC = "pgpPublicKey"
-        case PRIVATE = "pgpPrivateKey"
-    }
     
     public var gitSignatureForNow: GTSignature? {
         get {
@@ -192,14 +188,8 @@ public class PasswordStore {
 
     private func importExistingKeysIntoKeychain() {
         do {
-            if let publicKey = fm.contents(atPath: Globals.pgpPublicKeyPath) {
-                AppKeychain.add(data: publicKey, for: PGPKeyType.PUBLIC.rawValue)
-                try fm.removeItem(atPath: Globals.pgpPublicKeyPath)
-            }
-            if let privateKey = fm.contents(atPath: Globals.pgpPrivateKeyPath) {
-                AppKeychain.add(data: privateKey, for: PGPKeyType.PRIVATE.rawValue)
-                try fm.removeItem(atPath: Globals.pgpPrivateKeyPath)
-            }
+            try KeyFileManager(keyType: PgpKeyType.PUBLIC, keyPath: Globals.pgpPublicKeyPath).importKeyAndDeleteFile()
+            try KeyFileManager(keyType: PgpKeyType.PRIVATE, keyPath: Globals.pgpPrivateKeyPath).importKeyAndDeleteFile()
             SharedDefaults[.pgpKeySource] = "file"
         } catch {
             print("MigrationError".localize(error))
@@ -220,8 +210,8 @@ public class PasswordStore {
         try initPGPKey(.PRIVATE)
     }
     
-    private func initPGPKey(_ keyType: PGPKeyType) throws {
-        if let key = GopenpgpwrapperReadKey(AppKeychain.get(for: keyType.rawValue)) {
+    private func initPGPKey(_ keyType: PgpKeyType) throws {
+        if let key = GopenpgpwrapperReadKey(AppKeychain.get(for: keyType.getKeychainKey())) {
             switch keyType {
             case .PUBLIC:
                 self.publicKey = key
@@ -232,16 +222,16 @@ public class PasswordStore {
         }
         throw AppError.KeyImport
     }
-    
-    public func initPGPKey(from url: URL, keyType: PGPKeyType) throws {
+
+    public func initPGPKey(from url: URL, keyType: PgpKeyType) throws {
         let pgpKeyData = try Data(contentsOf: url)
-        AppKeychain.add(data: pgpKeyData, for: keyType.rawValue)
+        AppKeychain.add(data: pgpKeyData, for: keyType.getKeychainKey())
         try initPGPKey(keyType)
     }
     
-    public func initPGPKey(with armorKey: String, keyType: PGPKeyType) throws {
+    public func initPGPKey(with armorKey: String, keyType: PgpKeyType) throws {
         let pgpKeyData = armorKey.data(using: .ascii)!
-        AppKeychain.add(data: pgpKeyData, for: keyType.rawValue)
+        AppKeychain.add(data: pgpKeyData, for: keyType.getKeychainKey())
         try initPGPKey(keyType)
     }
     
@@ -849,8 +839,8 @@ public class PasswordStore {
         SharedDefaults.remove(.pgpPrivateKeyURL)
         SharedDefaults.remove(.pgpPublicKeyURL)
         AppKeychain.removeContent(for: "pgpKeyPassphrase")
-        AppKeychain.removeContent(for: PGPKeyType.PUBLIC.rawValue)
-        AppKeychain.removeContent(for: PGPKeyType.PRIVATE.rawValue)
+        AppKeychain.removeContent(for: PgpKeyType.PUBLIC.getKeychainKey())
+        AppKeychain.removeContent(for: PgpKeyType.PRIVATE.getKeychainKey())
         publicKey = nil
         privateKey = nil
     }
@@ -874,7 +864,7 @@ public class PasswordStore {
         if inFileSharing == false {
             return fm.fileExists(atPath: Globals.pgpPublicKeyPath) && fm.fileExists(atPath: Globals.pgpPrivateKeyPath)
         } else {
-            return fm.fileExists(atPath: Globals.iTunesFileSharingPGPPublic) && fm.fileExists(atPath: Globals.iTunesFileSharingPGPPrivate)
+            return KeyFileManager.PublicPgp.doesKeyFileExist() && KeyFileManager.PrivatePgp.doesKeyFileExist()
         }
     }
     
@@ -883,16 +873,7 @@ public class PasswordStore {
     }
     
     public func pgpKeyImportFromFileSharing() throws {
-        guard let publicKeyFileContent = fm.contents(atPath: Globals.iTunesFileSharingPGPPublic) else {
-            throw AppError.ReadingFile(Globals.iTunesFileSharingPGPPublic)
-        }
-        AppKeychain.add(data: publicKeyFileContent, for: PGPKeyType.PUBLIC.rawValue)
-        try fm.removeItem(atPath: Globals.iTunesFileSharingPGPPublic)
-
-        guard let privateKeyFileContent = fm.contents(atPath: Globals.iTunesFileSharingPGPPrivate) else {
-            throw AppError.ReadingFile(Globals.iTunesFileSharingPGPPrivate)
-        }
-        AppKeychain.add(data: privateKeyFileContent, for: PGPKeyType.PRIVATE.rawValue)
-        try fm.removeItem(atPath: Globals.iTunesFileSharingPGPPrivate)
+        try KeyFileManager.PublicPgp.importKeyAndDeleteFile()
+        try KeyFileManager.PrivatePgp.importKeyAndDeleteFile()
     }
 }

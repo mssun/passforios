@@ -6,7 +6,7 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-public enum AppError: Error {
+public enum AppError: Error, Equatable {
     case RepositoryNotSet
     case RepositoryRemoteBranchNotFound(_: String)
     case RepositoryBranchNotFound(_: String)
