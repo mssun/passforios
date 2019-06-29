@@ -11,6 +11,7 @@ public enum AppError: Error {
     case RepositoryRemoteBranchNotFound(_: String)
     case RepositoryBranchNotFound(_: String)
     case KeyImport
+    case ReadingFile(_: String)
     case PasswordDuplicated
     case GitReset
     case GitCommit
@@ -26,7 +27,7 @@ extension AppError: LocalizedError {
     public var errorDescription: String? {
         let localizationKey = "\(String(describing: self).prefix(while: { $0 != "(" }))Error."
         switch self {
-        case let .RepositoryRemoteBranchNotFound(name), let .RepositoryBranchNotFound(name):
+        case let .RepositoryRemoteBranchNotFound(name), let .RepositoryBranchNotFound(name), let .ReadingFile(name):
             return localizationKey.localize(name)
         default:
             return localizationKey.localize()

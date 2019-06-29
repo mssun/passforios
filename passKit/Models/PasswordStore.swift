@@ -883,16 +883,16 @@ public class PasswordStore {
     }
     
     public func pgpKeyImportFromFileSharing() throws {
-        let publicKeyFileUrl = URL(fileURLWithPath: Globals.iTunesFileSharingPGPPublic)
-        let privateKeyFileUrl = URL(fileURLWithPath: Globals.iTunesFileSharingPGPPrivate)
-
-        let publicKeyFileContent = try Data(contentsOf: publicKeyFileUrl)
-        let privateKeyFileContent = try Data(contentsOf: privateKeyFileUrl)
-
+        guard let publicKeyFileContent = fm.contents(atPath: Globals.iTunesFileSharingPGPPublic) else {
+            throw AppError.ReadingFile(Globals.iTunesFileSharingPGPPublic)
+        }
         AppKeychain.add(data: publicKeyFileContent, for: PGPKeyType.PUBLIC.rawValue)
-        AppKeychain.add(data: privateKeyFileContent, for: PGPKeyType.PRIVATE.rawValue)
+        try fm.removeItem(atPath: Globals.iTunesFileSharingPGPPublic)
 
-        try fm.removeItem(at: publicKeyFileUrl)
-        try fm.removeItem(at: privateKeyFileUrl)
+        guard let privateKeyFileContent = fm.contents(atPath: Globals.iTunesFileSharingPGPPrivate) else {
+            throw AppError.ReadingFile(Globals.iTunesFileSharingPGPPrivate)
+        }
+        AppKeychain.add(data: privateKeyFileContent, for: PGPKeyType.PRIVATE.rawValue)
+        try fm.removeItem(atPath: Globals.iTunesFileSharingPGPPrivate)
     }
 }

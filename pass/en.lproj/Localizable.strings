@@ -61,6 +61,7 @@
 "RepositoryRemoteBranchNotFoundError."  = "Cannot find remote branch %@.";
 "RepositoryBranchNotFoundError."        = "Branch %@ not found in repository.";
 "KeyImportError."                       = "Cannot import the key.";
+"FileNotFoundError."                    = "File '%@' cannot be read.";
 "PasswordDuplicatedError."              = "Cannot add the password; password is duplicated.";
 "GitResetError."                        = "Cannot identify the latest synced commit.";
 "PgpPublicKeyNotExistError."            = "PGP public key doesn't exist.";
