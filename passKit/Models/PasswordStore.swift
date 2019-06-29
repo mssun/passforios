@@ -848,7 +848,7 @@ public class PasswordStore {
         SharedDefaults.remove(.pgpKeySource)
         SharedDefaults.remove(.pgpPrivateKeyURL)
         SharedDefaults.remove(.pgpPublicKeyURL)
-        AppKeychain.removeContent(for: ".pgpKeyPassphrase")
+        AppKeychain.removeContent(for: "pgpKeyPassphrase")
         AppKeychain.removeContent(for: PGPKeyType.PUBLIC.rawValue)
         AppKeychain.removeContent(for: PGPKeyType.PRIVATE.rawValue)
         publicKey = nil
