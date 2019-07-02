@@ -71,7 +71,7 @@ class GitSSHKeyArmorSettingTableViewController: AutoCellHeightUITableViewControl
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        armorPrivateKeyTextView.text = SharedDefaults[.gitSSHPrivateKeyArmor]
+        armorPrivateKeyTextView.text = AppKeychain.get(for: SshKey.PRIVATE.getKeychainKey())
         armorPrivateKeyTextView.delegate = self
 
         scanPrivateKeyCell?.textLabel?.text = "ScanPrivateKeyQrCodes".localize()
@@ -81,7 +81,6 @@ class GitSSHKeyArmorSettingTableViewController: AutoCellHeightUITableViewControl
     }
 
     @IBAction func doneButtonTapped(_ sender: Any) {
-        SharedDefaults[.gitSSHPrivateKeyArmor] = armorPrivateKeyTextView.text
         do {
             try passwordStore.initGitSSHKey(with: armorPrivateKeyTextView.text)
         } catch {

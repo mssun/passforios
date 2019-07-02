@@ -142,7 +142,7 @@ public class PasswordStore {
     
     private func migrateIfNeeded() {
         // migrate happens only if the repository was cloned and pgp keys were set up using earlier versions
-        let needMigration = !pgpKeyExists() && !gitSSHKeyExists() && !fm.fileExists(atPath: Globals.repositoryPath) && fm.fileExists(atPath: Globals.repositoryPathLegacy)
+        let needMigration = !pgpKeyExists() && !fm.fileExists(atPath: Globals.gitSSHPrivateKeyPath) && !fm.fileExists(atPath: Globals.repositoryPath) && fm.fileExists(atPath: Globals.repositoryPathLegacy)
         guard needMigration == true else {
             return
         }
@@ -190,21 +190,19 @@ public class PasswordStore {
         do {
             try KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: Globals.pgpPublicKeyPath).importKeyAndDeleteFile()
             try KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: Globals.pgpPrivateKeyPath).importKeyAndDeleteFile()
+            try KeyFileManager(keyType: SshKey.PRIVATE, keyPath: Globals.gitSSHPrivateKeyPath).importKeyAndDeleteFile()
             SharedDefaults.remove(.pgpPublicKeyArmor)
             SharedDefaults.remove(.pgpPrivateKeyArmor)
+            SharedDefaults.remove(.gitSSHPrivateKeyArmor)
             SharedDefaults[.pgpKeySource] = "file"
+            SharedDefaults[.gitSSHKeySource] = "file"
         } catch {
             print("MigrationError".localize(error))
         }
     }
     
-    enum SSHKeyType {
-        case `public`, secret
-    }
-    
     public func initGitSSHKey(with armorKey: String) throws {
-        let keyPath = Globals.gitSSHPrivateKeyPath
-        try armorKey.write(toFile: keyPath, atomically: true, encoding: .ascii)
+        AppKeychain.add(string: armorKey, for: SshKey.PRIVATE.getKeychainKey())
     }
     
     public func initPGPKeys() throws {
@@ -851,17 +849,11 @@ public class PasswordStore {
     
     public func removeGitSSHKeys() {
         try? fm.removeItem(atPath: Globals.gitSSHPrivateKeyPath)
+        Defaults.remove(.gitSSHKeySource)
         Defaults.remove(.gitSSHPrivateKeyArmor)
         Defaults.remove(.gitSSHPrivateKeyURL)
-        self.gitSSHPrivateKeyPassphrase = nil
-    }
-    
-    public func gitSSHKeyExists(inFileSharing: Bool = false) -> Bool {
-        if inFileSharing == false {
-            return fm.fileExists(atPath: Globals.gitSSHPrivateKeyPath)
-        } else {
-            return fm.fileExists(atPath: Globals.iTunesFileSharingSSHPrivate)
-        }
+        AppKeychain.removeContent(for: SshKey.PRIVATE.getKeychainKey())
+        gitSSHPrivateKeyPassphrase = nil
     }
     
     public func pgpKeyExists(inFileSharing: Bool = false) -> Bool {
@@ -873,7 +865,7 @@ public class PasswordStore {
     }
     
     public func gitSSHKeyImportFromFileSharing() throws {
-        try fm.moveItem(atPath: Globals.iTunesFileSharingSSHPrivate, toPath: Globals.gitSSHPrivateKeyPath)
+        try KeyFileManager.PrivateSsh.importKeyAndDeleteFile()
     }
     
     public func pgpKeyImportFromFileSharing() throws {

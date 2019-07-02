@@ -22,6 +22,10 @@ public class AppKeychain {
         keychain[key] = string
     }
 
+    public static func contains(key: String) -> Bool {
+        return (try? keychain.contains(key)) ?? false
+    }
+
     public static func get(for key: String) -> Data? {
         return try? keychain.getData(key)
     }

@@ -34,3 +34,20 @@ public enum PgpKey: CryptographicKey {
     }
 }
 
+public enum SshKey: CryptographicKey {
+    case PRIVATE
+
+    public func getKeychainKey() -> String {
+        switch self {
+        case .PRIVATE:
+            return "sshPrivateKey"
+        }
+    }
+
+    public func getFileSharingPath() -> String {
+        switch self {
+        case .PRIVATE:
+            return Globals.iTunesFileSharingSSHPrivate
+        }
+    }
+}

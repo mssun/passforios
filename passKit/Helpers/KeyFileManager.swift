@@ -11,6 +11,7 @@ public class KeyFileManager {
 
     public static let PublicPgp = KeyFileManager(keyType: PgpKey.PUBLIC)
     public static let PrivatePgp = KeyFileManager(keyType: PgpKey.PRIVATE)
+    public static let PrivateSsh = KeyFileManager(keyType: SshKey.PRIVATE)
 
     private let keyType: CryptographicKey
     private let keyPath: String
