@@ -1,12 +1,17 @@
 //
-//  PgpKeyType.swift
+//  CryptographicKeys.swift
 //  passKit
 //
 //  Created by Danny Moesch on 29.06.19.
 //  Copyright © 2019 Bob Sun. All rights reserved.
 //
 
-public enum PgpKeyType {
+public protocol CryptographicKey {
+    func getKeychainKey() -> String
+    func getFileSharingPath() -> String
+}
+
+public enum PgpKey: CryptographicKey {
     case PUBLIC
     case PRIVATE
 
@@ -19,7 +24,7 @@ public enum PgpKeyType {
         }
     }
 
-    func getFileSharingPath() -> String {
+    public func getFileSharingPath() -> String {
         switch self {
         case .PUBLIC:
             return Globals.iTunesFileSharingPGPPublic
@@ -28,3 +33,4 @@ public enum PgpKeyType {
         }
     }
 }
+

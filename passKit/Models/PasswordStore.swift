@@ -188,8 +188,8 @@ public class PasswordStore {
 
     private func importExistingKeysIntoKeychain() {
         do {
-            try KeyFileManager(keyType: PgpKeyType.PUBLIC, keyPath: Globals.pgpPublicKeyPath).importKeyAndDeleteFile()
-            try KeyFileManager(keyType: PgpKeyType.PRIVATE, keyPath: Globals.pgpPrivateKeyPath).importKeyAndDeleteFile()
+            try KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: Globals.pgpPublicKeyPath).importKeyAndDeleteFile()
+            try KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: Globals.pgpPrivateKeyPath).importKeyAndDeleteFile()
             SharedDefaults.remove(.pgpPublicKeyArmor)
             SharedDefaults.remove(.pgpPrivateKeyArmor)
             SharedDefaults[.pgpKeySource] = "file"
@@ -212,7 +212,7 @@ public class PasswordStore {
         try initPGPKey(.PRIVATE)
     }
     
-    private func initPGPKey(_ keyType: PgpKeyType) throws {
+    private func initPGPKey(_ keyType: PgpKey) throws {
         if let key = GopenpgpwrapperReadKey(AppKeychain.get(for: keyType.getKeychainKey())) {
             switch keyType {
             case .PUBLIC:
@@ -225,13 +225,13 @@ public class PasswordStore {
         throw AppError.KeyImport
     }
 
-    public func initPGPKey(from url: URL, keyType: PgpKeyType) throws {
+    public func initPGPKey(from url: URL, keyType: PgpKey) throws {
         let pgpKeyData = try Data(contentsOf: url)
         AppKeychain.add(data: pgpKeyData, for: keyType.getKeychainKey())
         try initPGPKey(keyType)
     }
     
-    public func initPGPKey(with armorKey: String, keyType: PgpKeyType) throws {
+    public func initPGPKey(with armorKey: String, keyType: PgpKey) throws {
         let pgpKeyData = armorKey.data(using: .ascii)!
         AppKeychain.add(data: pgpKeyData, for: keyType.getKeychainKey())
         try initPGPKey(keyType)
@@ -843,8 +843,8 @@ public class PasswordStore {
         SharedDefaults.remove(.pgpPublicKeyArmor)
         SharedDefaults.remove(.pgpPrivateKeyArmor)
         AppKeychain.removeContent(for: "pgpKeyPassphrase")
-        AppKeychain.removeContent(for: PgpKeyType.PUBLIC.getKeychainKey())
-        AppKeychain.removeContent(for: PgpKeyType.PRIVATE.getKeychainKey())
+        AppKeychain.removeContent(for: PgpKey.PUBLIC.getKeychainKey())
+        AppKeychain.removeContent(for: PgpKey.PRIVATE.getKeychainKey())
         publicKey = nil
         privateKey = nil
     }
