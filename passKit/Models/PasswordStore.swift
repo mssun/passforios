@@ -190,6 +190,8 @@ public class PasswordStore {
         do {
             try KeyFileManager(keyType: PgpKeyType.PUBLIC, keyPath: Globals.pgpPublicKeyPath).importKeyAndDeleteFile()
             try KeyFileManager(keyType: PgpKeyType.PRIVATE, keyPath: Globals.pgpPrivateKeyPath).importKeyAndDeleteFile()
+            SharedDefaults.remove(.pgpPublicKeyArmor)
+            SharedDefaults.remove(.pgpPrivateKeyArmor)
             SharedDefaults[.pgpKeySource] = "file"
         } catch {
             print("MigrationError".localize(error))
@@ -838,6 +840,8 @@ public class PasswordStore {
         SharedDefaults.remove(.pgpKeySource)
         SharedDefaults.remove(.pgpPrivateKeyURL)
         SharedDefaults.remove(.pgpPublicKeyURL)
+        SharedDefaults.remove(.pgpPublicKeyArmor)
+        SharedDefaults.remove(.pgpPrivateKeyArmor)
         AppKeychain.removeContent(for: "pgpKeyPassphrase")
         AppKeychain.removeContent(for: PgpKeyType.PUBLIC.getKeychainKey())
         AppKeychain.removeContent(for: PgpKeyType.PRIVATE.getKeychainKey())
