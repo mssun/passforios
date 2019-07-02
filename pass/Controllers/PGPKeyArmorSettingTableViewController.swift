@@ -91,10 +91,10 @@ class PGPKeyArmorSettingTableViewController: AutoCellHeightUITableViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let publicKey: Data = AppKeychain.get(for: PgpKeyType.PUBLIC.getKeychainKey()) {
+        if let publicKey: Data = AppKeychain.get(for: PgpKey.PUBLIC.getKeychainKey()) {
             armorPublicKeyTextView.text = String(data: publicKey, encoding: .ascii)
         }
-        if let privateKey: Data = AppKeychain.get(for: PgpKeyType.PRIVATE.getKeychainKey()) {
+        if let privateKey: Data = AppKeychain.get(for: PgpKey.PRIVATE.getKeychainKey()) {
             armorPrivateKeyTextView.text = String(data: privateKey, encoding: .ascii)
         }
 
