@@ -17,7 +17,7 @@ public struct GitCredential {
 
     public enum Credential {
         case http(userName: String)
-        case ssh(userName: String, privateKeyFile: URL)
+        case ssh(userName: String, privateKey: String)
     }
 
     public init(credential: Credential) {
@@ -48,7 +48,7 @@ public struct GitCredential {
                 }
                 attempts += 1
                 credential = try? GTCredential(userName: userName, password: lastPassword!)
-            case let .ssh(userName, privateKeyFile):
+            case let .ssh(userName, privateKey):
                 if attempts > 0 {
                     // The passphrase seems correct, but the previous authentification failed.
                     return nil
@@ -65,7 +65,7 @@ public struct GitCredential {
                     }
                 }
                 attempts += 1
-                credential = try? GTCredential(userName: userName, publicKeyURL: nil, privateKeyURL: privateKeyFile, passphrase: lastPassword!)
+                credential = try? GTCredential(userName: userName, publicKeyString: nil, privateKeyString: privateKey, passphrase: lastPassword!)
             }
             return credential
         }

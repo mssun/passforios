@@ -19,6 +19,7 @@ public extension DefaultsKeys {
     // Keep them for legacy reasons.
     static let pgpPublicKeyArmor = DefaultsKey<String?>("pgpPublicKeyArmor")
     static let pgpPrivateKeyArmor = DefaultsKey<String?>("pgpPrivateKeyArmor")
+    static let gitSSHPrivateKeyArmor = DefaultsKey<String?>("gitSSHPrivateKeyArmor")
 
     static let gitURL = DefaultsKey<URL?>("gitURL")
     static let gitAuthenticationMethod = DefaultsKey<String?>("gitAuthenticationMethod")
@@ -26,7 +27,6 @@ public extension DefaultsKeys {
     static let gitBranchName = DefaultsKey<String>("gitBranchName", defaultValue: "master")
     static let gitSSHPrivateKeyURL = DefaultsKey<URL?>("gitSSHPrivateKeyURL")
     static let gitSSHKeySource = DefaultsKey<String?>("gitSSHKeySource")
-    static let gitSSHPrivateKeyArmor = DefaultsKey<String?>("gitSSHPrivateKeyArmor")
     static let gitSignatureName = DefaultsKey<String?>("gitSignatureName")
     static let gitSignatureEmail = DefaultsKey<String?>("gitSignatureEmail")
 

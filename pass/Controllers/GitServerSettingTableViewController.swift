@@ -43,7 +43,7 @@ class GitServerSettingTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         // Grey out ssh option if ssh_key is not present
         if let sshLabel = sshLabel {
-            sshLabel.isEnabled = passwordStore.gitSSHKeyExists()
+            sshLabel.isEnabled = AppKeychain.contains(key: SshKey.PRIVATE.getKeychainKey())
         }
     }
     override func viewDidLoad() {
@@ -86,13 +86,14 @@ class GitServerSettingTableViewController: UITableViewController {
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "PrepareRepository".localize())
         var gitCredential: GitCredential
-        if auth == "Password" {
+        let privateKey: String? = AppKeychain.get(for: SshKey.PRIVATE.getKeychainKey())
+        if auth == "Password" || privateKey == nil {
             gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username))
         } else {
             gitCredential = GitCredential(
                 credential: GitCredential.Credential.ssh(
                     userName: username,
-                    privateKeyFile: Globals.gitSSHPrivateKeyURL
+                    privateKey: privateKey!
                 )
             )
         }
@@ -159,7 +160,7 @@ class GitServerSettingTableViewController: UITableViewController {
             authenticationMethod = "Password"
         } else if cell == authSSHKeyCell {
 
-            if !passwordStore.gitSSHKeyExists() {
+            if !AppKeychain.contains(key: SshKey.PRIVATE.getKeychainKey()) {
                 Utils.alert(title: "CannotSelectSshKey".localize(), message: "PleaseSetupSshKeyFirst.".localize(), controller: self, completion: nil)
                 authenticationMethod = "Password"
             } else {
@@ -235,7 +236,7 @@ class GitServerSettingTableViewController: UITableViewController {
         optionMenu.addAction(urlAction)
         optionMenu.addAction(armorAction)
 
-        if passwordStore.gitSSHKeyExists(inFileSharing: true) {
+        if KeyFileManager.PrivateSsh.doesKeyFileExist() {
             // might keys updated via iTunes, or downloaded/pasted inside the app
             fileActionTitle.append(" (\("Import".localize()))")
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
