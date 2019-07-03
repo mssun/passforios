@@ -14,11 +14,11 @@ public class AppKeychain {
         .accessibility(.whenUnlockedThisDeviceOnly)
         .synchronizable(false)
 
-    public static func add(data: Data, for key: String) {
+    public static func add(data: Data?, for key: String) {
         keychain[data: key] = data
     }
 
-    public static func add(string: String, for key: String) {
+    public static func add(string: String?, for key: String) {
         keychain[key] = string
     }
 
