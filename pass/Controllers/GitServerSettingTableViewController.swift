@@ -245,6 +245,7 @@ class GitServerSettingTableViewController: UITableViewController {
                     SharedDefaults[.gitSSHKeySource] = "file"
                     SVProgressHUD.showSuccess(withStatus: "Imported".localize())
                     SVProgressHUD.dismiss(withDelay: 1)
+                    self.sshLabel?.isEnabled = true
                 } catch {
                     Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
                 }
