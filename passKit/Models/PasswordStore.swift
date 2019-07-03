@@ -193,8 +193,6 @@ public class PasswordStore {
         SharedDefaults.remove(.pgpPublicKeyArmor)
         SharedDefaults.remove(.pgpPrivateKeyArmor)
         SharedDefaults.remove(.gitSSHPrivateKeyArmor)
-        SharedDefaults[.pgpKeySource] = "file"
-        SharedDefaults[.gitSSHKeySource] = "file"
     }
     
     public func initGitSSHKey(with armorKey: String) throws {
