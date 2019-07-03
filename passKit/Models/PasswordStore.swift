@@ -45,9 +45,7 @@ public class PasswordStore {
 
     public var pgpKeyPassphrase: String? {
         set {
-            if newValue != nil {
-                AppKeychain.add(string: newValue!, for: "pgpKeyPassphrase")
-            }
+            AppKeychain.add(string: newValue, for: "pgpKeyPassphrase")
         }
         get {
             return AppKeychain.get(for: "pgpKeyPassphrase")
@@ -56,9 +54,7 @@ public class PasswordStore {
     
     public var gitPassword: String? {
         set {
-            if newValue != nil {
-                AppKeychain.add(string: newValue!, for: "gitPassword")
-            }
+            AppKeychain.add(string: newValue, for: "gitPassword")
         }
         get {
             return AppKeychain.get(for: "gitPassword")
@@ -67,9 +63,7 @@ public class PasswordStore {
     
     public var gitSSHPrivateKeyPassphrase: String? {
         set {
-            if newValue != nil {
-                AppKeychain.add(string: newValue!, for: "gitSSHPrivateKeyPassphrase")
-            }
+            AppKeychain.add(string: newValue, for: "gitSSHPrivateKeyPassphrase")
         }
         get {
             return AppKeychain.get(for: "gitSSHPrivateKeyPassphrase")
@@ -834,9 +828,9 @@ public class PasswordStore {
         SharedDefaults.remove(.pgpPublicKeyURL)
         SharedDefaults.remove(.pgpPublicKeyArmor)
         SharedDefaults.remove(.pgpPrivateKeyArmor)
-        AppKeychain.removeContent(for: "pgpKeyPassphrase")
         AppKeychain.removeContent(for: PgpKey.PUBLIC.getKeychainKey())
         AppKeychain.removeContent(for: PgpKey.PRIVATE.getKeychainKey())
+        pgpKeyPassphrase = nil
         publicKey = nil
         privateKey = nil
     }
