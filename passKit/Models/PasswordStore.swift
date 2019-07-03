@@ -187,18 +187,14 @@ public class PasswordStore {
     }
 
     private func importExistingKeysIntoKeychain() {
-        do {
-            try KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: Globals.pgpPublicKeyPath).importKeyAndDeleteFile()
-            try KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: Globals.pgpPrivateKeyPath).importKeyAndDeleteFile()
-            try KeyFileManager(keyType: SshKey.PRIVATE, keyPath: Globals.gitSSHPrivateKeyPath).importKeyAndDeleteFile()
-            SharedDefaults.remove(.pgpPublicKeyArmor)
-            SharedDefaults.remove(.pgpPrivateKeyArmor)
-            SharedDefaults.remove(.gitSSHPrivateKeyArmor)
-            SharedDefaults[.pgpKeySource] = "file"
-            SharedDefaults[.gitSSHKeySource] = "file"
-        } catch {
-            print("MigrationError".localize(error))
-        }
+        try? KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: Globals.pgpPublicKeyPath).importKeyAndDeleteFile()
+        try? KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: Globals.pgpPrivateKeyPath).importKeyAndDeleteFile()
+        try? KeyFileManager(keyType: SshKey.PRIVATE, keyPath: Globals.gitSSHPrivateKeyPath).importKeyAndDeleteFile()
+        SharedDefaults.remove(.pgpPublicKeyArmor)
+        SharedDefaults.remove(.pgpPrivateKeyArmor)
+        SharedDefaults.remove(.gitSSHPrivateKeyArmor)
+        SharedDefaults[.pgpKeySource] = "file"
+        SharedDefaults[.gitSSHKeySource] = "file"
     }
     
     public func initGitSSHKey(with armorKey: String) throws {
