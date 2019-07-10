@@ -71,7 +71,6 @@ class GitSSHKeyArmorSettingTableViewController: AutoCellHeightUITableViewControl
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        armorPrivateKeyTextView.text = AppKeychain.get(for: SshKey.PRIVATE.getKeychainKey())
         armorPrivateKeyTextView.delegate = self
 
         scanPrivateKeyCell?.textLabel?.text = "ScanPrivateKeyQrCodes".localize()
