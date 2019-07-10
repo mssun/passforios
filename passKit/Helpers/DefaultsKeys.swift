@@ -20,6 +20,7 @@ public extension DefaultsKeys {
     static let pgpPublicKeyArmor = DefaultsKey<String?>("pgpPublicKeyArmor")
     static let pgpPrivateKeyArmor = DefaultsKey<String?>("pgpPrivateKeyArmor")
     static let gitSSHPrivateKeyArmor = DefaultsKey<String?>("gitSSHPrivateKeyArmor")
+    static let passcodeKey = DefaultsKey<String?>("passcodeKey")
 
     static let gitURL = DefaultsKey<URL?>("gitURL")
     static let gitAuthenticationMethod = DefaultsKey<String?>("gitAuthenticationMethod")
@@ -33,7 +34,6 @@ public extension DefaultsKeys {
     static let lastSyncedTime = DefaultsKey<Date?>("lastSyncedTime")
 
     static let isTouchIDOn = DefaultsKey<Bool>("isTouchIDOn", defaultValue: false)
-    static let passcodeKey = DefaultsKey<String?>("passcodeKey")
 
     static let isHideUnknownOn = DefaultsKey<Bool>("isHideUnknownOn", defaultValue: false)
     static let isHideOTPOn = DefaultsKey<Bool>("isHideOTPOn", defaultValue: false)

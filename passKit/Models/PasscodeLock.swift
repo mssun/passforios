@@ -6,15 +6,20 @@
 //  Copyright © 2017 Yishi Lin. All rights reserved.
 //
 
-import Foundation
-import LocalAuthentication
-
-open class PasscodeLock {
+public class PasscodeLock {
     public static let shared = PasscodeLock()
 
-    fileprivate let passcodeKey = "passcode.lock.passcode"
-    fileprivate var passcode: String? {
-        return SharedDefaults[.passcodeKey]
+    private static let identifier = Globals.bundleIdentifier + "passcode"
+
+    /// Cached passcode to avoid frequent access to Keychain
+    private var passcode: String? = AppKeychain.get(for: PasscodeLock.identifier)
+
+    /// Constructor used to migrate passcode from SharedDefaults to Keychain
+    private init() {
+        if let passcode = SharedDefaults[.passcodeKey] {
+            save(passcode: passcode)
+            SharedDefaults[.passcodeKey] = nil
+        }
     }
 
     public var hasPasscode: Bool {
@@ -22,7 +27,8 @@ open class PasscodeLock {
     }
 
     public func save(passcode: String) {
-        SharedDefaults[.passcodeKey] = passcode
+        AppKeychain.add(string: passcode, for: PasscodeLock.identifier)
+        self.passcode = passcode
     }
 
     public func check(passcode: String) -> Bool {
@@ -30,6 +36,7 @@ open class PasscodeLock {
     }
 
     public func delete() {
-        SharedDefaults[.passcodeKey] = nil
+        AppKeychain.removeContent(for: PasscodeLock.identifier)
+        passcode = nil
     }
 }
