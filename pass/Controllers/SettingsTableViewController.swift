@@ -159,7 +159,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView.cellForRow(at: indexPath) == passcodeTableViewCell {
-            if SharedDefaults[.passcodeKey] != nil{
+            if passcodeLock.hasPasscode {
                 showPasscodeActionSheet()
             } else {
                 setPasscodeLock()
