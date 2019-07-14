@@ -196,13 +196,14 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             SVProgressHUD.show(withStatus: "Saving".localize())
             do {
                 self.passwordEntity = try self.passwordStore.edit(passwordEntity: self.passwordEntity!, password: self.password!)
+                self.setTableData()
+                self.tableView.reloadData()
+                SVProgressHUD.showSuccess(withStatus: "Success".localize())
+                SVProgressHUD.dismiss(withDelay: 1)
             } catch {
-                Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
+                SVProgressHUD.showSuccess(withStatus: error.localizedDescription)
+                SVProgressHUD.dismiss(withDelay: 1)
             }
-            self.setTableData()
-            self.tableView.reloadData()
-            SVProgressHUD.showSuccess(withStatus: "Success".localize())
-            SVProgressHUD.dismiss(withDelay: 1)
         }
     }
 
@@ -353,11 +354,12 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         if password!.changed != 0 {
             do {
                 self.passwordEntity = try self.passwordStore.edit(passwordEntity: self.passwordEntity!, password: self.password!)
+                SVProgressHUD.showSuccess(withStatus: "PasswordCopied".localize() | "CounterUpdated".localize())
+                SVProgressHUD.dismiss(withDelay: 1)
             } catch {
-                Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
+                SVProgressHUD.showSuccess(withStatus: error.localizedDescription)
+                SVProgressHUD.dismiss(withDelay: 1)
             }
-            SVProgressHUD.showSuccess(withStatus: "PasswordCopied".localize() | "CounterUpdated".localize())
-            SVProgressHUD.dismiss(withDelay: 1)
         }
     }
 
