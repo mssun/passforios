@@ -453,7 +453,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "showPasswordDetail" {
-            guard self.passwordStore.privateKey != nil else {
+            guard self.passwordStore.hasPgpKey else {
                 Utils.alert(title: "CannotShowPassword".localize(), message: "SetPgpKey.".localize(), controller: self, completion: nil)
                 if let s = sender as? UITableViewCell {
                     let selectedIndexPath = tableView.indexPath(for: s)!
@@ -462,7 +462,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 return false
             }
         } else if identifier == "addPasswordSegue" {
-            guard self.passwordStore.publicKey != nil, self.passwordStore.storeRepository != nil else {
+            guard self.passwordStore.hasPgpKey, self.passwordStore.storeRepository != nil else {
                 Utils.alert(title: "CannotAddPassword".localize(), message: "MakeSurePgpAndGitProperlySet.".localize(), controller: self, completion: nil)
                 return false
             }

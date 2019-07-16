@@ -11,6 +11,7 @@ import CoreData
 import UIKit
 import SwiftyUserDefaults
 import ObjectiveGit
+import ObjectivePGP
 import KeychainAccess
 import Gopenpgpwrapper
 
@@ -28,12 +29,26 @@ public class PasswordStore {
     
     public var storeRepository: GTRepository?
     public var pgpKeyID: String?
+    public var hasPgpKey: Bool {
+        get {
+            return (publicKey != nil || publicKeyV2 != nil) && (privateKey != nil || privateKeyV2 != nil)
+        }
+    }
+    // Gopenpgpwrapper
     public var publicKey: GopenpgpwrapperKey? {
         didSet {
             pgpKeyID = publicKey?.getID()
         }
     }
     public var privateKey: GopenpgpwrapperKey?
+    // ObjectivePGP
+    public let keyring = ObjectivePGP.defaultKeyring
+    public var publicKeyV2: Key? {
+        didSet {
+            pgpKeyID = publicKeyV2?.keyID.shortIdentifier
+        }
+    }
+    public var privateKeyV2: Key?
     
     public var gitSignatureForNow: GTSignature? {
         get {
@@ -199,7 +214,11 @@ public class PasswordStore {
     }
     
     private func initPGPKey(_ keyType: PgpKey) throws {
-        if let key = GopenpgpwrapperReadKey(AppKeychain.get(for: keyType.getKeychainKey())) {
+        // Read the key data from keychain.
+        let pgpKeyData: Data? = AppKeychain.get(for: keyType.getKeychainKey())
+        
+        // Try GopenpgpwrapperReadKey first.
+        if let key = GopenpgpwrapperReadKey(pgpKeyData) {
             switch keyType {
             case .PUBLIC:
                 self.publicKey = key
@@ -208,6 +227,20 @@ public class PasswordStore {
             }
             return
         }
+        
+        // Try ObjectivePGP as a backup plan.
+        if let keys = try? ObjectivePGP.readKeys(from: pgpKeyData!),
+            let key = keys.first {
+            keyring.import(keys: keys)
+            switch keyType {
+            case .PUBLIC:
+                self.publicKeyV2 = key
+            case .PRIVATE:
+                self.privateKeyV2 = key
+            }
+            return
+        }
+        
         throw AppError.KeyImport
     }
 
@@ -728,6 +761,10 @@ public class PasswordStore {
     public func erase() {
         publicKey = nil
         privateKey = nil
+        publicKeyV2 = nil
+        privateKeyV2 = nil
+        keyring.deleteAll()
+        
         try? fm.removeItem(at: storeURL)
         try? fm.removeItem(at: tempStoreURL)
         
@@ -800,24 +837,39 @@ public class PasswordStore {
         if passphrase == nil {
             passphrase = requestPGPKeyPassphrase()
         }
-        guard let decryptedData = privateKey?.decrypt(encryptedData, passphrase: passphrase) else {
-            throw AppError.Decryption
+        // Try Gopenpgp.
+        if let decryptedData = privateKey?.decrypt(encryptedData, passphrase: passphrase) {
+            let plainText = String(data: decryptedData, encoding: .utf8) ?? ""
+            let url = try passwordEntity.getURL()
+            return Password(name: passwordEntity.getName(), url: url, plainText: plainText)
         }
-        let plainText = String(data: decryptedData, encoding: .utf8) ?? ""
-        let url = try passwordEntity.getURL()
-        return Password(name: passwordEntity.getName(), url: url, plainText: plainText)
+        // Try ObjectivePGP.
+        if let decryptedData = try? ObjectivePGP.decrypt(encryptedData, andVerifySignature: false, using: keyring.keys, passphraseForKey: {(_) in passphrase}) {
+            let plainText = String(data: decryptedData, encoding: .utf8) ?? ""
+            let url = try passwordEntity.getURL()
+            return Password(name: passwordEntity.getName(), url: url, plainText: plainText)
+        }
+        throw AppError.Decryption
     }
     
     public func encrypt(password: Password) throws -> Data {
-        guard publicKey != nil else {
+        guard publicKey != nil || keyring.keys.count > 0 else {
             throw AppError.PgpPublicKeyNotExist
         }
         let plainData = password.plainData
-        guard let encryptedData = publicKey?.encrypt(plainData, armor: SharedDefaults[.encryptInArmored]) else {
-            throw AppError.Encryption
+        // Try Gopenpgp.
+        if let encryptedData = publicKey?.encrypt(plainData, armor: SharedDefaults[.encryptInArmored]) {
+            return encryptedData
         }
-        
-        return encryptedData
+        // Try ObjectivePGP.
+        if let encryptedData = try? ObjectivePGP.encrypt(plainData, addSignature: false, using: keyring.keys, passphraseForKey: nil) {
+            if SharedDefaults[.encryptInArmored] {
+                return Armor.armored(encryptedData, as: .message).data(using: .utf8)!
+            } else {
+                return encryptedData
+            }
+        }
+        throw AppError.Encryption
     }
     
     public func removePGPKeys() {
@@ -833,6 +885,9 @@ public class PasswordStore {
         pgpKeyPassphrase = nil
         publicKey = nil
         privateKey = nil
+        publicKeyV2 = nil
+        privateKeyV2 = nil
+        keyring.deleteAll()
     }
     
     public func removeGitSSHKeys() {

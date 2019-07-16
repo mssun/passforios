@@ -8,6 +8,9 @@ before_install:
   - echo -e "machine github.com\n  login $GITHUB_ACCESS_TOKEN" >> ~/.netrc
 install:
   - gem update fastlane
+  - gem uninstall -aIx cocoapods
+  - gem install cocoapods -v 1.5.3
+  - pod --version
 before_script:
   - |
     if [ ! $(git diff --name-only master..."$TRAVIS_COMMIT" | grep "Cartfile.resolved") ] && [ -d "Carthage/Build" ]; then
