@@ -96,6 +96,9 @@
 		A2A61C171EEF90CB00CFE063 /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA671DE1E7A73B100D3ABE1 /* OneTimePassword.framework */; };
 		A2A61C201EEFABAD00CFE063 /* UtilsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */; };
 		A2A7813F1E97DBD9001311F5 /* QRScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */; };
+		A2AA934422DE30DD00D79A00 /* PGPAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AA934322DE30DD00D79A00 /* PGPAgent.swift */; };
+		A2AA934622DE3A8000D79A00 /* PGPAgentTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AA934522DE3A8000D79A00 /* PGPAgentTest.swift */; };
+		A2AA934822DE3F0200D79A00 /* TestPGPKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AA934722DE3F0200D79A00 /* TestPGPKeys.swift */; };
 		DA2679F1424EA94B5B8997FB /* Pods_pass.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE627E8F3DACEDD8FA220081 /* Pods_pass.framework */; };
 		DC037CA61E4B883900609409 /* OpenSourceComponentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CA51E4B883900609409 /* OpenSourceComponentsTableViewController.swift */; };
 		DC037CA81E4B898100609409 /* BasicStaticTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC037CA71E4B898100609409 /* BasicStaticTableViewController.swift */; };
@@ -301,6 +304,9 @@
 		A2802BF81E70813A00879216 /* SliderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SliderTableViewCell.xib; sourceTree = "<group>"; };
 		A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilsExtension.swift; sourceTree = "<group>"; };
 		A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerController.swift; sourceTree = "<group>"; };
+		A2AA934322DE30DD00D79A00 /* PGPAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGPAgent.swift; sourceTree = "<group>"; };
+		A2AA934522DE3A8000D79A00 /* PGPAgentTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGPAgentTest.swift; sourceTree = "<group>"; };
+		A2AA934722DE3F0200D79A00 /* TestPGPKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPGPKeys.swift; sourceTree = "<group>"; };
 		A2BC54C71EEE5669001FAFBD /* Objective-CBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Objective-CBridgingHeader.h"; sourceTree = "<group>"; };
 		DC037CA51E4B883900609409 /* OpenSourceComponentsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSourceComponentsTableViewController.swift; sourceTree = "<group>"; };
 		DC037CA71E4B898100609409 /* BasicStaticTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicStaticTableViewController.swift; sourceTree = "<group>"; };
@@ -490,6 +496,7 @@
 			isa = PBXGroup;
 			children = (
 				30B0485F209A5141001013CA /* PasswordTest.swift */,
+				A2AA934522DE3A8000D79A00 /* PGPAgentTest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -566,6 +573,7 @@
 				A26075871EEC6F34005DB03E /* passKitTests.swift */,
 				307BF39821BC2297003A082D /* TestBase.swift */,
 				A26075891EEC6F34005DB03E /* Info.plist */,
+				A2AA934722DE3F0200D79A00 /* TestPGPKeys.swift */,
 			);
 			path = passKitTests;
 			sourceTree = "<group>";
@@ -601,6 +609,7 @@
 				30697C4021F63CAB0064FCAC /* Password.swift */,
 				30697C3F21F63CAA0064FCAC /* PasswordEntity.swift */,
 				30697C4321F63CAB0064FCAC /* PasswordStore.swift */,
+				A2AA934322DE30DD00D79A00 /* PGPAgent.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1250,6 +1259,7 @@
 				30697C3E21F63C990064FCAC /* String+Utilities.swift in Sources */,
 				302B2C9822C2BDE700D831EE /* AppKeychain.swift in Sources */,
 				3032327422C7F710009EBD9C /* KeyFileManager.swift in Sources */,
+				A2AA934422DE30DD00D79A00 /* PGPAgent.swift in Sources */,
 				30697C3B21F63C990064FCAC /* String+Localization.swift in Sources */,
 				302E85612125ECC70031BA64 /* Parser.swift in Sources */,
 				30697C4621F63CAB0064FCAC /* GitCredential.swift in Sources */,
@@ -1275,10 +1285,12 @@
 				30A1D2AC21B32C2A00E2D1F7 /* TokenBuilderTest.swift in Sources */,
 				301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */,
 				30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */,
+				A2AA934622DE3A8000D79A00 /* PGPAgentTest.swift in Sources */,
 				30B04860209A5141001013CA /* PasswordTest.swift in Sources */,
 				307BF39921BC2298003A082D /* TestBase.swift in Sources */,
 				30697C5F21F674800064FCAC /* String+UtilitiesTest.swift in Sources */,
 				3032328A22C9FBA2009EBD9C /* KeyFileManagerTest.swift in Sources */,
+				A2AA934822DE3F0200D79A00 /* TestPGPKeys.swift in Sources */,
 				30A1D2AA21B32A0100E2D1F7 /* OtpTypeTest.swift in Sources */,
 				301F6468216165290071A4CE /* ConstantsTest.swift in Sources */,
 				30A1D29C21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift in Sources */,

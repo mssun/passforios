@@ -31,7 +31,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "saveAddPasswordSegue" {
             // check PGP key
-            guard passwordStore.privateKey != nil else {
+            guard passwordStore.pgpAgent?.imported ?? false else {
                 let alertTitle = "CannotAddPassword".localize()
                 let alertMessage = "PgpKeyNotSet.".localize()
                 Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)

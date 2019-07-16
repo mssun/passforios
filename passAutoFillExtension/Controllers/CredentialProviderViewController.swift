@@ -145,7 +145,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let entry = getPasswordEntry(by: indexPath)
 
-        guard self.passwordStore.privateKey != nil else {
+        guard self.passwordStore.pgpAgent?.imported ?? false else {
             Utils.alert(title: "CannotCopyPassword".localize(), message: "PgpKeyNotSet.".localize(), controller: self, completion: nil)
             return
         }
@@ -165,7 +165,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
             } catch {
                 DispatchQueue.main.async {
                     // remove the wrong passphrase so that users could enter it next time
-                    self.passwordStore.pgpKeyPassphrase = nil
+                    self.passwordStore.pgpAgent?.passphrase = nil
                     Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
@@ -200,7 +200,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
         }
         let _ = sem.wait(timeout: DispatchTime.distantFuture)
         if SharedDefaults[.isRememberPGPPassphraseOn] {
-            self.passwordStore.pgpKeyPassphrase = passphrase
+            self.passwordStore.pgpAgent?.passphrase = passphrase
         }
         return passphrase
     }
