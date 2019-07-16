@@ -8,6 +8,7 @@ before_install:
   - echo -e "machine github.com\n  login $GITHUB_ACCESS_TOKEN" >> ~/.netrc
 install:
   - gem update fastlane
+  - gem install xcodeproj
   - gem uninstall -aIx cocoapods
   - gem install cocoapods -v 1.5.3
   - pod --version
