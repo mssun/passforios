@@ -12,6 +12,7 @@ install:
   - gem install cocoapods -v 1.5.3
   - pod --version
 before_script:
+  - pod install
   - |
     if [ ! $(git diff --name-only master..."$TRAVIS_COMMIT" | grep "Cartfile.resolved") ] && [ -d "Carthage/Build" ]; then
       echo "Use cached carthage dependencies."
