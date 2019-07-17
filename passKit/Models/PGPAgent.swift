@@ -52,6 +52,16 @@ public class PGPAgent {
     }
     
     public func initPGPKey(_ keyType: PgpKey) throws {
+        // Clean up the previously set public/private key.
+        switch keyType {
+        case .PUBLIC:
+            self.publicKey = nil
+            self.publicKeyV2 = nil
+        case .PRIVATE:
+            self.privateKey = nil
+            self.privateKeyV2 = nil
+        }
+        
         // Read the key data from keychain.
         guard let pgpKeyData: Data = AppKeychain.get(for: keyType.getKeychainKey()) else {
             throw AppError.KeyImport
@@ -62,6 +72,7 @@ public class PGPAgent {
         
         // Try GopenpgpwrapperReadKey first.
         if let key = GopenpgpwrapperReadKey(pgpKeyData) {
+            print("GopenpgpwrapperReadKey \(keyType)")
             switch keyType {
             case .PUBLIC:
                 self.publicKey = key
@@ -76,6 +87,7 @@ public class PGPAgent {
         // [ObjectivePGP.readKeys MAY CRASH!!!]
         if let keys = try? ObjectivePGP.readKeys(from: pgpKeyData),
             let key = keys.first {
+            print("ObjectivePGP \(keyType)")
             keyring.import(keys: keys)
             switch keyType {
             case .PUBLIC:
@@ -121,7 +133,6 @@ public class PGPAgent {
         // Try ObjectivePGP.
         if privateKeyV2 != nil {
             if let decryptedData = try? ObjectivePGP.decrypt(encryptedData, andVerifySignature: false, using: keyring.keys, passphraseForKey: {(_) in passphrase}) {
-                print(decryptedData.base64EncodedString())
                 return decryptedData
             }
         }
