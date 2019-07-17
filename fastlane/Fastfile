@@ -44,7 +44,6 @@ platform :ios do
     )
     build_app(
       scheme: "pass",
-      project: "pass.xcodeproj",
       verbose: true
     )
     upload_to_testflight(

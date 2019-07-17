@@ -10,7 +10,7 @@ install:
   - gem update fastlane
   - gem install xcodeproj
   - gem uninstall -aIx cocoapods
-  - gem install cocoapods -v 1.5.3
+  - gem install cocoapods -v 1.6.1
   - pod --version
 before_script:
   - pod install

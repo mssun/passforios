@@ -1,17 +1,24 @@
 platform :ios, '10.2'
 use_frameworks!
 
+def pods
+  pod 'ObjectivePGP', :git => 'https://github.com/krzyzanowskim/ObjectivePGP.git', :tag => '0.15.0'
+end
+
 target 'passKit' do
-    pod 'ObjectivePGP', :git => 'https://github.com/krzyzanowskim/ObjectivePGP.git', :tag => '0.14.0'
-    target 'pass' do
-        inherit! :search_paths
-    end
-    target 'passExtension' do
-        inherit! :search_paths
-    end
-    target 'passKitTests' do
-        inherit! :search_paths
-    end
+  pods
+end
+
+target 'pass' do
+  pods
+end
+
+target 'passExtension' do
+  pods
+end
+
+target 'passKitTests' do
+  pods
 end
 
 post_install do |installer|
