@@ -72,7 +72,6 @@ public class PGPAgent {
         
         // Try GopenpgpwrapperReadKey first.
         if let key = GopenpgpwrapperReadKey(pgpKeyData) {
-            print("GopenpgpwrapperReadKey \(keyType)")
             switch keyType {
             case .PUBLIC:
                 self.publicKey = key
@@ -87,7 +86,6 @@ public class PGPAgent {
         // [ObjectivePGP.readKeys MAY CRASH!!!]
         if let keys = try? ObjectivePGP.readKeys(from: pgpKeyData),
             let key = keys.first {
-            print("ObjectivePGP \(keyType)")
             keyring.import(keys: keys)
             switch keyType {
             case .PUBLIC:
