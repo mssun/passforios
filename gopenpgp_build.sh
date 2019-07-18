@@ -3,6 +3,7 @@
 OLDGOPATH=$GOPATH
 OLDPATH=$PATH
 
+mkdir go
 export GOPATH=$(pwd)/go
 
 go get -u golang.org/x/mobile/cmd/gomobile
@@ -13,19 +14,17 @@ go get -u github.com/ProtonMail/gopenpgp
 
 cd $GOPATH/src/github.com/ProtonMail/gopenpgp
 
-git fetch && git fetch --tags
-
-git checkout v0
-
 GO111MODULE=on go mod vendor
-
-git checkout v1.0.0
 
 cd $GOPATH
 export PATH=$PATH:$GOPATH/bin
 mkdir dist
 
-$GOPATH/bin/gomobile bind -v -ldflags="-s -w" -target ios -o dist/Gopenpgpwrapper.framework gopenpgpwrapper
+OUTPUT_PATH="dist"
+PACKAGE_PATH=github.com/ProtonMail/gopenpgp
+
+$GOPATH/bin/gomobile bind -target ios -o ${OUTPUT_PATH}/Crypto.framework $PACKAGE_PATH/crypto $PACKAGE_PATH/armor $PACKAGE_PATH/constants $PACKAGE_PATH/models $PACKAGE_PATH/subtle
+
 
 export GOPATH=$OLDGOPATH
 export PATH=$OLDPATH
