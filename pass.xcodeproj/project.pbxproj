@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		116F7CC922E134FA003B3BAC /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 116F7CC822E134FA003B3BAC /* Crypto.framework */; };
+		116F7CCA22E134FA003B3BAC /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 116F7CC822E134FA003B3BAC /* Crypto.framework */; };
 		300713C52219D54100F553AC /* AutoCellHeightUITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300713C42219D54100F553AC /* AutoCellHeightUITableViewController.swift */; };
 		301F6463216162550071A4CE /* AdditionField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6462216162550071A4CE /* AdditionField.swift */; };
 		301F6468216165290071A4CE /* ConstantsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6467216165290071A4CE /* ConstantsTest.swift */; };
@@ -71,7 +73,6 @@
 		556EC3DA22335D3400934F9C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DBF21F3599E00BB27BB /* InfoPlist.strings */; };
 		556EC3DB22335D3D00934F9C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DBF21F3599E00BB27BB /* InfoPlist.strings */; };
 		8BA607EB4C9C8258741AC18C /* Pods_passExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14E955B67C88672AA3A40BA0 /* Pods_passExtension.framework */; };
-		9A714BD022AC61170020C3BB /* Gopenpgpwrapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1154BEDB229AC00F00454075 /* Gopenpgpwrapper.framework */; };
 		9A8A8387402FCCCECB1232A4 /* Pods_passKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2B2F844061EFA534FE9506 /* Pods_passKitTests.framework */; };
 		A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */; };
 		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */; };
@@ -215,7 +216,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1154BEDB229AC00F00454075 /* Gopenpgpwrapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Gopenpgpwrapper.framework; path = go/dist/Gopenpgpwrapper.framework; sourceTree = "<group>"; };
+		116F7CC822E134FA003B3BAC /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crypto.framework; path = go/dist/Crypto.framework; sourceTree = "<group>"; };
 		134DA5B66070BA56678688CF /* Pods_passKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14E955B67C88672AA3A40BA0 /* Pods_passExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		300713C42219D54100F553AC /* AutoCellHeightUITableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCellHeightUITableViewController.swift; sourceTree = "<group>"; };
@@ -378,8 +379,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A714BD022AC61170020C3BB /* Gopenpgpwrapper.framework in Frameworks */,
 				E813E400BBF3E7E8975EBAEF /* Pods_passKit.framework in Frameworks */,
+				116F7CCA22E134FA003B3BAC /* Crypto.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +419,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A239F5902158C07D00576CBF /* AuthenticationServices.framework in Frameworks */,
+				116F7CC922E134FA003B3BAC /* Crypto.framework in Frameworks */,
 				A260758D1EEC6F34005DB03E /* passKit.framework in Frameworks */,
 				DCC408C71E307DBB00F29B0E /* SVProgressHUD.framework in Frameworks */,
 				3EA2386CD0E9CE2A702A0B3E /* Pods_pass.framework in Frameworks */,
@@ -774,11 +776,11 @@
 				DC1208571E35EBE60042942E /* ObjectiveGit.framework */,
 				DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */,
 				DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */,
-				1154BEDB229AC00F00454075 /* Gopenpgpwrapper.framework */,
 				FE627E8F3DACEDD8FA220081 /* Pods_pass.framework */,
 				14E955B67C88672AA3A40BA0 /* Pods_passExtension.framework */,
 				134DA5B66070BA56678688CF /* Pods_passKit.framework */,
 				3B2B2F844061EFA534FE9506 /* Pods_passKitTests.framework */,
+				116F7CC822E134FA003B3BAC /* Crypto.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

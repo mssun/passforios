@@ -58,7 +58,6 @@ go/bin/
 go/dist/
 go/pkg/
 go/src/*
-!go/src/gopenpgpwrapper
 
 # fastlane
 #

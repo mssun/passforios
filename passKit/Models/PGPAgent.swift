@@ -9,7 +9,7 @@
 import Foundation
 import ObjectivePGP
 import KeychainAccess
-import Gopenpgpwrapper
+import Crypto
 
 public class PGPAgent {
 
@@ -31,12 +31,18 @@ public class PGPAgent {
     }
     
     // Gopenpgpwrapper
-    private var publicKey: GopenpgpwrapperKey? {
+    private var publicKey: CryptoKeyRing? {
         didSet {
-            pgpKeyID = publicKey?.getID()
+            var err: NSError? = nil
+            let fp = publicKey?.getFingerprint(&err)
+            if err == nil && fp != nil {
+                pgpKeyID = String(fp!.suffix(8)).uppercased()
+            } else {
+                pgpKeyID = ""
+            }
         }
     }
-    private var privateKey: GopenpgpwrapperKey?
+    private var privateKey: CryptoKeyRing?
     // ObjectivePGP
     private let keyring = ObjectivePGP.defaultKeyring
     private var publicKeyV2: Key? {
@@ -81,8 +87,23 @@ public class PGPAgent {
         // Remove the key data from keychain temporary, in case the following step crashes repeatedly.
         keyStore.removeContent(for: keyType.getKeychainKey())
         
-        // Try GopenpgpwrapperReadKey first.
-        if let key = GopenpgpwrapperReadKey(pgpKeyData) {
+        // Try GopenPGP first.
+        let pgp = CryptoGetGopenPGP()
+        
+        // Treat keys as binary first
+        if let key = try? pgp?.buildKeyRing(pgpKeyData) {
+            switch keyType {
+            case .PUBLIC:
+                self.publicKey = key
+            case .PRIVATE:
+                self.privateKey = key
+            }
+            keyStore.add(data: pgpKeyData, for: keyType.getKeychainKey())
+            return
+        }
+        
+        // Treat key as ASCII armored keys if binary fails
+        if let key = try? pgp?.buildKeyRingArmored(String(data: pgpKeyData, encoding: .ascii)) {
             switch keyType {
             case .PUBLIC:
                 self.publicKey = key
@@ -136,8 +157,16 @@ public class PGPAgent {
         let passphrase = self.passphrase ?? requestPGPKeyPassphrase()
         // Try Gopenpgp.
         if privateKey != nil {
-            if let decryptedData = privateKey?.decrypt(encryptedData, passphrase: passphrase) {
-                return decryptedData
+            try privateKey?.unlock(withPassphrase: passphrase)
+            
+            var err : NSError? = nil
+            var message = CryptoNewPGPMessageFromArmored(String(data: encryptedData, encoding: .ascii), &err)
+            if err != nil {
+                message = CryptoNewPGPMessage(encryptedData)
+            }
+            
+            if let decryptedData = try? privateKey?.decrypt(message, verifyKey: nil, verifyTime: 0) {
+                return decryptedData.data
             }
         }
         // Try ObjectivePGP.
@@ -155,10 +184,19 @@ public class PGPAgent {
         }
         // Try Gopenpgp.
         if publicKey != nil {
-            if let encryptedData = publicKey?.encrypt(plainData, armor: SharedDefaults[.encryptInArmored]) {
-                return encryptedData
+            if let encryptedData = try? publicKey?.encrypt(CryptoNewPlainMessageFromString(String(data: plainData, encoding: .utf8)), privateKey: nil) {
+                if SharedDefaults[.encryptInArmored] {
+                    var err : NSError? = nil
+                    let armor = encryptedData.getArmored(&err)
+                    if err == nil {
+                        return armor.data(using: .ascii)!
+                    }
+                } else {
+                    return encryptedData.getBinary()!
+                }
             }
         }
+        
         // Try ObjectivePGP.
         if publicKeyV2 != nil {
             if let encryptedData = try? ObjectivePGP.encrypt(plainData, addSignature: false, using: keyring.keys, passphraseForKey: nil) {
