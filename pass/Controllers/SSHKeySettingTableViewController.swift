@@ -17,9 +17,7 @@ class SSHKeySettingTableViewController: AutoCellHeightUITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        privateKeyURLTextField.text = SharedDefaults[.gitSSHPrivateKeyURL]?.absoluteString
     }
-
 
     @IBAction func doneButtonTapped(_ sender: UIButton) {
         guard let privateKeyURL = URL(string: privateKeyURLTextField.text!.trimmed) else {
@@ -27,10 +25,12 @@ class SSHKeySettingTableViewController: AutoCellHeightUITableViewController {
             return
         }
 
-        SharedDefaults[.gitSSHPrivateKeyURL] = privateKeyURL
-
         do {
-            try Data(contentsOf: privateKeyURL).write(to: URL(fileURLWithPath: Globals.gitSSHPrivateKeyPath), options: .atomic)
+            try Data(contentsOf: privateKeyURL).write(to: URL(fileURLWithPath: SshKey.PRIVATE.getFileSharingPath()), options: .atomic)
+            try self.passwordStore.gitSSHKeyImportFromFileSharing()
+            SharedDefaults[.gitSSHKeySource] = "file"
+            SVProgressHUD.showSuccess(withStatus: "Imported".localize())
+            SVProgressHUD.dismiss(withDelay: 1)
         } catch {
             Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
         }

@@ -1689,7 +1689,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="scanner output" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U8O-Md-w8e">
-                                <rect key="frame" x="57" y="518" width="300" height="45"/>
+                                <rect key="frame" x="57" y="562" width="300" height="45"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="JcM-Sy-Hw8"/>
@@ -1775,8 +1775,8 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
         <image name="Settings" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="QFy-OX-cAa"/>
-        <segue reference="oxP-I1-Mke"/>
+        <segue reference="wCk-aN-a4J"/>
+        <segue reference="5iZ-y9-FCH"/>
         <segue reference="yyD-4H-pLE"/>
     </inferredMetricsTieBreakers>
 </document>
