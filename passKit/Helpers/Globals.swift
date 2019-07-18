@@ -10,16 +10,6 @@ import Foundation
 import UIKit
 
 public class Globals {
-
-    // Legacy paths (not shared)
-    public static let documentPathLegacy = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
-    public static let libraryPathLegacy = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0];
-    public static let pgpPublicKeyPathLegacy = "\(documentPathLegacy)/gpg_key.pub"
-    public static let pgpPrivateKeyPathLegacy = "\(documentPathLegacy)/gpg_key"
-    public static let gitSSHPrivateKeyPathLegacy = "\(documentPathLegacy)/ssh_key"
-    public static let gitSSHPrivateKeyURLLegacy = URL(fileURLWithPath: gitSSHPrivateKeyPathLegacy)
-    public static let repositoryPathLegacy = "\(libraryPathLegacy)/password-store"
-
     public static let bundleIdentifier = "me.mssun.passforios"
     public static let groupIdentifier = "group." + bundleIdentifier
     public static let passKitBundleIdentifier = bundleIdentifier + ".passKit"

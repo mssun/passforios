@@ -106,9 +106,7 @@ public class PasswordStore {
     private init() {
         self.pgpAgent = PGPAgent()
         
-        // File migration to group
-        migrateIfNeeded()
-        backwardCompatibility()
+        // Migration
         importExistingKeysIntoKeychain()
         
         do {
@@ -120,50 +118,9 @@ public class PasswordStore {
             print(error)
         }
     }
-    
-    private func migrateIfNeeded() {
-        // migrate happens only if the repository was cloned and pgp keys were set up using earlier versions
-        let needMigration = !pgpKeyExists() && !fm.fileExists(atPath: Globals.gitSSHPrivateKeyPath) && !fm.fileExists(atPath: Globals.repositoryPath) && fm.fileExists(atPath: Globals.repositoryPathLegacy)
-        guard needMigration == true else {
-            return
-        }
-        
-        do {
-            // migrate Defaults
-            let userDefaults = UserDefaults()
-            for key in Defaults.dictionaryRepresentation().keys {
-                if SharedDefaults.value(forKey: key) == nil {
-                    SharedDefaults.setValue(userDefaults.value(forKey: key), forKey: key)
-                }
-            }
-            
-            // migrate files
-            try fm.createDirectory(atPath: Globals.documentPath, withIntermediateDirectories: true, attributes: nil)
-            try fm.createDirectory(atPath: Globals.libraryPath, withIntermediateDirectories: true, attributes: nil)
-            if fm.fileExists(atPath: Globals.pgpPublicKeyPathLegacy) {
-                try fm.moveItem(atPath: Globals.pgpPublicKeyPathLegacy, toPath: Globals.pgpPublicKeyPath)
-            }
-            if fm.fileExists(atPath: Globals.pgpPrivateKeyPathLegacy) {
-                try fm.moveItem(atPath: Globals.pgpPrivateKeyPathLegacy, toPath: Globals.pgpPrivateKeyPath)
-            }
-            if fm.fileExists(atPath: Globals.gitSSHPrivateKeyPathLegacy) {
-                try fm.moveItem(atPath: Globals.gitSSHPrivateKeyPathLegacy, toPath: Globals.gitSSHPrivateKeyPath)
-            }
-            try fm.moveItem(atPath: Globals.repositoryPathLegacy, toPath: Globals.repositoryPath)
-        } catch {
-            print("MigrationError".localize(error))
-        }
-        updatePasswordEntityCoreData()
-    }
-    
-    private func backwardCompatibility() {
-        // For the newly-introduced isRememberGitCredentialPassphraseOn (20171008)
-        if (self.gitPassword != nil || self.gitSSHPrivateKeyPassphrase != nil) && SharedDefaults[.isRememberGitCredentialPassphraseOn] == false {
-            SharedDefaults[.isRememberGitCredentialPassphraseOn] = true
-        }
-    }
 
     private func importExistingKeysIntoKeychain() {
+        // App Store update: v0.5.1 -> v0.6.0
         try? KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: Globals.pgpPublicKeyPath).importKeyAndDeleteFile()
         try? KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: Globals.pgpPrivateKeyPath).importKeyAndDeleteFile()
         try? KeyFileManager(keyType: SshKey.PRIVATE, keyPath: Globals.gitSSHPrivateKeyPath).importKeyAndDeleteFile()
