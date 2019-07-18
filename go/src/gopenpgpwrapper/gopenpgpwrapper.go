@@ -14,7 +14,11 @@ type Key struct {
 }
 
 func (k *Key) GetKeyID() string {
-    return k.kr.FirstKeyID
+    if len(k.kr.GetEntities()) > 0 {
+        return k.kr.GetEntities()[0].PrimaryKey.KeyIdShortString()
+    } else {
+        return ""
+    }
 }
 
 func (k *Key) Encrypt(plaintext []byte, armor bool) []byte {
