@@ -10,7 +10,11 @@ import (
 )
 
 type Key struct {
-    kr crypto.KeyRing
+    if len(k.kr.GetEntities()) > 0 {
+        return k.kr.GetEntities()[0].PrimaryKey.KeyIdShortString()
+    } else {
+        return ""
+    }
 }
 
 func (k *Key) GetKeyID() string {
