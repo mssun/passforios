@@ -38,6 +38,7 @@ class PGPAgentTest: XCTestCase {
         try? pgpAgent.initPGPKey(with: PGP_RSA2048_PUBLIC_KEY, keyType: .PUBLIC)
         try? pgpAgent.initPGPKey(with: PGP_RSA2048_PRIVATE_KEY, keyType: .PRIVATE)
         XCTAssertTrue(pgpAgent.imported)
+        XCTAssertEqual(pgpAgent.pgpKeyID, "A1024DAE")
         self.encrypt_decrypt(pgpAgent: pgpAgent)
         let pgpAgent2 = PGPAgent()
         try? pgpAgent2.initPGPKeys()  // load from the keychain
@@ -47,12 +48,14 @@ class PGPAgentTest: XCTestCase {
         try? pgpAgent.initPGPKey(with: PGP_RSA2048_PUBLIC_KEY, keyType: .PUBLIC)
         try? pgpAgent.initPGPKey(with: PGP_RSA2048_PRIVATE_SUBKEY, keyType: .PRIVATE)
         XCTAssertTrue(pgpAgent.imported)
+        XCTAssertEqual(pgpAgent.pgpKeyID, "A1024DAE")
         self.encrypt_decrypt(pgpAgent: pgpAgent)
         
         // [ED25519] Setup keys.
         try? pgpAgent.initPGPKey(with: PGP_ED25519_PUBLIC_KEY, keyType: .PUBLIC)
         try? pgpAgent.initPGPKey(with: PGP_ED25519_PRIVATE_KEY, keyType: .PRIVATE)
         XCTAssertTrue(pgpAgent.imported)
+        XCTAssertEqual(pgpAgent.pgpKeyID, "E9444483")
         self.encrypt_decrypt(pgpAgent: pgpAgent)
     }
     
