@@ -145,7 +145,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let entry = getPasswordEntry(by: indexPath)
 
-        guard self.passwordStore.pgpAgent?.imported ?? false else {
+        guard self.passwordStore.pgpAgent?.isImported ?? false else {
             Utils.alert(title: "CannotCopyPassword".localize(), message: "PgpKeyNotSet.".localize(), controller: self, completion: nil)
             return
         }

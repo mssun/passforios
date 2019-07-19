@@ -89,8 +89,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
-                try self.passwordStore.pgpAgent?.pgpKeyImportFromFileSharing()
-                try self.passwordStore.pgpAgent?.initPGPKeys()
+                try self.passwordStore.pgpAgent?.initPGPKeyFromFileSharing()
                 DispatchQueue.main.async {
                     self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpAgent?.pgpKeyID
                     SVProgressHUD.showSuccess(withStatus: "Imported".localize())
@@ -193,7 +192,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         optionMenu.addAction(urlAction)
         optionMenu.addAction(armorAction)
 
-        if passwordStore.pgpKeyExists(inFileSharing: true) {
+        if passwordStore.pgpAgent?.isFileSharingReady ?? false {
             fileActionTitle.append(" (\("Import".localize()))")
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
                 // passphrase related

@@ -391,7 +391,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     private func decryptThenCopyPassword(from indexPath: IndexPath) {
-        guard self.passwordStore.pgpAgent?.imported ?? false else {
+        guard self.passwordStore.pgpAgent?.isImported ?? false else {
             Utils.alert(title: "CannotCopyPassword".localize(), message: "SetPgpKey.".localize(), controller: self, completion: nil)
             return
         }
@@ -453,7 +453,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "showPasswordDetail" {
-            guard self.passwordStore.pgpAgent?.imported ?? false else {
+            guard self.passwordStore.pgpAgent?.isImported ?? false else {
                 Utils.alert(title: "CannotShowPassword".localize(), message: "SetPgpKey.".localize(), controller: self, completion: nil)
                 if let s = sender as? UITableViewCell {
                     let selectedIndexPath = tableView.indexPath(for: s)!
@@ -462,7 +462,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 return false
             }
         } else if identifier == "addPasswordSegue" {
-            guard self.passwordStore.pgpAgent?.imported ?? false && self.passwordStore.storeRepository != nil else {
+            guard self.passwordStore.pgpAgent?.isImported ?? false && self.passwordStore.storeRepository != nil else {
                 Utils.alert(title: "CannotAddPassword".localize(), message: "MakeSurePgpAndGitProperlySet.".localize(), controller: self, completion: nil)
                 return false
             }

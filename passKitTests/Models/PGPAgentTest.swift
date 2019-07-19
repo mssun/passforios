@@ -13,50 +13,78 @@ import XCTest
 class PGPAgentTest: XCTestCase {
     
     override func setUp() {
-        print("setup")
-        AppKeychain.removeAllContent()
+        PGPAgent().removePGPKeys()
     }
     
     override func tearDown() {
-        print("tearDown")
-        AppKeychain.removeAllContent()
+        PGPAgent().removePGPKeys()
     }
     
-    func encrypt_decrypt(pgpAgent: PGPAgent) {
+    func basicEncryptDecrypt(pgpAgent: PGPAgent) -> Bool {
         // Encrypt and decrypt.
         let plainData = "Hello World!".data(using: .utf8)!
-        let encryptedData = try? pgpAgent.encrypt(plainData: plainData)
-        XCTAssertNotNil(encryptedData)
-        let decryptedData = try? pgpAgent.decrypt(encryptedData: encryptedData!, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
-        XCTAssertEqual(plainData, decryptedData)
+        guard let encryptedData = try? pgpAgent.encrypt(plainData: plainData) else {
+            return false
+        }
+        guard let decryptedData = try? pgpAgent.decrypt(encryptedData: encryptedData, requestPGPKeyPassphrase: requestPGPKeyPassphrase) else {
+            return false
+        }
+        return plainData == decryptedData
     }
     
     func testInitPGPKey() {
         let pgpAgent = PGPAgent()
-        
+
         // [RSA2048] Setup keys.
         try? pgpAgent.initPGPKey(with: PGP_RSA2048_PUBLIC_KEY, keyType: .PUBLIC)
         try? pgpAgent.initPGPKey(with: PGP_RSA2048_PRIVATE_KEY, keyType: .PRIVATE)
-        XCTAssertTrue(pgpAgent.imported)
+        XCTAssertTrue(pgpAgent.isImported)
         XCTAssertEqual(pgpAgent.pgpKeyID, "A1024DAE")
-        self.encrypt_decrypt(pgpAgent: pgpAgent)
+        XCTAssertTrue(self.basicEncryptDecrypt(pgpAgent: pgpAgent))
         let pgpAgent2 = PGPAgent()
         try? pgpAgent2.initPGPKeys()  // load from the keychain
-        self.encrypt_decrypt(pgpAgent: pgpAgent2)
-        
+        XCTAssertTrue(self.basicEncryptDecrypt(pgpAgent: pgpAgent2))
+        pgpAgent.removePGPKeys()
+
         // [RSA2048] Setup keys. The private key is a subkey.
         try? pgpAgent.initPGPKey(with: PGP_RSA2048_PUBLIC_KEY, keyType: .PUBLIC)
         try? pgpAgent.initPGPKey(with: PGP_RSA2048_PRIVATE_SUBKEY, keyType: .PRIVATE)
-        XCTAssertTrue(pgpAgent.imported)
+        XCTAssertTrue(pgpAgent.isImported)
         XCTAssertEqual(pgpAgent.pgpKeyID, "A1024DAE")
-        self.encrypt_decrypt(pgpAgent: pgpAgent)
-        
+        XCTAssertTrue(self.basicEncryptDecrypt(pgpAgent: pgpAgent))
+        pgpAgent.removePGPKeys()
+
         // [ED25519] Setup keys.
         try? pgpAgent.initPGPKey(with: PGP_ED25519_PUBLIC_KEY, keyType: .PUBLIC)
         try? pgpAgent.initPGPKey(with: PGP_ED25519_PRIVATE_KEY, keyType: .PRIVATE)
-        XCTAssertTrue(pgpAgent.imported)
+        XCTAssertTrue(pgpAgent.isImported)
         XCTAssertEqual(pgpAgent.pgpKeyID, "E9444483")
-        self.encrypt_decrypt(pgpAgent: pgpAgent)
+        XCTAssertTrue(self.basicEncryptDecrypt(pgpAgent: pgpAgent))
+        pgpAgent.removePGPKeys()
+        
+        // [RSA2048] Setup keys from URL.
+        let publicKeyURL = URL(fileURLWithPath: PgpKey.PUBLIC.getFileSharingPath())
+        let privateKeyURL = URL(fileURLWithPath: PgpKey.PRIVATE.getFileSharingPath())
+        try? PGP_RSA2048_PUBLIC_KEY.write(to: publicKeyURL, atomically: false, encoding: .utf8)
+        try? PGP_RSA2048_PRIVATE_KEY.write(to: privateKeyURL, atomically: false, encoding: .utf8)
+        try? pgpAgent.initPGPKey(from: publicKeyURL, keyType: .PUBLIC)
+        try? pgpAgent.initPGPKey(from: privateKeyURL, keyType: .PRIVATE)
+        XCTAssertTrue(pgpAgent.isImported)
+        XCTAssertEqual(pgpAgent.pgpKeyID, "A1024DAE")
+        XCTAssertTrue(self.basicEncryptDecrypt(pgpAgent: pgpAgent))
+        pgpAgent.removePGPKeys()
+        
+        // [RSA2048] Setup keys from iTunes file sharing.
+        try? PGP_RSA2048_PUBLIC_KEY.write(to: publicKeyURL, atomically: false, encoding: .utf8)
+        try? PGP_RSA2048_PRIVATE_KEY.write(to: privateKeyURL, atomically: false, encoding: .utf8)
+        XCTAssertTrue(pgpAgent.isFileSharingReady)
+        try? pgpAgent.initPGPKeyFromFileSharing()
+        XCTAssertTrue(pgpAgent.isImported)
+        XCTAssertEqual(pgpAgent.pgpKeyID, "A1024DAE")
+        XCTAssertTrue(self.basicEncryptDecrypt(pgpAgent: pgpAgent))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: publicKeyURL.absoluteString))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: privateKeyURL.absoluteString))
+        pgpAgent.removePGPKeys()
     }
     
     func testInitPGPKeyBadPrivateKeys() {

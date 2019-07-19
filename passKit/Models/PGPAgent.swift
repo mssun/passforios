@@ -13,12 +13,6 @@ import Gopenpgpwrapper
 
 public class PGPAgent {
     
-    public var imported: Bool {
-        get {
-            return (publicKey != nil || publicKeyV2 != nil) && (privateKey != nil || privateKeyV2 != nil)
-        }
-    }
-    
     public var pgpKeyID: String?
     // PGP passphrase
     public var passphrase: String? {
@@ -45,6 +39,17 @@ public class PGPAgent {
         }
     }
     private var privateKeyV2: Key?
+    
+    public var isImported: Bool {
+        get {
+            return (publicKey != nil || publicKeyV2 != nil) && (privateKey != nil || privateKeyV2 != nil)
+        }
+    }
+    public var isFileSharingReady: Bool {
+        get {
+            return KeyFileManager.PublicPgp.doesKeyFileExist() && KeyFileManager.PrivatePgp.doesKeyFileExist()
+        }
+    }
     
     public func initPGPKeys() throws {
         try initPGPKey(.PUBLIC)
@@ -112,9 +117,10 @@ public class PGPAgent {
         try initPGPKey(keyType)
     }
     
-    public func pgpKeyImportFromFileSharing() throws {
+    public func initPGPKeyFromFileSharing() throws {
         try KeyFileManager.PublicPgp.importKeyAndDeleteFile()
         try KeyFileManager.PrivatePgp.importKeyAndDeleteFile()
+        try initPGPKeys()
     }
     
     public func decrypt(encryptedData: Data, requestPGPKeyPassphrase: () -> String) throws -> Data? {

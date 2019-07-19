@@ -730,14 +730,6 @@ public class PasswordStore {
         gitSSHPrivateKeyPassphrase = nil
     }
     
-    public func pgpKeyExists(inFileSharing: Bool = false) -> Bool {
-        if inFileSharing == false {
-            return fm.fileExists(atPath: Globals.pgpPublicKeyPath) && fm.fileExists(atPath: Globals.pgpPrivateKeyPath)
-        } else {
-            return KeyFileManager.PublicPgp.doesKeyFileExist() && KeyFileManager.PrivatePgp.doesKeyFileExist()
-        }
-    }
-    
     public func gitSSHKeyImportFromFileSharing() throws {
         try KeyFileManager.PrivateSsh.importKeyAndDeleteFile()
     }
