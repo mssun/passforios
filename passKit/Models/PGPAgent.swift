@@ -36,7 +36,7 @@ public class PGPAgent {
             var err: NSError? = nil
             let fp = publicKey?.getFingerprint(&err)
             if err == nil && fp != nil {
-                pgpKeyID = String(fp!.suffix(8))
+                pgpKeyID = String(fp!.suffix(8)).uppercased()
             } else {
                 pgpKeyID = ""
             }
