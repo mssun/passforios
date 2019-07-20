@@ -103,7 +103,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
         let _ = sem.wait(timeout: DispatchTime.distantFuture)
         if SharedDefaults[.isRememberPGPPassphraseOn] {
-            self.passwordStore.pgpAgent?.passphrase = passphrase
+            self.passwordStore.pgpAgent.passphrase = passphrase
         }
         return passphrase
     }
@@ -122,7 +122,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             } catch {
                 DispatchQueue.main.async {
                     // remove the wrong passphrase so that users could enter it next time
-                    self.passwordStore.pgpAgent?.passphrase = nil
+                    self.passwordStore.pgpAgent.passphrase = nil
                     // alert: cancel or try again
                     let alert = UIAlertController(title: "CannotShowPassword".localize(), message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
                     alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertAction.Style.default) { _ in
