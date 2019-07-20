@@ -167,13 +167,6 @@ public class PGPAgent {
     }
     
     public func removePGPKeys() {
-        try? FileManager.default.removeItem(atPath: Globals.pgpPublicKeyPath)
-        try? FileManager.default.removeItem(atPath: Globals.pgpPrivateKeyPath)
-        SharedDefaults.remove(.pgpKeySource)
-        SharedDefaults.remove(.pgpPrivateKeyURL)
-        SharedDefaults.remove(.pgpPublicKeyURL)
-        SharedDefaults.remove(.pgpPublicKeyArmor)
-        SharedDefaults.remove(.pgpPrivateKeyArmor)
         AppKeychain.removeContent(for: PgpKey.PUBLIC.getKeychainKey())
         AppKeychain.removeContent(for: PgpKey.PRIVATE.getKeychainKey())
         passphrase = nil
