@@ -17,10 +17,10 @@ public class PGPAgent {
     // PGP passphrase
     public var passphrase: String? {
         set {
-            AppKeychain.add(string: newValue, for: "pgpKeyPassphrase")
+            AppKeychain.shared.add(string: newValue, for: "pgpKeyPassphrase")
         }
         get {
-            return AppKeychain.get(for: "pgpKeyPassphrase")
+            return AppKeychain.shared.get(for: "pgpKeyPassphrase")
         }
     }
     
@@ -68,12 +68,12 @@ public class PGPAgent {
         }
         
         // Read the key data from keychain.
-        guard let pgpKeyData: Data = AppKeychain.get(for: keyType.getKeychainKey()) else {
+        guard let pgpKeyData: Data = AppKeychain.shared.get(for: keyType.getKeychainKey()) else {
             throw AppError.KeyImport
         }
         
         // Remove the key data from keychain temporary, in case the following step crashes repeatedly.
-        AppKeychain.removeContent(for: keyType.getKeychainKey())
+        AppKeychain.shared.removeContent(for: keyType.getKeychainKey())
         
         // Try GopenpgpwrapperReadKey first.
         if let key = GopenpgpwrapperReadKey(pgpKeyData) {
@@ -83,7 +83,7 @@ public class PGPAgent {
             case .PRIVATE:
                 self.privateKey = key
             }
-            AppKeychain.add(data: pgpKeyData, for: keyType.getKeychainKey())
+            AppKeychain.shared.add(data: pgpKeyData, for: keyType.getKeychainKey())
             return
         }
         
@@ -98,7 +98,7 @@ public class PGPAgent {
             case .PRIVATE:
                 self.privateKeyV2 = key
             }
-            AppKeychain.add(data: pgpKeyData, for: keyType.getKeychainKey())
+            AppKeychain.shared.add(data: pgpKeyData, for: keyType.getKeychainKey())
             return
         }
         
@@ -107,13 +107,13 @@ public class PGPAgent {
     
     public func initPGPKey(from url: URL, keyType: PgpKey) throws {
         let pgpKeyData = try Data(contentsOf: url)
-        AppKeychain.add(data: pgpKeyData, for: keyType.getKeychainKey())
+        AppKeychain.shared.add(data: pgpKeyData, for: keyType.getKeychainKey())
         try initPGPKey(keyType)
     }
     
     public func initPGPKey(with armorKey: String, keyType: PgpKey) throws {
         let pgpKeyData = armorKey.data(using: .ascii)!
-        AppKeychain.add(data: pgpKeyData, for: keyType.getKeychainKey())
+        AppKeychain.shared.add(data: pgpKeyData, for: keyType.getKeychainKey())
         try initPGPKey(keyType)
     }
     
@@ -167,8 +167,8 @@ public class PGPAgent {
     }
     
     public func removePGPKeys() {
-        AppKeychain.removeContent(for: PgpKey.PUBLIC.getKeychainKey())
-        AppKeychain.removeContent(for: PgpKey.PRIVATE.getKeychainKey())
+        AppKeychain.shared.removeContent(for: PgpKey.PUBLIC.getKeychainKey())
+        AppKeychain.shared.removeContent(for: PgpKey.PRIVATE.getKeychainKey())
         passphrase = nil
         publicKey = nil
         privateKey = nil

@@ -39,19 +39,19 @@ public class PasswordStore {
     
     public var gitPassword: String? {
         set {
-            AppKeychain.add(string: newValue, for: "gitPassword")
+            AppKeychain.shared.add(string: newValue, for: "gitPassword")
         }
         get {
-            return AppKeychain.get(for: "gitPassword")
+            return AppKeychain.shared.get(for: "gitPassword")
         }
     }
     
     public var gitSSHPrivateKeyPassphrase: String? {
         set {
-            AppKeychain.add(string: newValue, for: "gitSSHPrivateKeyPassphrase")
+            AppKeychain.shared.add(string: newValue, for: "gitSSHPrivateKeyPassphrase")
         }
         get {
-            return AppKeychain.get(for: "gitSSHPrivateKeyPassphrase")
+            return AppKeychain.shared.get(for: "gitSSHPrivateKeyPassphrase")
         }
     }
     
@@ -130,7 +130,7 @@ public class PasswordStore {
     }
     
     public func initGitSSHKey(with armorKey: String) throws {
-        AppKeychain.add(string: armorKey, for: SshKey.PRIVATE.getKeychainKey())
+        AppKeychain.shared.add(string: armorKey, for: SshKey.PRIVATE.getKeychainKey())
     }
     
     public func repositoryExisted() -> Bool {
@@ -642,7 +642,7 @@ public class PasswordStore {
         
         self.pgpAgent?.removePGPKeys()
         
-        AppKeychain.removeAllContent()
+        AppKeychain.shared.removeAllContent()
 
         deleteCoreData(entityName: "PasswordEntity")
         
@@ -726,7 +726,7 @@ public class PasswordStore {
         Defaults.remove(.gitSSHKeySource)
         Defaults.remove(.gitSSHPrivateKeyArmor)
         Defaults.remove(.gitSSHPrivateKeyURL)
-        AppKeychain.removeContent(for: SshKey.PRIVATE.getKeychainKey())
+        AppKeychain.shared.removeContent(for: SshKey.PRIVATE.getKeychainKey())
         gitSSHPrivateKeyPassphrase = nil
     }
     
