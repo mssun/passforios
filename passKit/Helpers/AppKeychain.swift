@@ -8,7 +8,7 @@
 
 import KeychainAccess
 
-public class AppKeychain {
+public class AppKeychain: KeyStore {
 
     public static let shared = AppKeychain()
     

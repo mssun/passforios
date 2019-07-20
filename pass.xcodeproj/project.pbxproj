@@ -52,6 +52,8 @@
 		30B04860209A5141001013CA /* PasswordTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B0485F209A5141001013CA /* PasswordTest.swift */; };
 		30BAC8C622E3BAAF00438475 /* TestBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BAC8C422E3BAAF00438475 /* TestBase.swift */; };
 		30BAC8C722E3BAAF00438475 /* TestPGPKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BAC8C522E3BAAF00438475 /* TestPGPKeys.swift */; };
+		30BAC8CB22E3BB6C00438475 /* DictBasedKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BAC8CA22E3BB6C00438475 /* DictBasedKeychain.swift */; };
+		30BAC8CD22E3BB9700438475 /* KeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BAC8CC22E3BB9700438475 /* KeyStore.swift */; };
 		30BF5EC821EA8FB5000E4154 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ECA21EA8FB5000E4154 /* Localizable.strings */; };
 		30BF5ED721ED2434000E4154 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ED521ED2434000E4154 /* Localizable.stringsdict */; };
 		30C25DBD21F3599E00BB27BB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DBF21F3599E00BB27BB /* InfoPlist.strings */; };
@@ -261,6 +263,8 @@
 		30B0485F209A5141001013CA /* PasswordTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTest.swift; sourceTree = "<group>"; };
 		30BAC8C422E3BAAF00438475 /* TestBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestBase.swift; sourceTree = "<group>"; };
 		30BAC8C522E3BAAF00438475 /* TestPGPKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestPGPKeys.swift; sourceTree = "<group>"; };
+		30BAC8CA22E3BB6C00438475 /* DictBasedKeychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictBasedKeychain.swift; sourceTree = "<group>"; };
+		30BAC8CC22E3BB9700438475 /* KeyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStore.swift; sourceTree = "<group>"; };
 		30BF5EC921EA8FB5000E4154 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		30BF5ED621ED2434000E4154 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		30C25DA921F34D2800BB27BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
@@ -470,6 +474,7 @@
 		30BAC8C322E3BA4300438475 /* Testbase */ = {
 			isa = PBXGroup;
 			children = (
+				30BAC8CA22E3BB6C00438475 /* DictBasedKeychain.swift */,
 				30BAC8C422E3BAAF00438475 /* TestBase.swift */,
 				30BAC8C522E3BAAF00438475 /* TestPGPKeys.swift */,
 			);
@@ -632,6 +637,7 @@
 				30697C2521F63C590064FCAC /* FileManagerExtension.swift */,
 				30697C2421F63C590064FCAC /* Globals.swift */,
 				3032327322C7F710009EBD9C /* KeyFileManager.swift */,
+				30BAC8CC22E3BB9700438475 /* KeyStore.swift */,
 				30697C2321F63C580064FCAC /* NotificationNames.swift */,
 				30697C2621F63C590064FCAC /* PasswordGeneratorFlavour.swift */,
 				302202EE222F14E400555236 /* SearchBarScope.swift */,
@@ -1283,6 +1289,7 @@
 				30697C2E21F63C5A0064FCAC /* Utils.swift in Sources */,
 				30697C4521F63CAB0064FCAC /* Password.swift in Sources */,
 				30697C4421F63CAB0064FCAC /* PasswordEntity.swift in Sources */,
+				30BAC8CD22E3BB9700438475 /* KeyStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1292,6 +1299,7 @@
 			files = (
 				30A1D2AC21B32C2A00E2D1F7 /* TokenBuilderTest.swift in Sources */,
 				301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */,
+				30BAC8CB22E3BB6C00438475 /* DictBasedKeychain.swift in Sources */,
 				30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */,
 				A2AA934622DE3A8000D79A00 /* PGPAgentTest.swift in Sources */,
 				30BAC8C622E3BAAF00438475 /* TestBase.swift in Sources */,
