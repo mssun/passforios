@@ -12,7 +12,7 @@ import XCTest
 
 class KeyFileManagerTest: XCTestCase {
     private static let filePath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("test.txt").path
-    private static let keyFileManager = KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: filePath) { _, _ in }
+    private static let keyFileManager = KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: filePath)
 
     override func tearDown() {
         try? FileManager.default.removeItem(atPath: KeyFileManagerTest.filePath)
@@ -22,17 +22,17 @@ class KeyFileManagerTest: XCTestCase {
     func testImportKeyAndDeleteFile() throws {
         let fileContent = "content".data(using: .ascii)
         var storage: [String: Data] = [:]
-        let keyFileManager = KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: KeyFileManagerTest.filePath) { storage[$1] = $0 }
+        let keyFileManager = KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: KeyFileManagerTest.filePath)
 
         FileManager.default.createFile(atPath: KeyFileManagerTest.filePath, contents: fileContent, attributes: nil)
-        try keyFileManager.importKeyAndDeleteFile()
+        try keyFileManager.importKeyAndDeleteFile { storage[$1] = $0 }
 
         XCTAssertFalse(FileManager.default.fileExists(atPath: KeyFileManagerTest.filePath))
         XCTAssertTrue(storage[PgpKey.PRIVATE.getKeychainKey()] == fileContent)
     }
 
     func testErrorReadingFile() throws {
-        XCTAssertThrowsError(try KeyFileManagerTest.keyFileManager.importKeyAndDeleteFile()) {
+        XCTAssertThrowsError(try KeyFileManagerTest.keyFileManager.importKeyAndDeleteFile { _, _ in }) {
             XCTAssertEqual($0 as! AppError, AppError.ReadingFile("test.txt"))
         }
     }
