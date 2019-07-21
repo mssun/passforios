@@ -139,7 +139,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "SyncingPasswordStore".localize())
         var gitCredential: GitCredential
-        let privateKey: String? = AppKeychain.get(for: SshKey.PRIVATE.getKeychainKey())
+        let privateKey: String? = AppKeychain.shared.get(for: SshKey.PRIVATE.getKeychainKey())
         if SharedDefaults[.gitAuthenticationMethod] == "Password" || privateKey == nil {
             gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: SharedDefaults[.gitUsername]!))
         } else {

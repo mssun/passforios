@@ -11,14 +11,8 @@ import XCTest
 @testable import passKit
 
 class PGPAgentTest: XCTestCase {
-    
-    override func setUp() {
-        PGPAgent().removePGPKeys()
-    }
-    
-    override func tearDown() {
-        PGPAgent().removePGPKeys()
-    }
+
+    private let keychain = DictBasedKeychain()
     
     func basicEncryptDecrypt(pgpAgent: PGPAgent) -> Bool {
         // Encrypt and decrypt.
@@ -33,7 +27,7 @@ class PGPAgentTest: XCTestCase {
     }
     
     func testInitPGPKey() {
-        let pgpAgent = PGPAgent()
+        let pgpAgent = PGPAgent(keyStore: keychain)
 
         // [RSA2048] Setup keys.
         try? pgpAgent.initPGPKey(with: PGP_RSA2048_PUBLIC_KEY, keyType: .PUBLIC)
@@ -41,7 +35,7 @@ class PGPAgentTest: XCTestCase {
         XCTAssertTrue(pgpAgent.isImported)
         XCTAssertEqual(pgpAgent.pgpKeyID, "A1024DAE")
         XCTAssertTrue(self.basicEncryptDecrypt(pgpAgent: pgpAgent))
-        let pgpAgent2 = PGPAgent()
+        let pgpAgent2 = PGPAgent(keyStore: keychain)
         try? pgpAgent2.initPGPKeys()  // load from the keychain
         XCTAssertTrue(self.basicEncryptDecrypt(pgpAgent: pgpAgent2))
         pgpAgent.removePGPKeys()
@@ -88,7 +82,7 @@ class PGPAgentTest: XCTestCase {
     }
     
     func testInitPGPKeyBadPrivateKeys() {
-        let pgpAgent = PGPAgent()
+        let pgpAgent = PGPAgent(keyStore: keychain)
         let plainData = "Hello World!".data(using: .utf8)!
         
         // [RSA2048] Setup the public key.

@@ -43,7 +43,7 @@ class GitServerSettingTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         // Grey out ssh option if ssh_key is not present
         if let sshLabel = sshLabel {
-            sshLabel.isEnabled = AppKeychain.contains(key: SshKey.PRIVATE.getKeychainKey())
+            sshLabel.isEnabled = AppKeychain.shared.contains(key: SshKey.PRIVATE.getKeychainKey())
         }
     }
     override func viewDidLoad() {
@@ -86,7 +86,7 @@ class GitServerSettingTableViewController: UITableViewController {
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "PrepareRepository".localize())
         var gitCredential: GitCredential
-        let privateKey: String? = AppKeychain.get(for: SshKey.PRIVATE.getKeychainKey())
+        let privateKey: String? = AppKeychain.shared.get(for: SshKey.PRIVATE.getKeychainKey())
         if auth == "Password" || privateKey == nil {
             gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username))
         } else {
@@ -160,7 +160,7 @@ class GitServerSettingTableViewController: UITableViewController {
             authenticationMethod = "Password"
         } else if cell == authSSHKeyCell {
 
-            if !AppKeychain.contains(key: SshKey.PRIVATE.getKeychainKey()) {
+            if !AppKeychain.shared.contains(key: SshKey.PRIVATE.getKeychainKey()) {
                 Utils.alert(title: "CannotSelectSshKey".localize(), message: "PleaseSetupSshKeyFirst.".localize(), controller: self, completion: nil)
                 authenticationMethod = "Password"
             } else {

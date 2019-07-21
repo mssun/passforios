@@ -15,19 +15,17 @@ public class KeyFileManager {
 
     private let keyType: CryptographicKey
     private let keyPath: String
-    private let keyHandler: KeyHandler
 
     private convenience init(keyType: CryptographicKey) {
         self.init(keyType: keyType, keyPath: keyType.getFileSharingPath())
     }
 
-    public init(keyType: CryptographicKey, keyPath: String, keyHandler: @escaping KeyHandler = AppKeychain.add) {
+    public init(keyType: CryptographicKey, keyPath: String) {
         self.keyType = keyType
         self.keyPath = keyPath
-        self.keyHandler = keyHandler
     }
 
-    public func importKeyAndDeleteFile() throws {
+    public func importKeyAndDeleteFile(keyHandler: KeyHandler = AppKeychain.shared.add) throws {
         guard let keyFileContent = FileManager.default.contents(atPath: keyPath) else {
             throw AppError.ReadingFile(URL(fileURLWithPath: keyPath).lastPathComponent)
         }
