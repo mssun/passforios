@@ -20,7 +20,7 @@ class PGPKeySettingTableViewController: AutoCellHeightUITableViewController {
         super.viewDidLoad()
         pgpPublicKeyURLTextField.text = SharedDefaults[.pgpPublicKeyURL]?.absoluteString
         pgpPrivateKeyURLTextField.text = SharedDefaults[.pgpPrivateKeyURL]?.absoluteString
-        pgpPassphrase = passwordStore.pgpAgent?.passphrase
+        pgpPassphrase = passwordStore.pgpAgent.passphrase
     }
 
     private func validatePGPKeyURL(input: String?) -> Bool {

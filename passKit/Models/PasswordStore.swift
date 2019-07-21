@@ -25,7 +25,7 @@ public class PasswordStore {
     public let storeURL = URL(fileURLWithPath: "\(Globals.repositoryPath)")
     public let tempStoreURL = URL(fileURLWithPath: "\(Globals.repositoryPath)-temp")
     
-    public let pgpAgent: PGPAgent?
+    public let pgpAgent = PGPAgent()
     
     public var storeRepository: GTRepository?
     
@@ -104,8 +104,6 @@ public class PasswordStore {
     }
     
     private init() {
-        self.pgpAgent = PGPAgent()
-        
         // Migration
         importExistingKeysIntoKeychain()
         
@@ -113,7 +111,7 @@ public class PasswordStore {
             if fm.fileExists(atPath: storeURL.path) {
                 try storeRepository = GTRepository.init(url: storeURL)
             }
-            try self.pgpAgent?.initPGPKeys()
+            try self.pgpAgent.initPGPKeys()
         } catch {
             print(error)
         }
@@ -640,7 +638,7 @@ public class PasswordStore {
         
         try? fm.removeItem(atPath: Globals.gitSSHPrivateKeyPath)
         
-        self.pgpAgent?.removePGPKeys()
+        self.pgpAgent.removePGPKeys()
         
         AppKeychain.removeAllContent()
 
@@ -701,7 +699,7 @@ public class PasswordStore {
     public func decrypt(passwordEntity: PasswordEntity, requestPGPKeyPassphrase: () -> String) throws -> Password? {
         let encryptedDataPath = storeURL.appendingPathComponent(passwordEntity.getPath())
         let encryptedData = try Data(contentsOf: encryptedDataPath)
-        guard let decryptedData = try self.pgpAgent?.decrypt(encryptedData: encryptedData, requestPGPKeyPassphrase: requestPGPKeyPassphrase) else {
+        guard let decryptedData = try self.pgpAgent.decrypt(encryptedData: encryptedData, requestPGPKeyPassphrase: requestPGPKeyPassphrase) else {
             throw AppError.Decryption
         }
         let plainText = String(data: decryptedData, encoding: .utf8) ?? ""
@@ -710,15 +708,11 @@ public class PasswordStore {
     }
     
     public func encrypt(password: Password) throws -> Data {
-        let plainData = password.plainData
-        guard let encryptedData = try self.pgpAgent?.encrypt(plainData: plainData) else {
-            throw AppError.Encryption
-        }
-        return encryptedData
+        return try self.pgpAgent.encrypt(plainData: password.plainData)
     }
     
     public func removePGPKeys() {
-        self.pgpAgent?.removePGPKeys()
+        self.pgpAgent.removePGPKeys()
     }
     
     public func removeGitSSHKeys() {
