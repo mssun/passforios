@@ -14,6 +14,7 @@ go get -u github.com/ProtonMail/gopenpgp || true
 PACKAGE_PATH="github.com/ProtonMail/gopenpgp"
 
 ( cd "$GOPATH/src/$PACKAGE_PATH" && GO111MODULE=on go mod vendor )
+patch -p0 < $GOPATH/crypto.patch
 
 OUTPUT_PATH="$GOPATH/dist"
 mkdir -p "$OUTPUT_PATH"
