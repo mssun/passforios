@@ -1,30 +1,24 @@
 #!/bin/bash
 
-OLDGOPATH=$GOPATH
-OLDPATH=$PATH
+set -euox pipefail
 
-mkdir go
-export GOPATH=$(pwd)/go
+export GOPATH="$(pwd)/go"
+export PATH="$PATH:$GOPATH/bin"
 
-go get -u golang.org/x/mobile/cmd/gomobile
+go get -u golang.org/x/mobile/cmd/gomobile || true
+go get golang.org/x/tools/go/packages || true
 go install golang.org/x/mobile/cmd/gobind
-go get golang.org/x/mobile
+go get golang.org/x/mobile || true
+go get -u github.com/ProtonMail/gopenpgp || true
 
-go get -u github.com/ProtonMail/gopenpgp
+PACKAGE_PATH="github.com/ProtonMail/gopenpgp"
 
-cd $GOPATH/src/github.com/ProtonMail/gopenpgp
+( cd "$GOPATH/src/$PACKAGE_PATH" && GO111MODULE=on go mod vendor )
 
-GO111MODULE=on go mod vendor
+OUTPUT_PATH="$GOPATH/dist"
+mkdir -p "$OUTPUT_PATH"
 
-cd $GOPATH
-export PATH=$PATH:$GOPATH/bin
-mkdir dist
+chmod -R u+w "$GOPATH/pkg/mod"
 
-OUTPUT_PATH="dist"
-PACKAGE_PATH=github.com/ProtonMail/gopenpgp
-
-$GOPATH/bin/gomobile bind -target ios -o ${OUTPUT_PATH}/Crypto.framework $PACKAGE_PATH/crypto $PACKAGE_PATH/armor $PACKAGE_PATH/constants $PACKAGE_PATH/models $PACKAGE_PATH/subtle
-
-
-export GOPATH=$OLDGOPATH
-export PATH=$OLDPATH
+"$GOPATH/bin/gomobile" bind -target ios -o "${OUTPUT_PATH}/Crypto.framework" \
+    "$PACKAGE_PATH"/{crypto,armor,constants,models,subtle}
