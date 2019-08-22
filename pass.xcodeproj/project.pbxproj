@@ -51,6 +51,7 @@
 		30A1D2A821B2D53200E2D1F7 /* PasswordChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A721B2D53200E2D1F7 /* PasswordChange.swift */; };
 		30A1D2AA21B32A0100E2D1F7 /* OtpTypeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A921B32A0100E2D1F7 /* OtpTypeTest.swift */; };
 		30A1D2AC21B32C2A00E2D1F7 /* TokenBuilderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2AB21B32C2A00E2D1F7 /* TokenBuilderTest.swift */; };
+		30A86F95230F237000F821A4 /* CryptoFrameworkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A86F94230F237000F821A4 /* CryptoFrameworkTest.swift */; };
 		30B04860209A5141001013CA /* PasswordTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B0485F209A5141001013CA /* PasswordTest.swift */; };
 		30BAC8C622E3BAAF00438475 /* TestBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BAC8C422E3BAAF00438475 /* TestBase.swift */; };
 		30BAC8C722E3BAAF00438475 /* TestPGPKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BAC8C522E3BAAF00438475 /* TestPGPKeys.swift */; };
@@ -262,6 +263,7 @@
 		30A1D2A721B2D53200E2D1F7 /* PasswordChange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordChange.swift; sourceTree = "<group>"; };
 		30A1D2A921B32A0100E2D1F7 /* OtpTypeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtpTypeTest.swift; sourceTree = "<group>"; };
 		30A1D2AB21B32C2A00E2D1F7 /* TokenBuilderTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenBuilderTest.swift; sourceTree = "<group>"; };
+		30A86F94230F237000F821A4 /* CryptoFrameworkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoFrameworkTest.swift; sourceTree = "<group>"; };
 		30B0485F209A5141001013CA /* PasswordTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTest.swift; sourceTree = "<group>"; };
 		30BAC8C422E3BAAF00438475 /* TestBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestBase.swift; sourceTree = "<group>"; };
 		30BAC8C522E3BAAF00438475 /* TestPGPKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestPGPKeys.swift; sourceTree = "<group>"; };
@@ -463,6 +465,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		30A86F93230F235800F821A4 /* Crypto */ = {
+			isa = PBXGroup;
+			children = (
+				30A86F94230F237000F821A4 /* CryptoFrameworkTest.swift */,
+			);
+			path = Crypto;
+			sourceTree = "<group>";
+		};
 		30B6AABA21F49095006B352D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -585,6 +595,7 @@
 		A26075861EEC6F34005DB03E /* passKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				30A86F93230F235800F821A4 /* Crypto */,
 				30BAC8C322E3BA4300438475 /* Testbase */,
 				30697C5521F63F870064FCAC /* Extensions */,
 				301F6464216164670071A4CE /* Helpers */,
@@ -1303,6 +1314,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30A86F95230F237000F821A4 /* CryptoFrameworkTest.swift in Sources */,
 				30A1D2AC21B32C2A00E2D1F7 /* TokenBuilderTest.swift in Sources */,
 				301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */,
 				30BAC8CB22E3BB6C00438475 /* DictBasedKeychain.swift in Sources */,

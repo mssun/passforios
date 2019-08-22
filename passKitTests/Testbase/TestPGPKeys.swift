@@ -10,6 +10,38 @@ import XCTest
 
 @testable import passKit
 
+struct PGPKeyTestTriple {
+    let publicKey: String
+    let privateKey: String
+    let fingerprint: String
+
+    let passphrase = "passforios"
+}
+
+let RSA2048 = PGPKeyTestTriple(
+    publicKey: PGP_RSA2048_PUBLIC_KEY,
+    privateKey: PGP_RSA2048_PRIVATE_KEY,
+    fingerprint: "a1024dae"
+)
+
+let RSA2048_SUB = PGPKeyTestTriple(
+    publicKey: PGP_RSA2048_PUBLIC_KEY,
+    privateKey: PGP_RSA2048_PRIVATE_SUBKEY,
+    fingerprint: "a1024dae"
+)
+
+let ED25519 = PGPKeyTestTriple(
+    publicKey: PGP_ED25519_PUBLIC_KEY,
+    privateKey: PGP_ED25519_PRIVATE_KEY,
+    fingerprint: "e9444483"
+)
+
+let ED25519_SUB = PGPKeyTestTriple(
+    publicKey: PGP_ED25519_PUBLIC_KEY,
+    privateKey: PGP_ED25519_PRIVATE_SUBKEY,
+    fingerprint: "e9444483"
+)
+
 func requestPGPKeyPassphrase() -> String {
     return "passforios"
 }
