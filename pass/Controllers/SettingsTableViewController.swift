@@ -18,6 +18,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     var setPasscodeLockAlert: UIAlertController?
 
     let passwordStore = PasswordStore.shared
+    let keychain = AppKeychain.shared
     var passcodeLock = PasscodeLock.shared
 
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
@@ -28,9 +29,6 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         if let controller = segue.source as? PGPKeySettingTableViewController {
             SharedDefaults[.pgpPrivateKeyURL] = URL(string: controller.pgpPrivateKeyURLTextField.text!.trimmed)
             SharedDefaults[.pgpPublicKeyURL] = URL(string: controller.pgpPublicKeyURLTextField.text!.trimmed)
-            if SharedDefaults[.isRememberPGPPassphraseOn] {
-                self.passwordStore.pgpAgent.passphrase = controller.pgpPassphrase
-            }
             SharedDefaults[.pgpKeySource] = "url"
 
             SVProgressHUD.setDefaultMaskType(.black)
@@ -38,10 +36,11 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())
             DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                 do {
-                    try self.passwordStore.pgpAgent.initPGPKey(from: SharedDefaults[.pgpPublicKeyURL]!, keyType: .PUBLIC)
-                    try self.passwordStore.pgpAgent.initPGPKey(from: SharedDefaults[.pgpPrivateKeyURL]!, keyType: .PRIVATE)
+                    try KeyFileManager.PublicPgp.importKey(from: SharedDefaults[.pgpPublicKeyURL]!)
+                    try KeyFileManager.PrivatePgp.importKey(from: SharedDefaults[.pgpPrivateKeyURL]!)
+                    try PGPAgent.shared.initKeys()
                     DispatchQueue.main.async {
-                        self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpAgent.pgpKeyID
+                        self.pgpKeyTableViewCell.detailTextLabel?.text = PGPAgent.shared.keyId
                         SVProgressHUD.showSuccess(withStatus: "Success".localize())
                         SVProgressHUD.dismiss(withDelay: 1)
                         Utils.alert(title: "RememberToRemoveKey".localize(), message: "RememberToRemoveKeyFromServer.".localize(), controller: self, completion: nil)
@@ -56,18 +55,17 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
         } else if let controller = segue.source as? PGPKeyArmorSettingTableViewController {
             SharedDefaults[.pgpKeySource] = "armor"
-            if SharedDefaults[.isRememberPGPPassphraseOn] {
-                self.passwordStore.pgpAgent.passphrase = controller.pgpPassphrase
-            }
+
             SVProgressHUD.setDefaultMaskType(.black)
             SVProgressHUD.setDefaultStyle(.light)
             SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())
             DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                 do {
-                    try self.passwordStore.pgpAgent.initPGPKey(with: controller.armorPublicKeyTextView.text ?? "", keyType: .PUBLIC)
-                    try self.passwordStore.pgpAgent.initPGPKey(with: controller.armorPrivateKeyTextView.text ?? "", keyType: .PRIVATE)
+                    try KeyFileManager.PublicPgp.importKey(from: controller.armorPublicKeyTextView.text ?? "")
+                    try KeyFileManager.PrivatePgp.importKey(from: controller.armorPrivateKeyTextView.text ?? "")
+                    try PGPAgent.shared.initKeys()
                     DispatchQueue.main.async {
-                        self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpAgent.pgpKeyID
+                        self.pgpKeyTableViewCell.detailTextLabel?.text = PGPAgent.shared.keyId
                         SVProgressHUD.showSuccess(withStatus: "Success".localize())
                         SVProgressHUD.dismiss(withDelay: 1)
                     }
@@ -89,9 +87,11 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
-                try self.passwordStore.pgpAgent.initPGPKeyFromFileSharing()
+                try KeyFileManager.PublicPgp.importKeyFromFileSharing()
+                try KeyFileManager.PrivatePgp.importKeyFromFileSharing()
+                try PGPAgent.shared.initKeys()
                 DispatchQueue.main.async {
-                    self.pgpKeyTableViewCell.detailTextLabel?.text = self.passwordStore.pgpAgent.pgpKeyID
+                    self.pgpKeyTableViewCell.detailTextLabel?.text = PGPAgent.shared.keyId
                     SVProgressHUD.showSuccess(withStatus: "Imported".localize())
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
@@ -135,11 +135,8 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     }
 
     private func setPGPKeyTableViewCellDetailText() {
-        if let pgpKeyID = self.passwordStore.pgpAgent.pgpKeyID {
-            pgpKeyTableViewCell.detailTextLabel?.text = pgpKeyID
-        } else {
-            pgpKeyTableViewCell.detailTextLabel?.text = "NotSet".localize()
-        }
+        try? PGPAgent.shared.initKeys()
+        pgpKeyTableViewCell.detailTextLabel?.text = PGPAgent.shared.keyId ?? "NotSet".localize()
     }
 
     private func setPasswordRepositoryTableViewCellDetailText() {
@@ -192,14 +189,14 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         optionMenu.addAction(urlAction)
         optionMenu.addAction(armorAction)
 
-        if passwordStore.pgpAgent.isFileSharingReady {
+        if KeyFileManager.PublicPgp.doesKeyFileExist() && KeyFileManager.PrivatePgp.doesKeyFileExist() {
             fileActionTitle.append(" (\("Import".localize()))")
             let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
                 // passphrase related
                 let savePassphraseAlert = UIAlertController(title: "Passphrase".localize(), message: "WantToSavePassphrase?".localize(), preferredStyle: UIAlertController.Style.alert)
                 // no
                 savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: UIAlertAction.Style.default) { _ in
-                    self.passwordStore.pgpAgent.passphrase = nil
+                    self.keychain.removeContent(for: Globals.pgpKeyPassphrase)
                     SharedDefaults[.isRememberPGPPassphraseOn] = false
                     self.saveImportedPGPKey()
                 })
@@ -208,7 +205,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
                     // ask for the passphrase
                     let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertController.Style.alert)
                     alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
-                        self.passwordStore.pgpAgent.passphrase = alert.textFields?.first?.text
+                        self.keychain.add(string: alert.textFields?.first?.text, for: Globals.pgpKeyPassphrase)
                         SharedDefaults[.isRememberPGPPassphraseOn] = true
                         self.saveImportedPGPKey()
                     }))
@@ -234,7 +231,9 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
         if SharedDefaults[.pgpKeySource] != nil {
             let deleteAction = UIAlertAction(title: "RemovePgpKeys".localize(), style: .destructive) { _ in
-                self.passwordStore.removePGPKeys()
+                self.keychain.removeContent(for: PgpKey.PUBLIC.getKeychainKey())
+                self.keychain.removeContent(for: PgpKey.PRIVATE.getKeychainKey())
+                PGPAgent.shared.uninitKeys()
                 self.pgpKeyTableViewCell.detailTextLabel?.text = "NotSet".localize()
             }
             optionMenu.addAction(deleteAction)

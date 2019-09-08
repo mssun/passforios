@@ -20,6 +20,7 @@ public enum AppError: Error, Equatable {
     case WrongPasswordFilename
     case Decryption
     case Encryption
+    case Encoding
     case Unknown
 }
 

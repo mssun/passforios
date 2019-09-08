@@ -24,9 +24,7 @@ public class PasswordStore {
     
     public let storeURL = URL(fileURLWithPath: "\(Globals.repositoryPath)")
     public let tempStoreURL = URL(fileURLWithPath: "\(Globals.repositoryPath)-temp")
-    
-    public let pgpAgent = PGPAgent()
-    
+
     public var storeRepository: GTRepository?
     
     public var gitSignatureForNow: GTSignature? {
@@ -111,7 +109,6 @@ public class PasswordStore {
             if fm.fileExists(atPath: storeURL.path) {
                 try storeRepository = GTRepository.init(url: storeURL)
             }
-            try self.pgpAgent.initPGPKeys()
         } catch {
             print(error)
         }
@@ -119,9 +116,9 @@ public class PasswordStore {
 
     private func importExistingKeysIntoKeychain() {
         // App Store update: v0.5.1 -> v0.6.0
-        try? KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: Globals.pgpPublicKeyPath).importKeyAndDeleteFile()
-        try? KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: Globals.pgpPrivateKeyPath).importKeyAndDeleteFile()
-        try? KeyFileManager(keyType: SshKey.PRIVATE, keyPath: Globals.gitSSHPrivateKeyPath).importKeyAndDeleteFile()
+        try? KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: Globals.pgpPublicKeyPath).importKeyFromFileSharing()
+        try? KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: Globals.pgpPrivateKeyPath).importKeyFromFileSharing()
+        try? KeyFileManager(keyType: SshKey.PRIVATE, keyPath: Globals.gitSSHPrivateKeyPath).importKeyFromFileSharing()
         SharedDefaults.remove(.pgpPublicKeyArmor)
         SharedDefaults.remove(.pgpPrivateKeyArmor)
         SharedDefaults.remove(.gitSSHPrivateKeyArmor)
@@ -638,7 +635,8 @@ public class PasswordStore {
         
         try? fm.removeItem(atPath: Globals.gitSSHPrivateKeyPath)
         
-        self.pgpAgent.removePGPKeys()
+        AppKeychain.shared.removeContent(for: PgpKey.PUBLIC.getKeychainKey())
+        AppKeychain.shared.removeContent(for: PgpKey.PRIVATE.getKeychainKey())
         
         AppKeychain.shared.removeAllContent()
 
@@ -699,7 +697,7 @@ public class PasswordStore {
     public func decrypt(passwordEntity: PasswordEntity, requestPGPKeyPassphrase: () -> String) throws -> Password? {
         let encryptedDataPath = storeURL.appendingPathComponent(passwordEntity.getPath())
         let encryptedData = try Data(contentsOf: encryptedDataPath)
-        guard let decryptedData = try self.pgpAgent.decrypt(encryptedData: encryptedData, requestPGPKeyPassphrase: requestPGPKeyPassphrase) else {
+        guard let decryptedData = try PGPAgent.shared.decrypt(encryptedData: encryptedData, requestPGPKeyPassphrase: requestPGPKeyPassphrase) else {
             throw AppError.Decryption
         }
         let plainText = String(data: decryptedData, encoding: .utf8) ?? ""
@@ -708,11 +706,7 @@ public class PasswordStore {
     }
     
     public func encrypt(password: Password) throws -> Data {
-        return try self.pgpAgent.encrypt(plainData: password.plainData)
-    }
-    
-    public func removePGPKeys() {
-        self.pgpAgent.removePGPKeys()
+        return try PGPAgent.shared.encrypt(plainData: password.plainData)
     }
     
     public func removeGitSSHKeys() {
@@ -725,6 +719,6 @@ public class PasswordStore {
     }
     
     public func gitSSHKeyImportFromFileSharing() throws {
-        try KeyFileManager.PrivateSsh.importKeyAndDeleteFile()
+        try KeyFileManager.PrivateSsh.importKeyFromFileSharing()
     }
 }

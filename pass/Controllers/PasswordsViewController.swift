@@ -27,6 +27,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     private var filteredPasswordsTableEntries: [PasswordsTableEntry] = []
     private var parentPasswordEntity: PasswordEntity? = nil
     private let passwordStore = PasswordStore.shared
+    private let keychain = AppKeychain.shared
 
     private var tapTabBarTime: TimeInterval = 0
 
@@ -385,13 +386,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             SVProgressHUD.show(withStatus: "Decrypting".localize())
         }
         if SharedDefaults[.isRememberPGPPassphraseOn] {
-            self.passwordStore.pgpAgent.passphrase = passphrase
+            keychain.add(string: passphrase, for: Globals.pgpKeyPassphrase)
         }
         return passphrase
     }
 
     private func decryptThenCopyPassword(from indexPath: IndexPath) {
-        guard self.passwordStore.pgpAgent.isImported else {
+        guard PGPAgent.shared.isPrepared else {
             Utils.alert(title: "CannotCopyPassword".localize(), message: "SetPgpKey.".localize(), controller: self, completion: nil)
             return
         }
@@ -412,7 +413,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             } catch {
                 DispatchQueue.main.async {
                     // remove the wrong passphrase so that users could enter it next time
-                    self.passwordStore.pgpAgent.passphrase = nil
+                    self.keychain.removeContent(for: Globals.pgpKeyPassphrase)
                     Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
@@ -453,7 +454,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "showPasswordDetail" {
-            guard self.passwordStore.pgpAgent.isImported else {
+            guard PGPAgent.shared.isPrepared else {
                 Utils.alert(title: "CannotShowPassword".localize(), message: "SetPgpKey.".localize(), controller: self, completion: nil)
                 if let s = sender as? UITableViewCell {
                     let selectedIndexPath = tableView.indexPath(for: s)!
@@ -462,7 +463,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 return false
             }
         } else if identifier == "addPasswordSegue" {
-            guard self.passwordStore.pgpAgent.isImported && self.passwordStore.storeRepository != nil else {
+            guard PGPAgent.shared.isPrepared && self.passwordStore.storeRepository != nil else {
                 Utils.alert(title: "CannotAddPassword".localize(), message: "MakeSurePgpAndGitProperlySet.".localize(), controller: self, completion: nil)
                 return false
             }

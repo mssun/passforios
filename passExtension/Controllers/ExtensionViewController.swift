@@ -28,6 +28,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
     @IBOutlet weak var tableView: UITableView!
 
     private let passwordStore = PasswordStore.shared
+    private let keychain = AppKeychain.shared
 
     private var searchActive = false
     private var passwordsTableEntries: [PasswordsTableEntry] = []
@@ -153,7 +154,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let entry = getPasswordEntry(by: indexPath)
 
-        guard self.passwordStore.pgpAgent.isImported else {
+        guard PGPAgent.shared.isPrepared else {
             Utils.alert(title: "CannotCopyPassword".localize(), message: "PgpKeyNotSet.".localize(), controller: self, completion: nil)
             return
         }
@@ -191,7 +192,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
             } catch {
                 DispatchQueue.main.async {
                     // remove the wrong passphrase so that users could enter it next time
-                    self.passwordStore.pgpAgent.passphrase = nil
+                    self.keychain.removeContent(for: Globals.pgpKeyPassphrase)
                     Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
@@ -227,7 +228,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
         }
         let _ = sem.wait(timeout: DispatchTime.distantFuture)
         if SharedDefaults[.isRememberPGPPassphraseOn] {
-            self.passwordStore.pgpAgent.passphrase = passphrase
+            self.keychain.add(string: passphrase, for: Globals.pgpKeyPassphrase)
         }
         return passphrase
     }
