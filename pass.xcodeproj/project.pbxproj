@@ -61,6 +61,7 @@
 		30C25DBD21F3599E00BB27BB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DBF21F3599E00BB27BB /* InfoPlist.strings */; };
 		30C25DD721F4834D00BB27BB /* UILocalizedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C25DD521F4834D00BB27BB /* UILocalizedLabel.swift */; };
 		30C25DD821F4834D00BB27BB /* UICodeHighlightingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C25DD621F4834D00BB27BB /* UICodeHighlightingLabel.swift */; };
+		30CCA90B2325119C0048CA51 /* Data+Mutable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CCA90A2325119C0048CA51 /* Data+Mutable.swift */; };
 		30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD2F77214D9E0E005E0A92 /* ParserTest.swift */; };
 		3EA2386CD0E9CE2A702A0B3E /* Pods_pass.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE627E8F3DACEDD8FA220081 /* Pods_pass.framework */; };
 		556EC3D322335C5F00934F9C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ECA21EA8FB5000E4154 /* Localizable.strings */; };
@@ -276,6 +277,7 @@
 		30C25DC621F3BEF500BB27BB /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		30C25DD521F4834D00BB27BB /* UILocalizedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILocalizedLabel.swift; sourceTree = "<group>"; };
 		30C25DD621F4834D00BB27BB /* UICodeHighlightingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICodeHighlightingLabel.swift; sourceTree = "<group>"; };
+		30CCA90A2325119C0048CA51 /* Data+Mutable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Mutable.swift"; sourceTree = "<group>"; };
 		30FD2F77214D9E0E005E0A92 /* ParserTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
 		3B2B2F844061EFA534FE9506 /* Pods_passKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62DEE9943E0F2B8C79E3FC5B /* Pods-passExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-passExtension/Pods-passExtension.release.xcconfig"; sourceTree = "<group>"; };
@@ -464,6 +466,7 @@
 		30B6AABA21F49095006B352D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				30CCA90A2325119C0048CA51 /* Data+Mutable.swift */,
 				30697C3621F63C990064FCAC /* String+Localization.swift */,
 				30697C3921F63C990064FCAC /* String+Utilities.swift */,
 				30697C3721F63C990064FCAC /* UITextFieldExtension.swift */,
@@ -1275,6 +1278,7 @@
 				30697C3E21F63C990064FCAC /* String+Utilities.swift in Sources */,
 				302B2C9822C2BDE700D831EE /* AppKeychain.swift in Sources */,
 				3032327422C7F710009EBD9C /* KeyFileManager.swift in Sources */,
+				30CCA90B2325119C0048CA51 /* Data+Mutable.swift in Sources */,
 				A2AA934422DE30DD00D79A00 /* PGPAgent.swift in Sources */,
 				30697C3B21F63C990064FCAC /* String+Localization.swift in Sources */,
 				302E85612125ECC70031BA64 /* Parser.swift in Sources */,
