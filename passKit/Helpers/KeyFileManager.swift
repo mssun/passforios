@@ -7,7 +7,7 @@
 //
 
 public class KeyFileManager {
-    public typealias KeyHandler = (Data, String) -> ()
+    public typealias KeyHandler = (String, String) -> Void
 
     public static let PublicPgp = KeyFileManager(keyType: PgpKey.PUBLIC)
     public static let PrivatePgp = KeyFileManager(keyType: PgpKey.PRIVATE)
@@ -15,24 +15,35 @@ public class KeyFileManager {
 
     private let keyType: CryptographicKey
     private let keyPath: String
+    private let keyHandler: KeyHandler
 
     private convenience init(keyType: CryptographicKey) {
         self.init(keyType: keyType, keyPath: keyType.getFileSharingPath())
     }
 
-    public init(keyType: CryptographicKey, keyPath: String) {
+    public init(keyType: CryptographicKey, keyPath: String, keyHandler: @escaping KeyHandler = AppKeychain.shared.add) {
         self.keyType = keyType
         self.keyPath = keyPath
+        self.keyHandler = keyHandler
     }
 
-    public func importKeyAndDeleteFile(keyHandler: KeyHandler = AppKeychain.shared.add) throws {
-        guard let keyFileContent = FileManager.default.contents(atPath: keyPath) else {
-            throw AppError.ReadingFile(URL(fileURLWithPath: keyPath).lastPathComponent)
-        }
-        keyHandler(keyFileContent, keyType.getKeychainKey())
+    public func importKeyFromFileSharing() throws {
+        let keyFileContent = try String(contentsOfFile: keyPath, encoding: .ascii)
+        try importKey(from: keyFileContent)
         try FileManager.default.removeItem(atPath: keyPath)
     }
-    
+
+    public func importKey(from string: String) throws {
+        guard string.unicodeScalars.allSatisfy({ $0.isASCII }) else {
+            throw AppError.Encoding
+        }
+        keyHandler(string, keyType.getKeychainKey())
+    }
+
+    public func importKey(from url: URL) throws {
+        try importKey(from: String(contentsOf: url, encoding: .ascii))
+    }
+
     public func doesKeyFileExist() -> Bool {
         return FileManager.default.fileExists(atPath: keyPath)
     }

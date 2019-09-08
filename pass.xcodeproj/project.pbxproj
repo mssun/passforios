@@ -63,6 +63,9 @@
 		30C25DD721F4834D00BB27BB /* UILocalizedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C25DD521F4834D00BB27BB /* UILocalizedLabel.swift */; };
 		30C25DD821F4834D00BB27BB /* UICodeHighlightingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C25DD621F4834D00BB27BB /* UICodeHighlightingLabel.swift */; };
 		30CCA90B2325119C0048CA51 /* Data+Mutable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CCA90A2325119C0048CA51 /* Data+Mutable.swift */; };
+		30CCA91623258C380048CA51 /* PgpInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CCA91523258C380048CA51 /* PgpInterface.swift */; };
+		30CCA91823258E760048CA51 /* GopenPgp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CCA91723258E760048CA51 /* GopenPgp.swift */; };
+		30CCA91A232591320048CA51 /* ObjectivePgp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CCA919232591320048CA51 /* ObjectivePgp.swift */; };
 		30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD2F77214D9E0E005E0A92 /* ParserTest.swift */; };
 		3EA2386CD0E9CE2A702A0B3E /* Pods_pass.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE627E8F3DACEDD8FA220081 /* Pods_pass.framework */; };
 		556EC3D322335C5F00934F9C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ECA21EA8FB5000E4154 /* Localizable.strings */; };
@@ -280,6 +283,9 @@
 		30C25DD521F4834D00BB27BB /* UILocalizedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILocalizedLabel.swift; sourceTree = "<group>"; };
 		30C25DD621F4834D00BB27BB /* UICodeHighlightingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICodeHighlightingLabel.swift; sourceTree = "<group>"; };
 		30CCA90A2325119C0048CA51 /* Data+Mutable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Mutable.swift"; sourceTree = "<group>"; };
+		30CCA91523258C380048CA51 /* PgpInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PgpInterface.swift; sourceTree = "<group>"; };
+		30CCA91723258E760048CA51 /* GopenPgp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GopenPgp.swift; sourceTree = "<group>"; };
+		30CCA919232591320048CA51 /* ObjectivePgp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectivePgp.swift; sourceTree = "<group>"; };
 		30FD2F77214D9E0E005E0A92 /* ParserTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
 		3B2B2F844061EFA534FE9506 /* Pods_passKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62DEE9943E0F2B8C79E3FC5B /* Pods-passExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-passExtension/Pods-passExtension.release.xcconfig"; sourceTree = "<group>"; };
@@ -469,6 +475,7 @@
 			isa = PBXGroup;
 			children = (
 				30A86F94230F237000F821A4 /* CryptoFrameworkTest.swift */,
+				A2AA934522DE3A8000D79A00 /* PGPAgentTest.swift */,
 			);
 			path = Crypto;
 			sourceTree = "<group>";
@@ -525,7 +532,6 @@
 			isa = PBXGroup;
 			children = (
 				30B0485F209A5141001013CA /* PasswordTest.swift */,
-				A2AA934522DE3A8000D79A00 /* PGPAgentTest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -538,6 +544,17 @@
 				300713C42219D54100F553AC /* AutoCellHeightUITableViewController.swift */,
 			);
 			path = UserInterface;
+			sourceTree = "<group>";
+		};
+		30CCA90C232584560048CA51 /* Crypto */ = {
+			isa = PBXGroup;
+			children = (
+				30CCA91723258E760048CA51 /* GopenPgp.swift */,
+				30CCA919232591320048CA51 /* ObjectivePgp.swift */,
+				A2AA934322DE30DD00D79A00 /* PGPAgent.swift */,
+				30CCA91523258C380048CA51 /* PgpInterface.swift */,
+			);
+			path = Crypto;
 			sourceTree = "<group>";
 		};
 		A2168A801EFD431A005EA873 /* Controllers */ = {
@@ -580,6 +597,7 @@
 		A26075791EEC6F34005DB03E /* passKit */ = {
 			isa = PBXGroup;
 			children = (
+				30CCA90C232584560048CA51 /* Crypto */,
 				A2C532B9201DD07500DB9F53 /* Controllers */,
 				30B6AABA21F49095006B352D /* Extensions */,
 				A2F4E20F1EED7F0A0011986E /* Helpers */,
@@ -638,7 +656,6 @@
 				30697C4021F63CAB0064FCAC /* Password.swift */,
 				30697C3F21F63CAA0064FCAC /* PasswordEntity.swift */,
 				30697C4321F63CAB0064FCAC /* PasswordStore.swift */,
-				A2AA934322DE30DD00D79A00 /* PGPAgent.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1293,10 +1310,12 @@
 				A2AA934422DE30DD00D79A00 /* PGPAgent.swift in Sources */,
 				30697C3B21F63C990064FCAC /* String+Localization.swift in Sources */,
 				302E85612125ECC70031BA64 /* Parser.swift in Sources */,
+				30CCA91A232591320048CA51 /* ObjectivePgp.swift in Sources */,
 				30697C4621F63CAB0064FCAC /* GitCredential.swift in Sources */,
 				30A1D2A621B2D46100E2D1F7 /* OtpType.swift in Sources */,
 				3032328E22CBD4CD009EBD9C /* CryptographicKeys.swift in Sources */,
 				30697C2A21F63C5A0064FCAC /* NotificationNames.swift in Sources */,
+				30CCA91623258C380048CA51 /* PgpInterface.swift in Sources */,
 				30697C4721F63CAB0064FCAC /* PasscodeLock.swift in Sources */,
 				30697C3421F63C8B0064FCAC /* PasscodeLockViewController.swift in Sources */,
 				30697C2C21F63C5A0064FCAC /* FileManagerExtension.swift in Sources */,
@@ -1304,6 +1323,7 @@
 				30697C3D21F63C990064FCAC /* UIViewExtension.swift in Sources */,
 				30697C3A21F63C990064FCAC /* UIViewControllerExtension.swift in Sources */,
 				30697C2E21F63C5A0064FCAC /* Utils.swift in Sources */,
+				30CCA91823258E760048CA51 /* GopenPgp.swift in Sources */,
 				30697C4521F63CAB0064FCAC /* Password.swift in Sources */,
 				30697C4421F63CAB0064FCAC /* PasswordEntity.swift in Sources */,
 				30BAC8CD22E3BB9700438475 /* KeyStore.swift in Sources */,

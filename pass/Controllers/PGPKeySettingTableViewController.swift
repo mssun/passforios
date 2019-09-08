@@ -13,14 +13,14 @@ class PGPKeySettingTableViewController: AutoCellHeightUITableViewController {
 
     @IBOutlet weak var pgpPublicKeyURLTextField: UITextField!
     @IBOutlet weak var pgpPrivateKeyURLTextField: UITextField!
-    var pgpPassphrase: String?
+
     let passwordStore = PasswordStore.shared
+    let keychain = AppKeychain.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
         pgpPublicKeyURLTextField.text = SharedDefaults[.pgpPublicKeyURL]?.absoluteString
         pgpPrivateKeyURLTextField.text = SharedDefaults[.pgpPrivateKeyURL]?.absoluteString
-        pgpPassphrase = passwordStore.pgpAgent.passphrase
     }
 
     private func validatePGPKeyURL(input: String?) -> Bool {
@@ -43,7 +43,7 @@ class PGPKeySettingTableViewController: AutoCellHeightUITableViewController {
         let savePassphraseAlert = UIAlertController(title: "Passphrase".localize(), message: "WantToSavePassphrase?".localize(), preferredStyle: UIAlertController.Style.alert)
         // no
         savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: UIAlertAction.Style.default) { _ in
-            self.pgpPassphrase = nil
+            self.keychain.removeContent(for: Globals.pgpKeyPassphrase)
             SharedDefaults[.isRememberPGPPassphraseOn] = false
             self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
         })
@@ -52,12 +52,12 @@ class PGPKeySettingTableViewController: AutoCellHeightUITableViewController {
             // ask for the passphrase
             let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
-                self.pgpPassphrase = alert.textFields?.first?.text
+                self.keychain.add(string: alert.textFields?.first?.text, for: Globals.pgpKeyPassphrase)
                 SharedDefaults[.isRememberPGPPassphraseOn] = true
                 self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
             }))
             alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = self.pgpPassphrase
+                textField.text = self.keychain.get(for: Globals.pgpKeyPassphrase)
                 textField.isSecureTextEntry = true
             })
             self.present(alert, animated: true, completion: nil)

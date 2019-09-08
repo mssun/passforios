@@ -66,6 +66,7 @@
 "PGPPublicKeyNotExistError."            = "Der öffentliche PGP-Schlüssen existiert nicht";
 "WrongPasswordFilename."                = "Schreiben der Passwort-Datei nicht möglich .";
 "DecryptionError."                      = "Passwort kann nicht entschlüsselt werden.";
+"EncodingError."                        = "Schlüssel ist nicht in ASCII kodiert.";
 "UnknownError."                         = "Ein unbekannter Fehler ist aufgetreten.";
 "PrepareRepository"                     = "Repository vorbereiten";
 "CheckingOutBranch"                     = "Branch '%@' wird ausgecheckt";

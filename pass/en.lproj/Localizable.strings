@@ -67,6 +67,7 @@
 "PgpPublicKeyNotExistError."            = "PGP public key doesn't exist.";
 "WrongPasswordFilenameError."           = "Cannot write to the password file.";
 "DecryptionError."                      = "Cannot decrypt password.";
+"EncodingError."                        = "Key is not ASCII encoded.";
 "UnknownError."                         = "Unknown error.";
 "PrepareRepository"                     = "Prepare Repository";
 "CheckingOutBranch"                     = "Checking out branch '%@'";
