@@ -37,19 +37,19 @@ public class PasswordStore {
     
     public var gitPassword: String? {
         set {
-            AppKeychain.shared.add(string: newValue, for: "gitPassword")
+            AppKeychain.shared.add(string: newValue, for: Globals.gitPassword)
         }
         get {
-            return AppKeychain.shared.get(for: "gitPassword")
+            return AppKeychain.shared.get(for: Globals.gitPassword)
         }
     }
     
     public var gitSSHPrivateKeyPassphrase: String? {
         set {
-            AppKeychain.shared.add(string: newValue, for: "gitSSHPrivateKeyPassphrase")
+            AppKeychain.shared.add(string: newValue, for: Globals.gitSSHPrivateKeyPassphrase)
         }
         get {
-            return AppKeychain.shared.get(for: "gitSSHPrivateKeyPassphrase")
+            return AppKeychain.shared.get(for: Globals.gitSSHPrivateKeyPassphrase)
         }
     }
     
