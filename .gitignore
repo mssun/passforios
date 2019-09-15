@@ -54,10 +54,7 @@ Carthage/Checkouts
 Carthage/Build
 
 # Go Mobile Build results and dependency sources
-go/bin/
-go/dist/
-go/pkg/
-go/src/*
+go/
 
 # fastlane
 #
