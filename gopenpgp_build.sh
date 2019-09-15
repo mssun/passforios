@@ -20,5 +20,5 @@ mkdir -p "$OUTPUT_PATH"
 
 chmod -R u+w "$GOPATH/pkg/mod"
 
-"$GOPATH/bin/gomobile" bind -target ios -o "${OUTPUT_PATH}/Crypto.framework" \
+"$GOPATH/bin/gomobile" bind -v -ldflags="-s -w" -target ios -o "${OUTPUT_PATH}/Crypto.framework" \
     "$PACKAGE_PATH"/{crypto,armor,constants,models,subtle}
