@@ -28,9 +28,9 @@ class PGPAgentTest: XCTestCase {
         super.tearDown()
     }
 
-    func basicEncryptDecrypt(using pgpAgent: PGPAgent) throws -> Data? {
+    func basicEncryptDecrypt(using pgpAgent: PGPAgent, requestPassphrase: () -> String = requestPGPKeyPassphrase) throws -> Data? {
         let encryptedData = try pgpAgent.encrypt(plainData: testData)
-        return try pgpAgent.decrypt(encryptedData: encryptedData, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+        return try pgpAgent.decrypt(encryptedData: encryptedData, requestPGPKeyPassphrase: requestPassphrase)
     }
 
     func testBasicEncryptDecrypt() throws {
@@ -95,6 +95,28 @@ class PGPAgentTest: XCTestCase {
         XCTAssertThrowsError(try basicEncryptDecrypt(using: pgpAgent)) {
             XCTAssertEqual($0 as! AppError, AppError.KeyImport)
         }
+    }
+
+    func testNoDecryptionWithIncorrectPassphrase() throws {
+        try importKeys(RSA2048.publicKey, RSA2048.privateKey)
+
+        var passphraseRequestCalled = false
+        let provideCorrectPassphrase: () -> String = {
+            passphraseRequestCalled = true
+            return requestPGPKeyPassphrase()
+        }
+        XCTAssertEqual(try basicEncryptDecrypt(using: pgpAgent, requestPassphrase: provideCorrectPassphrase), testData)
+        XCTAssert(passphraseRequestCalled)
+
+        passphraseRequestCalled = false
+        let provideIncorrectPassphrase: () -> String = {
+            passphraseRequestCalled = true
+            return "incorrect passphrase"
+        }
+        XCTAssertThrowsError(try basicEncryptDecrypt(using: pgpAgent, requestPassphrase: provideIncorrectPassphrase)) {
+            XCTAssert($0.localizedDescription.contains("openpgp: invalid data: private key checksum failure"))
+        }
+        XCTAssert(passphraseRequestCalled)
     }
 
     private func importKeys(_ publicKey: String, _ privateKey: String) throws {
