@@ -38,7 +38,7 @@ class PGPAgentTest: XCTestCase {
             RSA2048,
             RSA2048_SUB,
             ED25519,
-            //ED25519_SUB,
+            ED25519_SUB,
         ].forEach { keyTriple in
             let keychain = DictBasedKeychain()
             let pgpAgent = PGPAgent(keyStore: keychain)

@@ -38,9 +38,9 @@ class CryptoFrameworkTest: XCTestCase {
     private func testInternal(plainMessage: CryptoPlainMessage?, messageConverter: MessageConverter) throws {
         try [
             RSA2048,
-            //RSA2048_SUB,
+            RSA2048_SUB,
             ED25519,
-            //ED25519_SUB,
+            ED25519_SUB,
         ].forEach { keyTriple in
             let pgp = CryptoGetGopenPGP()!
             let publicKey = try pgp.buildKeyRingArmored(keyTriple.publicKey)
