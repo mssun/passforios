@@ -22,11 +22,11 @@ public class Utils {
         for (index, element) in plainPassword.unicodeScalars.enumerated() {
             var charColor = UIColor.darkText
             if NSCharacterSet.decimalDigits.contains(element) {
-                charColor = Globals.digitColor
+                charColor = Globals.red
             } else if !NSCharacterSet.letters.contains(element) {
-                charColor = Globals.symbolColor
+                charColor = Globals.blue
             } else {
-                charColor = Globals.letterColor
+                charColor = Globals.black
             }
             attributedPassword.addAttribute(NSAttributedString.Key.foregroundColor, value: charColor, range: NSRange(location: index, length: 1))
         }

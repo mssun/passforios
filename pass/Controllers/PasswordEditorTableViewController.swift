@@ -125,6 +125,9 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             additionsCell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as?TextViewTableViewCell
             additionsCell?.contentTextView.delegate = self
             additionsCell?.setContent(content: cellData[PasswordEditorCellKey.content] as? String)
+            if #available(iOS 13.0, *) {
+                additionsCell?.contentTextView.textColor = .label
+            }
             return additionsCell!
         case .deletePasswordCell:
             return deletePasswordCell!
