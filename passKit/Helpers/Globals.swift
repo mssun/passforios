@@ -41,11 +41,14 @@ public class Globals {
     public static let passwordFont = UIFont(name: "Courier-Bold", size: UIFont.labelFontSize - 1)
 
     // UI related
-    public static let red = UIColor(red:1.00, green:0.23, blue:0.19, alpha:1.0)
-    public static let blue = UIColor(red:0.00, green:0.48, blue:1.00, alpha:1.0)
-    public static let letterColor = UIColor(red:40/255.0, green:42/255.0, blue:54/255.0, alpha:1.0)
-    public static let symbolColor = UIColor(red:200/255.0, green:40/255.0, blue:41/255.0, alpha:1.0)
-    public static let digitColor = UIColor(red:66/255.0, green:113/255.0, blue:174/255.0, alpha:1.0)
+    public static let red = UIColor.systemRed
+    public static let blue = UIColor.systemBlue
+    public static let black: UIColor = {
+        if #available(iOSApplicationExtension 13.0, *) {
+            return UIColor.label
+        }
+        return UIColor.black
+    }()
     public static let tableCellButtonSize = CGFloat(20.0)
 
     private init() { }
