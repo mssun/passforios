@@ -32,7 +32,6 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         let passcodeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
         passcodeLabel.text = "EnterPasscode".localize()
         passcodeLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        passcodeLabel.textColor = UIColor.black
         passcodeLabel.textAlignment = .center
         passcodeLabel.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(passcodeLabel)
@@ -40,7 +39,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
 
         let passcodeWrongAttemptsLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
         passcodeWrongAttemptsLabel.text = ""
-        passcodeWrongAttemptsLabel.textColor = UIColor.red
+        passcodeWrongAttemptsLabel.textColor = Globals.red
         passcodeWrongAttemptsLabel.textAlignment = .center
         passcodeWrongAttemptsLabel.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(passcodeWrongAttemptsLabel)
@@ -53,10 +52,17 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         passcodeTextField.clearButtonMode = UITextField.ViewMode.whileEditing
         passcodeTextField.delegate = self
         passcodeTextField.addTarget(self, action: #selector(self.passcodeTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
-        self.view.backgroundColor = UIColor.white
         passcodeTextField.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(passcodeTextField)
         self.passcodeTextField = passcodeTextField
+
+        if #available(iOSApplicationExtension 13.0, *) {
+            view.backgroundColor = .systemBackground
+            passcodeTextField.backgroundColor = .secondarySystemBackground
+            passcodeTextField.textColor = .secondaryLabel
+        } else {
+            view.backgroundColor = .white
+        }
 
         let biometryAuthButton = UIButton(type: .custom)
         biometryAuthButton.setTitle("", for: .normal)
