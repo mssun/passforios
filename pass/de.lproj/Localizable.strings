@@ -92,7 +92,8 @@
 "FillInGitAccountPassword."             = "Bitte gib das Passwort deines Git-Accounts ein.";
 "NoPasswordStore."                      = "Es gibt im Moment keinen Passwort Store.";
 "SyncingPasswordStore"                  = "Password Store wird synchronisiert";
-"PushingToRemoteRepository"             = "Es wird zum Remote Repository gepusht";
+"PullingFromRemoteRepository"           = "Update lokales Repository";
+"PushingToRemoteRepository"             = "Update Remote-Repository";
 
 // SSH
 "FillInSshKeyPassphrase."   = "Bitte gib das Passwort des SSH-Schlüssels ein.";

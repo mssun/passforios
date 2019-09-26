@@ -155,7 +155,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             do {
                 try self.passwordStore.pullRepository(credential: gitCredential, requestGitPassword: self.requestGitPassword(credential:lastPassword:), transferProgressBlock: {(git_transfer_progress, stop) in
                     DispatchQueue.main.async {
-                        SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "Pull Remote Repository")
+                        SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "PullingFromRemoteRepository".localize())
                     }
                 })
                 if self.passwordStore.numberOfLocalCommits ?? 0 > 0 {

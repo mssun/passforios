@@ -92,6 +92,7 @@
 "FillInGitAccountPassword."             = "Please fill in the password of your Git account.";
 "NoPasswordStore."                      = "There is no password store right now.";
 "SyncingPasswordStore"                  = "Syncing Password Store";
+"PullingFromRemoteRepository"           = "Pulling from Remote Repository";
 "PushingToRemoteRepository"             = "Pushing to Remote Repository";
 
 // SSH
