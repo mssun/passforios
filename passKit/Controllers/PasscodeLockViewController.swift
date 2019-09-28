@@ -18,13 +18,14 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
     open var cancelCallback: (()->Void)?
 
     weak var passcodeLabel: UILabel?
-    weak var passcodeWrongAttemptsLabel: UILabel?
     weak var passcodeTextField: UITextField?
     weak var biometryAuthButton: UIButton?
+    weak var forgotPasscodeButton: UIButton?
     open weak var cancelButton: UIButton?
 
-    var passcodeFailedAttempts = 0
     var isCancellable: Bool = false
+    
+    private let passwordStore = PasswordStore.shared
 
     open override func loadView() {
         super.loadView()
@@ -37,17 +38,9 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         self.view.addSubview(passcodeLabel)
         self.passcodeLabel = passcodeLabel
 
-        let passcodeWrongAttemptsLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
-        passcodeWrongAttemptsLabel.text = ""
-        passcodeWrongAttemptsLabel.textColor = Globals.red
-        passcodeWrongAttemptsLabel.textAlignment = .center
-        passcodeWrongAttemptsLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(passcodeWrongAttemptsLabel)
-        self.passcodeWrongAttemptsLabel = passcodeWrongAttemptsLabel
-
         let passcodeTextField =  UITextField(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
         passcodeTextField.borderStyle = UITextField.BorderStyle.roundedRect
-        passcodeTextField.placeholder = "Passcode".localize()
+        passcodeTextField.placeholder = "EnterPasscode".localize()
         passcodeTextField.isSecureTextEntry = true
         passcodeTextField.clearButtonMode = UITextField.ViewMode.whileEditing
         passcodeTextField.delegate = self
@@ -87,6 +80,16 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
                 biometryAuthButton.isHidden = false
             }
         }
+        
+        let forgotPasscodeButton = UIButton(type: .custom)
+        forgotPasscodeButton.setTitle("ForgotYourPasscode?".localize(), for: .normal)
+        forgotPasscodeButton.setTitleColor(Globals.blue, for: .normal)
+        forgotPasscodeButton.addTarget(self, action: #selector(forgotPasscodeButtonPressedAction(_:)), for: .touchUpInside)
+        // hide the forgotPasscodeButton if the native app is running
+        forgotPasscodeButton.isHidden = self.isCancellable
+        forgotPasscodeButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(forgotPasscodeButton)
+        self.forgotPasscodeButton = forgotPasscodeButton
 
         let cancelButton = UIButton(type: .custom)
         cancelButton.setTitle("Cancel".localize(), for: .normal)
@@ -109,20 +112,20 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
             passcodeLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             passcodeLabel.bottomAnchor.constraint(equalTo: passcodeTextField.topAnchor),
             // below passcode
-            passcodeWrongAttemptsLabel.widthAnchor.constraint(equalToConstant: 300),
-            passcodeWrongAttemptsLabel.heightAnchor.constraint(equalToConstant: 40),
-            passcodeWrongAttemptsLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            passcodeWrongAttemptsLabel.topAnchor.constraint(equalTo: passcodeTextField.bottomAnchor),
-            // bottom of the screen
-            biometryAuthButton.widthAnchor.constraint(equalToConstant: 150),
+            biometryAuthButton.widthAnchor.constraint(equalToConstant: 300),
             biometryAuthButton.heightAnchor.constraint(equalToConstant: 40),
             biometryAuthButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            biometryAuthButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor, constant: -40),
+            biometryAuthButton.topAnchor.constraint(equalTo: passcodeTextField.bottomAnchor),
             // cancel (top-left of the screen)
             cancelButton.widthAnchor.constraint(equalToConstant: 150),
             cancelButton.heightAnchor.constraint(equalToConstant: 40),
             cancelButton.topAnchor.constraint(equalTo: self.view.safeTopAnchor),
-            cancelButton.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor, constant: 20)
+            cancelButton.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor, constant: 20),
+            // bottom of the screen
+            forgotPasscodeButton.widthAnchor.constraint(equalToConstant: 300),
+            forgotPasscodeButton.heightAnchor.constraint(equalToConstant: 40),
+            forgotPasscodeButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            forgotPasscodeButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor, constant: -40)
         ])
 
     }
@@ -162,8 +165,6 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
     // MARK: - PasscodeLockDelegate
 
     open func passcodeLockDidSucceed() {
-        passcodeFailedAttempts = 0
-        passcodeWrongAttemptsLabel?.text = ""
         dismissPasscodeLock(completionHandler: successCallback)
     }
 
@@ -190,11 +191,42 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
+    @objc func forgotPasscodeButtonPressedAction(_ uiButton: UIButton) {
+        let alert = UIAlertController(title: "ResetPass".localize(), message: "ResetPassExplanation.".localize(), preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive, handler: {[unowned self] (action) -> Void in
+            let myContext = LAContext()
+            var error: NSError?
+            // If the device passcode is not set, reset the app.
+            guard myContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) else {
+                self.passwordStore.erase()
+                self.passcodeLockDidSucceed()
+                return
+            }
+            // If the device passcode is set, authentication is required.
+            myContext.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "ErasePasswordStoreData".localize()) { (success, error) in
+                if success {
+                    DispatchQueue.main.async {
+                        // User authenticated successfully, take appropriate action
+                        self.passwordStore.erase()
+                        self.passcodeLockDidSucceed()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        Utils.alert(title: "Error".localize(), message: error?.localizedDescription ?? "", controller: self, completion: nil)
+                    }
+                }
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Dismiss".localize(), style: UIAlertAction.Style.cancel, handler:nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+
     public override func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == passcodeTextField {
             if !PasscodeLock.shared.check(passcode: textField.text ?? "") {
-                passcodeFailedAttempts = passcodeFailedAttempts + 1
-                passcodeWrongAttemptsLabel?.text = "WrongAttempts(%d)".localize(passcodeFailedAttempts)
+                self.passcodeTextField?.placeholder =
+                    "TryAgain".localize()
+                self.passcodeTextField?.text = ""
             }
         }
         textField.resignFirstResponder()

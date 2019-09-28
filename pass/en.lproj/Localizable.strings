@@ -156,6 +156,11 @@
 "DiscardExplanation."       = "Do you want to permanently discard all changes to the local copy of your password data? You cannot undo this action.";
 "Resetting..."              = "Resetting ...";
 
+// Forget passcode
+"ForgotYourPasscode?"       = "Forgot your passcode?";
+"ResetPass"                 = "Reset Pass";
+"ResetPassExplanation."     = "The only thing you can do is to reset the app. This will delete all local data and settings. Password store data on your remote server will not be affected.";
+
 // Time related
 "Unknown"   = "Unknown";
 "JustNow"   = "Just now";
