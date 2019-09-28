@@ -9,9 +9,6 @@ before_install:
 install:
   - gem update fastlane
   - gem install xcodeproj
-  - gem uninstall -aIx cocoapods
-  - gem install cocoapods -v 1.6.1
-  - pod --version
 before_script:
   - pod install
   - git diff --quiet "$TRAVIS_COMMIT_RANGE" -- ; GIT_DIFF_EXIT_CODE=$?
