@@ -17,7 +17,6 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
     open var successCallback: (()->Void)?
     open var cancelCallback: (()->Void)?
 
-    weak var passcodeLabel: UILabel?
     weak var passcodeTextField: UITextField?
     weak var biometryAuthButton: UIButton?
     weak var forgotPasscodeButton: UIButton?
@@ -29,14 +28,6 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
 
     open override func loadView() {
         super.loadView()
-
-        let passcodeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
-        passcodeLabel.text = "EnterPasscode".localize()
-        passcodeLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        passcodeLabel.textAlignment = .center
-        passcodeLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(passcodeLabel)
-        self.passcodeLabel = passcodeLabel
 
         let passcodeTextField =  UITextField(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
         passcodeTextField.borderStyle = UITextField.BorderStyle.roundedRect
@@ -100,19 +91,29 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         cancelButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
         self.view.addSubview(cancelButton)
         self.cancelButton = cancelButton
+        
+        // Display the Pass icon in the middle of the screen
+        let bundle = Bundle(for: PasscodeLockViewController.self)
+        let appIcon = UIImage(named: "PasscodeLockViewIcon", in: bundle, compatibleWith: nil)
+        let appIconSize = (appIcon?.size.height) ?? 0
+        let appIconView = UIImageView(image: appIcon)
+        appIconView.translatesAutoresizingMaskIntoConstraints = false
+        appIconView.layer.cornerRadius = appIconSize / 5
+        appIconView.layer.masksToBounds = true
+        self.view?.addSubview(appIconView)
 
         NSLayoutConstraint.activate([
-            passcodeTextField.widthAnchor.constraint(equalToConstant: 300),
+            passcodeTextField.widthAnchor.constraint(equalToConstant: 250),
             passcodeTextField.heightAnchor.constraint(equalToConstant: 40),
             passcodeTextField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             passcodeTextField.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -20),
             // above passocde
-            passcodeLabel.widthAnchor.constraint(equalToConstant: 300),
-            passcodeLabel.heightAnchor.constraint(equalToConstant: 40),
-            passcodeLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            passcodeLabel.bottomAnchor.constraint(equalTo: passcodeTextField.topAnchor),
+            appIconView.widthAnchor.constraint(equalToConstant: appIconSize),
+            appIconView.heightAnchor.constraint(equalToConstant: appIconSize),
+            appIconView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            appIconView.bottomAnchor.constraint(equalTo: passcodeTextField.topAnchor, constant: -appIconSize),
             // below passcode
-            biometryAuthButton.widthAnchor.constraint(equalToConstant: 300),
+            biometryAuthButton.widthAnchor.constraint(equalToConstant: 250),
             biometryAuthButton.heightAnchor.constraint(equalToConstant: 40),
             biometryAuthButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             biometryAuthButton.topAnchor.constraint(equalTo: passcodeTextField.bottomAnchor),
@@ -122,7 +123,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
             cancelButton.topAnchor.constraint(equalTo: self.view.safeTopAnchor),
             cancelButton.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor, constant: 20),
             // bottom of the screen
-            forgotPasscodeButton.widthAnchor.constraint(equalToConstant: 300),
+            forgotPasscodeButton.widthAnchor.constraint(equalToConstant: 250),
             forgotPasscodeButton.heightAnchor.constraint(equalToConstant: 40),
             forgotPasscodeButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             forgotPasscodeButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor, constant: -40)
@@ -227,6 +228,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
                 self.passcodeTextField?.placeholder =
                     "TryAgain".localize()
                 self.passcodeTextField?.text = ""
+                self.passcodeTextField?.shake()
             }
         }
         textField.resignFirstResponder()
