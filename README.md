@@ -49,8 +49,9 @@ For more, please read the [wiki page](https://github.com/mssun/passforios/wiki).
 1. Install libtool, automake, cmake, carthage, and go: `brew install libtool automake cmake carthage go`.
 2. Run carthage bootstrap in the project root directory: `carthage update ` then `carthage bootstrap --platform iOS` (this may take some time).
 3. Run `./gopenpgp_build.sh` to build go dependencies.
-4. Open `pass.xcodeproj` file in Xcode.
-5. Build & Run.
+4. Run pod install in the project root directory: `pod install`.
+5. Open `pass.xcodeproj` file in Xcode.
+6. Build & Run.
 
 ## License
 
