@@ -55,8 +55,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Password Store" id="Cio-ZG-zCS">
-                        <barButtonItem key="leftBarButtonItem" title="Back" image="chevron.left" catalog="system" id="New-sD-9Z1"/>
-                        <barButtonItem key="rightBarButtonItem" title="+" image="plus.circle" catalog="system" landscapeImage="plus.circle" style="plain" id="qVW-c1-xgh"/>
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="New-sD-9Z1"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="qVW-c1-xgh"/>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="Tn1-q5-vaJ" id="UHc-AS-gXh"/>
@@ -1758,8 +1758,6 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
     <resources>
         <image name="Lock" width="25" height="25"/>
         <image name="Settings" width="25" height="25"/>
-        <image name="chevron.left" catalog="system" width="46" height="64"/>
-        <image name="plus.circle" catalog="system" width="64" height="62"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="wCk-aN-a4J"/>

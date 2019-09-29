@@ -9,6 +9,6 @@
 #ifndef Objective_CBridgingHeader_h
 #define Objective_CBridgingHeader_h
 
-#import "ObjectiveGit/ObjectiveGit.h"
+@import ObjectiveGit;
 
 #endif /* Objective_CBridgingHeader_h */
