@@ -29,7 +29,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
     open override func loadView() {
         super.loadView()
 
-        let passcodeTextField =  UITextField(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
+        let passcodeTextField =  UITextField()
         passcodeTextField.borderStyle = UITextField.BorderStyle.roundedRect
         passcodeTextField.placeholder = "EnterPasscode".localize()
         passcodeTextField.isSecureTextEntry = true
@@ -68,12 +68,14 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
                     }
                 }
                 biometryAuthButton.setTitle(biometryType, for: .normal)
+                biometryAuthButton.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
                 biometryAuthButton.isHidden = false
             }
         }
         
         let forgotPasscodeButton = UIButton(type: .custom)
         forgotPasscodeButton.setTitle("ForgotYourPasscode?".localize(), for: .normal)
+        forgotPasscodeButton.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
         forgotPasscodeButton.setTitleColor(Globals.blue, for: .normal)
         forgotPasscodeButton.addTarget(self, action: #selector(forgotPasscodeButtonPressedAction(_:)), for: .touchUpInside)
         // hide the forgotPasscodeButton if the native app is running
@@ -128,6 +130,10 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
             forgotPasscodeButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             forgotPasscodeButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor, constant: -40)
         ])
+
+        // dismiss keyboard when tapping anywhere
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tap)
 
     }
 
