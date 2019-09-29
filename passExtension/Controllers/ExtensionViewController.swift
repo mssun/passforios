@@ -191,8 +191,6 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
                 }
             } catch {
                 DispatchQueue.main.async {
-                    // remove the wrong passphrase so that users could enter it next time
-                    self.keychain.removeContent(for: Globals.pgpKeyPassphrase)
                     Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
@@ -221,7 +219,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
                 sem.signal()
             }))
             alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = ""
+                textField.text = self.keychain.get(for: Globals.pgpKeyPassphrase) ?? ""
                 textField.isSecureTextEntry = true
             })
             self.present(alert, animated: true, completion: nil)

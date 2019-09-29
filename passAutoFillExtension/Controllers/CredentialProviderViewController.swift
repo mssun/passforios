@@ -27,6 +27,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
     @IBOutlet weak var tableView: UITableView!
 
     private let passwordStore = PasswordStore.shared
+    private let keychain = AppKeychain.shared
 
     private var searchActive = false
     private var passwordsTableEntries: [PasswordsTableEntry] = []
@@ -164,8 +165,6 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
                 }
             } catch {
                 DispatchQueue.main.async {
-                    // remove the wrong passphrase so that users could enter it next time
-                    AppKeychain.shared.removeContent(for: Globals.pgpKeyPassphrase)
                     Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
@@ -193,14 +192,14 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
                 sem.signal()
             }))
             alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = ""
+                textField.text = self.keychain.get(for: Globals.pgpKeyPassphrase) ?? ""
                 textField.isSecureTextEntry = true
             })
             self.present(alert, animated: true, completion: nil)
         }
         let _ = sem.wait(timeout: DispatchTime.distantFuture)
         if SharedDefaults[.isRememberPGPPassphraseOn] {
-            AppKeychain.shared.add(string: passphrase, for: Globals.pgpKeyPassphrase)
+            self.keychain.add(string: passphrase, for: Globals.pgpKeyPassphrase)
         }
         return passphrase
     }

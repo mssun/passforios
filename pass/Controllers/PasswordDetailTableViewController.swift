@@ -18,6 +18,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     private var oneTimePasswordIndexPath : IndexPath?
     private var shouldPopCurrentView = false
     private let passwordStore = PasswordStore.shared
+    private let keychain = AppKeychain.shared
 
     private lazy var editUIBarButtonItem: UIBarButtonItem = {
         let uiBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit(_:)))
@@ -96,14 +97,14 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 sem.signal()
             }))
             alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = ""
+                textField.text = self.keychain.get(for: Globals.pgpKeyPassphrase) ?? ""
                 textField.isSecureTextEntry = true
             })
             self.present(alert, animated: true, completion: nil)
         }
         let _ = sem.wait(timeout: DispatchTime.distantFuture)
         if SharedDefaults[.isRememberPGPPassphraseOn] {
-            AppKeychain.shared.add(string: passphrase, for: Globals.pgpKeyPassphrase)
+            self.keychain.add(string: passphrase, for: Globals.pgpKeyPassphrase)
         }
         return passphrase
     }
@@ -121,8 +122,6 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 self.password = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: self.requestPGPKeyPassphrase)
             } catch {
                 DispatchQueue.main.async {
-                    // remove the wrong passphrase so that users could enter it next time
-                    AppKeychain.shared.removeContent(for: Globals.pgpKeyPassphrase)
                     // alert: cancel or try again
                     let alert = UIAlertController(title: "CannotShowPassword".localize(), message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
                     alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertAction.Style.default) { _ in

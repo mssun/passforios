@@ -167,7 +167,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "SyncingPasswordStore".localize())
         var gitCredential: GitCredential
-        let privateKey: String? = AppKeychain.shared.get(for: SshKey.PRIVATE.getKeychainKey())
+        let privateKey: String? = self.keychain.get(for: SshKey.PRIVATE.getKeychainKey())
         if SharedDefaults[.gitAuthenticationMethod] == "Password" || privateKey == nil {
             gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: SharedDefaults[.gitUsername]!))
         } else {
@@ -406,20 +406,14 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 sem.signal()
             }))
             alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = ""
+                textField.text = self.keychain.get(for: Globals.pgpKeyPassphrase) ?? ""
                 textField.isSecureTextEntry = true
             })
-            // hide it so that alert is on the top of the view
-            SVProgressHUD.dismiss()
             self.present(alert, animated: true, completion: nil)
         }
         let _ = sem.wait(timeout: DispatchTime.distantFuture)
-        DispatchQueue.main.async {
-            // bring back
-            SVProgressHUD.show(withStatus: "Decrypting".localize())
-        }
         if SharedDefaults[.isRememberPGPPassphraseOn] {
-            keychain.add(string: passphrase, for: Globals.pgpKeyPassphrase)
+            self.keychain.add(string: passphrase, for: Globals.pgpKeyPassphrase)
         }
         return passphrase
     }
@@ -431,22 +425,20 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
         let passwordEntity = getPasswordEntry(by: indexPath).passwordEntity!
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        SVProgressHUD.setDefaultMaskType(.black)
-        SVProgressHUD.setDefaultStyle(.dark)
-        SVProgressHUD.show(withStatus: "Decrypting".localize())
+        SVProgressHUD.dismiss()
         DispatchQueue.global(qos: .userInteractive).async {
             var decryptedPassword: Password?
             do {
                 decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: self.requestPGPKeyPassphrase)
                 DispatchQueue.main.async {
                     SecurePasteboard.shared.copy(textToCopy: decryptedPassword?.password)
+                    SVProgressHUD.setDefaultMaskType(.black)
+                    SVProgressHUD.setDefaultStyle(.dark)
                     SVProgressHUD.showSuccess(withStatus: "PasswordCopiedToPasteboard.".localize())
                     SVProgressHUD.dismiss(withDelay: 0.6)
                 }
             } catch {
                 DispatchQueue.main.async {
-                    // remove the wrong passphrase so that users could enter it next time
-                    self.keychain.removeContent(for: Globals.pgpKeyPassphrase)
                     Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: self, completion: nil)
                 }
             }

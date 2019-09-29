@@ -12,6 +12,7 @@ public class PGPAgent {
 
     private let keyStore: KeyStore
     private var pgpInterface: PgpInterface?
+    private var latestDecryptStatus: Bool = true
 
     public init(keyStore: KeyStore = AppKeychain.shared) {
         self.keyStore = keyStore
@@ -38,9 +39,25 @@ public class PGPAgent {
     }
 
     public func decrypt(encryptedData: Data, requestPGPKeyPassphrase: () -> String) throws -> Data? {
+        // Remember the previous status and set the current status
+        let previousDecryptStatus = self.latestDecryptStatus
+        self.latestDecryptStatus = false
+        // Init keys.
         try checkAndInit()
-        let passphrase = keyStore.get(for: Globals.pgpKeyPassphrase) ?? requestPGPKeyPassphrase()
-        return try pgpInterface!.decrypt(encryptedData: encryptedData, passphrase: passphrase)
+        // Get the PGP key passphrase.
+        var passphrase = ""
+        if previousDecryptStatus == false {
+            passphrase = requestPGPKeyPassphrase()
+        } else {
+            passphrase = keyStore.get(for: Globals.pgpKeyPassphrase) ?? requestPGPKeyPassphrase()
+        }
+        // Decrypt.
+        guard let result = try pgpInterface!.decrypt(encryptedData: encryptedData, passphrase: passphrase) else {
+            return nil
+        }
+        // The decryption step has succeed.
+        self.latestDecryptStatus = true
+        return result
     }
 
     public func encrypt(plainData: Data) throws -> Data {
