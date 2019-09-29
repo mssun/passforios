@@ -7,11 +7,14 @@
 //
 
 import XCTest
+import SwiftyUserDefaults
 
 @testable import passKit
 
 class PGPAgentTest: XCTestCase {
-
+    enum ValidationError: Error {
+        case emptyName
+    }
     private var keychain: KeyStore!
     private var pgpAgent: PGPAgent!
 
@@ -21,15 +24,20 @@ class PGPAgentTest: XCTestCase {
         super.setUp()
         keychain = DictBasedKeychain()
         pgpAgent = PGPAgent(keyStore: keychain)
+        UserDefaults().removePersistentDomain(forName: "SharedDefaultsForPGPAgentTest")
+        SharedDefaults = UserDefaults(suiteName: "SharedDefaultsForPGPAgentTest")!
     }
 
     override func tearDown() {
         keychain.removeAllContent()
+        UserDefaults().removePersistentDomain(forName: "SharedDefaultsForPGPAgentTest")
         super.tearDown()
     }
 
-    func basicEncryptDecrypt(using pgpAgent: PGPAgent, requestPassphrase: () -> String = requestPGPKeyPassphrase) throws -> Data? {
+    func basicEncryptDecrypt(using pgpAgent: PGPAgent, requestPassphrase: () -> String = requestPGPKeyPassphrase, encryptInArmored: Bool = true, encryptInArmoredNow: Bool = true) throws -> Data? {
+        SharedDefaults[.encryptInArmored] = encryptInArmored
         let encryptedData = try pgpAgent.encrypt(plainData: testData)
+        SharedDefaults[.encryptInArmored] = encryptInArmoredNow
         return try pgpAgent.decrypt(encryptedData: encryptedData, requestPGPKeyPassphrase: requestPassphrase)
     }
 
@@ -47,7 +55,11 @@ class PGPAgentTest: XCTestCase {
             XCTAssert(pgpAgent.isPrepared)
             try pgpAgent.initKeys()
             XCTAssert(pgpAgent.keyId!.lowercased().hasSuffix(keyTriple.fingerprint))
-            XCTAssertEqual(try basicEncryptDecrypt(using: pgpAgent), testData)
+            try [
+                (true, true), (true, false), (false, true), (false, false)
+            ].forEach{ a, b in
+                XCTAssertEqual(try basicEncryptDecrypt(using: pgpAgent, encryptInArmored: a, encryptInArmoredNow: b), testData)
+            }
         }
     }
 
