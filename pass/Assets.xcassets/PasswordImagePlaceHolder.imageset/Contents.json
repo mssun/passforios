@@ -3,6 +3,26 @@
     {
       "idiom" : "universal",
       "filename" : "id-card.pdf"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "id-card-light.pdf",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "light"
+        }
+      ]
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "id-card-dark.pdf",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ]
     }
   ],
   "info" : {
