@@ -57,8 +57,35 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         return nil
     }()
     private lazy var backUIBarButtonItem: UIBarButtonItem = {
-        let backUIBarButtonItem = UIBarButtonItem(title: "Back".localize(), style: .plain, target: self, action: #selector(self.backAction(_:)))
+        let backUIButton = UIButton(type: .system)
+        if #available(iOS 13.0, *) {
+            let leftImage = UIImage(systemName: "chevron.left", withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
+            backUIButton.setImage(leftImage, for: .normal)
+            backUIButton.setTitle("Back".localize(), for: .normal)
+            let padding = CGFloat(integerLiteral: 3)
+            backUIButton.contentEdgeInsets.right += padding
+            backUIButton.titleEdgeInsets.left = padding
+            backUIButton.titleEdgeInsets.right = -padding
+        } else {
+            backUIButton.setTitle("Back".localize(), for: .normal)
+        }
+        backUIButton.addTarget(self, action: #selector(self.backAction(_:)), for: .touchDown)
+        let backUIBarButtonItem = UIBarButtonItem(customView: backUIButton)
         return backUIBarButtonItem
+    }()
+
+    private lazy var addPasswordUIBarButtonItem: UIBarButtonItem = {
+        var addPasswordUIBarButtonItem = UIBarButtonItem()
+        if #available(iOS 13.0, *) {
+            let addPasswordButton = UIButton(type: .system)
+            let plusImage = UIImage(systemName: "plus.circle", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))
+            addPasswordButton.setImage(plusImage, for: .normal)
+            addPasswordButton.addTarget(self, action: #selector(self.addPasswordAction(_:)), for: .touchDown)
+            addPasswordUIBarButtonItem.customView = addPasswordButton
+        } else {
+            addPasswordUIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addPasswordAction(_:)))
+        }
+        return addPasswordUIBarButtonItem
     }()
 
     private lazy var transitionFromRight: CATransition = {
@@ -338,6 +365,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         reloadTableView(parent: parentPasswordEntity?.parent, anim: anim)
     }
 
+    @objc func addPasswordAction(_ sender: Any?) {
+        if shouldPerformSegue(withIdentifier: "addPasswordSegue", sender: self) {
+            performSegue(withIdentifier: "addPasswordSegue", sender: self)
+        }
+    }
+
     @objc func longPressAction(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == UIGestureRecognizer.State.began {
             let touchPoint = gesture.location(in: tableView)
@@ -527,6 +560,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         } else {
             navigationItem.leftBarButtonItem = nil
         }
+        navigationItem.rightBarButtonItem = addPasswordUIBarButtonItem
 
         // set the password table
         generateSections(item: data)
