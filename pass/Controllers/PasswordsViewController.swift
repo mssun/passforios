@@ -245,6 +245,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             tableView.contentInset = UIEdgeInsets.init(top: 44, left: 0, bottom: 0, right: 0)
             view.addSubview(searchBarView!)
         }
+        navigationItem.title = "PasswordStore".localize()
         tableView.refreshControl = syncControl
         SVProgressHUD.setDefaultMaskType(.black)
         tableView.register(UINib(nibName: "PasswordWithFolderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordWithFolderTableViewCell")
@@ -549,8 +550,16 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
         if parentPasswordEntity != nil {
             navigationItem.leftBarButtonItem = backUIBarButtonItem
+            navigationItem.title = parentPasswordEntity?.getName()
+            if #available(iOS 11, *) {
+                navigationController?.navigationBar.prefersLargeTitles = false
+            }
         } else {
             navigationItem.leftBarButtonItem = nil
+            navigationItem.title = "PasswordStore".localize()
+            if #available(iOS 11, *) {
+                navigationController?.navigationBar.prefersLargeTitles = true
+            }
         }
         navigationItem.rightBarButtonItem = addPasswordUIBarButtonItem
 
