@@ -644,6 +644,7 @@ public class PasswordStore {
         
         SharedDefaults.removeAll()
         storeRepository = nil
+        PasscodeLock.shared.delete()  // delete the passcode cache
         
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         NotificationCenter.default.post(name: .passwordStoreErased, object: nil)

@@ -12,11 +12,7 @@ public class PasscodeLock {
     private static let identifier = Globals.bundleIdentifier + "passcode"
 
     /// Cached passcode to avoid frequent access to Keychain
-    private var passcode: String? {
-        get {
-            AppKeychain.shared.get(for: PasscodeLock.identifier)
-        }
-    }
+    private var passcode: String? = AppKeychain.shared.get(for: PasscodeLock.identifier)
 
     /// Constructor used to migrate passcode from SharedDefaults to Keychain
     private init() {
@@ -32,6 +28,7 @@ public class PasscodeLock {
 
     public func save(passcode: String) {
         AppKeychain.shared.add(string: passcode, for: PasscodeLock.identifier)
+        self.passcode = passcode
     }
 
     public func check(passcode: String) -> Bool {
@@ -40,5 +37,6 @@ public class PasscodeLock {
 
     public func delete() {
         AppKeychain.shared.removeContent(for: PasscodeLock.identifier)
+        passcode = nil
     }
 }
