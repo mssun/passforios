@@ -40,7 +40,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
                     try KeyFileManager.PrivatePgp.importKey(from: SharedDefaults[.pgpPrivateKeyURL]!)
                     try PGPAgent.shared.initKeys()
                     DispatchQueue.main.async {
-                        self.pgpKeyTableViewCell.detailTextLabel?.text = PGPAgent.shared.keyId
+                        self.setPGPKeyTableViewCellDetailText()
                         SVProgressHUD.showSuccess(withStatus: "Success".localize())
                         SVProgressHUD.dismiss(withDelay: 1)
                         Utils.alert(title: "RememberToRemoveKey".localize(), message: "RememberToRemoveKeyFromServer.".localize(), controller: self, completion: nil)
@@ -65,7 +65,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
                     try KeyFileManager.PrivatePgp.importKey(from: controller.armorPrivateKeyTextView.text ?? "")
                     try PGPAgent.shared.initKeys()
                     DispatchQueue.main.async {
-                        self.pgpKeyTableViewCell.detailTextLabel?.text = PGPAgent.shared.keyId
+                        self.setPGPKeyTableViewCellDetailText()
                         SVProgressHUD.showSuccess(withStatus: "Success".localize())
                         SVProgressHUD.dismiss(withDelay: 1)
                     }
@@ -91,7 +91,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
                 try KeyFileManager.PrivatePgp.importKeyFromFileSharing()
                 try PGPAgent.shared.initKeys()
                 DispatchQueue.main.async {
-                    self.pgpKeyTableViewCell.detailTextLabel?.text = PGPAgent.shared.keyId
+                    self.setPGPKeyTableViewCellDetailText()
                     SVProgressHUD.showSuccess(withStatus: "Imported".localize())
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
@@ -135,8 +135,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     }
 
     private func setPGPKeyTableViewCellDetailText() {
-        try? PGPAgent.shared.initKeys()
-        pgpKeyTableViewCell.detailTextLabel?.text = PGPAgent.shared.keyId ?? "NotSet".localize()
+        pgpKeyTableViewCell.detailTextLabel?.text = try? PGPAgent.shared.getKeyId() ?? "NotSet".localize()
     }
 
     private func setPasswordRepositoryTableViewCellDetailText() {

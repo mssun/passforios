@@ -35,7 +35,8 @@ public class PGPAgent {
         pgpInterface = nil
     }
 
-    public var keyId: String? {
+    public func getKeyId() throws -> String? {
+        try checkAndInit()
         return pgpInterface?.keyId
     }
 
