@@ -291,42 +291,34 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(_:)))
-        longPressGestureRecognizer.minimumPressDuration = 0.6
-        if SharedDefaults[.isShowFolderOn] && searchController.searchBar.selectedScopeButtonIndex == 0{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
+        let longPressGestureRecognizer: UILongPressGestureRecognizer = {
+            let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction))
+            recognizer.minimumPressDuration = 0.6
+            return recognizer
+        }()
+        let entry = getPasswordEntry(by: indexPath)
+        let passwordEntity = entry.passwordEntity!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
 
-            let entry = getPasswordEntry(by: indexPath)
-            if entry.passwordEntity!.synced {
-                cell.textLabel?.text = entry.title
-            } else {
-                cell.textLabel?.text = "↻ \(entry.title)"
-            }
-            if !entry.isDir {
-                cell.addGestureRecognizer(longPressGestureRecognizer)
-                cell.accessoryType = .none
-                cell.detailTextLabel?.text = ""
-            } else {
-                cell.accessoryType = .disclosureIndicator
-                cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .body)
-                cell.detailTextLabel?.text = "\(entry.passwordEntity?.children?.count ?? 0)"
-            }
-            return cell
+        cell.textLabel?.text = passwordEntity.synced ? entry.title : "↻ \(entry.title)"
+        cell.textLabel?.font = UIFont.preferredFont(forTextStyle: .body)
+        cell.textLabel?.adjustsFontForContentSizeCategory = true
+        cell.accessoryType = .none
+        cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
+        cell.detailTextLabel?.adjustsFontForContentSizeCategory = true
+        cell.addGestureRecognizer(longPressGestureRecognizer)
+
+        if entry.isDir {
+            cell.accessoryType = .disclosureIndicator
+            cell.textLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize, weight: .semibold)
+            cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .body)
+            cell.detailTextLabel?.text = "\(passwordEntity.children?.count ?? 0)"
+            cell.removeGestureRecognizer(longPressGestureRecognizer)
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
-            let entry = getPasswordEntry(by: indexPath)
-            if entry.passwordEntity!.synced {
-                cell.textLabel?.text = entry.title
-            } else {
-                cell.textLabel?.text = "↻ \(entry.title)"
-            }
-            cell.accessoryType = .none
-            cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
-            cell.detailTextLabel?.text = entry.passwordEntity?.getCategoryText()
-            cell.addGestureRecognizer(longPressGestureRecognizer)
-            return cell
+            cell.detailTextLabel?.text = passwordEntity.getCategoryText()
         }
 
+        return cell
     }
 
     private func getPasswordEntry(by indexPath: IndexPath) -> PasswordsTableEntry {
