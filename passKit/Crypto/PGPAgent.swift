@@ -21,6 +21,7 @@ public class PGPAgent {
     public func initKeys() throws {
         guard let publicKey: String = keyStore.get(for: PgpKey.PUBLIC.getKeychainKey()),
               let privateKey: String = keyStore.get(for: PgpKey.PRIVATE.getKeychainKey()) else {
+            pgpInterface = nil
             throw AppError.KeyImport
         }
         do {

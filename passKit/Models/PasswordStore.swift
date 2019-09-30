@@ -630,22 +630,28 @@ public class PasswordStore {
         }
     }
     
-    public func erase() {try? fm.removeItem(at: storeURL)
+    public func erase() {
+        // Delete files.
+        try? fm.removeItem(at: storeURL)
         try? fm.removeItem(at: tempStoreURL)
         
-        try? fm.removeItem(atPath: Globals.gitSSHPrivateKeyPath)
-        
-        AppKeychain.shared.removeContent(for: PgpKey.PUBLIC.getKeychainKey())
-        AppKeychain.shared.removeContent(for: PgpKey.PRIVATE.getKeychainKey())
-        
+        // Delete PGP key, SSH key and other secrets from the keychain.
         AppKeychain.shared.removeAllContent()
 
+        // Delete core data.
         deleteCoreData(entityName: "PasswordEntity")
         
+        // Delete default settings.
         SharedDefaults.removeAll()
-        storeRepository = nil
-        PasscodeLock.shared.delete()  // delete the passcode cache
         
+        // Clean up variables inside PasswordStore.
+        storeRepository = nil
+        
+        // Delete cache explicitly.
+        PasscodeLock.shared.delete()
+        PGPAgent.shared.uninitKeys()
+        
+        // Broadcast.
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         NotificationCenter.default.post(name: .passwordStoreErased, object: nil)
     }
