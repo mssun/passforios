@@ -48,18 +48,18 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
 
         deletePasswordCell = UITableViewCell(style: .default, reuseIdentifier: "default")
         deletePasswordCell!.textLabel?.text = "DeletePassword".localize()
-        deletePasswordCell!.textLabel?.textColor = Globals.red
+        deletePasswordCell!.textLabel?.textColor = Colors.systemRed
         deletePasswordCell?.selectionStyle = .default
 
         scanQRCodeCell = UITableViewCell(style: .default, reuseIdentifier: "default")
         scanQRCodeCell?.textLabel?.text = "AddOneTimePassword".localize()
-        scanQRCodeCell?.textLabel?.textColor = Globals.blue
+        scanQRCodeCell?.textLabel?.textColor = Colors.systemBlue
         scanQRCodeCell?.selectionStyle = .default
         scanQRCodeCell?.accessoryType = .disclosureIndicator
 
         memorablePasswordGeneratorCell = UITableViewCell(style: .default, reuseIdentifier: "default")
         memorablePasswordGeneratorCell?.textLabel?.text = "GetMemorableOne".localize()
-        memorablePasswordGeneratorCell?.textLabel?.textColor = Globals.blue
+        memorablePasswordGeneratorCell?.textLabel?.textColor = Colors.systemBlue
         memorablePasswordGeneratorCell?.selectionStyle = .default
         memorablePasswordGeneratorCell?.accessoryType = .disclosureIndicator
     }
@@ -125,9 +125,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             additionsCell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as?TextViewTableViewCell
             additionsCell?.contentTextView.delegate = self
             additionsCell?.setContent(content: cellData[PasswordEditorCellKey.content] as? String)
-            if #available(iOS 13.0, *) {
-                additionsCell?.contentTextView.textColor = .label
-            }
+            additionsCell?.contentTextView.textColor = Colors.label
             return additionsCell!
         case .deletePasswordCell:
             return deletePasswordCell!

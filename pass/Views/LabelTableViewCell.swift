@@ -119,7 +119,7 @@ class LabelTableViewCell: UITableViewCell {
         if type == .password {
             if cellData?.content.isEmpty == false {
                 contentLabel.text = Globals.passwordDots
-                contentLabel.textColor = Globals.black
+                contentLabel.textColor = Colors.label
             } else {
                 contentLabel.text = ""
             }

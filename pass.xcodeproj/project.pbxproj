@@ -44,6 +44,7 @@
 		30697C5321F63E0B0064FCAC /* PasscodeExtensionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C5121F63E0B0064FCAC /* PasscodeExtensionDisplay.swift */; };
 		30697C5421F63E0B0064FCAC /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C5221F63E0B0064FCAC /* CredentialProviderViewController.swift */; };
 		30697C5F21F674800064FCAC /* String+UtilitiesTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C5E21F674800064FCAC /* String+UtilitiesTest.swift */; };
+		3087574F2343E42A00B971A2 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3087574E2343E42A00B971A2 /* Colors.swift */; };
 		308C273A2279F9CB0016D0E2 /* SearchBarScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302202EE222F14E400555236 /* SearchBarScope.swift */; };
 		30A1D29C21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D29B21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift */; };
 		30A1D2A221B2BC6F00E2D1F7 /* TokenBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A121B2BC6F00E2D1F7 /* TokenBuilder.swift */; };
@@ -261,6 +262,7 @@
 		30697C5121F63E0B0064FCAC /* PasscodeExtensionDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeExtensionDisplay.swift; sourceTree = "<group>"; };
 		30697C5221F63E0B0064FCAC /* CredentialProviderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialProviderViewController.swift; sourceTree = "<group>"; };
 		30697C5E21F674800064FCAC /* String+UtilitiesTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+UtilitiesTest.swift"; sourceTree = "<group>"; };
+		3087574E2343E42A00B971A2 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		30A1D29B21AF451E00E2D1F7 /* PasswordGeneratorFlavourTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorFlavourTest.swift; sourceTree = "<group>"; };
 		30A1D2A121B2BC6F00E2D1F7 /* TokenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenBuilder.swift; sourceTree = "<group>"; };
 		30A1D2A521B2D46100E2D1F7 /* OtpType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtpType.swift; sourceTree = "<group>"; };
@@ -668,6 +670,7 @@
 			children = (
 				30697C2921F63C590064FCAC /* AppError.swift */,
 				302B2C9722C2BDE700D831EE /* AppKeychain.swift */,
+				3087574E2343E42A00B971A2 /* Colors.swift */,
 				3032328D22CBD4CD009EBD9C /* CryptographicKeys.swift */,
 				30697C2821F63C590064FCAC /* DefaultsKeys.swift */,
 				30697C2521F63C590064FCAC /* FileManagerExtension.swift */,
@@ -1322,6 +1325,7 @@
 				30CCA91623258C380048CA51 /* PgpInterface.swift in Sources */,
 				30697C4721F63CAB0064FCAC /* PasscodeLock.swift in Sources */,
 				30697C3421F63C8B0064FCAC /* PasscodeLockViewController.swift in Sources */,
+				3087574F2343E42A00B971A2 /* Colors.swift in Sources */,
 				30697C2C21F63C5A0064FCAC /* FileManagerExtension.swift in Sources */,
 				30697C3321F63C8B0064FCAC /* PasscodeLockPresenter.swift in Sources */,
 				30697C3D21F63C990064FCAC /* UIViewExtension.swift in Sources */,

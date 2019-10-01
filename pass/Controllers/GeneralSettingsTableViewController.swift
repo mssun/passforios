@@ -14,7 +14,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
 
     let hideUnknownSwitch: UISwitch = {
         let uiSwitch = UISwitch()
-        uiSwitch.onTintColor = Globals.blue
+        uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
         uiSwitch.addTarget(self, action: #selector(hideUnknownSwitchAction(_:)), for: UIControl.Event.valueChanged)
         return uiSwitch
@@ -22,7 +22,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
 
     let hideOTPSwitch: UISwitch = {
         let uiSwitch = UISwitch()
-        uiSwitch.onTintColor = Globals.blue
+        uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
         uiSwitch.addTarget(self, action: #selector(hideOTPSwitchAction(_:)), for: UIControl.Event.valueChanged)
         return uiSwitch
@@ -30,7 +30,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
 
     let rememberPGPPassphraseSwitch: UISwitch = {
         let uiSwitch = UISwitch()
-        uiSwitch.onTintColor = Globals.blue
+        uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
         uiSwitch.addTarget(self, action: #selector(rememberPGPPassphraseSwitchAction(_:)), for: UIControl.Event.valueChanged)
         uiSwitch.isOn = SharedDefaults[.isRememberPGPPassphraseOn]
@@ -39,7 +39,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
 
     let rememberGitCredentialPassphraseSwitch: UISwitch = {
         let uiSwitch = UISwitch()
-        uiSwitch.onTintColor = Globals.blue
+        uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
         uiSwitch.addTarget(self, action: #selector(rememberGitCredentialPassphraseSwitchAction(_:)), for: UIControl.Event.valueChanged)
         uiSwitch.isOn = SharedDefaults[.isRememberGitCredentialPassphraseOn]
@@ -48,7 +48,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
 
     let showFolderSwitch: UISwitch = {
         let uiSwitch = UISwitch()
-        uiSwitch.onTintColor = Globals.blue
+        uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
         uiSwitch.addTarget(self, action: #selector(showFolderSwitchAction(_:)), for: UIControl.Event.valueChanged)
         uiSwitch.isOn = SharedDefaults[.isShowFolderOn]
@@ -57,7 +57,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
 
     let hidePasswordImagesSwitch: UISwitch = {
         let uiSwitch = UISwitch()
-        uiSwitch.onTintColor = Globals.blue
+        uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
         uiSwitch.addTarget(self, action: #selector(hidePasswordImagesSwitchAction(_:)), for: UIControl.Event.valueChanged)
         uiSwitch.isOn = SharedDefaults[.isHidePasswordImagesOn]
