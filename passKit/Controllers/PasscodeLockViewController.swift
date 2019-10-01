@@ -55,20 +55,16 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
 
         let myContext = LAContext()
         var authError: NSError?
-        if #available(iOS 8.0, macOS 10.12.1, *) {
-            if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-                var biometryType = "TouchId".localize()
-                if #available(iOS 11.0, *) {
-                    if myContext.biometryType == LABiometryType.faceID {
-                        biometryType = "FaceId".localize()
-                    }
-                }
-                biometryAuthButton.setTitle(biometryType, for: .normal)
-                biometryAuthButton.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                biometryAuthButton.isHidden = false
+        if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
+            if #available(iOS 11.0, *), myContext.biometryType == .faceID {
+                biometryAuthButton.setTitle("FaceId".localize(), for: .normal)
+            } else {
+                biometryAuthButton.setTitle("TouchId".localize(), for: .normal)
             }
+            biometryAuthButton.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+            biometryAuthButton.isHidden = false
         }
-        
+
         let forgotPasscodeButton = UIButton(type: .custom)
         forgotPasscodeButton.setTitle("ForgotYourPasscode?".localize(), for: .normal)
         forgotPasscodeButton.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
@@ -179,15 +175,12 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         let myContext = LAContext()
         let myLocalizedReasonString = "AuthenticationNeeded.".localize()
         var authError: NSError?
-
-        if #available(iOS 8.0, *) {
-            if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-                myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, evaluateError in
-                    if success {
-                        DispatchQueue.main.async {
-                            // user authenticated successfully, take appropriate action
-                            self.passcodeLockDidSucceed()
-                        }
+        if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
+            myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, evaluateError in
+                if success {
+                    DispatchQueue.main.async {
+                        // user authenticated successfully, take appropriate action
+                        self.passcodeLockDidSucceed()
                     }
                 }
             }
