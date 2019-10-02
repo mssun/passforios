@@ -156,6 +156,11 @@
 "DiscardExplanation."       = "Möchtest du wirklich alle Änderungen an den lokalen Daten für immer verwerfen? Diese Aktion kann nicht rückgängig gemacht werden.";
 "Resetting..."              = "Verwerfe ...";
 
+// Forget passcode
+"ForgotYourPasscode?"       = "Passcode vergessen?";
+"ResetPass"                 = "Pass zurücksetzen";
+"ResetPassExplanation."     = "Die App kann nur vollständig zurückgesetzt werden. Diese Aktion löscht alle lokalen Daten und Einstellungen. Daten im Password Store auf einem entfernten Server bleiben unberührt.";
+
 // Time related
 "Unknown"   = "Unbekannt";
 "JustNow"   = "Gerade eben";

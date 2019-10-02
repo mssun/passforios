@@ -40,17 +40,13 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         self.view.addSubview(passcodeTextField)
         self.passcodeTextField = passcodeTextField
 
-        if #available(iOSApplicationExtension 13.0, *) {
-            view.backgroundColor = .systemBackground
-            passcodeTextField.backgroundColor = .secondarySystemBackground
-            passcodeTextField.textColor = .secondaryLabel
-        } else {
-            view.backgroundColor = .white
-        }
+        view.backgroundColor = Colors.systemBackground
+        passcodeTextField.backgroundColor = Colors.secondarySystemBackground
+        passcodeTextField.textColor = Colors.secondaryLabel
 
         let biometryAuthButton = UIButton(type: .custom)
         biometryAuthButton.setTitle("", for: .normal)
-        biometryAuthButton.setTitleColor(Globals.blue, for: .normal)
+        biometryAuthButton.setTitleColor(Colors.systemBlue, for: .normal)
         biometryAuthButton.addTarget(self, action: #selector(bioButtonPressedAction(_:)), for: .touchUpInside)
         biometryAuthButton.isHidden = true
         biometryAuthButton.translatesAutoresizingMaskIntoConstraints = false
@@ -59,24 +55,20 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
 
         let myContext = LAContext()
         var authError: NSError?
-        if #available(iOS 8.0, macOS 10.12.1, *) {
-            if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-                var biometryType = "TouchId".localize()
-                if #available(iOS 11.0, *) {
-                    if myContext.biometryType == LABiometryType.faceID {
-                        biometryType = "FaceId".localize()
-                    }
-                }
-                biometryAuthButton.setTitle(biometryType, for: .normal)
-                biometryAuthButton.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-                biometryAuthButton.isHidden = false
+        if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
+            if #available(iOS 11.0, *), myContext.biometryType == .faceID {
+                biometryAuthButton.setTitle("FaceId".localize(), for: .normal)
+            } else {
+                biometryAuthButton.setTitle("TouchId".localize(), for: .normal)
             }
+            biometryAuthButton.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+            biometryAuthButton.isHidden = false
         }
-        
+
         let forgotPasscodeButton = UIButton(type: .custom)
         forgotPasscodeButton.setTitle("ForgotYourPasscode?".localize(), for: .normal)
         forgotPasscodeButton.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-        forgotPasscodeButton.setTitleColor(Globals.blue, for: .normal)
+        forgotPasscodeButton.setTitleColor(Colors.systemBlue, for: .normal)
         forgotPasscodeButton.addTarget(self, action: #selector(forgotPasscodeButtonPressedAction(_:)), for: .touchUpInside)
         // hide the forgotPasscodeButton if the native app is running
         forgotPasscodeButton.isHidden = self.isCancellable
@@ -86,7 +78,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
 
         let cancelButton = UIButton(type: .custom)
         cancelButton.setTitle("Cancel".localize(), for: .normal)
-        cancelButton.setTitleColor(Globals.blue, for: .normal)
+        cancelButton.setTitleColor(Colors.systemBlue, for: .normal)
         cancelButton.addTarget(self, action: #selector(passcodeLockDidCancel), for: .touchUpInside)
         cancelButton.isHidden = !self.isCancellable
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
@@ -183,15 +175,12 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         let myContext = LAContext()
         let myLocalizedReasonString = "AuthenticationNeeded.".localize()
         var authError: NSError?
-
-        if #available(iOS 8.0, *) {
-            if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-                myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, evaluateError in
-                    if success {
-                        DispatchQueue.main.async {
-                            // user authenticated successfully, take appropriate action
-                            self.passcodeLockDidSucceed()
-                        }
+        if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
+            myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, evaluateError in
+                if success {
+                    DispatchQueue.main.async {
+                        // user authenticated successfully, take appropriate action
+                        self.passcodeLockDidSucceed()
                     }
                 }
             }

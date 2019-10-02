@@ -20,8 +20,6 @@ class RawPasswordViewController: UIViewController {
         rawPasswordTextView.textContainer.lineFragmentPadding = 0
         rawPasswordTextView.textContainerInset = .zero
         rawPasswordTextView.text = password?.plainText
-        if #available(iOS 13.0, *) {
-            rawPasswordTextView.textColor = .label
-        }
+        rawPasswordTextView.textColor = Colors.label
     }
 }

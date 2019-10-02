@@ -74,7 +74,7 @@ class GitSSHKeyArmorSettingTableViewController: AutoCellHeightUITableViewControl
         armorPrivateKeyTextView.delegate = self
 
         scanPrivateKeyCell?.textLabel?.text = "ScanPrivateKeyQrCodes".localize()
-        scanPrivateKeyCell?.textLabel?.textColor = Globals.blue
+        scanPrivateKeyCell?.textLabel?.textColor = Colors.systemBlue
         scanPrivateKeyCell?.selectionStyle = .default
         scanPrivateKeyCell?.accessoryType = .disclosureIndicator
     }

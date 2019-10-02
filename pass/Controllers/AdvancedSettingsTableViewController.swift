@@ -20,7 +20,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
 
     let encryptInASCIIArmoredSwitch: UISwitch = {
         let uiSwitch = UISwitch()
-        uiSwitch.onTintColor = Globals.blue
+        uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
         uiSwitch.addTarget(self, action: #selector(encryptInASCIIArmoredAction(_:)), for: UIControl.Event.valueChanged)
         return uiSwitch
