@@ -54,7 +54,7 @@ class PGPAgentTest: XCTestCase {
             try KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: "", keyHandler: keychain.add).importKey(from: keyTriple.privateKey)
             XCTAssert(pgpAgent.isPrepared)
             try pgpAgent.initKeys()
-            XCTAssert(pgpAgent.keyId!.lowercased().hasSuffix(keyTriple.fingerprint))
+            XCTAssert(try pgpAgent.getKeyId()!.lowercased().hasSuffix(keyTriple.fingerprint))
             try [
                 (true, true), (true, false), (false, true), (false, false)
             ].forEach{ a, b in
