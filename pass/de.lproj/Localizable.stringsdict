@@ -5,7 +5,7 @@
 	<key>ScannedQrCodes(%d)</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@code@</string>
+		<string>%#@codes@</string>
 		<key>codes</key>
 		<dict>
 			<key>NSStringFormatSpecTypeKey</key>

@@ -37,10 +37,13 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
         }
 
         // Get an instance of the AVCaptureDevice class to initialize a device object and provide the video as the media type parameter.
-        let captureDevice = AVCaptureDevice.default(for: AVMediaType.video)
+        guard let captureDevice = AVCaptureDevice.default(for: .video) else {
+            scannerOutput.text = "CameraAccessDenied.".localize()
+            return
+        }
         do {
             // Get an instance of the AVCaptureDeviceInput class using the previous device object.
-            let input = try AVCaptureDeviceInput(device: captureDevice!)
+            let input = try AVCaptureDeviceInput(device: captureDevice)
 
             // Initialize the captureSession object.
             captureSession = AVCaptureSession()

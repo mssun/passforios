@@ -17,54 +17,34 @@ class GitSSHKeyArmorSettingTableViewController: AutoCellHeightUITableViewControl
     let passwordStore = PasswordStore.shared
 
     class ScannedSSHKey {
-        static let maxNumberOfGif = 100
-        var numberOfSegments = 0
-        var previousSegment = ""
-        var key = ""
+        var segments = [String]()
         var message = ""
-        var hasStarted = false
-        var isDone = false
 
         func reset() {
-            numberOfSegments = 0
-            previousSegment = ""
-            key = ""
+            self.segments.removeAll()
             message = "LookingForStartingFrame.".localize()
-            hasStarted = false
-            isDone = false
         }
 
-        func addSegment(segment: String) {
-            // skip duplicated segments
-            guard segment != previousSegment else {
-                return
+        func addSegment(segment: String) -> (accept: Bool, message: String) {
+            // Skip duplicated segments.
+            guard segment != self.segments.last else {
+                return (accept: false, message: self.message)
             }
-            previousSegment = segment
-
-            // check whether we have found the first block
-            if hasStarted == false {
-                hasStarted = segment.contains("-----BEGIN")
+            
+            // Check whether we have found the first block.
+            guard !self.segments.isEmpty || segment.contains("-----BEGIN") else {
+                return (accept: false, message: self.message)
             }
-            guard hasStarted == true else {
-                return
+            
+            // Update the list of scanned segment and return.
+            self.segments.append(segment)
+            if segment.range(of: "-----END.*KEY-----", options: .regularExpression, range: nil, locale: nil) != nil {
+                self.message = "Done".localize()
+                return (accept: true, message: self.message)
+            } else {
+                self.message = "ScannedQrCodes(%d)".localize(self.segments.count)
+                return (accept: false, message: self.message)
             }
-
-            // check the number of segments
-            numberOfSegments = numberOfSegments + 1
-            guard numberOfSegments <= ScannedSSHKey.maxNumberOfGif else {
-                key = "TooManyQrCodes".localize()
-                return
-            }
-
-            // update full text and check whether we are done
-            key.append(segment)
-            if let index1 = key.range(of: "-----END")?.lowerBound,
-                let _ = key.suffix(from: index1).range(of: "KEY-----")?.lowerBound {
-                isDone = true
-            }
-
-            // update message
-            message = "ScannedQrCodes(%d)".localize(numberOfSegments)
         }
     }
     var scanned = ScannedSSHKey()
@@ -109,17 +89,12 @@ class GitSSHKeyArmorSettingTableViewController: AutoCellHeightUITableViewControl
 
     // MARK: - QRScannerControllerDelegate Methods
     func checkScannedOutput(line: String) -> (accept: Bool, message: String) {
-        scanned.addSegment(segment: line)
-        if scanned.isDone {
-            return (accept: true, message: "Done".localize())
-        } else {
-            return (accept: false, message: scanned.message)
-        }
+        return scanned.addSegment(segment: line)
     }
 
     // MARK: - QRScannerControllerDelegate Methods
     func handleScannedOutput(line: String) {
-        armorPrivateKeyTextView.text = scanned.key
+        armorPrivateKeyTextView.text = scanned.segments.joined(separator: "")
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

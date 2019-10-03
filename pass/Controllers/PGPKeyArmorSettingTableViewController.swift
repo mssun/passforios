@@ -19,71 +19,47 @@ class PGPKeyArmorSettingTableViewController: AutoCellHeightUITableViewController
     let keychain = AppKeychain.shared
     
     class ScannedPGPKey {
-        static let maxNumberOfGif = 100
         enum KeyType {
             case publicKey, privateKey
         }
         var keyType = KeyType.publicKey
-        var numberOfSegments = 0
-        var previousSegment = ""
-        var key = ""
+        var segments = [String]()
         var message = ""
-        var hasStarted = false
-        var isDone = false
 
         func reset(keytype: KeyType) {
             self.keyType = keytype
-            numberOfSegments = 0
-            previousSegment = ""
-            key = ""
+            self.segments.removeAll()
             message = "LookingForStartingFrame.".localize()
-            hasStarted = false
-            isDone = false
         }
 
-        func addSegment(segment: String) {
-            // skip duplicated segments
-            guard segment != previousSegment else {
-                return
+        func addSegment(segment: String) -> (accept: Bool, message: String) {
+            let keyTypeStr = self.keyType == .publicKey ? "Public" : "Private"
+            let theOtherKeyTypeStr = self.keyType == .publicKey ? "Private" : "Public"
+            
+            // Skip duplicated segments.
+            guard segment != self.segments.last else {
+                return (accept: false, message: self.message)
             }
-            previousSegment = segment
 
-            // check whether we have found the first block
-            if hasStarted == false {
-                let findPublic = segment.contains("-----BEGIN PGP PUBLIC KEY BLOCK-----")
-                let findPrivate = segment.contains("-----BEGIN PGP PRIVATE KEY BLOCK-----")
-                switch keyType {
-                case .publicKey:
-                    if findPrivate {
-                        message = "ScanPrivateKey.".localize()
-                    }
-                    hasStarted = findPublic
-                case .privateKey:
-                    if findPublic {
-                        message = "ScanPrivateKey.".localize()
-                    }
-                    hasStarted = findPrivate
+            // Check whether we have found the first block.
+            guard !self.segments.isEmpty || segment.contains("-----BEGIN PGP \(keyTypeStr.uppercased()) KEY BLOCK-----") else {
+                // Check whether we are scanning the wrong key type.
+                if segment.contains("-----BEGIN PGP \(theOtherKeyTypeStr.uppercased()) KEY BLOCK-----") {
+                    self.message = "Scan\(keyTypeStr)Key.".localize()
                 }
+                return (accept: false, message: self.message)
             }
-            guard hasStarted == true else {
-                return
+            
+            // Update the list of scanned segment and return.
+            self.segments.append(segment)
+            if segment.contains("-----END PGP .* KEY BLOCK-----") {
+                self.message = "Done".localize()
+                return (accept: true, message: self.message)
+            } else {
+                self.message = "ScannedQrCodes(%d)".localize(self.segments.count)
+                print(self.message)
+                return (accept: false, message: self.message)
             }
-
-            // check the number of segments
-            numberOfSegments = numberOfSegments + 1
-            guard numberOfSegments <= ScannedPGPKey.maxNumberOfGif else {
-                key = "TooManyQrCodes".localize()
-                return
-            }
-
-            // update full text and check whether we are done
-            key.append(segment)
-            if key.contains("-----END PGP PUBLIC KEY BLOCK-----") || key.contains("-----END PGP PRIVATE KEY BLOCK-----") {
-                isDone = true
-            }
-
-            // update message
-            message = "ScannedQrCodes(%d)".localize(numberOfSegments)
         }
     }
     var scanned = ScannedPGPKey()
@@ -158,21 +134,17 @@ class PGPKeyArmorSettingTableViewController: AutoCellHeightUITableViewController
 
     // MARK: - QRScannerControllerDelegate Methods
     func checkScannedOutput(line: String) -> (accept: Bool, message: String) {
-        scanned.addSegment(segment: line)
-        if scanned.isDone {
-            return (accept: true, message: "Done".localize())
-        } else {
-            return (accept: false, message: scanned.message)
-        }
+        return scanned.addSegment(segment: line)
     }
 
     // MARK: - QRScannerControllerDelegate Methods
     func handleScannedOutput(line: String) {
+        let key = scanned.segments.joined(separator: "")
         switch scanned.keyType {
         case .publicKey:
-            armorPublicKeyTextView.text = scanned.key
+            armorPublicKeyTextView.text = key
         case .privateKey:
-            armorPrivateKeyTextView.text = scanned.key
+            armorPrivateKeyTextView.text = key
         }
     }
 
