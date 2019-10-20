@@ -124,7 +124,6 @@
 "Decrypting"                        = "Decrypting";
 "PgpKeyNotSet."                     = "PGP Key is not set. Please set your PGP Key first.";
 "FillInPgpPassphrase."              = "Please fill in the passphrase of your PGP secret key.";
-"SetPgpKey."                        = "PGP Key is not set. Please set your PGP Key first.";
 "WantToSavePassphrase?"             = "Do you want to save the passphrase for later decryption?";
 "CannotSavePgpKey"                  = "Cannot Save PGP Key";
 "SetPgpKeyUrlFirst."                = "Please set PGP key URL first.";
