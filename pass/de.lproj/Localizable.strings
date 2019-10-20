@@ -73,7 +73,7 @@
 "WantToSaveGitCredential?"              = "Möchtest du das Passwort für den Git-Server speichern?";
 
 // Repository
-"RepositoryNotSetError."                = "Git-Repository wurde nicht eingegeben.";
+"RepositoryNotSetError."                = "Es wurde noch kein Git-Repository hinzugefügt.";
 "SetGitRepositoryUrl"                   = "Bitte gib zuerst die URL des Repositorys ein.";
 "CannotFindUsername."                   = "Der Nutzername kann nicht in der URL des Repositorys gefunden werden. Beispiel: ssh://git@server/path/to/repo.git.";
 "CheckEnteredUsername."                 = "Bitte vergleiche den eingegebenen Nutzernamen und den in der URL des Repositorys. Sie sollten übereinstimmen.";
