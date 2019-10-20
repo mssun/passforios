@@ -86,7 +86,7 @@ class PGPAgentTest: XCTestCase {
         try importKeys(ED25519.publicKey, RSA2048.privateKey)
         XCTAssert(pgpAgent.isPrepared)
         XCTAssertThrowsError(try basicEncryptDecrypt(using: pgpAgent)) {
-            XCTAssert($0.localizedDescription.contains("openpgp: incorrect key"))
+            XCTAssertEqual($0 as! AppError, AppError.KeyExpiredOrIncompatible)
         }
     }
 
@@ -128,7 +128,7 @@ class PGPAgentTest: XCTestCase {
         
         // Provide the wrong passphrase.
         XCTAssertThrowsError(try basicEncryptDecrypt(using: pgpAgent, requestPassphrase: provideIncorrectPassphrase)) {
-            XCTAssert($0.localizedDescription.contains("openpgp: invalid data: private key checksum failure"))
+            XCTAssertEqual($0 as! AppError, AppError.WrongPassphrase)
         }
         XCTAssertEqual(passphraseRequestCalledCount, 2)
         

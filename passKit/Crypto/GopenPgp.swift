@@ -10,6 +10,11 @@ import Crypto
 
 struct GopenPgp: PgpInterface {
 
+    private static let errorMapping: [String: Error] = [
+        "openpgp: invalid data: private key checksum failure":  AppError.WrongPassphrase,
+        "openpgp: incorrect key":                               AppError.KeyExpiredOrIncompatible,
+    ]
+
     private let publicKey: CryptoKeyRing
     private let privateKey: CryptoKeyRing
 
@@ -22,9 +27,17 @@ struct GopenPgp: PgpInterface {
     }
 
     func decrypt(encryptedData: Data, passphrase: String) throws -> Data? {
-        try privateKey.unlock(withPassphrase: passphrase)
+        do {
+            try privateKey.unlock(withPassphrase: passphrase)
+        } catch {
+            throw Self.errorMapping[error.localizedDescription, default: error]
+        }
         let message = createPgpMessage(from: encryptedData)
-        return try privateKey.decrypt(message, verifyKey: nil, verifyTime: 0).data
+        do {
+            return try privateKey.decrypt(message, verifyKey: nil, verifyTime: 0).data
+        } catch {
+            throw Self.errorMapping[error.localizedDescription, default: error]
+        }
     }
 
     func encrypt(plainData: Data) throws -> Data {
