@@ -130,6 +130,8 @@
 "RememberToRemoveKey"               = "Vergiss das Löschen des Schlüssels nicht";
 "RememberToRemoveKeyFromServer."    = "Vergiss nicht, den Schlüssel wieder vom Server zu entfernen.";
 "RemovePgpKeys"                     = "PGP-Schlüssel entfernen";
+"KeyExpiredOrIncompatibleError."    = "Der öffentliche PGP-Schlüssel ist eventuell abgelaufen oder inkompatibel mit dem privaten Schlüssel.";
+"WrongPassphraseError."             = "Das Passwort für den privaten PGP-Schlüssel ist falsch.";
 
 // App passcode
 "RemovePasscode"        = "Passcode entfernen";

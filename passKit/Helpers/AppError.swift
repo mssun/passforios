@@ -17,6 +17,8 @@ public enum AppError: Error, Equatable {
     case GitCommit
     case PasswordEntity
     case PgpPublicKeyNotExist
+    case KeyExpiredOrIncompatible
+    case WrongPassphrase
     case WrongPasswordFilename
     case Decryption
     case Encryption
