@@ -65,7 +65,6 @@
 "FileNotFoundError."                    = "File '%@' cannot be read.";
 "PasswordDuplicatedError."              = "Cannot add the password; password is duplicated.";
 "GitResetError."                        = "Cannot identify the latest synced commit.";
-"PgpPublicKeyNotExistError."            = "PGP public key doesn't exist.";
 "WrongPasswordFilenameError."           = "Cannot write to the password file.";
 "DecryptionError."                      = "Cannot decrypt password.";
 "EncodingError."                        = "Key is not ASCII encoded.";

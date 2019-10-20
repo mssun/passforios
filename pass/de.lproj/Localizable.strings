@@ -64,7 +64,6 @@
 "FileNotFoundError."                    = "Die Datei '%@' kann nicht gelesen werden.";
 "PasswordDuplicatedError."              = "Passwort kann nicht hinzugefügt werden; es existiert bereits.";
 "GitResetError."                        = "Der zuletzt synchronisierte Commit kann nicht identifiziert werden.";
-"PGPPublicKeyNotExistError."            = "Der öffentliche PGP-Schlüssen existiert nicht";
 "WrongPasswordFilename."                = "Schreiben der Passwort-Datei nicht möglich .";
 "DecryptionError."                      = "Passwort kann nicht entschlüsselt werden.";
 "EncodingError."                        = "Schlüssel ist nicht in ASCII kodiert.";
