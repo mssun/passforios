@@ -124,7 +124,6 @@
 "Decrypting"                        = "Entschlüssele";
 "PgpKeyNotSet."                     = "PGP-Schlüssel ist nicht eingerichtet. Bitte gib ihn zuerst ein.";
 "FillInPgpPassphrase."              = "Bitte gib das Passwort deines privaten PGP-Schlüssels ein.";
-"SetPgpKey."                        = "PGP Key is not set. Please set your PGP Key first.";
 "WantToSavePassphrase?"             = "Möchtest du das Passwort für spätere Entschlüsselungen speichern?";
 "CannotSavePgpKey"                  = "PGP-Schlüssel kann nicht gespeichert werden";
 "SetPgpKeyUrlFirst."                = "Bitte gib zuerst die URL des PGP-Schlüssels ein.";

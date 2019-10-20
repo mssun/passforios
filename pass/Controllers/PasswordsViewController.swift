@@ -413,7 +413,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     private func decryptThenCopyPassword(from indexPath: IndexPath) {
         guard PGPAgent.shared.isPrepared else {
-            Utils.alert(title: "CannotCopyPassword".localize(), message: "SetPgpKey.".localize(), controller: self, completion: nil)
+            Utils.alert(title: "CannotCopyPassword".localize(), message: "PgpKeyNotSet.".localize(), controller: self, completion: nil)
             return
         }
         let passwordEntity = getPasswordEntry(by: indexPath).passwordEntity!
@@ -473,7 +473,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "showPasswordDetail" {
             guard PGPAgent.shared.isPrepared else {
-                Utils.alert(title: "CannotShowPassword".localize(), message: "SetPgpKey.".localize(), controller: self, completion: nil)
+                Utils.alert(title: "CannotShowPassword".localize(), message: "PgpKeyNotSet.".localize(), controller: self, completion: nil)
                 if let s = sender as? UITableViewCell {
                     let selectedIndexPath = tableView.indexPath(for: s)!
                     tableView.deselectRow(at: selectedIndexPath, animated: true)
