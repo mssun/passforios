@@ -189,7 +189,9 @@ public class PasswordStore {
             storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: tempStoreURL, options: options, transferProgressBlock:transferProgressBlock)
             try fm.moveItem(at: tempStoreURL, to: storeURL)
             storeRepository = try GTRepository(url: storeURL)
-            try checkoutAndChangeBranch(withName: branchName)
+            if (try? storeRepository?.currentBranch().name) != branchName {
+                try checkoutAndChangeBranch(withName: branchName)
+            }
         } catch {
             credential.delete()
             DispatchQueue.main.async {
@@ -207,9 +209,6 @@ public class PasswordStore {
     }
     
     private func checkoutAndChangeBranch(withName localBranchName: String) throws {
-        if (localBranchName == "master") {
-            return
-        }
         guard let storeRepository = storeRepository else {
             throw AppError.RepositoryNotSet
         }

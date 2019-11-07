@@ -59,7 +59,8 @@
 "FailedToDeletePasswordEntity"          = "Entfernen des Passworts fehlgeschlagen: %@";
 "FailedToSavePasswordEntity"            = "Speichern des Passworts fehlgeschlagen: %@";
 "FailureToSaveContext"                  = "Fehler beim Speichern des Kontexts: %@";
-"RepositoryRemoteMasterNotFoundError."  = "Remote-Branch origin/master wurde nicht gefunden.";
+"RepositoryRemoteBranchNotFoundError."  = "Der Remote-Branch %@ existiert nicht.";
+"RepositoryBranchNotFoundError."        = "Der lokale Branch %@ existiert nicht.";
 "KeyImportError."                       = "Schlüssel kann nicht importiert werden.";
 "FileNotFoundError."                    = "Die Datei '%@' kann nicht gelesen werden.";
 "PasswordDuplicatedError."              = "Passwort kann nicht hinzugefügt werden; es existiert bereits.";
@@ -94,6 +95,7 @@
 "SyncingPasswordStore"                  = "Password Store wird synchronisiert";
 "PullingFromRemoteRepository"           = "Update lokales Repository";
 "PushingToRemoteRepository"             = "Update Remote-Repository";
+"SpecifyBranchName."                    = "Der Name des zu verwendenden Branches muss angegeben werden.";
 
 // SSH
 "FillInSshKeyPassphrase."   = "Bitte gib das Passwort des SSH-Schlüssels ein.";
