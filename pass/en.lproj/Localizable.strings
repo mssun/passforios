@@ -94,6 +94,7 @@
 "SyncingPasswordStore"                  = "Syncing Password Store";
 "PullingFromRemoteRepository"           = "Pulling from Remote Repository";
 "PushingToRemoteRepository"             = "Pushing to Remote Repository";
+"SpecifyBranchName."                    = "Please specify the name of the branch to be used.";
 
 // SSH
 "FillInSshKeyPassphrase."   = "Please fill in the passphrase of your SSH key.";

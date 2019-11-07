@@ -78,8 +78,8 @@ class GitServerSettingTableViewController: UITableViewController {
     private func cloneAndSegueIfSuccess() {
         // try to clone
         let gitRepostiroyURL = gitURLTextField.text!.trimmed
-        let username = usernameTextField.text!
-        let branchName = branchNameTextField.text!
+        let username = usernameTextField.text!.trimmed
+        let branchName = branchNameTextField.text!.trimmed
         let auth = authenticationMethod
 
         SVProgressHUD.setDefaultMaskType(.black)
@@ -121,7 +121,7 @@ class GitServerSettingTableViewController: UITableViewController {
                     let error = error as NSError
                     var message = error.localizedDescription
                     if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
-                        message = "\(message)\n\("UnderlyingError".localize()): \(underlyingError.localizedDescription)"
+                        message = "\(message)\n\("UnderlyingError".localize(underlyingError.localizedDescription))"
                     }
                     Utils.alert(title: "Error".localize(), message: message, controller: self, completion: nil)
                 }
@@ -176,6 +176,11 @@ class GitServerSettingTableViewController: UITableViewController {
         // some sanity checks
         guard let gitURL = URL(string: gitURLTextField.text!) else {
             Utils.alert(title: "CannotSave".localize(), message: "SetGitRepositoryUrl".localize(), controller: self, completion: nil)
+            return
+        }
+
+        guard let branchName = branchNameTextField.text, !branchName.trimmed.isEmpty else {
+            Utils.alert(title: "CannotSave".localize(), message: "SpecifyBranchName.".localize(), controller: self, completion: nil)
             return
         }
 
