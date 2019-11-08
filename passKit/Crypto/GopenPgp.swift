@@ -19,11 +19,16 @@ struct GopenPgp: PgpInterface {
     private let privateKey: CryptoKeyRing
 
     init(publicArmoredKey: String, privateArmoredKey: String) throws {
-        guard let pgp = CryptoGetGopenPGP() else {
+        var error: NSError?
+        guard let publicKey = CryptoBuildKeyRingArmored(publicArmoredKey, &error),
+              let privateKey = CryptoBuildKeyRingArmored(privateArmoredKey, &error) else {
             throw AppError.KeyImport
         }
-        publicKey = try pgp.buildKeyRingArmored(publicArmoredKey)
-        privateKey = try pgp.buildKeyRingArmored(privateArmoredKey)
+        guard error == nil else {
+            throw error!
+        }
+        self.publicKey = publicKey
+        self.privateKey = privateKey
     }
 
     func decrypt(encryptedData: Data, passphrase: String) throws -> Data? {
