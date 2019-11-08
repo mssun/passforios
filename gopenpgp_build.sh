@@ -12,8 +12,9 @@ go get golang.org/x/mobile || true
 go get -u github.com/ProtonMail/gopenpgp || true
 
 PACKAGE_PATH="github.com/ProtonMail/gopenpgp"
+GOPENPGP_REVISION="136c0a54956e0241ff1b0c31aa34f2042588f843"
 
-( cd "$GOPATH/src/$PACKAGE_PATH" && GO111MODULE=on go mod vendor )
+( cd "$GOPATH/src/$PACKAGE_PATH" && git checkout "$GOPENPGP_REVISION" && GO111MODULE=on go mod vendor )
 patch -p0 < $GOPATH/crypto.patch
 
 OUTPUT_PATH="$GOPATH/dist"
