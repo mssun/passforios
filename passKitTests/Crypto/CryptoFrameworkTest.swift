@@ -42,10 +42,13 @@ class CryptoFrameworkTest: XCTestCase {
             ED25519,
             ED25519_SUB,
         ].forEach { keyTriple in
-            let pgp = CryptoGetGopenPGP()!
-            let publicKey = try pgp.buildKeyRingArmored(keyTriple.publicKey)
-            let privateKey = try pgp.buildKeyRingArmored(keyTriple.privateKey)
             var error: NSError?
+            guard let publicKey = CryptoBuildKeyRingArmored(keyTriple.publicKey, &error),
+                  let privateKey = CryptoBuildKeyRingArmored(keyTriple.privateKey, &error) else {
+                XCTFail("Keys cannot be initialized.")
+                return
+            }
+            XCTAssertNil(error)
 
             XCTAssert(publicKey.getFingerprint(&error).hasSuffix(keyTriple.fingerprint))
             XCTAssertNil(error)
