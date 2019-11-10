@@ -204,7 +204,6 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
 
         let length = passwordLengthCell?.roundedValue ?? 0
         let plainPassword = PasswordGeneratorFlavour.from(SharedDefaults[.passwordGeneratorFlavor]).generatePassword(length: length)
-        SecurePasteboard.shared.copy(textToCopy: plainPassword)
 
         // update tableData so to make sure reloadData() works correctly
         tableData[passwordSection][0][PasswordEditorCellKey.content] = plainPassword
@@ -274,7 +273,6 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         } else if textField == fillPasswordCell?.contentTextField {
             if let plainPassword = fillPasswordCell?.getContent() {
                 tableData[passwordSection][0][PasswordEditorCellKey.content] = plainPassword
-                SecurePasteboard.shared.copy(textToCopy: plainPassword)
             }
         }
     }
@@ -347,8 +345,6 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
                 self.tableData[self.passwordSection][0][PasswordEditorCellKey.content] = generatedPassword
                 // update cell manually, no need to call reloadData()
                 self.fillPasswordCell?.setContent(content: generatedPassword)
-                // make sure the clipboard gets cleared in 45s
-                SecurePasteboard.shared.copy(textToCopy: generatedPassword)
             }))
             alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertAction.Style.cancel, handler:nil))
             self.present(alert, animated: true, completion: nil)
