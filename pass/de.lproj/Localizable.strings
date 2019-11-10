@@ -256,7 +256,7 @@
 "RemovePrefix."                     = "Bitte entferne den Prefix \"/\" vom Namen des Passwortes.";
 "PasswordNameInvalid."              = "Der Name des Passwortes ist ungültig.";
 "CannotParseFilename."              = "Der Name der Datei kann nicht gelesen werden. Bitte vereinfache den Namen des Passwortes.";
-"WannaUseIt?"                       = "Möchtest du es benutzen?";
+"WannaUseIt?"                       = "Möchtest du es als Passwort verwenden?";
 "SeemsLikeYouHaveCopiedSomething."  = "Scheint so, als hast du etwas kopiert.";
 "FirstStringIs:"                    = "Die erste Zeichenkette ist:";
 
