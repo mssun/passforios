@@ -31,7 +31,7 @@ class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
          "https://github.com/radex/SwiftyUserDefaults/blob/master/LICENSE"],
         ["SVProgressHUD",
          "https://github.com/SVProgressHUD/SVProgressHUD",
-         "https://github.com/SVProgressHUD/SVProgressHUD/blob/master/LICENSE.txt"],
+         "https://github.com/SVProgressHUD/SVProgressHUD/blob/master/LICENSE"],
     ]
 
     override func viewDidLoad() {
