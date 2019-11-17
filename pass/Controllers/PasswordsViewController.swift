@@ -310,7 +310,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
         if entry.isDir {
             cell.accessoryType = .disclosureIndicator
-            cell.textLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize, weight: .semibold)
+            cell.textLabel?.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .medium)
             cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .body)
             cell.detailTextLabel?.text = "\(passwordEntity.children?.count ?? 0)"
             cell.removeGestureRecognizer(longPressGestureRecognizer)
