@@ -37,10 +37,10 @@ class AdvancedSettingsTableViewController: UITableViewController {
     private func setGitSignatureText() {
         let gitSignatureName = passwordStore.gitSignatureForNow?.name ?? ""
         let gitSignatureEmail = passwordStore.gitSignatureForNow?.email ?? ""
-        self.gitSignatureTableViewCell.detailTextLabel?.font = UIFont.systemFont(ofSize: 14)
+        self.gitSignatureTableViewCell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
         self.gitSignatureTableViewCell.detailTextLabel?.text = "\(gitSignatureName) <\(gitSignatureEmail)>"
         if SharedDefaults[.gitSignatureName] == nil && SharedDefaults[.gitSignatureEmail] == nil {
-            self.gitSignatureTableViewCell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17)
+            self.gitSignatureTableViewCell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .body)
             gitSignatureTableViewCell.detailTextLabel?.text = "NotSet".localize()
         }
     }
