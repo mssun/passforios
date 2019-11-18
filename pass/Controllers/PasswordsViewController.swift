@@ -32,10 +32,15 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     private let keychain = AppKeychain.shared
 
     private var tapTabBarTime: TimeInterval = 0
+    private var tapNavigationBarGestureRecognizer: UITapGestureRecognizer!
 
     private var sections = [(title: String, entries: [PasswordsTableEntry])]()
 
     private var searchActive : Bool = false
+    private enum PasswordLabel {
+        case all
+        case unsynced
+    }
 
     private lazy var searchController: UISearchController = {
         let uiSearchController = UISearchController(searchResultsController: nil)
@@ -248,6 +253,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             view.addSubview(searchBarView!)
         }
         navigationItem.title = "PasswordStore".localize()
+        tapNavigationBarGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapNavigationBar))
+
         tableView.refreshControl = syncControl
         SVProgressHUD.setDefaultMaskType(.black)
         tableView.register(UINib(nibName: "PasswordWithFolderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordWithFolderTableViewCell")
@@ -267,12 +274,48 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         self.view.addGestureRecognizer(swipeRight)
     }
 
+    @objc func didTapNavigationBar(_ sender: UITapGestureRecognizer) {
+        let location = sender.location(in: self.navigationController?.navigationBar)
+        let hitView = self.navigationController?.navigationBar.hitTest(location, with: nil)
+        guard !(hitView is UIControl) else { return }
+        guard (passwordStore.numberOfLocalCommits != 0) else { return }
+
+        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let allAction = UIAlertAction(title: "All Passwords", style: .default) { _ in
+            self.reloadTableView(parent: nil, label: .all)
+        }
+        let unsyncedAction = UIAlertAction(title: "Unsynced Passwords", style: .default) { _ in
+            self.filteredPasswordsTableEntries = self.passwordsTableEntries.filter { entry in
+                return !entry.passwordEntity!.synced
+            }
+            self.reloadTableView(data: self.filteredPasswordsTableEntries, label: .unsynced)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+        ac.addAction(allAction)
+        ac.addAction(unsyncedAction)
+        ac.addAction(cancelAction)
+
+        self.present(ac, animated: true, completion: nil)
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController!.delegate = self
         if let path = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: path, animated: false)
         }
+
+        // Add gesture recognizer to the navigation bar when the view is about to appear
+        self.navigationController?.navigationBar.addGestureRecognizer(tapNavigationBarGestureRecognizer)
+
+        // This allows controlls in the navigation bar to continue receiving touches
+        tapNavigationBarGestureRecognizer.cancelsTouchesInView = false
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        // Remove gesture recognizer from navigation bar when view is about to disappear
+        self.navigationController?.navigationBar.removeGestureRecognizer(tapNavigationBarGestureRecognizer)
     }
 
     override func viewWillLayoutSubviews() {
@@ -548,7 +591,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     }
 
-    private func reloadTableView(data: [PasswordsTableEntry], anim: CAAnimation? = nil) {
+    private func reloadTableView(data: [PasswordsTableEntry], label: PasswordLabel = .all, anim: CAAnimation? = nil) {
         // set navigation item
         if let numberOfLocalCommits = passwordStore.numberOfLocalCommits, numberOfLocalCommits != 0 {
             navigationController?.tabBarItem.badgeValue = "\(numberOfLocalCommits)"
@@ -561,12 +604,19 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             if #available(iOS 11, *) {
                 navigationController?.navigationBar.prefersLargeTitles = false
             }
+            self.navigationController?.navigationBar.removeGestureRecognizer(tapNavigationBarGestureRecognizer)
         } else {
             navigationItem.leftBarButtonItem = nil
-            navigationItem.title = "PasswordStore".localize()
+            switch label {
+            case .all:
+                navigationItem.title = "PasswordStore".localize()
+            case .unsynced:
+                navigationItem.title = "Unsynced"
+            }
             if #available(iOS 11, *) {
                 navigationController?.navigationBar.prefersLargeTitles = true
             }
+            self.navigationController?.navigationBar.addGestureRecognizer(tapNavigationBarGestureRecognizer)
         }
         navigationItem.rightBarButtonItem = addPasswordUIBarButtonItem
 
@@ -593,9 +643,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         return formatter.string(from: date)
     }
 
-    private func reloadTableView(parent: PasswordEntity?, anim: CAAnimation? = nil) {
+    private func reloadTableView(parent: PasswordEntity?, label: PasswordLabel = .all, anim: CAAnimation? = nil) {
         initPasswordsTableEntries(parent: parent)
-        reloadTableView(data: passwordsTableEntries, anim: anim)
+        reloadTableView(data: passwordsTableEntries, label: label, anim: anim)
     }
 
     @objc func actOnReloadTableViewRelatedNotification() {
@@ -634,7 +684,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         SharedDefaults[.searchDefault] = SearchBarScope(rawValue: selectedScope)
         updateSearchResults(for: searchController)
     }
-
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         // set the default search scope to "all"
