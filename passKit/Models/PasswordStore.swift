@@ -289,11 +289,7 @@ public class PasswordStore {
         } catch {
             print(error)
         }
-        do {
-            try context.save()
-        } catch {
-            print("ErrorSaving".localize(error))
-        }
+        self.saveUpdatedContext()
     }
     
     public func getRecentCommits(count: Int) throws -> [GTCommit] {
@@ -351,15 +347,11 @@ public class PasswordStore {
     
     public func setAllSynced() {
         let passwordEntities = fetchUnsyncedPasswords()
-        for passwordEntity in passwordEntities {
-            passwordEntity.synced = true
-        }
-        do {
-            if context.hasChanges {
-                try context.save()
+        if passwordEntities.count > 0 {
+            for passwordEntity in passwordEntities {
+                passwordEntity.synced = true
             }
-        } catch {
-            fatalError("ErrorSaving".localize(error))
+            self.saveUpdatedContext()
         }
     }
     
@@ -489,35 +481,26 @@ public class PasswordStore {
         for path in paths {
             let isDir = !path.hasSuffix(".gpg")
             if let passwordEntity = getPasswordEntity(by: path, isDir: isDir) {
-                parentPasswordEntity = passwordEntity
                 passwordEntity.synced = false
+                parentPasswordEntity = passwordEntity
             } else {
-                if !isDir {
-                    return insertPasswordEntity(name: URL(string: path.stringByAddingPercentEncodingForRFC3986()!)!.deletingPathExtension().lastPathComponent, path: path, parent: parentPasswordEntity, synced: false, isDir: false)
+                let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: self.context) as! PasswordEntity
+                let pathURL = URL(string: path.stringByAddingPercentEncodingForRFC3986()!)!
+                if isDir {
+                    passwordEntity.name = pathURL.lastPathComponent
                 } else {
-                    parentPasswordEntity = insertPasswordEntity(name: URL(string: path.stringByAddingPercentEncodingForRFC3986()!)!.lastPathComponent, path: path, parent: parentPasswordEntity, synced: false, isDir: true)
+                    passwordEntity.name = pathURL.deletingPathExtension().lastPathComponent
                 }
+                passwordEntity.path = path
+                passwordEntity.parent = parentPasswordEntity
+                passwordEntity.synced = false
+                passwordEntity.isDir = isDir
+                parentPasswordEntity = passwordEntity
             }
         }
-        return nil
-    }
-    
-    private func insertPasswordEntity(name: String, path: String, parent: PasswordEntity?, synced: Bool = false, isDir: Bool = false) -> PasswordEntity? {
-        var ret: PasswordEntity? = nil
-        if let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: self.context) as? PasswordEntity {
-            passwordEntity.name = name
-            passwordEntity.path = path
-            passwordEntity.parent = parent
-            passwordEntity.synced = synced
-            passwordEntity.isDir = isDir
-            do {
-                try self.context.save()
-                ret = passwordEntity
-            } catch {
-                fatalError("FailedToInsertPasswordEntity".localize(error))
-            }
-        }
-        return ret
+
+        self.saveUpdatedContext()
+        return parentPasswordEntity
     }
     
     public func add(password: Password) throws -> PasswordEntity? {
@@ -577,19 +560,15 @@ public class PasswordStore {
             let parent = current!.parent
             self.context.delete(current!)
             current = parent
-            do {
-                try self.context.save()
-            } catch {
-                fatalError("FailedToDeletePasswordEntity".localize(error))
-            }
         }
+        self.saveUpdatedContext()
     }
     
-    public func saveUpdated(passwordEntity: PasswordEntity) {
+    public func saveUpdatedContext() {
         do {
             try context.save()
         } catch {
-            fatalError("FailedToSavePasswordEntity".localize(error))
+            fatalError("FailureToSaveContext".localize(error))
         }
     }
     
@@ -617,11 +596,7 @@ public class PasswordStore {
             do {
                 try privateMOC.save()
                 self.context.performAndWait {
-                    do {
-                        try self.context.save()
-                    } catch {
-                        fatalError("FailureToSaveContext".localize(error))
-                    }
+                    self.saveUpdatedContext()
                 }
             } catch {
                 fatalError("FailureToSaveContext".localize(error))
