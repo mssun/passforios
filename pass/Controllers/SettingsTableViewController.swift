@@ -153,13 +153,18 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView.cellForRow(at: indexPath) == passcodeTableViewCell {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.textLabel?.font = UIFont.preferredFont(forTextStyle: .body)
+        cell?.textLabel?.adjustsFontForContentSizeCategory = true
+        cell?.detailTextLabel?.adjustsFontForContentSizeCategory = true
+
+        if cell == passcodeTableViewCell {
             if passcodeLock.hasPasscode {
                 showPasscodeActionSheet()
             } else {
                 setPasscodeLock()
             }
-        } else if tableView.cellForRow(at: indexPath) == pgpKeyTableViewCell {
+        } else if cell == pgpKeyTableViewCell {
             showPGPKeyActionSheet()
         }
         tableView.deselectRow(at: indexPath, animated: true)
