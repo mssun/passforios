@@ -21,6 +21,8 @@ fileprivate class PasswordsTableEntry : NSObject {
     }
 }
 
+fileprivate let hideSectionHeaderTreshold = 6    // hide section header if passwords count is less than the threshold
+
 class PasswordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchBarDelegate {
     private var passwordsTableEntries: [PasswordsTableEntry] = []
     private var passwordsTableAllEntries: [PasswordsTableEntry] = []
@@ -373,11 +375,24 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
 
+    private func hideSectionHeader() -> Bool {
+        if passwordsTableEntries.count < hideSectionHeaderTreshold || self.searchController.isActive {
+            return true
+        }
+        return false
+    }
+
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if hideSectionHeader() {
+            return nil
+        }
         return sections[section].title
     }
 
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        if hideSectionHeader() {
+            return nil
+        }
         return sections.map { $0.title }
     }
 
