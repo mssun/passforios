@@ -152,11 +152,16 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         setPasscodeLockCell()
     }
 
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        cell.textLabel?.font = UIFont.preferredFont(forTextStyle: .body)
+        cell.textLabel?.adjustsFontForContentSizeCategory = true
+        cell.detailTextLabel?.adjustsFontForContentSizeCategory = true
+        return cell
+    }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
-        cell?.textLabel?.font = UIFont.preferredFont(forTextStyle: .body)
-        cell?.textLabel?.adjustsFontForContentSizeCategory = true
-        cell?.detailTextLabel?.adjustsFontForContentSizeCategory = true
 
         if cell == passcodeTableViewCell {
             if passcodeLock.hasPasscode {
