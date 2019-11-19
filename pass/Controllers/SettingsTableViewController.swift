@@ -155,6 +155,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         cell.textLabel?.font = UIFont.preferredFont(forTextStyle: .body)
+        cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .body)
         cell.textLabel?.adjustsFontForContentSizeCategory = true
         cell.detailTextLabel?.adjustsFontForContentSizeCategory = true
         return cell
