@@ -534,6 +534,7 @@ public class PasswordStore {
             let _ = try gitCommit(message: "EditPassword.".localize(url.deletingPathExtension().path.removingPercentEncoding!))
             newPasswordEntity = passwordEntity
             newPasswordEntity?.synced = false
+            self.saveUpdatedContext()
         }
         
         if password.changed&PasswordChange.path.rawValue != 0 {
