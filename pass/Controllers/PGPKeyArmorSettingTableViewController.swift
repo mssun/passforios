@@ -52,12 +52,11 @@ class PGPKeyArmorSettingTableViewController: AutoCellHeightUITableViewController
             
             // Update the list of scanned segment and return.
             self.segments.append(segment)
-            if segment.contains("-----END PGP .* KEY BLOCK-----") {
+            if segment.contains("-----END PGP \(keyTypeStr.uppercased()) KEY BLOCK-----") {
                 self.message = "Done".localize()
                 return (accept: true, message: self.message)
             } else {
                 self.message = "ScannedQrCodes(%d)".localize(self.segments.count)
-                print(self.message)
                 return (accept: false, message: self.message)
             }
         }
