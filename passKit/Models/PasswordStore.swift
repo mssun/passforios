@@ -89,8 +89,8 @@ public class PasswordStore {
         return (try? fm.allocatedSizeOfDirectoryAtURL(directoryURL: self.storeURL)) ?? 0
     }
     
-    public var numberOfLocalCommits: Int? {
-        return (try? getLocalCommits())?.flatMap { $0.count }
+    public var numberOfLocalCommits: Int {
+        return (try? getLocalCommits())?.flatMap { $0.count } ?? 0
     }
     
     public var lastSyncedTime: Date? {

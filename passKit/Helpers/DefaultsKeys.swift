@@ -22,9 +22,9 @@ public extension DefaultsKeys {
     static let gitSSHPrivateKeyArmor = DefaultsKey<String?>("gitSSHPrivateKeyArmor")
     static let passcodeKey = DefaultsKey<String?>("passcodeKey")
 
-    static let gitURL = DefaultsKey<URL?>("gitURL")
-    static let gitAuthenticationMethod = DefaultsKey<String?>("gitAuthenticationMethod")
-    static let gitUsername = DefaultsKey<String?>("gitUsername")
+    static let gitURL = DefaultsKey<URL>("gitURL", defaultValue: URL(string: "https://")!)
+    static let gitAuthenticationMethod = DefaultsKey<GitAuthenticationMethod>("gitAuthenticationMethod", defaultValue: GitAuthenticationMethod.password)
+    static let gitUsername = DefaultsKey<String>("gitUsername", defaultValue: "git")
     static let gitBranchName = DefaultsKey<String>("gitBranchName", defaultValue: "master")
     static let gitSSHPrivateKeyURL = DefaultsKey<URL?>("gitSSHPrivateKeyURL")
     static let gitSSHKeySource = DefaultsKey<String?>("gitSSHKeySource")

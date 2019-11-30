@@ -105,7 +105,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     }
 
     @IBAction func saveGitServerSetting(segue: UIStoryboardSegue) {
-        self.passwordRepositoryTableViewCell.detailTextLabel?.text = SharedDefaults[.gitURL]?.host
+        self.passwordRepositoryTableViewCell.detailTextLabel?.text = SharedDefaults[.gitURL].host
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -115,7 +115,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.actOnPasswordStoreErasedNotification), name: .passwordStoreErased, object: nil)
-        self.passwordRepositoryTableViewCell.detailTextLabel?.text = SharedDefaults[.gitURL]?.host
+        self.passwordRepositoryTableViewCell.detailTextLabel?.text = SharedDefaults[.gitURL].host
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()
         setPasscodeLockCell()
@@ -139,11 +139,15 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     }
 
     private func setPasswordRepositoryTableViewCellDetailText() {
-        if SharedDefaults[.gitURL] == nil {
-            passwordRepositoryTableViewCell.detailTextLabel?.text = "NotSet".localize()
-        } else {
-            passwordRepositoryTableViewCell.detailTextLabel?.text = SharedDefaults[.gitURL]!.host
-        }
+        let host: String? = {
+            let gitURL = SharedDefaults[.gitURL]
+            if gitURL.scheme == nil {
+                return URL(string: "scheme://" + gitURL.absoluteString)?.host
+            } else {
+                return gitURL.host
+            }
+        }()
+        passwordRepositoryTableViewCell.detailTextLabel?.text = host
     }
 
     @objc func actOnPasswordStoreErasedNotification() {

@@ -42,6 +42,18 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         case unsynced
     }
 
+    private var gitCredential: GitCredential {
+        get {
+            switch SharedDefaults[.gitAuthenticationMethod] {
+            case .password:
+                return GitCredential(credential: .http(userName: SharedDefaults[.gitUsername]))
+            case .key:
+                let privateKey: String = AppKeychain.shared.get(for: SshKey.PRIVATE.getKeychainKey()) ?? ""
+                return GitCredential(credential: .ssh(userName: SharedDefaults[.gitUsername], privateKey: privateKey))
+            }
+        }
+    }
+
     private lazy var searchController: UISearchController = {
         let uiSearchController = UISearchController(searchResultsController: nil)
         uiSearchController.searchResultsUpdater = self
@@ -173,27 +185,17 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "SyncingPasswordStore".localize())
-        var gitCredential: GitCredential
-        let privateKey: String? = self.keychain.get(for: SshKey.PRIVATE.getKeychainKey())
-        if SharedDefaults[.gitAuthenticationMethod] == "Password" || privateKey == nil {
-            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: SharedDefaults[.gitUsername]!))
-        } else {
-            gitCredential = GitCredential(
-                credential: GitCredential.Credential.ssh(
-                    userName: SharedDefaults[.gitUsername]!,
-                    privateKey: privateKey!
-                )
-            )
-        }
+
+
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
-                try self.passwordStore.pullRepository(credential: gitCredential, requestGitPassword: self.requestGitPassword(credential:lastPassword:), transferProgressBlock: {(git_transfer_progress, stop) in
+                try self.passwordStore.pullRepository(credential: self.gitCredential, requestGitPassword: self.requestGitPassword(credential:lastPassword:), transferProgressBlock: {(git_transfer_progress, stop) in
                     DispatchQueue.main.async {
                         SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "PullingFromRemoteRepository".localize())
                     }
                 })
-                if self.passwordStore.numberOfLocalCommits ?? 0 > 0 {
-                    try self.passwordStore.pushRepository(credential: gitCredential, requestGitPassword: self.requestGitPassword(credential:lastPassword:), transferProgressBlock: {(current, total, bytes, stop) in
+                if self.passwordStore.numberOfLocalCommits > 0 {
+                    try self.passwordStore.pushRepository(credential: self.gitCredential, requestGitPassword: self.requestGitPassword(credential:lastPassword:), transferProgressBlock: {(current, total, bytes, stop) in
                         DispatchQueue.main.async {
                             SVProgressHUD.showProgress(Float(current)/Float(total), status: "PushingToRemoteRepository".localize())
                         }
@@ -215,7 +217,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                         message = message | "UnderlyingError".localize(underlyingError.localizedDescription)
                         if underlyingError.localizedDescription.contains("WrongPassphrase".localize()) {
                             message = message | "RecoverySuggestion.".localize()
-                            gitCredential.delete()
                         }
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800)) {
@@ -593,8 +594,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     private func reloadTableView(data: [PasswordsTableEntry], label: PasswordLabel = .all, anim: CAAnimation? = nil) {
         // set navigation item
-        if let numberOfLocalCommits = passwordStore.numberOfLocalCommits, numberOfLocalCommits != 0 {
-            navigationController?.tabBarItem.badgeValue = "\(numberOfLocalCommits)"
+        if passwordStore.numberOfLocalCommits != 0 {
+            navigationController?.tabBarItem.badgeValue = "\(passwordStore.numberOfLocalCommits)"
         } else {
             navigationController?.tabBarItem.badgeValue = nil
         }

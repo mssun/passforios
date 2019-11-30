@@ -11,6 +11,10 @@ import UIKit
 import SwiftyUserDefaults
 import ObjectiveGit
 
+public enum GitAuthenticationMethod: String, DefaultsSerializable {
+    case password, key
+}
+
 public struct GitCredential {
     private var credential: Credential
     private let passwordStore = PasswordStore.shared

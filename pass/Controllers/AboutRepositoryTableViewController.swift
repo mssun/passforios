@@ -51,7 +51,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
         DispatchQueue.global(qos: .userInitiated).async {
             let passwords = self.numberOfPasswordsString()
             let size = self.sizeOfRepositoryString()
-            let localCommits = self.numberOfLocalCommitsString()
+            let localCommits = self.passwordStore.numberOfLocalCommits
             let lastSynced = self.lastSyncedTimeString()
             let commits = self.numberOfCommitsString()
 
@@ -84,13 +84,6 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
 
     private func sizeOfRepositoryString() -> String {
         return ByteCountFormatter.string(fromByteCount: Int64(self.passwordStore.sizeOfRepositoryByteCount), countStyle: ByteCountFormatter.CountStyle.file)
-    }
-
-    private func numberOfLocalCommitsString() -> String {
-        if let numberOfLocalCommits = passwordStore.numberOfLocalCommits {
-            return String(numberOfLocalCommits)
-        }
-        return AboutRepositoryTableViewController.VALUE_NOT_AVAILABLE
     }
 
     private func lastSyncedTimeString() -> String {

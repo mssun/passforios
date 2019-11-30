@@ -10,6 +10,7 @@ import UIKit
 import SVProgressHUD
 import passKit
 
+
 class GitServerSettingTableViewController: UITableViewController {
 
     @IBOutlet weak var gitURLTextField: UITextField!
@@ -17,25 +18,50 @@ class GitServerSettingTableViewController: UITableViewController {
     @IBOutlet weak var branchNameTextField: UITextField!
     @IBOutlet weak var authSSHKeyCell: UITableViewCell!
     @IBOutlet weak var authPasswordCell: UITableViewCell!
-    let passwordStore = PasswordStore.shared
-    var sshLabel: UILabel? = nil
+    @IBOutlet weak var gitURLCell: UITableViewCell!
+    @IBOutlet weak var gitRepositoryURLTabelViewCell: UITableViewCell!
+    private let passwordStore = PasswordStore.shared
+    private var sshLabel: UILabel? = nil
 
-    var authenticationMethod = SharedDefaults[.gitAuthenticationMethod] ?? "Password"
+    private var gitAuthenticationMethod: GitAuthenticationMethod {
+        get { SharedDefaults[.gitAuthenticationMethod] }
+        set { SharedDefaults[.gitAuthenticationMethod] = newValue }
+    }
+    private var gitUrl: URL {
+        get { SharedDefaults[.gitURL] }
+        set { SharedDefaults[.gitURL] = newValue }
+    }
+    private var gitBranchName: String {
+        get { SharedDefaults[.gitBranchName] }
+        set { SharedDefaults[.gitBranchName] = newValue }
+    }
+    private var gitUsername: String {
+        get { SharedDefaults[.gitUsername] }
+        set { SharedDefaults[.gitUsername] = newValue }
+    }
+    private var gitCredential: GitCredential {
+        get {
+            switch SharedDefaults[.gitAuthenticationMethod] {
+            case .password:
+                return GitCredential(credential: .http(userName: SharedDefaults[.gitUsername]))
+            case .key:
+                let privateKey: String = AppKeychain.shared.get(for: SshKey.PRIVATE.getKeychainKey()) ?? ""
+                return GitCredential(credential: .ssh(userName: SharedDefaults[.gitUsername], privateKey: privateKey))
+            }
+        }
+    }
 
-    private func checkAuthenticationMethod(method: String) {
+    private func checkAuthenticationMethod() {
         let passwordCheckView = authPasswordCell.viewWithTag(1001)!
         let sshKeyCheckView = authSSHKeyCell.viewWithTag(1001)!
 
-        switch method {
-        case "Password":
+        switch self.gitAuthenticationMethod {
+        case .password:
             passwordCheckView.isHidden = false
             sshKeyCheckView.isHidden = true
-        case "SSH Key":
+        case .key:
             passwordCheckView.isHidden = true
             sshKeyCheckView.isHidden = false
-        default:
-            passwordCheckView.isHidden = false
-            sshKeyCheckView.isHidden = true
         }
     }
 
@@ -48,13 +74,11 @@ class GitServerSettingTableViewController: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let url = SharedDefaults[.gitURL] {
-            gitURLTextField.text = url.absoluteString
-        }
-        usernameTextField.text = SharedDefaults[.gitUsername]
-        branchNameTextField.text = SharedDefaults[.gitBranchName]
+        gitURLTextField.text = self.gitUrl.absoluteString
+        usernameTextField.text = self.gitUsername
+        branchNameTextField.text = self.gitBranchName
         sshLabel = authSSHKeyCell.subviews[0].subviews[0] as? UILabel
-        checkAuthenticationMethod(method: authenticationMethod)
+        checkAuthenticationMethod()
         authSSHKeyCell.accessoryType = .detailButton
     }
 
@@ -62,7 +86,15 @@ class GitServerSettingTableViewController: UITableViewController {
         let cell = tableView.cellForRow(at: indexPath)
         if cell == authSSHKeyCell {
             showSSHKeyActionSheet()
+        } else if cell == gitURLCell {
+            showGitURLFormatHelp()
         }
+    }
+
+    private func showGitURLFormatHelp() {
+        let alert = UIAlertController(title: "Git URL Format", message: "https://example.com[:port]/project.git\nssh://[user@]server[:port]/project.git\n[user@]server:project.git (no scheme)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
+        self.present(alert, animated: true, completion: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -76,36 +108,15 @@ class GitServerSettingTableViewController: UITableViewController {
     }
 
     private func cloneAndSegueIfSuccess() {
-        // try to clone
-        let gitRepostiroyURL = gitURLTextField.text!.trimmed
-        let username = usernameTextField.text!.trimmed
-        let branchName = branchNameTextField.text!.trimmed
-        let auth = authenticationMethod
-
-        SVProgressHUD.setDefaultMaskType(.black)
-        SVProgressHUD.setDefaultStyle(.light)
-        SVProgressHUD.show(withStatus: "PrepareRepository".localize())
-        var gitCredential: GitCredential
-        let privateKey: String? = AppKeychain.shared.get(for: SshKey.PRIVATE.getKeychainKey())
-        if auth == "Password" || privateKey == nil {
-            gitCredential = GitCredential(credential: GitCredential.Credential.http(userName: username))
-        } else {
-            gitCredential = GitCredential(
-                credential: GitCredential.Credential.ssh(
-                    userName: username,
-                    privateKey: privateKey!
-                )
-            )
-        }
         // Remember git credential password/passphrase temporarily, ask whether users want this after a successful clone.
         SharedDefaults[.isRememberGitCredentialPassphraseOn] = true
         let group = DispatchGroup()
         let dispatchQueue = DispatchQueue.global(qos: .userInitiated)
         dispatchQueue.async(group: group) {
             do {
-                try self.passwordStore.cloneRepository(remoteRepoURL: URL(string: gitRepostiroyURL)!,
-                                                       credential: gitCredential,
-                                                       branchName: branchName,
+                try self.passwordStore.cloneRepository(remoteRepoURL: self.gitUrl,
+                                                       credential: self.gitCredential,
+                                                       branchName: self.gitBranchName,
                                                        requestGitPassword: self.requestGitPassword,
                                                        transferProgressBlock: { (git_transfer_progress, stop) in
                                                         DispatchQueue.main.async {
@@ -113,7 +124,7 @@ class GitServerSettingTableViewController: UITableViewController {
                                                         }
                 },
                                                        checkoutProgressBlock: { (path, completedSteps, totalSteps) in
-                                                        DispatchQueue.main.async { SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "CheckingOutBranch".localize(branchName))
+                                                        DispatchQueue.main.async { SVProgressHUD.showProgress(Float(completedSteps)/Float(totalSteps), status: "CheckingOutBranch".localize(self.gitBranchName))
                                                         }
                 })
             } catch {
@@ -130,10 +141,6 @@ class GitServerSettingTableViewController: UITableViewController {
         group.notify(queue: dispatchQueue) {
             NSLog("clone done")
             DispatchQueue.main.async {
-                SharedDefaults[.gitURL] = URL(string: gitRepostiroyURL)
-                SharedDefaults[.gitUsername] = username
-                SharedDefaults[.gitBranchName] = branchName
-                SharedDefaults[.gitAuthenticationMethod] = auth
                 SVProgressHUD.dismiss {
                     let savePassphraseAlert = UIAlertController(title: "Done".localize(), message: "WantToSaveGitCredential?".localize(), preferredStyle: UIAlertController.Style.alert)
                     // no
@@ -157,24 +164,23 @@ class GitServerSettingTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         if cell == authPasswordCell {
-            authenticationMethod = "Password"
+            self.gitAuthenticationMethod = .password
         } else if cell == authSSHKeyCell {
 
             if !AppKeychain.shared.contains(key: SshKey.PRIVATE.getKeychainKey()) {
                 Utils.alert(title: "CannotSelectSshKey".localize(), message: "PleaseSetupSshKeyFirst.".localize(), controller: self, completion: nil)
-                authenticationMethod = "Password"
+                gitAuthenticationMethod = .password
             } else {
-                authenticationMethod = "SSH Key"
+                gitAuthenticationMethod = .key
             }
         }
-        checkAuthenticationMethod(method: authenticationMethod)
+        checkAuthenticationMethod()
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
     @IBAction func save(_ sender: Any) {
 
-        // some sanity checks
-        guard let gitURL = URL(string: gitURLTextField.text!) else {
+        guard let gitURLTextFieldText = gitURLTextField.text, let gitURL = URL(string: gitURLTextFieldText) else {
             Utils.alert(title: "CannotSave".localize(), message: "SetGitRepositoryUrl".localize(), controller: self, completion: nil)
             return
         }
@@ -184,25 +190,29 @@ class GitServerSettingTableViewController: UITableViewController {
             return
         }
 
-        switch gitURL.scheme {
-        case let val where val == "https":
-            break
-        case let val where val == "ssh":
-            guard let sshUsername = gitURL.user, sshUsername.isEmpty == false else {
+        func checkUsername() {
+            if gitURL.user == nil && usernameTextField.text == nil {
                 Utils.alert(title: "CannotSave".localize(), message: "CannotFindUsername.".localize(), controller: self, completion: nil)
                 return
             }
-            guard let username = usernameTextField.text, username == sshUsername else {
+            if let urlUsername = gitURL.user, let textFieldUsername = usernameTextField.text, urlUsername != textFieldUsername.trimmed {
                 Utils.alert(title: "CannotSave".localize(), message: "CheckEnteredUsername.".localize(), controller: self, completion: nil)
                 return
             }
-        case let val where val == "http":
-            Utils.alert(title: "CannotSave".localize(), message: "UseHttps.".localize(), controller: self, completion: nil)
-            return
-        default:
-            Utils.alert(title: "CannotSave".localize(), message: "SpecifySchema.".localize(), controller: self, completion: nil)
-            return
         }
+
+        if let scheme = gitURL.scheme {
+            switch scheme {
+            case "ssh", "http", "https", "file": checkUsername()
+            default:
+                Utils.alert(title: "CannotSave".localize(), message: "Protocol is not supported", controller: self, completion: nil)
+                return
+            }
+        }
+
+        self.gitUrl = gitURL
+        self.gitBranchName = branchName
+        self.gitUsername = (gitURL.user ?? usernameTextField.text ?? "git").trimmed
 
         if passwordStore.repositoryExisted() {
             let alert = UIAlertController(title: "Overwrite?".localize(), message: "OperationWillOverwriteData.".localize(), preferredStyle: UIAlertController.Style.alert)
@@ -272,7 +282,7 @@ class GitServerSettingTableViewController: UITableViewController {
                 SharedDefaults[.gitSSHKeySource] = nil
                 if let sshLabel = self.sshLabel {
                     sshLabel.isEnabled = false
-                    self.checkAuthenticationMethod(method: "Password".localize())
+                    self.checkAuthenticationMethod()
                 }
             }
             optionMenu.addAction(deleteAction)
