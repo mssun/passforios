@@ -117,13 +117,13 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.actOnPasswordStoreErasedNotification), name: .passwordStoreErased, object: nil)
         self.passwordRepositoryTableViewCell.detailTextLabel?.text = SharedDefaults[.gitURL].host
         setPGPKeyTableViewCellDetailText()
-        setPasswordRepositoryTableViewCellDetailText()
         setPasscodeLockCell()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         tabBarController!.delegate = self
+        setPasswordRepositoryTableViewCellDetailText()
     }
 
     private func setPasscodeLockCell() {

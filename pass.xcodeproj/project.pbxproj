@@ -710,6 +710,7 @@
 				A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */,
 				DCA049991E335CC800522E8F /* GitServerSettingTableViewController.swift */,
 				DCC441531E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift */,
+				DC8963BF1E38EEB900828B09 /* SSHKeySettingTableViewController.swift */,
 				DC037CA51E4B883900609409 /* OpenSourceComponentsTableViewController.swift */,
 				DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */,
 				DCFB77A81E502FF6008DE471 /* PasswordEditorTableViewController.swift */,
@@ -721,7 +722,6 @@
 				DCD3C65D1EFB9BB400CBE842 /* SettingsSplitViewController.swift */,
 				DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */,
 				DC037CA91E4B8EAE00609409 /* SpecialThanksTableViewController.swift */,
-				DC8963BF1E38EEB900828B09 /* SSHKeySettingTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

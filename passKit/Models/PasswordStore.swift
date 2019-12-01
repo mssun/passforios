@@ -198,15 +198,15 @@ public class PasswordStore {
         } catch {
             credential.delete()
             SharedDefaults[.lastSyncedTime] = nil
-            self.deleteCoreData(entityName: "PasswordEntity")
             DispatchQueue.main.async {
+                self.deleteCoreData(entityName: "PasswordEntity")
                 NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
             }
             throw(error)
         }
         SharedDefaults[.lastSyncedTime] = Date()
-        self.updatePasswordEntityCoreData()
         DispatchQueue.main.async {
+            self.updatePasswordEntityCoreData()
             NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         }
     }

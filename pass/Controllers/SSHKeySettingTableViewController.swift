@@ -29,6 +29,7 @@ class SSHKeySettingTableViewController: AutoCellHeightUITableViewController {
             try Data(contentsOf: privateKeyURL).write(to: URL(fileURLWithPath: SshKey.PRIVATE.getFileSharingPath()), options: .atomic)
             try self.passwordStore.gitSSHKeyImportFromFileSharing()
             SharedDefaults[.gitSSHKeySource] = .file
+            SharedDefaults[.gitAuthenticationMethod] = .key
             SVProgressHUD.showSuccess(withStatus: "Imported".localize())
             SVProgressHUD.dismiss(withDelay: 1)
         } catch {

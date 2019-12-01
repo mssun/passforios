@@ -66,6 +66,7 @@ class GitSSHKeyArmorSettingTableViewController: AutoCellHeightUITableViewControl
             Utils.alert(title: "CannotSave".localize(), message: "CannotSaveSshKey".localize(), controller: self, completion: nil)
         }
         SharedDefaults[.gitSSHKeySource] = .armor
+        SharedDefaults[.gitAuthenticationMethod] = .key
         self.navigationController!.popViewController(animated: true)
     }
 

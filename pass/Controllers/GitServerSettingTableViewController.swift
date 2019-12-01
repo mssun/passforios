@@ -65,7 +65,6 @@ class GitServerSettingTableViewController: UITableViewController {
         usernameTextField.text = self.gitUsername
         branchNameTextField.text = self.gitBranchName
         sshLabel = authSSHKeyCell.subviews[0].subviews[0] as? UILabel
-        updateAuthenticationMethodCheckView(for: .password)
         authSSHKeyCell.accessoryType = .detailButton
     }
 
@@ -73,6 +72,7 @@ class GitServerSettingTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         // Grey out ssh option if ssh_key is not present.
         sshLabel?.isEnabled = AppKeychain.shared.contains(key: SshKey.PRIVATE.getKeychainKey())
+        updateAuthenticationMethodCheckView(for: gitAuthenticationMethod)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -248,6 +248,8 @@ class GitServerSettingTableViewController: UITableViewController {
                         SVProgressHUD.showSuccess(withStatus: "Imported".localize())
                         SVProgressHUD.dismiss(withDelay: 1)
                         self.sshLabel?.isEnabled = true
+                        self.gitAuthenticationMethod = .key
+                        self.updateAuthenticationMethodCheckView(for: self.gitAuthenticationMethod)
                     } catch {
                         Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self)
                     }
