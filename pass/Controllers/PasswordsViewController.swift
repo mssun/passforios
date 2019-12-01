@@ -704,7 +704,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     private func requestCredentialPassword(credential: GitCredential.Credential, lastPassword: String?) -> String? {
-        return passKit.requestCredentialPassword(credential: credential, lastPassword: lastPassword, controller: self)
+        return requestGitCredentialPassword(credential: credential, lastPassword: lastPassword, controller: self)
     }
 
 }

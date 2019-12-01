@@ -286,7 +286,7 @@ class GitServerSettingTableViewController: UITableViewController {
     }
 
     private func requestCredentialPassword(credential: GitCredential.Credential, lastPassword: String?) -> String? {
-        return passKit.requestCredentialPassword(credential: credential, lastPassword: lastPassword, controller: self)
+        return requestGitCredentialPassword(credential: credential, lastPassword: lastPassword, controller: self)
     }
 
     private func updateAuthenticationMethodCheckView(for method: GitAuthenticationMethod) {

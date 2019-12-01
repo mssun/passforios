@@ -80,6 +80,7 @@
 		556EC3DB22335D3D00934F9C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DBF21F3599E00BB27BB /* InfoPlist.strings */; };
 		8BA607EB4C9C8258741AC18C /* Pods_passExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14E955B67C88672AA3A40BA0 /* Pods_passExtension.framework */; };
 		9A8A8387402FCCCECB1232A4 /* Pods_passKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2B2F844061EFA534FE9506 /* Pods_passKitTests.framework */; };
+		9AA710CA23939C68009E3213 /* GitCredentialPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA710C923939C68009E3213 /* GitCredentialPassword.swift */; };
 		A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */; };
 		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */; };
 		A2367B9C1EEFE2E500C8FE8B /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */; };
@@ -294,6 +295,7 @@
 		62DEE9943E0F2B8C79E3FC5B /* Pods-passExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-passExtension/Pods-passExtension.release.xcconfig"; sourceTree = "<group>"; };
 		64AA8DF9E73F39CCC3317247 /* Pods-passKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-passKit/Pods-passKit.release.xcconfig"; sourceTree = "<group>"; };
 		7CAD21E487234A0631B52E20 /* Pods-passKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passKit/Pods-passKit.debug.xcconfig"; sourceTree = "<group>"; };
+		9AA710C923939C68009E3213 /* GitCredentialPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitCredentialPassword.swift; sourceTree = "<group>"; };
 		A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurePasteboard.swift; sourceTree = "<group>"; };
 		A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = GitConfigSettingTableViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A2367B9F1EF0387000C8FE8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -730,6 +732,7 @@
 				A2BC54C71EEE5669001FAFBD /* Objective-CBridgingHeader.h */,
 				A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */,
 				A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */,
+				9AA710C923939C68009E3213 /* GitCredentialPassword.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1404,6 +1407,7 @@
 				A2802BF91E70813A00879216 /* SliderTableViewCell.swift in Sources */,
 				DC037CB21E4CAB1700609409 /* AboutRepositoryTableViewController.swift in Sources */,
 				A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift in Sources */,
+				9AA710CA23939C68009E3213 /* GitCredentialPassword.swift in Sources */,
 				DC037CB01E4CA51F00609409 /* GeneralSettingsTableViewController.swift in Sources */,
 				DC037CB81E4DD1A500609409 /* AddPasswordTableViewController.swift in Sources */,
 				DCC441521E8F6C06008A90C4 /* RawPasswordViewController.swift in Sources */,
