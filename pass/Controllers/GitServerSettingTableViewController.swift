@@ -12,6 +12,7 @@ import passKit
 
 
 class GitServerSettingTableViewController: UITableViewController {
+    // MARK: - View Outlet
 
     @IBOutlet weak var gitURLTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
@@ -21,9 +22,10 @@ class GitServerSettingTableViewController: UITableViewController {
     @IBOutlet weak var gitURLCell: UITableViewCell!
     @IBOutlet weak var gitRepositoryURLTabelViewCell: UITableViewCell!
 
-    private let passwordStore = PasswordStore.shared
-    private var sshLabel: UILabel? = nil
+    // MARK: - Properties
 
+    private var sshLabel: UILabel? = nil
+    private let passwordStore = PasswordStore.shared
     private var gitAuthenticationMethod: GitAuthenticationMethod {
         get { SharedDefaults[.gitAuthenticationMethod] }
         set {
@@ -55,25 +57,9 @@ class GitServerSettingTableViewController: UITableViewController {
         }
     }
 
-    private func updateAuthenticationMethodCheckView(for method: GitAuthenticationMethod) {
-        let passwordCheckView = authPasswordCell.viewWithTag(1001)!
-        let sshKeyCheckView = authSSHKeyCell.viewWithTag(1001)!
 
-        switch method {
-        case .password:
-            passwordCheckView.isHidden = false
-            sshKeyCheckView.isHidden = true
-        case .key:
-            passwordCheckView.isHidden = true
-            sshKeyCheckView.isHidden = false
-        }
-    }
+    // MARK: - View Controller Lifecycle
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // Grey out ssh option if ssh_key is not present
-        sshLabel?.isEnabled = AppKeychain.shared.contains(key: SshKey.PRIVATE.getKeychainKey())
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
         gitURLTextField.text = self.gitUrl.absoluteString
@@ -84,6 +70,19 @@ class GitServerSettingTableViewController: UITableViewController {
         authSSHKeyCell.accessoryType = .detailButton
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Grey out ssh option if ssh_key is not present.
+        sshLabel?.isEnabled = AppKeychain.shared.contains(key: SshKey.PRIVATE.getKeychainKey())
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.endEditing(true)
+    }
+
+    // MARK: - UITableViewController Override
+
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         if cell == authSSHKeyCell {
@@ -93,19 +92,71 @@ class GitServerSettingTableViewController: UITableViewController {
         }
     }
 
-    private func showGitURLFormatHelp() {
-        Utils.alert(title: "Git URL Format", message: "https://example.com[:port]/project.git\nssh://[user@]server[:port]/project.git\n[user@]server:project.git (no scheme)", controller: self)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        if cell == authPasswordCell {
+            self.gitAuthenticationMethod = .password
+        } else if cell == authSSHKeyCell {
+            if !AppKeychain.shared.contains(key: SshKey.PRIVATE.getKeychainKey()) {
+                Utils.alert(title: "CannotSelectSshKey".localize(), message: "PleaseSetupSshKeyFirst.".localize(), controller: self)
+                gitAuthenticationMethod = .password
+            } else {
+                gitAuthenticationMethod = .key
+            }
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    // MARK: - Segue Handlers
 
+    @IBAction func save(_ sender: Any) {
+        guard let gitURLTextFieldText = gitURLTextField.text, let gitURL = URL(string: gitURLTextFieldText.trimmed) else {
+            Utils.alert(title: "CannotSave".localize(), message: "SetGitRepositoryUrl".localize(), controller: self)
+            return
+        }
+
+        guard let branchName = branchNameTextField.text, !branchName.trimmed.isEmpty else {
+            Utils.alert(title: "CannotSave".localize(), message: "SpecifyBranchName.".localize(), controller: self)
+            return
+        }
+
+        if let scheme = gitURL.scheme {
+            switch scheme {
+            case "ssh", "http", "https":
+                if gitURL.user == nil && usernameTextField.text == nil {
+                    Utils.alert(title: "CannotSave".localize(), message: "CannotFindUsername.".localize(), controller: self)
+                    return
+                }
+                if let urlUsername = gitURL.user, let textFieldUsername = usernameTextField.text, urlUsername != textFieldUsername.trimmed {
+                    Utils.alert(title: "CannotSave".localize(), message: "CheckEnteredUsername.".localize(), controller: self)
+                    return
+                }
+            case "file": break
+            default:
+                Utils.alert(title: "CannotSave".localize(), message: "Protocol is not supported", controller: self)
+                return
+            }
+        }
+
+        self.gitUrl = gitURL
+        self.gitBranchName = branchName.trimmed
+        self.gitUsername = (gitURL.user ?? usernameTextField.text ?? "git").trimmed
+
+        if passwordStore.repositoryExisted() {
+            let overwriteAlert: UIAlertController = {
+                let alert = UIAlertController(title: "Overwrite?".localize(), message: "OperationWillOverwriteData.".localize(), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Overwrite".localize(), style: .destructive) { _ in
+                    self.cloneAndSegueIfSuccess()
+                })
+                alert.addAction(UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil))
+                return alert
+            }()
+            self.present(overwriteAlert, animated: true, completion: nil)
+        } else {
+            cloneAndSegueIfSuccess()
+        }
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        view.endEditing(true)
-    }
 
     private func cloneAndSegueIfSuccess() {
         // Remember git credential password/passphrase temporarily, ask whether users want this after a successful clone.
@@ -113,7 +164,8 @@ class GitServerSettingTableViewController: UITableViewController {
         DispatchQueue.global(qos: .userInitiated).async() {
             do {
                 let transferProgressBlock: (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void = { (git_transfer_progress, _) in
-                    let progress = Float(git_transfer_progress.pointee.received_objects) / Float(git_transfer_progress.pointee.total_objects)
+                    let gitTransferProgress = git_transfer_progress.pointee
+                    let progress = Float(gitTransferProgress.received_objects) / Float(gitTransferProgress.total_objects)
                     SVProgressHUD.showProgress(progress, status: "Cloning Remote Repository")
                 }
 
@@ -153,121 +205,64 @@ class GitServerSettingTableViewController: UITableViewController {
                 if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
                     message = "\(message)\n\("UnderlyingError".localize(underlyingError.localizedDescription))"
                 }
-                Utils.alert(title: "Error".localize(), message: message, controller: self, completion: nil)
+                Utils.alert(title: "Error".localize(), message: message, controller: self)
             }
         }
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        if cell == authPasswordCell {
-            self.gitAuthenticationMethod = .password
-        } else if cell == authSSHKeyCell {
-            if !AppKeychain.shared.contains(key: SshKey.PRIVATE.getKeychainKey()) {
-                Utils.alert(title: "CannotSelectSshKey".localize(), message: "PleaseSetupSshKeyFirst.".localize(), controller: self, completion: nil)
-                gitAuthenticationMethod = .password
-            } else {
-                gitAuthenticationMethod = .key
-            }
-        }
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
 
-    @IBAction func save(_ sender: Any) {
-        guard let gitURLTextFieldText = gitURLTextField.text, let gitURL = URL(string: gitURLTextFieldText.trimmed) else {
-            Utils.alert(title: "CannotSave".localize(), message: "SetGitRepositoryUrl".localize(), controller: self, completion: nil)
-            return
-        }
+    // MARK: - Helper Functions
 
-        guard let branchName = branchNameTextField.text, !branchName.trimmed.isEmpty else {
-            Utils.alert(title: "CannotSave".localize(), message: "SpecifyBranchName.".localize(), controller: self, completion: nil)
-            return
-        }
-
-        if let scheme = gitURL.scheme {
-            switch scheme {
-            case "ssh", "http", "https":
-                if gitURL.user == nil && usernameTextField.text == nil {
-                    Utils.alert(title: "CannotSave".localize(), message: "CannotFindUsername.".localize(), controller: self, completion: nil)
-                    return
-                }
-                if let urlUsername = gitURL.user, let textFieldUsername = usernameTextField.text, urlUsername != textFieldUsername.trimmed {
-                    Utils.alert(title: "CannotSave".localize(), message: "CheckEnteredUsername.".localize(), controller: self, completion: nil)
-                    return
-                }
-            case "file": break
-            default:
-                Utils.alert(title: "CannotSave".localize(), message: "Protocol is not supported", controller: self, completion: nil)
-                return
-            }
-        }
-
-        self.gitUrl = gitURL
-        self.gitBranchName = branchName.trimmed
-        self.gitUsername = (gitURL.user ?? usernameTextField.text ?? "git").trimmed
-
-        if passwordStore.repositoryExisted() {
-            let overwriteAlert: UIAlertController = {
-                let alert = UIAlertController(title: "Overwrite?".localize(), message: "OperationWillOverwriteData.".localize(), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Overwrite".localize(), style: .destructive) { _ in
-                    self.cloneAndSegueIfSuccess()
-                })
-                alert.addAction(UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil))
-                return alert
-            }()
-            self.present(overwriteAlert, animated: true, completion: nil)
-        } else {
-            cloneAndSegueIfSuccess()
-        }
-    }
-
-    func showSSHKeyActionSheet() {
+    private func showSSHKeyActionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var urlActionTitle = "DownloadFromUrl".localize()
         var armorActionTitle = "AsciiArmorEncryptedKey".localize()
         var fileActionTitle = "ITunesFileSharing".localize()
 
-        if SharedDefaults[.gitSSHKeySource] == "url" {
-            urlActionTitle = "✓ \(urlActionTitle)"
-        } else if SharedDefaults[.gitSSHKeySource] == "armor" {
-            armorActionTitle = "✓ \(armorActionTitle)"
-        } else if SharedDefaults[.gitSSHKeySource] == "file" {
-            fileActionTitle = "✓ \(fileActionTitle)"
+        switch SharedDefaults[.gitSSHKeySource] {
+        case .url: urlActionTitle = "✓ \(urlActionTitle)"
+        case .armor: armorActionTitle = "✓ \(armorActionTitle)"
+        case .file: fileActionTitle = "✓ \(fileActionTitle)"
+        case .none: break
         }
+
         let urlAction = UIAlertAction(title: urlActionTitle, style: .default) { _ in
             self.performSegue(withIdentifier: "setGitSSHKeyByURLSegue", sender: self)
         }
+        optionMenu.addAction(urlAction)
+
         let armorAction = UIAlertAction(title: armorActionTitle, style: .default) { _ in
             self.performSegue(withIdentifier: "setGitSSHKeyByArmorSegue", sender: self)
         }
-        let cancelAction = UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil)
-        optionMenu.addAction(urlAction)
         optionMenu.addAction(armorAction)
 
-        if KeyFileManager.PrivateSsh.doesKeyFileExist() {
-            // might keys updated via iTunes, or downloaded/pasted inside the app
-            fileActionTitle.append(" (\("Import".localize()))")
-            let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
-                do {
-                    try self.passwordStore.gitSSHKeyImportFromFileSharing()
-                    SharedDefaults[.gitSSHKeySource] = "file"
-                    SVProgressHUD.showSuccess(withStatus: "Imported".localize())
-                    SVProgressHUD.dismiss(withDelay: 1)
-                    self.sshLabel?.isEnabled = true
-                } catch {
-                    Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
+        let fileAction: UIAlertAction = {
+            if KeyFileManager.PrivateSsh.doesKeyFileExist() {
+                fileActionTitle.append(" (\("Import".localize()))")
+                let action = UIAlertAction(title: fileActionTitle, style: .default) { _ in
+                    do {
+                        try self.passwordStore.gitSSHKeyImportFromFileSharing()
+                        SharedDefaults[.gitSSHKeySource] = .file
+                        SVProgressHUD.showSuccess(withStatus: "Imported".localize())
+                        SVProgressHUD.dismiss(withDelay: 1)
+                        self.sshLabel?.isEnabled = true
+                    } catch {
+                        Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self)
+                    }
                 }
+                return action
+            } else {
+                fileActionTitle.append(" (\("Tips".localize()))")
+                let action = UIAlertAction(title: fileActionTitle, style: .default) { _ in
+                    let title = "Tips".localize()
+                    let message = "SshCopyPrivateKeyToPass.".localize()
+                    Utils.alert(title: title, message: message, controller: self)
+                }
+                return action
             }
-            optionMenu.addAction(fileAction)
-        } else {
-            fileActionTitle.append(" (\("Tips".localize()))")
-            let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
-                let title = "Tips".localize()
-                let message = "SshCopyPrivateKeyToPass.".localize()
-                Utils.alert(title: title, message: message, controller: self)
-            }
-            optionMenu.addAction(fileAction)
-        }
+
+        }()
+        optionMenu.addAction(fileAction)
 
         if SharedDefaults[.gitSSHKeySource] != nil {
             let deleteAction = UIAlertAction(title: "RemoveSShKeys".localize(), style: .destructive) { _ in
@@ -278,9 +273,13 @@ class GitServerSettingTableViewController: UITableViewController {
             }
             optionMenu.addAction(deleteAction)
         }
+
+        let cancelAction = UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil)
         optionMenu.addAction(cancelAction)
+
         optionMenu.popoverPresentationController?.sourceView = authSSHKeyCell
         optionMenu.popoverPresentationController?.sourceRect = authSSHKeyCell.bounds
+
         self.present(optionMenu, animated: true, completion: nil)
     }
 
@@ -317,4 +316,28 @@ class GitServerSettingTableViewController: UITableViewController {
         let _ = sem.wait(timeout: .distantFuture)
         return password
     }
+
+    private func updateAuthenticationMethodCheckView(for method: GitAuthenticationMethod) {
+        let passwordCheckView = authPasswordCell.viewWithTag(1001)
+        let sshKeyCheckView = authSSHKeyCell.viewWithTag(1001)
+
+        switch method {
+        case .password:
+            passwordCheckView?.isHidden = false
+            sshKeyCheckView?.isHidden = true
+        case .key:
+            passwordCheckView?.isHidden = true
+            sshKeyCheckView?.isHidden = false
+        }
+    }
+
+    private func showGitURLFormatHelp() {
+        let message = """
+            https://example.com[:port]/project.git
+            ssh://[user@]server[:port]/project.git
+            [user@]server:project.git (no scheme)
+            """
+        Utils.alert(title: "Git URL Format", message: message, controller: self)
+    }
+
 }

@@ -11,6 +11,14 @@ import SwiftyUserDefaults
 
 public var SharedDefaults = UserDefaults(suiteName: Globals.groupIdentifier)!
 
+public enum GitAuthenticationMethod: String, DefaultsSerializable {
+    case password, key
+}
+
+public enum GitSSHKeySource: String, DefaultsSerializable {
+    case file, armor, url
+}
+
 public extension DefaultsKeys {
     static let pgpKeySource = DefaultsKey<String?>("pgpKeySource")
     static let pgpPublicKeyURL = DefaultsKey<URL?>("pgpPublicKeyURL")
@@ -27,7 +35,7 @@ public extension DefaultsKeys {
     static let gitUsername = DefaultsKey<String>("gitUsername", defaultValue: "git")
     static let gitBranchName = DefaultsKey<String>("gitBranchName", defaultValue: "master")
     static let gitSSHPrivateKeyURL = DefaultsKey<URL?>("gitSSHPrivateKeyURL")
-    static let gitSSHKeySource = DefaultsKey<String?>("gitSSHKeySource")
+    static let gitSSHKeySource = DefaultsKey<GitSSHKeySource?>("gitSSHKeySource")
     static let gitSignatureName = DefaultsKey<String?>("gitSignatureName")
     static let gitSignatureEmail = DefaultsKey<String?>("gitSignatureEmail")
 
