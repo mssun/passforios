@@ -8,6 +8,43 @@
 
 import Foundation
 import ObjectiveGit
+import SVProgressHUD
+
+public func requestCredentialPassword(credential: GitCredential.Credential,
+                                      lastPassword: String?,
+                                      controller: UIViewController) -> String? {
+    let sem = DispatchSemaphore(value: 0)
+    var password: String?
+    let message: String = {
+        switch credential {
+        case .http:
+            return "FillInGitAccountPassword.".localize()
+        case .ssh:
+            return "FillInSshKeyPassphrase.".localize()
+        }
+    }()
+
+    DispatchQueue.main.async {
+        SVProgressHUD.dismiss()
+        let alert = UIAlertController(title: "Password".localize(), message: message, preferredStyle: .alert)
+        alert.addTextField() {
+            $0.text = lastPassword ?? ""
+            $0.isSecureTextEntry = true
+        }
+        alert.addAction(UIAlertAction(title: "Ok".localize(), style: .default) { _ in
+            password = alert.textFields?.first?.text
+            sem.signal()
+        })
+        alert.addAction(UIAlertAction(title: "Cancel".localize(), style: .cancel) { _ in
+            password = nil
+            sem.signal()
+        })
+        controller.present(alert, animated: true)
+    }
+
+    let _ = sem.wait(timeout: .distantFuture)
+    return password
+}
 
 public struct GitCredential {
     private var credential: Credential
@@ -22,7 +59,7 @@ public struct GitCredential {
         self.credential = credential
     }
 
-    public func credentialProvider(requestGitPassword: @escaping (Credential, String?) -> String?) throws -> GTCredentialProvider {
+    public func credentialProvider(requestCredentialPassword: @escaping (Credential, String?) -> String?) throws -> GTCredentialProvider {
         var attempts = 0
         return GTCredentialProvider { (_, _, _) -> (GTCredential?) in
             var credential: GTCredential? = nil
@@ -35,7 +72,7 @@ public struct GitCredential {
                 }
                 var lastPassword = self.passwordStore.gitPassword
                 if lastPassword == nil || attempts != 0 {
-                    if let requestedPassword = requestGitPassword(self.credential, lastPassword) {
+                    if let requestedPassword = requestCredentialPassword(self.credential, lastPassword) {
                         if SharedDefaults[.isRememberGitCredentialPassphraseOn] {
                             self.passwordStore.gitPassword = requestedPassword
                         }
@@ -53,7 +90,7 @@ public struct GitCredential {
                 }
                 var lastPassword = self.passwordStore.gitSSHPrivateKeyPassphrase
                 if lastPassword == nil || attempts != 0  {
-                    if let requestedPassword = requestGitPassword(self.credential, lastPassword) {
+                    if let requestedPassword = requestCredentialPassword(self.credential, lastPassword) {
                         if SharedDefaults[.isRememberGitCredentialPassphraseOn] {
                             self.passwordStore.gitSSHPrivateKeyPassphrase = requestedPassword
                         }

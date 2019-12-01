@@ -189,13 +189,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
-                try self.passwordStore.pullRepository(credential: self.gitCredential, requestGitPassword: self.requestGitPassword(credential:lastPassword:), transferProgressBlock: {(git_transfer_progress, stop) in
+                try self.passwordStore.pullRepository(credential: self.gitCredential, requestCredentialPassword: self.requestCredentialPassword, progressBlock: {(git_transfer_progress, stop) in
                     DispatchQueue.main.async {
                         SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "PullingFromRemoteRepository".localize())
                     }
                 })
                 if self.passwordStore.numberOfLocalCommits > 0 {
-                    try self.passwordStore.pushRepository(credential: self.gitCredential, requestGitPassword: self.requestGitPassword(credential:lastPassword:), transferProgressBlock: {(current, total, bytes, stop) in
+                    try self.passwordStore.pushRepository(credential: self.gitCredential, requestCredentialPassword: self.requestCredentialPassword, transferProgressBlock: {(current, total, bytes, stop) in
                         DispatchQueue.main.async {
                             SVProgressHUD.showProgress(Float(current)/Float(total), status: "PushingToRemoteRepository".localize())
                         }
@@ -703,37 +703,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         return true
     }
 
-    private func requestGitPassword(credential: GitCredential.Credential, lastPassword: String?) -> String? {
-        let sem = DispatchSemaphore(value: 0)
-        var password: String?
-        var message = ""
-        switch credential {
-        case .http:
-            message = "FillInGitAccountPassword.".localize()
-        case .ssh:
-            message = "FillInSshKeyPassphrase.".localize()
-        }
-
-        DispatchQueue.main.async {
-            SVProgressHUD.dismiss()
-            let alert = UIAlertController(title: "Password".localize(), message: message, preferredStyle: UIAlertController.Style.alert)
-            alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = lastPassword ?? ""
-                textField.isSecureTextEntry = true
-            })
-            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
-                password = alert.textFields!.first!.text
-                sem.signal()
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: .cancel) { _ in
-                password = nil
-                sem.signal()
-            })
-            self.present(alert, animated: true, completion: nil)
-        }
-
-        let _ = sem.wait(timeout: .distantFuture)
-        return password
+    private func requestCredentialPassword(credential: GitCredential.Credential, lastPassword: String?) -> String? {
+        return passKit.requestCredentialPassword(credential: credential, lastPassword: lastPassword, controller: self)
     }
 
 }

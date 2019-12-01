@@ -176,68 +176,71 @@ public class PasswordStore {
     public func cloneRepository(remoteRepoURL: URL,
                                 credential: GitCredential,
                                 branchName: String,
-                                requestGitPassword: @escaping (GitCredential.Credential, String?) -> String?,
+                                requestCredentialPassword: @escaping (GitCredential.Credential, String?) -> String?,
                                 transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
-                                checkoutProgressBlock: @escaping (String?, UInt, UInt) -> Void) throws {
+                                checkoutProgressBlock: @escaping (String, UInt, UInt) -> Void) throws {
         try? fm.removeItem(at: storeURL)
         try? fm.removeItem(at: tempStoreURL)
         self.gitPassword = nil
         self.gitSSHPrivateKeyPassphrase = nil
         do {
-            let credentialProvider = try credential.credentialProvider(requestGitPassword: requestGitPassword)
+            let credentialProvider = try credential.credentialProvider(requestCredentialPassword: requestCredentialPassword)
             let options = [GTRepositoryCloneOptionsCredentialProvider: credentialProvider]
-            storeRepository = try GTRepository.clone(from: remoteRepoURL, toWorkingDirectory: tempStoreURL, options: options, transferProgressBlock:transferProgressBlock)
+            storeRepository = try GTRepository.clone(from: remoteRepoURL,
+                                                     toWorkingDirectory: tempStoreURL,
+                                                     options: options,
+                                                     transferProgressBlock: transferProgressBlock)
             try fm.moveItem(at: tempStoreURL, to: storeURL)
             storeRepository = try GTRepository(url: storeURL)
-            if (try? storeRepository?.currentBranch().name) != branchName {
-                try checkoutAndChangeBranch(withName: branchName)
+            if (try storeRepository?.currentBranch().name) != branchName {
+                try checkoutAndChangeBranch(withName: branchName, progressBlock: checkoutProgressBlock)
             }
         } catch {
             credential.delete()
+            SharedDefaults[.lastSyncedTime] = nil
+            self.deleteCoreData(entityName: "PasswordEntity")
             DispatchQueue.main.async {
-                SharedDefaults[.lastSyncedTime] = nil
-                self.deleteCoreData(entityName: "PasswordEntity")
                 NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
             }
             throw(error)
         }
+        SharedDefaults[.lastSyncedTime] = Date()
+        self.updatePasswordEntityCoreData()
         DispatchQueue.main.async {
-            SharedDefaults[.lastSyncedTime] = Date()
-            self.updatePasswordEntityCoreData()
             NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         }
     }
     
-    private func checkoutAndChangeBranch(withName localBranchName: String) throws {
+    private func checkoutAndChangeBranch(withName localBranchName: String, progressBlock: @escaping (String, UInt, UInt) -> Void) throws {
         guard let storeRepository = storeRepository else {
             throw AppError.RepositoryNotSet
         }
         let remoteBranchName = "origin/\(localBranchName)"
-        guard let remoteBranch = try? storeRepository.lookUpBranch(withName: remoteBranchName, type: .remote, success: nil) else {
-            throw AppError.RepositoryRemoteBranchNotFound(remoteBranchName)
-        }
+        let remoteBranch = try storeRepository.lookUpBranch(withName: remoteBranchName, type: .remote, success: nil)
         guard let remoteBranchOid = remoteBranch.oid else {
             throw AppError.RepositoryRemoteBranchNotFound(remoteBranchName)
         }
         let localBranch = try storeRepository.createBranchNamed(localBranchName, from: remoteBranchOid, message: nil)
         try localBranch.updateTrackingBranch(remoteBranch)
-        let checkoutOptions = GTCheckoutOptions.init(strategy: .force)
+        let checkoutOptions = GTCheckoutOptions(strategy: .force, progressBlock: progressBlock)
         try storeRepository.checkoutReference(localBranch.reference, options: checkoutOptions)
         try storeRepository.moveHEAD(to: localBranch.reference)
     }
     
-    public func pullRepository(credential: GitCredential, requestGitPassword: @escaping (GitCredential.Credential, String?) -> String?, transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
+    public func pullRepository(credential: GitCredential,
+                               requestCredentialPassword: @escaping (GitCredential.Credential, String?) -> String?,
+                               progressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
         guard let storeRepository = storeRepository else {
             throw AppError.RepositoryNotSet
         }
-        let credentialProvider = try credential.credentialProvider(requestGitPassword: requestGitPassword)
+        let credentialProvider = try credential.credentialProvider(requestCredentialPassword: requestCredentialPassword)
         let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
         let remote = try GTRemote(name: "origin", in: storeRepository)
-        try storeRepository.pull(storeRepository.currentBranch(), from: remote, withOptions: options, progress: transferProgressBlock)
+        try storeRepository.pull(storeRepository.currentBranch(), from: remote, withOptions: options, progress: progressBlock)
+        SharedDefaults[.lastSyncedTime] = Date()
+        self.setAllSynced()
+        self.updatePasswordEntityCoreData()
         DispatchQueue.main.async {
-            SharedDefaults[.lastSyncedTime] = Date()
-            self.setAllSynced()
-            self.updatePasswordEntityCoreData()
             NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         }
     }
@@ -245,7 +248,7 @@ public class PasswordStore {
     private func updatePasswordEntityCoreData() {
         deleteCoreData(entityName: "PasswordEntity")
         do {
-            var q = try fm.contentsOfDirectory(atPath: self.storeURL.path).filter{
+            var q = try fm.contentsOfDirectory(atPath: self.storeURL.path).filter {
                 !$0.hasPrefix(".")
                 }.map { (filename) -> PasswordEntity in
                     let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
@@ -443,12 +446,12 @@ public class PasswordStore {
         return branches.first
     }
     
-    public func pushRepository(credential: GitCredential, requestGitPassword: @escaping (GitCredential.Credential, String?) -> String?, transferProgressBlock: @escaping (UInt32, UInt32, Int, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
+    public func pushRepository(credential: GitCredential, requestCredentialPassword: @escaping (GitCredential.Credential, String?) -> String?, transferProgressBlock: @escaping (UInt32, UInt32, Int, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
         guard let storeRepository = storeRepository else {
             throw AppError.RepositoryNotSet
         }
         do {
-            let credentialProvider = try credential.credentialProvider(requestGitPassword: requestGitPassword)
+            let credentialProvider = try credential.credentialProvider(requestCredentialPassword: requestCredentialPassword)
             let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
             if let branch = try getLocalBranch(withName: SharedDefaults[.gitBranchName]) {
                 let remote = try GTRemote(name: "origin", in: storeRepository)

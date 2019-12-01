@@ -24,7 +24,7 @@ class GitServerSettingTableViewController: UITableViewController {
 
     // MARK: - Properties
 
-    private var sshLabel: UILabel? = nil
+    private var sshLabel: UILabel?
     private let passwordStore = PasswordStore.shared
     private var gitAuthenticationMethod: GitAuthenticationMethod {
         get { SharedDefaults[.gitAuthenticationMethod] }
@@ -56,7 +56,6 @@ class GitServerSettingTableViewController: UITableViewController {
             }
         }
     }
-
 
     // MARK: - View Controller Lifecycle
 
@@ -151,12 +150,11 @@ class GitServerSettingTableViewController: UITableViewController {
                 alert.addAction(UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil))
                 return alert
             }()
-            self.present(overwriteAlert, animated: true, completion: nil)
+            self.present(overwriteAlert, animated: true)
         } else {
             cloneAndSegueIfSuccess()
         }
     }
-
 
     private func cloneAndSegueIfSuccess() {
         // Remember git credential password/passphrase temporarily, ask whether users want this after a successful clone.
@@ -169,7 +167,7 @@ class GitServerSettingTableViewController: UITableViewController {
                     SVProgressHUD.showProgress(progress, status: "Cloning Remote Repository")
                 }
 
-                let checkoutProgressBlock: (String?, UInt, UInt) -> Void = { (_, completedSteps, totalSteps) in
+                let checkoutProgressBlock: (String, UInt, UInt) -> Void = { (_, completedSteps, totalSteps) in
                     let progress = Float(completedSteps) / Float(totalSteps)
                     SVProgressHUD.showProgress(progress, status: "CheckingOutBranch".localize(self.gitBranchName))
                 }
@@ -177,7 +175,7 @@ class GitServerSettingTableViewController: UITableViewController {
                 try self.passwordStore.cloneRepository(remoteRepoURL: self.gitUrl,
                                                        credential: self.gitCredential,
                                                        branchName: self.gitBranchName,
-                                                       requestGitPassword: self.requestGitPassword,
+                                                       requestCredentialPassword: self.requestCredentialPassword,
                                                        transferProgressBlock: transferProgressBlock,
                                                        checkoutProgressBlock: checkoutProgressBlock)
 
@@ -196,20 +194,24 @@ class GitServerSettingTableViewController: UITableViewController {
                         })
                         return alert
                     }()
-                    self.present(savePassphraseAlert, animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        self.present(savePassphraseAlert, animated: true)
+                    }
                 }
             } catch {
-                SVProgressHUD.dismiss()
-                let error = error as NSError
-                var message = error.localizedDescription
-                if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
-                    message = "\(message)\n\("UnderlyingError".localize(underlyingError.localizedDescription))"
+                SVProgressHUD.dismiss() {
+                    let error = error as NSError
+                    var message = error.localizedDescription
+                    if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
+                        message = "\(message)\n\("UnderlyingError".localize(underlyingError.localizedDescription))"
+                    }
+                    DispatchQueue.main.async {
+                        Utils.alert(title: "Error".localize(), message: message, controller: self)
+                    }
                 }
-                Utils.alert(title: "Error".localize(), message: message, controller: self)
             }
         }
     }
-
 
     // MARK: - Helper Functions
 
@@ -280,41 +282,11 @@ class GitServerSettingTableViewController: UITableViewController {
         optionMenu.popoverPresentationController?.sourceView = authSSHKeyCell
         optionMenu.popoverPresentationController?.sourceRect = authSSHKeyCell.bounds
 
-        self.present(optionMenu, animated: true, completion: nil)
+        self.present(optionMenu, animated: true)
     }
 
-    private func requestGitPassword(credential: GitCredential.Credential, lastPassword: String?) -> String? {
-        let sem = DispatchSemaphore(value: 0)
-        var password: String?
-        let message: String = {
-            switch credential {
-            case .http:
-                return "FillInGitAccountPassword.".localize()
-            case .ssh:
-                return "FillInSshKeyPassphrase.".localize()
-            }
-        }()
-
-        DispatchQueue.main.async {
-            SVProgressHUD.dismiss()
-            let alert = UIAlertController(title: "Password".localize(), message: message, preferredStyle: .alert)
-            alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = lastPassword ?? ""
-                textField.isSecureTextEntry = true
-            })
-            alert.addAction(UIAlertAction(title: "Ok".localize(), style: .default, handler: {_ in
-                password = alert.textFields!.first!.text
-                sem.signal()
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: .cancel) { _ in
-                password = nil
-                sem.signal()
-            })
-            self.present(alert, animated: true, completion: nil)
-        }
-
-        let _ = sem.wait(timeout: .distantFuture)
-        return password
+    private func requestCredentialPassword(credential: GitCredential.Credential, lastPassword: String?) -> String? {
+        return passKit.requestCredentialPassword(credential: credential, lastPassword: lastPassword, controller: self)
     }
 
     private func updateAuthenticationMethodCheckView(for method: GitAuthenticationMethod) {
