@@ -49,11 +49,6 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "saveAddPasswordSegue" {
-            var plainText = (fillPasswordCell?.getContent())!
-            if let additionsString = additionsCell?.getContent(), additionsString.isEmpty == false {
-                plainText.append("\n")
-                plainText.append(additionsString)
-            }
             let (name, url) = getNameURL()
             password = Password(name: name, url: url, plainText: plainText)
         }

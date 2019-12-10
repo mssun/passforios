@@ -79,7 +79,6 @@ public class Password {
         initEverything()
     }
 
-
     public func updatePassword(name: String, url: URL, plainText: String) {
         guard self.plainText != plainText || self.url != url else {
             return

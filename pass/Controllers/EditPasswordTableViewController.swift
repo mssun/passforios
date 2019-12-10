@@ -38,14 +38,10 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "saveEditPasswordSegue" {
-            var plainText = (fillPasswordCell?.getContent())!
-            if let additionsString = additionsCell?.getContent(), additionsString.isEmpty == false {
-                plainText.append("\n")
-                plainText.append(additionsString)
-            }
+            let editedPlainText = plainText
             let (name, url) = getNameURL()
-            if password!.plainText != plainText || password!.url.path != url.path {
-                password!.updatePassword(name: name, url: url, plainText: plainText)
+            if password!.plainText != editedPlainText || password!.url.path != url.path {
+                password!.updatePassword(name: name, url: url, plainText: editedPlainText)
             }
         }
     }
