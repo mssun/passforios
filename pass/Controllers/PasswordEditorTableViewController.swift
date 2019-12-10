@@ -43,6 +43,18 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     private var scanQRCodeCell: UITableViewCell?
     private var memorablePasswordGeneratorCell: UITableViewCell?
 
+    var plainText: String {
+        var plainText = (fillPasswordCell?.getContent())!
+        if let additionsString = additionsCell?.getContent(), !additionsString.isEmpty {
+            plainText.append("\n")
+            plainText.append(additionsString)
+        }
+        if !plainText.trimmingCharacters(in: .whitespaces).hasSuffix("\n") {
+            plainText.append("\n")
+        }
+        return plainText
+    }
+
     override func loadView() {
         super.loadView()
 
