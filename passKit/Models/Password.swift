@@ -124,8 +124,8 @@ public class Password {
             return title != Constants.USERNAME_KEYWORD
                 && title != Constants.LOGIN_KEYWORD
                 && title != Constants.PASSWORD_KEYWORD
-                && (!Constants.isUnknown(title) || !SharedDefaults[.isHideUnknownOn])
-                && (!Constants.isOtpKeyword(title) || !SharedDefaults[.isHideOTPOn])
+                && (!Constants.isUnknown(title) || !Defaults.isHideUnknownOn)
+                && (!Constants.isOtpKeyword(title) || !Defaults.isHideOTPOn)
         }
     }
 

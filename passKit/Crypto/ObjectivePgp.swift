@@ -36,7 +36,7 @@ struct ObjectivePgp: PgpInterface {
 
     func encrypt(plainData: Data) throws -> Data {
         let encryptedData = try ObjectivePGP.encrypt(plainData, addSignature: false, using: keyring.keys, passphraseForKey: nil)
-        if SharedDefaults[.encryptInArmored] {
+        if Defaults.encryptInArmored {
             return Armor.armored(encryptedData, as: .message).data(using: .ascii)!
         }
         return encryptedData

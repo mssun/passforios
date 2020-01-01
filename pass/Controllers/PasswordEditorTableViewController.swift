@@ -116,7 +116,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             return fillPasswordCell!
         case .passwordLengthCell:
             passwordLengthCell = tableView.dequeueReusableCell(withIdentifier: "passwordLengthCell", for: indexPath) as? SliderTableViewCell
-            let lengthSetting = PasswordGeneratorFlavour.from(SharedDefaults[.passwordGeneratorFlavor]).defaultLength
+            let lengthSetting = PasswordGeneratorFlavour.from(Defaults.passwordGeneratorFlavor).defaultLength
             let minimumLength = lengthSetting.min
             let maximumLength = lengthSetting.max
             var defaultLength = lengthSetting.def
@@ -215,7 +215,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         showPasswordSettings()
 
         let length = passwordLengthCell?.roundedValue ?? 0
-        let plainPassword = PasswordGeneratorFlavour.from(SharedDefaults[.passwordGeneratorFlavor]).generatePassword(length: length)
+        let plainPassword = PasswordGeneratorFlavour.from(Defaults.passwordGeneratorFlavor).generatePassword(length: length)
 
         // update tableData so to make sure reloadData() works correctly
         tableData[passwordSection][0][PasswordEditorCellKey.content] = plainPassword

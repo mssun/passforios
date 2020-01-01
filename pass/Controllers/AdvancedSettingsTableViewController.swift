@@ -28,7 +28,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        encryptInASCIIArmoredSwitch.isOn = SharedDefaults[.encryptInArmored]
+        encryptInASCIIArmoredSwitch.isOn = Defaults.encryptInArmored
         encryptInASCIIArmoredTableViewCell.accessoryView = encryptInASCIIArmoredSwitch
         encryptInASCIIArmoredTableViewCell.selectionStyle = .none
         setGitSignatureText()
@@ -39,7 +39,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
         let gitSignatureEmail = passwordStore.gitSignatureForNow?.email ?? ""
         self.gitSignatureTableViewCell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
         self.gitSignatureTableViewCell.detailTextLabel?.text = "\(gitSignatureName) <\(gitSignatureEmail)>"
-        if SharedDefaults[.gitSignatureName] == nil && SharedDefaults[.gitSignatureEmail] == nil {
+        if Defaults.gitSignatureName == nil && Defaults.gitSignatureEmail == nil {
             self.gitSignatureTableViewCell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .body)
             gitSignatureTableViewCell.detailTextLabel?.text = "NotSet".localize()
         }
@@ -78,15 +78,15 @@ class AdvancedSettingsTableViewController: UITableViewController {
     }
 
     @objc func encryptInASCIIArmoredAction(_ sender: Any?) {
-        SharedDefaults[.encryptInArmored] = encryptInASCIIArmoredSwitch.isOn
+        Defaults.encryptInArmored = encryptInASCIIArmoredSwitch.isOn
     }
 
     @IBAction func saveGitConfigSetting(segue: UIStoryboardSegue) {
         if let controller = segue.source as? GitConfigSettingTableViewController {
             if let gitSignatureName = controller.nameTextField.text,
                 let gitSignatureEmail = controller.emailTextField.text {
-                SharedDefaults[.gitSignatureName] = gitSignatureName.isEmpty ? nil : gitSignatureName
-                SharedDefaults[.gitSignatureEmail] = gitSignatureEmail.isEmpty ? nil : gitSignatureEmail
+                Defaults.gitSignatureName = gitSignatureName.isEmpty ? nil : gitSignatureName
+                Defaults.gitSignatureEmail = gitSignatureEmail.isEmpty ? nil : gitSignatureEmail
             }
             setGitSignatureText()
         }

@@ -33,7 +33,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
         uiSwitch.addTarget(self, action: #selector(rememberPGPPassphraseSwitchAction(_:)), for: UIControl.Event.valueChanged)
-        uiSwitch.isOn = SharedDefaults[.isRememberPGPPassphraseOn]
+        uiSwitch.isOn = Defaults.isRememberPGPPassphraseOn
         return uiSwitch
     }()
 
@@ -42,7 +42,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
         uiSwitch.addTarget(self, action: #selector(rememberGitCredentialPassphraseSwitchAction(_:)), for: UIControl.Event.valueChanged)
-        uiSwitch.isOn = SharedDefaults[.isRememberGitCredentialPassphraseOn]
+        uiSwitch.isOn = Defaults.isRememberGitCredentialPassphraseOn
         return uiSwitch
     }()
 
@@ -51,7 +51,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
         uiSwitch.addTarget(self, action: #selector(showFolderSwitchAction(_:)), for: UIControl.Event.valueChanged)
-        uiSwitch.isOn = SharedDefaults[.isShowFolderOn]
+        uiSwitch.isOn = Defaults.isShowFolderOn
         return uiSwitch
     }()
 
@@ -60,7 +60,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
         uiSwitch.addTarget(self, action: #selector(hidePasswordImagesSwitchAction(_:)), for: UIControl.Event.valueChanged)
-        uiSwitch.isOn = SharedDefaults[.isHidePasswordImagesOn]
+        uiSwitch.isOn = Defaults.isHidePasswordImagesOn
         return uiSwitch
     }()
 
@@ -105,7 +105,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             accessoryView.addSubview(hideUnknownSwitch)
             cell.accessoryView = accessoryView
             cell.selectionStyle = .none
-            hideUnknownSwitch.isOn = SharedDefaults[.isHideUnknownOn]
+            hideUnknownSwitch.isOn = Defaults.isHideUnknownOn
         case "HideOtpFields".localize():
             cell.accessoryType = .none
             let detailButton = UIButton(type: .detailDisclosure)
@@ -117,7 +117,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             accessoryView.addSubview(hideOTPSwitch)
             cell.accessoryView = accessoryView
             cell.selectionStyle = .none
-            hideOTPSwitch.isOn = SharedDefaults[.isHideOTPOn]
+            hideOTPSwitch.isOn = Defaults.isHideOTPOn
         case "RememberPgpKeyPassphrase".localize():
             cell.accessoryType = .none
             cell.selectionStyle = .none
@@ -141,10 +141,10 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             accessoryView.addSubview(hidePasswordImagesSwitch)
             cell.accessoryView = accessoryView
             cell.selectionStyle = .none
-            hidePasswordImagesSwitch.isOn = SharedDefaults[.isHidePasswordImagesOn]
+            hidePasswordImagesSwitch.isOn = Defaults.isHidePasswordImagesOn
         case "PasswordGeneratorFlavor".localize():
             cell.accessoryType = .disclosureIndicator
-            cell.detailTextLabel?.text = PasswordGeneratorFlavour.from(SharedDefaults[.passwordGeneratorFlavor]).name
+            cell.detailTextLabel?.text = PasswordGeneratorFlavour.from(Defaults.passwordGeneratorFlavor).name
         default: break
         }
         return cell
@@ -163,7 +163,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var randomFlavorActionTitle = ""
         var appleFlavorActionTitle = ""
-        if SharedDefaults[.passwordGeneratorFlavor] == PasswordGeneratorFlavour.RANDOM.rawValue {
+        if Defaults.passwordGeneratorFlavor == PasswordGeneratorFlavour.RANDOM.rawValue {
             randomFlavorActionTitle = "✓ " + "RandomString".localize()
             appleFlavorActionTitle = "ApplesKeychainStyle".localize()
         } else {
@@ -171,12 +171,12 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             appleFlavorActionTitle = "✓ " + "ApplesKeychainStyle".localize()
         }
         let randomFlavorAction = UIAlertAction(title: randomFlavorActionTitle, style: .default) { _ in
-            SharedDefaults[.passwordGeneratorFlavor] = PasswordGeneratorFlavour.RANDOM.rawValue
+            Defaults.passwordGeneratorFlavor = PasswordGeneratorFlavour.RANDOM.rawValue
             sourceCell.detailTextLabel?.text = PasswordGeneratorFlavour.RANDOM.name
         }
 
         let appleFlavorAction = UIAlertAction(title: appleFlavorActionTitle, style: .default) { _ in
-            SharedDefaults[.passwordGeneratorFlavor] = PasswordGeneratorFlavour.APPLE.rawValue
+            Defaults.passwordGeneratorFlavor = PasswordGeneratorFlavour.APPLE.rawValue
             sourceCell.detailTextLabel?.text = PasswordGeneratorFlavour.APPLE.name
         }
 
@@ -209,24 +209,24 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     }
 
     @objc func hideUnknownSwitchAction(_ sender: Any?) {
-        SharedDefaults[.isHideUnknownOn] = hideUnknownSwitch.isOn
+        Defaults.isHideUnknownOn = hideUnknownSwitch.isOn
         NotificationCenter.default.post(name: .passwordDetailDisplaySettingChanged, object: nil)
     }
 
     @objc func hideOTPSwitchAction(_ sender: Any?) {
-        SharedDefaults[.isHideOTPOn] = hideOTPSwitch.isOn
+        Defaults.isHideOTPOn = hideOTPSwitch.isOn
         NotificationCenter.default.post(name: .passwordDetailDisplaySettingChanged, object: nil)
     }
 
     @objc func rememberPGPPassphraseSwitchAction(_ sender: Any?) {
-        SharedDefaults[.isRememberPGPPassphraseOn] = rememberPGPPassphraseSwitch.isOn
+        Defaults.isRememberPGPPassphraseOn = rememberPGPPassphraseSwitch.isOn
         if rememberPGPPassphraseSwitch.isOn == false {
             AppKeychain.shared.removeContent(for: Globals.pgpKeyPassphrase)
         }
     }
 
     @objc func rememberGitCredentialPassphraseSwitchAction(_ sender: Any?) {
-        SharedDefaults[.isRememberGitCredentialPassphraseOn] = rememberGitCredentialPassphraseSwitch.isOn
+        Defaults.isRememberGitCredentialPassphraseOn = rememberGitCredentialPassphraseSwitch.isOn
         if rememberGitCredentialPassphraseSwitch.isOn == false {
             passwordStore.gitSSHPrivateKeyPassphrase = nil
             passwordStore.gitPassword = nil
@@ -234,12 +234,12 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     }
 
     @objc func showFolderSwitchAction(_ sender: Any?) {
-        SharedDefaults[.isShowFolderOn] = showFolderSwitch.isOn
+        Defaults.isShowFolderOn = showFolderSwitch.isOn
         NotificationCenter.default.post(name: .passwordDisplaySettingChanged, object: nil)
     }
 
     @objc func hidePasswordImagesSwitchAction(_ sender: Any?) {
-        SharedDefaults[.isHidePasswordImagesOn] = hidePasswordImagesSwitch.isOn
+        Defaults.isHidePasswordImagesOn = hidePasswordImagesSwitch.isOn
         NotificationCenter.default.post(name: .passwordDetailDisplaySettingChanged, object: nil)
     }
 

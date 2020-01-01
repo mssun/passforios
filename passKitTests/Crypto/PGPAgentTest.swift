@@ -12,9 +12,6 @@ import SwiftyUserDefaults
 @testable import passKit
 
 class PGPAgentTest: XCTestCase {
-    enum ValidationError: Error {
-        case emptyName
-    }
     private var keychain: KeyStore!
     private var pgpAgent: PGPAgent!
 
@@ -25,7 +22,7 @@ class PGPAgentTest: XCTestCase {
         keychain = DictBasedKeychain()
         pgpAgent = PGPAgent(keyStore: keychain)
         UserDefaults().removePersistentDomain(forName: "SharedDefaultsForPGPAgentTest")
-        SharedDefaults = UserDefaults(suiteName: "SharedDefaultsForPGPAgentTest")!
+        passKit.Defaults = DefaultsAdapter(defaults: UserDefaults(suiteName: "SharedDefaultsForPGPAgentTest")!, keyStore: DefaultsKeys())
     }
 
     override func tearDown() {
@@ -35,9 +32,9 @@ class PGPAgentTest: XCTestCase {
     }
 
     func basicEncryptDecrypt(using pgpAgent: PGPAgent, requestPassphrase: () -> String = requestPGPKeyPassphrase, encryptInArmored: Bool = true, encryptInArmoredNow: Bool = true) throws -> Data? {
-        SharedDefaults[.encryptInArmored] = encryptInArmored
+        passKit.Defaults.encryptInArmored = encryptInArmored
         let encryptedData = try pgpAgent.encrypt(plainData: testData)
-        SharedDefaults[.encryptInArmored] = encryptInArmoredNow
+        passKit.Defaults.encryptInArmored = encryptInArmoredNow
         return try pgpAgent.decrypt(encryptedData: encryptedData, requestPGPKeyPassphrase: requestPassphrase)
     }
 

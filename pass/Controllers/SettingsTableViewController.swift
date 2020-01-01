@@ -27,17 +27,17 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
     @IBAction func savePGPKey(segue: UIStoryboardSegue) {
         if let controller = segue.source as? PGPKeySettingTableViewController {
-            SharedDefaults[.pgpPrivateKeyURL] = URL(string: controller.pgpPrivateKeyURLTextField.text!.trimmed)
-            SharedDefaults[.pgpPublicKeyURL] = URL(string: controller.pgpPublicKeyURLTextField.text!.trimmed)
-            SharedDefaults[.pgpKeySource] = "url"
+            Defaults.pgpPrivateKeyURL = URL(string: controller.pgpPrivateKeyURLTextField.text!.trimmed)
+            Defaults.pgpPublicKeyURL = URL(string: controller.pgpPublicKeyURLTextField.text!.trimmed)
+            Defaults.pgpKeySource = "url"
 
             SVProgressHUD.setDefaultMaskType(.black)
             SVProgressHUD.setDefaultStyle(.light)
             SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())
             DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
                 do {
-                    try KeyFileManager.PublicPgp.importKey(from: SharedDefaults[.pgpPublicKeyURL]!)
-                    try KeyFileManager.PrivatePgp.importKey(from: SharedDefaults[.pgpPrivateKeyURL]!)
+                    try KeyFileManager.PublicPgp.importKey(from: Defaults.pgpPublicKeyURL!)
+                    try KeyFileManager.PrivatePgp.importKey(from: Defaults.pgpPrivateKeyURL!)
                     try PGPAgent.shared.initKeys()
                     DispatchQueue.main.async {
                         self.setPGPKeyTableViewCellDetailText()
@@ -54,7 +54,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             }
 
         } else if let controller = segue.source as? PGPKeyArmorSettingTableViewController {
-            SharedDefaults[.pgpKeySource] = "armor"
+            Defaults.pgpKeySource = "armor"
 
             SVProgressHUD.setDefaultMaskType(.black)
             SVProgressHUD.setDefaultStyle(.light)
@@ -81,7 +81,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
     private func saveImportedPGPKey() {
         // load keys
-        SharedDefaults[.pgpKeySource] = "file"
+        Defaults.pgpKeySource = "file"
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())
@@ -105,7 +105,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     }
 
     @IBAction func saveGitServerSetting(segue: UIStoryboardSegue) {
-        self.passwordRepositoryTableViewCell.detailTextLabel?.text = SharedDefaults[.gitURL].host
+        self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults.gitURL.host
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -115,7 +115,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.actOnPasswordStoreErasedNotification), name: .passwordStoreErased, object: nil)
-        self.passwordRepositoryTableViewCell.detailTextLabel?.text = SharedDefaults[.gitURL].host
+        self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults.gitURL.host
         setPGPKeyTableViewCellDetailText()
         setPasscodeLockCell()
     }
@@ -140,7 +140,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
     private func setPasswordRepositoryTableViewCellDetailText() {
         let host: String? = {
-            let gitURL = SharedDefaults[.gitURL]
+            let gitURL = Defaults.gitURL
             if gitURL.scheme == nil {
                 return URL(string: "scheme://" + gitURL.absoluteString)?.host
             } else {
@@ -186,11 +186,11 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         var armorActionTitle = "AsciiArmorEncryptedKey".localize()
         var fileActionTitle = "ITunesFileSharing".localize()
 
-        if SharedDefaults[.pgpKeySource] == "url" {
+        if Defaults.pgpKeySource == "url" {
            urlActionTitle = "✓ \(urlActionTitle)"
-        } else if SharedDefaults[.pgpKeySource] == "armor" {
+        } else if Defaults.pgpKeySource == "armor" {
             armorActionTitle = "✓ \(armorActionTitle)"
-        } else if SharedDefaults[.pgpKeySource] == "file" {
+        } else if Defaults.pgpKeySource == "file" {
             fileActionTitle = "✓ \(fileActionTitle)"
         }
         let urlAction = UIAlertAction(title: urlActionTitle, style: .default) { _ in
@@ -211,7 +211,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
                 // no
                 savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: UIAlertAction.Style.default) { _ in
                     self.keychain.removeContent(for: Globals.pgpKeyPassphrase)
-                    SharedDefaults[.isRememberPGPPassphraseOn] = false
+                    Defaults.isRememberPGPPassphraseOn = false
                     self.saveImportedPGPKey()
                 })
                 // yes
@@ -220,7 +220,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
                     let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertController.Style.alert)
                     alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
                         self.keychain.add(string: alert.textFields?.first?.text, for: Globals.pgpKeyPassphrase)
-                        SharedDefaults[.isRememberPGPPassphraseOn] = true
+                        Defaults.isRememberPGPPassphraseOn = true
                         self.saveImportedPGPKey()
                     }))
                     alert.addTextField(configurationHandler: {(textField: UITextField!) in
@@ -243,7 +243,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         }
 
 
-        if SharedDefaults[.pgpKeySource] != nil {
+        if Defaults.pgpKeySource != nil {
             let deleteAction = UIAlertAction(title: "RemovePgpKeys".localize(), style: .destructive) { _ in
                 self.keychain.removeContent(for: PgpKey.PUBLIC.getKeychainKey())
                 self.keychain.removeContent(for: PgpKey.PRIVATE.getKeychainKey())
