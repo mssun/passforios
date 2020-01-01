@@ -28,14 +28,14 @@ class SSHKeySettingTableViewController: AutoCellHeightUITableViewController {
         do {
             try Data(contentsOf: privateKeyURL).write(to: URL(fileURLWithPath: SshKey.PRIVATE.getFileSharingPath()), options: .atomic)
             try self.passwordStore.gitSSHKeyImportFromFileSharing()
-            SharedDefaults[.gitSSHKeySource] = .file
-            SharedDefaults[.gitAuthenticationMethod] = .key
+            Defaults.gitSSHKeySource = .file
+            Defaults.gitAuthenticationMethod = .key
             SVProgressHUD.showSuccess(withStatus: "Imported".localize())
             SVProgressHUD.dismiss(withDelay: 1)
         } catch {
             Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
         }
-        SharedDefaults[.gitSSHKeySource] = .url
+        Defaults.gitSSHKeySource = .url
         self.navigationController!.popViewController(animated: true)
     }
 

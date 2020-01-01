@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyUserDefaults
 
-public var SharedDefaults = UserDefaults(suiteName: Globals.groupIdentifier)!
+public var Defaults = DefaultsAdapter(defaults: UserDefaults(suiteName: Globals.groupIdentifier)!, keyStore: DefaultsKeys())
 
 public enum GitAuthenticationMethod: String, DefaultsSerializable {
     case password, key
@@ -20,37 +20,37 @@ public enum GitSSHKeySource: String, DefaultsSerializable {
 }
 
 public extension DefaultsKeys {
-    static let pgpKeySource = DefaultsKey<String?>("pgpKeySource")
-    static let pgpPublicKeyURL = DefaultsKey<URL?>("pgpPublicKeyURL")
-    static let pgpPrivateKeyURL = DefaultsKey<URL?>("pgpPrivateKeyURL")
+    var pgpKeySource: DefaultsKey<String?> { .init("pgpKeySource") }
+    var pgpPublicKeyURL: DefaultsKey<URL?> { .init("pgpPublicKeyURL") }
+    var pgpPrivateKeyURL: DefaultsKey<URL?> { .init("pgpPrivateKeyURL") }
 
     // Keep them for legacy reasons.
-    static let pgpPublicKeyArmor = DefaultsKey<String?>("pgpPublicKeyArmor")
-    static let pgpPrivateKeyArmor = DefaultsKey<String?>("pgpPrivateKeyArmor")
-    static let gitSSHPrivateKeyArmor = DefaultsKey<String?>("gitSSHPrivateKeyArmor")
-    static let passcodeKey = DefaultsKey<String?>("passcodeKey")
+    var pgpPublicKeyArmor: DefaultsKey<String?> { .init("pgpPublicKeyArmor") }
+    var pgpPrivateKeyArmor: DefaultsKey<String?> { .init("pgpPrivateKeyArmor") }
+    var gitSSHPrivateKeyArmor: DefaultsKey<String?> { .init("gitSSHPrivateKeyArmor") }
+    var passcodeKey: DefaultsKey<String?> { .init("passcodeKey") }
 
-    static let gitURL = DefaultsKey<URL>("gitURL", defaultValue: URL(string: "https://")!)
-    static let gitAuthenticationMethod = DefaultsKey<GitAuthenticationMethod>("gitAuthenticationMethod", defaultValue: GitAuthenticationMethod.password)
-    static let gitUsername = DefaultsKey<String>("gitUsername", defaultValue: "git")
-    static let gitBranchName = DefaultsKey<String>("gitBranchName", defaultValue: "master")
-    static let gitSSHPrivateKeyURL = DefaultsKey<URL?>("gitSSHPrivateKeyURL")
-    static let gitSSHKeySource = DefaultsKey<GitSSHKeySource?>("gitSSHKeySource")
-    static let gitSignatureName = DefaultsKey<String?>("gitSignatureName")
-    static let gitSignatureEmail = DefaultsKey<String?>("gitSignatureEmail")
+    var gitURL: DefaultsKey<URL> { .init("gitURL", defaultValue: URL(string: "https://")!) }
+    var gitAuthenticationMethod: DefaultsKey<GitAuthenticationMethod> { .init("gitAuthenticationMethod", defaultValue: GitAuthenticationMethod.password) }
+    var gitUsername: DefaultsKey<String> { .init("gitUsername", defaultValue: "git") }
+    var gitBranchName: DefaultsKey<String> { .init("gitBranchName", defaultValue: "master") }
+    var gitSSHPrivateKeyURL: DefaultsKey<URL?> { .init("gitSSHPrivateKeyURL") }
+    var gitSSHKeySource: DefaultsKey<GitSSHKeySource?> { .init("gitSSHKeySource") }
+    var gitSignatureName: DefaultsKey<String?> { .init("gitSignatureName") }
+    var gitSignatureEmail: DefaultsKey<String?> { .init("gitSignatureEmail") }
 
-    static let lastSyncedTime = DefaultsKey<Date?>("lastSyncedTime")
+    var lastSyncedTime: DefaultsKey<Date?> { .init("lastSyncedTime") }
 
-    static let isTouchIDOn = DefaultsKey<Bool>("isTouchIDOn", defaultValue: false)
+    var isTouchIDOn: DefaultsKey<Bool> { .init("isTouchIDOn", defaultValue: false) }
 
-    static let isHideUnknownOn = DefaultsKey<Bool>("isHideUnknownOn", defaultValue: false)
-    static let isHideOTPOn = DefaultsKey<Bool>("isHideOTPOn", defaultValue: false)
-    static let isRememberPGPPassphraseOn = DefaultsKey<Bool>("isRememberPGPPassphraseOn", defaultValue: false)
-    static let isRememberGitCredentialPassphraseOn = DefaultsKey<Bool>("isRememberGitCredentialPassphraseOn", defaultValue: false)
-    static let isShowFolderOn = DefaultsKey<Bool>("isShowFolderOn", defaultValue: true)
-    static let isHidePasswordImagesOn = DefaultsKey<Bool>("isHidePasswordImagesOn", defaultValue: false)
-    static let searchDefault = DefaultsKey<SearchBarScope?>("searchDefault", defaultValue: .all)
-    static let passwordGeneratorFlavor = DefaultsKey<String>("passwordGeneratorFlavor", defaultValue: "Apple")
+    var isHideUnknownOn: DefaultsKey<Bool> { .init("isHideUnknownOn", defaultValue: false) }
+    var isHideOTPOn: DefaultsKey<Bool> { .init("isHideOTPOn", defaultValue: false) }
+    var isRememberPGPPassphraseOn: DefaultsKey<Bool> { .init("isRememberPGPPassphraseOn", defaultValue: false) }
+    var isRememberGitCredentialPassphraseOn: DefaultsKey<Bool> { .init("isRememberGitCredentialPassphraseOn", defaultValue: false) }
+    var isShowFolderOn: DefaultsKey<Bool> { .init("isShowFolderOn", defaultValue: true) }
+    var isHidePasswordImagesOn: DefaultsKey<Bool> { .init("isHidePasswordImagesOn", defaultValue: false) }
+    var searchDefault: DefaultsKey<SearchBarScope?> { .init("searchDefault", defaultValue: .all) }
+    var passwordGeneratorFlavor: DefaultsKey<String> { .init("passwordGeneratorFlavor", defaultValue: "Apple") }
 
-    static let encryptInArmored = DefaultsKey<Bool>("encryptInArmored", defaultValue: false)
+    var encryptInArmored: DefaultsKey<Bool> { .init("encryptInArmored", defaultValue: false) }
 }

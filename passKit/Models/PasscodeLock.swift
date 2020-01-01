@@ -16,9 +16,9 @@ public class PasscodeLock {
 
     /// Constructor used to migrate passcode from SharedDefaults to Keychain
     private init() {
-        if let passcode = SharedDefaults[.passcodeKey] {
+        if let passcode = Defaults.passcodeKey {
             save(passcode: passcode)
-            SharedDefaults[.passcodeKey] = nil
+            Defaults.passcodeKey = nil
         }
     }
 

@@ -27,32 +27,32 @@ class GitServerSettingTableViewController: UITableViewController {
     private var sshLabel: UILabel?
     private let passwordStore = PasswordStore.shared
     private var gitAuthenticationMethod: GitAuthenticationMethod {
-        get { SharedDefaults[.gitAuthenticationMethod] }
+        get { Defaults.gitAuthenticationMethod }
         set {
-            SharedDefaults[.gitAuthenticationMethod] = newValue
+            Defaults.gitAuthenticationMethod = newValue
             updateAuthenticationMethodCheckView(for: newValue)
         }
     }
     private var gitUrl: URL {
-        get { SharedDefaults[.gitURL] }
-        set { SharedDefaults[.gitURL] = newValue }
+        get { Defaults.gitURL }
+        set { Defaults.gitURL = newValue }
     }
     private var gitBranchName: String {
-        get { SharedDefaults[.gitBranchName] }
-        set { SharedDefaults[.gitBranchName] = newValue }
+        get { Defaults.gitBranchName }
+        set { Defaults.gitBranchName = newValue }
     }
     private var gitUsername: String {
-        get { SharedDefaults[.gitUsername] }
-        set { SharedDefaults[.gitUsername] = newValue }
+        get { Defaults.gitUsername }
+        set { Defaults.gitUsername = newValue }
     }
     private var gitCredential: GitCredential {
         get {
-            switch SharedDefaults[.gitAuthenticationMethod] {
+            switch Defaults.gitAuthenticationMethod {
             case .password:
-                return GitCredential(credential: .http(userName: SharedDefaults[.gitUsername]))
+                return GitCredential(credential: .http(userName: Defaults.gitUsername))
             case .key:
                 let privateKey: String = AppKeychain.shared.get(for: SshKey.PRIVATE.getKeychainKey()) ?? ""
-                return GitCredential(credential: .ssh(userName: SharedDefaults[.gitUsername], privateKey: privateKey))
+                return GitCredential(credential: .ssh(userName: Defaults.gitUsername, privateKey: privateKey))
             }
         }
     }
@@ -158,7 +158,7 @@ class GitServerSettingTableViewController: UITableViewController {
 
     private func cloneAndSegueIfSuccess() {
         // Remember git credential password/passphrase temporarily, ask whether users want this after a successful clone.
-        SharedDefaults[.isRememberGitCredentialPassphraseOn] = true
+        Defaults.isRememberGitCredentialPassphraseOn = true
         DispatchQueue.global(qos: .userInitiated).async() {
             do {
                 let transferProgressBlock: (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void = { (git_transfer_progress, _) in
@@ -183,13 +183,13 @@ class GitServerSettingTableViewController: UITableViewController {
                     let savePassphraseAlert: UIAlertController = {
                         let alert = UIAlertController(title: "Done".localize(), message: "WantToSaveGitCredential?".localize(), preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "No".localize(), style: .default) { _ in
-                            SharedDefaults[.isRememberGitCredentialPassphraseOn] = false
+                            Defaults.isRememberGitCredentialPassphraseOn = false
                             self.passwordStore.gitPassword = nil
                             self.passwordStore.gitSSHPrivateKeyPassphrase = nil
                             self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
                         })
                         alert.addAction(UIAlertAction(title: "Yes".localize(), style: .destructive) {_ in
-                            SharedDefaults[.isRememberGitCredentialPassphraseOn] = true
+                            Defaults.isRememberGitCredentialPassphraseOn = true
                             self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
                         })
                         return alert
@@ -221,7 +221,7 @@ class GitServerSettingTableViewController: UITableViewController {
         var armorActionTitle = "AsciiArmorEncryptedKey".localize()
         var fileActionTitle = "ITunesFileSharing".localize()
 
-        switch SharedDefaults[.gitSSHKeySource] {
+        switch Defaults.gitSSHKeySource {
         case .url: urlActionTitle = "✓ \(urlActionTitle)"
         case .armor: armorActionTitle = "✓ \(armorActionTitle)"
         case .file: fileActionTitle = "✓ \(fileActionTitle)"
@@ -244,7 +244,7 @@ class GitServerSettingTableViewController: UITableViewController {
                 let action = UIAlertAction(title: fileActionTitle, style: .default) { _ in
                     do {
                         try self.passwordStore.gitSSHKeyImportFromFileSharing()
-                        SharedDefaults[.gitSSHKeySource] = .file
+                        Defaults.gitSSHKeySource = .file
                         SVProgressHUD.showSuccess(withStatus: "Imported".localize())
                         SVProgressHUD.dismiss(withDelay: 1)
                         self.sshLabel?.isEnabled = true
@@ -268,10 +268,10 @@ class GitServerSettingTableViewController: UITableViewController {
         }()
         optionMenu.addAction(fileAction)
 
-        if SharedDefaults[.gitSSHKeySource] != nil {
+        if Defaults.gitSSHKeySource != nil {
             let deleteAction = UIAlertAction(title: "RemoveSShKeys".localize(), style: .destructive) { _ in
                 self.passwordStore.removeGitSSHKeys()
-                SharedDefaults[.gitSSHKeySource] = nil
+                Defaults.gitSSHKeySource = nil
                 self.sshLabel?.isEnabled = false
                 self.updateAuthenticationMethodCheckView(for: .password)
             }

@@ -47,7 +47,7 @@ struct GopenPgp: PgpInterface {
 
     func encrypt(plainData: Data) throws -> Data {
         let encryptedData = try publicKey.encrypt(CryptoNewPlainMessage(plainData.mutable as Data), privateKey: nil)
-        if SharedDefaults[.encryptInArmored] {
+        if Defaults.encryptInArmored {
             var error: NSError?
             let armor = encryptedData.getArmored(&error)
             guard error == nil else {
@@ -66,7 +66,7 @@ struct GopenPgp: PgpInterface {
 
     private func createPgpMessage(from encryptedData: Data) -> CryptoPGPMessage? {
         // Important note:
-        // Even if SharedDefaults[.encryptInArmored] is true now, it could be different during the encryption.
+        // Even if Defaults.encryptInArmored is true now, it could be different during the encryption.
         var error: NSError?
         let message = CryptoNewPGPMessageFromArmored(String(data: encryptedData, encoding: .ascii), &error)
         if error == nil {

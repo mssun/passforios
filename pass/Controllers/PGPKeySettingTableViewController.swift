@@ -19,8 +19,8 @@ class PGPKeySettingTableViewController: AutoCellHeightUITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        pgpPublicKeyURLTextField.text = SharedDefaults[.pgpPublicKeyURL]?.absoluteString
-        pgpPrivateKeyURLTextField.text = SharedDefaults[.pgpPrivateKeyURL]?.absoluteString
+        pgpPublicKeyURLTextField.text = Defaults.pgpPublicKeyURL?.absoluteString
+        pgpPrivateKeyURLTextField.text = Defaults.pgpPrivateKeyURL?.absoluteString
     }
 
     private func validatePGPKeyURL(input: String?) -> Bool {
@@ -44,7 +44,7 @@ class PGPKeySettingTableViewController: AutoCellHeightUITableViewController {
         // no
         savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: UIAlertAction.Style.default) { _ in
             self.keychain.removeContent(for: Globals.pgpKeyPassphrase)
-            SharedDefaults[.isRememberPGPPassphraseOn] = false
+            Defaults.isRememberPGPPassphraseOn = false
             self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
         })
         // yes
@@ -53,7 +53,7 @@ class PGPKeySettingTableViewController: AutoCellHeightUITableViewController {
             let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
                 self.keychain.add(string: alert.textFields?.first?.text, for: Globals.pgpKeyPassphrase)
-                SharedDefaults[.isRememberPGPPassphraseOn] = true
+                Defaults.isRememberPGPPassphraseOn = true
                 self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
             }))
             alert.addTextField(configurationHandler: {(textField: UITextField!) in

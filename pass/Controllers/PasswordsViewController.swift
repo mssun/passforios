@@ -44,12 +44,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     private var gitCredential: GitCredential {
         get {
-            switch SharedDefaults[.gitAuthenticationMethod] {
+            switch Defaults.gitAuthenticationMethod {
             case .password:
-                return GitCredential(credential: .http(userName: SharedDefaults[.gitUsername]))
+                return GitCredential(credential: .http(userName: Defaults.gitUsername))
             case .key:
                 let privateKey: String = AppKeychain.shared.get(for: SshKey.PRIVATE.getKeychainKey()) ?? ""
-                return GitCredential(credential: .ssh(userName: SharedDefaults[.gitUsername], privateKey: privateKey))
+                return GitCredential(credential: .ssh(userName: Defaults.gitUsername, privateKey: privateKey))
             }
         }
     }
@@ -135,7 +135,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         filteredPasswordsTableEntries.removeAll()
         var passwordEntities = [PasswordEntity]()
         var passwordAllEntities = [PasswordEntity]()
-        if SharedDefaults[.isShowFolderOn] {
+        if Defaults.isShowFolderOn {
             passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(parent: parent)
         } else {
             passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
@@ -230,7 +230,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if SharedDefaults[.isShowFolderOn] {
+        if Defaults.isShowFolderOn {
             searchController.searchBar.scopeButtonTitles = SearchBarScope.allCases.map { $0.localizedName }
         } else {
             searchController.searchBar.scopeButtonTitles = nil
@@ -396,7 +396,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     @objc func backAction(_ sender: Any?) {
-        guard SharedDefaults[.isShowFolderOn] else { return }
+        guard Defaults.isShowFolderOn else { return }
         var anim: CATransition? = transitionFromLeft
         if parentPasswordEntity == nil {
             anim = nil
@@ -464,7 +464,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             self.present(alert, animated: true, completion: nil)
         }
         let _ = sem.wait(timeout: DispatchTime.distantFuture)
-        if SharedDefaults[.isRememberPGPPassphraseOn] {
+        if Defaults.isRememberPGPPassphraseOn {
             self.keychain.add(string: passphrase, for: Globals.pgpKeyPassphrase)
         }
         return passphrase
@@ -682,13 +682,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         // update the default search scope
-        SharedDefaults[.searchDefault] = SearchBarScope(rawValue: selectedScope)
+        Defaults.searchDefault = SearchBarScope(rawValue: selectedScope)
         updateSearchResults(for: searchController)
     }
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         // set the default search scope to "all"
-        if SharedDefaults[.isShowFolderOn] && SharedDefaults[.searchDefault] == .all {
+        if Defaults.isShowFolderOn && Defaults.searchDefault == .all {
             searchController.searchBar.selectedScopeButtonIndex = SearchBarScope.all.rawValue
         } else {
             searchController.searchBar.selectedScopeButtonIndex = SearchBarScope.current.rawValue

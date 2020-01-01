@@ -36,7 +36,7 @@ public struct GitCredential {
                 var lastPassword = self.passwordStore.gitPassword
                 if lastPassword == nil || attempts != 0 {
                     if let requestedPassword = requestCredentialPassword(self.credential, lastPassword) {
-                        if SharedDefaults[.isRememberGitCredentialPassphraseOn] {
+                        if Defaults.isRememberGitCredentialPassphraseOn {
                             self.passwordStore.gitPassword = requestedPassword
                         }
                         lastPassword = requestedPassword
@@ -54,7 +54,7 @@ public struct GitCredential {
                 var lastPassword = self.passwordStore.gitSSHPrivateKeyPassphrase
                 if lastPassword == nil || attempts != 0  {
                     if let requestedPassword = requestCredentialPassword(self.credential, lastPassword) {
-                        if SharedDefaults[.isRememberGitCredentialPassphraseOn] {
+                        if Defaults.isRememberGitCredentialPassphraseOn {
                             self.passwordStore.gitSSHPrivateKeyPassphrase = requestedPassword
                         }
                         lastPassword = requestedPassword

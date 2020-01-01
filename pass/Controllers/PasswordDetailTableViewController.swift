@@ -103,7 +103,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self.present(alert, animated: true, completion: nil)
         }
         let _ = sem.wait(timeout: DispatchTime.distantFuture)
-        if SharedDefaults[.isRememberPGPPassphraseOn] {
+        if Defaults.isRememberPGPPassphraseOn {
             self.keychain.add(string: passphrase, for: Globals.pgpKeyPassphrase)
         }
         return passphrase
@@ -144,7 +144,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self?.setTableData()
             self?.tableView.reloadData()
             self?.editUIBarButtonItem.isEnabled = true
-            if !SharedDefaults[.isHidePasswordImagesOn] {
+            if !Defaults.isHidePasswordImagesOn {
                 if let urlString = self?.password?.urlString {
                     if self?.passwordEntity?.getImage() == nil {
                         self?.updatePasswordImage(urlString: urlString)
@@ -395,7 +395,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         switch(tableData[sectionIndex].type) {
         case .name:
             let cell = tableView.dequeueReusableCell(withIdentifier: "passwordDetailTitleTableViewCell", for: indexPath) as! PasswordDetailTitleTableViewCell
-            if !SharedDefaults[.isHidePasswordImagesOn] {
+            if !Defaults.isHidePasswordImagesOn {
                 cell.labelCellConstraint.isActive = false
                 cell.labelImageConstraint.isActive = true
                 cell.passwordImageImageView.image = passwordImage ?? #imageLiteral(resourceName: "PasswordImagePlaceHolder")
@@ -438,8 +438,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
 
         var numberOfHiddenFields = 0
-        numberOfHiddenFields += SharedDefaults[.isHideUnknownOn] ? password!.numberOfUnknowns : 0
-        numberOfHiddenFields += SharedDefaults[.isHideOTPOn] ? password!.numberOfOtpRelated : 0
+        numberOfHiddenFields += Defaults.isHideUnknownOn ? password!.numberOfUnknowns : 0
+        numberOfHiddenFields += Defaults.isHideOTPOn ? password!.numberOfOtpRelated : 0
         guard numberOfHiddenFields > 0 else {
             return
         }

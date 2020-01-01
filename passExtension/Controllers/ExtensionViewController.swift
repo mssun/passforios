@@ -225,7 +225,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
             self.present(alert, animated: true, completion: nil)
         }
         let _ = sem.wait(timeout: DispatchTime.distantFuture)
-        if SharedDefaults[.isRememberPGPPassphraseOn] {
+        if Defaults.isRememberPGPPassphraseOn {
             self.keychain.add(string: passphrase, for: Globals.pgpKeyPassphrase)
         }
         return passphrase

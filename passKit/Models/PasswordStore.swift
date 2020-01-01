@@ -29,8 +29,8 @@ public class PasswordStore {
     
     public var gitSignatureForNow: GTSignature? {
         get {
-            let gitSignatureName = SharedDefaults[.gitSignatureName] ?? Globals.gitSignatureDefaultName
-            let gitSignatureEmail = SharedDefaults[.gitSignatureEmail] ?? Globals.gitSignatureDefaultEmail
+            let gitSignatureName = Defaults.gitSignatureName ?? Globals.gitSignatureDefaultName
+            let gitSignatureEmail = Defaults.gitSignatureEmail ?? Globals.gitSignatureDefaultEmail
             return GTSignature(name: gitSignatureName, email: gitSignatureEmail, time: Date())
         }
     }
@@ -94,7 +94,7 @@ public class PasswordStore {
     }
     
     public var lastSyncedTime: Date? {
-        return SharedDefaults[.lastSyncedTime]
+        return Defaults.lastSyncedTime
     }
     
     public var numberOfCommits: UInt? {
@@ -119,9 +119,9 @@ public class PasswordStore {
         try? KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: Globals.pgpPublicKeyPath).importKeyFromFileSharing()
         try? KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: Globals.pgpPrivateKeyPath).importKeyFromFileSharing()
         try? KeyFileManager(keyType: SshKey.PRIVATE, keyPath: Globals.gitSSHPrivateKeyPath).importKeyFromFileSharing()
-        SharedDefaults.remove(.pgpPublicKeyArmor)
-        SharedDefaults.remove(.pgpPrivateKeyArmor)
-        SharedDefaults.remove(.gitSSHPrivateKeyArmor)
+        Defaults.remove(\.pgpPublicKeyArmor)
+        Defaults.remove(\.pgpPrivateKeyArmor)
+        Defaults.remove(\.gitSSHPrivateKeyArmor)
     }
     
     public func initGitSSHKey(with armorKey: String) throws {
@@ -197,14 +197,14 @@ public class PasswordStore {
             }
         } catch {
             credential.delete()
-            SharedDefaults[.lastSyncedTime] = nil
+            Defaults.lastSyncedTime = nil
             DispatchQueue.main.async {
                 self.deleteCoreData(entityName: "PasswordEntity")
                 NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
             }
             throw(error)
         }
-        SharedDefaults[.lastSyncedTime] = Date()
+        Defaults.lastSyncedTime = Date()
         DispatchQueue.main.async {
             self.updatePasswordEntityCoreData()
             NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
@@ -237,7 +237,7 @@ public class PasswordStore {
         let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
         let remote = try GTRemote(name: "origin", in: storeRepository)
         try storeRepository.pull(storeRepository.currentBranch(), from: remote, withOptions: options, progress: progressBlock)
-        SharedDefaults[.lastSyncedTime] = Date()
+        Defaults.lastSyncedTime = Date()
         self.setAllSynced()
         self.updatePasswordEntityCoreData()
         DispatchQueue.main.async {
@@ -453,7 +453,7 @@ public class PasswordStore {
         do {
             let credentialProvider = try credential.credentialProvider(requestCredentialPassword: requestCredentialPassword)
             let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
-            if let branch = try getLocalBranch(withName: SharedDefaults[.gitBranchName]) {
+            if let branch = try getLocalBranch(withName: Defaults.gitBranchName) {
                 let remote = try GTRemote(name: "origin", in: storeRepository)
                 try storeRepository.push(branch, to: remote, withOptions: options, progress: transferProgressBlock)
             }
@@ -620,7 +620,7 @@ public class PasswordStore {
         deleteCoreData(entityName: "PasswordEntity")
         
         // Delete default settings.
-        SharedDefaults.removeAll()
+        Defaults.removeAll()
         
         // Clean up variables inside PasswordStore.
         storeRepository = nil
@@ -666,7 +666,7 @@ public class PasswordStore {
             throw AppError.RepositoryNotSet
         }
         // get the remote branch
-        let remoteBranchName = SharedDefaults[.gitBranchName]
+        let remoteBranchName = Defaults.gitBranchName
         guard let remoteBranch = try storeRepository.remoteBranches().first(where: { $0.shortName == remoteBranchName }) else {
             throw AppError.RepositoryRemoteBranchNotFound(remoteBranchName)
         }
@@ -696,9 +696,9 @@ public class PasswordStore {
     
     public func removeGitSSHKeys() {
         try? fm.removeItem(atPath: Globals.gitSSHPrivateKeyPath)
-        Defaults.remove(.gitSSHKeySource)
-        Defaults.remove(.gitSSHPrivateKeyArmor)
-        Defaults.remove(.gitSSHPrivateKeyURL)
+        Defaults.remove(\.gitSSHKeySource)
+        Defaults.remove(\.gitSSHPrivateKeyArmor)
+        Defaults.remove(\.gitSSHPrivateKeyURL)
         AppKeychain.shared.removeContent(for: SshKey.PRIVATE.getKeychainKey())
         gitSSHPrivateKeyPassphrase = nil
     }
