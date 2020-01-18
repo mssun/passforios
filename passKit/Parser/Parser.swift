@@ -16,9 +16,7 @@ class Parser {
     private(set) lazy var additionFields = getAdditionFields()
 
     init(plainText: String) {
-        let splittedPlainText = plainText
-            .split(omittingEmptySubsequences: false) { $0 == "\n" || $0 == "\r\n" }
-            .map(String.init)
+        let splittedPlainText = plainText.splitByNewline()
 
         firstLine = splittedPlainText.first!
         additionsSection = splittedPlainText[1...].joined(separator: "\n")

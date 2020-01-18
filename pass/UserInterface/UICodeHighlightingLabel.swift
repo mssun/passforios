@@ -29,14 +29,12 @@ class UICodeHighlightingLabel: UILocalizedLabel {
     /// - Parameter text: Multiline string block
     /// - Returns: Same multiline string block with code sections formatted
     private func formatCode(in text: String) -> NSMutableAttributedString {
-        let formattedText = text
-            .split(omittingEmptySubsequences: false) {
-                $0 == "\n" || $0 == "\r\n"
-            }.map { line -> NSAttributedString in
+        let formattedText = text.splitByNewline()
+            .map { line -> NSAttributedString in
                 if line.starts(with: "  ") {
-                    return NSAttributedString(string: String(line), attributes: UICodeHighlightingLabel.CODE_ATTRIBUTES)
+                    return NSAttributedString(string: line, attributes: UICodeHighlightingLabel.CODE_ATTRIBUTES)
                 }
-                return NSAttributedString(string: String(line))
+                return NSAttributedString(string: line)
             }.reduce(into: NSMutableAttributedString(string: "")) {
                 $0.append($1)
                 $0.append(UICodeHighlightingLabel.ATTRIBUTED_NEWLINE)
