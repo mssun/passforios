@@ -17,6 +17,10 @@ extension String {
         allowed.insert(charactersIn: unreserved)
         return addingPercentEncoding(withAllowedCharacters: allowed)
     }
+
+    public func splitByNewline() -> [String] {
+        return split(omittingEmptySubsequences: false) { $0 == "\n" || $0 == "\r\n" }.map(String.init)
+    }
 }
 
 extension String {
