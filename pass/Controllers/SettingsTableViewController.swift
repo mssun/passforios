@@ -26,74 +26,28 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     }
 
     @IBAction func savePGPKey(segue: UIStoryboardSegue) {
-        if let controller = segue.source as? PGPKeySettingTableViewController {
-            Defaults.pgpPrivateKeyURL = URL(string: controller.pgpPrivateKeyURLTextField.text!.trimmed)
-            Defaults.pgpPublicKeyURL = URL(string: controller.pgpPublicKeyURLTextField.text!.trimmed)
-            Defaults.pgpKeySource = "url"
-
-            SVProgressHUD.setDefaultMaskType(.black)
-            SVProgressHUD.setDefaultStyle(.light)
-            SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())
-            DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
-                do {
-                    try KeyFileManager.PublicPgp.importKey(from: Defaults.pgpPublicKeyURL!)
-                    try KeyFileManager.PrivatePgp.importKey(from: Defaults.pgpPrivateKeyURL!)
-                    try PGPAgent.shared.initKeys()
-                    DispatchQueue.main.async {
-                        self.setPGPKeyTableViewCellDetailText()
-                        SVProgressHUD.showSuccess(withStatus: "Success".localize())
-                        SVProgressHUD.dismiss(withDelay: 1)
-                        Utils.alert(title: "RememberToRemoveKey".localize(), message: "RememberToRemoveKeyFromServer.".localize(), controller: self, completion: nil)
-                    }
-                } catch {
-                    DispatchQueue.main.async {
-                        self.pgpKeyTableViewCell.detailTextLabel?.text = "NotSet".localize()
-                        Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
-                    }
-                }
-            }
-
-        } else if let controller = segue.source as? PGPKeyArmorSettingTableViewController {
-            Defaults.pgpKeySource = "armor"
-
-            SVProgressHUD.setDefaultMaskType(.black)
-            SVProgressHUD.setDefaultStyle(.light)
-            SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())
-            DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
-                do {
-                    try KeyFileManager.PublicPgp.importKey(from: controller.armorPublicKeyTextView.text ?? "")
-                    try KeyFileManager.PrivatePgp.importKey(from: controller.armorPrivateKeyTextView.text ?? "")
-                    try PGPAgent.shared.initKeys()
-                    DispatchQueue.main.async {
-                        self.setPGPKeyTableViewCellDetailText()
-                        SVProgressHUD.showSuccess(withStatus: "Success".localize())
-                        SVProgressHUD.dismiss(withDelay: 1)
-                    }
-                } catch {
-                    DispatchQueue.main.async {
-                        self.pgpKeyTableViewCell.detailTextLabel?.text = "NotSet".localize()
-                        Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
-                    }
-                }
-            }
+        guard let sourceController = segue.source as? PGPKeyImporter else {
+            return
         }
+        savePGPKey(using: sourceController)
     }
 
-    private func saveImportedPGPKey() {
-        // load keys
-        Defaults.pgpKeySource = "file"
+    private func savePGPKey(using keyImporter: PGPKeyImporter) {
+        guard keyImporter.isReadyToUse() else {
+            return
+        }
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
-                try KeyFileManager.PublicPgp.importKeyFromFileSharing()
-                try KeyFileManager.PrivatePgp.importKeyFromFileSharing()
+                try keyImporter.importKeys()
                 try PGPAgent.shared.initKeys()
                 DispatchQueue.main.async {
                     self.setPGPKeyTableViewCellDetailText()
-                    SVProgressHUD.showSuccess(withStatus: "Imported".localize())
+                    SVProgressHUD.showSuccess(withStatus: "Success".localize())
                     SVProgressHUD.dismiss(withDelay: 1)
+                    keyImporter.doAfterImport()
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -106,10 +60,6 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
     @IBAction func saveGitServerSetting(segue: UIStoryboardSegue) {
         self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults.gitURL.host
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return super.tableView(tableView, numberOfRowsInSection: section)
     }
 
     override func viewDidLoad() {
@@ -182,66 +132,24 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
     func showPGPKeyActionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        var urlActionTitle = "DownloadFromUrl".localize()
-        var armorActionTitle = "AsciiArmorEncryptedKey".localize()
-        var fileActionTitle = "ITunesFileSharing".localize()
-
-        if Defaults.pgpKeySource == "url" {
-           urlActionTitle = "✓ \(urlActionTitle)"
-        } else if Defaults.pgpKeySource == "armor" {
-            armorActionTitle = "✓ \(armorActionTitle)"
-        } else if Defaults.pgpKeySource == "file" {
-            fileActionTitle = "✓ \(fileActionTitle)"
-        }
-        let urlAction = UIAlertAction(title: urlActionTitle, style: .default) { _ in
+        optionMenu.addAction(UIAlertAction(title: PGPKeyUrlTableViewController.menuLabel, style: .default) { _ in
             self.performSegue(withIdentifier: "setPGPKeyByURLSegue", sender: self)
-        }
-        let armorAction = UIAlertAction(title: armorActionTitle, style: .default) { _ in
+        })
+        optionMenu.addAction(UIAlertAction(title: PGPKeyArmorSettingTableViewController.menuLabel, style: .default) { _ in
             self.performSegue(withIdentifier: "setPGPKeyByASCIISegue", sender: self)
-        }
-        let cancelAction = UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil)
-        optionMenu.addAction(urlAction)
-        optionMenu.addAction(armorAction)
+        })
 
-        if KeyFileManager.PublicPgp.doesKeyFileExist() && KeyFileManager.PrivatePgp.doesKeyFileExist() {
-            fileActionTitle.append(" (\("Import".localize()))")
-            let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
-                // passphrase related
-                let savePassphraseAlert = UIAlertController(title: "Passphrase".localize(), message: "WantToSavePassphrase?".localize(), preferredStyle: UIAlertController.Style.alert)
-                // no
-                savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: UIAlertAction.Style.default) { _ in
-                    self.keychain.removeContent(for: Globals.pgpKeyPassphrase)
-                    Defaults.isRememberPGPPassphraseOn = false
-                    self.saveImportedPGPKey()
-                })
-                // yes
-                savePassphraseAlert.addAction(UIAlertAction(title: "Yes".localize(), style: UIAlertAction.Style.destructive) {_ in
-                    // ask for the passphrase
-                    let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
-                        self.keychain.add(string: alert.textFields?.first?.text, for: Globals.pgpKeyPassphrase)
-                        Defaults.isRememberPGPPassphraseOn = true
-                        self.saveImportedPGPKey()
-                    }))
-                    alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                        textField.text = ""
-                        textField.isSecureTextEntry = true
-                    })
-                    self.present(alert, animated: true, completion: nil)
-                })
-                self.present(savePassphraseAlert, animated: true, completion: nil)
-            }
-            optionMenu.addAction(fileAction)
+        if isReadyToUse() {
+            optionMenu.addAction(UIAlertAction(title: "\(Self.menuLabel) (\("Import".localize()))", style: .default) { _ in
+                self.savePassphraseDialog()
+            })
         } else {
-            fileActionTitle.append(" (\("Tips".localize()))")
-            let fileAction = UIAlertAction(title: fileActionTitle, style: .default) { _ in
+            optionMenu.addAction(UIAlertAction(title: "\(Self.menuLabel) (\("Tips".localize()))", style: .default) { _ in
                 let title = "Tips".localize()
                 let message = "PgpCopyPublicAndPrivateKeyToPass.".localize()
                 Utils.alert(title: title, message: message, controller: self)
-            }
-            optionMenu.addAction(fileAction)
+            })
         }
-
 
         if Defaults.pgpKeySource != nil {
             let deleteAction = UIAlertAction(title: "RemovePgpKeys".localize(), style: .destructive) { _ in
@@ -252,7 +160,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             }
             optionMenu.addAction(deleteAction)
         }
-        optionMenu.addAction(cancelAction)
+        optionMenu.addAction(UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil))
         optionMenu.popoverPresentationController?.sourceView = pgpKeyTableViewCell
         optionMenu.popoverPresentationController?.sourceRect = pgpKeyTableViewCell.bounds
         self.present(optionMenu, animated: true, completion: nil)
@@ -328,5 +236,30 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         setPasscodeLockAlert?.addAction(saveAction)
         setPasscodeLockAlert?.addAction(cancelAction)
         self.present(setPasscodeLockAlert!, animated: true, completion: nil)
+    }
+}
+
+extension SettingsTableViewController: PGPKeyImporter {
+
+    static let keySource = PGPKeySource.itunes
+    static let label = "ITunesFileSharing".localize()
+
+    func isReadyToUse() -> Bool {
+        return KeyFileManager.PublicPgp.doesKeyFileExist() && KeyFileManager.PrivatePgp.doesKeyFileExist()
+    }
+
+    func importKeys() throws {
+        Defaults.pgpKeySource = Self.keySource
+
+        try KeyFileManager.PublicPgp.importKeyFromFileSharing()
+        try KeyFileManager.PrivatePgp.importKeyFromFileSharing()
+    }
+
+    func doAfterImport() {
+
+    }
+
+    func saveImportedKeys() {
+        self.savePGPKey(using: self)
     }
 }

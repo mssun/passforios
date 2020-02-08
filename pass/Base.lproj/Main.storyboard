@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="YoR-iB-XAd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="YoR-iB-XAd">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -505,7 +505,7 @@
         <!--PGP Key-->
         <scene sceneID="8Hi-tl-elT">
             <objects>
-                <tableViewController id="3WR-HY-zYj" customClass="PGPKeySettingTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="3WR-HY-zYj" customClass="PGPKeyUrlTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="B51-hW-xc5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -617,7 +617,7 @@
                     <navigationItem key="navigationItem" title="PGP Key" largeTitleDisplayMode="never" id="eK3-bb-419">
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="TNt-ne-l7W">
                             <connections>
-                                <action selector="save:" destination="3WR-HY-zYj" id="uLA-oz-lPI"/>
+                                <action selector="save:" destination="3WR-HY-zYj" id="xpE-ow-g9c"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
