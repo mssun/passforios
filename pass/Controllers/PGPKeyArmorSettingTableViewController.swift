@@ -78,37 +78,7 @@ class PGPKeyArmorSettingTableViewController: AutoCellHeightUITableViewController
     }
 
     @IBAction func save(_ sender: Any) {
-        guard armorPublicKeyTextView.text.isEmpty == false else {
-            Utils.alert(title: "CannotSave".localize(), message: "SetPublicKey.".localize(), controller: self, completion: nil)
-            return
-        }
-        guard armorPrivateKeyTextView.text.isEmpty == false else {
-            Utils.alert(title: "CannotSave".localize(), message: "SetPrivateKey.".localize(), controller: self, completion: nil)
-            return
-        }
-        let savePassphraseAlert = UIAlertController(title: "Passphrase".localize(), message: "WantToSavePassphrase?".localize(), preferredStyle: UIAlertController.Style.alert)
-        // no
-        savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: UIAlertAction.Style.default) { _ in
-            self.keychain.removeContent(for: Globals.pgpKeyPassphrase)
-            Defaults.isRememberPGPPassphraseOn = false
-            self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
-        })
-        // yes
-        savePassphraseAlert.addAction(UIAlertAction(title: "Yes".localize(), style: UIAlertAction.Style.destructive) {_ in
-            // ask for the passphrase
-            let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
-                self.keychain.add(string: alert.textFields?.first?.text, for: Globals.pgpKeyPassphrase)
-                Defaults.isRememberPGPPassphraseOn = true
-                self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
-            }))
-            alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = self.keychain.get(for: Globals.pgpKeyPassphrase)
-                textField.isSecureTextEntry = true
-            })
-            self.present(alert, animated: true, completion: nil)
-        })
-        self.present(savePassphraseAlert, animated: true, completion: nil)
+        savePassphraseDialog()
     }
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -157,5 +127,38 @@ class PGPKeyArmorSettingTableViewController: AutoCellHeightUITableViewController
                 viewController.delegate = self
             }
         }
+    }
+}
+
+extension PGPKeyArmorSettingTableViewController: PGPKeyImporter {
+
+    static let keySource = PGPKeySource.armor
+    static let label = "AsciiArmorEncryptedKey".localize()
+
+    func isReadyToUse() -> Bool {
+        guard !armorPublicKeyTextView.text.isEmpty else {
+            Utils.alert(title: "CannotSave".localize(), message: "SetPublicKey.".localize(), controller: self, completion: nil)
+            return false
+        }
+        guard !armorPrivateKeyTextView.text.isEmpty else {
+            Utils.alert(title: "CannotSave".localize(), message: "SetPrivateKey.".localize(), controller: self, completion: nil)
+            return false
+        }
+        return true
+    }
+
+    func importKeys() throws {
+        Defaults.pgpKeySource = Self.keySource
+
+        try KeyFileManager.PublicPgp.importKey(from: armorPublicKeyTextView.text ?? "")
+        try KeyFileManager.PrivatePgp.importKey(from: armorPrivateKeyTextView.text ?? "")
+    }
+
+    func doAfterImport() {
+
+    }
+
+    func saveImportedKeys() {
+        self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
     }
 }
