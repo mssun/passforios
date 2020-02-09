@@ -24,7 +24,23 @@ class PGPKeyUrlTableViewController: AutoCellHeightUITableViewController {
     }
     
     @IBAction func save(_ sender: Any) {
-        savePassphraseDialog()
+        let publicKeyUrl = pgpPublicKeyURLTextField.text
+        if publicKeyUrl == nil || publicKeyUrl!.trimmed.isEmpty {
+            return savePassphraseDialog()
+        }
+        if getScheme(from: pgpPrivateKeyURLTextField.text?.trimmed) == "http" {
+            let savePassphraseAlert = UIAlertController(title: "HttpNotSecure".localize(), message: "ReallyUseHttp?".localize(), preferredStyle: .alert)
+            savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: .default) { _ in })
+            savePassphraseAlert.addAction(UIAlertAction(title: "Yes".localize(), style: .destructive) { _ in
+                self.savePassphraseDialog()
+            })
+            return present(savePassphraseAlert, animated: true)
+        }
+        return savePassphraseDialog()
+    }
+
+    private func getScheme(from url: String?) -> String? {
+        return url.flatMap(URL.init(string:))?.scheme
     }
 }
 
@@ -55,12 +71,12 @@ extension PGPKeyUrlTableViewController: PGPKeyImporter {
     }
 
     private func validate(pgpKeyUrl: String?) -> Bool {
-        guard let pgpKeyUrl = pgpKeyUrl, let url = URL(string: pgpKeyUrl), let scheme = url.scheme else {
-            Utils.alert(title: "CannotSavePgpKey".localize(), message: "SetPgpKeyUrlFirst.".localize(), controller: self)
+        guard let scheme = getScheme(from: pgpKeyUrl) else {
+            Utils.alert(title: "CannotSavePgpKey".localize(), message: "SetPgpKeyUrlsFirst.".localize(), controller: self)
             return false
         }
-        guard scheme == "https" else {
-            Utils.alert(title: "CannotSavePgpKey".localize(), message: "UseHttps.".localize(), controller: self)
+        guard scheme == "https" || scheme == "http" else {
+            Utils.alert(title: "CannotSavePgpKey".localize(), message: "UseEitherHttpsOrHttp.".localize(), controller: self)
             return false
         }
         return true
