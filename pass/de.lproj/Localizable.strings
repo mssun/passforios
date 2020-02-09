@@ -89,7 +89,6 @@
 "Import"                                = "Importieren";
 "Imported"                              = "Importiert";
 "Tips"                                  = "Tipps";
-"PgpCopyPublicAndPrivateKeyToPass."     = "Kopiere den öffentlichen und den privaten Schlüssel im ASCII-Format verschlüsselt mit den Namen \"gpg_key.pub\" bzw. \"gpg_key\" über iTunes zu Pass. Danach können die Schlüssel über \"Datenaustausch über iTunes\" importiert werden.";
 "FillInGitAccountPassword."             = "Bitte gib das Passwort deines Git-Accounts ein.";
 "NoPasswordStore."                      = "Es gibt im Moment keinen Passwort Store.";
 "SyncingPasswordStore"                  = "Password Store wird synchronisiert";
@@ -129,9 +128,10 @@
 "CannotSavePgpKey"                  = "PGP-Schlüssel kann nicht gespeichert werden";
 "SetPgpKeyUrlFirst."                = "Bitte gib zuerst die URL des PGP-Schlüssels ein.";
 "FetchingPgpKey"                    = "PGP-Schlüssel wird geladen";
-"RememberToRemoveKey"               = "Vergiss das Löschen des Schlüssels nicht";
-"RememberToRemoveKeyFromServer."    = "Vergiss nicht, den Schlüssel wieder vom Server zu entfernen.";
+"RememberToRemoveKey"               = "Vergiss das Löschen der Schlüssel nicht";
+"RememberToRemoveKeyFromServer."    = "Vergiss nicht, die Schlüssel wieder vom Server zu entfernen.";
 "RemovePgpKeys"                     = "PGP-Schlüssel entfernen";
+"PgpCopyPublicAndPrivateKeyToPass." = "Kopiere den öffentlichen und den privaten Schlüssel im ASCII-Format verschlüsselt mit den Namen \"gpg_key.pub\" bzw. \"gpg_key\" über iTunes zu Pass. Danach können die Schlüssel über \"Datenaustausch über iTunes\" importiert werden.";
 "KeyExpiredOrIncompatibleError."    = "Der öffentliche PGP-Schlüssel ist eventuell abgelaufen oder inkompatibel mit dem privaten Schlüssel.";
 "WrongPassphraseError."             = "Das Passwort für den privaten PGP-Schlüssel ist falsch.";
 
@@ -285,4 +285,4 @@ geben den öffentlichen und den privaten Schlüssel in diesem speziellen Format 
   $ gpg --export -a KEY_ID
   $ gpg --export-secret-keys -a KEY_ID
 
-geben den öffentlichen und den privaten Schlüssel in diesem speziellen Format aus. Kopiere ihn so zu einem Key-Server.";
+geben den öffentlichen und den privaten Schlüssel in diesem speziellen Format aus. Kopiere sie so zu einem Key-Server.";

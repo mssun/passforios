@@ -157,6 +157,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
                 self.keychain.removeContent(for: PgpKey.PRIVATE.getKeychainKey())
                 PGPAgent.shared.uninitKeys()
                 self.pgpKeyTableViewCell.detailTextLabel?.text = "NotSet".localize()
+                Defaults.pgpKeySource = nil
             }
             optionMenu.addAction(deleteAction)
         }

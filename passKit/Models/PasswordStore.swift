@@ -124,10 +124,6 @@ public class PasswordStore {
         Defaults.remove(\.gitSSHPrivateKeyArmor)
     }
     
-    public func initGitSSHKey(with armorKey: String) throws {
-        AppKeychain.shared.add(string: armorKey, for: SshKey.PRIVATE.getKeychainKey())
-    }
-    
     public func repositoryExisted() -> Bool {
         let fm = FileManager()
         return fm.fileExists(atPath: Globals.repositoryPath)

@@ -13,11 +13,8 @@ import passKit
 class SSHKeySettingTableViewController: AutoCellHeightUITableViewController {
 
     @IBOutlet weak var privateKeyURLTextField: UITextField!
+    
     let passwordStore = PasswordStore.shared
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
 
     @IBAction func doneButtonTapped(_ sender: UIButton) {
         guard let privateKeyURL = URL(string: privateKeyURLTextField.text!.trimmed) else {
