@@ -91,7 +91,7 @@ extension PGPKeyFileSettingTableViewController: PGPKeyImporter {
     }
 
     func saveImportedKeys() {
-        self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
+        performSegue(withIdentifier: "savePGPKeySegue", sender: self)
     }
 
     private func validate(key: String?) -> Bool {

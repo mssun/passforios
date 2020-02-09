@@ -157,6 +157,6 @@ extension PGPKeyArmorSettingTableViewController: PGPKeyImporter {
     }
 
     func saveImportedKeys() {
-        self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
+        performSegue(withIdentifier: "savePGPKeySegue", sender: self)
     }
 }
