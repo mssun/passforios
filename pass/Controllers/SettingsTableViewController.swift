@@ -138,6 +138,9 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         optionMenu.addAction(UIAlertAction(title: PGPKeyArmorSettingTableViewController.menuLabel, style: .default) { _ in
             self.performSegue(withIdentifier: "setPGPKeyByASCIISegue", sender: self)
         })
+        optionMenu.addAction(UIAlertAction(title: PGPKeyFileSettingTableViewController.menuLabel, style: .default) { _ in
+            self.performSegue(withIdentifier: "setPGPKeyByFileSegue", sender: self)
+        })
 
         if isReadyToUse() {
             optionMenu.addAction(UIAlertAction(title: "\(Self.menuLabel) (\("Import".localize()))", style: .default) { _ in

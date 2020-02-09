@@ -134,6 +134,11 @@
 "PgpCopyPublicAndPrivateKeyToPass." = "Kopiere den öffentlichen und den privaten Schlüssel im ASCII-Format verschlüsselt mit den Namen \"gpg_key.pub\" bzw. \"gpg_key\" über iTunes zu Pass. Danach können die Schlüssel über \"Datenaustausch über iTunes\" importiert werden.";
 "KeyExpiredOrIncompatibleError."    = "Der öffentliche PGP-Schlüssel ist eventuell abgelaufen oder inkompatibel mit dem privaten Schlüssel.";
 "WrongPassphraseError."             = "Das Passwort für den privaten PGP-Schlüssel ist falsch.";
+"CannotImportFile"                  = "Fehler beim Importieren";
+"LoadFromFiles"                     = "Aus Datei laden";
+"FileCannotBeImported."             = "Beim Importieren der Datei '%@' trat ein Fehler auf. Stelle bitte sicher, dass ihr Speicherort lesbar ist.";
+"RememberToRemoveKeyFromLocation."  = "Vergiss nicht, die Schlüsseldateien wieder von ihrem externen Speicherort zu entfernen.";
+"KeyFileNotSet."                    = "Es wurde nicht für beide Schlüsseltypen eine Datei angegeben.";
 
 // App passcode
 "RemovePasscode"        = "Passcode entfernen";
@@ -286,3 +291,10 @@ geben den öffentlichen und den privaten Schlüssel in diesem speziellen Format 
   $ gpg --export-secret-keys -a KEY_ID
 
 geben den öffentlichen und den privaten Schlüssel in diesem speziellen Format aus. Kopiere sie so zu einem Key-Server.";
+
+"GpgAsciiArmorFileExplanation." = "GnuPG unterstützt die Kommandozeilenoption \"-a\", welche die Schlüssel im Format \"ASCII-Armor\" ausgibt. Es ist anders als das Binärformat eine einfache Zeichenkette. Die Befehle
+
+  $ gpg --export -a KEY_ID
+  $ gpg --export-secret-keys -a KEY_ID
+
+geben den öffentlichen und den privaten Schlüssel in diesem speziellen Format aus. Kopiere sie so zu einem Speicherort, der für die Dateien-App zugänglich ist.";
