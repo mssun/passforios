@@ -47,20 +47,20 @@ extension PGPKeyUrlTableViewController: PGPKeyImporter {
     }
 
     func doAfterImport() {
-        Utils.alert(title: "RememberToRemoveKey".localize(), message: "RememberToRemoveKeyFromServer.".localize(), controller: self, completion: nil)
+        Utils.alert(title: "RememberToRemoveKey".localize(), message: "RememberToRemoveKeyFromServer.".localize(), controller: self)
     }
 
     func saveImportedKeys() {
-        self.performSegue(withIdentifier: "savePGPKeySegue", sender: self)
+        performSegue(withIdentifier: "savePGPKeySegue", sender: self)
     }
 
     private func validate(pgpKeyUrl: String?) -> Bool {
         guard let pgpKeyUrl = pgpKeyUrl, let url = URL(string: pgpKeyUrl), let scheme = url.scheme else {
-            Utils.alert(title: "CannotSavePgpKey".localize(), message: "SetPgpKeyUrlFirst.".localize(), controller: self, completion: nil)
+            Utils.alert(title: "CannotSavePgpKey".localize(), message: "SetPgpKeyUrlFirst.".localize(), controller: self)
             return false
         }
         guard scheme == "https" else {
-            Utils.alert(title: "CannotSavePgpKey".localize(), message: "UseHttps.".localize(), controller: self, completion: nil)
+            Utils.alert(title: "CannotSavePgpKey".localize(), message: "UseHttps.".localize(), controller: self)
             return false
         }
         return true
