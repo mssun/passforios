@@ -78,7 +78,7 @@
 "SetGitRepositoryUrl"                   = "Please set the Git repository URL.";
 "CannotFindUsername."                   = "Cannot find the username in the Git repository URL. Example URL: ssh://git@server/path/to/repo.git.";
 "CheckEnteredUsername."                 = "Please check the entered username and the username in the Git repository URL. They should match.";
-"UseHttps."                             = "Please use HTTPS instead of HTTP.";
+"UseEitherHttpsOrHttp."                 = "Please use either HTTPS (recommended) or HTTP.";
 "SpecifySchema."                        = "Please specify the scheme of the Git repository URL (HTTPS or SSH).";
 "Overwrite?"                            = "Overwrite?";
 "Overwrite"                             = "Overwrite";
@@ -126,7 +126,7 @@
 "FillInPgpPassphrase."              = "Please fill in the passphrase of your PGP secret key.";
 "WantToSavePassphrase?"             = "Do you want to save the passphrase for later decryption?";
 "CannotSavePgpKey"                  = "Cannot Save PGP Key";
-"SetPgpKeyUrlFirst."                = "Please set PGP key URL first.";
+"SetPgpKeyUrlsFirst."               = "Please set PGP key URLs first.";
 "FetchingPgpKey"                    = "Fetching PGP Key";
 "RememberToRemoveKey"               = "Remember to Remove the Keys";
 "RememberToRemoveKeyFromServer."    = "Remember to remove the keys from the server.";
@@ -139,6 +139,8 @@
 "FileCannotBeImported."             = "An error occurred importing the file '%@'. Please make sure its location is readable.";
 "RememberToRemoveKeyFromLocation."  = "Remember to remove the key files from their external locations.";
 "KeyFileNotSet."                    = "At least for one key type there is no file specified.";
+"HttpNotSecure"                     = "HTTP Is Not Secure";
+"ReallyUseHttp?"                    = "The HTTP protocol is not secure. Do you really want to use it to transfer the private key file?";
 
 // App passcode
 "RemovePasscode"        = "Remove Passcode";

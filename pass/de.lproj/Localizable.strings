@@ -78,7 +78,7 @@
 "SetGitRepositoryUrl"                   = "Bitte gib zuerst die URL des Repositorys ein.";
 "CannotFindUsername."                   = "Der Nutzername kann nicht in der URL des Repositorys gefunden werden. Beispiel: ssh://git@server/path/to/repo.git.";
 "CheckEnteredUsername."                 = "Bitte vergleiche den eingegebenen Nutzernamen und den in der URL des Repositorys. Sie sollten übereinstimmen.";
-"UseHttps."                             = "Bitte nutze HTTPS anstatt HTTP.";
+"UseEitherHttpsOrHttp."                 = "Bitte nutze entweder HTTPS (empfohlen) oder HTTP.";
 "SpecifySchema."                        = "Bitte spezifiziere das Protokoll zur Kommunikation mit dem Git-Server in der URL (HTTPS or SSH).";
 "Overwrite?"                            = "Überschreiben?";
 "Overwrite"                             = "Überschreiben";
@@ -126,7 +126,7 @@
 "FillInPgpPassphrase."              = "Bitte gib das Passwort deines privaten PGP-Schlüssels ein.";
 "WantToSavePassphrase?"             = "Möchtest du das Passwort für spätere Entschlüsselungen speichern?";
 "CannotSavePgpKey"                  = "PGP-Schlüssel kann nicht gespeichert werden";
-"SetPgpKeyUrlFirst."                = "Bitte gib zuerst die URL des PGP-Schlüssels ein.";
+"SetPgpKeyUrlsFirst."               = "Bitte gib zuerst die URLs der PGP-Schlüssel ein.";
 "FetchingPgpKey"                    = "PGP-Schlüssel wird geladen";
 "RememberToRemoveKey"               = "Vergiss das Löschen der Schlüssel nicht";
 "RememberToRemoveKeyFromServer."    = "Vergiss nicht, die Schlüssel wieder vom Server zu entfernen.";
@@ -139,6 +139,8 @@
 "FileCannotBeImported."             = "Beim Importieren der Datei '%@' trat ein Fehler auf. Stelle bitte sicher, dass ihr Speicherort lesbar ist.";
 "RememberToRemoveKeyFromLocation."  = "Vergiss nicht, die Schlüsseldateien wieder von ihrem externen Speicherort zu entfernen.";
 "KeyFileNotSet."                    = "Es wurde nicht für beide Schlüsseltypen eine Datei angegeben.";
+"HttpNotSecure"                     = "HTTP ist nicht sicher";
+"ReallyUseHttp?"                    = "Das HTTP-Protokoll ist nicht sicher. Soll es wirklich verwendet werden, um den privaten Schlüssel zu übertragen?";
 
 // App passcode
 "RemovePasscode"        = "Passcode entfernen";
