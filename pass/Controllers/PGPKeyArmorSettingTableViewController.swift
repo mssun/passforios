@@ -148,8 +148,6 @@ extension PGPKeyArmorSettingTableViewController: PGPKeyImporter {
     }
 
     func importKeys() throws {
-        Defaults.pgpKeySource = Self.keySource
-
         try KeyFileManager.PublicPgp.importKey(from: armorPublicKeyTextView.text ?? "")
         try KeyFileManager.PrivatePgp.importKey(from: armorPrivateKeyTextView.text ?? "")
     }
