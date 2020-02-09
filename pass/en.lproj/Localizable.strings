@@ -128,8 +128,8 @@
 "CannotSavePgpKey"                  = "Cannot Save PGP Key";
 "SetPgpKeyUrlFirst."                = "Please set PGP key URL first.";
 "FetchingPgpKey"                    = "Fetching PGP Key";
-"RememberToRemoveKey"               = "Remember to Remove the Key";
-"RememberToRemoveKeyFromServer."    = "Remember to remove the key from the server.";
+"RememberToRemoveKey"               = "Remember to Remove the Keys";
+"RememberToRemoveKeyFromServer."    = "Remember to remove the keys from the server.";
 "RemovePgpKeys"                     = "Remove PGP Keys";
 "PgpCopyPublicAndPrivateKeyToPass." = "Copy your ASCII-armored public and private keys to Pass with names \"gpg_key.pub\" and \"gpg_key\" (without quotes) via iTunes. Then come back and click \"iTunes File Sharing\" to finish.";
 "KeyExpiredOrIncompatibleError."    = "PGP public key may be expired or incompatible with the private key.";

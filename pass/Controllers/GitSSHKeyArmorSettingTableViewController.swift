@@ -60,11 +60,7 @@ class GitSSHKeyArmorSettingTableViewController: AutoCellHeightUITableViewControl
     }
 
     @IBAction func doneButtonTapped(_ sender: Any) {
-        do {
-            try passwordStore.initGitSSHKey(with: armorPrivateKeyTextView.text)
-        } catch {
-            Utils.alert(title: "CannotSave".localize(), message: "CannotSaveSshKey".localize(), controller: self, completion: nil)
-        }
+        AppKeychain.shared.add(string: armorPrivateKeyTextView.text, for: SshKey.PRIVATE.getKeychainKey())
         Defaults.gitSSHKeySource = .armor
         Defaults.gitAuthenticationMethod = .key
         self.navigationController!.popViewController(animated: true)

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class Globals {
+public final class Globals {
     public static let bundleIdentifier = "me.mssun.passforios"
     public static let groupIdentifier = "group." + bundleIdentifier
     public static let passKitBundleIdentifier = bundleIdentifier + ".passKit"
