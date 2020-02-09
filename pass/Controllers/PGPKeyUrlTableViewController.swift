@@ -37,10 +37,8 @@ extension PGPKeyUrlTableViewController: PGPKeyImporter {
         return validate(pgpKeyUrl: pgpPublicKeyURLTextField.text)
             && validate(pgpKeyUrl: pgpPrivateKeyURLTextField.text)
     }
-    
-    func importKeys() throws {
-        Defaults.pgpKeySource = Self.keySource
 
+    func importKeys() throws {
         Defaults.pgpPrivateKeyURL = URL(string: pgpPrivateKeyURLTextField.text!.trimmed)
         Defaults.pgpPublicKeyURL = URL(string: pgpPublicKeyURLTextField.text!.trimmed)
 

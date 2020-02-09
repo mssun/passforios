@@ -40,6 +40,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+            Defaults.pgpKeySource = type(of: keyImporter).keySource
             do {
                 try keyImporter.importKeys()
                 try PGPAgent.shared.initKeys()
@@ -253,8 +254,6 @@ extension SettingsTableViewController: PGPKeyImporter {
     }
 
     func importKeys() throws {
-        Defaults.pgpKeySource = Self.keySource
-
         try KeyFileManager.PublicPgp.importKeyFromFileSharing()
         try KeyFileManager.PrivatePgp.importKeyFromFileSharing()
     }

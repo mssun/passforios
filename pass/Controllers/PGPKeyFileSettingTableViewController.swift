@@ -82,8 +82,6 @@ extension PGPKeyFileSettingTableViewController: PGPKeyImporter {
         guard let publicKey = publicKey, let privateKey = privateKey else {
             return
         }
-        Defaults.pgpKeySource = Self.keySource
-
         try KeyFileManager.PublicPgp.importKey(from: publicKey)
         try KeyFileManager.PrivatePgp.importKey(from: privateKey)
     }
