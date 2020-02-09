@@ -134,6 +134,11 @@
 "PgpCopyPublicAndPrivateKeyToPass." = "Copy your ASCII-armored public and private keys to Pass with names \"gpg_key.pub\" and \"gpg_key\" (without quotes) via iTunes. Then come back and click \"iTunes File Sharing\" to finish.";
 "KeyExpiredOrIncompatibleError."    = "PGP public key may be expired or incompatible with the private key.";
 "WrongPassphraseError."             = "Passphrase of your PGP secret key is wrong.";
+"CannotImportFile"                  = "Cannot Import File";
+"LoadFromFiles"                     = "Load From File";
+"FileCannotBeImported."             = "An error occurred importing the file '%@'. Please make sure its location is readable.";
+"RememberToRemoveKeyFromLocation."  = "Remember to remove the key files from their external locations.";
+"KeyFileNotSet."                    = "At least for one key type there is no file specified.";
 
 // App passcode
 "RemovePasscode"        = "Remove Passcode";
@@ -286,3 +291,10 @@ to get the public and the private key in this specific format. The clipboard wil
   $ gpg --export-secret-keys -a KEY_ID
 
 to get the public and the private key in this specific format. Subsequently, copy them to your secured key server.";
+
+"GpgAsciiArmorFileExplanation." = "GnuPG supports the command-line option \"-a\" that causes output to be generated in an ASCII-armored format similar to unencoded documents rather than the binary format. Use
+
+  $ gpg --export -a KEY_ID
+  $ gpg --export-secret-keys -a KEY_ID
+
+to get the public and the private key in this specific format. Subsequently, copy them to a location accessible by the Files app.";

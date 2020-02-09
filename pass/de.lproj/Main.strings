@@ -74,6 +74,9 @@
 /* Class = "UINavigationItem"; title = "Add Password"; ObjectID = "KOg-Gn-Buk"; */
 "KOg-Gn-Buk.title" = "Passwort hinzufügen";
 
+/* Class = "UILabel"; text = "Select file ..."; ObjectID = "Ka2-8Z-fwx"; */
+"Ka2-8Z-fwx.text" = "Datei auswählen ...";
+
 /* Class = "UILabel"; text = "Edit password for baidu.com using Pass for iOS."; ObjectID = "L1p-Dm-Mnh"; */
 "L1p-Dm-Mnh.text" = "Passwort für baidu.com wurde in Pass for iOS hinzugefügt.";
 
@@ -100,6 +103,9 @@
 
 /* Class = "UILabel"; text = "Private Key URL"; ObjectID = "Qht-RC-Yeg"; */
 "Qht-RC-Yeg.text" = "URL des privaten Schlüssels";
+
+/* Class = "UITableViewSection"; headerTitle = "PRIVATE KEY"; ObjectID = "RFc-J6-hAe"; */
+"RFc-J6-hAe.headerTitle" = "PRIVATER SCHLÜSSEL";
 
 /* Class = "UILabel"; text = "PGP Key"; ObjectID = "RR9-xr-9ko"; */
 "RR9-xr-9ko.text" = "PGP-Schlüssel";
@@ -130,6 +136,15 @@
 
 /* Class = "UINavigationItem"; title = "Settings"; ObjectID = "WH4-7R-4TQ"; */
 "WH4-7R-4TQ.title" = "Einstellungen";
+
+/* Class = "UILabel"; text = "Import Keys From Files"; ObjectID = "XU8-Io-n0h"; */
+"XU8-Io-n0h.text" = "Schlüssel aus Dateien importieren";
+
+/* Class = "UILabel"; text = "Select file ..."; ObjectID = "XVY-Dj-6Mx"; */
+"XVY-Dj-6Mx.text" = "Datei auswählen ...";
+
+/* Class = "UITableViewSection"; headerTitle = "PUBLIC KEY"; ObjectID = "Y8H-cb-G2j"; */
+"Y8H-cb-G2j.headerTitle" = "ÖFFENTLICHER SCHLÜSSEL";
 
 /* Class = "UITabBarItem"; title = "Settings"; ObjectID = "YLZ-cr-akY"; */
 "YLZ-cr-akY.title" = "Einstellungen";
@@ -232,6 +247,9 @@
 
 /* Class = "UITableViewSection"; headerTitle = "GPG Configuration"; ObjectID = "ugP-R2-9M7"; */
 "ugP-R2-9M7.headerTitle" = "GPG-Konfiguration";
+
+/* Class = "UINavigationItem"; title = "PGP Key"; ObjectID = "waZ-gh-rQt"; */
+"waZ-gh-rQt.title" = "PGP-Schlüssel";
 
 /* Class = "UILabel"; text = "✓"; ObjectID = "wbx-rk-i8H"; */
 "wbx-rk-i8H.text" = "✓";

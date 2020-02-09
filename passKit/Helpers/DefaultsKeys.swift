@@ -12,7 +12,7 @@ import SwiftyUserDefaults
 public var Defaults = DefaultsAdapter(defaults: UserDefaults(suiteName: Globals.groupIdentifier)!, keyStore: DefaultsKeys())
 
 public enum PGPKeySource: String, DefaultsSerializable {
-    case url, armor, itunes
+    case url, armor, files, itunes
 }
 
 public enum GitAuthenticationMethod: String, DefaultsSerializable {

@@ -241,6 +241,7 @@
                         <outlet property="pgpKeyTableViewCell" destination="1ze-MS-Xbj" id="hXe-eD-0R4"/>
                         <segue destination="ZUt-x1-TJu" kind="showDetail" identifier="setPGPKeyByURLSegue" id="qRF-S1-bqF"/>
                         <segue destination="ffY-rC-jhq" kind="showDetail" identifier="setPGPKeyByASCIISegue" id="mgi-Oe-i2X"/>
+                        <segue destination="Ap7-WQ-eEv" kind="showDetail" identifier="setPGPKeyByFileSegue" id="mnn-a5-KNj"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="leR-cc-QPW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -500,7 +501,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7c1-c7-Qyp" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="7K9-cE-9qq" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4954" y="2499"/>
+            <point key="canvasLocation" x="6083" y="2239"/>
         </scene>
         <!--PGP Key-->
         <scene sceneID="8Hi-tl-elT">
@@ -630,7 +631,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hbx-RC-qg1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="jjl-Xi-fkn" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4954" y="3510"/>
+            <point key="canvasLocation" x="4954" y="3668"/>
         </scene>
         <!--Add Password-->
         <scene sceneID="738-Zk-wRb">
@@ -940,7 +941,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kr5-iH-doj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3845" y="2499"/>
+            <point key="canvasLocation" x="3845" y="2240"/>
         </scene>
         <!--SSH Key-->
         <scene sceneID="7pC-mh-aE6">
@@ -1034,7 +1035,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eY3-aM-BJB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6083" y="2187"/>
+            <point key="canvasLocation" x="6990" y="2239"/>
         </scene>
         <!--General-->
         <scene sceneID="fho-xr-1Ah">
@@ -1075,7 +1076,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bVY-G2-9Ud" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3845" y="3510"/>
+            <point key="canvasLocation" x="3845" y="3668"/>
         </scene>
         <!--Advanced-->
         <scene sceneID="ipZ-fd-H8e">
@@ -1431,7 +1432,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Wn-7D-LLj" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Ul9-vk-jhw" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4954" y="4304"/>
+            <point key="canvasLocation" x="4954" y="4427"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="m18-ch-m92">
@@ -1449,7 +1450,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="511-eg-7fa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3845" y="4304"/>
+            <point key="canvasLocation" x="3845" y="4428"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Ps2-MC-JQX">
@@ -1561,7 +1562,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qJO-AN-K9p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6083" y="2895"/>
+            <point key="canvasLocation" x="6083" y="3668"/>
         </scene>
         <!--Git Signature-->
         <scene sceneID="eTh-B3-0rv">
@@ -1676,7 +1677,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="scanner output" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U8O-Md-w8e">
-                                <rect key="frame" x="57" y="562" width="300" height="45"/>
+                                <rect key="frame" x="57" y="513" width="300" height="45"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="JcM-Sy-Hw8"/>
@@ -1700,7 +1701,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I2W-rx-CxX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6083" y="4304"/>
+            <point key="canvasLocation" x="6083" y="4427"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Hf2-tj-DSK">
@@ -1756,6 +1757,123 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
             </objects>
             <point key="canvasLocation" x="3844.9275362318845" y="5331.521739130435"/>
         </scene>
+        <!--PGP Key-->
+        <scene sceneID="KZQ-sz-cea">
+            <objects>
+                <tableViewController id="zh0-O0-5kJ" customClass="PGPKeyFileSettingTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="1Zw-MV-6BD">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection id="SX5-yS-bhP">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeysFromFilesDescription" textLabel="XU8-Io-n0h" detailTextLabel="TZc-n7-f0y" style="IBUITableViewCellStyleSubtitle" id="RiO-JR-Xax">
+                                        <rect key="frame" x="0.0" y="18" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RiO-JR-Xax" id="NYK-IE-MDP">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Import Keys From Files" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XU8-Io-n0h">
+                                                    <rect key="frame" x="20" y="6" width="155" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="GpgAsciiArmorFileExplanation." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TZc-n7-f0y" customClass="UICodeHighlightingLabel" customModule="pass" customModuleProvider="target">
+                                                    <rect key="frame" x="20" y="23" width="180.33333333333334" height="15.333333333333334"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                                                    <color key="textColor" red="0.29804000000000003" green="0.29804000000000003" blue="0.29804000000000003" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="PUBLIC KEY" id="Y8H-cb-G2j">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="pgpPublicKeyFile" textLabel="XVY-Dj-6Mx" rowHeight="61" style="IBUITableViewCellStyleDefault" id="2TD-Vi-g4T">
+                                        <rect key="frame" x="0.0" y="118" width="414" height="61"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2TD-Vi-g4T" id="RLf-Tg-LcS">
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="61"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Select file ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XVY-Dj-6Mx">
+                                                    <rect key="frame" x="20" y="0.0" width="355" height="61"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="PRIVATE KEY" id="RFc-J6-hAe">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="pgpPrivateKeyFile" textLabel="Ka2-8Z-fwx" rowHeight="61" style="IBUITableViewCellStyleDefault" id="tT1-V9-E5r">
+                                        <rect key="frame" x="0.0" y="235" width="414" height="61"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tT1-V9-E5r" id="cpU-gf-Vk0">
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="61"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Select file ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ka2-8Z-fwx">
+                                                    <rect key="frame" x="20" y="0.0" width="355" height="61"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="PGP Key" largeTitleDisplayMode="never" id="waZ-gh-rQt">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="Kdo-Af-80m">
+                            <connections>
+                                <action selector="save:" destination="zh0-O0-5kJ" id="4x2-eq-c6q"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="pgpPrivateKeyFile" destination="tT1-V9-E5r" id="i4n-ZH-UrB"/>
+                        <outlet property="pgpPublicKeyFile" destination="2TD-Vi-g4T" id="66Q-mv-BfN"/>
+                        <segue destination="fAK-1W-69n" kind="unwind" identifier="savePGPKeySegue" unwindAction="savePGPKeyWithSegue:" id="sdz-aM-0Pc"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="91Z-PM-MEr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="fAK-1W-69n" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="4954" y="2968"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="2mO-L4-uGj">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ap7-WQ-eEv" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="uY3-dJ-5Pj">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="zh0-O0-5kJ" kind="relationship" relationship="rootViewController" id="nZf-qO-e37"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G3o-et-5l9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3845" y="2969"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Lock" width="25" height="25"/>
@@ -1763,7 +1881,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="wCk-aN-a4J"/>
-        <segue reference="5iZ-y9-FCH"/>
+        <segue reference="oxP-I1-Mke"/>
         <segue reference="yyD-4H-pLE"/>
     </inferredMetricsTieBreakers>
 </document>
