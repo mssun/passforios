@@ -26,16 +26,13 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     }
 
     @IBAction func savePGPKey(segue: UIStoryboardSegue) {
-        guard let sourceController = segue.source as? PGPKeyImporter else {
+        guard let sourceController = segue.source as? PGPKeyImporter, sourceController.isReadyToUse() else {
             return
         }
         savePGPKey(using: sourceController)
     }
 
     private func savePGPKey(using keyImporter: PGPKeyImporter) {
-        guard keyImporter.isReadyToUse() else {
-            return
-        }
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.setDefaultStyle(.light)
         SVProgressHUD.show(withStatus: "FetchingPgpKey".localize())

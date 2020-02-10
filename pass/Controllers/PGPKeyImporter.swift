@@ -38,6 +38,9 @@ extension PGPKeyImporter {
 extension PGPKeyImporter where Self: UIViewController {
 
     func savePassphraseDialog() {
+        guard self.isReadyToUse() else {
+            return
+        }
         let savePassphraseAlert = UIAlertController(title: "Passphrase".localize(), message: "WantToSavePassphrase?".localize(), preferredStyle: .alert)
         // Do not save the key's passphrase.
         savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: .default) { _ in
