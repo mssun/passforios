@@ -28,7 +28,7 @@ class PGPKeyFileSettingTableViewController: AutoCellHeightUITableViewController 
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
-        let picker = UIDocumentPickerViewController(documentTypes: ["public.data"], in: .import)
+        let picker = UIDocumentPickerViewController(documentTypes: ["public.data"], in: .open)
         if cell == pgpPublicKeyFile {
             currentlyPicking = .public
         } else if cell == pgpPrivateKeyFile {
