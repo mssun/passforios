@@ -10,45 +10,50 @@ import UIKit
 import SafariServices
 
 class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
-    let openSourceComponents = [
+    
+    private static let openSourceComponents = [
         ["FavIcon",
          "https://github.com/bitserf/FavIcon",
          "https://github.com/bitserf/FavIcon/blob/master/LICENSE"],
+        ["GopenPGP",
+         "https://gopenpgp.org/",
+         "https://github.com/ProtonMail/gopenpgp/blob/master/LICENSE"],
         ["KeychainAccess",
          "https://github.com/kishikawakatsumi/KeychainAccess",
          "https://github.com/kishikawakatsumi/KeychainAccess/blob/master/LICENSE"],
         ["ObjectiveGit",
          "https://github.com/libgit2/objective-git",
          "https://github.com/libgit2/objective-git/blob/master/LICENSE"],
-        ["GopenPGP",
-         "https://gopenpgp.org/",
-         "https://github.com/ProtonMail/gopenpgp/blob/master/LICENSE"],
         ["OneTimePassword",
          "https://github.com/mattrubin/OneTimePassword",
-         "https://github.com/mattrubin/OneTimePassword/blob/develop/LICENSE.md",],
-        ["SwiftyUserDefaults",
-         "https://github.com/radex/SwiftyUserDefaults",
-         "https://github.com/radex/SwiftyUserDefaults/blob/master/LICENSE"],
+         "https://github.com/mattrubin/OneTimePassword/blob/develop/LICENSE.md"],
         ["SVProgressHUD",
          "https://github.com/SVProgressHUD/SVProgressHUD",
          "https://github.com/SVProgressHUD/SVProgressHUD/blob/master/LICENSE"],
+        ["SwiftyUserDefaults",
+         "https://github.com/radex/SwiftyUserDefaults",
+         "https://github.com/radex/SwiftyUserDefaults/blob/master/LICENSE"],
     ]
 
     override func viewDidLoad() {
-        tableData.append([])
-        for item in openSourceComponents {
-            tableData[0].append(
-                [CellDataKey.title: item[0], CellDataKey.action: "link", CellDataKey.link: item[1], CellDataKey.accessoryType: UITableViewCell.AccessoryType.detailDisclosureButton, CellDataKey.detailDisclosureAction: #selector(actOnDetailDisclosureButton(_:)), CellDataKey.detailDisclosureData: item[2]]
-            )
-        }
         super.viewDidLoad()
+        tableData.append([])
+        for item in Self.openSourceComponents {
+            tableData[0].append([
+                .title: item[0],
+                .action: "link",
+                .link: item[1],
+                .accessoryType: UITableViewCell.AccessoryType.detailDisclosureButton,
+                .detailDisclosureAction: #selector(actOnDetailDisclosureButton(_:)),
+                .detailDisclosureData: item[2]
+            ])
+        }
     }
 
     @objc func actOnDetailDisclosureButton(_ sender: Any?) {
-        if let link = sender as? String {
-            let svc = SFSafariViewController(url: URL(string: link)!, entersReaderIfAvailable: false)
-            self.present(svc, animated: true, completion: nil)
+        if let link = sender as? String, let url = URL(string: link) {
+            let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+            present(svc, animated: true)
         }
     }
-
 }
