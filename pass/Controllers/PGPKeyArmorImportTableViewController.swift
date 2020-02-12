@@ -1,5 +1,5 @@
 //
-//  PGPKeyArmorSettingTableViewController.swift
+//  PGPKeyArmorImportTableViewController.swift
 //  pass
 //
 //  Created by Mingshen Sun on 17/2/2017.
@@ -9,7 +9,7 @@
 import UIKit
 import passKit
 
-class PGPKeyArmorSettingTableViewController: AutoCellHeightUITableViewController, UITextViewDelegate, QRScannerControllerDelegate {
+class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController, UITextViewDelegate, QRScannerControllerDelegate {
     @IBOutlet weak var armorPublicKeyTextView: UITextView!
     @IBOutlet weak var armorPrivateKeyTextView: UITextView!
     @IBOutlet weak var scanPublicKeyCell: UITableViewCell!
@@ -130,7 +130,7 @@ class PGPKeyArmorSettingTableViewController: AutoCellHeightUITableViewController
     }
 }
 
-extension PGPKeyArmorSettingTableViewController: PGPKeyImporter {
+extension PGPKeyArmorImportTableViewController: PGPKeyImporter {
 
     static let keySource = PGPKeySource.armor
     static let label = "AsciiArmorEncryptedKey".localize()

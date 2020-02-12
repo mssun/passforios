@@ -1,5 +1,5 @@
 //
-//  GitConfigSettingTableViewController.swift
+//  GitConfigSettingsTableViewController.swift
 //  pass
 //
 //  Created by Yishi Lin on 10/4/17.
@@ -9,7 +9,7 @@
 import UIKit
 import passKit
 
-class GitConfigSettingTableViewController: UITableViewController {
+class GitConfigSettingsTableViewController: UITableViewController {
     let passwordStore = PasswordStore.shared
 
     @IBOutlet weak var nameTextField: UITextField!

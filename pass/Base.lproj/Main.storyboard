@@ -312,7 +312,7 @@
         <!--Git Server-->
         <scene sceneID="Obl-ql-ILG">
             <objects>
-                <tableViewController id="ynQ-64-MfA" customClass="GitServerSettingTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="ynQ-64-MfA" customClass="GitRepositorySettingsTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="62X-tb-qYf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -506,7 +506,7 @@
         <!--PGP Key-->
         <scene sceneID="8Hi-tl-elT">
             <objects>
-                <tableViewController id="3WR-HY-zYj" customClass="PGPKeyUrlTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="3WR-HY-zYj" customClass="PGPKeyUrlImportTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="B51-hW-xc5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -946,7 +946,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
         <!--SSH Key-->
         <scene sceneID="7pC-mh-aE6">
             <objects>
-                <tableViewController id="hqC-Ic-NMi" customClass="SSHKeySettingTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="hqC-Ic-NMi" customClass="SSHKeyUrlImportTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="WOg-sB-X94">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1299,7 +1299,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
         <!--PGP Key-->
         <scene sceneID="Jmv-A6-Wr1">
             <objects>
-                <tableViewController id="1gA-jh-frD" customClass="PGPKeyArmorSettingTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="1gA-jh-frD" customClass="PGPKeyArmorImportTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" id="WYj-Sf-Cyc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1473,7 +1473,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
         <!--SSH Key-->
         <scene sceneID="zWR-BT-dXv">
             <objects>
-                <tableViewController id="WgM-cY-mig" customClass="GitSSHKeyArmorSettingTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="WgM-cY-mig" customClass="SSHKeyArmorImportTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="1" id="e2Q-qC-LUk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1567,7 +1567,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
         <!--Git Signature-->
         <scene sceneID="eTh-B3-0rv">
             <objects>
-                <tableViewController id="zDo-XK-ymp" customClass="GitConfigSettingTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="zDo-XK-ymp" customClass="GitConfigSettingsTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="9r8-pk-GBf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1760,7 +1760,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
         <!--PGP Key-->
         <scene sceneID="KZQ-sz-cea">
             <objects>
-                <tableViewController id="zh0-O0-5kJ" customClass="PGPKeyFileSettingTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="zh0-O0-5kJ" customClass="PGPKeyFileImportTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="1Zw-MV-6BD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

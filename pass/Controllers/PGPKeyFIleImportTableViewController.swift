@@ -1,5 +1,5 @@
 //
-//  PGPKeyFileSettingTableViewController.swift
+//  PGPKeyFileImportTableViewController.swift
 //  pass
 //
 //  Created by Danny Moesch on 01.02.20.
@@ -8,7 +8,7 @@
 
 import passKit
 
-class PGPKeyFileSettingTableViewController: AutoCellHeightUITableViewController {
+class PGPKeyFileImportTableViewController: AutoCellHeightUITableViewController {
 
     @IBOutlet weak var pgpPublicKeyFile: UITableViewCell!
     @IBOutlet weak var pgpPrivateKeyFile: UITableViewCell!
@@ -45,7 +45,7 @@ class PGPKeyFileSettingTableViewController: AutoCellHeightUITableViewController 
     }
 }
 
-extension PGPKeyFileSettingTableViewController: UIDocumentPickerDelegate {
+extension PGPKeyFileImportTableViewController: UIDocumentPickerDelegate {
 
     func documentPicker(_: UIDocumentPickerViewController, didPickDocumentsAt url: [URL]) {
         guard let url = url.first else {
@@ -70,7 +70,7 @@ extension PGPKeyFileSettingTableViewController: UIDocumentPickerDelegate {
     }
 }
 
-extension PGPKeyFileSettingTableViewController: PGPKeyImporter {
+extension PGPKeyFileImportTableViewController: PGPKeyImporter {
 
     static let keySource = PGPKeySource.files
     static let label = "LoadFromFiles".localize()
