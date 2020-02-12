@@ -1,5 +1,5 @@
 //
-//  GitServerSettingTableViewController.swift
+//  GitRepositorySettingsTableViewController.swift
 //  pass
 //
 //  Created by Mingshen Sun on 21/1/2017.
@@ -11,7 +11,7 @@ import SVProgressHUD
 import passKit
 
 
-class GitServerSettingTableViewController: UITableViewController {
+class GitRepositorySettingsTableViewController: UITableViewController {
     // MARK: - View Outlet
 
     @IBOutlet weak var gitURLTextField: UITextField!

@@ -1,5 +1,5 @@
 //
-//  GitSSHKeyArmorSettingTableViewController.swift
+//  SSHKeyArmorImportTableViewController.swift
 //  pass
 //
 //  Created by Mingshen Sun on 2/4/2017.
@@ -9,7 +9,7 @@
 import UIKit
 import passKit
 
-class GitSSHKeyArmorSettingTableViewController: AutoCellHeightUITableViewController, UITextViewDelegate, QRScannerControllerDelegate {
+class SSHKeyArmorImportTableViewController: AutoCellHeightUITableViewController, UITextViewDelegate, QRScannerControllerDelegate {
     @IBOutlet weak var armorPrivateKeyTextView: UITextView!
     @IBOutlet weak var scanPrivateKeyCell: UITableViewCell!
 

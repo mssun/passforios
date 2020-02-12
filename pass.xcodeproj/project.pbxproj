@@ -13,7 +13,7 @@
 		301F6463216162550071A4CE /* AdditionField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6462216162550071A4CE /* AdditionField.swift */; };
 		301F6468216165290071A4CE /* ConstantsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6467216165290071A4CE /* ConstantsTest.swift */; };
 		301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F646C216166AA0071A4CE /* AdditionFieldTest.swift */; };
-		302269B323E634B000F843A3 /* PGPKeyFileSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302269B223E634B000F843A3 /* PGPKeyFileSettingTableViewController.swift */; };
+		302269B323E634B000F843A3 /* PGPKeyFIleImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302269B223E634B000F843A3 /* PGPKeyFIleImportTableViewController.swift */; };
 		302B2C9822C2BDE700D831EE /* AppKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302B2C9722C2BDE700D831EE /* AppKeychain.swift */; };
 		302E85612125ECC70031BA64 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302E85602125ECC70031BA64 /* Parser.swift */; };
 		302E85632125EE550031BA64 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302E85622125EE550031BA64 /* Constants.swift */; };
@@ -84,7 +84,7 @@
 		9A8A8387402FCCCECB1232A4 /* Pods_passKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2B2F844061EFA534FE9506 /* Pods_passKitTests.framework */; };
 		9AA710CA23939C68009E3213 /* GitCredentialPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA710C923939C68009E3213 /* GitCredentialPassword.swift */; };
 		A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */; };
-		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */; };
+		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift */; };
 		A2367B9C1EEFE2E500C8FE8B /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */; };
 		A2367BA01EF0387000C8FE8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2367B9F1EF0387000C8FE8B /* Assets.xcassets */; };
 		A239F5902158C07D00576CBF /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A239F58F2158C07D00576CBF /* AuthenticationServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -129,19 +129,19 @@
 		DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914941E434301007FF592 /* LabelTableViewCell.swift */; };
 		DC4914991E434600007FF592 /* PasswordDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */; };
 		DC5734AE1E439AD400D09270 /* PasswordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5734AD1E439AD400D09270 /* PasswordsViewController.swift */; };
-		DC5F385B1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5F385A1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift */; };
-		DC8963C01E38EEB900828B09 /* SSHKeySettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8963BF1E38EEB900828B09 /* SSHKeySettingTableViewController.swift */; };
+		DC5F385B1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5F385A1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift */; };
+		DC8963C01E38EEB900828B09 /* SSHKeyUrlImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8963BF1E38EEB900828B09 /* SSHKeyUrlImportTableViewController.swift */; };
 		DC917BD71E2E8231000FDF54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC917BD61E2E8231000FDF54 /* AppDelegate.swift */; };
 		DC917BDC1E2E8231000FDF54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDA1E2E8231000FDF54 /* Main.storyboard */; };
 		DC917BDE1E2E8231000FDF54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
 		DC917BE11E2E8231000FDF54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDF1E2E8231000FDF54 /* LaunchScreen.storyboard */; };
 		DC962CDF1E4B62C10033B5D8 /* AboutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC962CDE1E4B62C10033B5D8 /* AboutTableViewController.swift */; };
-		DCA0499A1E335CC800522E8F /* GitServerSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA049991E335CC800522E8F /* GitServerSettingTableViewController.swift */; };
-		DCA0499C1E3362F400522E8F /* PGPKeyUrlTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0499B1E3362F400522E8F /* PGPKeyUrlTableViewController.swift */; };
+		DCA0499A1E335CC800522E8F /* GitRepositorySettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA049991E335CC800522E8F /* GitRepositorySettingsTableViewController.swift */; };
+		DCA0499C1E3362F400522E8F /* PGPKeyUrlImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0499B1E3362F400522E8F /* PGPKeyUrlImportTableViewController.swift */; };
 		DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */; };
 		DCC408C71E307DBB00F29B0E /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */; };
 		DCC441521E8F6C06008A90C4 /* RawPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */; };
-		DCC441541E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC441531E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift */; };
+		DCC441541E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC441531E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift */; };
 		DCD3C65E1EFB9BB400CBE842 /* SettingsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD3C65D1EFB9BB400CBE842 /* SettingsSplitViewController.swift */; };
 		DCDDEAB01E4639F300F68193 /* LabelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */; };
 		DCDDEAB31E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */; };
@@ -234,7 +234,7 @@
 		301F6467216165290071A4CE /* ConstantsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsTest.swift; sourceTree = "<group>"; };
 		301F646C216166AA0071A4CE /* AdditionFieldTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionFieldTest.swift; sourceTree = "<group>"; };
 		302202EE222F14E400555236 /* SearchBarScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarScope.swift; sourceTree = "<group>"; };
-		302269B223E634B000F843A3 /* PGPKeyFileSettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGPKeyFileSettingTableViewController.swift; sourceTree = "<group>"; };
+		302269B223E634B000F843A3 /* PGPKeyFIleImportTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGPKeyFIleImportTableViewController.swift; sourceTree = "<group>"; };
 		302B2C9722C2BDE700D831EE /* AppKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKeychain.swift; sourceTree = "<group>"; };
 		302E85602125ECC70031BA64 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		302E85622125EE550031BA64 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -301,7 +301,7 @@
 		7CAD21E487234A0631B52E20 /* Pods-passKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passKit/Pods-passKit.debug.xcconfig"; sourceTree = "<group>"; };
 		9AA710C923939C68009E3213 /* GitCredentialPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitCredentialPassword.swift; sourceTree = "<group>"; };
 		A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurePasteboard.swift; sourceTree = "<group>"; };
-		A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = GitConfigSettingTableViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = GitConfigSettingsTableViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		A2367B9F1EF0387000C8FE8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A239F58F2158C07D00576CBF /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		A239F5952158C08B00576CBF /* passAutoFillExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = passAutoFillExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -351,8 +351,8 @@
 		DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTableViewController.swift; sourceTree = "<group>"; };
 		DC547D572040664E838F3DB3 /* Pods-pass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.debug.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.debug.xcconfig"; sourceTree = "<group>"; };
 		DC5734AD1E439AD400D09270 /* PasswordsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordsViewController.swift; sourceTree = "<group>"; };
-		DC5F385A1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPKeyArmorSettingTableViewController.swift; sourceTree = "<group>"; };
-		DC8963BF1E38EEB900828B09 /* SSHKeySettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeySettingTableViewController.swift; sourceTree = "<group>"; };
+		DC5F385A1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPKeyArmorImportTableViewController.swift; sourceTree = "<group>"; };
+		DC8963BF1E38EEB900828B09 /* SSHKeyUrlImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeyUrlImportTableViewController.swift; sourceTree = "<group>"; };
 		DC917BD31E2E8231000FDF54 /* pass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC917BD61E2E8231000FDF54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DC917BDB1E2E8231000FDF54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -361,14 +361,14 @@
 		DC917BE21E2E8231000FDF54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC962CDE1E4B62C10033B5D8 /* AboutTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutTableViewController.swift; sourceTree = "<group>"; };
 		DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyUserDefaults.framework; path = Carthage/Build/iOS/SwiftyUserDefaults.framework; sourceTree = "<group>"; };
-		DCA049991E335CC800522E8F /* GitServerSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitServerSettingTableViewController.swift; sourceTree = "<group>"; };
-		DCA0499B1E3362F400522E8F /* PGPKeyUrlTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPKeyUrlTableViewController.swift; sourceTree = "<group>"; };
+		DCA049991E335CC800522E8F /* GitRepositorySettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitRepositorySettingsTableViewController.swift; sourceTree = "<group>"; };
+		DCA0499B1E3362F400522E8F /* PGPKeyUrlImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPKeyUrlImportTableViewController.swift; sourceTree = "<group>"; };
 		DCA671DE1E7A73B100D3ABE1 /* OneTimePassword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OneTimePassword.framework; path = Carthage/Build/iOS/OneTimePassword.framework; sourceTree = "<group>"; };
 		DCA742D91E599ED400D54E16 /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/iOS/KeychainAccess.framework; sourceTree = "<group>"; };
 		DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
 		DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawPasswordViewController.swift; sourceTree = "<group>"; };
-		DCC441531E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitSSHKeyArmorSettingTableViewController.swift; sourceTree = "<group>"; };
+		DCC441531E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeyArmorImportTableViewController.swift; sourceTree = "<group>"; };
 		DCD3C65D1EFB9BB400CBE842 /* SettingsSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSplitViewController.swift; sourceTree = "<group>"; };
 		DCDDEAAF1E4639F300F68193 /* LabelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelTableViewCell.xib; sourceTree = "<group>"; };
 		DCDDEAB11E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTitleTableViewCell.swift; sourceTree = "<group>"; };
@@ -546,16 +546,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		30C25DD421F4831200BB27BB /* UserInterface */ = {
-			isa = PBXGroup;
-			children = (
-				30C25DD621F4834D00BB27BB /* UICodeHighlightingLabel.swift */,
-				30C25DD521F4834D00BB27BB /* UILocalizedLabel.swift */,
-				300713C42219D54100F553AC /* AutoCellHeightUITableViewController.swift */,
-			);
-			path = UserInterface;
-			sourceTree = "<group>";
-		};
 		30CCA90C232584560048CA51 /* Crypto */ = {
 			isa = PBXGroup;
 			children = (
@@ -707,27 +697,28 @@
 				DC962CDE1E4B62C10033B5D8 /* AboutTableViewController.swift */,
 				DC037CB71E4DD1A500609409 /* AddPasswordTableViewController.swift */,
 				DC193FF91E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift */,
+				300713C42219D54100F553AC /* AutoCellHeightUITableViewController.swift */,
 				DC037CA71E4B898100609409 /* BasicStaticTableViewController.swift */,
 				DC3E64E51E656F11009A83DE /* CommitLogsTableViewController.swift */,
 				DCFB77A61E502DF9008DE471 /* EditPasswordTableViewController.swift */,
 				DC037CAF1E4CA51F00609409 /* GeneralSettingsTableViewController.swift */,
-				A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift */,
-				DCA049991E335CC800522E8F /* GitServerSettingTableViewController.swift */,
-				DCC441531E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift */,
+				A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift */,
+				DCA049991E335CC800522E8F /* GitRepositorySettingsTableViewController.swift */,
 				DC037CA51E4B883900609409 /* OpenSourceComponentsTableViewController.swift */,
 				DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */,
 				DCFB77A81E502FF6008DE471 /* PasswordEditorTableViewController.swift */,
 				DC5734AD1E439AD400D09270 /* PasswordsViewController.swift */,
-				DC5F385A1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift */,
-				302269B223E634B000F843A3 /* PGPKeyFileSettingTableViewController.swift */,
+				DC5F385A1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift */,
+				302269B223E634B000F843A3 /* PGPKeyFIleImportTableViewController.swift */,
 				3066AD6723EE0D6500F65535 /* PGPKeyImporter.swift */,
-				DCA0499B1E3362F400522E8F /* PGPKeyUrlTableViewController.swift */,
+				DCA0499B1E3362F400522E8F /* PGPKeyUrlImportTableViewController.swift */,
 				A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */,
 				DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */,
 				DCD3C65D1EFB9BB400CBE842 /* SettingsSplitViewController.swift */,
 				DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */,
 				DC037CA91E4B8EAE00609409 /* SpecialThanksTableViewController.swift */,
-				DC8963BF1E38EEB900828B09 /* SSHKeySettingTableViewController.swift */,
+				DCC441531E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift */,
+				DC8963BF1E38EEB900828B09 /* SSHKeyUrlImportTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -759,6 +750,8 @@
 				DC037CBA1E4DD47B00609409 /* TextFieldTableViewCell.xib */,
 				DC037CBD1E4ED4E100609409 /* TextViewTableViewCell.swift */,
 				DC037CBE1E4ED4E100609409 /* TextViewTableViewCell.xib */,
+				30C25DD621F4834D00BB27BB /* UICodeHighlightingLabel.swift */,
+				30C25DD521F4834D00BB27BB /* UILocalizedLabel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -796,7 +789,6 @@
 			children = (
 				DC19400C1E4B39400077E0A3 /* Controllers */,
 				DC19400E1E4B3A610077E0A3 /* Helpers */,
-				30C25DD421F4831200BB27BB /* UserInterface */,
 				DC19400F1E4B3A9E0077E0A3 /* Views */,
 				DC917BDD1E2E8231000FDF54 /* Assets.xcassets */,
 				DC917BD61E2E8231000FDF54 /* AppDelegate.swift */,
@@ -1384,18 +1376,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC037CBF1E4ED4E100609409 /* TextViewTableViewCell.swift in Sources */,
-				DCC441541E916382008A90C4 /* GitSSHKeyArmorSettingTableViewController.swift in Sources */,
+				DCC441541E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift in Sources */,
 				A2A61C201EEFABAD00CFE063 /* UtilsExtension.swift in Sources */,
-				DC8963C01E38EEB900828B09 /* SSHKeySettingTableViewController.swift in Sources */,
+				DC8963C01E38EEB900828B09 /* SSHKeyUrlImportTableViewController.swift in Sources */,
 				3066AD6823EE0D6500F65535 /* PGPKeyImporter.swift in Sources */,
 				DC193FFA1E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift in Sources */,
 				DCFB77AB1E503729008DE471 /* ContentProvider.swift in Sources */,
-				DCA0499C1E3362F400522E8F /* PGPKeyUrlTableViewController.swift in Sources */,
+				DCA0499C1E3362F400522E8F /* PGPKeyUrlImportTableViewController.swift in Sources */,
 				DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */,
-				DC5F385B1E56AADB00C69ACA /* PGPKeyArmorSettingTableViewController.swift in Sources */,
+				DC5F385B1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift in Sources */,
 				DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */,
 				DCFB77A71E502DF9008DE471 /* EditPasswordTableViewController.swift in Sources */,
-				DCA0499A1E335CC800522E8F /* GitServerSettingTableViewController.swift in Sources */,
+				DCA0499A1E335CC800522E8F /* GitRepositorySettingsTableViewController.swift in Sources */,
 				DCDDEAB31E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift in Sources */,
 				A2A7813F1E97DBD9001311F5 /* QRScannerController.swift in Sources */,
 				DC4914991E434600007FF592 /* PasswordDetailTableViewController.swift in Sources */,
@@ -1404,7 +1396,7 @@
 				30C25DD721F4834D00BB27BB /* UILocalizedLabel.swift in Sources */,
 				DC5734AE1E439AD400D09270 /* PasswordsViewController.swift in Sources */,
 				300713C52219D54100F553AC /* AutoCellHeightUITableViewController.swift in Sources */,
-				302269B323E634B000F843A3 /* PGPKeyFileSettingTableViewController.swift in Sources */,
+				302269B323E634B000F843A3 /* PGPKeyFIleImportTableViewController.swift in Sources */,
 				DCD3C65E1EFB9BB400CBE842 /* SettingsSplitViewController.swift in Sources */,
 				A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */,
 				DC3E64E61E656F11009A83DE /* CommitLogsTableViewController.swift in Sources */,
@@ -1414,7 +1406,7 @@
 				DCFB779E1E4F40C7008DE471 /* FillPasswordTableViewCell.swift in Sources */,
 				A2802BF91E70813A00879216 /* SliderTableViewCell.swift in Sources */,
 				DC037CB21E4CAB1700609409 /* AboutRepositoryTableViewController.swift in Sources */,
-				A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingTableViewController.swift in Sources */,
+				A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift in Sources */,
 				9AA710CA23939C68009E3213 /* GitCredentialPassword.swift in Sources */,
 				DC037CB01E4CA51F00609409 /* GeneralSettingsTableViewController.swift in Sources */,
 				DC037CB81E4DD1A500609409 /* AddPasswordTableViewController.swift in Sources */,

@@ -130,13 +130,13 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
     func showPGPKeyActionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        optionMenu.addAction(UIAlertAction(title: PGPKeyUrlTableViewController.menuLabel, style: .default) { _ in
+        optionMenu.addAction(UIAlertAction(title: PGPKeyUrlImportTableViewController.menuLabel, style: .default) { _ in
             self.performSegue(withIdentifier: "setPGPKeyByURLSegue", sender: self)
         })
-        optionMenu.addAction(UIAlertAction(title: PGPKeyArmorSettingTableViewController.menuLabel, style: .default) { _ in
+        optionMenu.addAction(UIAlertAction(title: PGPKeyArmorImportTableViewController.menuLabel, style: .default) { _ in
             self.performSegue(withIdentifier: "setPGPKeyByASCIISegue", sender: self)
         })
-        optionMenu.addAction(UIAlertAction(title: PGPKeyFileSettingTableViewController.menuLabel, style: .default) { _ in
+        optionMenu.addAction(UIAlertAction(title: PGPKeyFileImportTableViewController.menuLabel, style: .default) { _ in
             self.performSegue(withIdentifier: "setPGPKeyByFileSegue", sender: self)
         })
 

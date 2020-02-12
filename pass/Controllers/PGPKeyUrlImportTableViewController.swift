@@ -1,5 +1,5 @@
 //
-//  PGPKeyUrlTableViewController.swift
+//  PGPKeyUrlImportTableViewController.swift
 //  pass
 //
 //  Created by Mingshen Sun on 21/1/2017.
@@ -9,7 +9,7 @@
 import UIKit
 import passKit
 
-class PGPKeyUrlTableViewController: AutoCellHeightUITableViewController {
+class PGPKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
 
     @IBOutlet weak var pgpPublicKeyURLTextField: UITextField!
     @IBOutlet weak var pgpPrivateKeyURLTextField: UITextField!
@@ -44,7 +44,7 @@ class PGPKeyUrlTableViewController: AutoCellHeightUITableViewController {
     }
 }
 
-extension PGPKeyUrlTableViewController: PGPKeyImporter {
+extension PGPKeyUrlImportTableViewController: PGPKeyImporter {
 
     static let keySource = PGPKeySource.url
     static let label = "DownloadFromUrl".localize()

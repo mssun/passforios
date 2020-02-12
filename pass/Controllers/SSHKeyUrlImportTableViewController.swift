@@ -1,5 +1,5 @@
 //
-//  SSHKeySettingTableViewController.swift
+//  SSHKeyUrlImportTableViewController.swift
 //  pass
 //
 //  Created by Mingshen Sun on 25/1/2017.
@@ -10,7 +10,7 @@ import UIKit
 import SVProgressHUD
 import passKit
 
-class SSHKeySettingTableViewController: AutoCellHeightUITableViewController {
+class SSHKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
 
     @IBOutlet weak var privateKeyURLTextField: UITextField!
     
