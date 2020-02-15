@@ -13,9 +13,6 @@ class PGPKeyFileImportTableViewController: AutoCellHeightUITableViewController {
     @IBOutlet weak var pgpPublicKeyFile: UITableViewCell!
     @IBOutlet weak var pgpPrivateKeyFile: UITableViewCell!
 
-    private let passwordStore = PasswordStore.shared
-    private let keychain = AppKeychain.shared
-
     private var publicKey: String? = nil
     private var privateKey: String? = nil
 
@@ -72,7 +69,7 @@ extension PGPKeyFileImportTableViewController: UIDocumentPickerDelegate {
 
 extension PGPKeyFileImportTableViewController: PGPKeyImporter {
 
-    static let keySource = PGPKeySource.files
+    static let keySource = KeySource.file
     static let label = "LoadFromFiles".localize()
 
     func isReadyToUse() -> Bool {

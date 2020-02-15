@@ -153,19 +153,18 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         }
 
         if Defaults.pgpKeySource != nil {
-            let deleteAction = UIAlertAction(title: "RemovePgpKeys".localize(), style: .destructive) { _ in
+            optionMenu.addAction(UIAlertAction(title: "RemovePgpKeys".localize(), style: .destructive) { _ in
                 self.keychain.removeContent(for: PgpKey.PUBLIC.getKeychainKey())
                 self.keychain.removeContent(for: PgpKey.PRIVATE.getKeychainKey())
                 PGPAgent.shared.uninitKeys()
                 self.pgpKeyTableViewCell.detailTextLabel?.text = "NotSet".localize()
                 Defaults.pgpKeySource = nil
-            }
-            optionMenu.addAction(deleteAction)
+            })
         }
         optionMenu.addAction(UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil))
         optionMenu.popoverPresentationController?.sourceView = pgpKeyTableViewCell
         optionMenu.popoverPresentationController?.sourceRect = pgpKeyTableViewCell.bounds
-        self.present(optionMenu, animated: true, completion: nil)
+        present(optionMenu, animated: true)
     }
 
     func showPasscodeActionSheet() {
@@ -243,7 +242,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
 extension SettingsTableViewController: PGPKeyImporter {
 
-    static let keySource = PGPKeySource.itunes
+    static let keySource = KeySource.itunes
     static let label = "ITunesFileSharing".localize()
 
     func isReadyToUse() -> Bool {
@@ -255,11 +254,7 @@ extension SettingsTableViewController: PGPKeyImporter {
         try KeyFileManager.PrivatePgp.importKeyFromFileSharing()
     }
 
-    func doAfterImport() {
-
-    }
-
     func saveImportedKeys() {
-        self.savePGPKey(using: self)
+        savePGPKey(using: self)
     }
 }

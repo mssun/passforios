@@ -14,9 +14,6 @@ class PGPKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
     @IBOutlet weak var pgpPublicKeyURLTextField: UITextField!
     @IBOutlet weak var pgpPrivateKeyURLTextField: UITextField!
 
-    let passwordStore = PasswordStore.shared
-    let keychain = AppKeychain.shared
-
     override func viewDidLoad() {
         super.viewDidLoad()
         pgpPublicKeyURLTextField.text = Defaults.pgpPublicKeyURL?.absoluteString
@@ -46,7 +43,7 @@ class PGPKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
 
 extension PGPKeyUrlImportTableViewController: PGPKeyImporter {
 
-    static let keySource = PGPKeySource.url
+    static let keySource = KeySource.url
     static let label = "DownloadFromUrl".localize()
 
     func isReadyToUse() -> Bool {

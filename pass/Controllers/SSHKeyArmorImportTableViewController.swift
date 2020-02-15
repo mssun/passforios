@@ -10,11 +10,11 @@ import UIKit
 import passKit
 
 class SSHKeyArmorImportTableViewController: AutoCellHeightUITableViewController, UITextViewDelegate, QRScannerControllerDelegate {
+
     @IBOutlet weak var armorPrivateKeyTextView: UITextView!
     @IBOutlet weak var scanPrivateKeyCell: UITableViewCell!
 
     var gitSSHPrivateKeyPassphrase: String?
-    let passwordStore = PasswordStore.shared
 
     class ScannedSSHKey {
         var segments = [String]()
@@ -60,10 +60,7 @@ class SSHKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
     }
 
     @IBAction func doneButtonTapped(_ sender: Any) {
-        AppKeychain.shared.add(string: armorPrivateKeyTextView.text, for: SshKey.PRIVATE.getKeychainKey())
-        Defaults.gitSSHKeySource = .armor
-        Defaults.gitAuthenticationMethod = .key
-        self.navigationController!.popViewController(animated: true)
+        performSegue(withIdentifier: "importSSHKeySegue", sender: self)
     }
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -109,5 +106,22 @@ class SSHKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
     @IBAction private func cancelSSHScanner(segue: UIStoryboardSegue) {
 
     }
+}
 
+extension SSHKeyArmorImportTableViewController: KeyImporter {
+
+    static let keySource = KeySource.armor
+    static let label = "AsciiArmorEncryptedKey".localize()
+
+    func isReadyToUse() -> Bool {
+        guard !armorPrivateKeyTextView.text.isEmpty else {
+            Utils.alert(title: "CannotSave".localize(), message: "SetPrivateKey.".localize(), controller: self)
+            return false
+        }
+        return true
+    }
+
+    func importKeys() throws {
+        try KeyFileManager.PrivateSsh.importKey(from: armorPrivateKeyTextView.text ?? "")
+    }
 }
