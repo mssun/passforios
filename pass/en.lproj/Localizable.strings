@@ -280,6 +280,12 @@ to get the key in this specific format. The clipboard will be cleared 45s after 
 
 to get the key in this specific format. Subsequently, copy it to your secured key server.";
 
+"SshAsciiArmorFileExplanation." = "The ASCII-armored key format is similar to unencoded documents rather than the binary format. Use
+
+  $ cat ~/.ssh/id_rsa
+
+to get the key in this specific format. Subsequently, copy it to a location accessible by the Files app.";
+
 "GpgAsciiArmorCopyExplanation." = "GnuPG supports the command-line option \"-a\" that causes output to be generated in an ASCII-armored format similar to unencoded documents rather than the binary format. Use
 
   $ gpg --export -a KEY_ID

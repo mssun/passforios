@@ -247,6 +247,9 @@ class GitRepositorySettingsTableViewController: UITableViewController {
         optionMenu.addAction(UIAlertAction(title: SSHKeyArmorImportTableViewController.menuLabel, style: .default) { _ in
             self.performSegue(withIdentifier: "setGitSSHKeyByArmorSegue", sender: self)
         })
+        optionMenu.addAction(UIAlertAction(title: SSHKeyFileImportTableViewController.menuLabel, style: .default) { _ in
+            self.performSegue(withIdentifier: "setGitSSHKeyByFileSegue", sender: self)
+        })
 
         if isReadyToUse() {
             optionMenu.addAction(UIAlertAction(title: "\(Self.menuLabel) (\("Import".localize()))", style: .default) { _ in

@@ -280,6 +280,12 @@ gibt den Schlüssel in diesem speziellen Format aus. Die Zwischenablage wird nac
 
 gibt den Schlüssel in diesem speziellen Format aus. Kopiere ihn so zu einem Key-Server.";
 
+"SshAsciiArmorFileExplanation." = "Das Format \"ASCII-Armor\" ist anders als das Binärformat eine einfache Zeichenkette. Der Befehl
+
+  $ cat ~/.ssh/id_rsa
+
+gibt den Schlüssel in diesem speziellen Format aus. Kopiere ihn so zu einem Speicherort, der für die Dateien-App zugänglich ist.";
+
 "GpgAsciiArmorCopyExplanation." = "GnuPG unterstützt die Kommandozeilenoption \"-a\", welche die Schlüssel im Format \"ASCII-Armor\" ausgibt. Es ist anders als das Binärformat eine einfache Zeichenkette. Die Befehle
 
   $ gpg --export -a KEY_ID

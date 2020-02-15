@@ -23,6 +23,9 @@
 /* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "9yM-Mg-Cg8"; */
 "9yM-Mg-Cg8.title" = "Zurück";
 
+/* Class = "UILabel"; text = "Select file ..."; ObjectID = "9KE-VA-cx2"; */
+"9KE-VA-cx2.text" = "Datei auswählen ...";
+
 /* Class = "UILabel"; text = "Private Key URL"; ObjectID = "C2w-dd-roS"; */
 "C2w-dd-roS.text" = "URL des privaten Schlüssels";
 

@@ -496,6 +496,7 @@
                         <segue destination="7K9-cE-9qq" kind="unwind" identifier="saveGitServerSettingSegue" unwindAction="saveGitServerSettingWithSegue:" id="5UN-sC-xCA"/>
                         <segue destination="hqC-Ic-NMi" kind="show" identifier="setGitSSHKeyByURLSegue" id="AP7-FV-2Ow"/>
                         <segue destination="WgM-cY-mig" kind="show" identifier="setGitSSHKeyByArmorSegue" id="HLm-0q-hUg"/>
+                        <segue destination="Jnt-d8-bQx" kind="show" identifier="setGitSSHKeyByFileSegue" id="4Bn-TN-gBI"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7c1-c7-Qyp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1877,6 +1878,87 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G3o-et-5l9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3845" y="2969"/>
+        </scene>
+        <!--SSH Key-->
+        <scene sceneID="kOg-Uk-VyV">
+            <objects>
+                <tableViewController id="Jnt-d8-bQx" customClass="SSHKeyFileImportTableViewController" customModule="pass" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="urc-Su-PL8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection id="Nlg-0d-JGw">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="11" reuseIdentifier="sshPrivateKeyFile" textLabel="1h3-cQ-4bj" detailTextLabel="pqH-wg-EIn" style="IBUITableViewCellStyleSubtitle" id="yyX-RO-fws" userLabel="SSH private key from file description">
+                                        <rect key="frame" x="0.0" y="18" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yyX-RO-fws" id="QcH-CI-X9n">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="ASCII-Armor Keys" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1h3-cQ-4bj">
+                                                    <rect key="frame" x="20.000000000000007" y="6" width="121.66666666666667" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="SshAsciiArmorFileExplanation." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pqH-wg-EIn" customClass="UICodeHighlightingLabel" customModule="pass" customModuleProvider="target">
+                                                    <rect key="frame" x="20" y="23" width="191.33333333333334" height="16.333333333333332"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                                    <color key="textColor" white="0.40782000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="PRIVATE KEY" id="pEq-Ii-lwe" userLabel="PRIVATE KEY">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="sshPrivateKeyFile" textLabel="9KE-VA-cx2" rowHeight="52" style="IBUITableViewCellStyleDefault" id="qWo-Q3-m4Z" userLabel="SSH private key file">
+                                        <rect key="frame" x="0.0" y="118" width="414" height="52"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qWo-Q3-m4Z" id="Jjt-3W-boo">
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="52"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Select file ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9KE-VA-cx2">
+                                                    <rect key="frame" x="20" y="0.0" width="355" height="52"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="Jnt-d8-bQx" id="Dse-Bk-idM"/>
+                            <outlet property="delegate" destination="Jnt-d8-bQx" id="fKs-GA-48h"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="SSH Key" id="vaA-as-6yJ">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="OmP-jt-rJh">
+                            <connections>
+                                <action selector="doneButtonTapped:" destination="Jnt-d8-bQx" id="skg-sj-oLw"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="sshPrivateKeyFile" destination="qWo-Q3-m4Z" id="vrz-89-rLv"/>
+                        <segue destination="T4H-XT-sbN" kind="unwind" identifier="importSSHKeySegue" unwindAction="importSSHKeyWithSegue:" id="yy9-zG-Yes"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rw2-Uq-xF8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="T4H-XT-sbN" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="6990" y="2967"/>
         </scene>
     </scenes>
     <resources>
