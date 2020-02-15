@@ -1031,9 +1031,11 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                     </navigationItem>
                     <connections>
                         <outlet property="privateKeyURLTextField" destination="4iJ-oB-R1f" id="scx-lz-dUW"/>
+                        <segue destination="bXG-pY-DH6" kind="unwind" identifier="importSSHKeySegue" unwindAction="importSSHKeyWithSegue:" id="vGk-Xa-meP"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eY3-aM-BJB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="bXG-pY-DH6" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="6990" y="2239"/>
         </scene>
@@ -1558,9 +1560,11 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                         <outlet property="armorPrivateKeyTextView" destination="23o-MP-wQY" id="ybK-Ba-vJt"/>
                         <outlet property="scanPrivateKeyCell" destination="jXO-n0-Mvx" id="Zdb-wm-7Ls"/>
                         <segue destination="LZE-gF-IcM" kind="show" identifier="showSSHScannerSegue" id="oxP-I1-Mke"/>
+                        <segue destination="Vrv-hO-eSS" kind="unwind" identifier="importSSHKeySegue" unwindAction="importSSHKeyWithSegue:" id="zgs-se-tr3"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qJO-AN-K9p" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Vrv-hO-eSS" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="6083" y="3668"/>
         </scene>

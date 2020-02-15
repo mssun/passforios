@@ -213,78 +213,65 @@ class GitRepositorySettingsTableViewController: UITableViewController {
         }
     }
 
+    @IBAction func importSSHKey(segue: UIStoryboardSegue) {
+        guard let sourceController = segue.source as? KeyImporter, sourceController.isReadyToUse() else {
+            return
+        }
+        importSSHKey(using: sourceController)
+    }
+
+    private func importSSHKey(using keyImporter: KeyImporter) {
+        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+            do {
+                try keyImporter.importKeys()
+                DispatchQueue.main.async {
+                    SVProgressHUD.showSuccess(withStatus: "Imported".localize())
+                    SVProgressHUD.dismiss(withDelay: 1)
+                }
+                Defaults.gitSSHKeySource = type(of: keyImporter).keySource
+                self.gitAuthenticationMethod = .key
+                self.sshLabel?.isEnabled = true
+            } catch {
+                Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self)
+            }
+        }
+    }
+
     // MARK: - Helper Functions
 
     private func showSSHKeyActionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        var urlActionTitle = "DownloadFromUrl".localize()
-        var armorActionTitle = "AsciiArmorEncryptedKey".localize()
-        var fileActionTitle = "ITunesFileSharing".localize()
-
-        switch Defaults.gitSSHKeySource {
-        case .url: urlActionTitle = "✓ \(urlActionTitle)"
-        case .armor: armorActionTitle = "✓ \(armorActionTitle)"
-        case .file: fileActionTitle = "✓ \(fileActionTitle)"
-        case .none: break
-        }
-
-        let urlAction = UIAlertAction(title: urlActionTitle, style: .default) { _ in
+        optionMenu.addAction(UIAlertAction(title: SSHKeyUrlImportTableViewController.menuLabel, style: .default) { _ in
             self.performSegue(withIdentifier: "setGitSSHKeyByURLSegue", sender: self)
-        }
-        optionMenu.addAction(urlAction)
-
-        let armorAction = UIAlertAction(title: armorActionTitle, style: .default) { _ in
+        })
+        optionMenu.addAction(UIAlertAction(title: SSHKeyArmorImportTableViewController.menuLabel, style: .default) { _ in
             self.performSegue(withIdentifier: "setGitSSHKeyByArmorSegue", sender: self)
+        })
+
+        if isReadyToUse() {
+            optionMenu.addAction(UIAlertAction(title: "\(Self.menuLabel) (\("Import".localize()))", style: .default) { _ in
+                self.importSSHKey(using: self)
+            })
+        } else {
+            optionMenu.addAction(UIAlertAction(title: "\(Self.menuLabel) (\("Tips".localize()))", style: .default) { _ in
+                let title = "Tips".localize()
+                let message = "SshCopyPrivateKeyToPass.".localize()
+                Utils.alert(title: title, message: message, controller: self)
+            })
         }
-        optionMenu.addAction(armorAction)
-
-        let fileAction: UIAlertAction = {
-            if KeyFileManager.PrivateSsh.doesKeyFileExist() {
-                fileActionTitle.append(" (\("Import".localize()))")
-                let action = UIAlertAction(title: fileActionTitle, style: .default) { _ in
-                    do {
-                        try self.passwordStore.gitSSHKeyImportFromFileSharing()
-                        Defaults.gitSSHKeySource = .file
-                        SVProgressHUD.showSuccess(withStatus: "Imported".localize())
-                        SVProgressHUD.dismiss(withDelay: 1)
-                        self.sshLabel?.isEnabled = true
-                        self.gitAuthenticationMethod = .key
-                        self.updateAuthenticationMethodCheckView(for: self.gitAuthenticationMethod)
-                    } catch {
-                        Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self)
-                    }
-                }
-                return action
-            } else {
-                fileActionTitle.append(" (\("Tips".localize()))")
-                let action = UIAlertAction(title: fileActionTitle, style: .default) { _ in
-                    let title = "Tips".localize()
-                    let message = "SshCopyPrivateKeyToPass.".localize()
-                    Utils.alert(title: title, message: message, controller: self)
-                }
-                return action
-            }
-
-        }()
-        optionMenu.addAction(fileAction)
 
         if Defaults.gitSSHKeySource != nil {
-            let deleteAction = UIAlertAction(title: "RemoveSShKeys".localize(), style: .destructive) { _ in
+            optionMenu.addAction(UIAlertAction(title: "RemoveSShKeys".localize(), style: .destructive) { _ in
                 self.passwordStore.removeGitSSHKeys()
                 Defaults.gitSSHKeySource = nil
                 self.sshLabel?.isEnabled = false
-                self.updateAuthenticationMethodCheckView(for: .password)
-            }
-            optionMenu.addAction(deleteAction)
+                self.gitAuthenticationMethod = .password
+            })
         }
-
-        let cancelAction = UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil)
-        optionMenu.addAction(cancelAction)
-
+        optionMenu.addAction(UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil))
         optionMenu.popoverPresentationController?.sourceView = authSSHKeyCell
         optionMenu.popoverPresentationController?.sourceRect = authSSHKeyCell.bounds
-
-        self.present(optionMenu, animated: true)
+        present(optionMenu, animated: true)
     }
 
     private func requestCredentialPassword(credential: GitCredential.Credential, lastPassword: String?) -> String? {
@@ -313,5 +300,18 @@ class GitRepositorySettingsTableViewController: UITableViewController {
             """
         Utils.alert(title: "Git URL Format", message: message, controller: self)
     }
+}
 
+extension GitRepositorySettingsTableViewController: KeyImporter {
+
+    static let keySource = KeySource.itunes
+    static let label = "ITunesFileSharing".localize()
+
+    func isReadyToUse() -> Bool {
+        return KeyFileManager.PrivateSsh.doesKeyFileExist()
+    }
+
+    func importKeys() throws {
+        try KeyFileManager.PrivateSsh.importKeyFromFileSharing()
+    }
 }

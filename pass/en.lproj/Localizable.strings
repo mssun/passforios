@@ -101,7 +101,7 @@
 "CannotSelectSshKey"        = "Cannot Select SSH Key";
 "PleaseSetupSshKeyFirst."   = "Please setup SSH key first.";
 "RemoveSShKeys"             = "Remove Git SSH Keys";
-"SetPrivateKeyUrl."         = "Please set private key URL first.";
+"SetPrivateKeyUrl."         = "Please set a valid private key URL first.";
 "SshCopyPrivateKeyToPass."  = "Copy your ASCII-armored private key to Pass with the name \"ssh_key\" (without quotes) via iTunes. Then come back and click \"iTunes File Sharing\" to finish.";
 
 // QR code scanning
@@ -113,8 +113,8 @@
 "ScanPrivateKey."                           = "Please scan private key.";
 "ScanPrivateKeyQrCodes"                     = "Scan Private Key QR codes";
 "ScanPublicKeyQrCodes"                      = "Scan Public Key QR codes";
-"SetPrivateKey."                            = "Please set private key first.";
-"SetPublicKey."                             = "Please set public key first.";
+"SetPrivateKey."                            = "Please set the private key first.";
+"SetPublicKey."                             = "Please set the public key first.";
 "NoQrCodeDetected."                         = "No QR code detected.";
 "NoStringValue"                             = "No string value";
 "CameraAccessDenied."                       = "Camera access denied.";
@@ -126,7 +126,7 @@
 "FillInPgpPassphrase."              = "Please fill in the passphrase of your PGP secret key.";
 "WantToSavePassphrase?"             = "Do you want to save the passphrase for later decryption?";
 "CannotSavePgpKey"                  = "Cannot Save PGP Key";
-"SetPgpKeyUrlsFirst."               = "Please set PGP key URLs first.";
+"SetPgpKeyUrlsFirst."               = "Please set valid PGP key URLs first.";
 "FetchingPgpKey"                    = "Fetching PGP Key";
 "RememberToRemoveKey"               = "Remember to Remove the Keys";
 "RememberToRemoveKeyFromServer."    = "Remember to remove the keys from the server.";

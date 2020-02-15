@@ -8,17 +8,7 @@
 
 import passKit
 
-protocol PGPKeyImporter {
-
-    static var keySource: PGPKeySource { get }
-
-    static var label: String { get }
-
-    static var menuLabel: String { get }
-
-    func isReadyToUse() -> Bool
-
-    func importKeys() throws
+protocol PGPKeyImporter: KeyImporter {
 
     func doAfterImport()
 
@@ -26,12 +16,13 @@ protocol PGPKeyImporter {
 }
 
 extension PGPKeyImporter {
-    
-    static var menuLabel: String {
-        if Defaults.pgpKeySource == Self.keySource {
-            return "✓ \(Self.label)"
-        }
-        return Self.label
+
+    static var isCurrentKeySource: Bool {
+        return Defaults.pgpKeySource == Self.keySource
+    }
+
+    func doAfterImport() {
+        
     }
 }
 

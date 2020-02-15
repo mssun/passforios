@@ -20,6 +20,7 @@
 		3032327422C7F710009EBD9C /* KeyFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032327322C7F710009EBD9C /* KeyFileManager.swift */; };
 		3032328A22C9FBA2009EBD9C /* KeyFileManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032328922C9FBA2009EBD9C /* KeyFileManagerTest.swift */; };
 		3032328E22CBD4CD009EBD9C /* CryptographicKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032328D22CBD4CD009EBD9C /* CryptographicKeys.swift */; };
+		30650E7323F847FC005CCD5E /* KeyImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30650E7223F847FC005CCD5E /* KeyImporter.swift */; };
 		3066AD6823EE0D6500F65535 /* PGPKeyImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3066AD6723EE0D6500F65535 /* PGPKeyImporter.swift */; };
 		30697C2A21F63C5A0064FCAC /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2321F63C580064FCAC /* NotificationNames.swift */; };
 		30697C2B21F63C5A0064FCAC /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2421F63C590064FCAC /* Globals.swift */; };
@@ -241,6 +242,7 @@
 		3032327322C7F710009EBD9C /* KeyFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyFileManager.swift; sourceTree = "<group>"; };
 		3032328922C9FBA2009EBD9C /* KeyFileManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyFileManagerTest.swift; sourceTree = "<group>"; };
 		3032328D22CBD4CD009EBD9C /* CryptographicKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptographicKeys.swift; sourceTree = "<group>"; };
+		30650E7223F847FC005CCD5E /* KeyImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImporter.swift; sourceTree = "<group>"; };
 		3066AD6723EE0D6500F65535 /* PGPKeyImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGPKeyImporter.swift; sourceTree = "<group>"; };
 		30697C2321F63C580064FCAC /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		30697C2421F63C590064FCAC /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
@@ -704,6 +706,7 @@
 				DC037CAF1E4CA51F00609409 /* GeneralSettingsTableViewController.swift */,
 				A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift */,
 				DCA049991E335CC800522E8F /* GitRepositorySettingsTableViewController.swift */,
+				30650E7223F847FC005CCD5E /* KeyImporter.swift */,
 				DC037CA51E4B883900609409 /* OpenSourceComponentsTableViewController.swift */,
 				DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */,
 				DCFB77A81E502FF6008DE471 /* PasswordEditorTableViewController.swift */,
@@ -1406,6 +1409,7 @@
 				DCFB779E1E4F40C7008DE471 /* FillPasswordTableViewCell.swift in Sources */,
 				A2802BF91E70813A00879216 /* SliderTableViewCell.swift in Sources */,
 				DC037CB21E4CAB1700609409 /* AboutRepositoryTableViewController.swift in Sources */,
+				30650E7323F847FC005CCD5E /* KeyImporter.swift in Sources */,
 				A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift in Sources */,
 				9AA710CA23939C68009E3213 /* GitCredentialPassword.swift in Sources */,
 				DC037CB01E4CA51F00609409 /* GeneralSettingsTableViewController.swift in Sources */,

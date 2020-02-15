@@ -698,8 +698,4 @@ public class PasswordStore {
         AppKeychain.shared.removeContent(for: SshKey.PRIVATE.getKeychainKey())
         gitSSHPrivateKeyPassphrase = nil
     }
-    
-    public func gitSSHKeyImportFromFileSharing() throws {
-        try KeyFileManager.PrivateSsh.importKeyFromFileSharing()
-    }
 }

@@ -11,20 +11,16 @@ import SwiftyUserDefaults
 
 public var Defaults = DefaultsAdapter(defaults: UserDefaults(suiteName: Globals.groupIdentifier)!, keyStore: DefaultsKeys())
 
-public enum PGPKeySource: String, DefaultsSerializable {
-    case url, armor, files, itunes
+public enum KeySource: String, DefaultsSerializable {
+    case url, armor, file, itunes
 }
 
 public enum GitAuthenticationMethod: String, DefaultsSerializable {
     case password, key
 }
 
-public enum GitSSHKeySource: String, DefaultsSerializable {
-    case file, armor, url
-}
-
 public extension DefaultsKeys {
-    var pgpKeySource: DefaultsKey<PGPKeySource?> { .init("pgpKeySource") }
+    var pgpKeySource: DefaultsKey<KeySource?> { .init("pgpKeySource") }
     var pgpPublicKeyURL: DefaultsKey<URL?> { .init("pgpPublicKeyURL") }
     var pgpPrivateKeyURL: DefaultsKey<URL?> { .init("pgpPrivateKeyURL") }
 
@@ -39,7 +35,7 @@ public extension DefaultsKeys {
     var gitUsername: DefaultsKey<String> { .init("gitUsername", defaultValue: "git") }
     var gitBranchName: DefaultsKey<String> { .init("gitBranchName", defaultValue: "master") }
     var gitSSHPrivateKeyURL: DefaultsKey<URL?> { .init("gitSSHPrivateKeyURL") }
-    var gitSSHKeySource: DefaultsKey<GitSSHKeySource?> { .init("gitSSHKeySource") }
+    var gitSSHKeySource: DefaultsKey<KeySource?> { .init("gitSSHKeySource") }
     var gitSignatureName: DefaultsKey<String?> { .init("gitSignatureName") }
     var gitSignatureEmail: DefaultsKey<String?> { .init("gitSignatureEmail") }
 

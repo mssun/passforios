@@ -10,13 +10,11 @@ import UIKit
 import passKit
 
 class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController, UITextViewDelegate, QRScannerControllerDelegate {
+
     @IBOutlet weak var armorPublicKeyTextView: UITextView!
     @IBOutlet weak var armorPrivateKeyTextView: UITextView!
     @IBOutlet weak var scanPublicKeyCell: UITableViewCell!
     @IBOutlet weak var scanPrivateKeyCell: UITableViewCell!
-
-    let passwordStore = PasswordStore.shared
-    let keychain = AppKeychain.shared
     
     class ScannedPGPKey {
         enum KeyType {
@@ -132,7 +130,7 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
 
 extension PGPKeyArmorImportTableViewController: PGPKeyImporter {
 
-    static let keySource = PGPKeySource.armor
+    static let keySource = KeySource.armor
     static let label = "AsciiArmorEncryptedKey".localize()
 
     func isReadyToUse() -> Bool {
@@ -150,10 +148,6 @@ extension PGPKeyArmorImportTableViewController: PGPKeyImporter {
     func importKeys() throws {
         try KeyFileManager.PublicPgp.importKey(from: armorPublicKeyTextView.text ?? "")
         try KeyFileManager.PrivatePgp.importKey(from: armorPrivateKeyTextView.text ?? "")
-    }
-
-    func doAfterImport() {
-
     }
 
     func saveImportedKeys() {
