@@ -20,6 +20,7 @@
 		3032327422C7F710009EBD9C /* KeyFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032327322C7F710009EBD9C /* KeyFileManager.swift */; };
 		3032328A22C9FBA2009EBD9C /* KeyFileManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032328922C9FBA2009EBD9C /* KeyFileManagerTest.swift */; };
 		3032328E22CBD4CD009EBD9C /* CryptographicKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032328D22CBD4CD009EBD9C /* CryptographicKeys.swift */; };
+		30650E7123F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30650E7023F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift */; };
 		30650E7323F847FC005CCD5E /* KeyImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30650E7223F847FC005CCD5E /* KeyImporter.swift */; };
 		3066AD6823EE0D6500F65535 /* PGPKeyImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3066AD6723EE0D6500F65535 /* PGPKeyImporter.swift */; };
 		30697C2A21F63C5A0064FCAC /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2321F63C580064FCAC /* NotificationNames.swift */; };
@@ -242,6 +243,7 @@
 		3032327322C7F710009EBD9C /* KeyFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyFileManager.swift; sourceTree = "<group>"; };
 		3032328922C9FBA2009EBD9C /* KeyFileManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyFileManagerTest.swift; sourceTree = "<group>"; };
 		3032328D22CBD4CD009EBD9C /* CryptographicKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptographicKeys.swift; sourceTree = "<group>"; };
+		30650E7023F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyFileImportTableViewController.swift; sourceTree = "<group>"; };
 		30650E7223F847FC005CCD5E /* KeyImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImporter.swift; sourceTree = "<group>"; };
 		3066AD6723EE0D6500F65535 /* PGPKeyImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGPKeyImporter.swift; sourceTree = "<group>"; };
 		30697C2321F63C580064FCAC /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
@@ -721,6 +723,7 @@
 				DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */,
 				DC037CA91E4B8EAE00609409 /* SpecialThanksTableViewController.swift */,
 				DCC441531E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift */,
+				30650E7023F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift */,
 				DC8963BF1E38EEB900828B09 /* SSHKeyUrlImportTableViewController.swift */,
 			);
 			path = Controllers;
@@ -1383,6 +1386,7 @@
 				A2A61C201EEFABAD00CFE063 /* UtilsExtension.swift in Sources */,
 				DC8963C01E38EEB900828B09 /* SSHKeyUrlImportTableViewController.swift in Sources */,
 				3066AD6823EE0D6500F65535 /* PGPKeyImporter.swift in Sources */,
+				30650E7123F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift in Sources */,
 				DC193FFA1E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift in Sources */,
 				DCFB77AB1E503729008DE471 /* ContentProvider.swift in Sources */,
 				DCA0499C1E3362F400522E8F /* PGPKeyUrlImportTableViewController.swift in Sources */,
