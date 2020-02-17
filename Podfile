@@ -2,7 +2,7 @@ platform :ios, '10.2'
 use_frameworks!
 
 def pods
-  pod 'ObjectivePGP', :git => 'https://github.com/krzyzanowskim/ObjectivePGP.git', :tag => '0.15.0'
+  pod 'ObjectivePGP', :git => 'https://github.com/mssun/ObjectivePGP.git', :tag => '0.15.1'
 end
 
 target 'passKit' do
