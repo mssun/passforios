@@ -235,8 +235,8 @@ public class PasswordStore {
         try storeRepository.pull(storeRepository.currentBranch(), from: remote, withOptions: options, progress: progressBlock)
         Defaults.lastSyncedTime = Date()
         self.setAllSynced()
-        self.updatePasswordEntityCoreData()
         DispatchQueue.main.async {
+            self.updatePasswordEntityCoreData()
             NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         }
     }
@@ -566,7 +566,9 @@ public class PasswordStore {
     
     public func saveUpdatedContext() {
         do {
-            try context.save()
+            if context.hasChanges {
+                try context.save()
+            }
         } catch {
             fatalError("FailureToSaveContext".localize(error))
         }
