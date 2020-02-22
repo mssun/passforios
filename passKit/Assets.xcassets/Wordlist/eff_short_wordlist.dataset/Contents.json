@@ -6,7 +6,7 @@
   "data" : [
     {
       "idiom" : "universal",
-      "filename" : "EN_wordlist.txt",
+      "filename" : "eff_short_wordlist.txt",
       "universal-type-identifier" : "public.plain-text"
     }
   ]

@@ -58,11 +58,18 @@ public enum PasswordGeneratorFlavor: String {
     private static func generateXKCD(length: Int) -> String {
         // Get the word list
         let bundle = Bundle(identifier: Globals.passKitBundleIdentifier)!
-        guard let asset = NSDataAsset(name: "WordLists", bundle: bundle),
-            let data = String(data: asset.data, encoding: .utf8) else {
-                return ""
+        let wordlistNames = [
+            "eff_long_wordlist",
+            "eff_short_wordlist"
+        ]
+        let data = wordlistNames.map{ name -> String in
+            guard let asset = NSDataAsset(name: name, bundle: bundle),
+                let data = String(data: asset.data, encoding: .utf8) else {
+                    return ""
+            }
+            return data
         }
-        let words = data.splitByNewline()
+        let words = data.joined(separator: "\n").splitByNewline()
         
         // Generate a password
         let delimiters = "0123456789!@#$%^&*_+-="
