@@ -1,5 +1,5 @@
 //
-//  PasswordGeneratorFlavourTest.swift
+//  PasswordGeneratorFlavorTest.swift
 //  passKitTests
 //
 //  Created by Danny Moesch on 28.11.18.
@@ -11,25 +11,18 @@ import XCTest
 
 @testable import passKit
 
-class PasswordGeneratorFlavourTest: XCTestCase {
+class PasswordGeneratorFlavorTest: XCTestCase {
 
     private let KEYCHAIN_PASSWORD_LENGTH = Keychain.generatePassword().count
 
-    func testFrom() {
-        XCTAssertEqual(PasswordGeneratorFlavour.from("Apple"), PasswordGeneratorFlavour.APPLE)
-        XCTAssertEqual(PasswordGeneratorFlavour.from("Random"), PasswordGeneratorFlavour.RANDOM)
-        XCTAssertEqual(PasswordGeneratorFlavour.from("Something"), PasswordGeneratorFlavour.RANDOM)
-        XCTAssertEqual(PasswordGeneratorFlavour.from(""), PasswordGeneratorFlavour.RANDOM)
-    }
-
     func testLocalizedName() {
-        XCTAssertEqual(PasswordGeneratorFlavour.APPLE.name, "Apple".localize())
-        XCTAssertEqual(PasswordGeneratorFlavour.RANDOM.name, "Random".localize())
+        XCTAssertEqual(PasswordGeneratorFlavor.apple.localized, "Apple".localize())
+        XCTAssertEqual(PasswordGeneratorFlavor.random.localized, "Random".localize())
     }
 
     func testDefaultLength() {
         // Ensure properly chosen default length values. So this check no longer needs to be performed in the code.
-        PasswordGeneratorFlavour.allCases.map { $0.defaultLength }.forEach { defaultLength in
+        PasswordGeneratorFlavor.allCases.map { $0.defaultLength }.forEach { defaultLength in
             XCTAssertLessThanOrEqual(defaultLength.min, defaultLength.max)
             XCTAssertLessThanOrEqual(defaultLength.def, defaultLength.max)
             XCTAssertGreaterThanOrEqual(defaultLength.def, defaultLength.min)
@@ -37,12 +30,12 @@ class PasswordGeneratorFlavourTest: XCTestCase {
     }
 
     func testGeneratePassword() {
-        let apple = PasswordGeneratorFlavour.APPLE
-        let random = PasswordGeneratorFlavour.RANDOM
+        let apple = PasswordGeneratorFlavor.apple
+        let random = PasswordGeneratorFlavor.random
 
-        XCTAssertEqual(apple.generatePassword(length: 4).count, KEYCHAIN_PASSWORD_LENGTH)
-        XCTAssertEqual(random.generatePassword(length: 0).count, 0)
-        XCTAssertEqual(random.generatePassword(length: 4).count, 4)
-        XCTAssertEqual(random.generatePassword(length: 100).count, 100)
+        XCTAssertEqual(apple.generate(length: 4).count, KEYCHAIN_PASSWORD_LENGTH)
+        XCTAssertEqual(random.generate(length: 0).count, 0)
+        XCTAssertEqual(random.generate(length: 4).count, 4)
+        XCTAssertEqual(random.generate(length: 100).count, 100)
     }
 }

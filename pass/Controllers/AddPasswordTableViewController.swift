@@ -10,22 +10,11 @@ import UIKit
 import passKit
 
 class AddPasswordTableViewController: PasswordEditorTableViewController {
-    let passwordStore = PasswordStore.shared
     var defaultDirPrefix = ""
 
     override func viewDidLoad() {
-        tableData = [
-            [[.type: PasswordEditorCellType.nameCell, .title: "name"]],
-            [[.type: PasswordEditorCellType.fillPasswordCell, .title: "password"]],
-            [[.type: PasswordEditorCellType.additionsCell, .title: "additions"]],
-            [[.type: PasswordEditorCellType.scanQRCodeCell]]
-        ]
-        if PasswordGeneratorFlavour.from(Defaults.passwordGeneratorFlavor) == .RANDOM {
-            tableData[1].append([.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"])
-        }
-        tableData[1].append([.type: PasswordEditorCellType.memorablePasswordGeneratorCell])
-        tableData[0][0][PasswordEditorCellKey.content] = defaultDirPrefix
         super.viewDidLoad()
+        tableData[0][0][PasswordEditorCellKey.content] = defaultDirPrefix
     }
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -39,7 +28,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
             }
 
             // check name
-            guard checkName() == true else {
+            guard checkName() else {
                 return false
             }
         }

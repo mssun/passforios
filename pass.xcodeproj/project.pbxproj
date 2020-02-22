@@ -26,7 +26,7 @@
 		30697C2A21F63C5A0064FCAC /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2321F63C580064FCAC /* NotificationNames.swift */; };
 		30697C2B21F63C5A0064FCAC /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2421F63C590064FCAC /* Globals.swift */; };
 		30697C2C21F63C5A0064FCAC /* FileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2521F63C590064FCAC /* FileManagerExtension.swift */; };
-		30697C2D21F63C5A0064FCAC /* PasswordGeneratorFlavour.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2621F63C590064FCAC /* PasswordGeneratorFlavour.swift */; };
+		30697C2D21F63C5A0064FCAC /* PasswordGeneratorFlavor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2621F63C590064FCAC /* PasswordGeneratorFlavor.swift */; };
 		30697C2E21F63C5A0064FCAC /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2721F63C590064FCAC /* Utils.swift */; };
 		30697C2F21F63C5A0064FCAC /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2821F63C590064FCAC /* DefaultsKeys.swift */; };
 		30697C3021F63C5A0064FCAC /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2921F63C590064FCAC /* AppError.swift */; };
@@ -249,7 +249,7 @@
 		30697C2321F63C580064FCAC /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		30697C2421F63C590064FCAC /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		30697C2521F63C590064FCAC /* FileManagerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerExtension.swift; sourceTree = "<group>"; };
-		30697C2621F63C590064FCAC /* PasswordGeneratorFlavour.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorFlavour.swift; sourceTree = "<group>"; };
+		30697C2621F63C590064FCAC /* PasswordGeneratorFlavor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorFlavor.swift; sourceTree = "<group>"; };
 		30697C2721F63C590064FCAC /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		30697C2821F63C590064FCAC /* DefaultsKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultsKeys.swift; sourceTree = "<group>"; };
 		30697C2921F63C590064FCAC /* AppError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
@@ -678,7 +678,7 @@
 				3032327322C7F710009EBD9C /* KeyFileManager.swift */,
 				30BAC8CC22E3BB9700438475 /* KeyStore.swift */,
 				30697C2321F63C580064FCAC /* NotificationNames.swift */,
-				30697C2621F63C590064FCAC /* PasswordGeneratorFlavour.swift */,
+				30697C2621F63C590064FCAC /* PasswordGeneratorFlavor.swift */,
 				302202EE222F14E400555236 /* SearchBarScope.swift */,
 				30697C2721F63C590064FCAC /* Utils.swift */,
 			);
@@ -1305,7 +1305,7 @@
 				30697C2B21F63C5A0064FCAC /* Globals.swift in Sources */,
 				30697C4821F63CAB0064FCAC /* PasswordStore.swift in Sources */,
 				A26075AD1EEC7125005DB03E /* pass.xcdatamodeld in Sources */,
-				30697C2D21F63C5A0064FCAC /* PasswordGeneratorFlavour.swift in Sources */,
+				30697C2D21F63C5A0064FCAC /* PasswordGeneratorFlavor.swift in Sources */,
 				308C273A2279F9CB0016D0E2 /* SearchBarScope.swift in Sources */,
 				30697C2F21F63C5A0064FCAC /* DefaultsKeys.swift in Sources */,
 				30A1D2A821B2D53200E2D1F7 /* PasswordChange.swift in Sources */,

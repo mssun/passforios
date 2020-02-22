@@ -19,6 +19,8 @@ public enum GitAuthenticationMethod: String, DefaultsSerializable {
     case password, key
 }
 
+extension PasswordGeneratorFlavor: DefaultsSerializable {}
+
 public extension DefaultsKeys {
     var pgpKeySource: DefaultsKey<KeySource?> { .init("pgpKeySource") }
     var pgpPublicKeyURL: DefaultsKey<URL?> { .init("pgpPublicKeyURL") }
@@ -50,7 +52,7 @@ public extension DefaultsKeys {
     var isShowFolderOn: DefaultsKey<Bool> { .init("isShowFolderOn", defaultValue: true) }
     var isHidePasswordImagesOn: DefaultsKey<Bool> { .init("isHidePasswordImagesOn", defaultValue: false) }
     var searchDefault: DefaultsKey<SearchBarScope?> { .init("searchDefault", defaultValue: .all) }
-    var passwordGeneratorFlavor: DefaultsKey<String> { .init("passwordGeneratorFlavor", defaultValue: "Apple") }
+    var passwordGeneratorFlavor: DefaultsKey<PasswordGeneratorFlavor> { .init("passwordGeneratorFlavor", defaultValue: .apple) }
 
     var encryptInArmored: DefaultsKey<Bool> { .init("encryptInArmored", defaultValue: false) }
 }

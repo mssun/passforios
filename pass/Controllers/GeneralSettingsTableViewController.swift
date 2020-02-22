@@ -144,7 +144,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             hidePasswordImagesSwitch.isOn = Defaults.isHidePasswordImagesOn
         case "PasswordGeneratorFlavor".localize():
             cell.accessoryType = .disclosureIndicator
-            cell.detailTextLabel?.text = PasswordGeneratorFlavour.from(Defaults.passwordGeneratorFlavor).name
+            cell.detailTextLabel?.text = Defaults.passwordGeneratorFlavor.localized
         default: break
         }
         return cell
@@ -161,31 +161,26 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
 
     func showPasswordGeneratorFlavorActionSheet(sourceCell: UITableViewCell) {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        var randomFlavorActionTitle = ""
-        var appleFlavorActionTitle = ""
-        if Defaults.passwordGeneratorFlavor == PasswordGeneratorFlavour.RANDOM.rawValue {
-            randomFlavorActionTitle = "✓ " + "RandomString".localize()
-            appleFlavorActionTitle = "ApplesKeychainStyle".localize()
-        } else {
-            randomFlavorActionTitle = "RandomString".localize()
-            appleFlavorActionTitle = "✓ " + "ApplesKeychainStyle".localize()
-        }
-        let randomFlavorAction = UIAlertAction(title: randomFlavorActionTitle, style: .default) { _ in
-            Defaults.passwordGeneratorFlavor = PasswordGeneratorFlavour.RANDOM.rawValue
-            sourceCell.detailTextLabel?.text = PasswordGeneratorFlavour.RANDOM.name
-        }
 
-        let appleFlavorAction = UIAlertAction(title: appleFlavorActionTitle, style: .default) { _ in
-            Defaults.passwordGeneratorFlavor = PasswordGeneratorFlavour.APPLE.rawValue
-            sourceCell.detailTextLabel?.text = PasswordGeneratorFlavour.APPLE.name
+        PasswordGeneratorFlavor.allCases.forEach { flavor in
+            let actionTitlePrefix = Defaults.passwordGeneratorFlavor
+            var actionTitle = flavor.longNameLocalized
+            if Defaults.passwordGeneratorFlavor == flavor {
+                actionTitle = "✓ " + actionTitle
+            }
+            let action = UIAlertAction(title: actionTitle, style: .default) { _ in
+                Defaults.passwordGeneratorFlavor = flavor
+                sourceCell.detailTextLabel?.text = Defaults.passwordGeneratorFlavor.localized
+            }
+            optionMenu.addAction(action)
         }
 
         let cancelAction = UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil)
-        optionMenu.addAction(randomFlavorAction)
-        optionMenu.addAction(appleFlavorAction)
         optionMenu.addAction(cancelAction)
+        
         optionMenu.popoverPresentationController?.sourceView = sourceCell
         optionMenu.popoverPresentationController?.sourceRect = sourceCell.bounds
+        
         self.present(optionMenu, animated: true, completion: nil)
     }
 

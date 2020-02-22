@@ -10,25 +10,10 @@ import UIKit
 import passKit
 
 class EditPasswordTableViewController: PasswordEditorTableViewController {
-    override func viewDidLoad() {
-        tableData = [
-            [[.type: PasswordEditorCellType.nameCell, .title: "Name".localize(), .content: password!.namePath]],
-            [[.type: PasswordEditorCellType.fillPasswordCell, .title: "Password".localize(), .content: password!.password]],
-            [[.type: PasswordEditorCellType.additionsCell, .title: "Additions".localize(), .content: password!.additionsPlainText]],
-            [[.type: PasswordEditorCellType.scanQRCodeCell],
-             [.type: PasswordEditorCellType.deletePasswordCell]]
-        ]
-        if PasswordGeneratorFlavour.from(Defaults.passwordGeneratorFlavor) == .RANDOM {
-            tableData[1].append([.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"])
-        }
-        tableData[1].append([.type: PasswordEditorCellType.memorablePasswordGeneratorCell])
-        super.viewDidLoad()
-    }
-
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "saveEditPasswordSegue" {
             // check name
-            guard checkName() == true else {
+            guard checkName() else {
                 return false
             }
         }
