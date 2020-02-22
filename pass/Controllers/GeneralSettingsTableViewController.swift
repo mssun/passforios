@@ -71,14 +71,11 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
 
             // section 1
             [
-                [.title: "PasswordGeneratorFlavor".localize(), .action: "none", .style: CellDataStyle.value1],
-            ],
-
-            // section 2
-            [
                 [.title: "RememberPgpKeyPassphrase".localize(), .action: "none",],
                 [.title: "RememberGitCredentialPassphrase".localize(), .action: "none",],
             ],
+            
+            // section 2
             [
                 [.title: "ShowFolders".localize(), .action: "none",],
                 [.title: "HidePasswordImages".localize(), .action: "none",],
@@ -142,45 +139,9 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             cell.accessoryView = accessoryView
             cell.selectionStyle = .none
             hidePasswordImagesSwitch.isOn = Defaults.isHidePasswordImagesOn
-        case "PasswordGeneratorFlavor".localize():
-            cell.accessoryType = .disclosureIndicator
-            cell.detailTextLabel?.text = Defaults.passwordGeneratorFlavor.localized
         default: break
         }
         return cell
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        super.tableView(tableView, didSelectRowAt: indexPath)
-        let cell = tableView.cellForRow(at: indexPath)!
-        if cell.textLabel!.text! == "PasswordGeneratorFlavor".localize() {
-            tableView.deselectRow(at: indexPath, animated: true)
-            showPasswordGeneratorFlavorActionSheet(sourceCell: cell)
-        }
-    }
-
-    func showPasswordGeneratorFlavorActionSheet(sourceCell: UITableViewCell) {
-        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-
-        PasswordGeneratorFlavor.allCases.forEach { flavor in
-            var actionTitle = flavor.longNameLocalized
-            if Defaults.passwordGeneratorFlavor == flavor {
-                actionTitle = "✓ " + actionTitle
-            }
-            let action = UIAlertAction(title: actionTitle, style: .default) { _ in
-                Defaults.passwordGeneratorFlavor = flavor
-                sourceCell.detailTextLabel?.text = Defaults.passwordGeneratorFlavor.localized
-            }
-            optionMenu.addAction(action)
-        }
-
-        let cancelAction = UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil)
-        optionMenu.addAction(cancelAction)
-        
-        optionMenu.popoverPresentationController?.sourceView = sourceCell
-        optionMenu.popoverPresentationController?.sourceRect = sourceCell.bounds
-        
-        self.present(optionMenu, animated: true, completion: nil)
     }
 
     @objc func tapHideUnknownSwitchDetailButton(_ sender: Any?) {
