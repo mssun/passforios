@@ -11,6 +11,7 @@ import KeychainAccess
 public enum PasswordGeneratorFlavor: String {
     case apple = "Apple"
     case random = "Random"
+    case xkcd = "XKCD"
 
     public var localized: String {
         return rawValue.localize()
@@ -22,6 +23,8 @@ public enum PasswordGeneratorFlavor: String {
             return "ApplesKeychainStyle".localize()
         case .random:
             return "RandomString".localize()
+        case .xkcd:
+            return "XKCDStyle".localize()
         }
     }
 
@@ -31,6 +34,8 @@ public enum PasswordGeneratorFlavor: String {
             return (15, 15, 15)
         case .random:
             return (4, 64, 16)
+        case .xkcd:
+            return (2, 5, 3)
         }
     }
 
@@ -40,12 +45,36 @@ public enum PasswordGeneratorFlavor: String {
             return Keychain.generatePassword()
         case .random:
             return PasswordGeneratorFlavor.generateRandom(length: length)
+        case .xkcd:
+            return PasswordGeneratorFlavor.generateXKCD(length: length)
         }
     }
 
     private static func generateRandom(length: Int) -> String {
         let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*_+-="
         return String((0..<length).map { _ in chars.randomElement()! })
+    }
+    
+    private static func generateXKCD(length: Int) -> String {
+        // Get the word list
+        let bundle = Bundle(identifier: Globals.passKitBundleIdentifier)!
+        guard let asset = NSDataAsset(name: "WordLists", bundle: bundle),
+            let data = String(data: asset.data, encoding: .utf8) else {
+                return ""
+        }
+        let words = data.splitByNewline()
+        
+        // Generate a password
+        let delimiters = "0123456789!@#$%^&*_+-="
+        var password = ""
+        (0..<length).forEach { _ in
+            var word = words.randomElement()!
+            if Bool.random() {
+                word = word.uppercased()
+            }
+            password += word + String(delimiters.randomElement()!)
+        }
+        return password
     }
 }
 

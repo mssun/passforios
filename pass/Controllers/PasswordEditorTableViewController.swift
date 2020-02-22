@@ -12,7 +12,7 @@ import OneTimePassword
 import passKit
 
 enum PasswordEditorCellType {
-    case nameCell, fillPasswordCell, passwordLengthCell, additionsCell, deletePasswordCell, scanQRCodeCell, memorablePasswordGeneratorCell
+    case nameCell, fillPasswordCell, passwordLengthCell, additionsCell, deletePasswordCell, scanQRCodeCell, passwordFlavorCell
 }
 
 enum PasswordEditorCellKey {
@@ -41,7 +41,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     var additionsCell: TextViewTableViewCell?
     private var deletePasswordCell: UITableViewCell?
     private var scanQRCodeCell: UITableViewCell?
-    private var memorablePasswordGeneratorCell: UITableViewCell?
+    private var passwordFlavorCell: UITableViewCell?
 
     var plainText: String {
         var plainText = (fillPasswordCell?.getContent())!
@@ -69,14 +69,16 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         scanQRCodeCell?.selectionStyle = .default
         scanQRCodeCell?.accessoryType = .disclosureIndicator
 
-        memorablePasswordGeneratorCell = UITableViewCell(style: .default, reuseIdentifier: "default")
-        memorablePasswordGeneratorCell?.textLabel?.text = "GetMemorableOne".localize()
-        memorablePasswordGeneratorCell?.textLabel?.textColor = Colors.systemBlue
-        memorablePasswordGeneratorCell?.selectionStyle = .default
-        memorablePasswordGeneratorCell?.accessoryType = .disclosureIndicator
+        passwordFlavorCell = UITableViewCell(style: .value1, reuseIdentifier: "default")
+        passwordFlavorCell?.textLabel?.text = "PasswordGeneratorFlavor".localize()
+        passwordFlavorCell?.textLabel?.textColor = Colors.systemBlue
+        passwordFlavorCell?.selectionStyle = .none
+        passwordFlavorCell?.accessoryType = .disclosureIndicator
+        passwordFlavorCell?.detailTextLabel?.text = Defaults.passwordGeneratorFlavor.localized
     }
 
     override func viewDidLoad() {
+        print("viewDidLoad")
         super.viewDidLoad()
         if navigationItemTitle != nil {
             navigationItem.title = navigationItemTitle
@@ -94,15 +96,15 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
 
         tableData = [
             [[.type: PasswordEditorCellType.nameCell, .title: "Name".localize(), .content: password?.namePath ?? ""]],
-            [[.type: PasswordEditorCellType.fillPasswordCell, .title: "Password".localize(), .content: password?.password ?? ""]],
+            [
+                [.type: PasswordEditorCellType.fillPasswordCell, .title: "Password".localize(), .content: password?.password ?? ""]],
             [[.type: PasswordEditorCellType.additionsCell, .title: "Additions".localize(), .content: password?.additionsPlainText ?? ""]],
             [[.type: PasswordEditorCellType.scanQRCodeCell],
              [.type: PasswordEditorCellType.deletePasswordCell]]
         ]
-        if Defaults.passwordGeneratorFlavor == .random {
-            tableData[1].append([.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"])
-        }
-        tableData[1].append([.type: PasswordEditorCellType.memorablePasswordGeneratorCell])
+        
+        tableData[1].append([.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"])
+        tableData[1].append([.type: PasswordEditorCellType.passwordFlavorCell])
     }
 
     override func viewDidLayoutSubviews() {
@@ -144,8 +146,8 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
                                       defaultValue: defaultLength)
             passwordLengthCell?.delegate = self
             return passwordLengthCell!
-        case .memorablePasswordGeneratorCell:
-            return memorablePasswordGeneratorCell!
+        case .passwordFlavorCell:
+            return passwordFlavorCell!
         case .additionsCell:
             additionsCell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as?TextViewTableViewCell
             additionsCell?.contentTextView.delegate = self
@@ -186,6 +188,8 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCell = tableView.cellForRow(at: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
+        
         if selectedCell == deletePasswordCell {
             let alert = UIAlertController(title: "DeletePassword?".localize(), message: nil, preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Delete".localize(), style: UIAlertAction.Style.destructive, handler: {[unowned self] (action) -> Void in
@@ -195,16 +199,32 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             self.present(alert, animated: true, completion: nil)
         } else if selectedCell == scanQRCodeCell {
             self.performSegue(withIdentifier: "showQRScannerSegue", sender: self)
-        } else if selectedCell == memorablePasswordGeneratorCell {
-            // open the webpage
-            if let url = URL(string: "https://xkpasswd.net/") {
-                let vc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
-                vc.delegate = self
-                present(vc, animated: true)
-
-            }
+        } else if selectedCell == passwordFlavorCell {
+            showPasswordGeneratorFlavorActionSheet(sourceCell: selectedCell!, tableView: tableView)
         }
-        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func showPasswordGeneratorFlavorActionSheet(sourceCell: UITableViewCell, tableView: UITableView) {
+        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        PasswordGeneratorFlavor.allCases.forEach { flavor in
+            var actionTitle = flavor.longNameLocalized
+            if Defaults.passwordGeneratorFlavor == flavor {
+                actionTitle = "✓ " + actionTitle
+            }
+            let action = UIAlertAction(title: actionTitle, style: .default) { _ in
+                Defaults.passwordGeneratorFlavor = flavor
+                sourceCell.detailTextLabel?.text = Defaults.passwordGeneratorFlavor.localized
+                tableView.reloadSections([self.passwordSection], with: .none)
+            }
+            optionMenu.addAction(action)
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil)
+        optionMenu.addAction(cancelAction)
+        optionMenu.popoverPresentationController?.sourceView = sourceCell
+        
+        self.present(optionMenu, animated: true, completion: nil)
     }
 
     // generate password, copy to pasteboard, and set the cell

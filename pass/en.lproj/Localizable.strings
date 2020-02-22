@@ -51,6 +51,8 @@
 "Random"                            = "Random";
 "RandomString"                      = "Random String";
 "ApplesKeychainStyle"               = "Apple's Keychain Style";
+"XKCD"                              = "XKCD";
+"XKCDStyle"                         = "XKCD Style";
 
 // Git
 "FailedToFetchPasswords"                = "Failed to fetch passwords";

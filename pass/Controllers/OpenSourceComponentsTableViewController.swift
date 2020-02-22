@@ -33,6 +33,9 @@ class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
         ["SwiftyUserDefaults",
          "https://github.com/radex/SwiftyUserDefaults",
          "https://github.com/radex/SwiftyUserDefaults/blob/master/LICENSE"],
+        ["EFF's Wordlists",
+         "https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases",
+         "http://creativecommons.org/licenses/by/3.0"],
     ]
 
     override func viewDidLoad() {

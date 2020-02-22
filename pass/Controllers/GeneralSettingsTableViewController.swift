@@ -163,7 +163,6 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         PasswordGeneratorFlavor.allCases.forEach { flavor in
-            let actionTitlePrefix = Defaults.passwordGeneratorFlavor
             var actionTitle = flavor.longNameLocalized
             if Defaults.passwordGeneratorFlavor == flavor {
                 actionTitle = "✓ " + actionTitle
