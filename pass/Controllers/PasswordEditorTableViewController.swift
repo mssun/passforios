@@ -19,11 +19,9 @@ enum PasswordEditorCellKey {
     case type, title, content, placeholders
 }
 
-class PasswordEditorTableViewController: UITableViewController, FillPasswordTableViewCellDelegate, PasswordSettingSliderTableViewCellDelegate, QRScannerControllerDelegate, UITextFieldDelegate, UITextViewDelegate, SFSafariViewControllerDelegate {
+class PasswordEditorTableViewController: UITableViewController {
 
-    var tableData = [
-        [Dictionary<PasswordEditorCellKey, Any>]
-        ]()
+    var tableData = [[Dictionary<PasswordEditorCellKey, Any>]]()
     var password: Password?
 
     private var navigationItemTitle: String?
@@ -90,20 +88,26 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
 
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 48
-        self.tableView.sectionFooterHeight = UITableView.automaticDimension
-        self.tableView.estimatedSectionFooterHeight = 0
+        tableView.sectionFooterHeight = UITableView.automaticDimension
+        tableView.estimatedSectionFooterHeight = 0
 
         tableData = [
-            [[.type: PasswordEditorCellType.nameCell, .title: "Name".localize(), .content: password?.namePath ?? ""]],
             [
-                [.type: PasswordEditorCellType.fillPasswordCell, .title: "Password".localize(), .content: password?.password ?? ""]],
-            [[.type: PasswordEditorCellType.additionsCell, .title: "Additions".localize(), .content: password?.additionsPlainText ?? ""]],
-            [[.type: PasswordEditorCellType.scanQRCodeCell],
-             [.type: PasswordEditorCellType.deletePasswordCell]]
+                [.type: PasswordEditorCellType.nameCell, .title: "Name".localize(), .content: password?.namePath ?? ""],
+            ],
+            [
+                [.type: PasswordEditorCellType.fillPasswordCell, .title: "Password".localize(), .content: password?.password ?? ""],
+                [.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"],
+                [.type: PasswordEditorCellType.passwordFlavorCell],
+            ],
+            [
+                [.type: PasswordEditorCellType.additionsCell, .title: "Additions".localize(), .content: password?.additionsPlainText ?? ""],
+            ],
+            [
+                [.type: PasswordEditorCellType.scanQRCodeCell],
+                [.type: PasswordEditorCellType.deletePasswordCell],
+            ]
         ]
-        
-        tableData[1].append([.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"])
-        tableData[1].append([.type: PasswordEditorCellType.passwordFlavorCell])
     }
 
     override func viewDidLayoutSubviews() {
@@ -203,7 +207,7 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         }
     }
     
-    func showPasswordGeneratorFlavorActionSheet(sourceCell: UITableViewCell, tableView: UITableView) {
+    private func showPasswordGeneratorFlavorActionSheet(sourceCell: UITableViewCell, tableView: UITableView) {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         PasswordGeneratorFlavor.allCases.forEach { flavor in
@@ -226,23 +230,8 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         self.present(optionMenu, animated: true, completion: nil)
     }
 
-    // generate password, copy to pasteboard, and set the cell
-    // check whether the current password looks like an OTP field
-    func generateAndCopyPassword() {
-        if let currentPassword = fillPasswordCell?.getContent(), Constants.isOtpRelated(line: currentPassword) {
-            let alert = UIAlertController(title: "Overwrite?".localize(), message: "OverwriteOtpConfiguration?".localize(), preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Yes".localize(), style: UIAlertAction.Style.destructive, handler: {_ in
-                self.generateAndCopyPasswordNoOtpCheck()
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertAction.Style.cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        } else {
-            self.generateAndCopyPasswordNoOtpCheck()
-        }
-    }
-
     // generate the password, don't care whether the original line is otp
-    func generateAndCopyPasswordNoOtpCheck() {
+    private func generateAndCopyPasswordNoOtpCheck() {
         // show password settings (e.g., the length slider)
         showPasswordSettings()
 
@@ -257,20 +246,14 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     }
 
     // show password settings (e.g., the length slider)
-    func showPasswordSettings() {
+    private func showPasswordSettings() {
         if hidePasswordSettings == true {
             hidePasswordSettings = false
             tableView.reloadSections([passwordSection], with: .fade)
         }
     }
 
-    // show/hide password settings (e.g., the length slider)
-    func showHidePasswordSettings() {
-        hidePasswordSettings = !hidePasswordSettings
-        tableView.reloadSections([passwordSection], with: .fade)
-    }
-
-    func insertScannedOTPFields(_ otpauth: String) {
+    private func insertScannedOTPFields(_ otpauth: String) {
         // update tableData
         var additionsString = ""
         if let additionsPlainText = (tableData[additionsSection][0][PasswordEditorCellKey.content] as? String)?.trimmed, additionsPlainText != "" {
@@ -284,20 +267,6 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
         additionsCell?.setContent(content: additionsString)
     }
 
-    // MARK: - QRScannerControllerDelegate Methods
-    func checkScannedOutput(line: String) -> (accept: Bool, message: String) {
-        if let url = URL(string: line), let _ = Token(url: url) {
-            return (accept: true, message: "ValidTokenUrl".localize())
-        } else {
-            return (accept: false, message: "InvalidTokenUrl".localize())
-        }
-    }
-
-    // MARK: - QRScannerControllerDelegate Methods
-    func handleScannedOutput(line: String) {
-        insertScannedOTPFields(line)
-    }
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showQRScannerSegue" {
             if let navController = segue.destination as? UINavigationController {
@@ -307,31 +276,6 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             } else if let viewController = segue.destination as? QRScannerController {
                 viewController.delegate = self
             }
-        }
-    }
-
-    // update tableData so to make sure reloadData() works correctly
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField == nameCell?.contentTextField {
-            tableData[nameSection][0][PasswordEditorCellKey.content] = nameCell?.getContent()
-        } else if textField == fillPasswordCell?.contentTextField {
-            if let plainPassword = fillPasswordCell?.getContent() {
-                tableData[passwordSection][0][PasswordEditorCellKey.content] = plainPassword
-            }
-        }
-    }
-
-    // update tableData so to make sure reloadData() works correctly
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView == additionsCell?.contentTextView {
-            tableData[additionsSection][0][PasswordEditorCellKey.content] = additionsCell?.getContent()
-        }
-    }
-
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField == fillPasswordCell?.contentTextField {
-            // show password generation settings automatically
-            showPasswordSettings()
         }
     }
 
@@ -375,6 +319,54 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
 
         return true
     }
+}
+
+// MARK: - FillPasswordTableViewCellDelegate
+extension PasswordEditorTableViewController: FillPasswordTableViewCellDelegate {
+
+    // generate password, copy to pasteboard, and set the cell
+    // check whether the current password looks like an OTP field
+    func generateAndCopyPassword() {
+        if let currentPassword = fillPasswordCell?.getContent(), Constants.isOtpRelated(line: currentPassword) {
+            let alert = UIAlertController(title: "Overwrite?".localize(), message: "OverwriteOtpConfiguration?".localize(), preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Yes".localize(), style: UIAlertAction.Style.destructive, handler: {_ in
+                self.generateAndCopyPasswordNoOtpCheck()
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertAction.Style.cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            self.generateAndCopyPasswordNoOtpCheck()
+        }
+    }
+
+    // show/hide password settings (e.g., the length slider)
+    func showHidePasswordSettings() {
+        hidePasswordSettings = !hidePasswordSettings
+        tableView.reloadSections([passwordSection], with: .fade)
+    }
+}
+
+// MARK: - PasswordSettingSliderTableViewCellDelegate
+extension PasswordEditorTableViewController: PasswordSettingSliderTableViewCellDelegate {}
+
+// MARK: - QRScannerControllerDelegate
+extension PasswordEditorTableViewController: QRScannerControllerDelegate {
+
+    func checkScannedOutput(line: String) -> (accept: Bool, message: String) {
+        if let url = URL(string: line), let _ = Token(url: url) {
+            return (accept: true, message: "ValidTokenUrl".localize())
+        } else {
+            return (accept: false, message: "InvalidTokenUrl".localize())
+        }
+    }
+
+    func handleScannedOutput(line: String) {
+        insertScannedOTPFields(line)
+    }
+}
+
+// MARK: - SFSafariViewControllerDelegate
+extension PasswordEditorTableViewController: SFSafariViewControllerDelegate {
 
     func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
         let copiedLinesSplit = UIPasteboard.general.string?.components(separatedBy: CharacterSet.whitespacesAndNewlines).filter({ !$0.isEmpty })
@@ -392,6 +384,39 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
             }))
             alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertAction.Style.cancel, handler:nil))
             self.present(alert, animated: true, completion: nil)
+        }
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension PasswordEditorTableViewController: UITextFieldDelegate {
+
+    // update tableData so to make sure reloadData() works correctly
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == nameCell?.contentTextField {
+            tableData[nameSection][0][PasswordEditorCellKey.content] = nameCell?.getContent()
+        } else if textField == fillPasswordCell?.contentTextField {
+            if let plainPassword = fillPasswordCell?.getContent() {
+                tableData[passwordSection][0][PasswordEditorCellKey.content] = plainPassword
+            }
+        }
+    }
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == fillPasswordCell?.contentTextField {
+            // show password generation settings automatically
+            showPasswordSettings()
+        }
+    }
+}
+
+// MARK: - UITextViewDelegate
+extension PasswordEditorTableViewController: UITextViewDelegate {
+
+    // update tableData so to make sure reloadData() works correctly
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView == additionsCell?.contentTextView {
+            tableData[additionsSection][0][PasswordEditorCellKey.content] = additionsCell?.getContent()
         }
     }
 }
