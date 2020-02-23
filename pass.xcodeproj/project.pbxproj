@@ -105,6 +105,8 @@
 		A267002A1EEC466A00176B8A /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A26700281EEC466A00176B8A /* MainInterface.storyboard */; };
 		A267002E1EEC466A00176B8A /* passExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A26700241EEC466A00176B8A /* passExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A26700371EEC475600176B8A /* passProcessor.js in Resources */ = {isa = PBXBuildFile; fileRef = A26700351EEC475600176B8A /* passProcessor.js */; };
+		A2699ACD2402631400F36323 /* PasswordTableEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2699ACC2402631400F36323 /* PasswordTableEntry.swift */; };
+		A2699ACF24027D9500F36323 /* PasswordTableEntryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2699ACE24027D9500F36323 /* PasswordTableEntryTest.swift */; };
 		A2802BF91E70813A00879216 /* SliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2802BF71E70813A00879216 /* SliderTableViewCell.swift */; };
 		A2802BFA1E70813A00879216 /* SliderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2802BF81E70813A00879216 /* SliderTableViewCell.xib */; };
 		A2A61C131EEF90CB00CFE063 /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A262A58C1E68749C006B0890 /* Base32.framework */; };
@@ -327,6 +329,8 @@
 		A26700321EEC46C400176B8A /* pass.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = pass.entitlements; sourceTree = "<group>"; };
 		A26700331EEC46C900176B8A /* passExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passExtension.entitlements; sourceTree = "<group>"; };
 		A26700351EEC475600176B8A /* passProcessor.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = passProcessor.js; sourceTree = "<group>"; };
+		A2699ACC2402631400F36323 /* PasswordTableEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTableEntry.swift; sourceTree = "<group>"; };
+		A2699ACE24027D9500F36323 /* PasswordTableEntryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTableEntryTest.swift; sourceTree = "<group>"; };
 		A2802BF71E70813A00879216 /* SliderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderTableViewCell.swift; sourceTree = "<group>"; };
 		A2802BF81E70813A00879216 /* SliderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SliderTableViewCell.xib; sourceTree = "<group>"; };
 		A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilsExtension.swift; sourceTree = "<group>"; };
@@ -545,6 +549,7 @@
 		30C015A7214ED378005BB6DF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A2699ACE24027D9500F36323 /* PasswordTableEntryTest.swift */,
 				30B0485F209A5141001013CA /* PasswordTest.swift */,
 			);
 			path = Models;
@@ -661,6 +666,7 @@
 				30697C4021F63CAB0064FCAC /* Password.swift */,
 				30697C3F21F63CAA0064FCAC /* PasswordEntity.swift */,
 				30697C4321F63CAB0064FCAC /* PasswordStore.swift */,
+				A2699ACC2402631400F36323 /* PasswordTableEntry.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1323,6 +1329,7 @@
 				30697C2A21F63C5A0064FCAC /* NotificationNames.swift in Sources */,
 				30CCA91623258C380048CA51 /* PgpInterface.swift in Sources */,
 				30697C4721F63CAB0064FCAC /* PasscodeLock.swift in Sources */,
+				A2699ACD2402631400F36323 /* PasswordTableEntry.swift in Sources */,
 				30697C3421F63C8B0064FCAC /* PasscodeLockViewController.swift in Sources */,
 				3087574F2343E42A00B971A2 /* Colors.swift in Sources */,
 				30697C2C21F63C5A0064FCAC /* FileManagerExtension.swift in Sources */,
@@ -1345,6 +1352,7 @@
 				30A1D2AC21B32C2A00E2D1F7 /* TokenBuilderTest.swift in Sources */,
 				301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */,
 				30BAC8CB22E3BB6C00438475 /* DictBasedKeychain.swift in Sources */,
+				A2699ACF24027D9500F36323 /* PasswordTableEntryTest.swift in Sources */,
 				30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */,
 				A2AA934622DE3A8000D79A00 /* PGPAgentTest.swift in Sources */,
 				30BAC8C622E3BAAF00438475 /* TestBase.swift in Sources */,

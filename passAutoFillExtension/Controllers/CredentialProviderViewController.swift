@@ -9,19 +9,6 @@
 import AuthenticationServices
 import passKit
 
-fileprivate class PasswordsTableEntry : NSObject {
-    var title: String
-    var categoryText: String
-    var categoryArray: [String]
-    var passwordEntity: PasswordEntity?
-    init(_ entity: PasswordEntity) {
-        self.title = entity.name!
-        self.categoryText = entity.getCategoryText()
-        self.categoryArray = entity.getCategoryArray()
-        self.passwordEntity = entity
-    }
-}
-
 class CredentialProviderViewController: ASCredentialProviderViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
@@ -30,8 +17,8 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
     private let keychain = AppKeychain.shared
 
     private var searchActive = false
-    private var passwordsTableEntries: [PasswordsTableEntry] = []
-    private var filteredPasswordsTableEntries: [PasswordsTableEntry] = []
+    private var passwordsTableEntries: [PasswordTableEntry] = []
+    private var filteredPasswordsTableEntries: [PasswordTableEntry] = []
 
     private lazy var passcodelock: PasscodeExtensionDisplay = {
         let passcodelock = PasscodeExtensionDisplay(extensionContext: self.extensionContext)
@@ -118,12 +105,11 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
     }
 
     private func initPasswordsTableEntries() {
-        passwordsTableEntries.removeAll()
         filteredPasswordsTableEntries.removeAll()
-        var passwordEntities = [PasswordEntity]()
-        passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
-        passwordsTableEntries = passwordEntities.map {
-            PasswordsTableEntry($0)
+        
+        let passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
+        passwordsTableEntries = passwordEntities.compactMap {
+            PasswordTableEntry($0)
         }
     }
 
@@ -131,14 +117,14 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
         let entry = getPasswordEntry(by: indexPath)
-        if entry.passwordEntity!.synced {
+        if entry.passwordEntity.synced {
             cell.textLabel?.text = entry.title
         } else {
             cell.textLabel?.text = "↻ \(entry.title)"
         }
         cell.accessoryType = .none
         cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
-        cell.detailTextLabel?.text = entry.passwordEntity?.getCategoryText()
+        cell.detailTextLabel?.text = entry.categoryText
         return cell
     }
 
@@ -151,7 +137,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
             return
         }
 
-        let passwordEntity = entry.passwordEntity!
+        let passwordEntity = entry.passwordEntity
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         DispatchQueue.global(qos: .userInteractive).async {
             var decryptedPassword: Password?
@@ -212,16 +198,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchText = searchBar.text, searchText.isEmpty == false {
-            filteredPasswordsTableEntries = passwordsTableEntries.filter { entry in
-                var matched = false
-                matched = matched || entry.title.range(of: searchText, options: .caseInsensitive) != nil
-                matched = matched || searchText.range(of: entry.title, options: .caseInsensitive) != nil
-                entry.categoryArray.forEach({ (category) in
-                    matched = matched || category.range(of: searchText, options: .caseInsensitive) != nil
-                    matched = matched || searchText.range(of: category, options: .caseInsensitive) != nil
-                })
-                return matched
-            }
+            filteredPasswordsTableEntries = passwordsTableEntries.filter {$0.match(searchText)}
             searchActive = true
         } else {
             searchActive = false
@@ -233,7 +210,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
         searchBarSearchButtonClicked(searchBar)
     }
 
-    private func getPasswordEntry(by indexPath: IndexPath) -> PasswordsTableEntry {
+    private func getPasswordEntry(by indexPath: IndexPath) -> PasswordTableEntry {
         if searchActive {
             return filteredPasswordsTableEntries[indexPath.row]
         } else {
