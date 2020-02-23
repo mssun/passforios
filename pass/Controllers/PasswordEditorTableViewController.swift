@@ -78,7 +78,6 @@ class PasswordEditorTableViewController: UITableViewController, FillPasswordTabl
     }
 
     override func viewDidLoad() {
-        print("viewDidLoad")
         super.viewDidLoad()
         if navigationItemTitle != nil {
             navigationItem.title = navigationItemTitle
