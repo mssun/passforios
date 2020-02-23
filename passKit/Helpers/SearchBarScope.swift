@@ -8,7 +8,7 @@
 
 import SwiftyUserDefaults
 
-public enum SearchBarScope: Int, CaseIterable, DefaultsSerializable {
+public enum SearchBarScope: Int {
     case current
     case all
 
@@ -21,3 +21,5 @@ public enum SearchBarScope: Int, CaseIterable, DefaultsSerializable {
         }
     }
 }
+
+extension SearchBarScope: CaseIterable {}
