@@ -51,7 +51,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
         DispatchQueue.global(qos: .userInitiated).async {
             let passwords = self.numberOfPasswordsString()
             let size = self.sizeOfRepositoryString()
-            let localCommits = self.passwordStore.numberOfLocalCommits
+            let localCommits = String(self.passwordStore.numberOfLocalCommits)
             let lastSynced = self.lastSyncedTimeString()
             let commits = self.numberOfCommitsString()
 
