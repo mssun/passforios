@@ -1,5 +1,5 @@
 //
-//  PasswordGeneratorFlavour.swift
+//  PasswordGeneratorFlavor.swift
 //  passKit
 //
 //  Created by Danny Moesch on 28.11.18.
