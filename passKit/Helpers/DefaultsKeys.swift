@@ -19,6 +19,7 @@ public enum GitAuthenticationMethod: String, DefaultsSerializable {
     case password, key
 }
 
+extension SearchBarScope: DefaultsSerializable {}
 extension PasswordGeneratorFlavor: DefaultsSerializable {}
 
 public extension DefaultsKeys {
