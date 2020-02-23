@@ -13,6 +13,20 @@ public enum PasswordGeneratorFlavor: String {
     case random = "Random"
     case xkcd = "XKCD"
 
+    private static let words: [String] = {
+        let bundle = Bundle(identifier: Globals.passKitBundleIdentifier)!
+        return ["eff_long_wordlist", "eff_short_wordlist"]
+            .map { name -> String in
+                guard let asset = NSDataAsset(name: name, bundle: bundle),
+                      let data = String(data: asset.data, encoding: .utf8) else {
+                    return ""
+                }
+                return data
+            }
+            .joined(separator: "\n")
+            .splitByNewline()
+    }()
+
     public var localized: String {
         return rawValue.localize()
     }
@@ -44,9 +58,9 @@ public enum PasswordGeneratorFlavor: String {
         case .apple:
             return Keychain.generatePassword()
         case .random:
-            return PasswordGeneratorFlavor.generateRandom(length: length)
+            return Self.generateRandom(length: length)
         case .xkcd:
-            return PasswordGeneratorFlavor.generateXKCD(length: length)
+            return Self.generateXKCD(length: length)
         }
     }
 
@@ -56,22 +70,6 @@ public enum PasswordGeneratorFlavor: String {
     }
     
     private static func generateXKCD(length: Int) -> String {
-        // Get the word list
-        let bundle = Bundle(identifier: Globals.passKitBundleIdentifier)!
-        let wordlistNames = [
-            "eff_long_wordlist",
-            "eff_short_wordlist"
-        ]
-        let data = wordlistNames.map{ name -> String in
-            guard let asset = NSDataAsset(name: name, bundle: bundle),
-                let data = String(data: asset.data, encoding: .utf8) else {
-                    return ""
-            }
-            return data
-        }
-        let words = data.joined(separator: "\n").splitByNewline()
-        
-        // Generate a password
         let delimiters = "0123456789!@#$%^&*_+-="
         var password = ""
         (0..<length).forEach { _ in
