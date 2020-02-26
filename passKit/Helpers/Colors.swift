@@ -36,16 +36,10 @@ public struct Colors {
     }()
 
     public static let systemRed: UIColor = {
-        if #available(iOS 13.0, *) {
-            return .systemRed
-        }
-        return .red
+        return .systemRed
     }()
 
     public static let systemBlue: UIColor = {
-        if #available(iOS 13.0, *) {
-            return .systemBlue
-        }
-        return .blue
+        return .systemBlue
     }()
 }
