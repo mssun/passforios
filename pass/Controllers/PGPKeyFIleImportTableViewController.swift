@@ -50,6 +50,15 @@ extension PGPKeyFileImportTableViewController: UIDocumentPickerDelegate {
         }
         let fileName = url.lastPathComponent
         do {
+            // Start accessing a security-scoped resource.
+            guard url.startAccessingSecurityScopedResource() else {
+                // Handle the failure here.
+                throw AppError.ReadingFile(fileName)
+            }
+
+            // Make sure you release the security-scoped resource when you are done.
+            defer { url.stopAccessingSecurityScopedResource() }
+
             let fileContent = try String(contentsOf: url, encoding: .ascii)
             switch currentlyPicking {
             case .none:
@@ -62,7 +71,8 @@ extension PGPKeyFileImportTableViewController: UIDocumentPickerDelegate {
                 pgpPrivateKeyFile.textLabel?.text = fileName
             }
         } catch {
-            Utils.alert(title: "CannotImportFile".localize(), message: "FileCannotBeImported.".localize(fileName), controller: self)
+            let message = "FileCannotBeImported.".localize(fileName) | "UnderlyingError".localize(error.localizedDescription)
+            Utils.alert(title: "CannotImportFile".localize(), message: message, controller: self)
         }
     }
 }
