@@ -22,6 +22,7 @@
 		3032328E22CBD4CD009EBD9C /* CryptographicKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032328D22CBD4CD009EBD9C /* CryptographicKeys.swift */; };
 		30650E7123F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30650E7023F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift */; };
 		30650E7323F847FC005CCD5E /* KeyImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30650E7223F847FC005CCD5E /* KeyImporter.swift */; };
+		306623332406F1A8000E2AD6 /* PasswordGeneratorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306623322406F1A7000E2AD6 /* PasswordGeneratorTest.swift */; };
 		3066AD6823EE0D6500F65535 /* PGPKeyImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3066AD6723EE0D6500F65535 /* PGPKeyImporter.swift */; };
 		30697C2A21F63C5A0064FCAC /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2321F63C580064FCAC /* NotificationNames.swift */; };
 		30697C2B21F63C5A0064FCAC /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2421F63C590064FCAC /* Globals.swift */; };
@@ -58,6 +59,7 @@
 		30A1D2AC21B32C2A00E2D1F7 /* TokenBuilderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2AB21B32C2A00E2D1F7 /* TokenBuilderTest.swift */; };
 		30A86F95230F237000F821A4 /* CryptoFrameworkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A86F94230F237000F821A4 /* CryptoFrameworkTest.swift */; };
 		30B04860209A5141001013CA /* PasswordTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B0485F209A5141001013CA /* PasswordTest.swift */; };
+		30B4C7BA24084AAA008B86F7 /* PasswordGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B4C7B924084AAA008B86F7 /* PasswordGenerator.swift */; };
 		30BAC8C622E3BAAF00438475 /* TestBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BAC8C422E3BAAF00438475 /* TestBase.swift */; };
 		30BAC8C722E3BAAF00438475 /* TestPGPKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BAC8C522E3BAAF00438475 /* TestPGPKeys.swift */; };
 		30BAC8CB22E3BB6C00438475 /* DictBasedKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BAC8CA22E3BB6C00438475 /* DictBasedKeychain.swift */; };
@@ -71,6 +73,8 @@
 		30CCA91623258C380048CA51 /* PgpInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CCA91523258C380048CA51 /* PgpInterface.swift */; };
 		30CCA91823258E760048CA51 /* GopenPgp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CCA91723258E760048CA51 /* GopenPgp.swift */; };
 		30CCA91A232591320048CA51 /* ObjectivePgp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CCA919232591320048CA51 /* ObjectivePgp.swift */; };
+		30DAFD4A240985A7002456E7 /* Array+Slices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DAFD49240985A7002456E7 /* Array+Slices.swift */; };
+		30DAFD4C240985E3002456E7 /* Array+SlicesTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DAFD4B240985E3002456E7 /* Array+SlicesTest.swift */; };
 		30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD2F77214D9E0E005E0A92 /* ParserTest.swift */; };
 		3EA2386CD0E9CE2A702A0B3E /* Pods_pass.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE627E8F3DACEDD8FA220081 /* Pods_pass.framework */; };
 		556EC3D322335C5F00934F9C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ECA21EA8FB5000E4154 /* Localizable.strings */; };
@@ -247,6 +251,7 @@
 		3032328D22CBD4CD009EBD9C /* CryptographicKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptographicKeys.swift; sourceTree = "<group>"; };
 		30650E7023F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHKeyFileImportTableViewController.swift; sourceTree = "<group>"; };
 		30650E7223F847FC005CCD5E /* KeyImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImporter.swift; sourceTree = "<group>"; };
+		306623322406F1A7000E2AD6 /* PasswordGeneratorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorTest.swift; sourceTree = "<group>"; };
 		3066AD6723EE0D6500F65535 /* PGPKeyImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGPKeyImporter.swift; sourceTree = "<group>"; };
 		30697C2321F63C580064FCAC /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		30697C2421F63C590064FCAC /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
@@ -282,6 +287,7 @@
 		30A1D2AB21B32C2A00E2D1F7 /* TokenBuilderTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenBuilderTest.swift; sourceTree = "<group>"; };
 		30A86F94230F237000F821A4 /* CryptoFrameworkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoFrameworkTest.swift; sourceTree = "<group>"; };
 		30B0485F209A5141001013CA /* PasswordTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTest.swift; sourceTree = "<group>"; };
+		30B4C7B924084AAA008B86F7 /* PasswordGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordGenerator.swift; sourceTree = "<group>"; };
 		30BAC8C422E3BAAF00438475 /* TestBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestBase.swift; sourceTree = "<group>"; };
 		30BAC8C522E3BAAF00438475 /* TestPGPKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestPGPKeys.swift; sourceTree = "<group>"; };
 		30BAC8CA22E3BB6C00438475 /* DictBasedKeychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictBasedKeychain.swift; sourceTree = "<group>"; };
@@ -300,6 +306,8 @@
 		30CCA91523258C380048CA51 /* PgpInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PgpInterface.swift; sourceTree = "<group>"; };
 		30CCA91723258E760048CA51 /* GopenPgp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GopenPgp.swift; sourceTree = "<group>"; };
 		30CCA919232591320048CA51 /* ObjectivePgp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectivePgp.swift; sourceTree = "<group>"; };
+		30DAFD49240985A7002456E7 /* Array+Slices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Slices.swift"; sourceTree = "<group>"; };
+		30DAFD4B240985E3002456E7 /* Array+SlicesTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+SlicesTest.swift"; sourceTree = "<group>"; };
 		30FD2F77214D9E0E005E0A92 /* ParserTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
 		3B2B2F844061EFA534FE9506 /* Pods_passKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62DEE9943E0F2B8C79E3FC5B /* Pods-passExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-passExtension/Pods-passExtension.release.xcconfig"; sourceTree = "<group>"; };
@@ -460,7 +468,6 @@
 		301F6464216164670071A4CE /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				30A1D29B21AF451E00E2D1F7 /* PasswordGeneratorFlavorTest.swift */,
 				3032328922C9FBA2009EBD9C /* KeyFileManagerTest.swift */,
 			);
 			path = Helpers;
@@ -481,10 +488,20 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		30662336240835D0000E2AD6 /* Passwords */ = {
+			isa = PBXGroup;
+			children = (
+				30B4C7B924084AAA008B86F7 /* PasswordGenerator.swift */,
+				30697C2621F63C590064FCAC /* PasswordGeneratorFlavor.swift */,
+			);
+			path = Passwords;
+			sourceTree = "<group>";
+		};
 		30697C5521F63F870064FCAC /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				30697C5E21F674800064FCAC /* String+UtilitiesTest.swift */,
+				30DAFD4B240985E3002456E7 /* Array+SlicesTest.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -498,9 +515,19 @@
 			path = Crypto;
 			sourceTree = "<group>";
 		};
+		30B4C7BB24085A3C008B86F7 /* Passwords */ = {
+			isa = PBXGroup;
+			children = (
+				30A1D29B21AF451E00E2D1F7 /* PasswordGeneratorFlavorTest.swift */,
+				306623322406F1A7000E2AD6 /* PasswordGeneratorTest.swift */,
+			);
+			path = Passwords;
+			sourceTree = "<group>";
+		};
 		30B6AABA21F49095006B352D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				30DAFD49240985A7002456E7 /* Array+Slices.swift */,
 				30CCA90A2325119C0048CA51 /* Data+Mutable.swift */,
 				30697C3621F63C990064FCAC /* String+Localization.swift */,
 				30697C3921F63C990064FCAC /* String+Utilities.swift */,
@@ -612,6 +639,7 @@
 				A2F4E20F1EED7F0A0011986E /* Helpers */,
 				A2F4E20E1EED7F040011986E /* Models */,
 				30C015A3214ECF2B005BB6DF /* Parser */,
+				30662336240835D0000E2AD6 /* Passwords */,
 				A23DD0DB233FB46900E6CD83 /* Assets.xcassets */,
 				A260757A1EEC6F34005DB03E /* passKit.h */,
 				A26075A51EEC7125005DB03E /* pass.xcdatamodeld */,
@@ -629,6 +657,7 @@
 				301F6464216164670071A4CE /* Helpers */,
 				30C015A7214ED378005BB6DF /* Models */,
 				30C015A6214ED32A005BB6DF /* Parser */,
+				30B4C7BB24085A3C008B86F7 /* Passwords */,
 				A26075871EEC6F34005DB03E /* passKitTests.swift */,
 				A26075891EEC6F34005DB03E /* Info.plist */,
 			);
@@ -684,7 +713,6 @@
 				3032327322C7F710009EBD9C /* KeyFileManager.swift */,
 				30BAC8CC22E3BB9700438475 /* KeyStore.swift */,
 				30697C2321F63C580064FCAC /* NotificationNames.swift */,
-				30697C2621F63C590064FCAC /* PasswordGeneratorFlavor.swift */,
 				302202EE222F14E400555236 /* SearchBarScope.swift */,
 				30697C2721F63C590064FCAC /* Utils.swift */,
 			);
@@ -1324,10 +1352,12 @@
 				302E85612125ECC70031BA64 /* Parser.swift in Sources */,
 				30CCA91A232591320048CA51 /* ObjectivePgp.swift in Sources */,
 				30697C4621F63CAB0064FCAC /* GitCredential.swift in Sources */,
+				30B4C7BA24084AAA008B86F7 /* PasswordGenerator.swift in Sources */,
 				30A1D2A621B2D46100E2D1F7 /* OtpType.swift in Sources */,
 				3032328E22CBD4CD009EBD9C /* CryptographicKeys.swift in Sources */,
 				30697C2A21F63C5A0064FCAC /* NotificationNames.swift in Sources */,
 				30CCA91623258C380048CA51 /* PgpInterface.swift in Sources */,
+				30DAFD4A240985A7002456E7 /* Array+Slices.swift in Sources */,
 				30697C4721F63CAB0064FCAC /* PasscodeLock.swift in Sources */,
 				A2699ACD2402631400F36323 /* PasswordTableEntry.swift in Sources */,
 				30697C3421F63C8B0064FCAC /* PasscodeLockViewController.swift in Sources */,
@@ -1350,6 +1380,7 @@
 			files = (
 				30A86F95230F237000F821A4 /* CryptoFrameworkTest.swift in Sources */,
 				30A1D2AC21B32C2A00E2D1F7 /* TokenBuilderTest.swift in Sources */,
+				30DAFD4C240985E3002456E7 /* Array+SlicesTest.swift in Sources */,
 				301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */,
 				30BAC8CB22E3BB6C00438475 /* DictBasedKeychain.swift in Sources */,
 				A2699ACF24027D9500F36323 /* PasswordTableEntryTest.swift in Sources */,
@@ -1359,6 +1390,7 @@
 				30B04860209A5141001013CA /* PasswordTest.swift in Sources */,
 				30697C5F21F674800064FCAC /* String+UtilitiesTest.swift in Sources */,
 				3032328A22C9FBA2009EBD9C /* KeyFileManagerTest.swift in Sources */,
+				306623332406F1A8000E2AD6 /* PasswordGeneratorTest.swift in Sources */,
 				30BAC8C722E3BAAF00438475 /* TestPGPKeys.swift in Sources */,
 				30A1D2AA21B32A0100E2D1F7 /* OtpTypeTest.swift in Sources */,
 				301F6468216165290071A4CE /* ConstantsTest.swift in Sources */,
