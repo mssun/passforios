@@ -49,6 +49,8 @@
 		30697C5321F63E0B0064FCAC /* PasscodeExtensionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C5121F63E0B0064FCAC /* PasscodeExtensionDisplay.swift */; };
 		30697C5421F63E0B0064FCAC /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C5221F63E0B0064FCAC /* CredentialProviderViewController.swift */; };
 		30697C5F21F674800064FCAC /* String+UtilitiesTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C5E21F674800064FCAC /* String+UtilitiesTest.swift */; };
+		306D970E24091CDD006C0E2E /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306D970D24091CDD006C0E2E /* SwitchTableViewCell.swift */; };
+		306D971224091EE7006C0E2E /* SwitchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 306D971124091EE7006C0E2E /* SwitchTableViewCell.xib */; };
 		3087574F2343E42A00B971A2 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3087574E2343E42A00B971A2 /* Colors.swift */; };
 		308C273A2279F9CB0016D0E2 /* SearchBarScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302202EE222F14E400555236 /* SearchBarScope.swift */; };
 		30A1D29C21AF451E00E2D1F7 /* PasswordGeneratorFlavorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D29B21AF451E00E2D1F7 /* PasswordGeneratorFlavorTest.swift */; };
@@ -278,6 +280,8 @@
 		30697C5121F63E0B0064FCAC /* PasscodeExtensionDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeExtensionDisplay.swift; sourceTree = "<group>"; };
 		30697C5221F63E0B0064FCAC /* CredentialProviderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialProviderViewController.swift; sourceTree = "<group>"; };
 		30697C5E21F674800064FCAC /* String+UtilitiesTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+UtilitiesTest.swift"; sourceTree = "<group>"; };
+		306D970D24091CDD006C0E2E /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
+		306D971124091EE7006C0E2E /* SwitchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SwitchTableViewCell.xib; sourceTree = "<group>"; };
 		3087574E2343E42A00B971A2 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		30A1D29B21AF451E00E2D1F7 /* PasswordGeneratorFlavorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorFlavorTest.swift; sourceTree = "<group>"; };
 		30A1D2A121B2BC6F00E2D1F7 /* TokenBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenBuilder.swift; sourceTree = "<group>"; };
@@ -786,6 +790,8 @@
 				DCFB77A21E500D9C008DE471 /* PasswordDetailTitleTableViewCell.xib */,
 				A2802BF71E70813A00879216 /* SliderTableViewCell.swift */,
 				A2802BF81E70813A00879216 /* SliderTableViewCell.xib */,
+				306D970D24091CDD006C0E2E /* SwitchTableViewCell.swift */,
+				306D971124091EE7006C0E2E /* SwitchTableViewCell.xib */,
 				DC037CB91E4DD47B00609409 /* TextFieldTableViewCell.swift */,
 				DC037CBA1E4DD47B00609409 /* TextFieldTableViewCell.xib */,
 				DC037CBD1E4ED4E100609409 /* TextViewTableViewCell.swift */,
@@ -1160,6 +1166,7 @@
 				A2802BFA1E70813A00879216 /* SliderTableViewCell.xib in Resources */,
 				DCFB779F1E4F40C7008DE471 /* FillPasswordTableViewCell.xib in Resources */,
 				DC037CC01E4ED4E100609409 /* TextViewTableViewCell.xib in Resources */,
+				306D971224091EE7006C0E2E /* SwitchTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1423,6 +1430,7 @@
 			files = (
 				DC037CBF1E4ED4E100609409 /* TextViewTableViewCell.swift in Sources */,
 				DCC441541E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift in Sources */,
+				306D970E24091CDD006C0E2E /* SwitchTableViewCell.swift in Sources */,
 				A2A61C201EEFABAD00CFE063 /* UtilsExtension.swift in Sources */,
 				DC8963C01E38EEB900828B09 /* SSHKeyUrlImportTableViewController.swift in Sources */,
 				3066AD6823EE0D6500F65535 /* PGPKeyImporter.swift in Sources */,

@@ -11,12 +11,27 @@ import SafariServices
 import OneTimePassword
 import passKit
 
-enum PasswordEditorCellType {
-    case nameCell, fillPasswordCell, passwordLengthCell, additionsCell, deletePasswordCell, scanQRCodeCell, passwordFlavorCell
+enum PasswordEditorCellType: Equatable {
+    case nameCell
+    case fillPasswordCell
+    case passwordLengthCell
+    case passwordUseDigitsCell
+    case passwordVaryCasesCell
+    case passwordUseSpecialSymbols
+    case passwordGroupsCell
+    case additionsCell
+    case deletePasswordCell
+    case scanQRCodeCell
+    case passwordFlavorCell
 }
 
 enum PasswordEditorCellKey {
     case type, title, content, placeholders
+}
+
+protocol PasswordSettingSliderTableViewCellDelegate {
+    
+    func generateAndCopyPassword()
 }
 
 class PasswordEditorTableViewController: UITableViewController {
@@ -33,9 +48,10 @@ class PasswordEditorTableViewController: UITableViewController {
     private let additionsSection = 2
     private var hidePasswordSettings = true
 
+    private var passwordGenerator: PasswordGenerator = Defaults.passwordGenerator
+
     var nameCell: TextFieldTableViewCell?
     var fillPasswordCell: FillPasswordTableViewCell?
-    private var passwordLengthCell: SliderTableViewCell?
     var additionsCell: TextViewTableViewCell?
     private var deletePasswordCell: UITableViewCell?
     private var scanQRCodeCell: UITableViewCell?
@@ -72,7 +88,7 @@ class PasswordEditorTableViewController: UITableViewController {
         passwordFlavorCell?.textLabel?.textColor = Colors.systemBlue
         passwordFlavorCell?.selectionStyle = .none
         passwordFlavorCell?.accessoryType = .disclosureIndicator
-        passwordFlavorCell?.detailTextLabel?.text = Defaults.passwordGeneratorFlavor.localized
+        passwordFlavorCell?.detailTextLabel?.text = passwordGenerator.flavor.localized
     }
 
     override func viewDidLoad() {
@@ -84,7 +100,8 @@ class PasswordEditorTableViewController: UITableViewController {
         tableView.register(UINib(nibName: "TextFieldTableViewCell", bundle: nil), forCellReuseIdentifier: "textFieldCell")
         tableView.register(UINib(nibName: "TextViewTableViewCell", bundle: nil), forCellReuseIdentifier: "textViewCell")
         tableView.register(UINib(nibName: "FillPasswordTableViewCell", bundle: nil), forCellReuseIdentifier: "fillPasswordCell")
-        tableView.register(UINib(nibName: "SliderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordLengthCell")
+        tableView.register(UINib(nibName: "SliderTableViewCell", bundle: nil), forCellReuseIdentifier: "sliderCell")
+        tableView.register(UINib(nibName: "SwitchTableViewCell", bundle: nil), forCellReuseIdentifier: "switchCell")
 
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 48
@@ -97,7 +114,10 @@ class PasswordEditorTableViewController: UITableViewController {
             ],
             [
                 [.type: PasswordEditorCellType.fillPasswordCell, .title: "Password".localize(), .content: password?.password ?? ""],
-                [.type: PasswordEditorCellType.passwordLengthCell, .title: "passwordlength"],
+                [.type: PasswordEditorCellType.passwordLengthCell],
+                [.type: PasswordEditorCellType.passwordUseDigitsCell],
+                [.type: PasswordEditorCellType.passwordVaryCasesCell],
+                [.type: PasswordEditorCellType.passwordUseSpecialSymbols],
                 [.type: PasswordEditorCellType.passwordFlavorCell],
             ],
             [
@@ -108,6 +128,7 @@ class PasswordEditorTableViewController: UITableViewController {
                 [.type: PasswordEditorCellType.deletePasswordCell],
             ]
         ]
+        updateTableData(withRespectTo: passwordGenerator.flavor)
     }
 
     override func viewDidLayoutSubviews() {
@@ -133,26 +154,43 @@ class PasswordEditorTableViewController: UITableViewController {
             }
             return fillPasswordCell!
         case .passwordLengthCell:
-            passwordLengthCell = tableView.dequeueReusableCell(withIdentifier: "passwordLengthCell", for: indexPath) as? SliderTableViewCell
-            let lengthSetting = Defaults.passwordGeneratorFlavor.defaultLength
-            let minimumLength = lengthSetting.min
-            let maximumLength = lengthSetting.max
-            var defaultLength = lengthSetting.def
-            if let currentPasswordLength = (tableData[passwordSection][0][PasswordEditorCellKey.content] as? String)?.count,
-                currentPasswordLength >= minimumLength,
-                currentPasswordLength <= maximumLength {
-                defaultLength = currentPasswordLength
-            }
-            passwordLengthCell?.reset(title: "Length".localize(),
-                                      minimumValue: minimumLength,
-                                      maximumValue: maximumLength,
-                                      defaultValue: defaultLength)
-            passwordLengthCell?.delegate = self
-            return passwordLengthCell!
+            return (tableView.dequeueReusableCell(withIdentifier: "sliderCell", for: indexPath) as! SliderTableViewCell)
+                .set(title: "Length".localize())
+                .configureSlider(with: passwordGenerator.flavor.lengthLimits)
+                .set(initialValue: passwordGenerator.limitedLength)
+                .checkNewValue { $0 != self.passwordGenerator.length }
+                .updateNewValue { self.passwordGenerator.length = $0 }
+                .delegate(to: self)
+        case .passwordUseDigitsCell:
+            return (tableView.dequeueReusableCell(withIdentifier: "switchCell", for: indexPath) as! SwitchTableViewCell)
+                .set(title: "Digits".localize())
+                .set(initialValue: passwordGenerator.useDigits)
+                .updateNewValue { self.passwordGenerator.useDigits = $0 }
+                .delegate(to: self)
+        case .passwordVaryCasesCell:
+            return (tableView.dequeueReusableCell(withIdentifier: "switchCell", for: indexPath) as! SwitchTableViewCell)
+                .set(title: "VaryCases".localize())
+                .set(initialValue: passwordGenerator.varyCases)
+                .updateNewValue { self.passwordGenerator.varyCases = $0 }
+                .delegate(to: self)
+        case .passwordUseSpecialSymbols:
+            return (tableView.dequeueReusableCell(withIdentifier: "switchCell", for: indexPath) as! SwitchTableViewCell)
+                .set(title: "SpecialSymbols".localize())
+                .set(initialValue: passwordGenerator.useSpecialSymbols)
+                .updateNewValue { self.passwordGenerator.useSpecialSymbols = $0 }
+                .delegate(to: self)
+        case .passwordGroupsCell:
+            return (tableView.dequeueReusableCell(withIdentifier: "sliderCell", for: indexPath) as! SliderTableViewCell)
+                .set(title: "Groups".localize())
+                .configureSlider(with: (min: 0, max: 6))
+                .set(initialValue: passwordGenerator.groups)
+                .checkNewValue { $0 != self.passwordGenerator.groups && self.passwordGenerator.isAcceptable(groups: $0) }
+                .updateNewValue { self.passwordGenerator.groups = $0 }
+                .delegate(to: self)
         case .passwordFlavorCell:
             return passwordFlavorCell!
         case .additionsCell:
-            additionsCell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as?TextViewTableViewCell
+            additionsCell = tableView.dequeueReusableCell(withIdentifier: "textViewCell", for: indexPath) as? TextViewTableViewCell
             additionsCell?.contentTextView.delegate = self
             additionsCell?.setContent(content: cellData[PasswordEditorCellKey.content] as? String)
             additionsCell?.contentTextView.textColor = Colors.label
@@ -206,18 +244,27 @@ class PasswordEditorTableViewController: UITableViewController {
             showPasswordGeneratorFlavorActionSheet(sourceCell: selectedCell!, tableView: tableView)
         }
     }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        Defaults.passwordGenerator = passwordGenerator
+    }
     
     private func showPasswordGeneratorFlavorActionSheet(sourceCell: UITableViewCell, tableView: UITableView) {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         PasswordGeneratorFlavor.allCases.forEach { flavor in
             var actionTitle = flavor.longNameLocalized
-            if Defaults.passwordGeneratorFlavor == flavor {
+            if passwordGenerator.flavor == flavor {
                 actionTitle = "✓ " + actionTitle
             }
             let action = UIAlertAction(title: actionTitle, style: .default) { _ in
-                Defaults.passwordGeneratorFlavor = flavor
-                sourceCell.detailTextLabel?.text = Defaults.passwordGeneratorFlavor.localized
+                guard self.passwordGenerator.flavor != flavor else {
+                    return
+                }
+                self.passwordGenerator.flavor = flavor
+                sourceCell.detailTextLabel?.text = self.passwordGenerator.flavor.localized
+                self.updateTableData(withRespectTo: flavor)
                 tableView.reloadSections([self.passwordSection], with: .none)
             }
             optionMenu.addAction(action)
@@ -230,13 +277,29 @@ class PasswordEditorTableViewController: UITableViewController {
         self.present(optionMenu, animated: true, completion: nil)
     }
 
+    private func updateTableData(withRespectTo flavor: PasswordGeneratorFlavor) {
+        // Remove delimiter configuration for XKCD style passwords. Re-add it for random ones.
+        switch flavor {
+        case .random:
+            guard tableData[1].first(where: isPasswordDelimiterCellData) == nil else {
+                return
+            }
+            tableData[1].insert([.type: PasswordEditorCellType.passwordGroupsCell], at: tableData[1].endIndex - 1)
+        case .xkcd:
+            tableData[1].removeAll(where: isPasswordDelimiterCellData)
+        }
+    }
+
+    private func isPasswordDelimiterCellData(data: Dictionary<PasswordEditorCellKey, Any>) -> Bool {
+        return (data[.type] as? PasswordEditorCellType) == .some(.passwordGroupsCell)
+    }
+
     // generate the password, don't care whether the original line is otp
     private func generateAndCopyPasswordNoOtpCheck() {
         // show password settings (e.g., the length slider)
         showPasswordSettings()
 
-        let length = passwordLengthCell?.roundedValue ?? 0
-        let plainPassword = Defaults.passwordGeneratorFlavor.generate(length: length)
+        let plainPassword = passwordGenerator.generate()
 
         // update tableData so to make sure reloadData() works correctly
         tableData[passwordSection][0][PasswordEditorCellKey.content] = plainPassword

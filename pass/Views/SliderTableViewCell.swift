@@ -6,59 +6,71 @@
 //  Copyright © 2017 Yishi Lin. All rights reserved.
 //
 
-
+import passKit
 import UIKit
 
-protocol PasswordSettingSliderTableViewCellDelegate {
-    func generateAndCopyPassword()
-}
+class SliderTableViewCell: UITableViewCell {
 
-class SliderTableViewCell: UITableViewCell, ContentProvider {
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var valueLabel: UILabel!
+    @IBOutlet var slider: UISlider!
 
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var valueLabel: UILabel!
-    @IBOutlet weak var slider: UISlider!
+    private var checker: ((Int) -> Bool)!
+    private var updater: ((Int) -> Void)!
 
-    var delegate: UITableViewController?
-
-    var roundedValue: Int {
-        get {
-            return Int(valueLabel.text!)!
-        }
-    }
+    private var delegate: PasswordSettingSliderTableViewCellDelegate!
 
     @IBAction func handleSliderValueChange(_ sender: UISlider) {
-        let oldRoundedValue = self.roundedValue
         let newRoundedValue = Int(sender.value)
-        // proceed only when the rounded value gets updated
-        guard newRoundedValue != oldRoundedValue else {
-            return;
+        // Proceed only if the rounded value gets updated.
+        guard checker(newRoundedValue) else {
+            return
         }
         sender.value = Float(newRoundedValue)
         valueLabel.text = "\(newRoundedValue)"
-        if let delegate: PasswordSettingSliderTableViewCellDelegate = self.delegate as? PasswordSettingSliderTableViewCellDelegate {
-            delegate.generateAndCopyPassword()
-        }
+
+        updater(newRoundedValue)
+        delegate.generateAndCopyPassword()
     }
 
-    func reset(title: String, minimumValue: Int, maximumValue: Int, defaultValue: Int) {
+    func set(title: String) -> SliderTableViewCell {
         titleLabel.text = title
-        slider.minimumValue = Float(minimumValue)
-        slider.maximumValue = Float(maximumValue)
-        slider.value = Float(defaultValue)
-        valueLabel.text = String(defaultValue)
-
-        // "not editable"
-        if minimumValue == maximumValue {
-            titleLabel.textColor = UIColor.gray
-            valueLabel.textColor = UIColor.gray
-            slider.isUserInteractionEnabled = false
-        }
+        return self
     }
+
+    func configureSlider(with configuration: LengthLimits) -> SliderTableViewCell {
+        slider.minimumValue = Float(configuration.min)
+        slider.maximumValue = Float(configuration.max)
+        return self
+    }
+
+    func set(initialValue: Int) -> SliderTableViewCell {
+        slider.value = Float(initialValue)
+        valueLabel.text = String(initialValue)
+        return self
+    }
+
+    func checkNewValue(with checker: @escaping (Int) -> Bool) -> SliderTableViewCell {
+        self.checker = checker
+        return self
+    }
+
+    func updateNewValue(using updater: @escaping (Int) -> Void) -> SliderTableViewCell {
+        self.updater = updater
+        return self
+    }
+
+    func delegate(to delegate: PasswordSettingSliderTableViewCellDelegate) -> SliderTableViewCell {
+        self.delegate = delegate
+        return self
+    }
+}
+
+extension SliderTableViewCell: ContentProvider {
 
     func getContent() -> String? {
         return nil
     }
 
-    func setContent(content: String?) {}
+    func setContent(content _: String?) {}
 }
