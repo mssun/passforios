@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="71" id="ZfB-GH-J5H" customClass="SwitchTableViewCell" customModule="pass" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="74"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="ZfB-GH-J5H" id="yOK-hg-p5T">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="74"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZcB-yD-ZwW" userLabel="Title">
+                        <rect key="frame" x="15" y="11" width="26.5" height="52"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="38" id="KbB-1u-gvz"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uza-Tn-Tvb">
+                        <rect key="frame" x="263" y="20" width="51" height="34"/>
+                        <connections>
+                            <action selector="switchValueChanged:" destination="ZfB-GH-J5H" eventType="valueChanged" id="7M4-rU-jkI"/>
+                        </connections>
+                    </switch>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="uza-Tn-Tvb" firstAttribute="trailing" secondItem="yOK-hg-p5T" secondAttribute="trailingMargin" constant="7" id="AI4-cq-01M"/>
+                    <constraint firstAttribute="bottom" secondItem="uza-Tn-Tvb" secondAttribute="bottom" constant="20" symbolic="YES" id="JHm-gr-hAx"/>
+                    <constraint firstItem="uza-Tn-Tvb" firstAttribute="top" secondItem="yOK-hg-p5T" secondAttribute="top" constant="20" symbolic="YES" id="YPW-8k-up9"/>
+                    <constraint firstItem="ZcB-yD-ZwW" firstAttribute="leading" secondItem="yOK-hg-p5T" secondAttribute="leadingMargin" id="lFa-jJ-Jc7"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="ZcB-yD-ZwW" secondAttribute="bottom" id="nMt-uF-ECF"/>
+                    <constraint firstItem="ZcB-yD-ZwW" firstAttribute="top" secondItem="yOK-hg-p5T" secondAttribute="topMargin" id="wJh-hO-b3q"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="controlSwitch" destination="uza-Tn-Tvb" id="XcC-iD-dpH"/>
+                <outlet property="titleLabel" destination="ZcB-yD-ZwW" id="be8-Ec-Iu5"/>
+            </connections>
+            <point key="canvasLocation" x="-106" y="64"/>
+        </tableViewCell>
+    </objects>
+</document>

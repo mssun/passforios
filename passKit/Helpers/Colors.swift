@@ -35,11 +35,7 @@ public struct Colors {
         return .init(red: 242.0, green: 242.0, blue: 247.0, alpha: 1.0)
     }()
 
-    public static let systemRed: UIColor = {
-        return .systemRed
-    }()
+    public static let systemRed = UIColor.systemRed
 
-    public static let systemBlue: UIColor = {
-        return .systemBlue
-    }()
+    public static let systemBlue = UIColor.systemBlue
 }

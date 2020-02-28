@@ -255,8 +255,11 @@
 "UseKeyValueFormat."                = "Verwende das Format \"Name: Inhalt\" für zusätzliche Felder.";
 "DeletePassword"                    = "Passwort löschen";
 "AddOneTimePassword"                = "Einmalkennwort hinzufügen";
-"GetMemorableOne"                   = "Einprägsames Passwort: xkpasswd";
 "Length"                            = "Länge";
+"VaryCases"                         = "Groß- und Kleinbuchstaben";
+"Digits"                            = "Ziffern";
+"SpecialSymbols"                    = "Sonderzeichen";
+"Groups"                            = "Bilde Gruppen";
 "DeletePassword?"                   = "Passwort löschen?";
 "OverwriteOtpConfiguration?"        = "Konfiguration des Einmalkennwortes überschreiben?";
 "ValidTokenUrl"                     = "Gültiges URL-Token";

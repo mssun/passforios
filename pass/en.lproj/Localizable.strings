@@ -255,8 +255,11 @@
 "UseKeyValueFormat."                = "Use \"key: value\" format for additional fields.";
 "DeletePassword"                    = "Delete Password";
 "AddOneTimePassword"                = "Add One-Time Password";
-"GetMemorableOne"                   = "Get a Memorable One: xkpasswd";
 "Length"                            = "Length";
+"VaryCases"                         = "Random Capitalization";
+"Digits"                            = "Digits";
+"SpecialSymbols"                    = "Special Symbols";
+"Groups"                            = "Arrange Into Groups";
 "DeletePassword?"                   = "Delete Password?";
 "OverwriteOtpConfiguration?"        = "Overwrite the one-time password configuration?";
 "ValidTokenUrl"                     = "Valid token URL";
