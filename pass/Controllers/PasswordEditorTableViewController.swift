@@ -123,9 +123,12 @@ class PasswordEditorTableViewController: UITableViewController {
             ],
             [
                 [.type: PasswordEditorCellType.scanQRCodeCell],
-                [.type: PasswordEditorCellType.deletePasswordCell],
             ]
         ]
+        
+        if self.password != nil {
+            tableData[additionsSection+1].append([.type: PasswordEditorCellType.deletePasswordCell])
+        }
         updateTableData(withRespectTo: passwordGenerator.flavor)
     }
 
