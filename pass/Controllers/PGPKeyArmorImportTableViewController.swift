@@ -65,12 +65,10 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
         super.viewDidLoad()
 
         scanPublicKeyCell?.textLabel?.text = "ScanPublicKeyQrCodes".localize()
-        scanPublicKeyCell?.textLabel?.textColor = Colors.systemBlue
         scanPublicKeyCell?.selectionStyle = .default
         scanPublicKeyCell?.accessoryType = .disclosureIndicator
 
         scanPrivateKeyCell?.textLabel?.text = "ScanPrivateKeyQrCodes".localize()
-        scanPrivateKeyCell?.textLabel?.textColor = Colors.systemBlue
         scanPrivateKeyCell?.selectionStyle = .default
         scanPrivateKeyCell?.accessoryType = .disclosureIndicator
     }

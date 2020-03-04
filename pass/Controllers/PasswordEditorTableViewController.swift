@@ -79,13 +79,11 @@ class PasswordEditorTableViewController: UITableViewController {
 
         scanQRCodeCell = UITableViewCell(style: .default, reuseIdentifier: "default")
         scanQRCodeCell?.textLabel?.text = "AddOneTimePassword".localize()
-        scanQRCodeCell?.textLabel?.textColor = Colors.systemBlue
         scanQRCodeCell?.selectionStyle = .default
         scanQRCodeCell?.accessoryType = .disclosureIndicator
 
         passwordFlavorCell = UITableViewCell(style: .value1, reuseIdentifier: "default")
         passwordFlavorCell?.textLabel?.text = "PasswordGeneratorFlavor".localize()
-        passwordFlavorCell?.textLabel?.textColor = Colors.systemBlue
         passwordFlavorCell?.selectionStyle = .none
         passwordFlavorCell?.accessoryType = .disclosureIndicator
         passwordFlavorCell?.detailTextLabel?.text = passwordGenerator.flavor.localized

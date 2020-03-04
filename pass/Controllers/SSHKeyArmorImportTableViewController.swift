@@ -54,7 +54,6 @@ class SSHKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
         armorPrivateKeyTextView.delegate = self
 
         scanPrivateKeyCell?.textLabel?.text = "ScanPrivateKeyQrCodes".localize()
-        scanPrivateKeyCell?.textLabel?.textColor = Colors.systemBlue
         scanPrivateKeyCell?.selectionStyle = .default
         scanPrivateKeyCell?.accessoryType = .disclosureIndicator
     }
