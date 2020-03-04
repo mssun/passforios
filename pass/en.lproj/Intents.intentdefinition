@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>INEnums</key>
+	<array/>
+	<key>INIntentDefinitionModelVersion</key>
+	<string>1.1</string>
+	<key>INIntentDefinitionNamespace</key>
+	<string>wCllDN</string>
+	<key>INIntentDefinitionSystemVersion</key>
+	<string>19D76</string>
+	<key>INIntentDefinitionToolsBuildVersion</key>
+	<string>11C29</string>
+	<key>INIntentDefinitionToolsVersion</key>
+	<string>11.3</string>
+	<key>INIntents</key>
+	<array>
+		<dict>
+			<key>INIntentCategory</key>
+			<string>generic</string>
+			<key>INIntentConfigurable</key>
+			<true/>
+			<key>INIntentDefaultImageName</key>
+			<string>Refresh</string>
+			<key>INIntentDescription</key>
+			<string>Sync the password repository.</string>
+			<key>INIntentDescriptionID</key>
+			<string>nuN5Fq</string>
+			<key>INIntentIneligibleForSuggestions</key>
+			<true/>
+			<key>INIntentManagedParameterCombinations</key>
+			<dict>
+				<key></key>
+				<dict>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Sync repository with server</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>2jFDLY</string>
+					<key>INIntentParameterCombinationUpdatesLinked</key>
+					<true/>
+				</dict>
+			</dict>
+			<key>INIntentName</key>
+			<string>SyncRepository</string>
+			<key>INIntentResponse</key>
+			<dict>
+				<key>INIntentResponseCodes</key>
+				<array>
+					<dict>
+						<key>INIntentResponseCodeConciseFormatString</key>
+						<string>Syncing was successful.</string>
+						<key>INIntentResponseCodeConciseFormatStringID</key>
+						<string>URQN5E</string>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>Syncing was successful.</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>IhvhFk</string>
+						<key>INIntentResponseCodeName</key>
+						<string>success</string>
+						<key>INIntentResponseCodeSuccess</key>
+						<true/>
+					</dict>
+					<dict>
+						<key>INIntentResponseCodeConciseFormatString</key>
+						<string>Syncing failed.</string>
+						<key>INIntentResponseCodeConciseFormatStringID</key>
+						<string>wB7FJn</string>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>Syncing failed.</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>O9MV3m</string>
+						<key>INIntentResponseCodeName</key>
+						<string>failure</string>
+					</dict>
+					<dict>
+						<key>INIntentResponseCodeConciseFormatString</key>
+						<string>There is no saved passphrase to communicate with the remote repository.</string>
+						<key>INIntentResponseCodeConciseFormatStringID</key>
+						<string>H2uxch</string>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>There is no saved passphrase to communicate with the remote repository.</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>HO0DF8</string>
+						<key>INIntentResponseCodeName</key>
+						<string>noPassphrase</string>
+					</dict>
+					<dict>
+						<key>INIntentResponseCodeConciseFormatString</key>
+						<string>Pulling changes from the remote repository failed.</string>
+						<key>INIntentResponseCodeConciseFormatStringID</key>
+						<string>kbRWJu</string>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>Pulling changes from the remote repository failed.</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>k4AscG</string>
+						<key>INIntentResponseCodeName</key>
+						<string>pullFailed</string>
+					</dict>
+					<dict>
+						<key>INIntentResponseCodeConciseFormatString</key>
+						<string>Pushing changes to the remote repository failed.</string>
+						<key>INIntentResponseCodeConciseFormatStringID</key>
+						<string>z8bZQR</string>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>Pushing changes to the remote repository failed.</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>0r0NKK</string>
+						<key>INIntentResponseCodeName</key>
+						<string>pushFailed</string>
+					</dict>
+					<dict>
+						<key>INIntentResponseCodeConciseFormatString</key>
+						<string>There is no local repository.</string>
+						<key>INIntentResponseCodeConciseFormatStringID</key>
+						<string>qr6SIW</string>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>There is no local repository.</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>JthclV</string>
+						<key>INIntentResponseCodeName</key>
+						<string>noRepository</string>
+					</dict>
+				</array>
+			</dict>
+			<key>INIntentTitle</key>
+			<string>Sync Repository</string>
+			<key>INIntentTitleID</key>
+			<string>KFGEkd</string>
+			<key>INIntentType</key>
+			<string>Custom</string>
+			<key>INIntentUserConfirmationRequired</key>
+			<true/>
+			<key>INIntentVerb</key>
+			<string>Do</string>
+		</dict>
+	</array>
+	<key>INTypes</key>
+	<array/>
+</dict>
+</plist>

@@ -158,7 +158,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     private func syncPasswords() {
-        guard passwordStore.repositoryExisted() else {
+        guard passwordStore.repositoryExists() else {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800)) {
                 Utils.alert(title: "Error".localize(), message: "NoPasswordStore.".localize(), controller: self, completion: nil)
             }

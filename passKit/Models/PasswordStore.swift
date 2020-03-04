@@ -124,7 +124,7 @@ public class PasswordStore {
         Defaults.remove(\.gitSSHPrivateKeyArmor)
     }
     
-    public func repositoryExisted() -> Bool {
+    public func repositoryExists() -> Bool {
         let fm = FileManager()
         return fm.fileExists(atPath: Globals.repositoryPath)
     }
