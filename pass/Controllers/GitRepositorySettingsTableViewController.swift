@@ -141,7 +141,7 @@ class GitRepositorySettingsTableViewController: UITableViewController {
         self.gitBranchName = branchName.trimmed
         self.gitUsername = (gitURL.user ?? usernameTextField.text ?? "git").trimmed
 
-        if passwordStore.repositoryExisted() {
+        if passwordStore.repositoryExists() {
             let overwriteAlert: UIAlertController = {
                 let alert = UIAlertController(title: "Overwrite?".localize(), message: "OperationWillOverwriteData.".localize(), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Overwrite".localize(), style: .destructive) { _ in

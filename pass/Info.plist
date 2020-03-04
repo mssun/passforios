@@ -37,6 +37,10 @@
 	<string>We need to access your camera for scanning QR codes.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Enable access to Face ID to unlock Pass.</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>SyncRepositoryIntent</string>
+	</array>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>
