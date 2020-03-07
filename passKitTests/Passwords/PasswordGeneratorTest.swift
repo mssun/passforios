@@ -55,6 +55,26 @@ class PasswordGeneratorTest: XCTestCase {
         XCTAssertFalse(generator.isAcceptable(groups: 4))
     }
 
+    func testRandomGroupsCount() {
+        [
+            PasswordGenerator(length: 15, groups: 4),
+            PasswordGenerator(length: 24, groups: 5),
+            PasswordGenerator(length: 63, groups: 8),
+        ].forEach { generator in
+            XCTAssertEqual(generator.generate().split(separator: "-").count, generator.groups)
+        }
+    }
+
+    func testXKCDWordsCount() {
+        [
+            PasswordGenerator(flavor: .xkcd, length: 4, useSpecialSymbols: false),
+            PasswordGenerator(flavor: .xkcd, length: 8, useSpecialSymbols: false),
+            PasswordGenerator(flavor: .xkcd, length: 1, useSpecialSymbols: false),
+        ].forEach { generator in
+            XCTAssertEqual(generator.generate().split(whereSeparator: { "0123456789".contains($0) }).count, generator.limitedLength)
+        }
+    }
+
     func testRandomPasswordLength() {
         [
             PasswordGenerator(),

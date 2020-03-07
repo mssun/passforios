@@ -83,17 +83,17 @@ public struct PasswordGenerator: Codable {
     private func generateRandom() -> String {
         let currentCharacters = characters
         if groups > 1, isAcceptable(groups: groups) {
-            return selectRandomly(count: length - groups + 1, from: currentCharacters)
+            return selectRandomly(count: limitedLength - groups + 1, from: currentCharacters)
                 .slices(count: UInt(groups))
                 .map { String($0) }
                 .joined(separator: "-")
         }
-        return String(selectRandomly(count: length, from: currentCharacters))
+        return String(selectRandomly(count: limitedLength, from: currentCharacters))
     }
 
     private func generateXkcd() -> String {
         let currentDelimiters = delimiters
-        return getRandomDelimiter(from: currentDelimiters) + (0 ..< length)
+        return getRandomDelimiter(from: currentDelimiters) + (0 ..< limitedLength)
             .map { _ in getRandomWord() + getRandomDelimiter(from: currentDelimiters) }
             .joined()
     }
