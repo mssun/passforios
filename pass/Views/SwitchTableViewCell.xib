@@ -26,7 +26,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uza-Tn-Tvb">
-                        <rect key="frame" x="263" y="20" width="51" height="34"/>
+                        <rect key="frame" x="256" y="21.5" width="51" height="31"/>
                         <color key="onTintColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <connections>
                             <action selector="switchValueChanged:" destination="ZfB-GH-J5H" eventType="valueChanged" id="7M4-rU-jkI"/>
@@ -34,9 +34,8 @@
                     </switch>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="uza-Tn-Tvb" firstAttribute="trailing" secondItem="yOK-hg-p5T" secondAttribute="trailingMargin" constant="7" id="AI4-cq-01M"/>
-                    <constraint firstAttribute="bottom" secondItem="uza-Tn-Tvb" secondAttribute="bottom" constant="20" symbolic="YES" id="JHm-gr-hAx"/>
-                    <constraint firstItem="uza-Tn-Tvb" firstAttribute="top" secondItem="yOK-hg-p5T" secondAttribute="top" constant="20" symbolic="YES" id="YPW-8k-up9"/>
+                    <constraint firstItem="uza-Tn-Tvb" firstAttribute="trailing" secondItem="yOK-hg-p5T" secondAttribute="trailingMargin" id="AI4-cq-01M"/>
+                    <constraint firstItem="uza-Tn-Tvb" firstAttribute="centerY" secondItem="ZcB-yD-ZwW" secondAttribute="centerY" id="YPW-8k-up9"/>
                     <constraint firstItem="ZcB-yD-ZwW" firstAttribute="leading" secondItem="yOK-hg-p5T" secondAttribute="leadingMargin" id="lFa-jJ-Jc7"/>
                     <constraint firstAttribute="bottomMargin" secondItem="ZcB-yD-ZwW" secondAttribute="bottom" id="nMt-uF-ECF"/>
                     <constraint firstItem="ZcB-yD-ZwW" firstAttribute="top" secondItem="yOK-hg-p5T" secondAttribute="topMargin" id="wJh-hO-b3q"/>
