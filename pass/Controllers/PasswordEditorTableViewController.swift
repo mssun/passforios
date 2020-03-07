@@ -82,11 +82,14 @@ class PasswordEditorTableViewController: UITableViewController {
         scanQRCodeCell?.selectionStyle = .default
         scanQRCodeCell?.accessoryType = .disclosureIndicator
 
-        passwordFlavorCell = UITableViewCell(style: .value1, reuseIdentifier: "default")
+        passwordFlavorCell = UITableViewCell(style: .default, reuseIdentifier: "default")
         passwordFlavorCell?.textLabel?.text = "PasswordGeneratorFlavor".localize()
         passwordFlavorCell?.selectionStyle = .none
-        passwordFlavorCell?.accessoryType = .disclosureIndicator
-        passwordFlavorCell?.detailTextLabel?.text = passwordGenerator.flavor.localized
+
+        let passwordFlavorSelector = UISegmentedControl(items: PasswordGeneratorFlavor.allCases.map { $0.localized })
+        passwordFlavorSelector.selectedSegmentIndex = PasswordGeneratorFlavor.allCases.firstIndex(of: passwordGenerator.flavor)!
+        passwordFlavorSelector.addTarget(self, action: #selector(flavorChanged), for: .valueChanged)
+        passwordFlavorCell?.accessoryView = passwordFlavorSelector
     }
 
     override func viewDidLoad() {
@@ -112,11 +115,11 @@ class PasswordEditorTableViewController: UITableViewController {
             ],
             [
                 [.type: PasswordEditorCellType.fillPasswordCell, .title: "Password".localize(), .content: password?.password ?? ""],
+                [.type: PasswordEditorCellType.passwordFlavorCell],
                 [.type: PasswordEditorCellType.passwordLengthCell],
                 [.type: PasswordEditorCellType.passwordUseDigitsCell],
                 [.type: PasswordEditorCellType.passwordVaryCasesCell],
                 [.type: PasswordEditorCellType.passwordUseSpecialSymbols],
-                [.type: PasswordEditorCellType.passwordFlavorCell],
             ],
             [
                 [.type: PasswordEditorCellType.additionsCell, .title: "Additions".localize(), .content: password?.additionsPlainText ?? ""],
@@ -296,7 +299,7 @@ class PasswordEditorTableViewController: UITableViewController {
             guard tableData[1].first(where: isPasswordDelimiterCellData) == nil else {
                 return
             }
-            tableData[1].insert([.type: PasswordEditorCellType.passwordGroupsCell], at: tableData[1].endIndex - 1)
+            tableData[1].insert([.type: PasswordEditorCellType.passwordGroupsCell], at: tableData[1].endIndex)
         case .xkcd:
             tableData[1].removeAll(where: isPasswordDelimiterCellData)
         }
@@ -304,6 +307,17 @@ class PasswordEditorTableViewController: UITableViewController {
 
     private func isPasswordDelimiterCellData(data: Dictionary<PasswordEditorCellKey, Any>) -> Bool {
         return (data[.type] as? PasswordEditorCellType) == .some(.passwordGroupsCell)
+    }
+
+    @objc func flavorChanged(_ sender: UISegmentedControl) {
+        let flavor = PasswordGeneratorFlavor.allCases[sender.selectedSegmentIndex]
+        guard passwordGenerator.flavor != flavor else {
+            return
+        }
+        passwordGenerator.flavor = flavor
+        updateTableData(withRespectTo: flavor)
+        tableView.reloadSections([passwordSection], with: .none)
+        generateAndCopyPassword()
     }
 
     // generate the password, don't care whether the original line is otp
