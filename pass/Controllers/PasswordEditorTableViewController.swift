@@ -207,6 +207,17 @@ class PasswordEditorTableViewController: UITableViewController {
         return 44
     }
 
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch tableData[indexPath.section][indexPath.row][PasswordEditorCellKey.type] as! PasswordEditorCellType {
+        case .passwordLengthCell, .passwordGroupsCell:
+            return 42
+        case .passwordUseDigitsCell, .passwordVaryCasesCell, .passwordUseSpecialSymbols, .passwordFlavorCell:
+            return 42
+        default:
+            return UITableView.automaticDimension
+        }
+    }
+
     override func numberOfSections(in tableView: UITableView) -> Int {
         return tableData.count
     }
