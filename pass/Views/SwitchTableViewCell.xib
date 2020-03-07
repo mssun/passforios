@@ -27,6 +27,7 @@
                     </label>
                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uza-Tn-Tvb">
                         <rect key="frame" x="263" y="20" width="51" height="34"/>
+                        <color key="onTintColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <connections>
                             <action selector="switchValueChanged:" destination="ZfB-GH-J5H" eventType="valueChanged" id="7M4-rU-jkI"/>
                         </connections>
