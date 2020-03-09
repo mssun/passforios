@@ -255,41 +255,12 @@ class PasswordEditorTableViewController: UITableViewController {
             self.present(alert, animated: true, completion: nil)
         } else if selectedCell == scanQRCodeCell {
             self.performSegue(withIdentifier: "showQRScannerSegue", sender: self)
-        } else if selectedCell == passwordFlavorCell {
-            showPasswordGeneratorFlavorActionSheet(sourceCell: selectedCell!, tableView: tableView)
         }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         Defaults.passwordGenerator = passwordGenerator
-    }
-    
-    private func showPasswordGeneratorFlavorActionSheet(sourceCell: UITableViewCell, tableView: UITableView) {
-        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-
-        PasswordGeneratorFlavor.allCases.forEach { flavor in
-            var actionTitle = flavor.longNameLocalized
-            if passwordGenerator.flavor == flavor {
-                actionTitle = "✓ " + actionTitle
-            }
-            let action = UIAlertAction(title: actionTitle, style: .default) { _ in
-                guard self.passwordGenerator.flavor != flavor else {
-                    return
-                }
-                self.passwordGenerator.flavor = flavor
-                sourceCell.detailTextLabel?.text = self.passwordGenerator.flavor.localized
-                self.updateTableData(withRespectTo: flavor)
-                tableView.reloadSections([self.passwordSection], with: .none)
-            }
-            optionMenu.addAction(action)
-        }
-
-        let cancelAction = UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil)
-        optionMenu.addAction(cancelAction)
-        optionMenu.popoverPresentationController?.sourceView = sourceCell
-        
-        self.present(optionMenu, animated: true, completion: nil)
     }
 
     private func updateTableData(withRespectTo flavor: PasswordGeneratorFlavor) {
