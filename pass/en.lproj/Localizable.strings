@@ -38,7 +38,7 @@
 "NSURLFileAllocatedSizeKeyShouldAlwaysReturnValue." = "Huh? NSURLFileAllocatedSizeKey should always return a value.";
 
 // Settings
-"PasswordGeneratorFlavor"           = "Password Generator Flavor";
+"PasswordGeneratorFlavor"           = "Style";
 "RememberPgpKeyPassphrase"          = "Remember PGP Key Passphrase";
 "RememberGitCredentialPassphrase"   = "Remember Git Credential Passphrase";
 "ShowFolders"                       = "Show Folders";
