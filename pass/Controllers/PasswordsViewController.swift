@@ -249,6 +249,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         // reset the data table if the disaply settings have been changed
         NotificationCenter.default.addObserver(self, selector: #selector(actOnReloadTableViewRelatedNotification), name: .passwordDisplaySettingChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(actOnSearchNotification), name: .passwordSearch, object: nil)
+        // A Siri shortcut can change the state of the app in the background. Hence, reload when opening the app.
+        NotificationCenter.default.addObserver(self, selector: #selector(actOnReloadTableViewRelatedNotification), name: UIApplication.willEnterForegroundNotification, object: nil)
 
         // listen to the swipe back guesture
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
