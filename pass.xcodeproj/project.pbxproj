@@ -1084,8 +1084,8 @@
 				TargetAttributes = {
 					30A69944240EED5E00B7D967 = {
 						CreatedOnToolsVersion = 11.3;
-						DevelopmentTeam = 8F45X738ZV;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = 4WDM8E95VU;
+						ProvisioningStyle = Manual;
 					};
 					A239F5942158C08B00576CBF = {
 						CreatedOnToolsVersion = 10.0;
@@ -1697,8 +1697,8 @@
 				CODE_SIGN_ENTITLEMENTS = passShortcuts/PassShortcuts.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8F45X738ZV;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 4WDM8E95VU;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = passShortcuts/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -1706,8 +1706,9 @@
 				MARKETING_VERSION = 0.10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios.passShortcuts;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios.shortcuts;
 				PRODUCT_NAME = PassShortcuts;
+				PROVISIONING_PROFILE_SPECIFIER = "match Development me.mssun.passforios.shortcuts";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1724,16 +1725,17 @@
 				CODE_SIGN_ENTITLEMENTS = passShortcuts/PassShortcuts.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8F45X738ZV;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 4WDM8E95VU;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = passShortcuts/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 0.10.0;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios.passShortcuts;
+				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios.shortcuts;
 				PRODUCT_NAME = PassShortcuts;
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore me.mssun.passforios.shortcuts";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2060,6 +2062,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
+				ENABLE_BITCODE = NO;
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -2128,6 +2131,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
