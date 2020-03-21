@@ -101,6 +101,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         transition.fillMode = CAMediaTimingFillMode.forwards
         transition.duration = 0.25
         transition.subtype = CATransitionSubtype.fromRight
+        transition.delegate = self
         return transition
     }()
 
@@ -111,6 +112,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         transition.fillMode = CAMediaTimingFillMode.forwards
         transition.duration = 0.25
         transition.subtype = CATransitionSubtype.fromLeft
+        transition.delegate = self
         return transition
     }()
 
@@ -675,8 +677,17 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 }
 
 extension PasswordsViewController: UISearchResultsUpdating {
+
     func updateSearchResults(for searchController: UISearchController) {
         let scope = SearchBarScope(rawValue: searchController.searchBar.selectedScopeButtonIndex) ?? .all
         filterContentForSearchText(searchText: searchController.searchBar.text!, scope: scope)
+    }
+}
+
+extension PasswordsViewController: CAAnimationDelegate {
+
+    func animationDidStart(_ anim: CAAnimation) {
+        view.window?.backgroundColor = Colors.systemBackground
+        view.layer.backgroundColor = Colors.systemBackground.cgColor
     }
 }
