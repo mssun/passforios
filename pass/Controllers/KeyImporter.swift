@@ -14,6 +14,8 @@ protocol KeyImporter {
 
     static var label: String { get }
 
+    static var isCurrentKeySource: Bool { get }
+
     static var menuLabel: String { get }
 
     func isReadyToUse() -> Bool
