@@ -227,10 +227,10 @@ class GitRepositorySettingsTableViewController: UITableViewController {
                 DispatchQueue.main.async {
                     SVProgressHUD.showSuccess(withStatus: "Imported".localize())
                     SVProgressHUD.dismiss(withDelay: 1)
+                    Defaults.gitSSHKeySource = type(of: keyImporter).keySource
+                    self.gitAuthenticationMethod = .key
+                    self.sshLabel?.isEnabled = true
                 }
-                Defaults.gitSSHKeySource = type(of: keyImporter).keySource
-                self.gitAuthenticationMethod = .key
-                self.sshLabel?.isEnabled = true
             } catch {
                 Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self)
             }
