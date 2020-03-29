@@ -25,9 +25,13 @@
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>IntentsRestrictedWhileLocked</key>
-			<array/>
+			<array>
+				<string>SyncRepositoryIntent</string>
+			</array>
 			<key>IntentsRestrictedWhileProtectedDataUnavailable</key>
-			<array/>
+			<array>
+				<string>SyncRepositoryIntent</string>
+			</array>
 			<key>IntentsSupported</key>
 			<array>
 				<string>SyncRepositoryIntent</string>
