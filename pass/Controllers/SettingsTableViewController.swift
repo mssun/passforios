@@ -83,7 +83,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     }
 
     private func setPGPKeyTableViewCellDetailText() {
-        pgpKeyTableViewCell.detailTextLabel?.text = try? PGPAgent.shared.getKeyId() ?? "NotSet".localize()
+        pgpKeyTableViewCell.detailTextLabel?.text = try? PGPAgent.shared.getShortKeyId() ?? "NotSet".localize()
     }
 
     private func setPasswordRepositoryTableViewCellDetailText() {

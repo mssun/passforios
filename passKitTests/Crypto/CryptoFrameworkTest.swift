@@ -38,26 +38,27 @@ class CryptoFrameworkTest: XCTestCase {
     private func testInternal(plainMessage: CryptoPlainMessage?, messageConverter: MessageConverter) throws {
         try [
             RSA2048,
-            RSA2048_SUB,
+            RSA4096,
+            //RSA2048_SUB,
             ED25519,
-            ED25519_SUB,
+            //ED25519_SUB,
         ].forEach { keyTriple in
             var error: NSError?
-            guard let publicKey = CryptoBuildKeyRingArmored(keyTriple.publicKey, &error),
-                  let privateKey = CryptoBuildKeyRingArmored(keyTriple.privateKey, &error) else {
+            guard let publicKey = CryptoNewKeyFromArmored(keyTriple.publicKey, &error),
+                  let privateKey = CryptoNewKeyFromArmored(keyTriple.privateKey, &error) else {
                 XCTFail("Keys cannot be initialized.")
                 return
             }
             XCTAssertNil(error)
 
-            XCTAssert(publicKey.getFingerprint(&error).hasSuffix(keyTriple.fingerprint))
+            XCTAssert(publicKey.getHexKeyID().hasSuffix(keyTriple.fingerprint))
             XCTAssertNil(error)
 
-            try privateKey.unlock(withPassphrase: keyTriple.passphrase)
-            let encryptedMessage = try publicKey.encrypt(plainMessage, privateKey: nil)
-            let decryptedData = try privateKey.decrypt(messageConverter(encryptedMessage, &error), verifyKey: nil, verifyTime: 0)
+            let unlockedKey = try privateKey.unlock(keyTriple.passphrase.data(using: .utf8))
+            let encryptedMessage = try CryptoNewKeyRing(publicKey, &error)?.encrypt(plainMessage, privateKey: nil)
+            let decryptedData = try CryptoNewKeyRing(unlockedKey, &error)?.decrypt(messageConverter(encryptedMessage!, &error), verifyKey: nil, verifyTime: 0)
             XCTAssertNil(error)
-            XCTAssertEqual(testText, decryptedData.getString())
+            XCTAssertEqual(testText, decryptedData!.getString())
         }
     }
 }
