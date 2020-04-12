@@ -11,42 +11,56 @@ import Crypto
 struct GopenPgp: PgpInterface {
 
     private static let errorMapping: [String: Error] = [
-        "openpgp: invalid data: private key checksum failure":  AppError.WrongPassphrase,
+        "gopenpgp: error in unlocking key: openpgp: invalid data: private key checksum failure":  AppError.WrongPassphrase,
         "openpgp: incorrect key":                               AppError.KeyExpiredOrIncompatible,
     ]
 
-    private let publicKey: CryptoKeyRing
-    private let privateKey: CryptoKeyRing
+    private let publicKey: CryptoKey
+    private let privateKey: CryptoKey
 
     init(publicArmoredKey: String, privateArmoredKey: String) throws {
         var error: NSError?
-        guard let publicKey = CryptoBuildKeyRingArmored(publicArmoredKey, &error),
-              let privateKey = CryptoBuildKeyRingArmored(privateArmoredKey, &error) else {
+        guard let publicKey = CryptoNewKeyFromArmored(publicArmoredKey, &error),
+              let privateKey = CryptoNewKeyFromArmored(privateArmoredKey, &error) else {
+            guard error == nil else {
+                throw error!
+            }
             throw AppError.KeyImport
-        }
-        guard error == nil else {
-            throw error!
         }
         self.publicKey = publicKey
         self.privateKey = privateKey
     }
 
-    func decrypt(encryptedData: Data, passphrase: String) throws -> Data? {
+    func decrypt(encryptedData: Data, keyID: String, passphrase: String) throws -> Data? {
         do {
-            try privateKey.unlock(withPassphrase: passphrase)
-        } catch {
-            throw Self.errorMapping[error.localizedDescription, default: error]
-        }
-        let message = createPgpMessage(from: encryptedData)
-        do {
-            return try privateKey.decrypt(message, verifyKey: nil, verifyTime: 0).data
+            let unlockedKey = try privateKey.unlock(passphrase.data(using: .utf8))
+            var error: NSError?
+
+            guard let keyRing = CryptoNewKeyRing(unlockedKey, &error) else {
+                guard error == nil else {
+                    throw error!
+                }
+                throw AppError.Decryption
+            }
+
+            let message = createPgpMessage(from: encryptedData)
+            return try keyRing.decrypt(message, verifyKey: nil, verifyTime: 0).data
         } catch {
             throw Self.errorMapping[error.localizedDescription, default: error]
         }
     }
 
-    func encrypt(plainData: Data) throws -> Data {
-        let encryptedData = try publicKey.encrypt(CryptoNewPlainMessage(plainData.mutable as Data), privateKey: nil)
+    func encrypt(plainData: Data, keyID: String) throws -> Data {
+        var error: NSError?
+
+        guard let keyRing = CryptoNewKeyRing(publicKey, &error) else {
+            guard error == nil else {
+                throw error!
+            }
+            throw AppError.Encryption
+        }
+
+        let encryptedData = try keyRing.encrypt(CryptoNewPlainMessage(plainData.mutable as Data), privateKey: nil)
         if Defaults.encryptInArmored {
             var error: NSError?
             let armor = encryptedData.getArmored(&error)
@@ -60,8 +74,14 @@ struct GopenPgp: PgpInterface {
 
     var keyId: String {
         var error: NSError?
-        let fingerprint = publicKey.getFingerprint(&error)
-        return error == nil ? String(fingerprint.suffix(8)).uppercased() : ""
+        let fingerprint = publicKey.getHexKeyID()
+        return String(fingerprint).uppercased()
+    }
+
+    var shortKeyId: String {
+        var error: NSError?
+        let fingerprint = publicKey.getHexKeyID()
+        return String(fingerprint.suffix(8)).uppercased()
     }
 
     private func createPgpMessage(from encryptedData: Data) -> CryptoPGPMessage? {

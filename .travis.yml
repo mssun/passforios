@@ -4,6 +4,8 @@ addons:
   homebrew:
     packages:
     - go
+    - gnupg2
+    - pass
 before_install:
   - echo -e "machine github.com\n  login $GITHUB_ACCESS_TOKEN" >> ~/.netrc
 install:

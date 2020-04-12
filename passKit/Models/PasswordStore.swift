@@ -21,9 +21,12 @@ public class PasswordStore {
         dateFormatter.timeStyle = .short
         return dateFormatter
     }()
-    
-    public let storeURL = URL(fileURLWithPath: "\(Globals.repositoryPath)")
-    public let tempStoreURL = URL(fileURLWithPath: "\(Globals.repositoryPath)-temp")
+    public var storeURL: URL
+    public var tempStoreURL: URL {
+        get {
+            URL(fileURLWithPath: "\(storeURL.path)-temp")
+        }
+    }
 
     public var storeRepository: GTRepository?
     
@@ -100,11 +103,13 @@ public class PasswordStore {
     public var numberOfCommits: UInt? {
         return storeRepository?.numberOfCommits(inCurrentBranch: nil)
     }
-    
-    private init() {
+
+    init(url: URL = URL(fileURLWithPath: "\(Globals.repositoryPath)")) {
+        storeURL = url
+
         // Migration
         importExistingKeysIntoKeychain()
-        
+
         do {
             if fm.fileExists(atPath: storeURL.path) {
                 try storeRepository = GTRepository.init(url: storeURL)
@@ -175,13 +180,26 @@ public class PasswordStore {
                                 requestCredentialPassword: @escaping (GitCredential.Credential, String?) -> String?,
                                 transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
                                 checkoutProgressBlock: @escaping (String, UInt, UInt) -> Void) throws {
+        do {
+            let credentialProvider = try credential.credentialProvider(requestCredentialPassword: requestCredentialPassword)
+            let options = [GTRepositoryCloneOptionsCredentialProvider: credentialProvider]
+            try self.cloneRepository(remoteRepoURL: remoteRepoURL, options: options, branchName: branchName, transferProgressBlock: transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
+        } catch {
+            credential.delete()
+            throw(error)
+        }
+    }
+
+    public func cloneRepository(remoteRepoURL: URL,
+                                options: [AnyHashable : Any]? = nil,
+                                branchName: String,
+                                transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
+                                checkoutProgressBlock: @escaping (String, UInt, UInt) -> Void) throws {
         try? fm.removeItem(at: storeURL)
         try? fm.removeItem(at: tempStoreURL)
         self.gitPassword = nil
         self.gitSSHPrivateKeyPassphrase = nil
         do {
-            let credentialProvider = try credential.credentialProvider(requestCredentialPassword: requestCredentialPassword)
-            let options = [GTRepositoryCloneOptionsCredentialProvider: credentialProvider]
             storeRepository = try GTRepository.clone(from: remoteRepoURL,
                                                      toWorkingDirectory: tempStoreURL,
                                                      options: options,
@@ -192,7 +210,6 @@ public class PasswordStore {
                 try checkoutAndChangeBranch(withName: branchName, progressBlock: checkoutProgressBlock)
             }
         } catch {
-            credential.delete()
             Defaults.lastSyncedTime = nil
             DispatchQueue.main.async {
                 self.deleteCoreData(entityName: "PasswordEntity")

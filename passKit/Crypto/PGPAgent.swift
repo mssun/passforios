@@ -40,6 +40,11 @@ public class PGPAgent {
         return pgpInterface?.keyId
     }
 
+    public func getShortKeyId() throws -> String? {
+        try checkAndInit()
+        return pgpInterface?.shortKeyId
+    }
+
     public func decrypt(encryptedData: Data, requestPGPKeyPassphrase: () -> String) throws -> Data? {
         // Remember the previous status and set the current status
         let previousDecryptStatus = self.latestDecryptStatus
@@ -54,7 +59,7 @@ public class PGPAgent {
             passphrase = keyStore.get(for: Globals.pgpKeyPassphrase) ?? requestPGPKeyPassphrase()
         }
         // Decrypt.
-        guard let result = try pgpInterface!.decrypt(encryptedData: encryptedData, passphrase: passphrase) else {
+        guard let result = try pgpInterface!.decrypt(encryptedData: encryptedData, keyID: "", passphrase: passphrase) else {
             return nil
         }
         // The decryption step has succeed.
@@ -67,7 +72,7 @@ public class PGPAgent {
         guard let pgpInterface = pgpInterface else {
             throw AppError.Encryption
         }
-        return try pgpInterface.encrypt(plainData: plainData)
+        return try pgpInterface.encrypt(plainData: plainData, keyID: "")
     }
 
     public var isPrepared: Bool {

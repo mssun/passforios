@@ -8,9 +8,11 @@
 
 protocol PgpInterface {
 
-    func decrypt(encryptedData: Data, passphrase: String) throws -> Data?
+    func decrypt(encryptedData: Data, keyID: String, passphrase: String) throws -> Data?
 
-    func encrypt(plainData: Data) throws -> Data
+    func encrypt(plainData: Data, keyID: String) throws -> Data
 
     var keyId: String { get }
+
+    var shortKeyId: String { get }
 }
