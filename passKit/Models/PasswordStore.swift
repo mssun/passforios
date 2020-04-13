@@ -194,7 +194,8 @@ public class PasswordStore {
                                 options: [AnyHashable : Any]? = nil,
                                 branchName: String,
                                 transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
-                                checkoutProgressBlock: @escaping (String, UInt, UInt) -> Void) throws {
+                                checkoutProgressBlock: @escaping (String, UInt, UInt) -> Void,
+                                completion: @escaping () -> Void = {}) throws {
         try? fm.removeItem(at: storeURL)
         try? fm.removeItem(at: tempStoreURL)
         self.gitPassword = nil
@@ -221,6 +222,7 @@ public class PasswordStore {
         DispatchQueue.main.async {
             self.updatePasswordEntityCoreData()
             NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+            completion()
         }
     }
     
@@ -285,7 +287,9 @@ public class PasswordStore {
                 if fm.fileExists(atPath: filePath, isDirectory: &isDirectory) {
                     if isDirectory.boolValue {
                         e.isDir = true
-                        let files = try fm.contentsOfDirectory(atPath: filePath).map { (filename) -> PasswordEntity in
+                        let files = try fm.contentsOfDirectory(atPath: filePath).filter {
+                            !$0.hasPrefix(".")
+                        }.map { (filename) -> PasswordEntity in
                             let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
                             if filename.hasSuffix(".gpg") {
                                 passwordEntity.name = String(filename.prefix(upTo: filename.index(filename.endIndex, offsetBy: -4)))
@@ -693,11 +697,12 @@ public class PasswordStore {
         // get a list of local commits
         return try storeRepository.localCommitsRelative(toRemoteBranch: remoteBranch)
     }
-    
+
     public func decrypt(passwordEntity: PasswordEntity, requestPGPKeyPassphrase: () -> String) throws -> Password? {
         let encryptedDataPath = storeURL.appendingPathComponent(passwordEntity.getPath())
+        let keyID = findGPGID(from: encryptedDataPath)
         let encryptedData = try Data(contentsOf: encryptedDataPath)
-        guard let decryptedData = try PGPAgent.shared.decrypt(encryptedData: encryptedData, requestPGPKeyPassphrase: requestPGPKeyPassphrase) else {
+        guard let decryptedData = try PGPAgent.shared.decrypt(encryptedData: encryptedData, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase) else {
             throw AppError.Decryption
         }
         let plainText = String(data: decryptedData, encoding: .utf8) ?? ""
@@ -706,7 +711,7 @@ public class PasswordStore {
     }
     
     public func encrypt(password: Password) throws -> Data {
-        return try PGPAgent.shared.encrypt(plainData: password.plainData)
+        return try PGPAgent.shared.encrypt(plainData: password.plainData, keyID: "")
     }
     
     public func removeGitSSHKeys() {
@@ -716,5 +721,20 @@ public class PasswordStore {
         Defaults.remove(\.gitSSHPrivateKeyURL)
         AppKeychain.shared.removeContent(for: SshKey.PRIVATE.getKeychainKey())
         gitSSHPrivateKeyPassphrase = nil
+    }
+}
+
+public func findGPGID(from url: URL) -> String {
+    var path = url
+    while !FileManager.default.fileExists(atPath: path.appendingPathComponent(".gpg-id").path)
+        && path.path != "file:///" {
+        path = path.deletingLastPathComponent()
+    }
+    path = path.appendingPathComponent(".gpg-id")
+
+    do {
+        return try String(contentsOf: path).trimmed
+    } catch {
+        return ""
     }
 }

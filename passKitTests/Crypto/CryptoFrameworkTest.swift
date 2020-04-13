@@ -51,7 +51,6 @@ class CryptoFrameworkTest: XCTestCase {
                 return
             }
             XCTAssertNil(error)
-
             XCTAssert(publicKey.getHexKeyID().hasSuffix(keyTriple.fingerprint))
             XCTAssertNil(error)
 
