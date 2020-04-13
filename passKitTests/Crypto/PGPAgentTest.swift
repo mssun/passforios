@@ -31,11 +31,11 @@ class PGPAgentTest: XCTestCase {
         super.tearDown()
     }
 
-    func basicEncryptDecrypt(using pgpAgent: PGPAgent, keyID: String, requestPassphrase: () -> String = requestPGPKeyPassphrase, encryptInArmored: Bool = true, encryptInArmoredNow: Bool = true) throws -> Data? {
+    func basicEncryptDecrypt(using pgpAgent: PGPAgent, keyID: String, encryptKeyID: String? = nil, requestPassphrase: () -> String = requestPGPKeyPassphrase, encryptInArmored: Bool = true, encryptInArmoredNow: Bool = true) throws -> Data? {
         passKit.Defaults.encryptInArmored = encryptInArmored
         let encryptedData = try pgpAgent.encrypt(plainData: testData, keyID: keyID)
         passKit.Defaults.encryptInArmored = encryptInArmoredNow
-        return try pgpAgent.decrypt(encryptedData: encryptedData, keyID: keyID, requestPGPKeyPassphrase: requestPassphrase)
+        return try pgpAgent.decrypt(encryptedData: encryptedData, keyID: encryptKeyID ?? keyID, requestPGPKeyPassphrase: requestPassphrase)
     }
 
     func testMultiKeys() throws {
@@ -104,7 +104,7 @@ class PGPAgentTest: XCTestCase {
     func testIncompatibleKeyTypes() throws {
         try importKeys(ED25519.publicKey, RSA2048.privateKey)
         XCTAssert(pgpAgent.isPrepared)
-        XCTAssertThrowsError(try basicEncryptDecrypt(using: pgpAgent, keyID: RSA2048.fingerprint)) {
+        XCTAssertThrowsError(try basicEncryptDecrypt(using: pgpAgent, keyID: ED25519.fingerprint, encryptKeyID: RSA2048.fingerprint)) {
             XCTAssertEqual($0 as! AppError, AppError.KeyExpiredOrIncompatible)
         }
     }

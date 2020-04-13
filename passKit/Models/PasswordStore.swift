@@ -711,7 +711,9 @@ public class PasswordStore {
     }
     
     public func encrypt(password: Password) throws -> Data {
-        return try PGPAgent.shared.encrypt(plainData: password.plainData, keyID: "")
+        let encryptedDataPath = storeURL.appendingPathComponent(password.url.path)
+        let keyID = findGPGID(from: encryptedDataPath)
+        return try PGPAgent.shared.encrypt(plainData: password.plainData, keyID: keyID)
     }
     
     public func removeGitSSHKeys() {

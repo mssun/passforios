@@ -55,6 +55,11 @@ class PasswordStoreTest: XCTestCase {
         let work = try decrypt(passwordStore: passwordStore, path: "work/github.com.gpg", passphrase: "passforios")
         XCTAssertEqual(work.plainText, "passwordforwork\n")
 
+        let testPassword = Password(name: "test", url: URL(string: "test.gpg")!, plainText: "testpassword")
+        let testPasswordEntity = try passwordStore.add(password: testPassword)!
+        let testPasswordPlain = try passwordStore.decrypt(passwordEntity: testPasswordEntity, requestPGPKeyPassphrase: { "passforios" } )!
+        XCTAssertEqual(testPasswordPlain.plainText, "testpassword")
+
         passwordStore.erase()
     }
 
