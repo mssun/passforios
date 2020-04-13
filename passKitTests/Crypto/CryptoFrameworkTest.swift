@@ -38,8 +38,9 @@ class CryptoFrameworkTest: XCTestCase {
     private func testInternal(plainMessage: CryptoPlainMessage?, messageConverter: MessageConverter) throws {
         try [
             RSA2048,
-            RSA4096,
             RSA2048_SUB,
+            RSA4096,
+            RSA4096_SUB,
             ED25519,
             ED25519_SUB,
         ].forEach { keyTriple in
