@@ -39,9 +39,9 @@ class CryptoFrameworkTest: XCTestCase {
         try [
             RSA2048,
             RSA4096,
-            //RSA2048_SUB,
+            RSA2048_SUB,
             ED25519,
-            //ED25519_SUB,
+            ED25519_SUB,
         ].forEach { keyTriple in
             var error: NSError?
             guard let publicKey = CryptoNewKeyFromArmored(keyTriple.publicKey, &error),
