@@ -15,23 +15,60 @@ struct GopenPgp: PgpInterface {
         "openpgp: incorrect key":                               AppError.KeyExpiredOrIncompatible,
     ]
 
-    private let publicKey: CryptoKey
-    private let privateKey: CryptoKey
+    private var publicKeys: [String: CryptoKey] = [:]
+    private var privateKeys: [String: CryptoKey] = [:]
 
     init(publicArmoredKey: String, privateArmoredKey: String) throws {
-        var error: NSError?
-        guard let publicKey = CryptoNewKeyFromArmored(publicArmoredKey, &error),
-              let privateKey = CryptoNewKeyFromArmored(privateArmoredKey, &error) else {
-            guard error == nil else {
-                throw error!
+        let pubKeys = extractKeysFromArmored(str: publicArmoredKey)
+        let prvKeys = extractKeysFromArmored(str: privateArmoredKey)
+
+        for key in pubKeys {
+            var error: NSError?
+            guard let k = CryptoNewKeyFromArmored(key, &error) else {
+                guard error == nil else {
+                    throw error!
+                }
+                throw AppError.KeyImport
             }
-            throw AppError.KeyImport
+            publicKeys[k.getFingerprint()] = k
         }
-        self.publicKey = publicKey
-        self.privateKey = privateKey
+
+        for key in prvKeys {
+            var error: NSError?
+            guard let k = CryptoNewKeyFromArmored(key, &error) else {
+                guard error == nil else {
+                    throw error!
+                }
+                throw AppError.KeyImport
+            }
+            privateKeys[k.getFingerprint()] = k
+        }
+
     }
 
+    func extractKeysFromArmored(str: String) -> [String] {
+         var keys: [String] = []
+         var key: String = ""
+         for line in str.splitByNewline() {
+             if line.trimmed.uppercased().hasPrefix("-----BEGIN PGP") {
+                 key = ""
+                 key += line + "\n"
+             } else if line.trimmed.uppercased().hasPrefix("-----END PGP") {
+                 key += line
+                 keys.append(key)
+             } else {
+                 key += line + "\n"
+             }
+         }
+         return keys
+     }
+
     func decrypt(encryptedData: Data, keyID: String, passphrase: String) throws -> Data? {
+        guard let e = privateKeys.first(where: { (key, _) in key.hasSuffix(keyID.lowercased()) }),
+            let privateKey = privateKeys[e.key] else {
+            throw AppError.Decryption
+        }
+
         do {
             let unlockedKey = try privateKey.unlock(passphrase.data(using: .utf8))
             var error: NSError?
@@ -51,6 +88,11 @@ struct GopenPgp: PgpInterface {
     }
 
     func encrypt(plainData: Data, keyID: String) throws -> Data {
+        guard let e = publicKeys.first(where: { (key, _) in key.hasSuffix(keyID.lowercased()) }),
+            let publicKey = publicKeys[e.key] else {
+            throw AppError.Encryption
+        }
+
         var error: NSError?
 
         guard let keyRing = CryptoNewKeyRing(publicKey, &error) else {
@@ -73,14 +115,12 @@ struct GopenPgp: PgpInterface {
     }
 
     var keyId: String {
-        var error: NSError?
-        let fingerprint = publicKey.getHexKeyID()
+        let fingerprint = publicKeys.first?.key ?? ""
         return String(fingerprint).uppercased()
     }
 
     var shortKeyId: String {
-        var error: NSError?
-        let fingerprint = publicKey.getHexKeyID()
+        let fingerprint = publicKeys.first?.key ?? ""
         return String(fingerprint.suffix(8)).uppercased()
     }
 

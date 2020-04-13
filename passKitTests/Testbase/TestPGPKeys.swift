@@ -18,6 +18,13 @@ struct PGPKeyTestTriple {
     let passphrase = "passforios"
 }
 
+struct MultiPGPKeyTestTriple {
+    let publicKey: String
+    let privateKey: String
+    let fingerprint: [String]
+    let passphrase: [String]
+}
+
 let RSA2048 = PGPKeyTestTriple(
     publicKey: PGP_RSA2048_PUBLIC_KEY,
     privateKey: PGP_RSA2048_PRIVATE_KEY,
@@ -52,6 +59,13 @@ let ED25519_SUB = PGPKeyTestTriple(
     publicKey: PGP_ED25519_PUBLIC_KEY,
     privateKey: PGP_ED25519_PRIVATE_SUBKEY,
     fingerprint: "e9444483"
+)
+
+let RSA2048_RSA4096 =  MultiPGPKeyTestTriple(
+    publicKey: PGP_RSA2048_PUBLIC_KEY + "\n" + PGP_RSA4096_PUBLIC_KEY,
+    privateKey: PGP_RSA2048_PRIVATE_KEY + "\n" + PGP_RSA4096_PRIVATE_KEY,
+    fingerprint: ["a1024dae", "d862027e"],
+    passphrase: ["passforios", "passforios"]
 )
 
 func requestPGPKeyPassphrase() -> String {
