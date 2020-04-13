@@ -150,7 +150,8 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
         DispatchQueue.global(qos: .userInteractive).async {
             var decryptedPassword: Password?
             do {
-                decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: self.requestPGPKeyPassphrase)
+                let requestPGPKeyPassphrase = Utils.createRequestPGPKeyPassphraseHandler(controller: self)
+                decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
                 let username = decryptedPassword?.username ?? decryptedPassword?.login ?? decryptedPassword?.nameFromPath ?? ""
                 let password = decryptedPassword?.password ?? ""
                 DispatchQueue.main.async {// prepare a dictionary to return
@@ -193,28 +194,6 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
             return filteredPasswordsTableEntries.count
         }
         return passwordsTableEntries.count;
-    }
-
-    private func requestPGPKeyPassphrase() -> String {
-        let sem = DispatchSemaphore(value: 0)
-        var passphrase = ""
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
-                passphrase = alert.textFields!.first!.text!
-                sem.signal()
-            }))
-            alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = self.keychain.get(for: Globals.pgpKeyPassphrase) ?? ""
-                textField.isSecureTextEntry = true
-            })
-            self.present(alert, animated: true, completion: nil)
-        }
-        let _ = sem.wait(timeout: DispatchTime.distantFuture)
-        if Defaults.isRememberPGPPassphraseOn {
-            self.keychain.add(string: passphrase, for: Globals.pgpKeyPassphrase)
-        }
-        return passphrase
     }
 
     @IBAction func cancelExtension(_ sender: Any) {

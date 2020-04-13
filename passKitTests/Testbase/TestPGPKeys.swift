@@ -68,7 +68,7 @@ let RSA2048_RSA4096 =  MultiPGPKeyTestTriple(
     passphrase: ["passforios", "passforios"]
 )
 
-func requestPGPKeyPassphrase() -> String {
+func requestPGPKeyPassphrase(keyID: String = "") -> String {
     return "passforios"
 }
 

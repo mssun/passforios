@@ -433,28 +433,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         decryptThenCopyPassword(from: indexPath)
     }
 
-    private func requestPGPKeyPassphrase() -> String {
-        let sem = DispatchSemaphore(value: 0)
-        var passphrase = ""
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
-                passphrase = alert.textFields!.first!.text!
-                sem.signal()
-            }))
-            alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = self.keychain.get(for: Globals.pgpKeyPassphrase) ?? ""
-                textField.isSecureTextEntry = true
-            })
-            self.present(alert, animated: true, completion: nil)
-        }
-        let _ = sem.wait(timeout: DispatchTime.distantFuture)
-        if Defaults.isRememberPGPPassphraseOn {
-            self.keychain.add(string: passphrase, for: Globals.pgpKeyPassphrase)
-        }
-        return passphrase
-    }
-
     private func decryptThenCopyPassword(from indexPath: IndexPath) {
         guard PGPAgent.shared.isPrepared else {
             Utils.alert(title: "CannotCopyPassword".localize(), message: "PgpKeyNotSet.".localize(), controller: self, completion: nil)
@@ -466,7 +444,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         DispatchQueue.global(qos: .userInteractive).async {
             var decryptedPassword: Password?
             do {
-                decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: self.requestPGPKeyPassphrase)
+                let requestPGPKeyPassphrase = Utils.createRequestPGPKeyPassphraseHandler(controller: self)
+                decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
                 DispatchQueue.main.async {
                     SecurePasteboard.shared.copy(textToCopy: decryptedPassword?.password)
                     SVProgressHUD.setDefaultMaskType(.black)
@@ -617,10 +596,10 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     @objc func actOnReloadTableViewRelatedNotification() {
-        // Reset selectedScopeButtonIndex to make sure the correct reloadTableView
-        searchController.searchBar.selectedScopeButtonIndex = 0
         DispatchQueue.main.async { [weak weakSelf = self] in
             guard let strongSelf = weakSelf else { return }
+            // Reset selectedScopeButtonIndex to make sure the correct reloadTableView
+            strongSelf.searchController.searchBar.selectedScopeButtonIndex = 0
             strongSelf.initPasswordsTableEntries(parent: nil)
             strongSelf.reloadTableView(data: strongSelf.passwordsTableEntries)
         }

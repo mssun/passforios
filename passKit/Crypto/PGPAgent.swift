@@ -45,7 +45,7 @@ public class PGPAgent {
         return pgpInterface?.shortKeyId
     }
 
-    public func decrypt(encryptedData: Data, keyID: String, requestPGPKeyPassphrase: () -> String) throws -> Data? {
+    public func decrypt(encryptedData: Data, keyID: String, requestPGPKeyPassphrase: (String) -> String) throws -> Data? {
         // Remember the previous status and set the current status
         let previousDecryptStatus = self.latestDecryptStatus
         self.latestDecryptStatus = false
@@ -54,9 +54,9 @@ public class PGPAgent {
         // Get the PGP key passphrase.
         var passphrase = ""
         if previousDecryptStatus == false {
-            passphrase = requestPGPKeyPassphrase()
+            passphrase = requestPGPKeyPassphrase(keyID)
         } else {
-            passphrase = keyStore.get(for: Globals.pgpKeyPassphrase) ?? requestPGPKeyPassphrase()
+            passphrase = keyStore.get(for: Globals.pgpKeyPassphrase) ?? requestPGPKeyPassphrase(keyID)
         }
         // Decrypt.
         guard let result = try pgpInterface!.decrypt(encryptedData: encryptedData, keyID: keyID, passphrase: passphrase) else {
