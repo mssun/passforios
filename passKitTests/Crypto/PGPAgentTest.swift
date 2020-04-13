@@ -31,7 +31,7 @@ class PGPAgentTest: XCTestCase {
         super.tearDown()
     }
 
-    func basicEncryptDecrypt(using pgpAgent: PGPAgent, keyID: String, encryptKeyID: String? = nil, requestPassphrase: () -> String = requestPGPKeyPassphrase, encryptInArmored: Bool = true, encryptInArmoredNow: Bool = true) throws -> Data? {
+    func basicEncryptDecrypt(using pgpAgent: PGPAgent, keyID: String, encryptKeyID: String? = nil, requestPassphrase: (String) -> String = requestPGPKeyPassphrase, encryptInArmored: Bool = true, encryptInArmoredNow: Bool = true) throws -> Data? {
         passKit.Defaults.encryptInArmored = encryptInArmored
         let encryptedData = try pgpAgent.encrypt(plainData: testData, keyID: keyID)
         passKit.Defaults.encryptInArmored = encryptInArmoredNow
@@ -132,11 +132,11 @@ class PGPAgentTest: XCTestCase {
         try importKeys(RSA2048.publicKey, RSA2048.privateKey)
 
         var passphraseRequestCalledCount = 0
-        let provideCorrectPassphrase: () -> String = {
+        let provideCorrectPassphrase: (String) -> String = { _ in
             passphraseRequestCalledCount = passphraseRequestCalledCount + 1
             return requestPGPKeyPassphrase()
         }
-        let provideIncorrectPassphrase: () -> String = {
+        let provideIncorrectPassphrase: (String) -> String = { _ in
             passphraseRequestCalledCount = passphraseRequestCalledCount + 1
             return "incorrect passphrase"
         }

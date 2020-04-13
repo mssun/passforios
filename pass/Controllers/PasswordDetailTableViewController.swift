@@ -87,28 +87,6 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
     }
 
-    private func requestPGPKeyPassphrase() -> String {
-        let sem = DispatchSemaphore(value: 0)
-        var passphrase = ""
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
-                passphrase = alert.textFields!.first!.text!
-                sem.signal()
-            }))
-            alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.text = self.keychain.get(for: Globals.pgpKeyPassphrase) ?? ""
-                textField.isSecureTextEntry = true
-            })
-            self.present(alert, animated: true, completion: nil)
-        }
-        let _ = sem.wait(timeout: DispatchTime.distantFuture)
-        if Defaults.isRememberPGPPassphraseOn {
-            self.keychain.add(string: passphrase, for: Globals.pgpKeyPassphrase)
-        }
-        return passphrase
-    }
-
     @objc private func decryptThenShowPassword() {
         guard let passwordEntity = passwordEntity else {
             Utils.alert(title: "CannotShowPassword".localize(), message: "PasswordDoesNotExist".localize(), controller: self, handler: {(UIAlertAction) -> Void in
@@ -119,7 +97,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         DispatchQueue.global(qos: .userInitiated).async {
             // decrypt password
             do {
-                self.password = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: self.requestPGPKeyPassphrase)
+                let requestPGPKeyPassphrase = Utils.createRequestPGPKeyPassphraseHandler(controller: self)
+                self.password = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
             } catch {
                 DispatchQueue.main.async {
                     // alert: cancel or try again
