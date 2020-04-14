@@ -40,24 +40,26 @@ public class Utils {
     }
 
     public static func createRequestPGPKeyPassphraseHandler(controller: UIViewController) -> (String) -> String {
-    return { keyID in
+        return { keyID in
             let sem = DispatchSemaphore(value: 0)
             var passphrase = ""
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: "Passphrase".localize() + " (\(keyID.suffix(8)))", message: "FillInPgpPassphrase.".localize(), preferredStyle: UIAlertController.Style.alert)
+                let title = "Passphrase".localize() + " (\(keyID.suffix(8)))"
+                let message = "FillInPgpPassphrase.".localize()
+                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
-                    passphrase = alert.textFields!.first!.text!
+                    passphrase = alert.textFields?.first?.text ?? ""
                     sem.signal()
                 }))
                 alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                    textField.text = AppKeychain.shared.get(for: Globals.pgpKeyPassphrase) ?? ""
+                    textField.text = AppKeychain.shared.get(for: AppKeychain.getPGPKeyPassphraseKey(keyID: keyID)) ?? ""
                     textField.isSecureTextEntry = true
                 })
                 controller.present(alert, animated: true, completion: nil)
             }
             let _ = sem.wait(timeout: DispatchTime.distantFuture)
             if Defaults.isRememberPGPPassphraseOn {
-                AppKeychain.shared.add(string: passphrase, for: Globals.pgpKeyPassphrase)
+                AppKeychain.shared.add(string: passphrase, for: AppKeychain.getPGPKeyPassphraseKey(keyID: keyID))
             }
             return passphrase
         }

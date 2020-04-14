@@ -35,14 +35,14 @@ public class PGPAgent {
         pgpInterface = nil
     }
 
-    public func getKeyId() throws -> String? {
+    public func getKeyID() throws -> [String] {
         try checkAndInit()
-        return pgpInterface?.keyId
+        return pgpInterface?.keyID ?? []
     }
 
-    public func getShortKeyId() throws -> String? {
+    public func getShortKeyID() throws -> [String] {
         try checkAndInit()
-        return pgpInterface?.shortKeyId
+        return pgpInterface?.shortKeyID ?? []
     }
 
     public func decrypt(encryptedData: Data, keyID: String, requestPGPKeyPassphrase: (String) -> String) throws -> Data? {
@@ -56,7 +56,7 @@ public class PGPAgent {
         if previousDecryptStatus == false {
             passphrase = requestPGPKeyPassphrase(keyID)
         } else {
-            passphrase = keyStore.get(for: Globals.pgpKeyPassphrase) ?? requestPGPKeyPassphrase(keyID)
+            passphrase = keyStore.get(for: AppKeychain.getPGPKeyPassphraseKey(keyID: keyID)) ?? requestPGPKeyPassphrase(keyID)
         }
         // Decrypt.
         guard let result = try pgpInterface!.decrypt(encryptedData: encryptedData, keyID: keyID, passphrase: passphrase) else {

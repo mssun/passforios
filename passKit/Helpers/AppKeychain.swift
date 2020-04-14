@@ -43,4 +43,16 @@ public class AppKeychain: KeyStore {
     public func removeAllContent() {
         try? keychain.removeAll()
     }
+
+    public func removeAllContent(withPrefix prefix: String) {
+        for k in keychain.allKeys() {
+            if k.hasPrefix(prefix) {
+                try? keychain.remove(k)
+            }
+        }
+    }
+
+    public static func getPGPKeyPassphraseKey(keyID: String) -> String {
+        Globals.pgpKeyPassphrase + "-" + keyID
+    }
 }

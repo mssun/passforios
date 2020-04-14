@@ -83,7 +83,14 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     }
 
     private func setPGPKeyTableViewCellDetailText() {
-        pgpKeyTableViewCell.detailTextLabel?.text = try? PGPAgent.shared.getShortKeyId() ?? "NotSet".localize()
+        var label = "NotSet".localize()
+        let keyID = (try? PGPAgent.shared.getShortKeyID()) ?? []
+        if keyID.count == 1 {
+            label = keyID.first ?? ""
+        } else if keyID.count > 1 {
+            label = "Multiple"
+        }
+        pgpKeyTableViewCell.detailTextLabel?.text = label
     }
 
     private func setPasswordRepositoryTableViewCellDetailText() {
@@ -141,9 +148,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         })
 
         if isReadyToUse() {
-            optionMenu.addAction(UIAlertAction(title: "\(Self.menuLabel) (\("Import".localize()))", style: .default) { _ in
-                self.savePassphraseDialog()
-            })
+            optionMenu.addAction(UIAlertAction(title: "\(Self.menuLabel) (\("Import".localize()))", style: .default))
         } else {
             optionMenu.addAction(UIAlertAction(title: "\(Self.menuLabel) (\("Tips".localize()))", style: .default) { _ in
                 let title = "Tips".localize()

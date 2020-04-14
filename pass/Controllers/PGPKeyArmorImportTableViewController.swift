@@ -15,7 +15,10 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
     @IBOutlet weak var armorPrivateKeyTextView: UITextView!
     @IBOutlet weak var scanPublicKeyCell: UITableViewCell!
     @IBOutlet weak var scanPrivateKeyCell: UITableViewCell!
-    
+
+    var armorPublicKey: String?
+    var armorPrivateKey: String?
+
     class ScannedPGPKey {
         enum KeyType {
             case publicKey, privateKey
@@ -74,7 +77,9 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
     }
 
     @IBAction func save(_ sender: Any) {
-        savePassphraseDialog()
+        armorPublicKey = armorPublicKeyTextView.text
+        armorPrivateKey = armorPrivateKeyTextView.text
+        self.saveImportedKeys()
     }
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -144,8 +149,8 @@ extension PGPKeyArmorImportTableViewController: PGPKeyImporter {
     }
 
     func importKeys() throws {
-        try KeyFileManager.PublicPgp.importKey(from: armorPublicKeyTextView.text ?? "")
-        try KeyFileManager.PrivatePgp.importKey(from: armorPrivateKeyTextView.text ?? "")
+        try KeyFileManager.PublicPgp.importKey(from: armorPublicKey ?? "")
+        try KeyFileManager.PrivatePgp.importKey(from: armorPrivateKey ?? "")
     }
 
     func saveImportedKeys() {

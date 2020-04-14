@@ -12,7 +12,7 @@ protocol PgpInterface {
 
     func encrypt(plainData: Data, keyID: String) throws -> Data
 
-    var keyId: String { get }
+    var keyID: [String] { get }
 
-    var shortKeyId: String { get }
+    var shortKeyID: [String] { get }
 }
