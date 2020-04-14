@@ -10,12 +10,11 @@ import XCTest
 
 @testable import passKit
 
-struct PGPKeyTestTriple {
+struct PGPTestKey {
     let publicKey: String
     let privateKey: String
     let fingerprint: String
-
-    let passphrase = "passforios"
+    let passphrase: String
 }
 
 struct MultiPGPKeyTestTriple {
@@ -25,41 +24,65 @@ struct MultiPGPKeyTestTriple {
     let passphrase: [String]
 }
 
-let RSA2048 = PGPKeyTestTriple(
+let RSA2048 = PGPTestKey(
     publicKey: PGP_RSA2048_PUBLIC_KEY,
     privateKey: PGP_RSA2048_PRIVATE_KEY,
-    fingerprint: "a1024dae"
+    fingerprint: "a1024dae",
+    passphrase: "passforios"
 )
 
-let RSA2048_SUB = PGPKeyTestTriple(
+let RSA2048_SUB = PGPTestKey(
     publicKey: PGP_RSA2048_PUBLIC_KEY,
     privateKey: PGP_RSA2048_PRIVATE_SUBKEY,
-    fingerprint: "a1024dae"
+    fingerprint: "a1024dae",
+    passphrase: "passforios"
 )
 
-let RSA4096 = PGPKeyTestTriple(
+let RSA4096 = PGPTestKey(
     publicKey: PGP_RSA4096_PUBLIC_KEY,
     privateKey: PGP_RSA4096_PRIVATE_KEY,
-    fingerprint: "d862027e"
+    fingerprint: "d862027e",
+    passphrase: "passforios"
 )
 
-let RSA4096_SUB = PGPKeyTestTriple(
+let RSA4096_SUB = PGPTestKey(
     publicKey: PGP_RSA4096_PUBLIC_KEY,
     privateKey: PGP_RSA4096_PRIVATE_SUBKEY,
-    fingerprint: "d862027e"
+    fingerprint: "d862027e",
+    passphrase: "passforios"
 )
 
-let ED25519 = PGPKeyTestTriple(
+let ED25519 = PGPTestKey(
     publicKey: PGP_ED25519_PUBLIC_KEY,
     privateKey: PGP_ED25519_PRIVATE_KEY,
-    fingerprint: "e9444483"
+    fingerprint: "e9444483",
+    passphrase: "passforios"
 )
 
-let ED25519_SUB = PGPKeyTestTriple(
+let ED25519_SUB = PGPTestKey(
     publicKey: PGP_ED25519_PUBLIC_KEY,
     privateKey: PGP_ED25519_PRIVATE_SUBKEY,
-    fingerprint: "e9444483"
+    fingerprint: "e9444483",
+    passphrase: "passforios"
 )
+
+let NISTP384 = PGPTestKey(
+    publicKey: PGP_NISTP384_PUBLIC_KEY,
+    privateKey: PGP_NISTP384_PRIVATE_KEY,
+    fingerprint: "5af3c085",
+    passphrase: "soirofssap"
+)
+
+let TEST_KEYS: [String: PGPTestKey] = {
+    var keys: [String: PGPTestKey] = [:]
+
+    keys["a1024dae"] = RSA2048
+    keys["d862027e"] = RSA4096
+    keys["e9444483"] = ED25519
+    keys["5af3c085"] = NISTP384
+
+    return keys
+}();
 
 let RSA2048_RSA4096 =  MultiPGPKeyTestTriple(
     publicKey: PGP_RSA2048_PUBLIC_KEY + "\n" + PGP_RSA4096_PUBLIC_KEY,
@@ -68,8 +91,16 @@ let RSA2048_RSA4096 =  MultiPGPKeyTestTriple(
     passphrase: ["passforios", "passforios"]
 )
 
-func requestPGPKeyPassphrase(keyID: String = "") -> String {
-    return "passforios"
+let ED25519_NISTP384 =  MultiPGPKeyTestTriple(
+    publicKey: PGP_ED25519_PUBLIC_KEY + "\n" + PGP_NISTP384_PUBLIC_KEY,
+    privateKey: PGP_ED25519_PRIVATE_KEY + "\n" + PGP_NISTP384_PRIVATE_KEY,
+    fingerprint: ["e9444483", "5af3c085"],
+    passphrase: ["passforios", "soirofssap"]
+)
+
+func requestPGPKeyPassphrase(keyID: String) -> String {
+    let id = keyID.suffix(8).lowercased()
+    return TEST_KEYS[id]?.passphrase ?? "passforios"
 }
 
 let PGP_RSA2048_PUBLIC_KEY = """
@@ -514,5 +545,49 @@ p9VjMutDAO+IeAQYFggAIBYhBF/MsIGrivSJcpmeKudQrL/pRESDBQJdLhMxAhsM
 AAoJEOdQrL/pRESDDrABAON6ZFT/W6/05hEs/yLk2QX1QHsQAN0PQ0S+zDXGVbts
 AP47PE36JjNkAZmWD0mRT8wNZyNRc84D4RYMunxi4KWVCw==
 =4Sfz
+-----END PGP PRIVATE KEY BLOCK-----
+"""
+
+let PGP_NISTP384_PUBLIC_KEY = """
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+mG8EXpUo3hMFK4EEACIDAwQXzJVx15CZgw9lpJPlFaAaFIJtxc4RevL8LitUdRZF
+nVmPpYpgZwoROtSEb+JPKrYR9xVFTOzf+BYXWTyq4YXFfxQrea2hRx7RZUMj3tex
+A+tOTnA0ruqCzMIsLYGglcK0KnBhc3Nmb3Jpb3MgPGRldmVsb3BlckBwYXNzZm9y
+aW9zLm1zc3VuLm1lPoiwBBMTCQA4FiEEvNNkwHhYXAYH4ZxnFxwH0lrzwIUFAl6V
+KN4CGwMFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AACgkQFxwH0lrzwIV2FQF/X3sS
+rP8f20TOpqI4Ng/5Du6QKcdje05VWVDpBVnT/f40aT8jQi6ykqrHLsWek2yFAYDn
+3UD8FchlUlSbvVofgipPkPp+nSsm92D+e1r4XtHT+u+8eYtMbf8iVB8qX0B3ufC4
+cwRelSjeEgUrgQQAIgMDBC8+ymFhSwUs95FmaFe52FruXlFsRgwcOfsu2MI1oMh4
+xjX0uh+lwzIndDM7zbrRjkVdUijydV47TebANUwJ9S9uroOj9yxAHpg7CVRI0Kcb
+NhoF3eBfNDYe5YydQvJqGgMBCQmImAQYEwkAIBYhBLzTZMB4WFwGB+GcZxccB9Ja
+88CFBQJelSjeAhsMAAoJEBccB9Ja88CFqwsBgKrjm2MeRnIYpSdzWEfuW9QCvaD5
+bklFOfAbrdBTp39u/3iO+maLmA7/AgFFcO+AAgF/Vb/tUBdvu/pn/viWagGzK/pk
+cacCQ5/PGk4Ln2CosOS1atZpkmX5JJLr034tKMr6
+=TMCI
+-----END PGP PUBLIC KEY BLOCK-----
+"""
+
+let PGP_NISTP384_PRIVATE_KEY = """
+-----BEGIN PGP PRIVATE KEY BLOCK-----
+
+lNIEXpUo3hMFK4EEACIDAwQXzJVx15CZgw9lpJPlFaAaFIJtxc4RevL8LitUdRZF
+nVmPpYpgZwoROtSEb+JPKrYR9xVFTOzf+BYXWTyq4YXFfxQrea2hRx7RZUMj3tex
+A+tOTnA0ruqCzMIsLYGglcL+BwMCgmXDbtpRcF//w9wVoIqLBqlBfcfbPN35l+eo
+pTLlOEQq8ioYjXotSysjocxyW1urNKq3g5Np0ZEU8iXtD0LGdtOWq7a9UnI+90vc
+gq1UVxYhIWdtH5Tssshrfi6E26y0KnBhc3Nmb3Jpb3MgPGRldmVsb3BlckBwYXNz
+Zm9yaW9zLm1zc3VuLm1lPoiwBBMTCQA4FiEEvNNkwHhYXAYH4ZxnFxwH0lrzwIUF
+Al6VKN4CGwMFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AACgkQFxwH0lrzwIV2FQF/
+X3sSrP8f20TOpqI4Ng/5Du6QKcdje05VWVDpBVnT/f40aT8jQi6ykqrHLsWek2yF
+AYDn3UD8FchlUlSbvVofgipPkPp+nSsm92D+e1r4XtHT+u+8eYtMbf8iVB8qX0B3
+ufCc1gRelSjeEgUrgQQAIgMDBC8+ymFhSwUs95FmaFe52FruXlFsRgwcOfsu2MI1
+oMh4xjX0uh+lwzIndDM7zbrRjkVdUijydV47TebANUwJ9S9uroOj9yxAHpg7CVRI
+0KcbNhoF3eBfNDYe5YydQvJqGgMBCQn+BwMC3cQgKP9rMPr/RlmS+ANayfPVjNUs
+bq/6y9YWmUTN7kppKTMU6VYYMxHNSX1GIZ7RWrsWr0h5DQRrWaSef9tsyGMl0cl5
+scuDku5Yzmt4meoaqZJaRLaP4EuypaGGpKOImAQYEwkAIBYhBLzTZMB4WFwGB+Gc
+ZxccB9Ja88CFBQJelSjeAhsMAAoJEBccB9Ja88CFqwsBgKrjm2MeRnIYpSdzWEfu
+W9QCvaD5bklFOfAbrdBTp39u/3iO+maLmA7/AgFFcO+AAgF/Vb/tUBdvu/pn/viW
+agGzK/pkcacCQ5/PGk4Ln2CosOS1atZpkmX5JJLr034tKMr6
+=vn6S
 -----END PGP PRIVATE KEY BLOCK-----
 """

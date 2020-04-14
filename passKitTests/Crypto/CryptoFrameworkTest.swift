@@ -43,18 +43,19 @@ class CryptoFrameworkTest: XCTestCase {
             RSA4096_SUB,
             ED25519,
             ED25519_SUB,
-        ].forEach { keyTriple in
+            NISTP384,
+        ].forEach { testKeyInfo in
             var error: NSError?
-            guard let publicKey = CryptoNewKeyFromArmored(keyTriple.publicKey, &error),
-                  let privateKey = CryptoNewKeyFromArmored(keyTriple.privateKey, &error) else {
+            guard let publicKey = CryptoNewKeyFromArmored(testKeyInfo.publicKey, &error),
+                  let privateKey = CryptoNewKeyFromArmored(testKeyInfo.privateKey, &error) else {
                 XCTFail("Keys cannot be initialized.")
                 return
             }
             XCTAssertNil(error)
-            XCTAssert(publicKey.getHexKeyID().hasSuffix(keyTriple.fingerprint))
+            XCTAssert(publicKey.getHexKeyID().hasSuffix(testKeyInfo.fingerprint))
             XCTAssertNil(error)
 
-            let unlockedKey = try privateKey.unlock(keyTriple.passphrase.data(using: .utf8))
+            let unlockedKey = try privateKey.unlock(testKeyInfo.passphrase.data(using: .utf8))
             let encryptedMessage = try CryptoNewKeyRing(publicKey, &error)?.encrypt(plainMessage, privateKey: nil)
             let decryptedData = try CryptoNewKeyRing(unlockedKey, &error)?.decrypt(messageConverter(encryptedMessage!, &error), verifyKey: nil, verifyTime: 0)
             XCTAssertNil(error)
