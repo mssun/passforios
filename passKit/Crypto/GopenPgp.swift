@@ -52,13 +52,14 @@ struct GopenPgp: PgpInterface {
          for line in str.splitByNewline() {
              if line.trimmed.uppercased().hasPrefix("-----BEGIN PGP") {
                  key = ""
-                 key += line + "\n"
+                 key += line
              } else if line.trimmed.uppercased().hasPrefix("-----END PGP") {
                  key += line
                  keys.append(key)
              } else {
-                 key += line + "\n"
+                 key += line
              }
+            key += "\n"
          }
          return keys
      }
@@ -114,14 +115,12 @@ struct GopenPgp: PgpInterface {
         return encryptedData.getBinary()!
     }
 
-    var keyId: String {
-        let fingerprint = publicKeys.first?.key ?? ""
-        return String(fingerprint).uppercased()
+    var keyID: [String] {
+        return  publicKeys.keys.map({ $0.uppercased() })
     }
 
-    var shortKeyId: String {
-        let fingerprint = publicKeys.first?.key ?? ""
-        return String(fingerprint.suffix(8)).uppercased()
+    var shortKeyID: [String] {
+        return publicKeys.keys.map({ $0.suffix(8).uppercased()})
     }
 
     private func createPgpMessage(from encryptedData: Data) -> CryptoPGPMessage? {

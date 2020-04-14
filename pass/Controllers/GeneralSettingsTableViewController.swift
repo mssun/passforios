@@ -176,7 +176,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     @objc func rememberPGPPassphraseSwitchAction(_ sender: Any?) {
         Defaults.isRememberPGPPassphraseOn = rememberPGPPassphraseSwitch.isOn
         if rememberPGPPassphraseSwitch.isOn == false {
-            AppKeychain.shared.removeContent(for: Globals.pgpKeyPassphrase)
+            AppKeychain.shared.removeAllContent(withPrefix: Globals.pgpKeyPassphrase)
         }
     }
 

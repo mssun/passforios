@@ -20,7 +20,7 @@ class PGPKeyFileImportTableViewController: AutoCellHeightUITableViewController {
     private var currentlyPicking = KeyType.none
 
     @IBAction func save(_ sender: Any) {
-        savePassphraseDialog()
+        self.saveImportedKeys()
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -14,6 +14,9 @@ class PGPKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
     @IBOutlet weak var pgpPublicKeyURLTextField: UITextField!
     @IBOutlet weak var pgpPrivateKeyURLTextField: UITextField!
 
+    var pgpPrivateKeyURL: URL?
+    var pgpPublicKeyURL: URL?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         pgpPublicKeyURLTextField.text = Defaults.pgpPublicKeyURL?.absoluteString
@@ -21,23 +24,19 @@ class PGPKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
     }
     
     @IBAction func save(_ sender: Any) {
-        let publicKeyUrl = pgpPublicKeyURLTextField.text
-        if publicKeyUrl == nil || publicKeyUrl!.trimmed.isEmpty {
-            return savePassphraseDialog()
+        guard let publicKeyURLText = pgpPublicKeyURLTextField.text,
+            let publicKeyURL = URL(string: publicKeyURLText),
+            let privateKeyURLText = pgpPrivateKeyURLTextField.text,
+            let privateKeyURL = URL(string: privateKeyURLText) else {
+                Utils.alert(title: "CannotSavePgpKey".localize(), message: "SetPgpKeyUrlsFirst.".localize(), controller: self)
+                return
         }
-        if getScheme(from: pgpPrivateKeyURLTextField.text?.trimmed) == "http" {
-            let savePassphraseAlert = UIAlertController(title: "HttpNotSecure".localize(), message: "ReallyUseHttp?".localize(), preferredStyle: .alert)
-            savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: .default) { _ in })
-            savePassphraseAlert.addAction(UIAlertAction(title: "Yes".localize(), style: .destructive) { _ in
-                self.savePassphraseDialog()
-            })
-            return present(savePassphraseAlert, animated: true)
+        if privateKeyURL.scheme?.lowercased() == "http" || publicKeyURL.scheme?.lowercased() == "http" {
+            Utils.alert(title: "HttpNotSecure".localize(), message: "ReallyUseHttp.".localize(), controller: self)
         }
-        return savePassphraseDialog()
-    }
-
-    private func getScheme(from url: String?) -> String? {
-        return url.flatMap(URL.init(string:))?.scheme
+        pgpPrivateKeyURL = privateKeyURL
+        pgpPublicKeyURL = publicKeyURL
+        self.saveImportedKeys()
     }
 }
 
@@ -47,13 +46,13 @@ extension PGPKeyUrlImportTableViewController: PGPKeyImporter {
     static let label = "DownloadFromUrl".localize()
 
     func isReadyToUse() -> Bool {
-        return validate(pgpKeyUrl: pgpPublicKeyURLTextField.text)
-            && validate(pgpKeyUrl: pgpPrivateKeyURLTextField.text)
+        return validate(pgpKeyUrl: pgpPublicKeyURLTextField.text ?? "")
+            && validate(pgpKeyUrl: pgpPrivateKeyURLTextField.text ?? "")
     }
 
     func importKeys() throws {
-        Defaults.pgpPrivateKeyURL = URL(string: pgpPrivateKeyURLTextField.text!.trimmed)
-        Defaults.pgpPublicKeyURL = URL(string: pgpPublicKeyURLTextField.text!.trimmed)
+        Defaults.pgpPrivateKeyURL = pgpPrivateKeyURL
+        Defaults.pgpPublicKeyURL = pgpPublicKeyURL
 
         try KeyFileManager.PublicPgp.importKey(from: Defaults.pgpPublicKeyURL!)
         try KeyFileManager.PrivatePgp.importKey(from: Defaults.pgpPrivateKeyURL!)
@@ -67,12 +66,12 @@ extension PGPKeyUrlImportTableViewController: PGPKeyImporter {
         performSegue(withIdentifier: "savePGPKeySegue", sender: self)
     }
 
-    private func validate(pgpKeyUrl: String?) -> Bool {
-        guard let scheme = getScheme(from: pgpKeyUrl) else {
+    private func validate(pgpKeyUrl: String) -> Bool {
+        guard let url = URL(string: pgpKeyUrl) else {
             Utils.alert(title: "CannotSavePgpKey".localize(), message: "SetPgpKeyUrlsFirst.".localize(), controller: self)
             return false
         }
-        guard scheme == "https" || scheme == "http" else {
+        guard url.scheme == "https" || url.scheme == "http" else {
             Utils.alert(title: "CannotSavePgpKey".localize(), message: "UseEitherHttpsOrHttp.".localize(), controller: self)
             return false
         }

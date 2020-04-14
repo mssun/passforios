@@ -42,11 +42,11 @@ struct ObjectivePgp: PgpInterface {
         return encryptedData
     }
 
-    var keyId: String {
-        return publicKey.keyID.longIdentifier
+    var keyID: [String] {
+        return keyring.keys.map({ $0.keyID.longIdentifier })
     }
 
-    var shortKeyId: String {
-        return publicKey.keyID.shortIdentifier
+    var shortKeyID: [String] {
+        return keyring.keys.map({ $0.keyID.shortIdentifier })
     }
 }

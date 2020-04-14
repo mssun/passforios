@@ -13,13 +13,21 @@ class SSHKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
 
     @IBOutlet weak var privateKeyURLTextField: UITextField!
 
+    var sshPrivateKeyURL: URL?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         privateKeyURLTextField.text = Defaults.gitSSHPrivateKeyURL?.absoluteString
     }
 
     @IBAction func doneButtonTapped(_ sender: UIButton) {
-        if getScheme(from: privateKeyURLTextField.text?.trimmed) == "http" {
+        guard let text = privateKeyURLTextField.text,
+            let privateKeyURL = URL(string: text) else {
+                Utils.alert(title: "CannotSave".localize(), message: "SetPrivateKeyUrl.".localize(), controller: self)
+                return
+        }
+
+        if privateKeyURL.scheme?.lowercased() == "http" {
             let savePassphraseAlert = UIAlertController(title: "HttpNotSecure".localize(), message: "ReallyUseHttp?".localize(), preferredStyle: .alert)
             savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: .default) { _ in })
             savePassphraseAlert.addAction(UIAlertAction(title: "Yes".localize(), style: .destructive) { _ in
@@ -27,11 +35,8 @@ class SSHKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
             })
             return present(savePassphraseAlert, animated: true)
         }
+        sshPrivateKeyURL = privateKeyURL
         performSegue(withIdentifier: "importSSHKeySegue", sender: self)
-    }
-
-    private func getScheme(from url: String?) -> String? {
-        return url.flatMap(URL.init(string:))?.scheme
     }
 }
 
@@ -41,11 +46,11 @@ extension SSHKeyUrlImportTableViewController: KeyImporter {
     static let label = "DownloadFromUrl".localize()
 
     func isReadyToUse() -> Bool {
-        guard let scheme = getScheme(from: privateKeyURLTextField.text?.trimmed) else {
+        guard let url = sshPrivateKeyURL else {
             Utils.alert(title: "CannotSave".localize(), message: "SetPrivateKeyUrl.".localize(), controller: self)
             return false
         }
-        guard scheme == "https" || scheme == "http" else {
+        guard url.scheme == "https" || url.scheme == "http" else {
             Utils.alert(title: "CannotSave".localize(), message: "UseEitherHttpsOrHttp.".localize(), controller: self)
             return false
         }
@@ -53,8 +58,7 @@ extension SSHKeyUrlImportTableViewController: KeyImporter {
     }
 
     func importKeys() throws {
-        Defaults.gitSSHPrivateKeyURL = URL(string: privateKeyURLTextField.text!.trimmed)
-
+        Defaults.gitSSHPrivateKeyURL = sshPrivateKeyURL
         try KeyFileManager.PrivateSsh.importKey(from: Defaults.gitSSHPrivateKeyURL!)
     }
 }

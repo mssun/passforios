@@ -25,35 +25,3 @@ extension PGPKeyImporter {
         
     }
 }
-
-extension PGPKeyImporter where Self: UIViewController {
-
-    func savePassphraseDialog() {
-        guard self.isReadyToUse() else {
-            return
-        }
-        let savePassphraseAlert = UIAlertController(title: "Passphrase".localize(), message: "WantToSavePassphrase?".localize(), preferredStyle: .alert)
-        // Do not save the key's passphrase.
-        savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: .default) { _ in
-            AppKeychain.shared.removeContent(for: Globals.pgpKeyPassphrase)
-            Defaults.isRememberPGPPassphraseOn = false
-            self.saveImportedKeys()
-        })
-        // Save the key's passphrase.
-        savePassphraseAlert.addAction(UIAlertAction(title: "Yes".localize(), style: .destructive) { _ in
-            // Ask for the passphrase.
-            let alert = UIAlertController(title: "Passphrase".localize(), message: "FillInPgpPassphrase.".localize(), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok".localize(), style: .default) { _ in
-                AppKeychain.shared.add(string: alert.textFields?.first?.text, for: Globals.pgpKeyPassphrase)
-                Defaults.isRememberPGPPassphraseOn = true
-                self.saveImportedKeys()
-            })
-            alert.addTextField { textField in
-                textField.text = AppKeychain.shared.get(for: Globals.pgpKeyPassphrase)
-                textField.isSecureTextEntry = true
-            }
-            self.present(alert, animated: true)
-        })
-        present(savePassphraseAlert, animated: true)
-    }
-}
