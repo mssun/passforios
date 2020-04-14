@@ -39,6 +39,8 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             Defaults.pgpKeySource = type(of: keyImporter).keySource
             do {
+                // Remove exiting passphrase
+                AppKeychain.shared.removeAllContent(withPrefix: Globals.pgpKeyPassphrase)
                 try keyImporter.importKeys()
                 try PGPAgent.shared.initKeys()
                 DispatchQueue.main.async {
@@ -148,7 +150,9 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         })
 
         if isReadyToUse() {
-            optionMenu.addAction(UIAlertAction(title: "\(Self.menuLabel) (\("Import".localize()))", style: .default))
+            optionMenu.addAction(UIAlertAction(title: "\(Self.menuLabel) (\("Import".localize()))", style: .default) { _ in
+                self.saveImportedKeys()
+            })
         } else {
             optionMenu.addAction(UIAlertAction(title: "\(Self.menuLabel) (\("Tips".localize()))", style: .default) { _ in
                 let title = "Tips".localize()
