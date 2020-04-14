@@ -112,9 +112,9 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
         let key = scanned.segments.joined(separator: "")
         switch scanned.keyType {
         case .publicKey:
-            armorPublicKeyTextView.text = key
+            armorPublicKeyTextView.text += key
         case .privateKey:
-            armorPrivateKeyTextView.text = key
+            armorPrivateKeyTextView.text += key
         }
     }
 
