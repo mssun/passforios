@@ -42,6 +42,14 @@ struct ObjectivePgp: PgpInterface {
         return encryptedData
     }
 
+    func containsPublicKey(with keyID: String) -> Bool {
+        keyring.findKey(keyID)?.isPublic ?? false
+    }
+
+    func containsPrivateKey(with keyID: String) -> Bool {
+        keyring.findKey(keyID)?.isSecret ?? false
+    }
+
     var keyID: [String] {
         return keyring.keys.map({ $0.keyID.longIdentifier })
     }

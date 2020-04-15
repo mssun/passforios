@@ -12,6 +12,10 @@ protocol PgpInterface {
 
     func encrypt(plainData: Data, keyID: String) throws -> Data
 
+    func containsPublicKey(with keyID: String) -> Bool
+
+    func containsPrivateKey(with keyID: String) -> Bool
+
     var keyID: [String] { get }
 
     var shortKeyID: [String] { get }

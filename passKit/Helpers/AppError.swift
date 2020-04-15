@@ -16,7 +16,8 @@ public enum AppError: Error, Equatable {
     case GitReset
     case GitCommit
     case PasswordEntity
-    case PgpPublicKeyNotExist
+    case PgpPublicKeyNotFound(keyID: String)
+    case PgpPrivateKeyNotFound(keyID: String)
     case KeyExpiredOrIncompatible
     case WrongPassphrase
     case WrongPasswordFilename
@@ -32,6 +33,8 @@ extension AppError: LocalizedError {
         switch self {
         case let .RepositoryRemoteBranchNotFound(name), let .RepositoryBranchNotFound(name), let .ReadingFile(name):
             return localizationKey.localize(name)
+        case let .PgpPublicKeyNotFound(keyID), let .PgpPrivateKeyNotFound(keyID):
+            return localizationKey.localize(keyID)
         default:
             return localizationKey.localize()
         }

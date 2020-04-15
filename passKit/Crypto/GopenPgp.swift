@@ -30,7 +30,7 @@ struct GopenPgp: PgpInterface {
                 }
                 throw AppError.KeyImport
             }
-            publicKeys[k.getFingerprint()] = k
+            publicKeys[k.getFingerprint().lowercased()] = k
         }
 
         for key in prvKeys {
@@ -41,7 +41,7 @@ struct GopenPgp: PgpInterface {
                 }
                 throw AppError.KeyImport
             }
-            privateKeys[k.getFingerprint()] = k
+            privateKeys[k.getFingerprint().lowercased()] = k
         }
 
     }
@@ -63,6 +63,14 @@ struct GopenPgp: PgpInterface {
          }
          return keys
      }
+
+    func containsPublicKey(with keyID: String) -> Bool {
+        publicKeys.keys.contains(where: { key in key.hasSuffix(keyID.lowercased()) })
+    }
+
+    func containsPrivateKey(with keyID: String) -> Bool {
+        privateKeys.keys.contains(where: { key in key.hasSuffix(keyID.lowercased()) })
+    }
 
     func decrypt(encryptedData: Data, keyID: String, passphrase: String) throws -> Data? {
         guard let e = privateKeys.first(where: { (key, _) in key.hasSuffix(keyID.lowercased()) }),

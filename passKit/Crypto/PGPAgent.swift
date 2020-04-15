@@ -51,6 +51,15 @@ public class PGPAgent {
         self.latestDecryptStatus = false
         // Init keys.
         try checkAndInit()
+
+        guard let pgpInterface = pgpInterface else {
+            throw AppError.Decryption
+        }
+
+        if !pgpInterface.containsPrivateKey(with: keyID) {
+            throw AppError.PgpPrivateKeyNotFound(keyID: keyID)
+        }
+
         // Get the PGP key passphrase.
         var passphrase = ""
         if previousDecryptStatus == false {
@@ -59,7 +68,7 @@ public class PGPAgent {
             passphrase = keyStore.get(for: AppKeychain.getPGPKeyPassphraseKey(keyID: keyID)) ?? requestPGPKeyPassphrase(keyID)
         }
         // Decrypt.
-        guard let result = try pgpInterface!.decrypt(encryptedData: encryptedData, keyID: keyID, passphrase: passphrase) else {
+        guard let result = try pgpInterface.decrypt(encryptedData: encryptedData, keyID: keyID, passphrase: passphrase) else {
             return nil
         }
         // The decryption step has succeed.
@@ -71,6 +80,9 @@ public class PGPAgent {
         try checkAndInit()
         guard let pgpInterface = pgpInterface else {
             throw AppError.Encryption
+        }
+        if !pgpInterface.containsPublicKey(with: keyID) {
+            throw AppError.PgpPublicKeyNotFound(keyID: keyID)
         }
         return try pgpInterface.encrypt(plainData: plainData, keyID: keyID)
     }

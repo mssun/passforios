@@ -136,6 +136,8 @@
 "PgpCopyPublicAndPrivateKeyToPass." = "Copy your ASCII-armored public and private keys to Pass with names \"gpg_key.pub\" and \"gpg_key\" (without quotes) via iTunes. Then come back and click \"iTunes File Sharing\" to finish.";
 "KeyExpiredOrIncompatibleError."    = "PGP public key may be expired or incompatible with the private key.";
 "WrongPassphraseError."             = "Passphrase of your PGP secret key is wrong.";
+"PgpPublicKeyNotFoundError."        = "PGP public key (%@) not found.";
+"PgpPrivateKeyNotFoundError."       = "PGP private key (%@) not found.";
 "CannotImportFile"                  = "Cannot Import File";
 "LoadFromFiles"                     = "Load From File";
 "FileCannotBeImported."             = "An error occurred importing the file '%@'. Please make sure its location is readable.";
