@@ -170,7 +170,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
                 Defaults.pgpKeySource = nil
             })
         }
-        optionMenu.addAction(UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil))
+        optionMenu.addAction(UIAlertAction.cancel())
         optionMenu.popoverPresentationController?.sourceView = pgpKeyTableViewCell
         optionMenu.popoverPresentationController?.sourceRect = pgpKeyTableViewCell.bounds
         present(optionMenu, animated: true)
@@ -193,10 +193,9 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             self?.setPasscodeLock()
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil)
         optionMenu.addAction(removePasscodeAction)
         optionMenu.addAction(changePasscodeAction)
-        optionMenu.addAction(cancelAction)
+        optionMenu.addAction(UIAlertAction.cancel())
         optionMenu.popoverPresentationController?.sourceView = passcodeTableViewCell
         optionMenu.popoverPresentationController?.sourceRect = passcodeTableViewCell.bounds
         self.present(optionMenu, animated: true, completion: nil)
@@ -240,7 +239,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         saveAction.isEnabled = false  // disable the Save button by default
 
         // cancel action
-        let cancelAction = UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction.cancel()
 
         // present
         setPasscodeLockAlert?.addAction(saveAction)

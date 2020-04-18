@@ -42,16 +42,12 @@ public class PGPAgent {
 
     public func getShortKeyID() throws -> [String] {
         try checkAndInit()
-        return pgpInterface?.shortKeyID ?? []
+        return pgpInterface?.shortKeyID.sorted() ?? []
     }
 
     public func decrypt(encryptedData: Data, keyID: String, requestPGPKeyPassphrase: (String) -> String) throws -> Data? {
-        // Remember the previous status and set the current status
-        let previousDecryptStatus = self.latestDecryptStatus
-        self.latestDecryptStatus = false
         // Init keys.
         try checkAndInit()
-
         guard let pgpInterface = pgpInterface else {
             throw AppError.Decryption
         }
@@ -59,6 +55,10 @@ public class PGPAgent {
         if !pgpInterface.containsPrivateKey(with: keyID) {
             throw AppError.PgpPrivateKeyNotFound(keyID: keyID)
         }
+
+        // Remember the previous status and set the current status
+        let previousDecryptStatus = self.latestDecryptStatus
+        self.latestDecryptStatus = false
 
         // Get the PGP key passphrase.
         var passphrase = ""

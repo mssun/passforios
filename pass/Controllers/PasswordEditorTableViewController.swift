@@ -251,7 +251,7 @@ class PasswordEditorTableViewController: UITableViewController {
             alert.addAction(UIAlertAction(title: "Delete".localize(), style: UIAlertAction.Style.destructive, handler: {[unowned self] (action) -> Void in
                 self.performSegue(withIdentifier: "deletePasswordSegue", sender: self)
             }))
-            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertAction.Style.cancel, handler:nil))
+            alert.addAction(UIAlertAction.cancel())
             self.present(alert, animated: true, completion: nil)
         } else if selectedCell == scanQRCodeCell {
             self.performSegue(withIdentifier: "showQRScannerSegue", sender: self)
@@ -392,7 +392,7 @@ extension PasswordEditorTableViewController: FillPasswordTableViewCellDelegate {
             alert.addAction(UIAlertAction(title: "Yes".localize(), style: UIAlertAction.Style.destructive, handler: {_ in
                 self.generateAndCopyPasswordNoOtpCheck()
             }))
-            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertAction.Style.cancel, handler: nil))
+            alert.addAction(UIAlertAction.cancel())
             self.present(alert, animated: true, completion: nil)
         } else {
             self.generateAndCopyPasswordNoOtpCheck()
@@ -442,7 +442,7 @@ extension PasswordEditorTableViewController: SFSafariViewControllerDelegate {
                 // update cell manually, no need to call reloadData()
                 self.fillPasswordCell?.setContent(content: generatedPassword)
             }))
-            alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertAction.Style.cancel, handler:nil))
+            alert.addAction(UIAlertAction.cancel())
             self.present(alert, animated: true, completion: nil)
         }
     }

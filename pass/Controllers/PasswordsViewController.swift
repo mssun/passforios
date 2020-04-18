@@ -139,21 +139,39 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
     @IBAction func saveAddPassword(segue: UIStoryboardSegue) {
         if let controller = segue.source as? AddPasswordTableViewController {
-            SVProgressHUD.setDefaultMaskType(.black)
-            SVProgressHUD.setDefaultStyle(.light)
-            SVProgressHUD.show(withStatus: "Saving".localize())
-            DispatchQueue.global(qos: .userInitiated).async {
-                do {
-                    let _ = try self.passwordStore.add(password: controller.password!)
-                    DispatchQueue.main.async {
-                        // will trigger reloadTableView() by a notification
-                        SVProgressHUD.showSuccess(withStatus: "Done".localize())
-                        SVProgressHUD.dismiss(withDelay: 1)
+            addPassword(password: controller.password!)
+        }
+    }
+
+    private func addPassword(password: Password, keyID: String? = nil) {
+        SVProgressHUD.setDefaultMaskType(.black)
+        SVProgressHUD.setDefaultStyle(.light)
+        SVProgressHUD.show(withStatus: "Saving".localize())
+        DispatchQueue.global(qos: .userInitiated).async {
+            do {
+                let _ = try self.passwordStore.add(password: password, keyID: keyID)
+                DispatchQueue.main.async {
+                    // will trigger reloadTableView() by a notification
+                    SVProgressHUD.showSuccess(withStatus: "Done".localize())
+                    SVProgressHUD.dismiss(withDelay: 1)
+                }
+            } catch AppError.PgpPublicKeyNotFound(let key)  {
+                DispatchQueue.main.async {
+                    // alert: cancel or select keys
+                    SVProgressHUD.dismiss()
+                    let alert = UIAlertController(title: "Cannot Encrypt Password", message: AppError.PgpPublicKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
+                    let selectKey = UIAlertAction.selectKey(controller: self) { action in
+                        self.addPassword(password: password, keyID: action.title)
                     }
-                } catch {
-                    DispatchQueue.main.async {
-                        Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
-                    }
+                    alert.addAction(selectKey)
+
+                    self.present(alert, animated: true, completion: nil)
+                }
+                return
+            } catch {
+                DispatchQueue.main.async {
+                    Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
                 }
             }
         }

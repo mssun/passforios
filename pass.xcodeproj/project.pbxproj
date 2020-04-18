@@ -95,6 +95,7 @@
 		556EC3DA22335D3400934F9C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DBF21F3599E00BB27BB /* InfoPlist.strings */; };
 		556EC3DB22335D3D00934F9C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DBF21F3599E00BB27BB /* InfoPlist.strings */; };
 		8BA607EB4C9C8258741AC18C /* Pods_passExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14E955B67C88672AA3A40BA0 /* Pods_passExtension.framework */; };
+		9A652412244ABED400DA0A41 /* UIAlertActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A652411244ABED400DA0A41 /* UIAlertActionExtension.swift */; };
 		9A8A8387402FCCCECB1232A4 /* Pods_passKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2B2F844061EFA534FE9506 /* Pods_passKitTests.framework */; };
 		9AA710CA23939C68009E3213 /* GitCredentialPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA710C923939C68009E3213 /* GitCredentialPassword.swift */; };
 		9ADC954124418A5F0005402E /* PasswordStoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADC954024418A5F0005402E /* PasswordStoreTest.swift */; };
@@ -347,6 +348,7 @@
 		62DEE9943E0F2B8C79E3FC5B /* Pods-passExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-passExtension/Pods-passExtension.release.xcconfig"; sourceTree = "<group>"; };
 		64AA8DF9E73F39CCC3317247 /* Pods-passKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-passKit/Pods-passKit.release.xcconfig"; sourceTree = "<group>"; };
 		7CAD21E487234A0631B52E20 /* Pods-passKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passKit/Pods-passKit.debug.xcconfig"; sourceTree = "<group>"; };
+		9A652411244ABED400DA0A41 /* UIAlertActionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertActionExtension.swift; sourceTree = "<group>"; };
 		9AA710C923939C68009E3213 /* GitCredentialPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitCredentialPassword.swift; sourceTree = "<group>"; };
 		9ADC954024418A5F0005402E /* PasswordStoreTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStoreTest.swift; sourceTree = "<group>"; };
 		A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurePasteboard.swift; sourceTree = "<group>"; };
@@ -648,6 +650,14 @@
 			path = Crypto;
 			sourceTree = "<group>";
 		};
+		9A652410244ABEB800DA0A41 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9A652411244ABED400DA0A41 /* UIAlertActionExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		A2168A801EFD431A005EA873 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -886,6 +896,7 @@
 		DC917BD51E2E8231000FDF54 /* pass */ = {
 			isa = PBXGroup;
 			children = (
+				9A652410244ABEB800DA0A41 /* Extensions */,
 				DC19400C1E4B39400077E0A3 /* Controllers */,
 				DC19400E1E4B3A610077E0A3 /* Helpers */,
 				DC19400F1E4B3A9E0077E0A3 /* Views */,
@@ -1530,6 +1541,7 @@
 				DC037CBF1E4ED4E100609409 /* TextViewTableViewCell.swift in Sources */,
 				DCC441541E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift in Sources */,
 				306D970E24091CDD006C0E2E /* SwitchTableViewCell.swift in Sources */,
+				9A652412244ABED400DA0A41 /* UIAlertActionExtension.swift in Sources */,
 				A2A61C201EEFABAD00CFE063 /* UtilsExtension.swift in Sources */,
 				DC8963C01E38EEB900828B09 /* SSHKeyUrlImportTableViewController.swift in Sources */,
 				3066AD6823EE0D6500F65535 /* PGPKeyImporter.swift in Sources */,

@@ -56,7 +56,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
                 SVProgressHUD.showSuccess(withStatus: "Done".localize())
                 SVProgressHUD.dismiss(withDelay: 1)
             }))
-            alert.addAction(UIAlertAction(title: "Dismiss".localize(), style: UIAlertAction.Style.cancel, handler:nil))
+            alert.addAction(UIAlertAction.dismiss())
             self.present(alert, animated: true, completion: nil)
         } else if tableView.cellForRow(at: indexPath) == discardChangesTableViewCell {
             let alert = UIAlertController(title: "DiscardAllLocalChanges?".localize(), message: "DiscardExplanation.".localize(), preferredStyle: UIAlertController.Style.alert)
@@ -72,7 +72,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
                 }
 
             }))
-            alert.addAction(UIAlertAction(title: "Dismiss".localize(), style: UIAlertAction.Style.cancel, handler:nil))
+            alert.addAction(UIAlertAction.dismiss())
             self.present(alert, animated: true, completion: nil)
         }
     }

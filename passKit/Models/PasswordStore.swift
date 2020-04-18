@@ -523,13 +523,13 @@ public class PasswordStore {
         return parentPasswordEntity
     }
     
-    public func add(password: Password) throws -> PasswordEntity? {
+    public func add(password: Password, keyID: String? = nil) throws -> PasswordEntity? {
         try createDirectoryTree(at: password.url)
-        let newPasswordEntity = try addPasswordEntities(password: password)
         let saveURL = storeURL.appendingPathComponent(password.url.path)
-        try self.encrypt(password: password).write(to: saveURL)
+        try self.encrypt(password: password, keyID: keyID).write(to: saveURL)
         try gitAdd(path: password.url.path)
         let _ = try gitCommit(message: "AddPassword.".localize(password.url.deletingPathExtension().path))
+        let newPasswordEntity = try addPasswordEntities(password: password)
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         return newPasswordEntity
     }
@@ -543,13 +543,13 @@ public class PasswordStore {
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
     }
     
-    public func edit(passwordEntity: PasswordEntity, password: Password) throws -> PasswordEntity? {
+    public func edit(passwordEntity: PasswordEntity, password: Password, keyID: String? = nil) throws -> PasswordEntity? {
         var newPasswordEntity: PasswordEntity? = passwordEntity
         let url = try passwordEntity.getURL()
         
         if password.changed&PasswordChange.content.rawValue != 0 {
             let saveURL = storeURL.appendingPathComponent(url.path)
-            try self.encrypt(password: password).write(to: saveURL)
+            try self.encrypt(password: password, keyID: keyID).write(to: saveURL)
             try gitAdd(path: url.path)
             let _ = try gitCommit(message: "EditPassword.".localize(url.deletingPathExtension().path.removingPercentEncoding!))
             newPasswordEntity = passwordEntity
@@ -698,9 +698,9 @@ public class PasswordStore {
         return try storeRepository.localCommitsRelative(toRemoteBranch: remoteBranch)
     }
 
-    public func decrypt(passwordEntity: PasswordEntity, requestPGPKeyPassphrase: (String) -> String) throws -> Password? {
+    public func decrypt(passwordEntity: PasswordEntity, keyID: String? = nil, requestPGPKeyPassphrase: (String) -> String) throws -> Password? {
         let encryptedDataPath = storeURL.appendingPathComponent(passwordEntity.getPath())
-        let keyID = findGPGID(from: encryptedDataPath)
+        let keyID = keyID ?? findGPGID(from: encryptedDataPath)
         let encryptedData = try Data(contentsOf: encryptedDataPath)
         guard let decryptedData = try PGPAgent.shared.decrypt(encryptedData: encryptedData, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase) else {
             throw AppError.Decryption
@@ -710,9 +710,9 @@ public class PasswordStore {
         return Password(name: passwordEntity.getName(), url: url, plainText: plainText)
     }
     
-    public func encrypt(password: Password) throws -> Data {
+    public func encrypt(password: Password, keyID: String? = nil) throws -> Data {
         let encryptedDataPath = storeURL.appendingPathComponent(password.url.path)
-        let keyID = findGPGID(from: encryptedDataPath)
+        let keyID = keyID ?? findGPGID(from: encryptedDataPath)
         return try PGPAgent.shared.encrypt(plainData: password.plainData, keyID: keyID)
     }
     

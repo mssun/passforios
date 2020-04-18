@@ -87,7 +87,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
     }
 
-    @objc private func decryptThenShowPassword() {
+    @objc private func decryptThenShowPassword(keyID: String? = nil) {
         guard let passwordEntity = passwordEntity else {
             Utils.alert(title: "CannotShowPassword".localize(), message: "PasswordDoesNotExist".localize(), controller: self, handler: {(UIAlertAction) -> Void in
                 self.navigationController!.popViewController(animated: true)
@@ -98,15 +98,26 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             // decrypt password
             do {
                 let requestPGPKeyPassphrase = Utils.createRequestPGPKeyPassphraseHandler(controller: self)
-                self.password = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+                self.password = try self.passwordStore.decrypt(passwordEntity: passwordEntity, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+            } catch AppError.PgpPrivateKeyNotFound(let key)  {
+                DispatchQueue.main.async {
+                    // alert: cancel or try again
+                    let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.PgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
+                    let selectKey = UIAlertAction.selectKey(controller: self) { action in
+                        self.decryptThenShowPassword(keyID: action.title)
+                    }
+                    alert.addAction(selectKey)
+
+                    self.present(alert, animated: true, completion: nil)
+                }
+                return
             } catch {
                 DispatchQueue.main.async {
                     // alert: cancel or try again
-                    let alert = UIAlertController(title: "CannotShowPassword".localize(), message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "Cancel".localize(), style: UIAlertAction.Style.default) { _ in
-                        self.navigationController!.popViewController(animated: true)
-                    })
-                    alert.addAction(UIAlertAction(title: "TryAgain".localize(), style: UIAlertAction.Style.destructive) {_ in
+                    let alert = UIAlertController(title: "CannotShowPassword".localize(), message: error.localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
+                    alert.addAction(UIAlertAction(title: "TryAgain".localize(), style: .default) {_ in
                         self.decryptThenShowPassword()
                     })
                     self.present(alert, animated: true, completion: nil)
@@ -171,18 +182,37 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
     @IBAction private func saveEditPassword(segue: UIStoryboardSegue) {
         if self.password!.changed != 0 {
-            SVProgressHUD.show(withStatus: "Saving".localize())
-            do {
-                self.passwordEntity = try self.passwordStore.edit(passwordEntity: self.passwordEntity!, password: self.password!)
-                self.setTableData()
-                self.tableView.reloadData()
-                SVProgressHUD.showSuccess(withStatus: "Success".localize())
-                SVProgressHUD.dismiss(withDelay: 1)
-            } catch {
-                SVProgressHUD.showSuccess(withStatus: error.localizedDescription)
-                SVProgressHUD.dismiss(withDelay: 1)
-            }
+            self.saveEditPassword(password: self.password!)
         }
+    }
+
+    private func saveEditPassword(password: Password, keyID: String? = nil) {
+        SVProgressHUD.show(withStatus: "Saving".localize())
+        do {
+            self.passwordEntity = try self.passwordStore.edit(passwordEntity: self.passwordEntity!, password: password, keyID: keyID)
+            self.setTableData()
+            self.tableView.reloadData()
+            SVProgressHUD.showSuccess(withStatus: "Success".localize())
+            SVProgressHUD.dismiss(withDelay: 1)
+        } catch AppError.PgpPublicKeyNotFound(let key)  {
+           DispatchQueue.main.async {
+               // alert: cancel or select keys
+               SVProgressHUD.dismiss()
+               let alert = UIAlertController(title: "Cannot Edit Password", message: AppError.PgpPublicKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
+               alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
+               let selectKey = UIAlertAction.selectKey(controller: self) { action in
+                   self.saveEditPassword(password: password, keyID: action.title)
+               }
+               alert.addAction(selectKey)
+
+               self.present(alert, animated: true, completion: nil)
+           }
+           return
+       } catch {
+           DispatchQueue.main.async {
+               Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
+           }
+       }
     }
 
     @IBAction private func deletePassword(segue: UIStoryboardSegue) {

@@ -147,7 +147,7 @@ class GitRepositorySettingsTableViewController: UITableViewController {
                 alert.addAction(UIAlertAction(title: "Overwrite".localize(), style: .destructive) { _ in
                     self.cloneAndSegueIfSuccess()
                 })
-                alert.addAction(UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction.cancel())
                 return alert
             }()
             self.present(overwriteAlert, animated: true)
@@ -271,7 +271,7 @@ class GitRepositorySettingsTableViewController: UITableViewController {
                 self.gitAuthenticationMethod = .password
             })
         }
-        optionMenu.addAction(UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: nil))
+        optionMenu.addAction(UIAlertAction.cancel())
         optionMenu.popoverPresentationController?.sourceView = authSSHKeyCell
         optionMenu.popoverPresentationController?.sourceRect = authSSHKeyCell.bounds
         present(optionMenu, animated: true)

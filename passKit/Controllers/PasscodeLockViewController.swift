@@ -213,7 +213,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
                 }
             }
         }))
-        alert.addAction(UIAlertAction(title: "Dismiss".localize(), style: UIAlertAction.Style.cancel, handler:nil))
+        alert.addAction(UIAlertAction(title: "Dismiss".localize(), style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
 
