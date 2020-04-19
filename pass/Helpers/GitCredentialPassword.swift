@@ -31,11 +31,11 @@ public func requestGitCredentialPassword(credential: GitCredential.Credential,
             $0.text = lastPassword ?? ""
             $0.isSecureTextEntry = true
         }
-        alert.addAction(UIAlertAction(title: "Ok".localize(), style: .default) { _ in
+        alert.addAction(UIAlertAction.ok() { _ in
             password = alert.textFields?.first?.text
             sem.signal()
         })
-        alert.addAction(UIAlertAction(title: "Cancel".localize(), style: .cancel) { _ in
+        alert.addAction(UIAlertAction.cancel() { _ in
             password = nil
             sem.signal()
         })

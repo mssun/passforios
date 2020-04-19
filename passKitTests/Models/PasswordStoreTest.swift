@@ -57,7 +57,7 @@ class PasswordStoreTest: XCTestCase {
 
         let testPassword = Password(name: "test", url: URL(string: "test.gpg")!, plainText: "testpassword")
         let testPasswordEntity = try passwordStore.add(password: testPassword)!
-        let testPasswordPlain = try passwordStore.decrypt(passwordEntity: testPasswordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase )!
+        let testPasswordPlain = try passwordStore.decrypt(passwordEntity: testPasswordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase )
         XCTAssertEqual(testPasswordPlain.plainText, "testpassword")
 
         passwordStore.erase()
@@ -65,7 +65,7 @@ class PasswordStoreTest: XCTestCase {
 
     private func decrypt(passwordStore: PasswordStore, path: String, passphrase: String) throws -> Password {
         let entity = passwordStore.getPasswordEntity(by: path, isDir: false)!
-        return try passwordStore.decrypt(passwordEntity: entity, requestPGPKeyPassphrase: requestPGPKeyPassphrase )!
+        return try passwordStore.decrypt(passwordEntity: entity, requestPGPKeyPassphrase: requestPGPKeyPassphrase )
 
     }
 

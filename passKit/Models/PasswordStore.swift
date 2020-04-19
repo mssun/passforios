@@ -698,7 +698,7 @@ public class PasswordStore {
         return try storeRepository.localCommitsRelative(toRemoteBranch: remoteBranch)
     }
 
-    public func decrypt(passwordEntity: PasswordEntity, keyID: String? = nil, requestPGPKeyPassphrase: (String) -> String) throws -> Password? {
+    public func decrypt(passwordEntity: PasswordEntity, keyID: String? = nil, requestPGPKeyPassphrase: @escaping (String) -> String) throws -> Password {
         let encryptedDataPath = storeURL.appendingPathComponent(passwordEntity.getPath())
         let keyID = keyID ?? findGPGID(from: encryptedDataPath)
         let encryptedData = try Data(contentsOf: encryptedDataPath)

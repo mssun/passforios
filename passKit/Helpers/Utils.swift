@@ -47,15 +47,15 @@ public class Utils {
                 let title = "Passphrase".localize() + " (\(keyID.suffix(8)))"
                 let message = "FillInPgpPassphrase.".localize()
                 let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
+                alert.addAction(UIAlertAction.ok() { _ in
                     passphrase = alert.textFields?.first?.text ?? ""
                     sem.signal()
-                }))
-                alert.addTextField(configurationHandler: {(textField: UITextField!) in
+                })
+                alert.addTextField() { textField in
                     textField.text = AppKeychain.shared.get(for: AppKeychain.getPGPKeyPassphraseKey(keyID: keyID)) ?? ""
                     textField.isSecureTextEntry = true
-                })
-                controller.present(alert, animated: true, completion: nil)
+                }
+                controller.present(alert, animated: true)
             }
             let _ = sem.wait(timeout: DispatchTime.distantFuture)
             if Defaults.isRememberPGPPassphraseOn {

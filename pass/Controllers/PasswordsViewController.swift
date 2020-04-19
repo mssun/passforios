@@ -294,7 +294,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             }
             self.reloadTableView(data: filteredPasswordsTableEntries, label: .unsynced)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancelAction = UIAlertAction.cancel()
 
         ac.addAction(allAction)
         ac.addAction(unsyncedAction)
@@ -453,31 +453,48 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     private func decryptThenCopyPassword(from indexPath: IndexPath) {
         guard PGPAgent.shared.isPrepared else {
-            Utils.alert(title: "CannotCopyPassword".localize(), message: "PgpKeyNotSet.".localize(), controller: self, completion: nil)
+            Utils.alert(title: "CannotCopyPassword".localize(), message: "PgpKeyNotSet.".localize(), controller: self)
             return
         }
         let passwordEntity = getPasswordEntry(by: indexPath).passwordEntity
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         SVProgressHUD.dismiss()
+        self.decryptPassword(passwordEntity: passwordEntity)
+    }
+
+    private func decryptPassword(passwordEntity: PasswordEntity, keyID: String? = nil) {
         DispatchQueue.global(qos: .userInteractive).async {
-            var decryptedPassword: Password?
             do {
                 let requestPGPKeyPassphrase = Utils.createRequestPGPKeyPassphraseHandler(controller: self)
-                decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+                let decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+
                 DispatchQueue.main.async {
-                    SecurePasteboard.shared.copy(textToCopy: decryptedPassword?.password)
+                    SecurePasteboard.shared.copy(textToCopy: decryptedPassword.password)
                     SVProgressHUD.setDefaultMaskType(.black)
                     SVProgressHUD.setDefaultStyle(.dark)
                     SVProgressHUD.showSuccess(withStatus: "PasswordCopiedToPasteboard.".localize())
                     SVProgressHUD.dismiss(withDelay: 0.6)
                 }
-            } catch {
+            } catch AppError.PgpPrivateKeyNotFound(let key)  {
                 DispatchQueue.main.async {
-                    Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: self, completion: nil)
+                    // alert: cancel or try again
+                    let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.PgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
+                    let selectKey = UIAlertAction.selectKey(controller: self) { action in
+                        self.decryptPassword(passwordEntity: passwordEntity, keyID: action.title)
+                    }
+                    alert.addAction(selectKey)
+
+                    self.present(alert, animated: true)
+                }
+            }  catch {
+                DispatchQueue.main.async {
+                    Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: self)
                 }
             }
         }
     }
+
 
     private func generateSections(item: [PasswordTableEntry]) {
         let collation = UILocalizedIndexedCollation.current()

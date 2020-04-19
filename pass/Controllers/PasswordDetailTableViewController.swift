@@ -80,9 +80,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         super.viewWillAppear(animated)
         if self.shouldPopCurrentView {
             let alert = UIAlertController(title: "Notice".localize(), message: "PreviousChangesDiscarded.".localize(), preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Ok".localize(), style: UIAlertAction.Style.default, handler: {_ in
-                _ = self.navigationController?.popViewController(animated: true)
-            }))
+            alert.addAction(UIAlertAction.okAndPopView(controller: self))
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -99,6 +97,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             do {
                 let requestPGPKeyPassphrase = Utils.createRequestPGPKeyPassphraseHandler(controller: self)
                 self.password = try self.passwordStore.decrypt(passwordEntity: passwordEntity, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+                self.showPassword()
             } catch AppError.PgpPrivateKeyNotFound(let key)  {
                 DispatchQueue.main.async {
                     // alert: cancel or try again
@@ -111,7 +110,6 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
                     self.present(alert, animated: true, completion: nil)
                 }
-                return
             } catch {
                 DispatchQueue.main.async {
                     // alert: cancel or try again
@@ -122,10 +120,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                     })
                     self.present(alert, animated: true, completion: nil)
                 }
-                return
             }
-            // display password
-            self.showPassword()
         }
     }
 

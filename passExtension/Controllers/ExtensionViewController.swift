@@ -147,36 +147,52 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
 
         let passwordEntity = entry.passwordEntity
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        self.decryptPassword(passwordEntity: passwordEntity)
+    }
+
+    private func decryptPassword(passwordEntity: PasswordEntity, keyID: String? = nil) {
         DispatchQueue.global(qos: .userInteractive).async {
-            var decryptedPassword: Password?
             do {
                 let requestPGPKeyPassphrase = Utils.createRequestPGPKeyPassphraseHandler(controller: self)
-                decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
-                let username = decryptedPassword?.username ?? decryptedPassword?.login ?? decryptedPassword?.nameFromPath ?? ""
-                let password = decryptedPassword?.password ?? ""
+                let decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+
+                let username = decryptedPassword.getUsernameForCompletion()
+                let password = decryptedPassword.password
                 DispatchQueue.main.async {// prepare a dictionary to return
                     switch self.extensionAction {
                     case .findLogin:
                         let extensionItem = NSExtensionItem()
                         var returnDictionary = [OnePasswordExtensionKey.usernameKey: username,
                                                 OnePasswordExtensionKey.passwordKey: password]
-                        if let totpPassword = decryptedPassword?.currentOtp {
+                        if let totpPassword = decryptedPassword.currentOtp {
                             returnDictionary[OnePasswordExtensionKey.totpKey] = totpPassword
                         }
                         extensionItem.attachments = [NSItemProvider(item: returnDictionary as NSSecureCoding, typeIdentifier: String(kUTTypePropertyList))]
                         self.extensionContext!.completeRequest(returningItems: [extensionItem], completionHandler: nil)
                     case .fillBrowser:
-                        Utils.copyToPasteboard(textToCopy: decryptedPassword?.password)
+                        Utils.copyToPasteboard(textToCopy: decryptedPassword.password)
                         // return a dictionary for JavaScript for best-effor fill in
                         let extensionItem = NSExtensionItem()
                         let returnDictionary = [NSExtensionJavaScriptFinalizeArgumentKey : ["username": username, "password": password]]
                         extensionItem.attachments = [NSItemProvider(item: returnDictionary as NSSecureCoding, typeIdentifier: String(kUTTypePropertyList))]
-                        self.extensionContext!.completeRequest(returningItems: [extensionItem], completionHandler: nil)
+                        self.extensionContext?.completeRequest(returningItems: [extensionItem], completionHandler: nil)
                     default:
-                        self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
+                        self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
                     }
                 }
-            } catch {
+            } catch AppError.PgpPrivateKeyNotFound(let key)  {
+                DispatchQueue.main.async {
+                    // alert: cancel or try again
+                    let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.PgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
+                    let selectKey = UIAlertAction.selectKey(controller: self) { action in
+                        self.decryptPassword(passwordEntity: passwordEntity, keyID: action.title)
+                    }
+                    alert.addAction(selectKey)
+
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }  catch {
                 DispatchQueue.main.async {
                     Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: self, completion: nil)
                 }

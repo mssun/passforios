@@ -31,7 +31,7 @@ class PGPAgentTest: XCTestCase {
         super.tearDown()
     }
 
-    func basicEncryptDecrypt(using pgpAgent: PGPAgent, keyID: String, encryptKeyID: String? = nil, requestPassphrase: (String) -> String = requestPGPKeyPassphrase, encryptInArmored: Bool = true, encryptInArmoredNow: Bool = true) throws -> Data? {
+    func basicEncryptDecrypt(using pgpAgent: PGPAgent, keyID: String, encryptKeyID: String? = nil, requestPassphrase: @escaping (String) -> String = requestPGPKeyPassphrase, encryptInArmored: Bool = true, encryptInArmoredNow: Bool = true) throws -> Data? {
         passKit.Defaults.encryptInArmored = encryptInArmored
         let encryptedData = try pgpAgent.encrypt(plainData: testData, keyID: keyID)
         passKit.Defaults.encryptInArmored = encryptInArmoredNow

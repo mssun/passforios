@@ -139,20 +139,35 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
 
         let passwordEntity = entry.passwordEntity
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        self.decryptPassword(passwordEntity: passwordEntity)
+    }
+
+    private func decryptPassword(passwordEntity: PasswordEntity, keyID: String? = nil) {
         DispatchQueue.global(qos: .userInteractive).async {
-            var decryptedPassword: Password?
             do {
                 let requestPGPKeyPassphrase = Utils.createRequestPGPKeyPassphraseHandler(controller: self)
-                decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
-                let username = decryptedPassword?.username ?? decryptedPassword?.login ?? ""
-                let password = decryptedPassword?.password ?? ""
-                DispatchQueue.main.async {// prepare a dictionary to return
+                let decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+
+                let username = decryptedPassword.getUsernameForCompletion()
+                let password = decryptedPassword.password
+                DispatchQueue.main.async {
                     let passwordCredential = ASPasswordCredential(user: username, password: password)
-                    self.extensionContext.completeRequest(withSelectedCredential: passwordCredential, completionHandler: nil)
+                    self.extensionContext.completeRequest(withSelectedCredential: passwordCredential)
+                }
+            } catch AppError.PgpPrivateKeyNotFound(let key)  {
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.PgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
+                    let selectKey = UIAlertAction.selectKey(controller: self) { action in
+                        self.decryptPassword(passwordEntity: passwordEntity, keyID: action.title)
+                    }
+                    alert.addAction(selectKey)
+
+                    self.present(alert, animated: true)
                 }
             } catch {
                 DispatchQueue.main.async {
-                    Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: self, completion: nil)
+                    Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: self)
                 }
             }
         }

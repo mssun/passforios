@@ -213,4 +213,8 @@ public class Password {
         // get and return the password
         return self.otpToken?.currentPassword
     }
+
+    public func getUsernameForCompletion() -> String {
+        username ?? login ?? nameFromPath ?? ""
+    }
 }
