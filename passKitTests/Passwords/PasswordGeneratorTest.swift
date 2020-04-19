@@ -46,7 +46,7 @@ class PasswordGeneratorTest: XCTestCase {
         }
     }
 
-    func testGroupsAreNotcceptableForXKCDStyle() {
+    func testGroupsAreNotAcceptableForXKCDStyle() {
         var generator = PasswordGenerator(length: 15)
 
         XCTAssertTrue(generator.isAcceptable(groups: 4))
