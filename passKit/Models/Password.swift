@@ -16,7 +16,7 @@ public class Password {
     public var plainText: String
 
     public var changed: Int = 0
-    public var otpType: OtpType = .none
+    public var otpType: OTPType = .none
 
     private var parser = Parser(plainText: "")
     private var additions = [AdditionField]()
@@ -24,7 +24,7 @@ public class Password {
 
     private var otpToken: Token? {
         didSet {
-            otpType = OtpType(token: otpToken)
+            otpType = OTPType(token: otpToken)
         }
     }
 

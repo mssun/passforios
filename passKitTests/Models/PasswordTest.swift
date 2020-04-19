@@ -222,7 +222,7 @@ class PasswordTest: XCTestCase {
         XCTAssertEqual(password.numberOfUnknowns, 0)
 
         XCTAssertEqual(password.numberOfOtpRelated, 0)
-        XCTAssertEqual(password.otpType, OtpType.none)
+        XCTAssertEqual(password.otpType, OTPType.none)
         XCTAssertNil(password.currentOtp)
     }
 

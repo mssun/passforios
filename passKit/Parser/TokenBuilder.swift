@@ -30,7 +30,7 @@ class TokenBuilder {
 
     private var name: String = ""
     private var secret: Data?
-    private var type: OtpType = .totp
+    private var type: OTPType = .totp
     private var algorithm: Generator.Algorithm = .sha1
     private var digits: Int? = Constants.DEFAULT_DIGITS
     private var period: Double? = Constants.DEFAULT_PERIOD
@@ -49,7 +49,7 @@ class TokenBuilder {
     }
 
     func usingType(_ type: String?) -> TokenBuilder {
-        self.type = OtpType(name: type)
+        self.type = OTPType(name: type)
         return self
     }
 

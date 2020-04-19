@@ -8,7 +8,7 @@
 
 import OneTimePassword
 
-public enum OtpType: String {
+public enum OTPType: String {
     case totp = "TimeBased"
     case hotp = "HmacBased"
     case none = "None"

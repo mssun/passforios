@@ -1,5 +1,5 @@
 //
-//  GopenPgp.swift
+//  GopenPGPInterface.swift
 //  passKit
 //
 //  Created by Danny Moesch on 08.09.19.
@@ -8,7 +8,7 @@
 
 import Crypto
 
-struct GopenPgp: PgpInterface {
+struct GopenPGPInterface: PGPInterface {
 
     private static let errorMapping: [String: Error] = [
         "gopenpgp: error in unlocking key: openpgp: invalid data: private key checksum failure":  AppError.WrongPassphrase,
