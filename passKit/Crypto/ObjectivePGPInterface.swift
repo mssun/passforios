@@ -1,5 +1,5 @@
 //
-//  ObjectivePgp.swift
+//  ObjectivePGPInterface.swift
 //  passKit
 //
 //  Created by Danny Moesch on 08.09.19.
@@ -8,7 +8,7 @@
 
 import ObjectivePGP
 
-struct ObjectivePgp: PgpInterface {
+struct ObjectivePGPInterface: PGPInterface {
 
     private let publicKey: Key
     private let privateKey: Key

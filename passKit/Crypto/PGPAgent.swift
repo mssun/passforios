@@ -11,7 +11,7 @@ public class PGPAgent {
     public static let shared: PGPAgent = PGPAgent()
 
     private let keyStore: KeyStore
-    private var pgpInterface: PgpInterface?
+    private var pgpInterface: PGPInterface?
     private var latestDecryptStatus: Bool = true
 
     public init(keyStore: KeyStore = AppKeychain.shared) {
@@ -25,9 +25,9 @@ public class PGPAgent {
             throw AppError.KeyImport
         }
         do {
-            pgpInterface = try GopenPgp(publicArmoredKey: publicKey, privateArmoredKey: privateKey)
+            pgpInterface = try GopenPGPInterface(publicArmoredKey: publicKey, privateArmoredKey: privateKey)
         } catch {
-            pgpInterface = try ObjectivePgp(publicArmoredKey: publicKey, privateArmoredKey: privateKey)
+            pgpInterface = try ObjectivePGPInterface(publicArmoredKey: publicKey, privateArmoredKey: privateKey)
         }
     }
 
