@@ -119,7 +119,7 @@ class PGPAgentTest: XCTestCase {
         }
     }
 
-    func testUnsettKeys() throws {
+    func testUnsetKeys() throws {
         try importKeys(ED25519.publicKey, ED25519.privateKey)
         XCTAssert(pgpAgent.isPrepared)
         XCTAssertEqual(try basicEncryptDecrypt(using: pgpAgent, keyID: ED25519.fingerprint), testData)
