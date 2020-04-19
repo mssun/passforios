@@ -10,97 +10,94 @@ import XCTest
 
 @testable import passKit
 
-struct PGPTestKey {
+struct PGPTestSet {
+
+    fileprivate static var ALL_TEST_SETS: [String: PGPTestSet] = [:]
+
     let publicKey: String
     let privateKey: String
     let fingerprint: String
     let passphrase: String
+
+    fileprivate func collect() -> Self {
+        Self.ALL_TEST_SETS[fingerprint] = self
+        return self
+    }
 }
 
-struct MultiPGPKeyTestTriple {
-    let publicKey: String
-    let privateKey: String
-    let fingerprint: [String]
-    let passphrase: [String]
+struct MultiKeyPGPTestSet {
+    let publicKeys: String
+    let privateKeys: String
+    let fingerprints: [String]
+    let passphrases: [String]
 }
 
-let RSA2048 = PGPTestKey(
+let RSA2048 = PGPTestSet(
     publicKey: PGP_RSA2048_PUBLIC_KEY,
     privateKey: PGP_RSA2048_PRIVATE_KEY,
     fingerprint: "a1024dae",
     passphrase: "passforios"
-)
+).collect()
 
-let RSA2048_SUB = PGPTestKey(
+let RSA2048_SUB = PGPTestSet(
     publicKey: PGP_RSA2048_PUBLIC_KEY,
     privateKey: PGP_RSA2048_PRIVATE_SUBKEY,
     fingerprint: "a1024dae",
     passphrase: "passforios"
 )
 
-let RSA4096 = PGPTestKey(
+let RSA4096 = PGPTestSet(
     publicKey: PGP_RSA4096_PUBLIC_KEY,
     privateKey: PGP_RSA4096_PRIVATE_KEY,
     fingerprint: "d862027e",
     passphrase: "passforios"
-)
+).collect()
 
-let RSA4096_SUB = PGPTestKey(
+let RSA4096_SUB = PGPTestSet(
     publicKey: PGP_RSA4096_PUBLIC_KEY,
     privateKey: PGP_RSA4096_PRIVATE_SUBKEY,
     fingerprint: "d862027e",
     passphrase: "passforios"
 )
 
-let ED25519 = PGPTestKey(
+let ED25519 = PGPTestSet(
     publicKey: PGP_ED25519_PUBLIC_KEY,
     privateKey: PGP_ED25519_PRIVATE_KEY,
     fingerprint: "e9444483",
     passphrase: "passforios"
-)
+).collect()
 
-let ED25519_SUB = PGPTestKey(
+let ED25519_SUB = PGPTestSet(
     publicKey: PGP_ED25519_PUBLIC_KEY,
     privateKey: PGP_ED25519_PRIVATE_SUBKEY,
     fingerprint: "e9444483",
     passphrase: "passforios"
 )
 
-let NISTP384 = PGPTestKey(
+let NISTP384 = PGPTestSet(
     publicKey: PGP_NISTP384_PUBLIC_KEY,
     privateKey: PGP_NISTP384_PRIVATE_KEY,
     fingerprint: "5af3c085",
     passphrase: "soirofssap"
+).collect()
+
+let RSA2048_RSA4096 =  MultiKeyPGPTestSet(
+    publicKeys: PGP_RSA2048_PUBLIC_KEY | PGP_RSA4096_PUBLIC_KEY,
+    privateKeys: PGP_RSA2048_PRIVATE_KEY | PGP_RSA4096_PRIVATE_KEY,
+    fingerprints: ["a1024dae", "d862027e"],
+    passphrases: ["passforios", "passforios"]
 )
 
-let TEST_KEYS: [String: PGPTestKey] = {
-    var keys: [String: PGPTestKey] = [:]
-
-    keys["a1024dae"] = RSA2048
-    keys["d862027e"] = RSA4096
-    keys["e9444483"] = ED25519
-    keys["5af3c085"] = NISTP384
-
-    return keys
-}();
-
-let RSA2048_RSA4096 =  MultiPGPKeyTestTriple(
-    publicKey: PGP_RSA2048_PUBLIC_KEY + "\n" + PGP_RSA4096_PUBLIC_KEY,
-    privateKey: PGP_RSA2048_PRIVATE_KEY + "\n" + PGP_RSA4096_PRIVATE_KEY,
-    fingerprint: ["a1024dae", "d862027e"],
-    passphrase: ["passforios", "passforios"]
-)
-
-let ED25519_NISTP384 =  MultiPGPKeyTestTriple(
-    publicKey: PGP_ED25519_PUBLIC_KEY + "\n" + PGP_NISTP384_PUBLIC_KEY,
-    privateKey: PGP_ED25519_PRIVATE_KEY + "\n" + PGP_NISTP384_PRIVATE_KEY,
-    fingerprint: ["e9444483", "5af3c085"],
-    passphrase: ["passforios", "soirofssap"]
+let ED25519_NISTP384 =  MultiKeyPGPTestSet(
+    publicKeys: PGP_ED25519_PUBLIC_KEY | PGP_NISTP384_PUBLIC_KEY,
+    privateKeys: PGP_ED25519_PRIVATE_KEY | PGP_NISTP384_PRIVATE_KEY,
+    fingerprints: ["e9444483", "5af3c085"],
+    passphrases: ["passforios", "soirofssap"]
 )
 
 func requestPGPKeyPassphrase(keyID: String) -> String {
     let id = keyID.suffix(8).lowercased()
-    return TEST_KEYS[id]?.passphrase ?? "passforios"
+    return PGPTestSet.ALL_TEST_SETS[id]?.passphrase ?? "passforios"
 }
 
 let PGP_RSA2048_PUBLIC_KEY = """

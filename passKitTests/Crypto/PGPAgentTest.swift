@@ -31,29 +31,30 @@ class PGPAgentTest: XCTestCase {
         super.tearDown()
     }
 
-    func basicEncryptDecrypt(using pgpAgent: PGPAgent, keyID: String, encryptKeyID: String? = nil, requestPassphrase: @escaping (String) -> String = requestPGPKeyPassphrase, encryptInArmored: Bool = true, encryptInArmoredNow: Bool = true) throws -> Data? {
+    func basicEncryptDecrypt(using pgpAgent: PGPAgent, keyID: String, encryptKeyID: String? = nil, requestPassphrase: @escaping (String) -> String = requestPGPKeyPassphrase, encryptInArmored: Bool = true, decryptFromArmored: Bool = true) throws -> Data? {
         passKit.Defaults.encryptInArmored = encryptInArmored
         let encryptedData = try pgpAgent.encrypt(plainData: testData, keyID: keyID)
-        passKit.Defaults.encryptInArmored = encryptInArmoredNow
+        passKit.Defaults.encryptInArmored = decryptFromArmored
         return try pgpAgent.decrypt(encryptedData: encryptedData, keyID: encryptKeyID ?? keyID, requestPGPKeyPassphrase: requestPassphrase)
     }
 
     func testMultiKeys() throws {
         try [
             RSA2048_RSA4096,
-            ED25519_NISTP384
+            ED25519_NISTP384,
         ].forEach { testKeyInfo in
-            let keychain = DictBasedKeychain()
-            let pgpAgent = PGPAgent(keyStore: keychain)
-            try KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: "", keyHandler: keychain.add).importKey(from: testKeyInfo.publicKey)
-            try KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: "", keyHandler: keychain.add).importKey(from: testKeyInfo.privateKey)
+            keychain.removeAllContent()
+            try importKeys(testKeyInfo.publicKeys, testKeyInfo.privateKeys)
             XCTAssert(pgpAgent.isPrepared)
             try pgpAgent.initKeys()
             try [
-                (true, true), (true, false), (false, true), (false, false)
-            ].forEach{ a, b in
-                for id in testKeyInfo.fingerprint {
-                    XCTAssertEqual(try basicEncryptDecrypt(using: pgpAgent, keyID: id, encryptInArmored: a, encryptInArmoredNow: b), testData)
+                (true, true),
+                (true, false),
+                (false, true),
+                (false, false),
+            ].forEach { encryptInArmored, decryptFromArmored in
+                for id in testKeyInfo.fingerprints {
+                    XCTAssertEqual(try basicEncryptDecrypt(using: pgpAgent, keyID: id, encryptInArmored: encryptInArmored, decryptFromArmored: decryptFromArmored), testData)
                 }
             }
         }
@@ -69,17 +70,18 @@ class PGPAgentTest: XCTestCase {
             ED25519_SUB,
             NISTP384,
         ].forEach { testKeyInfo in
-            let keychain = DictBasedKeychain()
-            let pgpAgent = PGPAgent(keyStore: keychain)
-            try KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: "", keyHandler: keychain.add).importKey(from: testKeyInfo.publicKey)
-            try KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: "", keyHandler: keychain.add).importKey(from: testKeyInfo.privateKey)
+            keychain.removeAllContent()
+            try importKeys(testKeyInfo.publicKey, testKeyInfo.privateKey)
             XCTAssert(pgpAgent.isPrepared)
             try pgpAgent.initKeys()
             XCTAssert(try pgpAgent.getKeyID().first!.lowercased().hasSuffix(testKeyInfo.fingerprint))
             try [
-                (true, true), (true, false), (false, true), (false, false)
-            ].forEach{ a, b in
-                XCTAssertEqual(try basicEncryptDecrypt(using: pgpAgent, keyID: testKeyInfo.fingerprint, encryptInArmored: a, encryptInArmoredNow: b), testData)
+                (true, true),
+                (true, false),
+                (false, true),
+                (false, false),
+            ].forEach { encryptInArmored, decryptFromArmored in
+                XCTAssertEqual(try basicEncryptDecrypt(using: pgpAgent, keyID: testKeyInfo.fingerprint, encryptInArmored: encryptInArmored, decryptFromArmored: decryptFromArmored), testData)
             }
         }
     }
@@ -135,11 +137,11 @@ class PGPAgentTest: XCTestCase {
 
         var passphraseRequestCalledCount = 0
         let provideCorrectPassphrase: (String) -> String = { _ in
-            passphraseRequestCalledCount = passphraseRequestCalledCount + 1
+            passphraseRequestCalledCount += 1
             return requestPGPKeyPassphrase(keyID: RSA2048.fingerprint)
         }
         let provideIncorrectPassphrase: (String) -> String = { _ in
-            passphraseRequestCalledCount = passphraseRequestCalledCount + 1
+            passphraseRequestCalledCount += 1
             return "incorrect passphrase"
         }
         

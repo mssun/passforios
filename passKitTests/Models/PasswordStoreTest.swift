@@ -45,8 +45,8 @@ class PasswordStoreTest: XCTestCase {
         }
 
         let keychain = AppKeychain.shared
-        try KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: "", keyHandler: keychain.add).importKey(from: RSA2048_RSA4096.publicKey)
-        try KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: "", keyHandler: keychain.add).importKey(from: RSA2048_RSA4096.privateKey)
+        try KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: "", keyHandler: keychain.add).importKey(from: RSA2048_RSA4096.publicKeys)
+        try KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: "", keyHandler: keychain.add).importKey(from: RSA2048_RSA4096.privateKeys)
         try PGPAgent.shared.initKeys()
 
         let personal = try decrypt(passwordStore: passwordStore, path: "personal/github.com.gpg", passphrase: "passforios")
