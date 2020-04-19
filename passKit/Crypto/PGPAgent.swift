@@ -86,8 +86,13 @@ public class PGPAgent {
         guard let pgpInterface = pgpInterface else {
             throw AppError.Encryption
         }
+        var keyID = keyID
         if !pgpInterface.containsPublicKey(with: keyID) {
-            throw AppError.PgpPublicKeyNotFound(keyID: keyID)
+            if pgpInterface.keyID.count == 1 {
+                keyID = pgpInterface.keyID.first!
+            } else {
+                throw AppError.PgpPublicKeyNotFound(keyID: keyID)
+            }
         }
         return try pgpInterface.encrypt(plainData: plainData, keyID: keyID)
     }
