@@ -1,5 +1,5 @@
 github "SVProgressHUD/SVProgressHUD" "2.2.5"
-github "kishikawakatsumi/KeychainAccess" "v4.1.0"
+github "kishikawakatsumi/KeychainAccess" "v4.2.0"
 github "leonbreedt/FavIcon" "3.0.6"
 github "mattrubin/Base32" "1.1.2+xcode10.2"
 github "mattrubin/OneTimePassword" "3.2.0"
