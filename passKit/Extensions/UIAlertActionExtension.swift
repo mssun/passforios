@@ -6,12 +6,12 @@
 //  Copyright © 2020 Bob Sun. All rights reserved.
 //
 
-import UIKit
 import Foundation
+import UIKit
 
 extension UIAlertAction {
     public static func cancelAndPopView(controller: UIViewController) -> UIAlertAction {
-        return cancel() { _ in
+        cancel { _ in
             controller.navigationController?.popViewController(animated: true)
         }
     }
@@ -24,7 +24,7 @@ extension UIAlertAction {
         cancel(with: "Dismiss", handler: handler)
     }
 
-    public static func cancel(with title: String, handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
+    public static func cancel(with _: String, handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
         UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: handler)
     }
 
@@ -33,7 +33,7 @@ extension UIAlertAction {
     }
 
     public static func okAndPopView(controller: UIViewController) -> UIAlertAction {
-        return ok() { _ in
+        ok { _ in
             controller.navigationController?.popViewController(animated: true)
         }
     }
@@ -41,13 +41,12 @@ extension UIAlertAction {
     public static func selectKey(controller: UIViewController, handler: ((UIAlertAction) -> Void)?) -> UIAlertAction {
         UIAlertAction(title: "Select Key", style: .default) { _ in
             let selectKeyAlert = UIAlertController(title: "Select from imported keys", message: nil, preferredStyle: .actionSheet)
-            try? PGPAgent.shared.getShortKeyID().forEach({ k in
+            try? PGPAgent.shared.getShortKeyID().forEach { k in
                 let action = UIAlertAction(title: k, style: .default, handler: handler)
                 selectKeyAlert.addAction(action)
-            })
+            }
             selectKeyAlert.addAction(UIAlertAction.cancelAndPopView(controller: controller))
             controller.present(selectKeyAlert, animated: true, completion: nil)
         }
     }
-
 }

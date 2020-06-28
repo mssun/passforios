@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import SVProgressHUD
 import passKit
+import SVProgressHUD
 
 extension Utils {
     static func alert(title: String, message: String, controller: UIViewController, handler: ((UIAlertAction) -> Void)? = nil, completion: (() -> Void)? = nil) {

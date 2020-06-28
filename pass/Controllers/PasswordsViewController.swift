@@ -6,16 +6,16 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import UIKit
-import SVProgressHUD
 import passKit
+import SVProgressHUD
+import UIKit
 
-fileprivate let hideSectionHeaderThreshold = 6    // hide section header if passwords count is less than the threshold
+private let hideSectionHeaderThreshold = 6 // hide section header if passwords count is less than the threshold
 
 class PasswordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchBarDelegate {
     private var passwordsTableEntries: [PasswordTableEntry] = []
     private var passwordsTableAllEntries: [PasswordTableEntry] = []
-    private var parentPasswordEntity: PasswordEntity? = nil
+    private var parentPasswordEntity: PasswordEntity?
     private let passwordStore = PasswordStore.shared
     private let keychain = AppKeychain.shared
 
@@ -30,14 +30,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     private var gitCredential: GitCredential {
-        get {
-            switch Defaults.gitAuthenticationMethod {
-            case .password:
-                return GitCredential(credential: .http(userName: Defaults.gitUsername))
-            case .key:
-                let privateKey: String = AppKeychain.shared.get(for: SshKey.PRIVATE.getKeychainKey()) ?? ""
-                return GitCredential(credential: .ssh(userName: Defaults.gitUsername, privateKey: privateKey))
-            }
+        switch Defaults.gitAuthenticationMethod {
+        case .password:
+            return GitCredential(credential: .http(userName: Defaults.gitUsername))
+        case .key:
+            let privateKey: String = AppKeychain.shared.get(for: SshKey.PRIVATE.getKeychainKey()) ?? ""
+            return GitCredential(credential: .ssh(userName: Defaults.gitUsername, privateKey: privateKey))
         }
     }
 
@@ -49,11 +47,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         uiSearchController.searchBar.sizeToFit()
         return uiSearchController
     }()
+
     private lazy var syncControl: UIRefreshControl = {
         let syncControl = UIRefreshControl()
         syncControl.addTarget(self, action: #selector(handleRefresh(_:)), for: UIControl.Event.valueChanged)
         return syncControl
     }()
+
     private lazy var searchBarView: UIView? = {
         guard #available(iOS 11, *) else {
             let uiView = UIView(frame: CGRect(x: 0, y: 64, width: self.view.bounds.width, height: 44))
@@ -62,6 +62,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
         return nil
     }()
+
     private lazy var backUIBarButtonItem: UIBarButtonItem = {
         let backUIButton = UIButton(type: .system)
         if #available(iOS 13.0, *) {
@@ -116,28 +117,29 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         return transition
     }()
 
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet var tableView: UITableView!
 
     private func initPasswordsTableEntries(parent: PasswordEntity?) {
-        let passwordAllEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
+        let passwordAllEntities = passwordStore.fetchPasswordEntityCoreData(withDir: false)
         passwordsTableAllEntries = passwordAllEntities.compactMap {
             PasswordTableEntry($0)
         }
-        
+
         let passwordEntities = Defaults.isShowFolderOn ?
-            self.passwordStore.fetchPasswordEntityCoreData(parent: parent) :
+            passwordStore.fetchPasswordEntityCoreData(parent: parent) :
             passwordAllEntities
         passwordsTableEntries = passwordEntities.compactMap {
             PasswordTableEntry($0)
         }
-        
+
         parentPasswordEntity = parent
     }
 
-    @IBAction func cancelAddPassword(segue: UIStoryboardSegue) {
+    @IBAction
+    func cancelAddPassword(segue _: UIStoryboardSegue) {}
 
-    }
-    @IBAction func saveAddPassword(segue: UIStoryboardSegue) {
+    @IBAction
+    func saveAddPassword(segue: UIStoryboardSegue) {
         if let controller = segue.source as? AddPasswordTableViewController {
             addPassword(password: controller.password!)
         }
@@ -149,13 +151,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         SVProgressHUD.show(withStatus: "Saving".localize())
         DispatchQueue.global(qos: .userInitiated).async {
             do {
-                let _ = try self.passwordStore.add(password: password, keyID: keyID)
+                _ = try self.passwordStore.add(password: password, keyID: keyID)
                 DispatchQueue.main.async {
                     // will trigger reloadTableView() by a notification
                     SVProgressHUD.showSuccess(withStatus: "Done".localize())
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
-            } catch AppError.PgpPublicKeyNotFound(let key)  {
+            } catch let AppError.PgpPublicKeyNotFound(key) {
                 DispatchQueue.main.async {
                     // alert: cancel or select keys
                     SVProgressHUD.dismiss()
@@ -190,15 +192,15 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
-                try self.passwordStore.pullRepository(credential: self.gitCredential, requestCredentialPassword: self.requestCredentialPassword, progressBlock: {(git_transfer_progress, stop) in
+                try self.passwordStore.pullRepository(credential: self.gitCredential, requestCredentialPassword: self.requestCredentialPassword, progressBlock: { git_transfer_progress, _ in
                     DispatchQueue.main.async {
-                        SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects)/Float(git_transfer_progress.pointee.total_objects), status: "PullingFromRemoteRepository".localize())
+                        SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects) / Float(git_transfer_progress.pointee.total_objects), status: "PullingFromRemoteRepository".localize())
                     }
                 })
                 if self.passwordStore.numberOfLocalCommits > 0 {
-                    try self.passwordStore.pushRepository(credential: self.gitCredential, requestCredentialPassword: self.requestCredentialPassword, transferProgressBlock: {(current, total, bytes, stop) in
+                    try self.passwordStore.pushRepository(credential: self.gitCredential, requestCredentialPassword: self.requestCredentialPassword, transferProgressBlock: { current, total, _, _ in
                         DispatchQueue.main.async {
-                            SVProgressHUD.showProgress(Float(current)/Float(total), status: "PushingToRemoteRepository".localize())
+                            SVProgressHUD.showProgress(Float(current) / Float(total), status: "PushingToRemoteRepository".localize())
                         }
                     })
                 }
@@ -232,7 +234,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidAppear(animated)
 
         if Defaults.isShowFolderOn {
-            searchController.searchBar.scopeButtonTitles = SearchBarScope.allCases.map { $0.localizedName }
+            searchController.searchBar.scopeButtonTitles = SearchBarScope.allCases.map(\.localizedName)
         } else {
             searchController.searchBar.scopeButtonTitles = nil
         }
@@ -251,7 +253,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             navigationItem.hidesSearchBarWhenScrolling = false
         } else {
             // Fallback on earlier versions
-            tableView.contentInset = UIEdgeInsets.init(top: 44, left: 0, bottom: 0, right: 0)
+            tableView.contentInset = UIEdgeInsets(top: 44, left: 0, bottom: 0, right: 0)
             view.addSubview(searchBarView!)
         }
         navigationItem.title = "PasswordStore".localize()
@@ -272,16 +274,17 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         NotificationCenter.default.addObserver(self, selector: #selector(actOnReloadTableViewRelatedNotification), name: UIApplication.willEnterForegroundNotification, object: nil)
 
         // listen to the swipe back guesture
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizer.Direction.right
-        self.view.addGestureRecognizer(swipeRight)
+        view.addGestureRecognizer(swipeRight)
     }
 
-    @objc func didTapNavigationBar(_ sender: UITapGestureRecognizer) {
-        let location = sender.location(in: self.navigationController?.navigationBar)
-        let hitView = self.navigationController?.navigationBar.hitTest(location, with: nil)
+    @objc
+    func didTapNavigationBar(_ sender: UITapGestureRecognizer) {
+        let location = sender.location(in: navigationController?.navigationBar)
+        let hitView = navigationController?.navigationBar.hitTest(location, with: nil)
         guard !(hitView is UIControl) else { return }
-        guard (passwordStore.numberOfLocalCommits != 0) else { return }
+        guard passwordStore.numberOfLocalCommits != 0 else { return }
 
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let allAction = UIAlertAction(title: "All Passwords", style: .default) { _ in
@@ -289,7 +292,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
         let unsyncedAction = UIAlertAction(title: "Unsynced Passwords", style: .default) { _ in
             let filteredPasswordsTableEntries = self.passwordsTableEntries.filter { entry in
-                return !entry.synced
+                !entry.synced
             }
             self.reloadTableView(data: filteredPasswordsTableEntries, label: .unsynced)
         }
@@ -299,7 +302,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         ac.addAction(unsyncedAction)
         ac.addAction(cancelAction)
 
-        self.present(ac, animated: true, completion: nil)
+        present(ac, animated: true, completion: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -310,7 +313,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
 
         // Add gesture recognizer to the navigation bar when the view is about to appear
-        self.navigationController?.navigationBar.addGestureRecognizer(tapNavigationBarGestureRecognizer)
+        navigationController?.navigationBar.addGestureRecognizer(tapNavigationBarGestureRecognizer)
 
         // This allows controlls in the navigation bar to continue receiving touches
         tapNavigationBarGestureRecognizer.cancelsTouchesInView = false
@@ -318,9 +321,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.refreshControl = passwordStore.repositoryExists() ? syncControl : nil
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_: Bool) {
         // Remove gesture recognizer from navigation bar when view is about to disappear
-        self.navigationController?.navigationBar.removeGestureRecognizer(tapNavigationBarGestureRecognizer)
+        navigationController?.navigationBar.removeGestureRecognizer(tapNavigationBarGestureRecognizer)
     }
 
     override func viewWillLayoutSubviews() {
@@ -332,12 +335,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
 
-     func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+    func numberOfSections(in _: UITableView) -> Int {
+        sections.count
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].entries.count
+    func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
+        sections[section].entries.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -372,7 +375,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     private func getPasswordEntry(by indexPath: IndexPath) -> PasswordTableEntry {
-        return sections[indexPath.section].entries[indexPath.row]
+        sections[indexPath.section].entries[indexPath.row]
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -390,16 +393,18 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
 
-    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+    @objc
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             // swipe right -> swipe back
-            if swipeGesture.direction == .right && parentPasswordEntity != nil {
-                self.backAction(nil)
+            if swipeGesture.direction == .right, parentPasswordEntity != nil {
+                backAction(nil)
             }
         }
     }
 
-    @objc func backAction(_ sender: Any?) {
+    @objc
+    func backAction(_: Any?) {
         guard Defaults.isShowFolderOn else { return }
         var anim: CATransition? = transitionFromLeft
         if parentPasswordEntity == nil {
@@ -408,13 +413,15 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         reloadTableView(parent: parentPasswordEntity?.parent, anim: anim)
     }
 
-    @objc func addPasswordAction(_ sender: Any?) {
+    @objc
+    func addPasswordAction(_: Any?) {
         if shouldPerformSegue(withIdentifier: "addPasswordSegue", sender: self) {
             performSegue(withIdentifier: "addPasswordSegue", sender: self)
         }
     }
 
-    @objc func longPressAction(_ gesture: UILongPressGestureRecognizer) {
+    @objc
+    func longPressAction(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == UIGestureRecognizer.State.began {
             let touchPoint = gesture.location(in: tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
@@ -424,31 +431,31 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     private func hideSectionHeader() -> Bool {
-        if passwordsTableEntries.count < hideSectionHeaderThreshold || self.searchController.isActive {
+        if passwordsTableEntries.count < hideSectionHeaderThreshold || searchController.isActive {
             return true
         }
         return false
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
         if hideSectionHeader() {
             return nil
         }
         return sections[section].title
     }
 
-    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+    func sectionIndexTitles(for _: UITableView) -> [String]? {
         if hideSectionHeader() {
             return nil
         }
-        return sections.map { $0.title }
+        return sections.map(\.title)
     }
 
-    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-        return index
+    func tableView(_: UITableView, sectionForSectionIndexTitle _: String, at index: Int) -> Int {
+        index
     }
 
-    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+    func tableView(_: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         decryptThenCopyPassword(from: indexPath)
     }
 
@@ -460,7 +467,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         let passwordEntity = getPasswordEntry(by: indexPath).passwordEntity
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         SVProgressHUD.dismiss()
-        self.decryptPassword(passwordEntity: passwordEntity)
+        decryptPassword(passwordEntity: passwordEntity)
     }
 
     private func decryptPassword(passwordEntity: PasswordEntity, keyID: String? = nil) {
@@ -476,7 +483,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                     SVProgressHUD.showSuccess(withStatus: "PasswordCopiedToPasteboard.".localize())
                     SVProgressHUD.dismiss(withDelay: 0.6)
                 }
-            } catch AppError.PgpPrivateKeyNotFound(let key)  {
+            } catch let AppError.PgpPrivateKeyNotFound(key) {
                 DispatchQueue.main.async {
                     // alert: cancel or try again
                     let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.PgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
@@ -488,7 +495,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
                     self.present(alert, animated: true)
                 }
-            }  catch {
+            } catch {
                 DispatchQueue.main.async {
                     Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: self)
                 }
@@ -496,14 +503,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
 
-
     private func generateSections(item: [PasswordTableEntry]) {
         let collation = UILocalizedIndexedCollation.current()
         let sectionTitles = collation.sectionIndexTitles
         var newSections = [(title: String, entries: [PasswordTableEntry])]()
 
         // initialize all sections
-        for i in 0..<sectionTitles.count {
+        for i in 0 ..< sectionTitles.count {
             newSections.append((title: sectionTitles[i], entries: [PasswordTableEntry]()))
         }
 
@@ -514,20 +520,20 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
 
         // sort each list and set sectionTitles
-        for i in 0..<sectionTitles.count {
+        for i in 0 ..< sectionTitles.count {
             let entriesToSort = newSections[i].entries
             let sortedEntries = collation.sortedArray(from: entriesToSort, collationStringSelector: #selector(getter: PasswordTableEntry.title))
             newSections[i].entries = sortedEntries as! [PasswordTableEntry]
         }
 
         // only keep non-empty sections
-        sections = newSections.filter {$0.entries.count > 0}
+        sections = newSections.filter { !$0.entries.isEmpty }
     }
 
-    @objc func actOnSearchNotification() {
+    @objc
+    func actOnSearchNotification() {
         searchController.searchBar.becomeFirstResponder()
     }
-
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "showPasswordDetail" {
@@ -540,7 +546,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                 return false
             }
         } else if identifier == "addPasswordSegue" {
-            guard PGPAgent.shared.isPrepared && self.passwordStore.storeRepository != nil else {
+            guard PGPAgent.shared.isPrepared && passwordStore.storeRepository != nil else {
                 Utils.alert(title: "CannotAddPassword".localize(), message: "MakeSurePgpAndGitProperlySet.".localize(), controller: self, completion: nil)
                 return false
             }
@@ -551,7 +557,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showPasswordDetail" {
             if let viewController = segue.destination as? PasswordDetailTableViewController {
-                let selectedIndexPath = self.tableView.indexPath(for: sender as! UITableViewCell)!
+                let selectedIndexPath = tableView.indexPath(for: sender as! UITableViewCell)!
                 let passwordEntity = getPasswordEntry(by: selectedIndexPath).passwordEntity
                 viewController.passwordEntity = passwordEntity
             }
@@ -568,8 +574,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     func filterContentForSearchText(searchText: String, scope: SearchBarScope = .all) {
         var entries: [PasswordTableEntry] = scope == .all ? passwordsTableAllEntries : passwordsTableEntries
-        if searchController.isActive && searchController.searchBar.text != "" {
-            entries = entries.filter {$0.match(searchText)}
+        if searchController.isActive, searchController.searchBar.text != "" {
+            entries = entries.filter { $0.match(searchText) }
         }
         reloadTableView(data: entries)
     }
@@ -587,7 +593,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             if #available(iOS 11, *) {
                 navigationController?.navigationBar.prefersLargeTitles = false
             }
-            self.navigationController?.navigationBar.removeGestureRecognizer(tapNavigationBarGestureRecognizer)
+            navigationController?.navigationBar.removeGestureRecognizer(tapNavigationBarGestureRecognizer)
         } else {
             navigationItem.leftBarButtonItem = nil
             switch label {
@@ -599,17 +605,17 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             if #available(iOS 11, *) {
                 navigationController?.navigationBar.prefersLargeTitles = true
             }
-            self.navigationController?.navigationBar.addGestureRecognizer(tapNavigationBarGestureRecognizer)
+            navigationController?.navigationBar.addGestureRecognizer(tapNavigationBarGestureRecognizer)
         }
         navigationItem.rightBarButtonItem = addPasswordUIBarButtonItem
 
         // set the password table
         generateSections(item: data)
         if anim != nil {
-            self.tableView.layer.add(anim!, forKey: "UITableViewReloadDataAnimationKey")
+            tableView.layer.add(anim!, forKey: "UITableViewReloadDataAnimationKey")
         }
         tableView.reloadData()
-        self.tableView.layer.removeAnimation(forKey: "UITableViewReloadDataAnimationKey")
+        tableView.layer.removeAnimation(forKey: "UITableViewReloadDataAnimationKey")
 
         // set the sync control title
         let atribbutedTitle = "LastSynced".localize() + ": \(lastSyncedTimeString())"
@@ -617,7 +623,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     private func lastSyncedTimeString() -> String {
-        guard let date = self.passwordStore.lastSyncedTime else {
+        guard let date = passwordStore.lastSyncedTime else {
             return "SyncAgain?".localize()
         }
         let formatter = DateFormatter()
@@ -631,7 +637,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         reloadTableView(data: passwordsTableEntries, label: label, anim: anim)
     }
 
-    @objc func actOnReloadTableViewRelatedNotification() {
+    @objc
+    func actOnReloadTableViewRelatedNotification() {
         DispatchQueue.main.async { [weak weakSelf = self] in
             guard let strongSelf = weakSelf else { return }
             // Reset selectedScopeButtonIndex to make sure the correct reloadTableView
@@ -641,36 +648,37 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
 
-    @objc func handleRefresh(_ syncControl: UIRefreshControl) {
+    @objc
+    func handleRefresh(_: UIRefreshControl) {
         syncPasswords()
     }
 
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if viewController == self.navigationController {
+    func tabBarController(_: UITabBarController, didSelect viewController: UIViewController) {
+        if viewController == navigationController {
             let currentTime = Date().timeIntervalSince1970
-            let duration = currentTime - self.tapTabBarTime
-            self.tapTabBarTime = currentTime
+            let duration = currentTime - tapTabBarTime
+            tapTabBarTime = currentTime
             if duration < 0.35 {
                 let topIndexPath = IndexPath(row: 0, section: 0)
-                    if tableView.numberOfSections > 0 {
-                        tableView.scrollToRow(at: topIndexPath, at: .bottom, animated: true)
-                    }
-                self.tapTabBarTime = 0
+                if tableView.numberOfSections > 0 {
+                    tableView.scrollToRow(at: topIndexPath, at: .bottom, animated: true)
+                }
+                tapTabBarTime = 0
                 return
             }
             backAction(self)
         }
     }
 
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+    func searchBar(_: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         // update the default search scope
         Defaults.searchDefault = SearchBarScope(rawValue: selectedScope)
         updateSearchResults(for: searchController)
     }
 
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+    func searchBarShouldBeginEditing(_: UISearchBar) -> Bool {
         // set the default search scope to "all"
-        if Defaults.isShowFolderOn && Defaults.searchDefault == .all {
+        if Defaults.isShowFolderOn, Defaults.searchDefault == .all {
             searchController.searchBar.selectedScopeButtonIndex = SearchBarScope.all.rawValue
         } else {
             searchController.searchBar.selectedScopeButtonIndex = SearchBarScope.current.rawValue
@@ -678,7 +686,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         return true
     }
 
-    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+    func searchBarShouldEndEditing(_: UISearchBar) -> Bool {
         // set the default search scope to "current"
         searchController.searchBar.selectedScopeButtonIndex = SearchBarScope.current.rawValue
         updateSearchResults(for: searchController)
@@ -686,13 +694,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     private func requestCredentialPassword(credential: GitCredential.Credential, lastPassword: String?) -> String? {
-        return requestGitCredentialPassword(credential: credential, lastPassword: lastPassword, controller: self)
+        requestGitCredentialPassword(credential: credential, lastPassword: lastPassword, controller: self)
     }
-
 }
 
 extension PasswordsViewController: UISearchResultsUpdating {
-
     func updateSearchResults(for searchController: UISearchController) {
         let scope = SearchBarScope(rawValue: searchController.searchBar.selectedScopeButtonIndex) ?? .all
         filterContentForSearchText(searchText: searchController.searchBar.text!, scope: scope)
@@ -700,8 +706,7 @@ extension PasswordsViewController: UISearchResultsUpdating {
 }
 
 extension PasswordsViewController: CAAnimationDelegate {
-
-    func animationDidStart(_ anim: CAAnimation) {
+    func animationDidStart(_: CAAnimation) {
         view.window?.backgroundColor = Colors.systemBackground
         view.layer.backgroundColor = Colors.systemBackground.cgColor
     }

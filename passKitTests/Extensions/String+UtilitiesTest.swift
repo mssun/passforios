@@ -11,7 +11,6 @@ import XCTest
 @testable import passKit
 
 class StringUtilitiesTest: XCTestCase {
-
     func testTrimmed() {
         [
             ("  ", ""),

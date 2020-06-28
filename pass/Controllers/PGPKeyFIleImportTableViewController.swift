@@ -9,18 +9,18 @@
 import passKit
 
 class PGPKeyFileImportTableViewController: AutoCellHeightUITableViewController {
+    @IBOutlet var pgpPublicKeyFile: UITableViewCell!
+    @IBOutlet var pgpPrivateKeyFile: UITableViewCell!
 
-    @IBOutlet weak var pgpPublicKeyFile: UITableViewCell!
-    @IBOutlet weak var pgpPrivateKeyFile: UITableViewCell!
-
-    private var publicKey: String? = nil
-    private var privateKey: String? = nil
+    private var publicKey: String?
+    private var privateKey: String?
 
     private enum KeyType { case none, `private`, `public` }
     private var currentlyPicking = KeyType.none
 
-    @IBAction func save(_ sender: Any) {
-        self.saveImportedKeys()
+    @IBAction
+    func save(_: Any) {
+        saveImportedKeys()
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -43,7 +43,6 @@ class PGPKeyFileImportTableViewController: AutoCellHeightUITableViewController {
 }
 
 extension PGPKeyFileImportTableViewController: UIDocumentPickerDelegate {
-
     func documentPicker(_: UIDocumentPickerViewController, didPickDocumentsAt url: [URL]) {
         guard let url = url.first else {
             return
@@ -78,12 +77,11 @@ extension PGPKeyFileImportTableViewController: UIDocumentPickerDelegate {
 }
 
 extension PGPKeyFileImportTableViewController: PGPKeyImporter {
-
     static let keySource = KeySource.file
     static let label = "LoadFromFiles".localize()
 
     func isReadyToUse() -> Bool {
-        return validate(key: publicKey) && validate(key: privateKey)
+        validate(key: publicKey) && validate(key: privateKey)
     }
 
     func importKeys() throws {

@@ -32,7 +32,7 @@ public final class Globals {
     public static let gitPassword = "gitPassword"
     public static let gitSSHPrivateKeyPassphrase = "gitSSHPrivateKeyPassphrase"
     public static let pgpKeyPassphrase = "pgpKeyPassphrase"
-    
+
     public static let gitSignatureDefaultName = "Pass for iOS"
     public static let gitSignatureDefaultEmail = "user@passforios"
 
@@ -43,14 +43,15 @@ public final class Globals {
     // UI related
     public static let tableCellButtonSize = CGFloat(20.0)
 
-    private init() { }
+    private init() {}
 }
 
 public extension Bundle {
     var releaseVersionNumber: String? {
-        return infoDictionary?["CFBundleShortVersionString"] as? String
+        infoDictionary?["CFBundleShortVersionString"] as? String
     }
+
     var buildVersionNumber: String? {
-        return infoDictionary?["CFBundleVersion"] as? String
+        infoDictionary?["CFBundleVersion"] as? String
     }
 }

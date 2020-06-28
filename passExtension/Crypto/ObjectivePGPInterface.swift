@@ -9,7 +9,6 @@
 import ObjectivePGP
 
 struct ObjectivePGPInterface: PGPInterface {
-
     private let publicKey: Key
     private let privateKey: Key
 
@@ -30,11 +29,11 @@ struct ObjectivePGPInterface: PGPInterface {
         self.privateKey = privateKey
     }
 
-    func decrypt(encryptedData: Data, keyID: String, passphrase: String) throws -> Data? {
-        return try ObjectivePGP.decrypt(encryptedData, andVerifySignature: false, using: keyring.keys) { _ in passphrase }
+    func decrypt(encryptedData: Data, keyID _: String, passphrase: String) throws -> Data? {
+        try ObjectivePGP.decrypt(encryptedData, andVerifySignature: false, using: keyring.keys) { _ in passphrase }
     }
 
-    func encrypt(plainData: Data, keyID: String) throws -> Data {
+    func encrypt(plainData: Data, keyID _: String) throws -> Data {
         let encryptedData = try ObjectivePGP.encrypt(plainData, addSignature: false, using: keyring.keys, passphraseForKey: nil)
         if Defaults.encryptInArmored {
             return Armor.armored(encryptedData, as: .message).data(using: .ascii)!
@@ -51,10 +50,10 @@ struct ObjectivePGPInterface: PGPInterface {
     }
 
     var keyID: [String] {
-        return keyring.keys.map({ $0.keyID.longIdentifier })
+        keyring.keys.map(\.keyID.longIdentifier)
     }
 
     var shortKeyID: [String] {
-        return keyring.keys.map({ $0.keyID.shortIdentifier })
+        keyring.keys.map(\.keyID.shortIdentifier)
     }
 }

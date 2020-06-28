@@ -23,7 +23,7 @@ public class PasscodeLock {
     }
 
     public var hasPasscode: Bool {
-        return passcode != nil
+        passcode != nil
     }
 
     public func save(passcode: String) {
@@ -32,7 +32,7 @@ public class PasscodeLock {
     }
 
     public func check(passcode: String) -> Bool {
-        return self.passcode == passcode
+        self.passcode == passcode
     }
 
     public func delete() {

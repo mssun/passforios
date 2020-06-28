@@ -6,12 +6,11 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import SVProgressHUD
 import passKit
+import SVProgressHUD
 
 class SSHKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
-
-    @IBOutlet weak var privateKeyURLTextField: UITextField!
+    @IBOutlet var privateKeyURLTextField: UITextField!
 
     var sshPrivateKeyURL: URL?
 
@@ -20,11 +19,12 @@ class SSHKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
         privateKeyURLTextField.text = Defaults.gitSSHPrivateKeyURL?.absoluteString
     }
 
-    @IBAction func doneButtonTapped(_ sender: UIButton) {
+    @IBAction
+    func doneButtonTapped(_: UIButton) {
         guard let text = privateKeyURLTextField.text,
             let privateKeyURL = URL(string: text) else {
-                Utils.alert(title: "CannotSave".localize(), message: "SetPrivateKeyUrl.".localize(), controller: self)
-                return
+            Utils.alert(title: "CannotSave".localize(), message: "SetPrivateKeyUrl.".localize(), controller: self)
+            return
         }
 
         if privateKeyURL.scheme?.lowercased() == "http" {
@@ -41,7 +41,6 @@ class SSHKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
 }
 
 extension SSHKeyUrlImportTableViewController: KeyImporter {
-
     static let keySource = KeySource.url
     static let label = "DownloadFromUrl".localize()
 

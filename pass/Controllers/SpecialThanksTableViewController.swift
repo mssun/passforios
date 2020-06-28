@@ -18,7 +18,7 @@ class SpecialThanksTableViewController: BasicStaticTableViewController {
          "https://icons8.com"],
         ["FlatIcon",
          "https://www.flaticon.com"],
-        ]
+    ]
 
     override func viewDidLoad() {
         tableData.append([])

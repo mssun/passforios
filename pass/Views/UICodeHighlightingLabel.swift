@@ -6,11 +6,10 @@
  Copyright © 2019 Bob Sun. All rights reserved.
  */
 
-import UIKit
 import passKit
+import UIKit
 
 class UICodeHighlightingLabel: UILocalizedLabel {
-
     private static let CODE_ATTRIBUTES: [NSAttributedString.Key: Any] = [.font: UIFont(name: "Menlo-Regular", size: 12)!]
     private static let ATTRIBUTED_NEWLINE = NSAttributedString(string: "\n")
 
@@ -43,4 +42,3 @@ class UICodeHighlightingLabel: UILocalizedLabel {
         return formattedText
     }
 }
-

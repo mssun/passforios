@@ -9,19 +9,15 @@
 import passKit
 
 protocol PGPKeyImporter: KeyImporter {
-
     func doAfterImport()
 
     func saveImportedKeys()
 }
 
 extension PGPKeyImporter {
-
     static var isCurrentKeySource: Bool {
-        return Defaults.pgpKeySource == Self.keySource
+        Defaults.pgpKeySource == Self.keySource
     }
 
-    func doAfterImport() {
-        
-    }
+    func doAfterImport() {}
 }

@@ -6,11 +6,10 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import UIKit
-import SafariServices
 import MessageUI
 import passKit
-
+import SafariServices
+import UIKit
 
 enum CellDataType {
     case link, segue, empty, detail
@@ -25,7 +24,7 @@ enum CellDataKey {
 }
 
 class BasicStaticTableViewController: UITableViewController, MFMailComposeViewControllerDelegate {
-    var tableData = [[Dictionary<CellDataKey, Any>]]()
+    var tableData = [[[CellDataKey: Any]]]()
     var navigationItemTitle: String?
 
     override func viewDidLoad() {
@@ -35,12 +34,12 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
         }
     }
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return tableData.count
+    override func numberOfSections(in _: UITableView) -> Int {
+        tableData.count
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableData[section].count
+    override func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
+        tableData[section].count
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,8 +47,7 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
         // Dispose of any resources that can be recreated.
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+    override func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellData = tableData[indexPath.section][indexPath.row]
         let cellDataStyle = cellData[CellDataKey.style] as? CellDataStyle
         var cell: UITableViewCell?
@@ -76,7 +74,7 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
         return cell ?? UITableViewCell()
     }
 
-    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+    override func tableView(_: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         let cellData = tableData[indexPath.section][indexPath.row]
         let selector = cellData[CellDataKey.detailDisclosureAction] as? Selector
         perform(selector, with: cellData[CellDataKey.detailDisclosureData])
@@ -108,7 +106,7 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
                 }
             case "http", "https":
                 let svc = SFSafariViewController(url: URL(string: link)!, entersReaderIfAvailable: false)
-                    self.present(svc, animated: true, completion: nil)
+                present(svc, animated: true, completion: nil)
             default:
                 break
             }
@@ -123,10 +121,10 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
         mailVC.setToRecipients(recipients)
         mailVC.setSubject(subject)
         mailVC.setMessageBody("", isHTML: false)
-        self.present(mailVC, animated: true, completion: nil)
+        present(mailVC, animated: true, completion: nil)
     }
 
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith _: MFMailComposeResult, error _: Error?) {
         controller.dismiss(animated: true)
     }
 }

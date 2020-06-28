@@ -11,7 +11,6 @@ import XCTest
 @testable import passKit
 
 class PasswordGeneratorTest: XCTestCase {
-
     func testLimitedLength() {
         [
             PasswordGenerator(length: 15),

@@ -8,14 +8,13 @@
 //  Inspired by SwiftPasscodeLock created by Yanko Dimitrov.
 //
 
-import UIKit
 import LocalAuthentication
+import UIKit
 
 open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
-
-    open var dismissCompletionCallback: (()->Void)?
-    open var successCallback: (()->Void)?
-    open var cancelCallback: (()->Void)?
+    open var dismissCompletionCallback: (() -> Void)?
+    open var successCallback: (() -> Void)?
+    open var cancelCallback: (() -> Void)?
 
     weak var passcodeTextField: UITextField?
     weak var biometryAuthButton: UIButton?
@@ -23,21 +22,21 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
     open weak var cancelButton: UIButton?
 
     var isCancellable: Bool = false
-    
+
     private let passwordStore = PasswordStore.shared
 
-    open override func loadView() {
+    override open func loadView() {
         super.loadView()
 
-        let passcodeTextField =  UITextField()
+        let passcodeTextField = UITextField()
         passcodeTextField.borderStyle = UITextField.BorderStyle.roundedRect
         passcodeTextField.placeholder = "EnterPasscode".localize()
         passcodeTextField.isSecureTextEntry = true
         passcodeTextField.clearButtonMode = UITextField.ViewMode.whileEditing
         passcodeTextField.delegate = self
-        passcodeTextField.addTarget(self, action: #selector(self.passcodeTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
+        passcodeTextField.addTarget(self, action: #selector(passcodeTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         passcodeTextField.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(passcodeTextField)
+        view.addSubview(passcodeTextField)
         self.passcodeTextField = passcodeTextField
 
         view.backgroundColor = Colors.systemBackground
@@ -50,7 +49,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         biometryAuthButton.addTarget(self, action: #selector(bioButtonPressedAction(_:)), for: .touchUpInside)
         biometryAuthButton.isHidden = true
         biometryAuthButton.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(biometryAuthButton)
+        view.addSubview(biometryAuthButton)
         self.biometryAuthButton = biometryAuthButton
 
         let myContext = LAContext()
@@ -71,21 +70,21 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         forgotPasscodeButton.setTitleColor(Colors.systemBlue, for: .normal)
         forgotPasscodeButton.addTarget(self, action: #selector(forgotPasscodeButtonPressedAction(_:)), for: .touchUpInside)
         // hide the forgotPasscodeButton if the native app is running
-        forgotPasscodeButton.isHidden = self.isCancellable
+        forgotPasscodeButton.isHidden = isCancellable
         forgotPasscodeButton.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(forgotPasscodeButton)
+        view.addSubview(forgotPasscodeButton)
         self.forgotPasscodeButton = forgotPasscodeButton
 
         let cancelButton = UIButton(type: .custom)
         cancelButton.setTitle("Cancel".localize(), for: .normal)
         cancelButton.setTitleColor(Colors.systemBlue, for: .normal)
         cancelButton.addTarget(self, action: #selector(passcodeLockDidCancel), for: .touchUpInside)
-        cancelButton.isHidden = !self.isCancellable
+        cancelButton.isHidden = !isCancellable
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
-        self.view.addSubview(cancelButton)
+        view.addSubview(cancelButton)
         self.cancelButton = cancelButton
-        
+
         // Display the Pass icon in the middle of the screen
         let bundle = Bundle(for: PasscodeLockViewController.self)
         let appIcon = UIImage(named: "PasscodeLockViewIcon", in: bundle, compatibleWith: nil)
@@ -94,49 +93,48 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         appIconView.translatesAutoresizingMaskIntoConstraints = false
         appIconView.layer.cornerRadius = appIconSize / 5
         appIconView.layer.masksToBounds = true
-        self.view?.addSubview(appIconView)
+        view?.addSubview(appIconView)
 
         NSLayoutConstraint.activate([
             passcodeTextField.widthAnchor.constraint(equalToConstant: 250),
             passcodeTextField.heightAnchor.constraint(equalToConstant: 40),
-            passcodeTextField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            passcodeTextField.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -20),
+            passcodeTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            passcodeTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -20),
             // above passocde
             appIconView.widthAnchor.constraint(equalToConstant: appIconSize),
             appIconView.heightAnchor.constraint(equalToConstant: appIconSize),
-            appIconView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            appIconView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             appIconView.bottomAnchor.constraint(equalTo: passcodeTextField.topAnchor, constant: -appIconSize),
             // below passcode
             biometryAuthButton.widthAnchor.constraint(equalToConstant: 250),
             biometryAuthButton.heightAnchor.constraint(equalToConstant: 40),
-            biometryAuthButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            biometryAuthButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             biometryAuthButton.topAnchor.constraint(equalTo: passcodeTextField.bottomAnchor),
             // cancel (top-left of the screen)
             cancelButton.widthAnchor.constraint(equalToConstant: 150),
             cancelButton.heightAnchor.constraint(equalToConstant: 40),
-            cancelButton.topAnchor.constraint(equalTo: self.view.safeTopAnchor),
-            cancelButton.leftAnchor.constraint(equalTo: self.view.safeLeftAnchor, constant: 20),
+            cancelButton.topAnchor.constraint(equalTo: view.safeTopAnchor),
+            cancelButton.leftAnchor.constraint(equalTo: view.safeLeftAnchor, constant: 20),
             // bottom of the screen
             forgotPasscodeButton.widthAnchor.constraint(equalToConstant: 250),
             forgotPasscodeButton.heightAnchor.constraint(equalToConstant: 40),
-            forgotPasscodeButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            forgotPasscodeButton.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor, constant: -40)
+            forgotPasscodeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            forgotPasscodeButton.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -40),
         ])
 
         // dismiss keyboard when tapping anywhere
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)
-
     }
 
-    open override func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
     }
 
-    open override func viewDidAppear(_ animated: Bool) {
+    override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let biometryAuthButton = biometryAuthButton {
-            self.bioButtonPressedAction(biometryAuthButton)
+            bioButtonPressedAction(biometryAuthButton)
         }
     }
 
@@ -167,16 +165,18 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         dismissPasscodeLock(completionHandler: successCallback)
     }
 
-    @objc func passcodeLockDidCancel() {
+    @objc
+    func passcodeLockDidCancel() {
         dismissPasscodeLock(completionHandler: cancelCallback)
     }
 
-    @objc func bioButtonPressedAction(_ uiButton: UIButton) {
+    @objc
+    func bioButtonPressedAction(_: UIButton) {
         let myContext = LAContext()
         let myLocalizedReasonString = "AuthenticationNeeded.".localize()
         var authError: NSError?
         if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-            myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, evaluateError in
+            myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, _ in
                 if success {
                     DispatchQueue.main.async {
                         // user authenticated successfully, take appropriate action
@@ -187,9 +187,10 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    @objc func forgotPasscodeButtonPressedAction(_ uiButton: UIButton) {
+    @objc
+    func forgotPasscodeButtonPressedAction(_: UIButton) {
         let alert = UIAlertController(title: "ResetPass".localize(), message: "ResetPassExplanation.".localize(), preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive, handler: {[unowned self] (action) -> Void in
+        alert.addAction(UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive, handler: { [unowned self] (_) -> Void in
             let myContext = LAContext()
             var error: NSError?
             // If the device passcode is not set, reset the app.
@@ -199,7 +200,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
                 return
             }
             // If the device passcode is set, authentication is required.
-            myContext.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "ErasePasswordStoreData".localize()) { (success, error) in
+            myContext.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "ErasePasswordStoreData".localize()) { success, error in
                 if success {
                     DispatchQueue.main.async {
                         // User authenticated successfully, take appropriate action
@@ -214,25 +215,26 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
             }
         }))
         alert.addAction(UIAlertAction.dismiss())
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
 
-    public override func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    override public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == passcodeTextField {
             if !PasscodeLock.shared.check(passcode: textField.text ?? "") {
-                self.passcodeTextField?.placeholder =
+                passcodeTextField?.placeholder =
                     "TryAgain".localize()
-                self.passcodeTextField?.text = ""
-                self.passcodeTextField?.shake()
+                passcodeTextField?.text = ""
+                passcodeTextField?.shake()
             }
         }
         textField.resignFirstResponder()
         return true
     }
 
-    @objc func passcodeTextFieldDidChange(_ textField: UITextField) {
+    @objc
+    func passcodeTextFieldDidChange(_ textField: UITextField) {
         if PasscodeLock.shared.check(passcode: textField.text ?? "") {
-            self.passcodeLockDidSucceed()
+            passcodeLockDidSucceed()
         }
     }
 

@@ -13,7 +13,7 @@ public enum PasswordGeneratorFlavor: String {
     case xkcd = "XKCD"
 
     public var localized: String {
-        return rawValue.localize()
+        rawValue.localize()
     }
 
     public var longNameLocalized: String {

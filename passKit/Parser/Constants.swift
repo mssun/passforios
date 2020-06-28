@@ -7,7 +7,6 @@
 //
 
 public struct Constants {
-
     static let OTP_SECRET = "otp_secret"
     static let OTP_TYPE = "otp_type"
     static let OTP_ALGORITHM = "otp_algorithm"
@@ -54,7 +53,7 @@ public struct Constants {
     }
 
     static func isOtpKeyword(_ keyword: String) -> Bool {
-        return OTP_KEYWORDS.contains(keyword.lowercased())
+        OTP_KEYWORDS.contains(keyword.lowercased())
     }
 
     static func isUnknown(_ string: String) -> Bool {
@@ -63,10 +62,10 @@ public struct Constants {
     }
 
     static func unknown(_ number: UInt) -> String {
-        return "\(UNKNOWN) \(number)"
+        "\(UNKNOWN) \(number)"
     }
 
     static func getSeparator(breakingLines: Bool) -> String {
-        return breakingLines ? MULTILINE_WITH_LINE_BREAK_SEPARATOR : MULTILINE_WITHOUT_LINE_BREAK_SEPARATOR
+        breakingLines ? MULTILINE_WITH_LINE_BREAK_SEPARATOR : MULTILINE_WITHOUT_LINE_BREAK_SEPARATOR
     }
 }

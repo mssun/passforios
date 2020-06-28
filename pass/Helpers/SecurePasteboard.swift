@@ -25,7 +25,7 @@ class SecurePasteboard {
         // exit the existing background task, if any
         if backgroundTaskID != UIBackgroundTaskIdentifier.invalid {
             UIApplication.shared.endBackgroundTask(UIBackgroundTaskIdentifier.invalid)
-            self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
+            backgroundTaskID = UIBackgroundTaskIdentifier.invalid
         }
 
         backgroundTaskID = UIApplication.shared.beginBackgroundTask(expirationHandler: { [weak self] in
@@ -40,5 +40,4 @@ class SecurePasteboard {
             self?.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
         }
     }
-
 }

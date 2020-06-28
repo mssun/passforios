@@ -7,7 +7,6 @@
 //
 
 public struct AdditionField: Hashable {
-
     public let title: String, content: String
 
     public init(title: String = "", content: String = "") {
@@ -16,7 +15,7 @@ public struct AdditionField: Hashable {
     }
 
     var asString: String {
-        return title.isEmpty ? content : title + ": " + content
+        title.isEmpty ? content : title + ": " + content
     }
 
     var asTuple: (String, String) {
@@ -25,21 +24,20 @@ public struct AdditionField: Hashable {
 }
 
 extension AdditionField {
-
     static func | (left: String, right: AdditionField) -> String {
-        return left | right.asString
+        left | right.asString
     }
 
     static func | (left: AdditionField, right: String) -> String {
-        return left.asString | right
+        left.asString | right
     }
 
     static func | (left: AdditionField, right: AdditionField) -> String {
-        return left.asString | right
+        left.asString | right
     }
 }
 
 infix operator =>: MultiplicationPrecedence
 public func => (key: String, value: String) -> AdditionField {
-    return AdditionField(title: key, content: value)
+    AdditionField(title: key, content: value)
 }

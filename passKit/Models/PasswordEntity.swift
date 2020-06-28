@@ -10,7 +10,6 @@ import Foundation
 import SwiftyUserDefaults
 
 extension PasswordEntity {
-
     public var nameWithCategory: String {
         if let p = path, p.hasSuffix(".gpg") {
             return String(p.prefix(upTo: p.index(p.endIndex, offsetBy: -4)))
@@ -19,7 +18,7 @@ extension PasswordEntity {
     }
 
     public func getCategoryText() -> String {
-        return getCategoryArray().joined(separator: " > ")
+        getCategoryArray().joined(separator: " > ")
     }
 
     public func getCategoryArray() -> [String] {
@@ -44,17 +43,16 @@ extension PasswordEntity {
     // manually write models instead auto generation.
 
     public func getImage() -> Data? {
-        return image
+        image
     }
 
     public func getName() -> String {
         // unwrap non-optional core data
-        return name ?? ""
+        name ?? ""
     }
 
     public func getPath() -> String {
         // unwrap non-optional core data
-        return path ?? ""
+        path ?? ""
     }
-
 }

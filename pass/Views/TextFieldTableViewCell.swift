@@ -9,11 +9,10 @@
 import UIKit
 
 class TextFieldTableViewCell: UITableViewCell, ContentProvider {
-
-    @IBOutlet weak var contentTextField: UITextField!
+    @IBOutlet var contentTextField: UITextField!
 
     func getContent() -> String? {
-        return contentTextField.text
+        contentTextField.text
     }
 
     func setContent(content: String?) {

@@ -14,7 +14,7 @@ public enum OTPType: String {
     case none = "None"
 
     var description: String {
-        return rawValue.localize()
+        rawValue.localize()
     }
 
     init(token: Token?) {

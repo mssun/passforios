@@ -45,6 +45,6 @@ public class KeyFileManager {
     }
 
     public func doesKeyFileExist() -> Bool {
-        return FileManager.default.fileExists(atPath: keyPath)
+        FileManager.default.fileExists(atPath: keyPath)
     }
 }

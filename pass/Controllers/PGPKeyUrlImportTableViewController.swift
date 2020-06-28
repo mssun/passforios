@@ -6,13 +6,12 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import UIKit
 import passKit
+import UIKit
 
 class PGPKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
-
-    @IBOutlet weak var pgpPublicKeyURLTextField: UITextField!
-    @IBOutlet weak var pgpPrivateKeyURLTextField: UITextField!
+    @IBOutlet var pgpPublicKeyURLTextField: UITextField!
+    @IBOutlet var pgpPrivateKeyURLTextField: UITextField!
 
     var pgpPrivateKeyURL: URL?
     var pgpPublicKeyURL: URL?
@@ -22,31 +21,31 @@ class PGPKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
         pgpPublicKeyURLTextField.text = Defaults.pgpPublicKeyURL?.absoluteString
         pgpPrivateKeyURLTextField.text = Defaults.pgpPrivateKeyURL?.absoluteString
     }
-    
-    @IBAction func save(_ sender: Any) {
+
+    @IBAction
+    func save(_: Any) {
         guard let publicKeyURLText = pgpPublicKeyURLTextField.text,
             let publicKeyURL = URL(string: publicKeyURLText),
             let privateKeyURLText = pgpPrivateKeyURLTextField.text,
             let privateKeyURL = URL(string: privateKeyURLText) else {
-                Utils.alert(title: "CannotSavePgpKey".localize(), message: "SetPgpKeyUrlsFirst.".localize(), controller: self)
-                return
+            Utils.alert(title: "CannotSavePgpKey".localize(), message: "SetPgpKeyUrlsFirst.".localize(), controller: self)
+            return
         }
         if privateKeyURL.scheme?.lowercased() == "http" || publicKeyURL.scheme?.lowercased() == "http" {
             Utils.alert(title: "HttpNotSecure".localize(), message: "ReallyUseHttp.".localize(), controller: self)
         }
         pgpPrivateKeyURL = privateKeyURL
         pgpPublicKeyURL = publicKeyURL
-        self.saveImportedKeys()
+        saveImportedKeys()
     }
 }
 
 extension PGPKeyUrlImportTableViewController: PGPKeyImporter {
-
     static let keySource = KeySource.url
     static let label = "DownloadFromUrl".localize()
 
     func isReadyToUse() -> Bool {
-        return validate(pgpKeyUrl: pgpPublicKeyURLTextField.text ?? "")
+        validate(pgpKeyUrl: pgpPublicKeyURLTextField.text ?? "")
             && validate(pgpKeyUrl: pgpPrivateKeyURLTextField.text ?? "")
     }
 

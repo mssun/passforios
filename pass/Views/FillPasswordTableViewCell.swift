@@ -6,8 +6,8 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import UIKit
 import passKit
+import UIKit
 
 protocol FillPasswordTableViewCellDelegate {
     func generateAndCopyPassword()
@@ -15,12 +15,11 @@ protocol FillPasswordTableViewCellDelegate {
 }
 
 class FillPasswordTableViewCell: UITableViewCell, ContentProvider {
-
-    @IBOutlet weak var contentTextField: UITextField!
+    @IBOutlet var contentTextField: UITextField!
     var delegate: FillPasswordTableViewCellDelegate?
 
-    @IBOutlet weak var settingButton: UIButton!
-    @IBOutlet weak var generateButton: UIButton!
+    @IBOutlet var settingButton: UIButton!
+    @IBOutlet var generateButton: UIButton!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,21 +31,24 @@ class FillPasswordTableViewCell: UITableViewCell, ContentProvider {
         generateButton.imageView?.contentMode = .scaleAspectFit
     }
 
-    @IBAction func generatePassword(_ sender: UIButton) {
-        self.delegate?.generateAndCopyPassword()
+    @IBAction
+    func generatePassword(_: UIButton) {
+        delegate?.generateAndCopyPassword()
     }
 
-    @IBAction func showHidePasswordSettings() {
-        self.delegate?.showHidePasswordSettings()
+    @IBAction
+    func showHidePasswordSettings() {
+        delegate?.showHidePasswordSettings()
     }
 
     // re-color
-    @IBAction func textFieldDidChange(_ sender: UITextField) {
+    @IBAction
+    func textFieldDidChange(_ sender: UITextField) {
         contentTextField.attributedText = Utils.attributedPassword(plainPassword: sender.text ?? "")
     }
 
     func getContent() -> String? {
-        return contentTextField.attributedText?.string
+        contentTextField.attributedText?.string
     }
 
     func setContent(content: String?) {

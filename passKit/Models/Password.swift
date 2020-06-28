@@ -6,11 +6,10 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import OneTimePassword
 import Base32
+import OneTimePassword
 
 public class Password {
-
     public var name: String
     public var url: URL
     public var plainText: String
@@ -29,47 +28,47 @@ public class Password {
     }
 
     public var namePath: String {
-        return url.deletingPathExtension().path
+        url.deletingPathExtension().path
     }
 
     public var nameFromPath: String? {
-        return url.deletingPathExtension().path.split(separator: "/").last.map { String($0) }
+        url.deletingPathExtension().path.split(separator: "/").last.map { String($0) }
     }
 
     public var password: String {
-        return parser.firstLine
+        parser.firstLine
     }
 
     public var plainData: Data {
-        return plainText.data(using: .utf8)!
+        plainText.data(using: .utf8)!
     }
 
     public var additionsPlainText: String {
-        return parser.additionsSection
+        parser.additionsSection
     }
 
     public var username: String? {
-        return getAdditionValue(withKey: Constants.USERNAME_KEYWORD)
+        getAdditionValue(withKey: Constants.USERNAME_KEYWORD)
     }
 
     public var login: String? {
-        return getAdditionValue(withKey: Constants.LOGIN_KEYWORD)
+        getAdditionValue(withKey: Constants.LOGIN_KEYWORD)
     }
 
     public var urlString: String? {
-        return getAdditionValue(withKey: Constants.URL_KEYWORD)
+        getAdditionValue(withKey: Constants.URL_KEYWORD)
     }
 
     public var currentOtp: String? {
-        return otpToken?.currentPassword
+        otpToken?.currentPassword
     }
 
     public var numberOfUnknowns: Int {
-        return additions.map { $0.title }.filter(Constants.isUnknown).count
+        additions.map(\.title).filter(Constants.isUnknown).count
     }
 
     public var numberOfOtpRelated: Int {
-        return additions.map { $0.title }.filter(Constants.isOtpKeyword).count - (firstLineIsOTPField ? 1 : 0)
+        additions.map(\.title).filter(Constants.isOtpKeyword).count - (firstLineIsOTPField ? 1 : 0)
     }
 
     public init(name: String, url: URL, plainText: String) {
@@ -119,7 +118,7 @@ public class Password {
     }
 
     public func getFilteredAdditions() -> [AdditionField] {
-        return additions.filter { field in
+        additions.filter { field in
             let title = field.title.lowercased()
             return title != Constants.USERNAME_KEYWORD
                 && title != Constants.LOGIN_KEYWORD
@@ -194,12 +193,12 @@ public class Password {
         newOtpauth?.append("&secret=")
         newOtpauth?.append(MF_Base32Codec.base32String(from: otpToken?.generator.secret))
 
-        var lines : [String] = []
-        self.plainText.enumerateLines() { line, _ in
+        var lines: [String] = []
+        plainText.enumerateLines { line, _ in
             let (key, _) = Parser.getKeyValuePair(from: line)
             if !Constants.OTP_KEYWORDS.contains(key ?? "") {
                 lines.append(line)
-            } else if key == Constants.OTPAUTH && newOtpauth != nil {
+            } else if key == Constants.OTPAUTH, newOtpauth != nil {
                 lines.append(newOtpauth!)
                 // set to nil to prevent duplication
                 newOtpauth = nil
@@ -208,10 +207,10 @@ public class Password {
         if newOtpauth != nil {
             lines.append(newOtpauth!)
         }
-        self.updatePassword(name: self.name, url: self.url, plainText: lines.joined(separator: "\n"))
+        updatePassword(name: name, url: url, plainText: lines.joined(separator: "\n"))
 
         // get and return the password
-        return self.otpToken?.currentPassword
+        return otpToken?.currentPassword
     }
 
     public func getUsernameForCompletion() -> String {

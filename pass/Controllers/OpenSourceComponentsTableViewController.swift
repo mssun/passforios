@@ -6,11 +6,10 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import UIKit
 import SafariServices
+import UIKit
 
 class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
-    
     private static let openSourceComponents = [
         ["FavIcon",
          "https://github.com/bitserf/FavIcon",
@@ -48,12 +47,13 @@ class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
                 .link: item[1],
                 .accessoryType: UITableViewCell.AccessoryType.detailDisclosureButton,
                 .detailDisclosureAction: #selector(actOnDetailDisclosureButton(_:)),
-                .detailDisclosureData: item[2]
+                .detailDisclosureData: item[2],
             ])
         }
     }
 
-    @objc func actOnDetailDisclosureButton(_ sender: Any?) {
+    @objc
+    func actOnDetailDisclosureButton(_ sender: Any?) {
         if let link = sender as? String, let url = URL(string: link) {
             let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
             present(svc, animated: true)

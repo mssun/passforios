@@ -14,7 +14,7 @@ public class PasswordTableEntry: NSObject {
     public let isDir: Bool
     public let synced: Bool
     public let categoryText: String
-    
+
     public init(_ entity: PasswordEntity) {
         self.passwordEntity = entity
         self.title = entity.name!
@@ -22,23 +22,22 @@ public class PasswordTableEntry: NSObject {
         self.synced = entity.synced
         self.categoryText = entity.getCategoryText()
     }
-    
+
     public func match(_ searchText: String) -> Bool {
-        return PasswordTableEntry.match(nameWithCategory: passwordEntity.nameWithCategory, searchText: searchText)
+        PasswordTableEntry.match(nameWithCategory: passwordEntity.nameWithCategory, searchText: searchText)
     }
-    
+
     public static func match(nameWithCategory: String, searchText: String) -> Bool {
-        let titleSplit = nameWithCategory.split{ !($0.isLetter || $0.isNumber || $0 == ".") }
+        let titleSplit = nameWithCategory.split { !($0.isLetter || $0.isNumber || $0 == ".") }
         for str in titleSplit {
-            if (str.localizedCaseInsensitiveContains(searchText)) {
+            if str.localizedCaseInsensitiveContains(searchText) {
                 return true
             }
-            if (searchText.localizedCaseInsensitiveContains(str)) {
+            if searchText.localizedCaseInsensitiveContains(str) {
                 return true
             }
         }
-        
+
         return false
     }
 }
-

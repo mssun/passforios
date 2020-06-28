@@ -7,7 +7,6 @@
 //
 
 extension Array {
-
     func slices(count: UInt) -> [ArraySlice<Element>] {
         guard count != 0 else {
             return []

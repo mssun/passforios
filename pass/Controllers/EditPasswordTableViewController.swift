@@ -6,11 +6,11 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import UIKit
 import passKit
+import UIKit
 
 class EditPasswordTableViewController: PasswordEditorTableViewController {
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender _: Any?) -> Bool {
         if identifier == "saveEditPasswordSegue" {
             // check name
             guard checkName() else {

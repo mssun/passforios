@@ -27,7 +27,6 @@ import OneTimePassword
 ///   * digits: `6` (default: `6`, optional)
 ///
 class TokenBuilder {
-
     private var name: String = ""
     private var secret: Data?
     private var type: OTPType = .totp
@@ -79,7 +78,6 @@ class TokenBuilder {
         self.counter = counter == nil ? nil : UInt64(counter!)
         return self
     }
-
 
     func build() -> Token? {
         guard secret != nil, digits != nil else {

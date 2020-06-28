@@ -12,7 +12,6 @@ import XCTest
 @testable import passKit
 
 class OTPTypeTest: XCTestCase {
-
     func testInitFromToken() {
         let secret = "secret".data(using: .utf8)!
 

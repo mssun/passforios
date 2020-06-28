@@ -6,11 +6,10 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import UIKit
 import passKit
+import UIKit
 
 class AboutRepositoryTableViewController: BasicStaticTableViewController {
-
     private static let VALUE_NOT_AVAILABLE = "ValueNotAvailable".localize()
 
     private var needRefresh = false
@@ -18,6 +17,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
         let indicator = UIActivityIndicatorView(style: .gray)
         return indicator
     }()
+
     private let passwordStore = PasswordStore.shared
 
     override func viewDidLoad() {
@@ -41,10 +41,9 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
     }
 
     private func setTableData() {
-
         // clear current contents (if any)
-        self.tableData.removeAll(keepingCapacity: true)
-        self.tableView.reloadData()
+        tableData.removeAll(keepingCapacity: true)
+        tableView.reloadData()
         indicator.startAnimating()
 
         // reload the table
@@ -67,8 +66,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
                      [.style: CellDataStyle.value1, .accessoryType: type, .title: "LocalCommits".localize(), .detailText: localCommits],
                      [.style: CellDataStyle.value1, .accessoryType: type, .title: "LastSynced".localize(), .detailText: lastSynced],
                      [.style: CellDataStyle.value1, .accessoryType: type, .title: "Commits".localize(), .detailText: commits],
-                     [.title: "CommitLogs".localize(), .action: "segue", .link: "showCommitLogsSegue"],
-                     ],
+                     [.title: "CommitLogs".localize(), .action: "segue", .link: "showCommitLogsSegue"]],
                 ]
                 strongSelf.indicator.stopAnimating()
                 strongSelf.tableView.reloadData()
@@ -79,15 +77,15 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
     private func numberOfPasswordsString() -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = NumberFormatter.Style.decimal
-        return formatter.string(from: NSNumber(value: self.passwordStore.numberOfPasswords)) ?? ""
+        return formatter.string(from: NSNumber(value: passwordStore.numberOfPasswords)) ?? ""
     }
 
     private func sizeOfRepositoryString() -> String {
-        return ByteCountFormatter.string(fromByteCount: Int64(self.passwordStore.sizeOfRepositoryByteCount), countStyle: ByteCountFormatter.CountStyle.file)
+        ByteCountFormatter.string(fromByteCount: Int64(passwordStore.sizeOfRepositoryByteCount), countStyle: ByteCountFormatter.CountStyle.file)
     }
 
     private func lastSyncedTimeString() -> String {
-        guard let date = self.passwordStore.lastSyncedTime else {
+        guard let date = passwordStore.lastSyncedTime else {
             return "SyncAgain?".localize()
         }
         let formatter = DateFormatter()
@@ -103,7 +101,8 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
         return AboutRepositoryTableViewController.VALUE_NOT_AVAILABLE
     }
 
-    @objc func setNeedRefresh() {
+    @objc
+    func setNeedRefresh() {
         needRefresh = true
     }
 }

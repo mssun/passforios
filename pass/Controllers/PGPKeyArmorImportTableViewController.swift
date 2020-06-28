@@ -6,15 +6,14 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import UIKit
 import passKit
+import UIKit
 
 class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController, UITextViewDelegate, QRScannerControllerDelegate {
-
-    @IBOutlet weak var armorPublicKeyTextView: UITextView!
-    @IBOutlet weak var armorPrivateKeyTextView: UITextView!
-    @IBOutlet weak var scanPublicKeyCell: UITableViewCell!
-    @IBOutlet weak var scanPrivateKeyCell: UITableViewCell!
+    @IBOutlet var armorPublicKeyTextView: UITextView!
+    @IBOutlet var armorPrivateKeyTextView: UITextView!
+    @IBOutlet var scanPublicKeyCell: UITableViewCell!
+    @IBOutlet var scanPrivateKeyCell: UITableViewCell!
 
     var armorPublicKey: String?
     var armorPrivateKey: String?
@@ -23,45 +22,47 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
         enum KeyType {
             case publicKey, privateKey
         }
+
         var keyType = KeyType.publicKey
         var segments = [String]()
         var message = ""
 
         func reset(keytype: KeyType) {
-            self.keyType = keytype
-            self.segments.removeAll()
+            keyType = keytype
+            segments.removeAll()
             message = "LookingForStartingFrame.".localize()
         }
 
         func addSegment(segment: String) -> (accept: Bool, message: String) {
-            let keyTypeStr = self.keyType == .publicKey ? "Public" : "Private"
-            let theOtherKeyTypeStr = self.keyType == .publicKey ? "Private" : "Public"
-            
+            let keyTypeStr = keyType == .publicKey ? "Public" : "Private"
+            let theOtherKeyTypeStr = keyType == .publicKey ? "Private" : "Public"
+
             // Skip duplicated segments.
-            guard segment != self.segments.last else {
-                return (accept: false, message: self.message)
+            guard segment != segments.last else {
+                return (accept: false, message: message)
             }
 
             // Check whether we have found the first block.
-            guard !self.segments.isEmpty || segment.contains("-----BEGIN PGP \(keyTypeStr.uppercased()) KEY BLOCK-----") else {
+            guard !segments.isEmpty || segment.contains("-----BEGIN PGP \(keyTypeStr.uppercased()) KEY BLOCK-----") else {
                 // Check whether we are scanning the wrong key type.
                 if segment.contains("-----BEGIN PGP \(theOtherKeyTypeStr.uppercased()) KEY BLOCK-----") {
-                    self.message = "Scan\(keyTypeStr)Key.".localize()
+                    message = "Scan\(keyTypeStr)Key.".localize()
                 }
-                return (accept: false, message: self.message)
+                return (accept: false, message: message)
             }
-            
+
             // Update the list of scanned segment and return.
-            self.segments.append(segment)
+            segments.append(segment)
             if segment.contains("-----END PGP \(keyTypeStr.uppercased()) KEY BLOCK-----") {
-                self.message = "Done".localize()
-                return (accept: true, message: self.message)
+                message = "Done".localize()
+                return (accept: true, message: message)
             } else {
-                self.message = "ScannedQrCodes(%d)".localize(self.segments.count)
-                return (accept: false, message: self.message)
+                message = "ScannedQrCodes(%d)".localize(segments.count)
+                return (accept: false, message: message)
             }
         }
     }
+
     var scanned = ScannedPGPKey()
 
     override func viewDidLoad() {
@@ -76,13 +77,14 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
         scanPrivateKeyCell?.accessoryType = .disclosureIndicator
     }
 
-    @IBAction func save(_ sender: Any) {
+    @IBAction
+    func save(_: Any) {
         armorPublicKey = armorPublicKeyTextView.text
         armorPrivateKey = armorPrivateKeyTextView.text
-        self.saveImportedKeys()
+        saveImportedKeys()
     }
 
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    func textView(_: UITextView, shouldChangeTextIn _: NSRange, replacementText text: String) -> Bool {
         if text == UIPasteboard.general.string {
             // user pastes something, do the copy here again and clear the pasteboard in 45s
             SecurePasteboard.shared.copy(textToCopy: text)
@@ -94,21 +96,23 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
         let selectedCell = tableView.cellForRow(at: indexPath)
         if selectedCell == scanPublicKeyCell {
             scanned.reset(keytype: ScannedPGPKey.KeyType.publicKey)
-            self.performSegue(withIdentifier: "showPGPScannerSegue", sender: self)
+            performSegue(withIdentifier: "showPGPScannerSegue", sender: self)
         } else if selectedCell == scanPrivateKeyCell {
             scanned.reset(keytype: ScannedPGPKey.KeyType.privateKey)
-            self.performSegue(withIdentifier: "showPGPScannerSegue", sender: self)
+            performSegue(withIdentifier: "showPGPScannerSegue", sender: self)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
     // MARK: - QRScannerControllerDelegate Methods
+
     func checkScannedOutput(line: String) -> (accept: Bool, message: String) {
         return scanned.addSegment(segment: line)
     }
 
     // MARK: - QRScannerControllerDelegate Methods
-    func handleScannedOutput(line: String) {
+
+    func handleScannedOutput(line _: String) {
         let key = scanned.segments.joined(separator: "")
         switch scanned.keyType {
         case .publicKey:
@@ -118,7 +122,7 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
         }
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
         if segue.identifier == "showPGPScannerSegue" {
             if let navController = segue.destination as? UINavigationController {
                 if let viewController = navController.topViewController as? QRScannerController {
@@ -132,7 +136,6 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
 }
 
 extension PGPKeyArmorImportTableViewController: PGPKeyImporter {
-
     static let keySource = KeySource.armor
     static let label = "AsciiArmorEncryptedKey".localize()
 

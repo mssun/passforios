@@ -11,7 +11,6 @@ import XCTest
 @testable import passKit
 
 class PasswordTableEntryTest: XCTestCase {
-
     func testExample() {
         let nameWithCategoryList = [
             "github",
@@ -27,13 +26,13 @@ class PasswordTableEntryTest: XCTestCase {
         ]
         let searchTextList1 = [
             "github.com",
-            "www.github.com"
+            "www.github.com",
         ]
         let searchTextList2 = [
             "xx.com",
-            "www.xx.com"
+            "www.xx.com",
         ]
-        
+
         for nameWithCategory in nameWithCategoryList {
             for searchText in searchTextList1 {
                 XCTAssertTrue(PasswordTableEntry.match(nameWithCategory: nameWithCategory, searchText: searchText))
@@ -43,5 +42,4 @@ class PasswordTableEntryTest: XCTestCase {
             }
         }
     }
-
 }
