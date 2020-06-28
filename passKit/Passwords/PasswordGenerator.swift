@@ -7,7 +7,6 @@
 //
 
 public struct PasswordGenerator: Codable {
-
     private static let digits = "0123456789"
     private static let letters = "abcdefghijklmnopqrstuvwxyz"
     private static let capitalLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -114,7 +113,7 @@ public struct PasswordGenerator: Codable {
     }
 
     private func selectRandomly(count: Int, from string: String) -> [Character] {
-        return (0 ..< count).map { _ in string.randomElement()! }
+        (0 ..< count).map { _ in string.randomElement()! }
     }
 }
 

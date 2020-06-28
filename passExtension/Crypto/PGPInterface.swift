@@ -7,7 +7,6 @@
 //
 
 protocol PGPInterface {
-
     func decrypt(encryptedData: Data, keyID: String, passphrase: String) throws -> Data?
 
     func encrypt(plainData: Data, keyID: String) throws -> Data

@@ -6,16 +6,15 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import UIKit
-import SVProgressHUD
 import passKit
+import SVProgressHUD
+import UIKit
 
 class AdvancedSettingsTableViewController: UITableViewController {
-
-    @IBOutlet weak var encryptInASCIIArmoredTableViewCell: UITableViewCell!
-    @IBOutlet weak var gitSignatureTableViewCell: UITableViewCell!
-    @IBOutlet weak var eraseDataTableViewCell: UITableViewCell!
-    @IBOutlet weak var discardChangesTableViewCell: UITableViewCell!
+    @IBOutlet var encryptInASCIIArmoredTableViewCell: UITableViewCell!
+    @IBOutlet var gitSignatureTableViewCell: UITableViewCell!
+    @IBOutlet var eraseDataTableViewCell: UITableViewCell!
+    @IBOutlet var discardChangesTableViewCell: UITableViewCell!
     let passwordStore = PasswordStore.shared
 
     let encryptInASCIIArmoredSwitch: UISwitch = {
@@ -37,10 +36,10 @@ class AdvancedSettingsTableViewController: UITableViewController {
     private func setGitSignatureText() {
         let gitSignatureName = passwordStore.gitSignatureForNow?.name ?? ""
         let gitSignatureEmail = passwordStore.gitSignatureForNow?.email ?? ""
-        self.gitSignatureTableViewCell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
-        self.gitSignatureTableViewCell.detailTextLabel?.text = "\(gitSignatureName) <\(gitSignatureEmail)>"
-        if Defaults.gitSignatureName == nil && Defaults.gitSignatureEmail == nil {
-            self.gitSignatureTableViewCell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .body)
+        gitSignatureTableViewCell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
+        gitSignatureTableViewCell.detailTextLabel?.text = "\(gitSignatureName) <\(gitSignatureEmail)>"
+        if Defaults.gitSignatureName == nil, Defaults.gitSignatureEmail == nil {
+            gitSignatureTableViewCell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .body)
             gitSignatureTableViewCell.detailTextLabel?.text = "NotSet".localize()
         }
     }
@@ -49,7 +48,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         if tableView.cellForRow(at: indexPath) == eraseDataTableViewCell {
             let alert = UIAlertController(title: "ErasePasswordStoreData?".localize(), message: "EraseExplanation.".localize(), preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive, handler: {[unowned self] (action) -> Void in
+            alert.addAction(UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive, handler: { [unowned self] (_) -> Void in
                 SVProgressHUD.show(withStatus: "Erasing...".localize())
                 self.passwordStore.erase()
                 self.navigationController!.popViewController(animated: true)
@@ -57,10 +56,10 @@ class AdvancedSettingsTableViewController: UITableViewController {
                 SVProgressHUD.dismiss(withDelay: 1)
             }))
             alert.addAction(UIAlertAction.dismiss())
-            self.present(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
         } else if tableView.cellForRow(at: indexPath) == discardChangesTableViewCell {
             let alert = UIAlertController(title: "DiscardAllLocalChanges?".localize(), message: "DiscardExplanation.".localize(), preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "DiscardAllLocalChanges".localize(), style: UIAlertAction.Style.destructive, handler: {[unowned self] (action) -> Void in
+            alert.addAction(UIAlertAction(title: "DiscardAllLocalChanges".localize(), style: UIAlertAction.Style.destructive, handler: { [unowned self] (_) -> Void in
                 SVProgressHUD.show(withStatus: "Resetting...".localize())
                 do {
                     let numberDiscarded = try self.passwordStore.reset()
@@ -73,15 +72,17 @@ class AdvancedSettingsTableViewController: UITableViewController {
 
             }))
             alert.addAction(UIAlertAction.dismiss())
-            self.present(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
         }
     }
 
-    @objc func encryptInASCIIArmoredAction(_ sender: Any?) {
+    @objc
+    func encryptInASCIIArmoredAction(_: Any?) {
         Defaults.encryptInArmored = encryptInASCIIArmoredSwitch.isOn
     }
 
-    @IBAction func saveGitConfigSetting(segue: UIStoryboardSegue) {
+    @IBAction
+    func saveGitConfigSetting(segue: UIStoryboardSegue) {
         if let controller = segue.source as? GitConfigSettingsTableViewController {
             if let gitSignatureName = controller.nameTextField.text,
                 let gitSignatureEmail = controller.emailTextField.text {
@@ -91,5 +92,4 @@ class AdvancedSettingsTableViewController: UITableViewController {
             setGitSignatureText()
         }
     }
-
 }

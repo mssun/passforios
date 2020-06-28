@@ -6,8 +6,8 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import UIKit
 import passKit
+import UIKit
 
 class AddPasswordTableViewController: PasswordEditorTableViewController {
     var defaultDirPrefix = ""
@@ -17,7 +17,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
         tableData[0][0][PasswordEditorCellKey.content] = defaultDirPrefix
     }
 
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender _: Any?) -> Bool {
         if identifier == "saveAddPasswordSegue" {
             // check PGP key
             guard PGPAgent.shared.isPrepared else {

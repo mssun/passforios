@@ -10,7 +10,6 @@ import passKit
 import UIKit
 
 class SwitchTableViewCell: UITableViewCell {
-
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var controlSwitch: UISwitch!
 
@@ -18,7 +17,8 @@ class SwitchTableViewCell: UITableViewCell {
 
     private var delegate: PasswordSettingSliderTableViewCellDelegate!
 
-    @IBAction func switchValueChanged(_: Any) {
+    @IBAction
+    func switchValueChanged(_: Any) {
         updater(controlSwitch.isOn)
         delegate.generateAndCopyPassword()
     }

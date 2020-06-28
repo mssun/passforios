@@ -9,17 +9,16 @@
 import UIKit
 
 class AboutTableViewController: BasicStaticTableViewController {
-
     override func viewDidLoad() {
         tableData = [
             // section 0
             [[.title: "Website".localize(), .action: "link", .link: "https://github.com/mssun/pass-ios.git"],
              [.title: "Help".localize(), .action: "link", .link: "https://github.com/mssun/passforios/wiki"],
-             [.title: "ContactDeveloper".localize(), .action: "link", .link: "mailto:developer@passforios.mssun.me?subject=Pass%20for%20iOS"],],
+             [.title: "ContactDeveloper".localize(), .action: "link", .link: "mailto:developer@passforios.mssun.me?subject=Pass%20for%20iOS"]],
 
             // section 1,
             [[.title: "OpenSourceComponents".localize(), .action: "segue", .link: "showOpenSourceComponentsSegue"],
-             [.title: "SpecialThanks".localize(), .action: "segue", .link: "showSpecialThanksSegue"],],
+             [.title: "SpecialThanks".localize(), .action: "segue", .link: "showSpecialThanksSegue"]],
         ]
         super.viewDidLoad()
     }
@@ -39,11 +38,10 @@ class AboutTableViewController: BasicStaticTableViewController {
         return nil
     }
 
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 1 {
             return "Acknowledgements".localize().uppercased()
         }
         return nil
     }
-
 }

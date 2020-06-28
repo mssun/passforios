@@ -11,8 +11,8 @@ import MobileCoreServices
 import passKit
 
 class ExtensionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UINavigationBarDelegate {
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet var searchBar: UISearchBar!
+    @IBOutlet var tableView: UITableView!
 
     private let passwordStore = PasswordStore.shared
     private let keychain = AppKeychain.shared
@@ -34,8 +34,8 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
 
     private func initPasswordsTableEntries() {
         filteredPasswordsTableEntries.removeAll()
-        
-        let passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
+
+        let passwordEntities = passwordStore.fetchPasswordEntityCoreData(withDir: false)
         passwordsTableEntries = passwordEntities.map {
             PasswordTableEntry($0)
         }
@@ -67,11 +67,11 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
                 for provider in itemProviders {
                     // search using the extensionContext inputs
                     if provider.hasItemConformingToTypeIdentifier(OnePasswordExtensionActions.findLogin) {
-                        provider.loadItem(forTypeIdentifier: OnePasswordExtensionActions.findLogin, options: nil, completionHandler: { (item, error) -> Void in
+                        provider.loadItem(forTypeIdentifier: OnePasswordExtensionActions.findLogin, options: nil, completionHandler: { (item, _) -> Void in
                             let dictionary = item as! NSDictionary
                             var url: String?
                             if var urlString = dictionary[OnePasswordExtensionKey.URLStringKey] as? String {
-                                if !urlString.hasPrefix("http://") && !urlString.hasPrefix("https://") {
+                                if !urlString.hasPrefix("http://"), !urlString.hasPrefix("https://") {
                                     urlString = "http://" + urlString
                                 }
                                 url = URL(string: urlString)?.host
@@ -84,14 +84,13 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
                                 self?.searchBarSearchButtonClicked((self?.searchBar)!)
                             }
                         })
-                    }
-                    else if provider.hasItemConformingToTypeIdentifier(kUTTypePropertyList as String) {
-                        provider.loadItem(forTypeIdentifier: kUTTypePropertyList as String, options: nil, completionHandler: { (item, error) -> Void in
+                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypePropertyList as String) {
+                        provider.loadItem(forTypeIdentifier: kUTTypePropertyList as String, options: nil, completionHandler: { (item, _) -> Void in
                             var url: String?
                             if let dictionary = item as? NSDictionary,
                                 let results = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary,
                                 var urlString = results[OnePasswordExtensionKey.URLStringKey] as? String {
-                                if !urlString.hasPrefix("http://") && !urlString.hasPrefix("https://") {
+                                if !urlString.hasPrefix("http://"), !urlString.hasPrefix("https://") {
                                     urlString = "http://" + urlString
                                 }
                                 url = URL(string: urlString)?.host
@@ -105,7 +104,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
                             }
                         })
                     } else if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
-                        provider.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil, completionHandler: { (item, error) -> Void in
+                        provider.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil, completionHandler: { (item, _) -> Void in
                             let url = (item as? NSURL)!.host
                             DispatchQueue.main.async { [weak self] in
                                 self?.extensionAction = .fillBrowser
@@ -137,7 +136,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     // select row -> extension returns (with username and password)
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         let entry = getPasswordEntry(by: indexPath)
 
         guard PGPAgent.shared.isPrepared else {
@@ -147,7 +146,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
 
         let passwordEntity = entry.passwordEntity
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        self.decryptPassword(passwordEntity: passwordEntity)
+        decryptPassword(passwordEntity: passwordEntity)
     }
 
     private func decryptPassword(passwordEntity: PasswordEntity, keyID: String? = nil) {
@@ -158,7 +157,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
 
                 let username = decryptedPassword.getUsernameForCompletion()
                 let password = decryptedPassword.password
-                DispatchQueue.main.async {// prepare a dictionary to return
+                DispatchQueue.main.async { // prepare a dictionary to return
                     switch self.extensionAction {
                     case .findLogin:
                         let extensionItem = NSExtensionItem()
@@ -173,14 +172,14 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
                         Utils.copyToPasteboard(textToCopy: decryptedPassword.password)
                         // return a dictionary for JavaScript for best-effor fill in
                         let extensionItem = NSExtensionItem()
-                        let returnDictionary = [NSExtensionJavaScriptFinalizeArgumentKey : ["username": username, "password": password]]
+                        let returnDictionary = [NSExtensionJavaScriptFinalizeArgumentKey: ["username": username, "password": password]]
                         extensionItem.attachments = [NSItemProvider(item: returnDictionary as NSSecureCoding, typeIdentifier: String(kUTTypePropertyList))]
                         self.extensionContext?.completeRequest(returningItems: [extensionItem], completionHandler: nil)
                     default:
                         self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
                     }
                 }
-            } catch AppError.PgpPrivateKeyNotFound(let key)  {
+            } catch let AppError.PgpPrivateKeyNotFound(key) {
                 DispatchQueue.main.async {
                     // alert: cancel or try again
                     let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.PgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
@@ -192,7 +191,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
 
                     self.present(alert, animated: true, completion: nil)
                 }
-            }  catch {
+            } catch {
                 DispatchQueue.main.async {
                     Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: self, completion: nil)
                 }
@@ -200,39 +199,39 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
 
-
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+    func numberOfSectionsInTableView(tableView _: UITableView) -> Int {
+        1
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchActive{
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+        if searchActive {
             return filteredPasswordsTableEntries.count
         }
-        return passwordsTableEntries.count;
+        return passwordsTableEntries.count
     }
 
-    @IBAction func cancelExtension(_ sender: Any) {
+    @IBAction
+    func cancelExtension(_: Any) {
         extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         searchActive = false
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchText = searchBar.text, searchText.isEmpty == false {
-            filteredPasswordsTableEntries = passwordsTableEntries.filter {$0.match(searchText)}
+            filteredPasswordsTableEntries = passwordsTableEntries.filter { $0.match(searchText) }
             searchActive = true
         } else {
             searchActive = false
         }
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
 
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange _: String) {
         searchBarSearchButtonClicked(searchBar)
     }
 

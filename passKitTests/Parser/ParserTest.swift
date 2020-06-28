@@ -6,11 +6,10 @@
 //  Copyright © 2018 Bob Sun. All rights reserved.
 //
 
-@testable import passKit
 import XCTest
+@testable import passKit
 
 class ParserTest: XCTestCase {
-
     func testInit() {
         [
             ("", "", "", []),

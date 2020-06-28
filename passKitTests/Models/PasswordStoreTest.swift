@@ -6,20 +6,20 @@
 //
 
 import Foundation
-import XCTest
 import ObjectiveGit
+import XCTest
 
 @testable import passKit
 
 class PasswordStoreTest: XCTestCase {
-    let cloneOptions: [String : GTCredentialProvider] = {
-           let credentialProvider = GTCredentialProvider { (_, _, _) -> (GTCredential?) in
-               try? GTCredential(userName: "", password: "")
-           }
-           return [GTRepositoryCloneOptionsCredentialProvider: credentialProvider]
-       }()
-    let remoteRepoURL = URL(string: "https://github.com/mssun/passforios-password-store.git")!
+    let cloneOptions: [String: GTCredentialProvider] = {
+        let credentialProvider = GTCredentialProvider { (_, _, _) -> (GTCredential?) in
+            try? GTCredential(userName: "", password: "")
+        }
+        return [GTRepositoryCloneOptionsCredentialProvider: credentialProvider]
+    }()
 
+    let remoteRepoURL = URL(string: "https://github.com/mssun/passforios-password-store.git")!
 
     func testCloneAndDecryptMultiKeys() throws {
         let url = URL(fileURLWithPath: "\(Globals.repositoryPath)-test")
@@ -38,8 +38,8 @@ class PasswordStoreTest: XCTestCase {
 
         [
             ("work/github.com", "4712286271220DB299883EA7062E678DA1024DAE"),
-            ("personal/github.com", "787EAE1A5FA3E749AA34CC6AA0645EBED862027E")
-        ].forEach {(path, id) in
+            ("personal/github.com", "787EAE1A5FA3E749AA34CC6AA0645EBED862027E"),
+        ].forEach { path, id in
             let keyID = findGPGID(from: url.appendingPathComponent(path))
             XCTAssertEqual(keyID, id)
         }
@@ -57,17 +57,14 @@ class PasswordStoreTest: XCTestCase {
 
         let testPassword = Password(name: "test", url: URL(string: "test.gpg")!, plainText: "testpassword")
         let testPasswordEntity = try passwordStore.add(password: testPassword)!
-        let testPasswordPlain = try passwordStore.decrypt(passwordEntity: testPasswordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase )
+        let testPasswordPlain = try passwordStore.decrypt(passwordEntity: testPasswordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
         XCTAssertEqual(testPasswordPlain.plainText, "testpassword")
 
         passwordStore.erase()
     }
 
-    private func decrypt(passwordStore: PasswordStore, path: String, passphrase: String) throws -> Password {
+    private func decrypt(passwordStore: PasswordStore, path: String, passphrase _: String) throws -> Password {
         let entity = passwordStore.getPasswordEntity(by: path, isDir: false)!
-        return try passwordStore.decrypt(passwordEntity: entity, requestPGPKeyPassphrase: requestPGPKeyPassphrase )
-
+        return try passwordStore.decrypt(passwordEntity: entity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
     }
-
 }
-

@@ -29,7 +29,7 @@ let MULTILINE_BLOCK_START = "multiline block" => "|"
 let MULTILINE_LINE_START = "multiline line" => ">"
 
 func getPasswordObjectWith(content: String, url: URL? = nil) -> Password {
-    return Password(name: "password", url: url ?? PASSWORD_URL, plainText: content)
+    Password(name: "password", url: url ?? PASSWORD_URL, plainText: content)
 }
 
 func assertDefaults(in password: Password, with passwordString: String, and additions: String,
@@ -44,11 +44,11 @@ func assertDefaults(in password: Password, with passwordString: String, and addi
 }
 
 infix operator ∈: AdditionPrecedence
-func ∈(field: AdditionField, password: Password) -> Bool {
-    return password.getFilteredAdditions().contains(field)
+func ∈ (field: AdditionField, password: Password) -> Bool {
+    password.getFilteredAdditions().contains(field)
 }
 
 infix operator ∉: AdditionPrecedence
-func ∉(field: AdditionField, password: Password) -> Bool {
-    return !(field ∈ password)
+func ∉ (field: AdditionField, password: Password) -> Bool {
+    !(field ∈ password)
 }

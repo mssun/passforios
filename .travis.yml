@@ -6,6 +6,7 @@ addons:
     - go
     - gnupg2
     - pass
+    - swiftformat
 before_install:
   - echo -e "machine github.com\n  login $GITHUB_ACCESS_TOKEN" >> ~/.netrc
 install:

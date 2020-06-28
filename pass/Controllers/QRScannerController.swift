@@ -6,11 +6,11 @@
 //  Copyright © 2017 Yishi Lin. All rights reserved.
 //
 
-import UIKit
 import AVFoundation
 import OneTimePassword
-import SVProgressHUD
 import passKit
+import SVProgressHUD
+import UIKit
 
 protocol QRScannerControllerDelegate {
     func checkScannedOutput(line: String) -> (accept: Bool, message: String)
@@ -18,8 +18,7 @@ protocol QRScannerControllerDelegate {
 }
 
 class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
-
-    @IBOutlet weak var scannerOutput: UILabel!
+    @IBOutlet var scannerOutput: UILabel!
 
     var captureSession: AVCaptureSession?
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
@@ -93,15 +92,12 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
         // Dispose of any resources that can be recreated.
     }
 
-
     // MARK: - AVCaptureMetadataOutputObjectsDelegate Methods
 
-    func metadataOutput(_ captureOutput: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-
+    func metadataOutput(_: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from _: AVCaptureConnection) {
         if let metadataObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
             supportedCodeTypes.contains(metadataObj.type),
             let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj) {
-
             // draw a bounds on the found QR code
             qrCodeFrameView?.frame = barCodeObject.bounds
 

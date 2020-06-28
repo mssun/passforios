@@ -10,7 +10,6 @@ import Foundation
 
 // https://gist.github.com/NikolaiRuhe/eeb135d20c84a7097516
 public extension FileManager {
-
     /// This method calculates the accumulated size of a directory on the volume in bytes.
     ///
     /// As there's no simple way to get this information from the file system it has to crawl the entire hierarchy,
@@ -19,8 +18,7 @@ public extension FileManager {
     ///
     /// - note: There are a couple of oddities that are not taken into account (like symbolic links, meta data of
     /// directories, hard links, ...).
-    func allocatedSizeOfDirectoryAtURL(directoryURL : URL) throws -> UInt64 {
-
+    func allocatedSizeOfDirectoryAtURL(directoryURL: URL) throws -> UInt64 {
         // We'll sum up content size here:
         var accumulatedSize = UInt64(0)
 
@@ -29,7 +27,7 @@ public extension FileManager {
             URLResourceKey.isRegularFileKey,
             URLResourceKey.fileAllocatedSizeKey,
             URLResourceKey.totalFileAllocatedSizeKey,
-            ]
+        ]
 
         // The error handler simply signals errors to outside code.
         var errorDidOccur: Error?
@@ -37,7 +35,6 @@ public extension FileManager {
             errorDidOccur = error
             return false
         }
-
 
         // We have to enumerate all directory contents, including subdirectories.
         let enumerator = self.enumerator(at: directoryURL,
@@ -91,4 +88,3 @@ public extension FileManager {
         return accumulatedSize
     }
 }
-

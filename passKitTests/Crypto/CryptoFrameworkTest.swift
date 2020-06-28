@@ -8,11 +8,11 @@
 
 import XCTest
 
+// swiftformat:disable:next sortedImports
 @testable import passKit
 @testable import Crypto
 
 class CryptoFrameworkTest: XCTestCase {
-
     typealias MessageConverter = (CryptoPGPMessage, NSErrorPointer) -> CryptoPGPMessage?
 
     private let testText = "Hello World!"
@@ -47,7 +47,7 @@ class CryptoFrameworkTest: XCTestCase {
         ].forEach { testKeyInfo in
             var error: NSError?
             guard let publicKey = CryptoNewKeyFromArmored(testKeyInfo.publicKey, &error),
-                  let privateKey = CryptoNewKeyFromArmored(testKeyInfo.privateKey, &error) else {
+                let privateKey = CryptoNewKeyFromArmored(testKeyInfo.privateKey, &error) else {
                 XCTFail("Keys cannot be initialized.")
                 return
             }

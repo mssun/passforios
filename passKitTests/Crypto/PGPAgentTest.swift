@@ -6,8 +6,8 @@
 //  Copyright © 2019 Bob Sun. All rights reserved.
 //
 
-import XCTest
 import SwiftyUserDefaults
+import XCTest
 
 @testable import passKit
 
@@ -144,17 +144,17 @@ class PGPAgentTest: XCTestCase {
             passphraseRequestCalledCount += 1
             return "incorrect passphrase"
         }
-        
+
         // Provide the correct passphrase.
         XCTAssertEqual(try basicEncryptDecrypt(using: pgpAgent, keyID: RSA2048.fingerprint, requestPassphrase: provideCorrectPassphrase), testData)
         XCTAssertEqual(passphraseRequestCalledCount, 1)
-        
+
         // Provide the wrong passphrase.
         XCTAssertThrowsError(try basicEncryptDecrypt(using: pgpAgent, keyID: RSA2048.fingerprint, requestPassphrase: provideIncorrectPassphrase)) {
             XCTAssertEqual($0 as! AppError, AppError.WrongPassphrase)
         }
         XCTAssertEqual(passphraseRequestCalledCount, 2)
-        
+
         // Ask for the passphrase because the previous decryption has failed.
         XCTAssertEqual(try basicEncryptDecrypt(using: pgpAgent, keyID: RSA2048.fingerprint, requestPassphrase: provideCorrectPassphrase), testData)
         XCTAssertEqual(passphraseRequestCalledCount, 3)
@@ -165,4 +165,3 @@ class PGPAgentTest: XCTestCase {
         try KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: "", keyHandler: keychain.add).importKey(from: privateKey)
     }
 }
-

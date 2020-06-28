@@ -10,12 +10,12 @@ import passKit
 import SVProgressHUD
 
 class SSHKeyFileImportTableViewController: AutoCellHeightUITableViewController {
+    @IBOutlet var sshPrivateKeyFile: UITableViewCell!
 
-    @IBOutlet weak var sshPrivateKeyFile: UITableViewCell!
+    private var privateKey: String?
 
-    private var privateKey: String? = nil
-
-    @IBAction func doneButtonTapped(_ sender: Any) {
+    @IBAction
+    func doneButtonTapped(_: Any) {
         performSegue(withIdentifier: "importSSHKeySegue", sender: self)
     }
 
@@ -35,7 +35,6 @@ class SSHKeyFileImportTableViewController: AutoCellHeightUITableViewController {
 }
 
 extension SSHKeyFileImportTableViewController: UIDocumentPickerDelegate {
-
     func documentPicker(_: UIDocumentPickerViewController, didPickDocumentsAt url: [URL]) {
         guard let url = url.first else {
             return
@@ -61,7 +60,6 @@ extension SSHKeyFileImportTableViewController: UIDocumentPickerDelegate {
 }
 
 extension SSHKeyFileImportTableViewController: KeyImporter {
-
     static let keySource = KeySource.file
     static let label = "LoadFromFiles".localize()
 

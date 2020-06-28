@@ -21,15 +21,15 @@ class DictBasedKeychain: KeyStore {
     }
 
     public func contains(key: String) -> Bool {
-        return store[key] != nil
+        store[key] != nil
     }
 
     public func get(for key: String) -> Data? {
-        return store[key] as? Data
+        store[key] as? Data
     }
 
     public func get(for key: String) -> String? {
-        return store[key] as? String
+        store[key] as? String
     }
 
     public func removeContent(for key: String) {

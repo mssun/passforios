@@ -6,14 +6,14 @@
 //  Copyright © 2017 Yishi Lin. All rights reserved.
 //
 
-import UIKit
 import passKit
+import UIKit
 
 class GitConfigSettingsTableViewController: UITableViewController {
     let passwordStore = PasswordStore.shared
 
-    @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet var nameTextField: UITextField!
+    @IBOutlet var emailTextField: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,7 @@ class GitConfigSettingsTableViewController: UITableViewController {
         emailTextField.text = Defaults.gitSignatureEmail
     }
 
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender _: Any?) -> Bool {
         if identifier == "saveGitConfigSettingSegue" {
             let name = nameTextField.text!.isEmpty ? Globals.gitSignatureDefaultName : nameTextField.text!
             let email = emailTextField.text!.isEmpty ? Globals.gitSignatureDefaultEmail : nameTextField.text!
@@ -38,4 +38,3 @@ class GitConfigSettingsTableViewController: UITableViewController {
         return true
     }
 }
-

@@ -9,17 +9,16 @@
 import UIKit
 
 class TextViewTableViewCell: UITableViewCell, ContentProvider {
+    @IBOutlet var contentTextView: UITextView!
 
-    @IBOutlet weak var contentTextView: UITextView!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.contentTextView.textContainer.lineFragmentPadding = 0
-        self.contentTextView.textContainerInset = .zero
+        contentTextView.textContainer.lineFragmentPadding = 0
+        contentTextView.textContainerInset = .zero
     }
 
     func getContent() -> String? {
-        return contentTextView.text
+        contentTextView.text
     }
 
     func setContent(content: String?) {

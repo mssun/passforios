@@ -9,7 +9,6 @@
 import passKit
 
 protocol KeyImporter {
-
     static var keySource: KeySource { get }
 
     static var label: String { get }
@@ -24,9 +23,8 @@ protocol KeyImporter {
 }
 
 extension KeyImporter {
-
     static var isCurrentKeySource: Bool {
-        return Defaults.gitSSHKeySource == Self.keySource
+        Defaults.gitSSHKeySource == Self.keySource
     }
 
     static var menuLabel: String {

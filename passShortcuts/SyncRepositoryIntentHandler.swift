@@ -10,7 +10,6 @@ import Intents
 import passKit
 
 public class SyncRepositoryIntentHandler: NSObject, SyncRepositoryIntentHandling {
-
     private let passwordStore = PasswordStore.shared
     private let keychain = AppKeychain.shared
 
@@ -24,7 +23,7 @@ public class SyncRepositoryIntentHandler: NSObject, SyncRepositoryIntentHandling
         }
     }
 
-    public func handle(intent: SyncRepositoryIntent, completion: @escaping (SyncRepositoryIntentResponse) -> Void) {
+    public func handle(intent _: SyncRepositoryIntent, completion: @escaping (SyncRepositoryIntentResponse) -> Void) {
         guard passwordStore.repositoryExists() else {
             completion(SyncRepositoryIntentResponse(code: .noRepository, userActivity: nil))
             return

@@ -11,9 +11,8 @@
 import UIKit
 
 open class PasscodeLockPresenter {
-
-    fileprivate var mainWindow: UIWindow?
-    fileprivate var passcodeLockWindow: UIWindow?
+    private var mainWindow: UIWindow?
+    private var passcodeLockWindow: UIWindow?
 
     public init(mainWindow window: UIWindow?) {
         self.mainWindow = window
@@ -27,7 +26,7 @@ open class PasscodeLockPresenter {
 
         // new window
         mainWindow?.endEditing(true)
-        passcodeLockWindow = UIWindow(frame: self.mainWindow!.frame)
+        passcodeLockWindow = UIWindow(frame: mainWindow!.frame)
         moveWindowsToFront(windowLevel: windowLevel)
         passcodeLockWindow?.isHidden = false
 
@@ -46,9 +45,9 @@ open class PasscodeLockPresenter {
         passcodeLockWindow?.rootViewController = nil
     }
 
-    fileprivate func moveWindowsToFront(windowLevel: CGFloat?) {
+    private func moveWindowsToFront(windowLevel: CGFloat?) {
         let windowLevel = windowLevel ?? UIWindow.Level.normal.rawValue
         let maxWinLevel = max(windowLevel, UIWindow.Level.normal.rawValue)
-        passcodeLockWindow?.windowLevel =  UIWindow.Level(rawValue: maxWinLevel + 1)
+        passcodeLockWindow?.windowLevel = UIWindow.Level(rawValue: maxWinLevel + 1)
     }
 }

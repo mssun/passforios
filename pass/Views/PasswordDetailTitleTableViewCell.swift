@@ -9,12 +9,11 @@
 import UIKit
 
 class PasswordDetailTitleTableViewCell: UITableViewCell {
-    @IBOutlet weak var categoryLabel: UILabel!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var passwordImageImageView: UIImageView!
+    @IBOutlet var categoryLabel: UILabel!
+    @IBOutlet var nameLabel: UILabel!
+    @IBOutlet var passwordImageImageView: UIImageView!
     @IBOutlet var labelImageConstraint: NSLayoutConstraint!
     @IBOutlet var labelCellConstraint: NSLayoutConstraint!
-
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,5 +24,4 @@ class PasswordDetailTitleTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }

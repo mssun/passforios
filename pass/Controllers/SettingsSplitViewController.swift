@@ -10,15 +10,16 @@ import UIKit
 
 class SettingsSplitViewController: UISplitViewController, UISplitViewControllerDelegate {
     override func viewDidLoad() {
-        self.delegate = self
-        self.preferredDisplayMode = .allVisible
+        delegate = self
+        preferredDisplayMode = .allVisible
     }
 
     func splitViewController(
-        _ splitViewController: UISplitViewController,
-        collapseSecondary secondaryViewController: UIViewController,
-        onto primaryViewController: UIViewController) -> Bool {
+        _: UISplitViewController,
+        collapseSecondary _: UIViewController,
+        onto _: UIViewController
+    ) -> Bool {
         // Return true to prevent UIKit from applying its default behavior
-        return true
+        true
     }
 }

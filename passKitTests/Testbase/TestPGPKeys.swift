@@ -11,7 +11,6 @@ import XCTest
 @testable import passKit
 
 struct PGPTestSet {
-
     fileprivate static var ALL_TEST_SETS: [String: PGPTestSet] = [:]
 
     let publicKey: String
@@ -81,14 +80,14 @@ let NISTP384 = PGPTestSet(
     passphrase: "soirofssap"
 ).collect()
 
-let RSA2048_RSA4096 =  MultiKeyPGPTestSet(
+let RSA2048_RSA4096 = MultiKeyPGPTestSet(
     publicKeys: PGP_RSA2048_PUBLIC_KEY | PGP_RSA4096_PUBLIC_KEY,
     privateKeys: PGP_RSA2048_PRIVATE_KEY | PGP_RSA4096_PRIVATE_KEY,
     fingerprints: ["a1024dae", "d862027e"],
     passphrases: ["passforios", "passforios"]
 )
 
-let ED25519_NISTP384 =  MultiKeyPGPTestSet(
+let ED25519_NISTP384 = MultiKeyPGPTestSet(
     publicKeys: PGP_ED25519_PUBLIC_KEY | PGP_NISTP384_PUBLIC_KEY,
     privateKeys: PGP_ED25519_PRIVATE_KEY | PGP_NISTP384_PRIVATE_KEY,
     fingerprints: ["e9444483", "5af3c085"],

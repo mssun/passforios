@@ -6,26 +6,27 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import UIKit
-import SVProgressHUD
 import CoreData
 import passKit
+import SVProgressHUD
+import UIKit
 
 class SettingsTableViewController: UITableViewController, UITabBarControllerDelegate {
-    @IBOutlet weak var pgpKeyTableViewCell: UITableViewCell!
-    @IBOutlet weak var passcodeTableViewCell: UITableViewCell!
-    @IBOutlet weak var passwordRepositoryTableViewCell: UITableViewCell!
+    @IBOutlet var pgpKeyTableViewCell: UITableViewCell!
+    @IBOutlet var passcodeTableViewCell: UITableViewCell!
+    @IBOutlet var passwordRepositoryTableViewCell: UITableViewCell!
     var setPasscodeLockAlert: UIAlertController?
 
     let passwordStore = PasswordStore.shared
     let keychain = AppKeychain.shared
     var passcodeLock = PasscodeLock.shared
 
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+    func tabBarController(_: UITabBarController, didSelect _: UIViewController) {
         navigationController?.popViewController(animated: true)
     }
 
-    @IBAction func savePGPKey(segue: UIStoryboardSegue) {
+    @IBAction
+    func savePGPKey(segue: UIStoryboardSegue) {
         guard let sourceController = segue.source as? PGPKeyImporter, sourceController.isReadyToUse() else {
             return
         }
@@ -58,19 +59,20 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         }
     }
 
-    @IBAction func saveGitServerSetting(segue: UIStoryboardSegue) {
-        self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults.gitURL.host
+    @IBAction
+    func saveGitServerSetting(segue _: UIStoryboardSegue) {
+        passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults.gitURL.host
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.actOnPasswordStoreErasedNotification), name: .passwordStoreErased, object: nil)
-        self.passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults.gitURL.host
+        passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults.gitURL.host
         setPGPKeyTableViewCellDetailText()
         setPasscodeLockCell()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_: Bool) {
         super.viewWillAppear(true)
         tabBarController!.delegate = self
         setPasswordRepositoryTableViewCellDetailText()
@@ -78,9 +80,9 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
     private func setPasscodeLockCell() {
         if passcodeLock.hasPasscode {
-            self.passcodeTableViewCell.detailTextLabel?.text = "On".localize()
+            passcodeTableViewCell.detailTextLabel?.text = "On".localize()
         } else {
-            self.passcodeTableViewCell.detailTextLabel?.text = "Off".localize()
+            passcodeTableViewCell.detailTextLabel?.text = "Off".localize()
         }
     }
 
@@ -107,7 +109,8 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         passwordRepositoryTableViewCell.detailTextLabel?.text = host
     }
 
-    @objc func actOnPasswordStoreErasedNotification() {
+    @objc
+    func actOnPasswordStoreErasedNotification() {
         setPGPKeyTableViewCellDetailText()
         setPasswordRepositoryTableViewCellDetailText()
         setPasscodeLockCell()
@@ -180,9 +183,8 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let passcodeRemoveViewController = PasscodeLockViewController()
 
-
         let removePasscodeAction = UIAlertAction(title: "RemovePasscode".localize(), style: .destructive) { [weak self] _ in
-            passcodeRemoveViewController.successCallback  = {
+            passcodeRemoveViewController.successCallback = {
                 self?.passcodeLock.delete()
                 self?.setPasscodeLockCell()
             }
@@ -198,10 +200,11 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         optionMenu.addAction(UIAlertAction.cancel())
         optionMenu.popoverPresentationController?.sourceView = passcodeTableViewCell
         optionMenu.popoverPresentationController?.sourceRect = passcodeTableViewCell.bounds
-        self.present(optionMenu, animated: true, completion: nil)
+        present(optionMenu, animated: true, completion: nil)
     }
 
-    @objc func alertTextFieldDidChange(_ sender: UITextField) {
+    @objc
+    func alertTextFieldDidChange(_ sender: UITextField) {
         // check whether we should enable the Save button in setPasscodeLockAlert
         if let setPasscodeLockAlert = self.setPasscodeLockAlert,
             let setPasscodeLockAlertTextFields0 = setPasscodeLockAlert.textFields?[0],
@@ -218,25 +221,25 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     func setPasscodeLock() {
         // prepare the alert for setting the passcode
         setPasscodeLockAlert = UIAlertController(title: "SetPasscode".localize(), message: "FillInAppPasscode.".localize(), preferredStyle: .alert)
-        setPasscodeLockAlert?.addTextField(configurationHandler: {(_ textField: UITextField) -> Void in
+        setPasscodeLockAlert?.addTextField(configurationHandler: { (_ textField: UITextField) -> Void in
             textField.placeholder = "Passcode".localize()
             textField.isSecureTextEntry = true
             textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         })
-        setPasscodeLockAlert?.addTextField(configurationHandler: {(_ textField: UITextField) -> Void in
+        setPasscodeLockAlert?.addTextField(configurationHandler: { (_ textField: UITextField) -> Void in
             textField.placeholder = "PasswordConfirmation".localize()
             textField.isSecureTextEntry = true
             textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         })
 
         // save action
-        let saveAction = UIAlertAction(title: "Save".localize(), style: .default) { (action:UIAlertAction) -> Void in
+        let saveAction = UIAlertAction(title: "Save".localize(), style: .default) { (_: UIAlertAction) -> Void in
             let passcode: String = self.setPasscodeLockAlert!.textFields![0].text!
             self.passcodeLock.save(passcode: passcode)
             // refresh the passcode lock cell ("On")
             self.setPasscodeLockCell()
         }
-        saveAction.isEnabled = false  // disable the Save button by default
+        saveAction.isEnabled = false // disable the Save button by default
 
         // cancel action
         let cancelAction = UIAlertAction.cancel()
@@ -244,17 +247,16 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         // present
         setPasscodeLockAlert?.addAction(saveAction)
         setPasscodeLockAlert?.addAction(cancelAction)
-        self.present(setPasscodeLockAlert!, animated: true, completion: nil)
+        present(setPasscodeLockAlert!, animated: true, completion: nil)
     }
 }
 
 extension SettingsTableViewController: PGPKeyImporter {
-
     static let keySource = KeySource.itunes
     static let label = "ITunesFileSharing".localize()
 
     func isReadyToUse() -> Bool {
-        return KeyFileManager.PublicPgp.doesKeyFileExist() && KeyFileManager.PrivatePgp.doesKeyFileExist()
+        KeyFileManager.PublicPgp.doesKeyFileExist() && KeyFileManager.PrivatePgp.doesKeyFileExist()
     }
 
     func importKeys() throws {

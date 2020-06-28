@@ -6,12 +6,11 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import UIKit
 import passKit
+import UIKit
 
 class RawPasswordViewController: UIViewController {
-
-    @IBOutlet weak var rawPasswordTextView: UITextView!
+    @IBOutlet var rawPasswordTextView: UITextView!
     var password: Password?
 
     override func viewDidLoad() {

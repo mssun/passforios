@@ -7,7 +7,6 @@
 //
 
 public class Utils {
-
     public static func copyToPasteboard(textToCopy: String?) {
         guard textToCopy != nil else {
             return
@@ -15,8 +14,8 @@ public class Utils {
         UIPasteboard.general.string = textToCopy
     }
 
-    public static func attributedPassword(plainPassword: String) -> NSAttributedString{
-        let attributedPassword = NSMutableAttributedString.init(string: plainPassword)
+    public static func attributedPassword(plainPassword: String) -> NSAttributedString {
+        let attributedPassword = NSMutableAttributedString(string: plainPassword)
         // draw all digits in the password into red
         // draw all punctuation characters in the password into blue
         for (index, element) in plainPassword.unicodeScalars.enumerated() {
@@ -40,24 +39,24 @@ public class Utils {
     }
 
     public static func createRequestPGPKeyPassphraseHandler(controller: UIViewController) -> (String) -> String {
-        return { keyID in
+        { keyID in
             let sem = DispatchSemaphore(value: 0)
             var passphrase = ""
             DispatchQueue.main.async {
                 let title = "Passphrase".localize() + " (\(keyID.suffix(8)))"
                 let message = "FillInPgpPassphrase.".localize()
                 let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-                alert.addAction(UIAlertAction.ok() { _ in
+                alert.addAction(UIAlertAction.ok { _ in
                     passphrase = alert.textFields?.first?.text ?? ""
                     sem.signal()
                 })
-                alert.addTextField() { textField in
+                alert.addTextField { textField in
                     textField.text = AppKeychain.shared.get(for: AppKeychain.getPGPKeyPassphraseKey(keyID: keyID)) ?? ""
                     textField.isSecureTextEntry = true
                 }
                 controller.present(alert, animated: true)
             }
-            let _ = sem.wait(timeout: DispatchTime.distantFuture)
+            _ = sem.wait(timeout: DispatchTime.distantFuture)
             if Defaults.isRememberPGPPassphraseOn {
                 AppKeychain.shared.add(string: passphrase, for: AppKeychain.getPGPKeyPassphraseKey(keyID: keyID))
             }
@@ -65,4 +64,3 @@ public class Utils {
         }
     }
 }
-

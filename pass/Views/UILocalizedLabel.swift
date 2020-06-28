@@ -6,11 +6,10 @@
  Copyright © 2019 Bob Sun. All rights reserved.
  */
 
-import UIKit
 import passKit
+import UIKit
 
 class UILocalizedLabel: UILabel {
-
     override func awakeFromNib() {
         super.awakeFromNib()
         text = text?.localize()

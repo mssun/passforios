@@ -8,7 +8,7 @@
 
 extension String {
     public var trimmed: String {
-        return trimmingCharacters(in: .whitespacesAndNewlines)
+        trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     public func stringByAddingPercentEncodingForRFC3986() -> String? {
@@ -19,12 +19,12 @@ extension String {
     }
 
     public func splitByNewline() -> [String] {
-        return split(omittingEmptySubsequences: false) { $0 == "\n" || $0 == "\r\n" }.map(String.init)
+        split(omittingEmptySubsequences: false) { $0 == "\n" || $0 == "\r\n" }.map(String.init)
     }
 }
 
 extension String {
     public static func | (left: String, right: String) -> String {
-        return right.isEmpty ? left : left + "\n" + right
+        right.isEmpty ? left : left + "\n" + right
     }
 }

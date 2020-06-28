@@ -6,9 +6,9 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import UIKit
 import ObjectiveGit
 import passKit
+import UIKit
 
 class CommitLogsTableViewController: UITableViewController {
     var commits: [GTCommit] = []
@@ -18,12 +18,12 @@ class CommitLogsTableViewController: UITableViewController {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(updateCommitLogs), name: .passwordStoreUpdated, object: nil)
         commits = getCommitLogs()
-        self.tableView.estimatedRowHeight = 50
-        self.tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 50
+        tableView.rowHeight = UITableView.automaticDimension
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return commits.count
+    override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+        commits.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -42,7 +42,8 @@ class CommitLogsTableViewController: UITableViewController {
         return cell
     }
 
-    @objc func updateCommitLogs() {
+    @objc
+    func updateCommitLogs() {
         commits = getCommitLogs()
         tableView.reloadData()
     }

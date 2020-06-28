@@ -25,7 +25,7 @@ public struct GitCredential {
     public func credentialProvider(requestCredentialPassword: @escaping (Credential, String?) -> String?) throws -> GTCredentialProvider {
         var attempts = 0
         return GTCredentialProvider { (_, _, _) -> (GTCredential?) in
-            var credential: GTCredential? = nil
+            var credential: GTCredential?
 
             switch self.credential {
             case let .http(userName):
@@ -52,7 +52,7 @@ public struct GitCredential {
                     return nil
                 }
                 var lastPassword = self.passwordStore.gitSSHPrivateKeyPassphrase
-                if lastPassword == nil || attempts != 0  {
+                if lastPassword == nil || attempts != 0 {
                     if let requestedPassword = requestCredentialPassword(self.credential, lastPassword) {
                         if Defaults.isRememberGitCredentialPassphraseOn {
                             self.passwordStore.gitSSHPrivateKeyPassphrase = requestedPassword
@@ -72,10 +72,9 @@ public struct GitCredential {
     public func delete() {
         switch credential {
         case .http:
-            self.passwordStore.gitPassword = nil
+            passwordStore.gitPassword = nil
         case .ssh:
-            self.passwordStore.gitSSHPrivateKeyPassphrase = nil
+            passwordStore.gitSSHPrivateKeyPassphrase = nil
         }
     }
 }
-

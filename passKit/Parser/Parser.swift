@@ -7,7 +7,6 @@
 //
 
 class Parser {
-
     let firstLine: String
     let additionsSection: String
     let purgedAdditionalLines: [String]
@@ -19,8 +18,8 @@ class Parser {
         let splittedPlainText = plainText.splitByNewline()
 
         firstLine = splittedPlainText.first!
-        additionsSection = splittedPlainText[1...].joined(separator: "\n")
-        purgedAdditionalLines = splittedPlainText[1...].filter { !$0.isEmpty }
+        self.additionsSection = splittedPlainText[1...].joined(separator: "\n")
+        self.purgedAdditionalLines = splittedPlainText[1...].filter { !$0.isEmpty }
     }
 
     private func getAdditionFields() -> [AdditionField] {
@@ -57,7 +56,7 @@ class Parser {
         }
         let initialBlanks = String(repeating: Constants.BLANK, count: numberInitialBlanks)
 
-        while i < purgedAdditionalLines.count && purgedAdditionalLines[i].starts(with: initialBlanks) {
+        while i < purgedAdditionalLines.count, purgedAdditionalLines[i].starts(with: initialBlanks) {
             result.append(String(purgedAdditionalLines[i].dropFirst(numberInitialBlanks)))
             result.append(Constants.getSeparator(breakingLines: !removingLineBreaks))
             i += 1

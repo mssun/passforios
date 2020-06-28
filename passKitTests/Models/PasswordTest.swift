@@ -11,7 +11,6 @@ import XCTest
 @testable import passKit
 
 class PasswordTest: XCTestCase {
-
     func testUrl() {
         let password = getPasswordObjectWith(content: "")
 
@@ -244,7 +243,6 @@ class PasswordTest: XCTestCase {
 
         XCTAssertEqual(password.nameFromPath, "exampleusername")
     }
-
 
     func testMultilineValues() {
         let lineBreakField = "with line breaks" => "|\n  This is \n   text spread over \n  multiple lines!  "

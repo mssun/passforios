@@ -10,7 +10,6 @@ import Intents
 import passKit
 
 class IntentHandler: INExtension {
-    
     override func handler(for intent: INIntent) -> Any {
         guard intent is SyncRepositoryIntent else {
             fatalError("Unhandled intent type \(intent).")

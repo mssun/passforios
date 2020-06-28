@@ -14,14 +14,17 @@ class PasscodeLockViewControllerForExtension: PasscodeLockViewController {
     var originalExtensionContest: NSExtensionContext?
     public convenience init(extensionContext: NSExtensionContext?) {
         self.init()
-        originalExtensionContest = extensionContext
+        self.originalExtensionContest = extensionContext
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         cancelButton?.removeTarget(nil, action: nil, for: .allEvents)
         cancelButton?.addTarget(self, action: #selector(cancelExtension), for: .touchUpInside)
     }
-    @objc func cancelExtension() {
+
+    @objc
+    func cancelExtension() {
         originalExtensionContest?.completeRequest(returningItems: [], completionHandler: nil)
     }
 }
@@ -33,7 +36,7 @@ class PasscodeExtensionDisplay {
 
     public init(extensionContext: NSExtensionContext?) {
         self.extensionContext = extensionContext
-        passcodeLockVC = PasscodeLockViewControllerForExtension(extensionContext: extensionContext)
+        self.passcodeLockVC = PasscodeLockViewControllerForExtension(extensionContext: extensionContext)
         passcodeLockVC.dismissCompletionCallback = { [weak self] in
             self?.dismiss()
         }
@@ -42,14 +45,14 @@ class PasscodeExtensionDisplay {
 
     // present the passcode lock view if passcode is set and the view controller is not presented
     public func presentPasscodeLockIfNeeded(_ extensionVC: UIViewController) {
-        guard PasscodeLock.shared.hasPasscode && !isPasscodePresented == true else {
+        guard PasscodeLock.shared.hasPasscode, !isPasscodePresented == true else {
             return
         }
         isPasscodePresented = true
         extensionVC.present(passcodeLockVC, animated: true, completion: nil)
     }
 
-    public func dismiss(animated: Bool = true) {
+    public func dismiss(animated _: Bool = true) {
         isPasscodePresented = false
     }
 }

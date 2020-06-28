@@ -7,7 +7,6 @@
 //
 
 public class PGPAgent {
-
     public static let shared: PGPAgent = PGPAgent()
 
     private let keyStore: KeyStore
@@ -20,7 +19,7 @@ public class PGPAgent {
 
     public func initKeys() throws {
         guard let publicKey: String = keyStore.get(for: PgpKey.PUBLIC.getKeychainKey()),
-              let privateKey: String = keyStore.get(for: PgpKey.PRIVATE.getKeychainKey()) else {
+            let privateKey: String = keyStore.get(for: PgpKey.PRIVATE.getKeychainKey()) else {
             pgpInterface = nil
             throw AppError.KeyImport
         }
@@ -52,7 +51,7 @@ public class PGPAgent {
             throw AppError.Decryption
         }
 
-        var keyID = keyID;
+        var keyID = keyID
         if !pgpInterface.containsPrivateKey(with: keyID) {
             if pgpInterface.keyID.count == 1 {
                 keyID = pgpInterface.keyID.first!
@@ -62,8 +61,8 @@ public class PGPAgent {
         }
 
         // Remember the previous status and set the current status
-        let previousDecryptStatus = self.latestDecryptStatus
-        self.latestDecryptStatus = false
+        let previousDecryptStatus = latestDecryptStatus
+        latestDecryptStatus = false
 
         // Get the PGP key passphrase.
         var passphrase = ""
@@ -77,7 +76,7 @@ public class PGPAgent {
             return nil
         }
         // The decryption step has succeed.
-        self.latestDecryptStatus = true
+        latestDecryptStatus = true
         return result
     }
 
@@ -98,7 +97,7 @@ public class PGPAgent {
     }
 
     public var isPrepared: Bool {
-        return keyStore.contains(key: PgpKey.PUBLIC.getKeychainKey())
+        keyStore.contains(key: PgpKey.PUBLIC.getKeychainKey())
             && keyStore.contains(key: PgpKey.PRIVATE.getKeychainKey())
     }
 

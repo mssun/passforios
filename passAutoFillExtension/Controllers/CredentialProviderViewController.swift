@@ -10,8 +10,8 @@ import AuthenticationServices
 import passKit
 
 class CredentialProviderViewController: ASCredentialProviderViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet var searchBar: UISearchBar!
+    @IBOutlet var tableView: UITableView!
 
     private let passwordStore = PasswordStore.shared
     private let keychain = AppKeychain.shared
@@ -26,13 +26,13 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
     }()
 
     /*
-     Prepare your UI to list available credentials for the user to choose from. The items in
-     'serviceIdentifiers' describe the service the user is logging in to, so your extension can
-     prioritize the most relevant credentials in the list.
-    */
+      Prepare your UI to list available credentials for the user to choose from. The items in
+      'serviceIdentifiers' describe the service the user is logging in to, so your extension can
+      prioritize the most relevant credentials in the list.
+     */
     override func prepareCredentialList(for serviceIdentifiers: [ASCredentialServiceIdentifier]) {
         // clean up the search bar
-        guard serviceIdentifiers.count > 0 else {
+        guard !serviceIdentifiers.isEmpty else {
             searchBar.text = ""
             searchBar.becomeFirstResponder()
             searchBarSearchButtonClicked(searchBar)
@@ -41,7 +41,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
 
         // get the domain
         var identifier = serviceIdentifiers[0].identifier
-        if !identifier.hasPrefix("http://") && !identifier.hasPrefix("https://") {
+        if !identifier.hasPrefix("http://"), !identifier.hasPrefix("https://") {
             identifier = "http://" + identifier
         }
         let url = URL(string: identifier)?.host ?? ""
@@ -53,37 +53,38 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
     }
 
     /*
-     Implement this method if your extension support
-     s showing credentials in the QuickType bar.
-     When the user selects a credential from your app, this method will be called with the
-     ASPasswordCredentialIdentity your app has previously saved to the ASCredentialIdentityStore.
-     Provide the password by completing the extension request with the associated ASPasswordCredential.
-     If using the credential would require showing custom UI for authenticating the user, cancel
-     the request with error code ASExtensionError.userInteractionRequired.
+      Implement this method if your extension support
+      s showing credentials in the QuickType bar.
+      When the user selects a credential from your app, this method will be called with the
+      ASPasswordCredentialIdentity your app has previously saved to the ASCredentialIdentityStore.
+      Provide the password by completing the extension request with the associated ASPasswordCredential.
+      If using the credential would require showing custom UI for authenticating the user, cancel
+      the request with error code ASExtensionError.userInteractionRequired.
 
-    override func provideCredentialWithoutUserInteraction(for credentialIdentity: ASPasswordCredentialIdentity) {
-        let databaseIsUnlocked = true
-        if (databaseIsUnlocked) {
-            let passwordCredential = ASPasswordCredential(user: "j_appleseed", password: "apple1234")
-            self.extensionContext.completeRequest(withSelectedCredential: passwordCredential, completionHandler: nil)
-        } else {
-            self.extensionContext.cancelRequest(withError: NSError(domain: ASExtensionErrorDomain, code:ASExtensionError.userInteractionRequired.rawValue))
-        }
-    }
-    */
+     override func provideCredentialWithoutUserInteraction(for credentialIdentity: ASPasswordCredentialIdentity) {
+         let databaseIsUnlocked = true
+         if (databaseIsUnlocked) {
+             let passwordCredential = ASPasswordCredential(user: "j_appleseed", password: "apple1234")
+             self.extensionContext.completeRequest(withSelectedCredential: passwordCredential, completionHandler: nil)
+         } else {
+             self.extensionContext.cancelRequest(withError: NSError(domain: ASExtensionErrorDomain, code:ASExtensionError.userInteractionRequired.rawValue))
+         }
+     }
+     */
 
     /*
-     Implement this method if provideCredentialWithoutUserInteraction(for:) can fail with
-     ASExtensionError.userInteractionRequired. In this case, the system may present your extension's
-     UI and call this method. Show appropriate UI for authenticating the user then provide the password
-     by completing the extension request with the associated ASPasswordCredential.
+      Implement this method if provideCredentialWithoutUserInteraction(for:) can fail with
+      ASExtensionError.userInteractionRequired. In this case, the system may present your extension's
+      UI and call this method. Show appropriate UI for authenticating the user then provide the password
+      by completing the extension request with the associated ASPasswordCredential.
 
-    override func prepareInterfaceToProvideCredential(for credentialIdentity: ASPasswordCredentialIdentity) {
-    }
-    */
+     override func prepareInterfaceToProvideCredential(for credentialIdentity: ASPasswordCredentialIdentity) {
+     }
+     */
 
-    @IBAction func cancel(_ sender: AnyObject?) {
-        self.extensionContext.cancelRequest(withError: NSError(domain: ASExtensionErrorDomain, code: ASExtensionError.userCanceled.rawValue))
+    @IBAction
+    func cancel(_: AnyObject?) {
+        extensionContext.cancelRequest(withError: NSError(domain: ASExtensionErrorDomain, code: ASExtensionError.userCanceled.rawValue))
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -106,8 +107,8 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
 
     private func initPasswordsTableEntries() {
         filteredPasswordsTableEntries.removeAll()
-        
-        let passwordEntities = self.passwordStore.fetchPasswordEntityCoreData(withDir: false)
+
+        let passwordEntities = passwordStore.fetchPasswordEntityCoreData(withDir: false)
         passwordsTableEntries = passwordEntities.compactMap {
             PasswordTableEntry($0)
         }
@@ -129,7 +130,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
     }
 
     // select row -> extension returns (with username and password)
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         let entry = getPasswordEntry(by: indexPath)
 
         guard PGPAgent.shared.isPrepared else {
@@ -139,7 +140,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
 
         let passwordEntity = entry.passwordEntity
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        self.decryptPassword(passwordEntity: passwordEntity)
+        decryptPassword(passwordEntity: passwordEntity)
     }
 
     private func decryptPassword(passwordEntity: PasswordEntity, keyID: String? = nil) {
@@ -154,7 +155,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
                     let passwordCredential = ASPasswordCredential(user: username, password: password)
                     self.extensionContext.completeRequest(withSelectedCredential: passwordCredential)
                 }
-            } catch AppError.PgpPrivateKeyNotFound(let key)  {
+            } catch let AppError.PgpPrivateKeyNotFound(key) {
                 DispatchQueue.main.async {
                     let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.PgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
@@ -173,34 +174,34 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
         }
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+    func numberOfSectionsInTableView(tableView _: UITableView) -> Int {
+        1
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         if searchActive {
             return filteredPasswordsTableEntries.count
         }
-        return passwordsTableEntries.count;
+        return passwordsTableEntries.count
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         searchActive = false
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchText = searchBar.text, searchText.isEmpty == false {
-            filteredPasswordsTableEntries = passwordsTableEntries.filter {$0.match(searchText)}
+            filteredPasswordsTableEntries = passwordsTableEntries.filter { $0.match(searchText) }
             searchActive = true
         } else {
             searchActive = false
         }
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
 
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange _: String) {
         searchBarSearchButtonClicked(searchBar)
     }
 

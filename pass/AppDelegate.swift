@@ -6,15 +6,14 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import UIKit
 import CoreData
-import SVProgressHUD
 import passKit
+import SVProgressHUD
 import SwiftyUserDefaults
+import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
     enum ViewTag: Int {
         case blur = 100, appicon
@@ -25,50 +24,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return presenter
     }()
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         SVProgressHUD.setMinimumSize(CGSize(width: 150, height: 100))
         passcodeLockPresenter.present(windowLevel: UIApplication.shared.windows.last?.windowLevel.rawValue)
         if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
             if shortcutItem.type == Globals.bundleIdentifier + ".search" {
-                self.perform(#selector(postSearchNotification), with: nil, afterDelay: 0.4)
+                perform(#selector(postSearchNotification), with: nil, afterDelay: 0.4)
             }
         }
         return true
     }
 
-    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+    func application(_: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         if let _ = window?.rootViewController as? PasscodeLockViewController {
             window?.frame = UIScreen.main.bounds
         }
         return .all
     }
 
-    @objc func postSearchNotification() {
+    @objc
+    func postSearchNotification() {
         NotificationCenter.default.post(name: .passwordSearch, object: nil)
     }
 
-    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+    func application(_: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler _: @escaping (Bool) -> Void) {
         if shortcutItem.type == Globals.bundleIdentifier + ".search" {
-            let tabBarController = self.window!.rootViewController as! UITabBarController
+            let tabBarController = window!.rootViewController as! UITabBarController
             tabBarController.selectedIndex = 0
             let navigationController = tabBarController.selectedViewController as! UINavigationController
             navigationController.popToRootViewController(animated: false)
-            self.perform(#selector(postSearchNotification), with: nil, afterDelay: 0.4)
+            perform(#selector(postSearchNotification), with: nil, afterDelay: 0.4)
         }
     }
 
-    func applicationWillResignActive(_ application: UIApplication) {
+    func applicationWillResignActive(_: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
 
         // Display a blur effect view
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = (self.window?.frame)!
+        blurEffectView.frame = (window?.frame)!
         blurEffectView.tag = ViewTag.blur.rawValue
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.window?.addSubview(blurEffectView)
+        window?.addSubview(blurEffectView)
 
         // Display the Pass icon in the middle of the screen
         let iconsDictionary = Bundle.main.infoDictionary?["CFBundleIcons"] as? NSDictionary
@@ -78,33 +78,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let appIconView = UIImageView(image: appIcon)
         appIconView.layer.cornerRadius = (appIcon?.size.height)! / 5
         appIconView.layer.masksToBounds = true
-        appIconView.center = (self.window?.center)!
+        appIconView.center = (window?.center)!
         appIconView.tag = ViewTag.appicon.rawValue
-        self.window?.addSubview(appIconView)
+        window?.addSubview(appIconView)
     }
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
+    func applicationDidEnterBackground(_: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-
     }
 
-    func applicationWillEnterForeground(_ application: UIApplication) {
+    func applicationWillEnterForeground(_: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
         passcodeLockPresenter.present(windowLevel: UIApplication.shared.windows.last?.windowLevel.rawValue)
     }
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
+    func applicationDidBecomeActive(_: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 
-        self.window?.viewWithTag(ViewTag.appicon.rawValue)?.removeFromSuperview()
-        self.window?.viewWithTag(ViewTag.blur.rawValue)?.removeFromSuperview()
+        window?.viewWithTag(ViewTag.appicon.rawValue)?.removeFromSuperview()
+        window?.viewWithTag(ViewTag.blur.rawValue)?.removeFromSuperview()
     }
 
-    func applicationWillTerminate(_ application: UIApplication) {
+    func applicationWillTerminate(_: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        self.saveContext()
+        saveContext()
     }
 
     // MARK: - Core Data stack
@@ -123,7 +122,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             try! FileManager.default.createDirectory(atPath: Globals.documentPath, withIntermediateDirectories: true, attributes: nil)
         }
         container.persistentStoreDescriptions = [NSPersistentStoreDescription(url: URL(fileURLWithPath: Globals.dbPath))]
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores(completionHandler: { _, error in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -144,7 +143,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Core Data Saving support
 
-    func saveContext () {
+    func saveContext() {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
@@ -157,6 +156,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
 }
-
