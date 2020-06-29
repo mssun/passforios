@@ -86,7 +86,7 @@
 "Overwrite"                             = "Überschreiben";
 "OperationWillOverwriteData."           = "Diese Operation wird alle bereits existierenden Daten im Password-Repository überschreiben. Daten auf dem Server bleiben unberührt.";
 "DownloadFromUrl"                       = "Von URL downloaden";
-"AsciiArmorEncryptedKey"                = "Key verschlüsselt im ASCII-Format";
+"AsciiArmorEncryptedKey"                = "Key im ASCII-Format";
 "ITunesFileSharing"                     = "Datenaustausch über iTunes";
 "Import"                                = "Importieren";
 "Imported"                              = "Importiert";

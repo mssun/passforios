@@ -1,5 +1,5 @@
 
-/* Class = "UITableViewSection"; headerTitle = "ASCII-ARMOR ENCRYPTED PRIVATE KEY"; ObjectID = "0RP-Jn-j5G"; */
+/* Class = "UITableViewSection"; headerTitle = "ASCII-ARMOR PRIVATE KEY"; ObjectID = "0RP-Jn-j5G"; */
 "0RP-Jn-j5G.headerTitle" = "PRIVATER SCHLÜSSEL IM ASCII-FORMAT";
 
 /* Class = "UILabel"; text = "Not Set"; ObjectID = "2qr-d7-0SK"; */
@@ -92,7 +92,7 @@
 /* Class = "UILabel"; text = "Advanced"; ObjectID = "MKj-d0-8q3"; */
 "MKj-d0-8q3.text" = "Erweitert";
 
-/* Class = "UITableViewSection"; headerTitle = "ASCII-Armor Encrypted Public Key"; ObjectID = "MZz-mp-v5N"; */
+/* Class = "UITableViewSection"; headerTitle = "ASCII-Armor Public Key"; ObjectID = "MZz-mp-v5N"; */
 "MZz-mp-v5N.headerTitle" = "Öffentlicher Schlüssel im ASCII-Format";
 
 /* Class = "UILabel"; text = "Not Set"; ObjectID = "Myq-fV-riz"; */
@@ -242,7 +242,7 @@
 /* Class = "UIBarButtonItem"; title = "Clone"; ObjectID = "sgQ-zB-rxv"; */
 "sgQ-zB-rxv.title" = "Klonen";
 
-/* Class = "UITableViewSection"; headerTitle = "ASCII-ARMOR ENCRYPTED PRIVATE KEY"; ObjectID = "sxk-Yb-Y3x"; */
+/* Class = "UITableViewSection"; headerTitle = "ASCII-ARMOR PRIVATE KEY"; ObjectID = "sxk-Yb-Y3x"; */
 "sxk-Yb-Y3x.headerTitle" = "PRIVATER SCHLÜSSEL IM ASCII-FORMAT";
 
 /* Class = "UINavigationItem"; title = "Advanced"; ObjectID = "tc7-wf-hG7"; */
