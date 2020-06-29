@@ -1336,7 +1336,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="ASCII-Armor Encrypted Public Key" id="MZz-mp-v5N">
+                            <tableViewSection headerTitle="ASCII-Armor Public Key" id="MZz-mp-v5N">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeyURLTableViewCell" rowHeight="160" id="Lom-iT-l16">
                                         <rect key="frame" x="0.0" y="84" width="414" height="160"/>
@@ -1373,7 +1373,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="ASCII-ARMOR ENCRYPTED PRIVATE KEY" id="0RP-Jn-j5G">
+                            <tableViewSection headerTitle="ASCII-ARMOR PRIVATE KEY" id="0RP-Jn-j5G">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeyURLTableViewCell" rowHeight="160" id="J8U-ev-FRQ">
                                         <rect key="frame" x="0.0" y="327" width="414" height="160"/>
@@ -1510,7 +1510,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="ASCII-ARMOR ENCRYPTED PRIVATE KEY" id="sxk-Yb-Y3x">
+                            <tableViewSection headerTitle="ASCII-ARMOR PRIVATE KEY" id="sxk-Yb-Y3x">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="pgpKeyURLTableViewCell" rowHeight="160" id="nmc-vy-Ab5">
                                         <rect key="frame" x="0.0" y="101" width="414" height="160"/>

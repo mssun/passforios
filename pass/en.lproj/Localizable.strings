@@ -86,7 +86,7 @@
 "Overwrite"                             = "Overwrite";
 "OperationWillOverwriteData."           = "This operation will overwrite your current password store data (repository). Data on your remote server will not be affected.";
 "DownloadFromUrl"                       = "Download from URL";
-"AsciiArmorEncryptedKey"                = "ASCII-Armor Encrypted Key";
+"AsciiArmorEncryptedKey"                = "ASCII-Armor Key";
 "ITunesFileSharing"                     = "iTunes File Sharing";
 "Import"                                = "Import";
 "Imported"                              = "Imported";
