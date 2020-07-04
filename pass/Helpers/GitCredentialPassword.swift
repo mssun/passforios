@@ -10,9 +10,11 @@ import Foundation
 import passKit
 import SVProgressHUD
 
-public func requestGitCredentialPassword(credential: GitCredential.Credential,
-                                         lastPassword: String?,
-                                         controller: UIViewController) -> String? {
+public func requestGitCredentialPassword(
+    credential: GitCredential.Credential,
+    lastPassword: String?,
+    controller: UIViewController
+) -> String? {
     let sem = DispatchSemaphore(value: 0)
     var password: String?
     let message: String = {
