@@ -262,19 +262,19 @@ public class PasswordStore {
     private func updatePasswordEntityCoreData() {
         deleteCoreData(entityName: "PasswordEntity")
         do {
-            var q = try fm.contentsOfDirectory(atPath: storeURL.path).filter {
-                !$0.hasPrefix(".")
-            }.map { (filename) -> PasswordEntity in
-                let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
-                if filename.hasSuffix(".gpg") {
-                    passwordEntity.name = String(filename.prefix(upTo: filename.index(filename.endIndex, offsetBy: -4)))
-                } else {
-                    passwordEntity.name = filename
+            var q = try fm.contentsOfDirectory(atPath: storeURL.path)
+                .filter { !$0.hasPrefix(".") }
+                .map { (filename) -> PasswordEntity in
+                    let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
+                    if filename.hasSuffix(".gpg") {
+                        passwordEntity.name = String(filename.prefix(upTo: filename.index(filename.endIndex, offsetBy: -4)))
+                    } else {
+                        passwordEntity.name = filename
+                    }
+                    passwordEntity.path = filename
+                    passwordEntity.parent = nil
+                    return passwordEntity
                 }
-                passwordEntity.path = filename
-                passwordEntity.parent = nil
-                return passwordEntity
-            }
             while !q.isEmpty {
                 let e = q.first!
                 q.remove(at: 0)
@@ -286,19 +286,19 @@ public class PasswordStore {
                 if fm.fileExists(atPath: filePath, isDirectory: &isDirectory) {
                     if isDirectory.boolValue {
                         e.isDir = true
-                        let files = try fm.contentsOfDirectory(atPath: filePath).filter {
-                            !$0.hasPrefix(".")
-                        }.map { (filename) -> PasswordEntity in
-                            let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
-                            if filename.hasSuffix(".gpg") {
-                                passwordEntity.name = String(filename.prefix(upTo: filename.index(filename.endIndex, offsetBy: -4)))
-                            } else {
-                                passwordEntity.name = filename
+                        let files = try fm.contentsOfDirectory(atPath: filePath)
+                            .filter { !$0.hasPrefix(".") }
+                            .map { (filename) -> PasswordEntity in
+                                let passwordEntity = NSEntityDescription.insertNewObject(forEntityName: "PasswordEntity", into: context) as! PasswordEntity
+                                if filename.hasSuffix(".gpg") {
+                                    passwordEntity.name = String(filename.prefix(upTo: filename.index(filename.endIndex, offsetBy: -4)))
+                                } else {
+                                    passwordEntity.name = filename
+                                }
+                                passwordEntity.path = "\(e.path!)/\(filename)"
+                                passwordEntity.parent = e
+                                return passwordEntity
                             }
-                            passwordEntity.path = "\(e.path!)/\(filename)"
-                            passwordEntity.parent = e
-                            return passwordEntity
-                        }
                         q += files
                     } else {
                         e.isDir = false

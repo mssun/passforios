@@ -34,7 +34,8 @@ class UICodeHighlightingLabel: UILocalizedLabel {
                     return NSAttributedString(string: line, attributes: UICodeHighlightingLabel.CODE_ATTRIBUTES)
                 }
                 return NSAttributedString(string: line)
-            }.reduce(into: NSMutableAttributedString(string: "")) {
+            }
+            .reduce(into: NSMutableAttributedString(string: "")) {
                 $0.append($1)
                 $0.append(UICodeHighlightingLabel.ATTRIBUTED_NEWLINE)
             }
