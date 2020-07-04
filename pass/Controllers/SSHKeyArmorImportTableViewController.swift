@@ -91,7 +91,7 @@ class SSHKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
     // MARK: - QRScannerControllerDelegate Methods
 
     func handleScannedOutput(line _: String) {
-        armorPrivateKeyTextView.text = scanned.segments.joined(separator: "")
+        armorPrivateKeyTextView.text = scanned.segments.joined()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {

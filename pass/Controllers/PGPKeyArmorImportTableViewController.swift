@@ -113,7 +113,7 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
     // MARK: - QRScannerControllerDelegate Methods
 
     func handleScannedOutput(line _: String) {
-        let key = scanned.segments.joined(separator: "")
+        let key = scanned.segments.joined()
         switch scanned.keyType {
         case .publicKey:
             armorPublicKeyTextView.text += key
