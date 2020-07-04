@@ -8,7 +8,7 @@ excluded:
 whitelist_rules:
   - anyobject_protocol
   - array_init
-#  - attributes
+#  - attributes # Contradicts with SwiftFormat option 'funcattributes = prev-line'.
   - block_based_kvo
 #  - class_delegate_protocol
   - closing_brace
