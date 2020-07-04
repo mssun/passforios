@@ -6,7 +6,7 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-public class Utils {
+public enum Utils {
     public static func copyToPasteboard(textToCopy: String?) {
         guard textToCopy != nil else {
             return

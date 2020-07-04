@@ -7,7 +7,7 @@
 //
 //  This file contains constants from https://github.com/agilebits/onepassword-app-extension/
 
-class OnePasswordExtensionActions {
+enum OnePasswordExtensionActions {
     static let findLogin = "org.appextension.find-login-action"
     static let saveLogin = "org.appextension.save-login-action"
     static let changePassword = "org.appextension.change-password-action"
@@ -15,7 +15,7 @@ class OnePasswordExtensionActions {
     static let fillBrowser = "org.appextension.fill-browser-action"
 }
 
-class OnePasswordExtensionKey {
+enum OnePasswordExtensionKey {
     // Login Dictionary keys - Used to get or set the properties of a 1Password Login
     static let URLStringKey = "url_string"
     static let usernameKey = "username"
@@ -38,7 +38,7 @@ class OnePasswordExtensionKey {
 }
 
 // Errors codes
-class OnePasswordExtensionError {
+enum OnePasswordExtensionError {
     static let errorDomain = "OnePasswordExtension"
     static let errorCodeCancelledByUser = 0
     static let errorCodeAPINotAvailable = 1

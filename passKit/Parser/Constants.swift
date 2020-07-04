@@ -6,7 +6,7 @@
 //  Copyright © 2018 Bob Sun. All rights reserved.
 //
 
-public struct Constants {
+public enum Constants {
     static let OTP_SECRET = "otp_secret"
     static let OTP_TYPE = "otp_type"
     static let OTP_ALGORITHM = "otp_algorithm"
