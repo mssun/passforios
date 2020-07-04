@@ -654,27 +654,26 @@ public class PasswordStore {
             throw AppError.RepositoryNotSet
         }
         // get a list of local commits
-        if let localCommits = try getLocalCommits(),
-            !localCommits.isEmpty {
-            // get the oldest local commit
-            guard let firstLocalCommit = localCommits.last,
-                firstLocalCommit.parents.count == 1,
-                let newHead = firstLocalCommit.parents.first else {
-                throw AppError.GitReset
-            }
-            try storeRepository.reset(to: newHead, resetType: .hard)
-            setAllSynced()
-            updatePasswordEntityCoreData()
-
-            NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
-            NotificationCenter.default.post(name: .passwordStoreChangeDiscarded, object: nil)
-            return localCommits.count
-        } else {
+        let localCommits = try getLocalCommits()
+        if localCommits.isEmpty {
             return 0 // no new commit
         }
+        // get the oldest local commit
+        guard let firstLocalCommit = localCommits.last,
+            firstLocalCommit.parents.count == 1,
+            let newHead = firstLocalCommit.parents.first else {
+            throw AppError.GitReset
+        }
+        try storeRepository.reset(to: newHead, resetType: .hard)
+        setAllSynced()
+        updatePasswordEntityCoreData()
+
+        NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
+        NotificationCenter.default.post(name: .passwordStoreChangeDiscarded, object: nil)
+        return localCommits.count
     }
 
-    private func getLocalCommits() throws -> [GTCommit]? {
+    private func getLocalCommits() throws -> [GTCommit] {
         guard let storeRepository = storeRepository else {
             throw AppError.RepositoryNotSet
         }

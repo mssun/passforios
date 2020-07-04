@@ -33,7 +33,7 @@ whitelist_rules:
   - discouraged_direct_init
 #  - discouraged_object_literal
   - discouraged_optional_boolean
-#  - discouraged_optional_collection
+#  - discouraged_optional_collection # Too many false positives in implementations of system protocols.
   - duplicate_enum_cases
   - duplicate_imports
   - dynamic_inline
