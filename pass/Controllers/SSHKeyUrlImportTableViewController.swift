@@ -30,9 +30,11 @@ class SSHKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
         if privateKeyURL.scheme?.lowercased() == "http" {
             let savePassphraseAlert = UIAlertController(title: "HttpNotSecure".localize(), message: "ReallyUseHttp?".localize(), preferredStyle: .alert)
             savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: .default) { _ in })
-            savePassphraseAlert.addAction(UIAlertAction(title: "Yes".localize(), style: .destructive) { _ in
-                self.performSegue(withIdentifier: "importSSHKeySegue", sender: self)
-            })
+            savePassphraseAlert.addAction(
+                UIAlertAction(title: "Yes".localize(), style: .destructive) { _ in
+                    self.performSegue(withIdentifier: "importSSHKeySegue", sender: self)
+                }
+            )
             return present(savePassphraseAlert, animated: true)
         }
         sshPrivateKeyURL = privateKeyURL

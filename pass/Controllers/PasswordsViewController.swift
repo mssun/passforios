@@ -192,17 +192,17 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
-                try self.passwordStore.pullRepository(credential: self.gitCredential, requestCredentialPassword: self.requestCredentialPassword, progressBlock: { git_transfer_progress, _ in
+                try self.passwordStore.pullRepository(credential: self.gitCredential, requestCredentialPassword: self.requestCredentialPassword) { git_transfer_progress, _ in
                     DispatchQueue.main.async {
                         SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects) / Float(git_transfer_progress.pointee.total_objects), status: "PullingFromRemoteRepository".localize())
                     }
-                })
+                }
                 if self.passwordStore.numberOfLocalCommits > 0 {
-                    try self.passwordStore.pushRepository(credential: self.gitCredential, requestCredentialPassword: self.requestCredentialPassword, transferProgressBlock: { current, total, _, _ in
+                    try self.passwordStore.pushRepository(credential: self.gitCredential, requestCredentialPassword: self.requestCredentialPassword) { current, total, _, _ in
                         DispatchQueue.main.async {
                             SVProgressHUD.showProgress(Float(current) / Float(total), status: "PushingToRemoteRepository".localize())
                         }
-                    })
+                    }
                 }
                 DispatchQueue.main.async {
                     self.reloadTableView(parent: nil)

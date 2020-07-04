@@ -46,10 +46,12 @@ public enum Utils {
                 let title = "Passphrase".localize() + " (\(keyID.suffix(8)))"
                 let message = "FillInPgpPassphrase.".localize()
                 let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-                alert.addAction(UIAlertAction.ok { _ in
-                    passphrase = alert.textFields?.first?.text ?? ""
-                    sem.signal()
-                })
+                alert.addAction(
+                    UIAlertAction.ok { _ in
+                        passphrase = alert.textFields?.first?.text ?? ""
+                        sem.signal()
+                    }
+                )
                 alert.addTextField { textField in
                     textField.text = AppKeychain.shared.get(for: AppKeychain.getPGPKeyPassphraseKey(keyID: keyID)) ?? ""
                     textField.isSecureTextEntry = true

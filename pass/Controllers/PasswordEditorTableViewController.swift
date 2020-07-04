@@ -246,9 +246,11 @@ class PasswordEditorTableViewController: UITableViewController {
 
         if selectedCell == deletePasswordCell {
             let alert = UIAlertController(title: "DeletePassword?".localize(), message: nil, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Delete".localize(), style: UIAlertAction.Style.destructive, handler: { [unowned self] (_) -> Void in
-                self.performSegue(withIdentifier: "deletePasswordSegue", sender: self)
-            }))
+            alert.addAction(
+                UIAlertAction(title: "Delete".localize(), style: UIAlertAction.Style.destructive) { [unowned self] (_) -> Void in
+                    self.performSegue(withIdentifier: "deletePasswordSegue", sender: self)
+                }
+            )
             alert.addAction(UIAlertAction.cancel())
             present(alert, animated: true, completion: nil)
         } else if selectedCell == scanQRCodeCell {
@@ -388,9 +390,11 @@ extension PasswordEditorTableViewController: FillPasswordTableViewCellDelegate {
     func generateAndCopyPassword() {
         if let currentPassword = fillPasswordCell?.getContent(), Constants.isOtpRelated(line: currentPassword) {
             let alert = UIAlertController(title: "Overwrite?".localize(), message: "OverwriteOtpConfiguration?".localize(), preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Yes".localize(), style: UIAlertAction.Style.destructive, handler: { _ in
-                self.generateAndCopyPasswordNoOtpCheck()
-            }))
+            alert.addAction(
+                UIAlertAction(title: "Yes".localize(), style: UIAlertAction.Style.destructive) { _ in
+                    self.generateAndCopyPasswordNoOtpCheck()
+                }
+            )
             alert.addAction(UIAlertAction.cancel())
             present(alert, animated: true, completion: nil)
         } else {
@@ -436,12 +440,14 @@ extension PasswordEditorTableViewController: SFSafariViewControllerDelegate {
             let message = NSMutableAttributedString(string: "\("SeemsLikeYouHaveCopiedSomething.".localize()) \("FirstStringIs:".localize())\n")
             message.append(Utils.attributedPassword(plainPassword: generatedPassword))
             alert.setValue(message, forKey: "attributedMessage")
-            alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { [unowned self] (_) -> Void in
-                // update tableData so to make sure reloadData() works correctly
-                self.tableData[self.passwordSection][0][PasswordEditorCellKey.content] = generatedPassword
-                // update cell manually, no need to call reloadData()
-                self.fillPasswordCell?.setContent(content: generatedPassword)
-            }))
+            alert.addAction(
+                UIAlertAction(title: "Yes", style: UIAlertAction.Style.default) { [unowned self] (_) -> Void in
+                    // update tableData so to make sure reloadData() works correctly
+                    self.tableData[self.passwordSection][0][PasswordEditorCellKey.content] = generatedPassword
+                    // update cell manually, no need to call reloadData()
+                    self.fillPasswordCell?.setContent(content: generatedPassword)
+                }
+            )
             alert.addAction(UIAlertAction.cancel())
             present(alert, animated: true, completion: nil)
         }
