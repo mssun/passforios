@@ -12,13 +12,17 @@ class AboutTableViewController: BasicStaticTableViewController {
     override func viewDidLoad() {
         tableData = [
             // section 0
-            [[.title: "Website".localize(), .action: "link", .link: "https://github.com/mssun/pass-ios.git"],
-             [.title: "Help".localize(), .action: "link", .link: "https://github.com/mssun/passforios/wiki"],
-             [.title: "ContactDeveloper".localize(), .action: "link", .link: "mailto:developer@passforios.mssun.me?subject=Pass%20for%20iOS"]],
+            [
+                [.title: "Website".localize(), .action: "link", .link: "https://github.com/mssun/pass-ios.git"],
+                [.title: "Help".localize(), .action: "link", .link: "https://github.com/mssun/passforios/wiki"],
+                [.title: "ContactDeveloper".localize(), .action: "link", .link: "mailto:developer@passforios.mssun.me?subject=Pass%20for%20iOS"],
+            ],
 
             // section 1,
-            [[.title: "OpenSourceComponents".localize(), .action: "segue", .link: "showOpenSourceComponentsSegue"],
-             [.title: "SpecialThanks".localize(), .action: "segue", .link: "showSpecialThanksSegue"]],
+            [
+                [.title: "OpenSourceComponents".localize(), .action: "segue", .link: "showOpenSourceComponentsSegue"],
+                [.title: "SpecialThanks".localize(), .action: "segue", .link: "showSpecialThanksSegue"],
+            ],
         ]
         super.viewDidLoad()
     }

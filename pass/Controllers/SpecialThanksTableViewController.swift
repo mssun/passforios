@@ -10,14 +10,22 @@ import UIKit
 
 class SpecialThanksTableViewController: BasicStaticTableViewController {
     let openSourceComponents = [
-        ["Contributors".localize(),
-         "https://github.com/mssun/passforios/graphs/contributors"],
-        ["Password Store",
-         "https://passwordstore.org"],
-        ["Icon8",
-         "https://icons8.com"],
-        ["FlatIcon",
-         "https://www.flaticon.com"],
+        [
+            "Contributors".localize(),
+            "https://github.com/mssun/passforios/graphs/contributors",
+        ],
+        [
+            "Password Store",
+            "https://passwordstore.org",
+        ],
+        [
+            "Icon8",
+            "https://icons8.com",
+        ],
+        [
+            "FlatIcon",
+            "https://www.flaticon.com",
+        ],
     ]
 
     override func viewDidLoad() {

@@ -162,8 +162,10 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
                     switch self.extensionAction {
                     case .findLogin:
                         let extensionItem = NSExtensionItem()
-                        var returnDictionary = [OnePasswordExtensionKey.usernameKey: username,
-                                                OnePasswordExtensionKey.passwordKey: password]
+                        var returnDictionary = [
+                            OnePasswordExtensionKey.usernameKey: username,
+                            OnePasswordExtensionKey.passwordKey: password,
+                        ]
                         if let totpPassword = decryptedPassword.currentOtp {
                             returnDictionary[OnePasswordExtensionKey.totpKey] = totpPassword
                         }
