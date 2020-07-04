@@ -171,12 +171,14 @@ public class PasswordStore {
         }
     }
 
-    public func cloneRepository(remoteRepoURL: URL,
-                                credential: GitCredential,
-                                branchName: String,
-                                requestCredentialPassword: @escaping (GitCredential.Credential, String?) -> String?,
-                                transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
-                                checkoutProgressBlock: @escaping (String, UInt, UInt) -> Void) throws {
+    public func cloneRepository(
+        remoteRepoURL: URL,
+        credential: GitCredential,
+        branchName: String,
+        requestCredentialPassword: @escaping (GitCredential.Credential, String?) -> String?,
+        transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
+        checkoutProgressBlock: @escaping (String, UInt, UInt) -> Void
+    ) throws {
         do {
             let credentialProvider = try credential.credentialProvider(requestCredentialPassword: requestCredentialPassword)
             let options = [GTRepositoryCloneOptionsCredentialProvider: credentialProvider]
@@ -187,12 +189,14 @@ public class PasswordStore {
         }
     }
 
-    public func cloneRepository(remoteRepoURL: URL,
-                                options: [AnyHashable: Any]? = nil,
-                                branchName: String,
-                                transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
-                                checkoutProgressBlock: @escaping (String, UInt, UInt) -> Void,
-                                completion: @escaping () -> Void = {}) throws {
+    public func cloneRepository(
+        remoteRepoURL: URL,
+        options: [AnyHashable: Any]? = nil,
+        branchName: String,
+        transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
+        checkoutProgressBlock: @escaping (String, UInt, UInt) -> Void,
+        completion: @escaping () -> Void = {}
+    ) throws {
         try? fm.removeItem(at: storeURL)
         try? fm.removeItem(at: tempStoreURL)
         gitPassword = nil
@@ -241,9 +245,11 @@ public class PasswordStore {
         try storeRepository.moveHEAD(to: localBranch.reference)
     }
 
-    public func pullRepository(credential: GitCredential,
-                               requestCredentialPassword: @escaping (GitCredential.Credential, String?) -> String?,
-                               progressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
+    public func pullRepository(
+        credential: GitCredential,
+        requestCredentialPassword: @escaping (GitCredential.Credential, String?) -> String?,
+        progressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void
+    ) throws {
         guard let storeRepository = storeRepository else {
             throw AppError.RepositoryNotSet
         }
