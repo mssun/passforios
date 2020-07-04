@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		116F7CC922E134FA003B3BAC /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 116F7CC822E134FA003B3BAC /* Crypto.framework */; };
 		116F7CCA22E134FA003B3BAC /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 116F7CC822E134FA003B3BAC /* Crypto.framework */; };
+		3005F35424B13C3E000519B5 /* ScannedPGPKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3005F35324B13C3E000519B5 /* ScannedPGPKey.swift */; };
 		300713C52219D54100F553AC /* AutoCellHeightUITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300713C42219D54100F553AC /* AutoCellHeightUITableViewController.swift */; };
 		301F6463216162550071A4CE /* AdditionField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6462216162550071A4CE /* AdditionField.swift */; };
 		301F6468216165290071A4CE /* ConstantsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6467216165290071A4CE /* ConstantsTest.swift */; };
@@ -260,6 +261,7 @@
 		116F7CC822E134FA003B3BAC /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crypto.framework; path = go/dist/Crypto.framework; sourceTree = "<group>"; };
 		134DA5B66070BA56678688CF /* Pods_passKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14E955B67C88672AA3A40BA0 /* Pods_passExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3005F35324B13C3E000519B5 /* ScannedPGPKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannedPGPKey.swift; sourceTree = "<group>"; };
 		300713C42219D54100F553AC /* AutoCellHeightUITableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCellHeightUITableViewController.swift; sourceTree = "<group>"; };
 		301F6462216162550071A4CE /* AdditionField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionField.swift; sourceTree = "<group>"; };
 		301F6467216165290071A4CE /* ConstantsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsTest.swift; sourceTree = "<group>"; };
@@ -514,6 +516,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3005F35224B13BF3000519B5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3005F35324B13C3E000519B5 /* ScannedPGPKey.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		301F6464216164670071A4CE /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -900,6 +910,7 @@
 			children = (
 				DC19400C1E4B39400077E0A3 /* Controllers */,
 				DC19400E1E4B3A610077E0A3 /* Helpers */,
+				3005F35224B13BF3000519B5 /* Models */,
 				DC19400F1E4B3A9E0077E0A3 /* Views */,
 				DC917BDD1E2E8231000FDF54 /* Assets.xcassets */,
 				DC917BD61E2E8231000FDF54 /* AppDelegate.swift */,
@@ -1588,6 +1599,7 @@
 				DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */,
 				DC5F385B1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift in Sources */,
 				DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */,
+				3005F35424B13C3E000519B5 /* ScannedPGPKey.swift in Sources */,
 				DCFB77A71E502DF9008DE471 /* EditPasswordTableViewController.swift in Sources */,
 				DCA0499A1E335CC800522E8F /* GitRepositorySettingsTableViewController.swift in Sources */,
 				DCDDEAB31E4896BF00F68193 /* PasswordDetailTitleTableViewCell.swift in Sources */,
