@@ -76,7 +76,7 @@ public struct PasswordGenerator: Codable {
         guard flavor == .random, groups > 0, groups < length else {
             return false
         }
-        return (length + 1) % groups == 0
+        return (length + 1).isMultiple(of: groups)
     }
 
     private func generateRandom() -> String {

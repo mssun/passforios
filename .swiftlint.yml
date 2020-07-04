@@ -86,7 +86,7 @@ whitelist_rules:
   - legacy_constant
   - legacy_constructor
   - legacy_hashing
-#  - legacy_multiple
+  - legacy_multiple
   - legacy_nsgeometry_functions
   - legacy_random
 #  - let_var_whitespace
