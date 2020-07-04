@@ -13,6 +13,7 @@ import passKit
 // cancel means cancel the extension
 class PasscodeLockViewControllerForExtension: PasscodeLockViewController {
     var originalExtensionContest: ASCredentialProviderExtensionContext?
+    
     public convenience init(extensionContext: ASCredentialProviderExtensionContext?) {
         self.init()
         self.originalExtensionContest = extensionContext

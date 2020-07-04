@@ -14,10 +14,11 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    var window: UIWindow?
     enum ViewTag: Int {
         case blur = 100, appicon
     }
+
+    var window: UIWindow?
 
     lazy var passcodeLockPresenter: PasscodeLockPresenter = {
         let presenter = PasscodeLockPresenter(mainWindow: self.window)
