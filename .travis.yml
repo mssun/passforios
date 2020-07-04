@@ -7,6 +7,7 @@ addons:
     - gnupg2
     - pass
     - swiftformat
+    - swiftlint
 before_install:
   - echo -e "machine github.com\n  login $GITHUB_ACCESS_TOKEN" >> ~/.netrc
 install:
