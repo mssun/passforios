@@ -78,7 +78,7 @@ whitelist_rules:
 #  - indentation_width
   - inert_defer
   - is_disjoint
-#  - joined_default_parameter
+  - joined_default_parameter
   - large_tuple
   - last_where
   - leading_whitespace
