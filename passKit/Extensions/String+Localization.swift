@@ -9,7 +9,7 @@
 extension String {
     public func localize() -> String {
         // swiftlint:disable:next nslocalizedstring_key
-        NSLocalizedString(self, value: "#\(self)#", comment: "")
+        NSLocalizedString(self, bundle: Bundle.main, value: "#\(self)#", comment: "")
     }
 
     public func localize(_ firstValue: CVarArg) -> String {
