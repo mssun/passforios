@@ -6,7 +6,7 @@
 //  Copyright © 2019 Bob Sun. All rights reserved.
 //
 
-public struct Colors {
+public enum Colors {
     public static let label: UIColor = {
         if #available(iOS 13.0, *) {
             return .label

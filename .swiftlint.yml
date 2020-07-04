@@ -25,7 +25,7 @@ whitelist_rules:
   - contains_over_filter_is_empty
   - contains_over_first_not_nil
   - control_statement
-#  - convenience_type
+  - convenience_type
   - custom_rules
 #  - cyclomatic_complexity
   - deployment_target
