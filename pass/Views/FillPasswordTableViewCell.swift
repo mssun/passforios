@@ -9,7 +9,7 @@
 import passKit
 import UIKit
 
-protocol FillPasswordTableViewCellDelegate {
+protocol FillPasswordTableViewCellDelegate: AnyObject {
     func generateAndCopyPassword()
     func showHidePasswordSettings()
 }
