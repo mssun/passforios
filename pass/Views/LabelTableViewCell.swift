@@ -43,7 +43,7 @@ class LabelTableViewCell: UITableViewCell {
                 if isReveal {
                     contentLabel.attributedText = Utils.attributedPassword(plainPassword: content)
                 } else {
-                    if content == "" {
+                    if content.isEmpty {
                         contentLabel.text = ""
                     } else {
                         contentLabel.text = Globals.passwordDots
@@ -163,7 +163,7 @@ class LabelTableViewCell: UITableViewCell {
 
         switch type {
         case .password:
-            if let content = cellData?.content, content != "" {
+            if let content = cellData?.content, !content.isEmpty {
                 // password button
                 passwordDisplayButton = UIButton(type: .system)
                 passwordDisplayButton!.frame = CGRect(x: 0, y: 0, width: width, height: height)

@@ -580,7 +580,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     func filterContentForSearchText(searchText: String, scope: SearchBarScope = .all) {
         var entries: [PasswordTableEntry] = scope == .all ? passwordsTableAllEntries : passwordsTableEntries
-        if searchController.isActive, searchController.searchBar.text != "" {
+        if searchController.isActive, let searchBarText = searchController.searchBar.text, !searchBarText.isEmpty {
             entries = entries.filter { $0.match(searchText) }
         }
         reloadTableView(data: entries)
