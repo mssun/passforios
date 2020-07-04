@@ -283,8 +283,12 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     func didTapNavigationBar(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: navigationController?.navigationBar)
         let hitView = navigationController?.navigationBar.hitTest(location, with: nil)
-        guard !(hitView is UIControl) else { return }
-        guard passwordStore.numberOfLocalCommits != 0 else { return }
+        guard !(hitView is UIControl) else {
+            return
+        }
+        guard passwordStore.numberOfLocalCommits != 0 else {
+            return
+        }
 
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let allAction = UIAlertAction(title: "All Passwords", style: .default) { _ in
@@ -405,7 +409,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
     @objc
     func backAction(_: Any?) {
-        guard Defaults.isShowFolderOn else { return }
+        guard Defaults.isShowFolderOn else {
+            return
+        }
         var anim: CATransition? = transitionFromLeft
         if parentPasswordEntity == nil {
             anim = nil
@@ -640,7 +646,9 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     @objc
     func actOnReloadTableViewRelatedNotification() {
         DispatchQueue.main.async { [weak weakSelf = self] in
-            guard let strongSelf = weakSelf else { return }
+            guard let strongSelf = weakSelf else {
+                return
+            }
             // Reset selectedScopeButtonIndex to make sure the correct reloadTableView
             strongSelf.searchController.searchBar.selectedScopeButtonIndex = 0
             strongSelf.initPasswordsTableEntries(parent: nil)
