@@ -30,10 +30,9 @@ class PasswordStoreTest: XCTestCase {
             options: cloneOptions,
             branchName: "master",
             transferProgressBlock: { _, _ in },
-            checkoutProgressBlock: { _, _, _ in }
-        ) {
-            expectation.fulfill()
-        }
+            checkoutProgressBlock: { _, _, _ in },
+            completion: { expectation.fulfill() }
+        )
         waitForExpectations(timeout: 3, handler: nil)
 
         [
