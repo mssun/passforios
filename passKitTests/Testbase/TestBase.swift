@@ -32,8 +32,13 @@ func getPasswordObjectWith(content: String, url: URL? = nil) -> Password {
     Password(name: "password", url: url ?? PASSWORD_URL, plainText: content)
 }
 
-func assertDefaults(in password: Password, with passwordString: String, and additions: String,
-                    at file: StaticString = #file, line: UInt = #line) {
+func assertDefaults(
+    in password: Password,
+    with passwordString: String,
+    and additions: String,
+    at file: StaticString = #file,
+    line: UInt = #line
+) {
     let fileContent = (passwordString | additions).data(using: .utf8)
     XCTAssertEqual(password.password, passwordString, "Actual passwords do not match.", file: file, line: line)
     XCTAssertEqual(password.plainData, fileContent, "Plain data are not equal.", file: file, line: line)
