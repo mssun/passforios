@@ -8,6 +8,7 @@
 
 extension String {
     public func localize() -> String {
+        // swiftlint:disable:next nslocalizedstring_key
         NSLocalizedString(self, value: "#\(self)#", comment: "")
     }
 
