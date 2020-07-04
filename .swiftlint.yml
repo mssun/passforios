@@ -102,7 +102,7 @@ whitelist_rules:
   - multiline_literal_brackets
   - multiline_parameters
   - multiline_parameters_brackets
-#  - multiple_closures_with_trailing_closure
+  - multiple_closures_with_trailing_closure
 #  - nesting
   - nimble_operator
 #  - no_extension_access_modifier
