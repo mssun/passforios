@@ -10,7 +10,7 @@ whitelist_rules:
   - array_init
 #  - attributes # Contradicts with SwiftFormat option 'funcattributes = prev-line'.
   - block_based_kvo
-#  - class_delegate_protocol
+  - class_delegate_protocol
   - closing_brace
   - closure_body_length
   - closure_end_indentation

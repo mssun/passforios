@@ -29,7 +29,7 @@ enum PasswordEditorCellKey {
     case type, title, content, placeholders
 }
 
-protocol PasswordSettingSliderTableViewCellDelegate {
+protocol PasswordSettingSliderTableViewCellDelegate: AnyObject {
     func generateAndCopyPassword()
 }
 

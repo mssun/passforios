@@ -12,7 +12,7 @@ import passKit
 import SVProgressHUD
 import UIKit
 
-protocol QRScannerControllerDelegate {
+protocol QRScannerControllerDelegate: AnyObject {
     func checkScannedOutput(line: String) -> (accept: Bool, message: String)
     func handleScannedOutput(line: String)
 }
