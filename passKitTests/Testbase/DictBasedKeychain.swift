@@ -12,31 +12,31 @@ import passKit
 class DictBasedKeychain: KeyStore {
     private var store: [String: Any] = [:]
 
-    public func add(data: Data?, for key: String) {
+    func add(data: Data?, for key: String) {
         store[key] = data
     }
 
-    public func add(string: String?, for key: String) {
+    func add(string: String?, for key: String) {
         store[key] = string
     }
 
-    public func contains(key: String) -> Bool {
+    func contains(key: String) -> Bool {
         store[key] != nil
     }
 
-    public func get(for key: String) -> Data? {
+    func get(for key: String) -> Data? {
         store[key] as? Data
     }
 
-    public func get(for key: String) -> String? {
+    func get(for key: String) -> String? {
         store[key] as? String
     }
 
-    public func removeContent(for key: String) {
+    func removeContent(for key: String) {
         store.removeValue(forKey: key)
     }
 
-    public func removeAllContent() {
+    func removeAllContent() {
         store.removeAll()
     }
 }
