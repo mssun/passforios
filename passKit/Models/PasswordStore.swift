@@ -62,7 +62,7 @@ public class PasswordStore {
             try! FileManager.default.createDirectory(atPath: Globals.documentPath, withIntermediateDirectories: true, attributes: nil)
         }
         container.persistentStoreDescriptions = [NSPersistentStoreDescription(url: URL(fileURLWithPath: Globals.dbPath))]
-        container.loadPersistentStores(completionHandler: { _, error in
+        container.loadPersistentStores { _, error in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -77,7 +77,7 @@ public class PasswordStore {
                  */
                 fatalError("UnresolvedError".localize("\(error.localizedDescription), \(error.userInfo)"))
             }
-        })
+        }
         return container.viewContext
     }()
 
@@ -198,10 +198,12 @@ public class PasswordStore {
         gitPassword = nil
         gitSSHPrivateKeyPassphrase = nil
         do {
-            storeRepository = try GTRepository.clone(from: remoteRepoURL,
-                                                     toWorkingDirectory: tempStoreURL,
-                                                     options: options,
-                                                     transferProgressBlock: transferProgressBlock)
+            storeRepository = try GTRepository.clone(
+                from: remoteRepoURL,
+                toWorkingDirectory: tempStoreURL,
+                options: options,
+                transferProgressBlock: transferProgressBlock
+            )
             try fm.moveItem(at: tempStoreURL, to: storeURL)
             storeRepository = try GTRepository(url: storeURL)
             if (try storeRepository?.currentBranch().name) != branchName {
@@ -375,10 +377,10 @@ public class PasswordStore {
         guard let storeRepository = storeRepository else {
             return "Unknown".localize()
         }
-        guard let blameHunks = try? storeRepository.blame(withFile: filename, options: nil).hunks,
-            let latestCommitTime = blameHunks.map({
-                $0.finalSignature?.time?.timeIntervalSince1970 ?? 0
-            }).max() else {
+        guard let blameHunks = try? storeRepository.blame(withFile: filename, options: nil).hunks else {
+            return "Unknown".localize()
+        }
+        guard let latestCommitTime = blameHunks.map({ $0.finalSignature?.time?.timeIntervalSince1970 ?? 0 }).max() else {
             return "Unknown".localize()
         }
         let lastCommitDate = Date(timeIntervalSince1970: latestCommitTime)

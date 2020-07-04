@@ -123,7 +123,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             try! FileManager.default.createDirectory(atPath: Globals.documentPath, withIntermediateDirectories: true, attributes: nil)
         }
         container.persistentStoreDescriptions = [NSPersistentStoreDescription(url: URL(fileURLWithPath: Globals.dbPath))]
-        container.loadPersistentStores(completionHandler: { _, error in
+        container.loadPersistentStores { _, error in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -138,7 +138,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                  */
                 fatalError("UnresolvedError".localize("\(error), \(error.userInfo)"))
             }
-        })
+        }
         return container
     }()
 

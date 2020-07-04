@@ -88,9 +88,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     @objc
     private func decryptThenShowPassword(keyID: String? = nil) {
         guard let passwordEntity = passwordEntity else {
-            Utils.alert(title: "CannotShowPassword".localize(), message: "PasswordDoesNotExist".localize(), controller: self, handler: { (_) -> Void in
+            Utils.alert(title: "CannotShowPassword".localize(), message: "PasswordDoesNotExist".localize(), controller: self) {
                 self.navigationController!.popViewController(animated: true)
-            })
+            }
             return
         }
         DispatchQueue.global(qos: .userInitiated).async {
@@ -116,9 +116,11 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                     // alert: cancel or try again
                     let alert = UIAlertController(title: "CannotShowPassword".localize(), message: error.localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
-                    alert.addAction(UIAlertAction(title: "TryAgain".localize(), style: .default) { _ in
-                        self.decryptThenShowPassword()
-                    })
+                    alert.addAction(
+                        UIAlertAction(title: "TryAgain".localize(), style: .default) { _ in
+                            self.decryptThenShowPassword()
+                        }
+                    )
                     self.present(alert, animated: true, completion: nil)
                 }
             }
@@ -288,10 +290,12 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         var newUrlString = urlString
         if urlString.lowercased().hasPrefix("http://") {
             // try to replace http url to https url
-            newUrlString = urlString.replacingOccurrences(of: "http://",
-                                                          with: "https://",
-                                                          options: .caseInsensitive,
-                                                          range: urlString.range(of: "http://"))
+            newUrlString = urlString.replacingOccurrences(
+                of: "http://",
+                with: "https://",
+                options: .caseInsensitive,
+                range: urlString.range(of: "http://")
+            )
         } else if urlString.lowercased().hasPrefix("https://") {
             // do nothing here
         } else {

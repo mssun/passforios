@@ -95,32 +95,34 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         appIconView.layer.masksToBounds = true
         view?.addSubview(appIconView)
 
-        NSLayoutConstraint.activate([
-            passcodeTextField.widthAnchor.constraint(equalToConstant: 250),
-            passcodeTextField.heightAnchor.constraint(equalToConstant: 40),
-            passcodeTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            passcodeTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -20),
-            // above passocde
-            appIconView.widthAnchor.constraint(equalToConstant: appIconSize),
-            appIconView.heightAnchor.constraint(equalToConstant: appIconSize),
-            appIconView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            appIconView.bottomAnchor.constraint(equalTo: passcodeTextField.topAnchor, constant: -appIconSize),
-            // below passcode
-            biometryAuthButton.widthAnchor.constraint(equalToConstant: 250),
-            biometryAuthButton.heightAnchor.constraint(equalToConstant: 40),
-            biometryAuthButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            biometryAuthButton.topAnchor.constraint(equalTo: passcodeTextField.bottomAnchor),
-            // cancel (top-left of the screen)
-            cancelButton.widthAnchor.constraint(equalToConstant: 150),
-            cancelButton.heightAnchor.constraint(equalToConstant: 40),
-            cancelButton.topAnchor.constraint(equalTo: view.safeTopAnchor),
-            cancelButton.leftAnchor.constraint(equalTo: view.safeLeftAnchor, constant: 20),
-            // bottom of the screen
-            forgotPasscodeButton.widthAnchor.constraint(equalToConstant: 250),
-            forgotPasscodeButton.heightAnchor.constraint(equalToConstant: 40),
-            forgotPasscodeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            forgotPasscodeButton.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -40),
-        ])
+        NSLayoutConstraint.activate(
+            [
+                passcodeTextField.widthAnchor.constraint(equalToConstant: 250),
+                passcodeTextField.heightAnchor.constraint(equalToConstant: 40),
+                passcodeTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                passcodeTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -20),
+                // above passocde
+                appIconView.widthAnchor.constraint(equalToConstant: appIconSize),
+                appIconView.heightAnchor.constraint(equalToConstant: appIconSize),
+                appIconView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                appIconView.bottomAnchor.constraint(equalTo: passcodeTextField.topAnchor, constant: -appIconSize),
+                // below passcode
+                biometryAuthButton.widthAnchor.constraint(equalToConstant: 250),
+                biometryAuthButton.heightAnchor.constraint(equalToConstant: 40),
+                biometryAuthButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                biometryAuthButton.topAnchor.constraint(equalTo: passcodeTextField.bottomAnchor),
+                // cancel (top-left of the screen)
+                cancelButton.widthAnchor.constraint(equalToConstant: 150),
+                cancelButton.heightAnchor.constraint(equalToConstant: 40),
+                cancelButton.topAnchor.constraint(equalTo: view.safeTopAnchor),
+                cancelButton.leftAnchor.constraint(equalTo: view.safeLeftAnchor, constant: 20),
+                // bottom of the screen
+                forgotPasscodeButton.widthAnchor.constraint(equalToConstant: 250),
+                forgotPasscodeButton.heightAnchor.constraint(equalToConstant: 40),
+                forgotPasscodeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                forgotPasscodeButton.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -40),
+            ]
+        )
 
         // dismiss keyboard when tapping anywhere
         let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
@@ -147,10 +149,10 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         // pop
         if presentingViewController?.presentedViewController == self {
             // if presented as modal
-            dismiss(animated: true, completion: { [weak self] in
+            dismiss(animated: true) { [weak self] in
                 self?.dismissCompletionCallback?()
                 completionHandler?()
-            })
+            }
         } else {
             // if pushed in a navigation controller
             _ = navigationController?.popViewController(animated: true)
@@ -190,30 +192,32 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
     @objc
     func forgotPasscodeButtonPressedAction(_: UIButton) {
         let alert = UIAlertController(title: "ResetPass".localize(), message: "ResetPassExplanation.".localize(), preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive, handler: { [unowned self] (_) -> Void in
-            let myContext = LAContext()
-            var error: NSError?
-            // If the device passcode is not set, reset the app.
-            guard myContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) else {
-                self.passwordStore.erase()
-                self.passcodeLockDidSucceed()
-                return
-            }
-            // If the device passcode is set, authentication is required.
-            myContext.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "ErasePasswordStoreData".localize()) { success, error in
-                if success {
-                    DispatchQueue.main.async {
-                        // User authenticated successfully, take appropriate action
-                        self.passwordStore.erase()
-                        self.passcodeLockDidSucceed()
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        Utils.alert(title: "Error".localize(), message: error?.localizedDescription ?? "", controller: self, completion: nil)
+        alert.addAction(
+            UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive) { [unowned self] (_) -> Void in
+                let myContext = LAContext()
+                var error: NSError?
+                // If the device passcode is not set, reset the app.
+                guard myContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) else {
+                    self.passwordStore.erase()
+                    self.passcodeLockDidSucceed()
+                    return
+                }
+                // If the device passcode is set, authentication is required.
+                myContext.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "ErasePasswordStoreData".localize()) { success, error in
+                    if success {
+                        DispatchQueue.main.async {
+                            // User authenticated successfully, take appropriate action
+                            self.passwordStore.erase()
+                            self.passcodeLockDidSucceed()
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            Utils.alert(title: "Error".localize(), message: error?.localizedDescription ?? "", controller: self, completion: nil)
+                        }
                     }
                 }
             }
-        }))
+        )
         alert.addAction(UIAlertAction.dismiss())
         present(alert, animated: true, completion: nil)
     }

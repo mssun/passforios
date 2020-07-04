@@ -67,7 +67,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
                 for provider in itemProviders {
                     // search using the extensionContext inputs
                     if provider.hasItemConformingToTypeIdentifier(OnePasswordExtensionActions.findLogin) {
-                        provider.loadItem(forTypeIdentifier: OnePasswordExtensionActions.findLogin, options: nil, completionHandler: { (item, _) -> Void in
+                        provider.loadItem(forTypeIdentifier: OnePasswordExtensionActions.findLogin, options: nil) { (item, _) -> Void in
                             let dictionary = item as! NSDictionary
                             var url: String?
                             if var urlString = dictionary[OnePasswordExtensionKey.URLStringKey] as? String {
@@ -83,9 +83,9 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
                                 self?.searchBar.becomeFirstResponder()
                                 self?.searchBarSearchButtonClicked((self?.searchBar)!)
                             }
-                        })
+                        }
                     } else if provider.hasItemConformingToTypeIdentifier(kUTTypePropertyList as String) {
-                        provider.loadItem(forTypeIdentifier: kUTTypePropertyList as String, options: nil, completionHandler: { (item, _) -> Void in
+                        provider.loadItem(forTypeIdentifier: kUTTypePropertyList as String, options: nil) { (item, _) -> Void in
                             var url: String?
                             if let dictionary = item as? NSDictionary,
                                 let results = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary,
@@ -102,9 +102,9 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
                                 self?.searchBar.becomeFirstResponder()
                                 self?.searchBarSearchButtonClicked((self?.searchBar)!)
                             }
-                        })
+                        }
                     } else if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
-                        provider.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil, completionHandler: { (item, _) -> Void in
+                        provider.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil) { (item, _) -> Void in
                             let url = (item as? NSURL)!.host
                             DispatchQueue.main.async { [weak self] in
                                 self?.extensionAction = .fillBrowser
@@ -113,7 +113,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
                                 self?.searchBar.becomeFirstResponder()
                                 self?.searchBarSearchButtonClicked((self?.searchBar)!)
                             }
-                        })
+                        }
                     }
                 }
             }
@@ -157,7 +157,8 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
 
                 let username = decryptedPassword.getUsernameForCompletion()
                 let password = decryptedPassword.password
-                DispatchQueue.main.async { // prepare a dictionary to return
+                DispatchQueue.main.async {
+                    // prepare a dictionary to return
                     switch self.extensionAction {
                     case .findLogin:
                         let extensionItem = NSExtensionItem()

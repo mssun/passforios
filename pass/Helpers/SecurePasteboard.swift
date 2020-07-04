@@ -29,11 +29,11 @@ public class SecurePasteboard {
             backgroundTaskID = UIBackgroundTaskIdentifier.invalid
         }
 
-        backgroundTaskID = UIApplication.shared.beginBackgroundTask(expirationHandler: { [weak self] in
+        backgroundTaskID = UIApplication.shared.beginBackgroundTask { [weak self] in
             UIPasteboard.general.string = ""
             UIApplication.shared.endBackgroundTask(UIBackgroundTaskIdentifier.invalid)
             self?.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
-        })
+        }
 
         DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + expirationTime) { [weak self] in
             UIPasteboard.general.string = ""

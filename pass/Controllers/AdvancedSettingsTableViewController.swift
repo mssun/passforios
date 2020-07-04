@@ -48,29 +48,32 @@ class AdvancedSettingsTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         if tableView.cellForRow(at: indexPath) == eraseDataTableViewCell {
             let alert = UIAlertController(title: "ErasePasswordStoreData?".localize(), message: "EraseExplanation.".localize(), preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive, handler: { [unowned self] (_) -> Void in
-                SVProgressHUD.show(withStatus: "Erasing...".localize())
-                self.passwordStore.erase()
-                self.navigationController!.popViewController(animated: true)
-                SVProgressHUD.showSuccess(withStatus: "Done".localize())
-                SVProgressHUD.dismiss(withDelay: 1)
-            }))
+            alert.addAction(
+                UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive) { [unowned self] (_) -> Void in
+                    SVProgressHUD.show(withStatus: "Erasing...".localize())
+                    self.passwordStore.erase()
+                    self.navigationController!.popViewController(animated: true)
+                    SVProgressHUD.showSuccess(withStatus: "Done".localize())
+                    SVProgressHUD.dismiss(withDelay: 1)
+                }
+            )
             alert.addAction(UIAlertAction.dismiss())
             present(alert, animated: true, completion: nil)
         } else if tableView.cellForRow(at: indexPath) == discardChangesTableViewCell {
             let alert = UIAlertController(title: "DiscardAllLocalChanges?".localize(), message: "DiscardExplanation.".localize(), preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "DiscardAllLocalChanges".localize(), style: UIAlertAction.Style.destructive, handler: { [unowned self] (_) -> Void in
-                SVProgressHUD.show(withStatus: "Resetting...".localize())
-                do {
-                    let numberDiscarded = try self.passwordStore.reset()
-                    self.navigationController!.popViewController(animated: true)
-                    SVProgressHUD.showSuccess(withStatus: "DiscardedCommits(%d)".localize(numberDiscarded))
-                    SVProgressHUD.dismiss(withDelay: 1)
-                } catch {
-                    Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
+            alert.addAction(
+                UIAlertAction(title: "DiscardAllLocalChanges".localize(), style: UIAlertAction.Style.destructive) { [unowned self] (_) -> Void in
+                    SVProgressHUD.show(withStatus: "Resetting...".localize())
+                    do {
+                        let numberDiscarded = try self.passwordStore.reset()
+                        self.navigationController!.popViewController(animated: true)
+                        SVProgressHUD.showSuccess(withStatus: "DiscardedCommits(%d)".localize(numberDiscarded))
+                        SVProgressHUD.dismiss(withDelay: 1)
+                    } catch {
+                        Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self, completion: nil)
+                    }
                 }
-
-            }))
+            )
             alert.addAction(UIAlertAction.dismiss())
             present(alert, animated: true, completion: nil)
         }

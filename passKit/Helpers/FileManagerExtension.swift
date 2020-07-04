@@ -37,10 +37,12 @@ public extension FileManager {
         }
 
         // We have to enumerate all directory contents, including subdirectories.
-        let enumerator = self.enumerator(at: directoryURL,
-                                         includingPropertiesForKeys: prefetchedProperties,
-                                         options: FileManager.DirectoryEnumerationOptions(),
-                                         errorHandler: errorHandler)
+        let enumerator = self.enumerator(
+            at: directoryURL,
+            includingPropertiesForKeys: prefetchedProperties,
+            options: FileManager.DirectoryEnumerationOptions(),
+            errorHandler: errorHandler
+        )
         precondition(enumerator != nil)
 
         // Start the traversal:

@@ -146,9 +146,11 @@ class GitRepositorySettingsTableViewController: UITableViewController {
         if passwordStore.repositoryExists() {
             let overwriteAlert: UIAlertController = {
                 let alert = UIAlertController(title: "Overwrite?".localize(), message: "OperationWillOverwriteData.".localize(), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Overwrite".localize(), style: .destructive) { _ in
-                    self.cloneAndSegueIfSuccess()
-                })
+                alert.addAction(
+                    UIAlertAction(title: "Overwrite".localize(), style: .destructive) { _ in
+                        self.cloneAndSegueIfSuccess()
+                    }
+                )
                 alert.addAction(UIAlertAction.cancel())
                 return alert
             }()
@@ -174,26 +176,32 @@ class GitRepositorySettingsTableViewController: UITableViewController {
                     SVProgressHUD.showProgress(progress, status: "CheckingOutBranch".localize(self.gitBranchName))
                 }
 
-                try self.passwordStore.cloneRepository(remoteRepoURL: self.gitUrl,
-                                                       credential: self.gitCredential,
-                                                       branchName: self.gitBranchName,
-                                                       requestCredentialPassword: self.requestCredentialPassword,
-                                                       transferProgressBlock: transferProgressBlock,
-                                                       checkoutProgressBlock: checkoutProgressBlock)
+                try self.passwordStore.cloneRepository(
+                    remoteRepoURL: self.gitUrl,
+                    credential: self.gitCredential,
+                    branchName: self.gitBranchName,
+                    requestCredentialPassword: self.requestCredentialPassword,
+                    transferProgressBlock: transferProgressBlock,
+                    checkoutProgressBlock: checkoutProgressBlock
+                )
 
                 SVProgressHUD.dismiss {
                     let savePassphraseAlert: UIAlertController = {
                         let alert = UIAlertController(title: "Done".localize(), message: "WantToSaveGitCredential?".localize(), preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "No".localize(), style: .default) { _ in
-                            Defaults.isRememberGitCredentialPassphraseOn = false
-                            self.passwordStore.gitPassword = nil
-                            self.passwordStore.gitSSHPrivateKeyPassphrase = nil
-                            self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
-                        })
-                        alert.addAction(UIAlertAction(title: "Yes".localize(), style: .destructive) { _ in
-                            Defaults.isRememberGitCredentialPassphraseOn = true
-                            self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
-                        })
+                        alert.addAction(
+                            UIAlertAction(title: "No".localize(), style: .default) { _ in
+                                Defaults.isRememberGitCredentialPassphraseOn = false
+                                self.passwordStore.gitPassword = nil
+                                self.passwordStore.gitSSHPrivateKeyPassphrase = nil
+                                self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
+                            }
+                        )
+                        alert.addAction(
+                            UIAlertAction(title: "Yes".localize(), style: .destructive) { _ in
+                                Defaults.isRememberGitCredentialPassphraseOn = true
+                                self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
+                            }
+                        )
                         return alert
                     }()
                     DispatchQueue.main.async {
@@ -244,35 +252,47 @@ class GitRepositorySettingsTableViewController: UITableViewController {
 
     private func showSSHKeyActionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        optionMenu.addAction(UIAlertAction(title: SSHKeyUrlImportTableViewController.menuLabel, style: .default) { _ in
-            self.performSegue(withIdentifier: "setGitSSHKeyByURLSegue", sender: self)
-        })
-        optionMenu.addAction(UIAlertAction(title: SSHKeyArmorImportTableViewController.menuLabel, style: .default) { _ in
-            self.performSegue(withIdentifier: "setGitSSHKeyByArmorSegue", sender: self)
-        })
-        optionMenu.addAction(UIAlertAction(title: SSHKeyFileImportTableViewController.menuLabel, style: .default) { _ in
-            self.performSegue(withIdentifier: "setGitSSHKeyByFileSegue", sender: self)
-        })
+        optionMenu.addAction(
+            UIAlertAction(title: SSHKeyUrlImportTableViewController.menuLabel, style: .default) { _ in
+                self.performSegue(withIdentifier: "setGitSSHKeyByURLSegue", sender: self)
+            }
+        )
+        optionMenu.addAction(
+            UIAlertAction(title: SSHKeyArmorImportTableViewController.menuLabel, style: .default) { _ in
+                self.performSegue(withIdentifier: "setGitSSHKeyByArmorSegue", sender: self)
+            }
+        )
+        optionMenu.addAction(
+            UIAlertAction(title: SSHKeyFileImportTableViewController.menuLabel, style: .default) { _ in
+                self.performSegue(withIdentifier: "setGitSSHKeyByFileSegue", sender: self)
+            }
+        )
 
         if isReadyToUse() {
-            optionMenu.addAction(UIAlertAction(title: "\(Self.menuLabel) (\("Import".localize()))", style: .default) { _ in
-                self.importSSHKey(using: self)
-            })
+            optionMenu.addAction(
+                UIAlertAction(title: "\(Self.menuLabel) (\("Import".localize()))", style: .default) { _ in
+                    self.importSSHKey(using: self)
+                }
+            )
         } else {
-            optionMenu.addAction(UIAlertAction(title: "\(Self.menuLabel) (\("Tips".localize()))", style: .default) { _ in
-                let title = "Tips".localize()
-                let message = "SshCopyPrivateKeyToPass.".localize()
-                Utils.alert(title: title, message: message, controller: self)
-            })
+            optionMenu.addAction(
+                UIAlertAction(title: "\(Self.menuLabel) (\("Tips".localize()))", style: .default) { _ in
+                    let title = "Tips".localize()
+                    let message = "SshCopyPrivateKeyToPass.".localize()
+                    Utils.alert(title: title, message: message, controller: self)
+                }
+            )
         }
 
         if Defaults.gitSSHKeySource != nil {
-            optionMenu.addAction(UIAlertAction(title: "RemoveSShKeys".localize(), style: .destructive) { _ in
-                self.passwordStore.removeGitSSHKeys()
-                Defaults.gitSSHKeySource = nil
-                self.sshLabel?.isEnabled = false
-                self.gitAuthenticationMethod = .password
-            })
+            optionMenu.addAction(
+                UIAlertAction(title: "RemoveSShKeys".localize(), style: .destructive) { _ in
+                    self.passwordStore.removeGitSSHKeys()
+                    Defaults.gitSSHKeySource = nil
+                    self.sshLabel?.isEnabled = false
+                    self.gitAuthenticationMethod = .password
+                }
+            )
         }
         optionMenu.addAction(UIAlertAction.cancel())
         optionMenu.popoverPresentationController?.sourceView = authSSHKeyCell

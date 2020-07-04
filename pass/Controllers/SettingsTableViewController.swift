@@ -142,36 +142,48 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
     func showPGPKeyActionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        optionMenu.addAction(UIAlertAction(title: PGPKeyUrlImportTableViewController.menuLabel, style: .default) { _ in
-            self.performSegue(withIdentifier: "setPGPKeyByURLSegue", sender: self)
-        })
-        optionMenu.addAction(UIAlertAction(title: PGPKeyArmorImportTableViewController.menuLabel, style: .default) { _ in
-            self.performSegue(withIdentifier: "setPGPKeyByASCIISegue", sender: self)
-        })
-        optionMenu.addAction(UIAlertAction(title: PGPKeyFileImportTableViewController.menuLabel, style: .default) { _ in
-            self.performSegue(withIdentifier: "setPGPKeyByFileSegue", sender: self)
-        })
+        optionMenu.addAction(
+            UIAlertAction(title: PGPKeyUrlImportTableViewController.menuLabel, style: .default) { _ in
+                self.performSegue(withIdentifier: "setPGPKeyByURLSegue", sender: self)
+            }
+        )
+        optionMenu.addAction(
+            UIAlertAction(title: PGPKeyArmorImportTableViewController.menuLabel, style: .default) { _ in
+                self.performSegue(withIdentifier: "setPGPKeyByASCIISegue", sender: self)
+            }
+        )
+        optionMenu.addAction(
+            UIAlertAction(title: PGPKeyFileImportTableViewController.menuLabel, style: .default) { _ in
+                self.performSegue(withIdentifier: "setPGPKeyByFileSegue", sender: self)
+            }
+        )
 
         if isReadyToUse() {
-            optionMenu.addAction(UIAlertAction(title: "\(Self.menuLabel) (\("Import".localize()))", style: .default) { _ in
-                self.saveImportedKeys()
-            })
+            optionMenu.addAction(
+                UIAlertAction(title: "\(Self.menuLabel) (\("Import".localize()))", style: .default) { _ in
+                    self.saveImportedKeys()
+                }
+            )
         } else {
-            optionMenu.addAction(UIAlertAction(title: "\(Self.menuLabel) (\("Tips".localize()))", style: .default) { _ in
-                let title = "Tips".localize()
-                let message = "PgpCopyPublicAndPrivateKeyToPass.".localize()
-                Utils.alert(title: title, message: message, controller: self)
-            })
+            optionMenu.addAction(
+                UIAlertAction(title: "\(Self.menuLabel) (\("Tips".localize()))", style: .default) { _ in
+                    let title = "Tips".localize()
+                    let message = "PgpCopyPublicAndPrivateKeyToPass.".localize()
+                    Utils.alert(title: title, message: message, controller: self)
+                }
+            )
         }
 
         if Defaults.pgpKeySource != nil {
-            optionMenu.addAction(UIAlertAction(title: "RemovePgpKeys".localize(), style: .destructive) { _ in
-                self.keychain.removeContent(for: PgpKey.PUBLIC.getKeychainKey())
-                self.keychain.removeContent(for: PgpKey.PRIVATE.getKeychainKey())
-                PGPAgent.shared.uninitKeys()
-                self.pgpKeyTableViewCell.detailTextLabel?.text = "NotSet".localize()
-                Defaults.pgpKeySource = nil
-            })
+            optionMenu.addAction(
+                UIAlertAction(title: "RemovePgpKeys".localize(), style: .destructive) { _ in
+                    self.keychain.removeContent(for: PgpKey.PUBLIC.getKeychainKey())
+                    self.keychain.removeContent(for: PgpKey.PRIVATE.getKeychainKey())
+                    PGPAgent.shared.uninitKeys()
+                    self.pgpKeyTableViewCell.detailTextLabel?.text = "NotSet".localize()
+                    Defaults.pgpKeySource = nil
+                }
+            )
         }
         optionMenu.addAction(UIAlertAction.cancel())
         optionMenu.popoverPresentationController?.sourceView = pgpKeyTableViewCell
@@ -221,16 +233,16 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     func setPasscodeLock() {
         // prepare the alert for setting the passcode
         setPasscodeLockAlert = UIAlertController(title: "SetPasscode".localize(), message: "FillInAppPasscode.".localize(), preferredStyle: .alert)
-        setPasscodeLockAlert?.addTextField(configurationHandler: { (_ textField: UITextField) -> Void in
+        setPasscodeLockAlert?.addTextField { textField -> Void in
             textField.placeholder = "Passcode".localize()
             textField.isSecureTextEntry = true
             textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
-        })
-        setPasscodeLockAlert?.addTextField(configurationHandler: { (_ textField: UITextField) -> Void in
+        }
+        setPasscodeLockAlert?.addTextField { textField -> Void in
             textField.placeholder = "PasswordConfirmation".localize()
             textField.isSecureTextEntry = true
             textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
-        })
+        }
 
         // save action
         let saveAction = UIAlertAction(title: "Save".localize(), style: .default) { (_: UIAlertAction) -> Void in

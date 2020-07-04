@@ -41,14 +41,16 @@ class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
         super.viewDidLoad()
         tableData.append([])
         for item in Self.openSourceComponents {
-            tableData[0].append([
-                .title: item[0],
-                .action: "link",
-                .link: item[1],
-                .accessoryType: UITableViewCell.AccessoryType.detailDisclosureButton,
-                .detailDisclosureAction: #selector(actOnDetailDisclosureButton(_:)),
-                .detailDisclosureData: item[2],
-            ])
+            tableData[0].append(
+                [
+                    .title: item[0],
+                    .action: "link",
+                    .link: item[1],
+                    .accessoryType: UITableViewCell.AccessoryType.detailDisclosureButton,
+                    .detailDisclosureAction: #selector(actOnDetailDisclosureButton(_:)),
+                    .detailDisclosureData: item[2],
+                ]
+            )
         }
     }
 
