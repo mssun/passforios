@@ -43,7 +43,7 @@ whitelist_rules:
   - empty_parameters
   - empty_parentheses_with_trailing_closure
   - empty_string
-#  - empty_xctest_method
+  - empty_xctest_method
   - enum_case_associated_values_count
   - expiring_todo
 #  - explicit_acl
