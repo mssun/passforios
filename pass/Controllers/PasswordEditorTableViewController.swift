@@ -265,7 +265,7 @@ class PasswordEditorTableViewController: UITableViewController {
         // Remove delimiter configuration for XKCD style passwords. Re-add it for random ones.
         switch flavor {
         case .random:
-            guard tableData[1].first(where: isPasswordDelimiterCellData) == nil else {
+            if tableData[1].contains(where: isPasswordDelimiterCellData) {
                 return
             }
             tableData[1].insert([.type: PasswordEditorCellType.passwordGroupsCell], at: tableData[1].endIndex)
