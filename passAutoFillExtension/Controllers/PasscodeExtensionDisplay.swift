@@ -13,8 +13,8 @@ import passKit
 // cancel means cancel the extension
 class PasscodeLockViewControllerForExtension: PasscodeLockViewController {
     var originalExtensionContest: ASCredentialProviderExtensionContext?
-    
-    public convenience init(extensionContext: ASCredentialProviderExtensionContext?) {
+
+    convenience init(extensionContext: ASCredentialProviderExtensionContext?) {
         self.init()
         self.originalExtensionContest = extensionContext
     }
@@ -36,7 +36,7 @@ class PasscodeExtensionDisplay {
     private let passcodeLockVC: PasscodeLockViewControllerForExtension
     private let extensionContext: ASCredentialProviderExtensionContext?
 
-    public init(extensionContext: ASCredentialProviderExtensionContext?) {
+    init(extensionContext: ASCredentialProviderExtensionContext?) {
         self.extensionContext = extensionContext
         self.passcodeLockVC = PasscodeLockViewControllerForExtension(extensionContext: extensionContext)
         passcodeLockVC.dismissCompletionCallback = { [weak self] in
@@ -46,7 +46,7 @@ class PasscodeExtensionDisplay {
     }
 
     // present the passcode lock view if passcode is set and the view controller is not presented
-    public func presentPasscodeLockIfNeeded(_ extensionVC: UIViewController) {
+    func presentPasscodeLockIfNeeded(_ extensionVC: UIViewController) {
         guard PasscodeLock.shared.hasPasscode, !isPasscodePresented == true else {
             return
         }
@@ -54,7 +54,7 @@ class PasscodeExtensionDisplay {
         extensionVC.present(passcodeLockVC, animated: true, completion: nil)
     }
 
-    public func dismiss(animated _: Bool = true) {
+    func dismiss(animated _: Bool = true) {
         isPasscodePresented = false
     }
 }

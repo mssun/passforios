@@ -9,8 +9,9 @@
 import Foundation
 import UIKit
 
-class SecurePasteboard {
+public class SecurePasteboard {
     public static let shared = SecurePasteboard()
+
     private var backgroundTaskID = UIBackgroundTaskIdentifier.invalid
 
     func copy(textToCopy: String?, expirationTime: Double = 45) {
