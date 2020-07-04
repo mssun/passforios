@@ -113,7 +113,7 @@ whitelist_rules:
   - nslocalizedstring_key
   - nslocalizedstring_require_bundle
   - nsobject_prefer_isequal
-#  - number_separator
+#  - number_separator # Contradicts with SwiftFormat rule 'decimalgrouping'. There are not many numbers anyway in the source code.
   - object_literal
   - opening_brace
   - operator_usage_whitespace
