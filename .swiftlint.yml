@@ -110,7 +110,7 @@ whitelist_rules:
 #  - no_grouping_extension
   - no_space_in_method_call
   - notification_center_detachment
-#  - nslocalizedstring_key
+  - nslocalizedstring_key
 #  - nslocalizedstring_require_bundle
   - nsobject_prefer_isequal
 #  - number_separator
