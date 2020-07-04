@@ -20,7 +20,7 @@ whitelist_rules:
   - colon
   - comma
   - compiler_protocol_init
-#  - conditional_returns_on_newline
+  - conditional_returns_on_newline
   - contains_over_filter_count
   - contains_over_filter_is_empty
 #  - contains_over_first_not_nil

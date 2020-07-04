@@ -19,7 +19,9 @@ open class PasscodeLockPresenter {
     }
 
     open func present(windowLevel: CGFloat?) {
-        guard PasscodeLock.shared.hasPasscode else { return }
+        guard PasscodeLock.shared.hasPasscode else {
+            return
+        }
 
         // dismiss the original window
         dismiss()
