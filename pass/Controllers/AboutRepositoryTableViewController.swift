@@ -61,12 +61,14 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
                 let type = UITableViewCell.AccessoryType.none
                 strongSelf.tableData = [
                     // section 0
-                    [[.style: CellDataStyle.value1, .accessoryType: type, .title: "Passwords".localize(), .detailText: passwords],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Size".localize(), .detailText: size],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "LocalCommits".localize(), .detailText: localCommits],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "LastSynced".localize(), .detailText: lastSynced],
-                     [.style: CellDataStyle.value1, .accessoryType: type, .title: "Commits".localize(), .detailText: commits],
-                     [.title: "CommitLogs".localize(), .action: "segue", .link: "showCommitLogsSegue"]],
+                    [
+                        [.style: CellDataStyle.value1, .accessoryType: type, .title: "Passwords".localize(), .detailText: passwords],
+                        [.style: CellDataStyle.value1, .accessoryType: type, .title: "Size".localize(), .detailText: size],
+                        [.style: CellDataStyle.value1, .accessoryType: type, .title: "LocalCommits".localize(), .detailText: localCommits],
+                        [.style: CellDataStyle.value1, .accessoryType: type, .title: "LastSynced".localize(), .detailText: lastSynced],
+                        [.style: CellDataStyle.value1, .accessoryType: type, .title: "Commits".localize(), .detailText: commits],
+                        [.title: "CommitLogs".localize(), .action: "segue", .link: "showCommitLogsSegue"],
+                    ],
                 ]
                 strongSelf.indicator.stopAnimating()
                 strongSelf.tableView.reloadData()
