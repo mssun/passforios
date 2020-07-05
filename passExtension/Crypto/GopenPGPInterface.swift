@@ -63,11 +63,11 @@ struct GopenPGPInterface: PGPInterface {
     }
 
     func containsPublicKey(with keyID: String) -> Bool {
-        publicKeys.keys.contains(where: { key in key.hasSuffix(keyID.lowercased()) })
+        publicKeys.keys.contains { key in key.hasSuffix(keyID.lowercased()) }
     }
 
     func containsPrivateKey(with keyID: String) -> Bool {
-        privateKeys.keys.contains(where: { key in key.hasSuffix(keyID.lowercased()) })
+        privateKeys.keys.contains { key in key.hasSuffix(keyID.lowercased()) }
     }
 
     func decrypt(encryptedData: Data, keyID: String, passphrase: String) throws -> Data? {

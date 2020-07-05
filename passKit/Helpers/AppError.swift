@@ -30,7 +30,7 @@ public enum AppError: Error, Equatable {
 
 extension AppError: LocalizedError {
     public var errorDescription: String? {
-        let localizationKey = "\(String(describing: self).prefix(while: { $0 != "(" }))Error."
+        let localizationKey = "\(String(describing: self).prefix { $0 != "(" })Error."
         switch self {
         case let .RepositoryRemoteBranchNotFound(name), let .RepositoryBranchNotFound(name), let .ReadingFile(name):
             return localizationKey.localize(name)

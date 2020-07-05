@@ -163,7 +163,7 @@ whitelist_rules:
   - syntactic_sugar
   - todo
   - toggle_bool
-#  - trailing_closure
+  - trailing_closure
 #  - trailing_comma
   - trailing_newline
   - trailing_semicolon

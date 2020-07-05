@@ -70,7 +70,7 @@ class PasswordGeneratorTest: XCTestCase {
             PasswordGenerator(flavor: .xkcd, length: 8, useSpecialSymbols: false),
             PasswordGenerator(flavor: .xkcd, length: 1, useSpecialSymbols: false),
         ].forEach { generator in
-            XCTAssertEqual(generator.generate().split(whereSeparator: { "0123456789".contains($0) }).count, generator.limitedLength)
+            XCTAssertEqual(generator.generate().split { "0123456789".contains($0) }.count, generator.limitedLength)
         }
     }
 
