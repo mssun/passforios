@@ -189,7 +189,7 @@ whitelist_rules:
   - vertical_parameter_alignment_on_call
   - vertical_whitespace
 #  - vertical_whitespace_between_cases # Additional whitespace not needed because of visible indentation.
-#  - vertical_whitespace_closing_braces
+  - vertical_whitespace_closing_braces
   - vertical_whitespace_opening_braces
   - void_return
 #  - weak_delegate
