@@ -404,7 +404,7 @@ extension PasswordEditorTableViewController: FillPasswordTableViewCellDelegate {
 
     // show/hide password settings (e.g., the length slider)
     func showHidePasswordSettings() {
-        hidePasswordSettings = !hidePasswordSettings
+        hidePasswordSettings.toggle()
         tableView.reloadSections([passwordSection], with: .fade)
     }
 }
