@@ -417,7 +417,7 @@ extension PasswordEditorTableViewController: PasswordSettingSliderTableViewCellD
 
 extension PasswordEditorTableViewController: QRScannerControllerDelegate {
     func checkScannedOutput(line: String) -> (accept: Bool, message: String) {
-        if let url = URL(string: line), let _ = Token(url: url) {
+        if let url = URL(string: line), Token(url: url) != nil {
             return (accept: true, message: "ValidTokenUrl".localize())
         } else {
             return (accept: false, message: "InvalidTokenUrl".localize())
