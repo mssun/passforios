@@ -144,7 +144,7 @@ whitelist_rules:
   - redundant_optional_initialization
   - redundant_set_access_control
   - redundant_string_enum_value
-#  - redundant_type_annotation
+  - redundant_type_annotation
   - redundant_void_return
 #  - required_deinit
   - required_enum_case
