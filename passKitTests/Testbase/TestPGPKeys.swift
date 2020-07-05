@@ -11,14 +11,14 @@ import XCTest
 @testable import passKit
 
 struct PGPTestSet {
-    fileprivate static var ALL_TEST_SETS: [String: PGPTestSet] = [:]
+    fileprivate static var ALL_TEST_SETS: [String: PGPTestSet] = [:] // swiftlint:disable:this strict_fileprivate
 
     let publicKey: String
     let privateKey: String
     let fingerprint: String
     let passphrase: String
 
-    fileprivate func collect() -> Self {
+    fileprivate func collect() -> Self { // swiftlint:disable:this strict_fileprivate
         Self.ALL_TEST_SETS[fingerprint] = self
         return self
     }
