@@ -13,7 +13,7 @@ import XCTest
 
 class PasswordStoreTest: XCTestCase {
     let cloneOptions: [String: GTCredentialProvider] = {
-        let credentialProvider = GTCredentialProvider { (_, _, _) -> (GTCredential?) in
+        let credentialProvider = GTCredentialProvider { _, _, _ -> (GTCredential?) in
             try? GTCredential(userName: "", password: "")
         }
         return [GTRepositoryCloneOptionsCredentialProvider: credentialProvider]

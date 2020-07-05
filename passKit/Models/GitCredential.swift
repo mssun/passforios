@@ -24,7 +24,7 @@ public struct GitCredential {
 
     public func credentialProvider(requestCredentialPassword: @escaping (Credential, String?) -> String?) throws -> GTCredentialProvider {
         var attempts = 0
-        return GTCredentialProvider { (_, _, _) -> (GTCredential?) in
+        return GTCredentialProvider { _, _, _ -> (GTCredential?) in
             var credential: GTCredential?
 
             switch self.credential {
