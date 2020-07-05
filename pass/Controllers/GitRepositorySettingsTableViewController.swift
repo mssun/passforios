@@ -132,7 +132,8 @@ class GitRepositorySettingsTableViewController: UITableViewController {
                     Utils.alert(title: "CannotSave".localize(), message: "CheckEnteredUsername.".localize(), controller: self)
                     return
                 }
-            case "file": break
+            case "file":
+                break
             default:
                 Utils.alert(title: "CannotSave".localize(), message: "Protocol is not supported", controller: self)
                 return
