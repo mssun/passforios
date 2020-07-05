@@ -26,7 +26,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
 
     let supportedCodeTypes = [AVMetadataObject.ObjectType.qr]
 
-    var delegate: QRScannerControllerDelegate?
+    weak var delegate: QRScannerControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()

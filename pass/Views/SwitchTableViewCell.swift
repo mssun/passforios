@@ -15,7 +15,7 @@ class SwitchTableViewCell: UITableViewCell {
 
     private var updater: ((Bool) -> Void)!
 
-    private var delegate: PasswordSettingSliderTableViewCellDelegate!
+    private weak var delegate: PasswordSettingSliderTableViewCellDelegate!
 
     @IBAction
     private func switchValueChanged(_: Any) {
