@@ -10,9 +10,10 @@ import passKit
 import SVProgressHUD
 import UIKit
 
-private let hideSectionHeaderThreshold = 6 // hide section header if passwords count is less than the threshold
-
 class PasswordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchBarDelegate {
+    // Arbitrary threshold to decide whether to show folders or not for only a few entries.
+    private static let hideSectionHeaderThreshold = 6
+
     private var passwordsTableEntries: [PasswordTableEntry] = []
     private var passwordsTableAllEntries: [PasswordTableEntry] = []
     private var parentPasswordEntity: PasswordEntity?
@@ -437,10 +438,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     private func hideSectionHeader() -> Bool {
-        if passwordsTableEntries.count < hideSectionHeaderThreshold || searchController.isActive {
-            return true
-        }
-        return false
+        return passwordsTableEntries.count < Self.hideSectionHeaderThreshold || searchController.isActive
     }
 
     func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
