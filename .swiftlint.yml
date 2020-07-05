@@ -173,7 +173,7 @@ whitelist_rules:
   - type_name
   - unavailable_function
   - unneeded_break_in_switch
-#  - unneeded_parentheses_in_closure_argument
+  - unneeded_parentheses_in_closure_argument
 #  - unowned_variable_capture
   - untyped_error_in_catch
   - unused_capture_list

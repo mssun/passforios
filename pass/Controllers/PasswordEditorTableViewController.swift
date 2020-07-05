@@ -247,7 +247,7 @@ class PasswordEditorTableViewController: UITableViewController {
         if selectedCell == deletePasswordCell {
             let alert = UIAlertController(title: "DeletePassword?".localize(), message: nil, preferredStyle: UIAlertController.Style.alert)
             alert.addAction(
-                UIAlertAction(title: "Delete".localize(), style: UIAlertAction.Style.destructive) { [unowned self] (_) -> Void in
+                UIAlertAction(title: "Delete".localize(), style: UIAlertAction.Style.destructive) { [unowned self] _ -> Void in
                     self.performSegue(withIdentifier: "deletePasswordSegue", sender: self)
                 }
             )
@@ -441,7 +441,7 @@ extension PasswordEditorTableViewController: SFSafariViewControllerDelegate {
             message.append(Utils.attributedPassword(plainPassword: generatedPassword))
             alert.setValue(message, forKey: "attributedMessage")
             alert.addAction(
-                UIAlertAction(title: "Yes", style: UIAlertAction.Style.default) { [unowned self] (_) -> Void in
+                UIAlertAction(title: "Yes", style: UIAlertAction.Style.default) { [unowned self] _ -> Void in
                     // update tableData so to make sure reloadData() works correctly
                     self.tableData[self.passwordSection][0][PasswordEditorCellKey.content] = generatedPassword
                     // update cell manually, no need to call reloadData()

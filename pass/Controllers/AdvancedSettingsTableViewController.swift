@@ -49,7 +49,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
         if tableView.cellForRow(at: indexPath) == eraseDataTableViewCell {
             let alert = UIAlertController(title: "ErasePasswordStoreData?".localize(), message: "EraseExplanation.".localize(), preferredStyle: UIAlertController.Style.alert)
             alert.addAction(
-                UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive) { [unowned self] (_) -> Void in
+                UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive) { [unowned self] _ -> Void in
                     SVProgressHUD.show(withStatus: "Erasing...".localize())
                     self.passwordStore.erase()
                     self.navigationController!.popViewController(animated: true)
@@ -62,7 +62,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
         } else if tableView.cellForRow(at: indexPath) == discardChangesTableViewCell {
             let alert = UIAlertController(title: "DiscardAllLocalChanges?".localize(), message: "DiscardExplanation.".localize(), preferredStyle: UIAlertController.Style.alert)
             alert.addAction(
-                UIAlertAction(title: "DiscardAllLocalChanges".localize(), style: UIAlertAction.Style.destructive) { [unowned self] (_) -> Void in
+                UIAlertAction(title: "DiscardAllLocalChanges".localize(), style: UIAlertAction.Style.destructive) { [unowned self] _ -> Void in
                     SVProgressHUD.show(withStatus: "Resetting...".localize())
                     do {
                         let numberDiscarded = try self.passwordStore.reset()

@@ -193,7 +193,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
     func forgotPasscodeButtonPressedAction(_: UIButton) {
         let alert = UIAlertController(title: "ResetPass".localize(), message: "ResetPassExplanation.".localize(), preferredStyle: UIAlertController.Style.alert)
         alert.addAction(
-            UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive) { [unowned self] (_) -> Void in
+            UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive) { [unowned self] _ -> Void in
                 let myContext = LAContext()
                 var error: NSError?
                 // If the device passcode is not set, reset the app.
