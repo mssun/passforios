@@ -23,7 +23,7 @@ class PGPKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
     }
 
     @IBAction
-    func save(_: Any) {
+    private func save(_: Any) {
         guard let publicKeyURLText = pgpPublicKeyURLTextField.text,
             let publicKeyURL = URL(string: publicKeyURLText),
             let privateKeyURLText = pgpPrivateKeyURLTextField.text,

@@ -125,7 +125,7 @@ whitelist_rules:
   - pattern_matching_keywords
   - prefer_self_type_over_type_of_self
 #  - prefixed_toplevel_constant # Violations are mostly in test code.
-#  - private_action
+  - private_action
 #  - private_outlet
   - private_over_fileprivate
   - private_unit_test

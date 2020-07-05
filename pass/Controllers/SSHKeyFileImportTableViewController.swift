@@ -15,7 +15,7 @@ class SSHKeyFileImportTableViewController: AutoCellHeightUITableViewController {
     private var privateKey: String?
 
     @IBAction
-    func doneButtonTapped(_: Any) {
+    private func doneButtonTapped(_: Any) {
         performSegue(withIdentifier: "importSSHKeySegue", sender: self)
     }
 

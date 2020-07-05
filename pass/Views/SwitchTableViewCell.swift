@@ -18,7 +18,7 @@ class SwitchTableViewCell: UITableViewCell {
     private var delegate: PasswordSettingSliderTableViewCellDelegate!
 
     @IBAction
-    func switchValueChanged(_: Any) {
+    private func switchValueChanged(_: Any) {
         updater(controlSwitch.isOn)
         delegate.generateAndCopyPassword()
     }

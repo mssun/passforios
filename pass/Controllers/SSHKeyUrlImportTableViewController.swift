@@ -20,7 +20,7 @@ class SSHKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
     }
 
     @IBAction
-    func doneButtonTapped(_: UIButton) {
+    private func doneButtonTapped(_: UIButton) {
         guard let text = privateKeyURLTextField.text,
             let privateKeyURL = URL(string: text) else {
             Utils.alert(title: "CannotSave".localize(), message: "SetPrivateKeyUrl.".localize(), controller: self)

@@ -110,7 +110,7 @@ class GitRepositorySettingsTableViewController: UITableViewController {
     // MARK: - Segue Handlers
 
     @IBAction
-    func save(_: Any) {
+    private func save(_: Any) {
         guard let gitURLTextFieldText = gitURLTextField.text, let gitURL = URL(string: gitURLTextFieldText.trimmed) else {
             Utils.alert(title: "CannotSave".localize(), message: "SetGitRepositoryUrl".localize(), controller: self)
             return
@@ -224,7 +224,7 @@ class GitRepositorySettingsTableViewController: UITableViewController {
     }
 
     @IBAction
-    func importSSHKey(segue: UIStoryboardSegue) {
+    private func importSSHKey(segue: UIStoryboardSegue) {
         guard let sourceController = segue.source as? KeyImporter, sourceController.isReadyToUse() else {
             return
         }
