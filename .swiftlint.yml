@@ -162,7 +162,7 @@ whitelist_rules:
   - switch_case_on_newline
   - syntactic_sugar
   - todo
-#  - toggle_bool
+  - toggle_bool
 #  - trailing_closure
 #  - trailing_comma
   - trailing_newline
