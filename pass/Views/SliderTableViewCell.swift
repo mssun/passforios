@@ -20,7 +20,7 @@ class SliderTableViewCell: UITableViewCell {
     private var delegate: PasswordSettingSliderTableViewCellDelegate!
 
     @IBAction
-    func handleSliderValueChange(_ sender: UISlider) {
+    private func handleSliderValueChange(_ sender: UISlider) {
         let newRoundedValue = Int(sender.value)
         // Proceed only if the rounded value gets updated.
         guard checker(newRoundedValue) else {

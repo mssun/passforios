@@ -33,7 +33,7 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
     }
 
     @IBAction
-    func save(_: Any) {
+    private func save(_: Any) {
         armorPublicKey = armorPublicKeyTextView.text
         armorPrivateKey = armorPrivateKeyTextView.text
         saveImportedKeys()

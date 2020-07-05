@@ -32,18 +32,18 @@ class FillPasswordTableViewCell: UITableViewCell, ContentProvider {
     }
 
     @IBAction
-    func generatePassword(_: UIButton) {
+    private func generatePassword(_: UIButton) {
         delegate?.generateAndCopyPassword()
     }
 
     @IBAction
-    func showHidePasswordSettings() {
+    private func showHidePasswordSettings() {
         delegate?.showHidePasswordSettings()
     }
 
     // re-color
     @IBAction
-    func textFieldDidChange(_ sender: UITextField) {
+    private func textFieldDidChange(_ sender: UITextField) {
         contentTextField.attributedText = Utils.attributedPassword(plainPassword: sender.text ?? "")
     }
 

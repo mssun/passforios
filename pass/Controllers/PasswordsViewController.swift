@@ -137,10 +137,10 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     @IBAction
-    func cancelAddPassword(segue _: UIStoryboardSegue) {}
+    private func cancelAddPassword(segue _: UIStoryboardSegue) {}
 
     @IBAction
-    func saveAddPassword(segue: UIStoryboardSegue) {
+    private func saveAddPassword(segue: UIStoryboardSegue) {
         if let controller = segue.source as? AddPasswordTableViewController {
             addPassword(password: controller.password!)
         }
@@ -438,7 +438,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     private func hideSectionHeader() -> Bool {
-        return passwordsTableEntries.count < Self.hideSectionHeaderThreshold || searchController.isActive
+        passwordsTableEntries.count < Self.hideSectionHeaderThreshold || searchController.isActive
     }
 
     func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {

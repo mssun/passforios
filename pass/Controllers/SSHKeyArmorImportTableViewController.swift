@@ -60,7 +60,7 @@ class SSHKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
     }
 
     @IBAction
-    func doneButtonTapped(_: Any) {
+    private func doneButtonTapped(_: Any) {
         armorPrivateKey = armorPrivateKeyTextView.text
         performSegue(withIdentifier: "importSSHKeySegue", sender: self)
     }

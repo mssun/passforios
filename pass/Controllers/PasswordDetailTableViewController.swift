@@ -344,7 +344,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
 
     @IBAction
-    func back(segue _: UIStoryboardSegue) {}
+    private func back(segue _: UIStoryboardSegue) {}
 
     func getNextHOTP() {
         guard password != nil, passwordEntity != nil, password?.otpType == .hotp else {

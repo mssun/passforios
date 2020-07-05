@@ -26,7 +26,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     }
 
     @IBAction
-    func savePGPKey(segue: UIStoryboardSegue) {
+    private func savePGPKey(segue: UIStoryboardSegue) {
         guard let sourceController = segue.source as? PGPKeyImporter, sourceController.isReadyToUse() else {
             return
         }
@@ -60,7 +60,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     }
 
     @IBAction
-    func saveGitServerSetting(segue _: UIStoryboardSegue) {
+    private func saveGitServerSetting(segue _: UIStoryboardSegue) {
         passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults.gitURL.host
     }
 

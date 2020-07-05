@@ -214,7 +214,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
     }
 
     @IBAction
-    func cancelExtension(_: Any) {
+    private func cancelExtension(_: Any) {
         extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
     }
 
