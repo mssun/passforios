@@ -170,7 +170,7 @@ whitelist_rules:
   - trailing_whitespace
 #  - type_body_length
 #  - type_contents_order
-#  - type_name
+  - type_name
   - unavailable_function
   - unneeded_break_in_switch
 #  - unneeded_parentheses_in_closure_argument
@@ -201,3 +201,5 @@ whitelist_rules:
 closure_body_length: 
   warning: 40
   error: 60
+type_name:
+  max_length: 50
