@@ -130,7 +130,7 @@ public class Password {
 
     private func getAdditionValue(withKey key: String, caseSensitive: Bool = false) -> String? {
         let toLowercase = { (string: String) -> String in caseSensitive ? string : string.lowercased() }
-        return additions.first(where: { toLowercase($0.title) == toLowercase(key) })?.content
+        return additions.first { toLowercase($0.title) == toLowercase(key) }?.content
     }
 
     /// Set the OTP token if we are able to construct a valid one.
