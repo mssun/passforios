@@ -7,7 +7,7 @@
 //
 
 public class PGPAgent {
-    public static let shared: PGPAgent = PGPAgent()
+    public static let shared = PGPAgent()
 
     private let keyStore: KeyStore
     private var pgpInterface: PGPInterface?
