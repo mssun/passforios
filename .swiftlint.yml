@@ -155,7 +155,7 @@ whitelist_rules:
 #  - sorted_imports # Managed by SwiftFormat.
   - statement_position
 #  - static_operator
-#  - strict_fileprivate
+  - strict_fileprivate
   - strong_iboutlet
   - superfluous_disable_command
   - switch_case_alignment
