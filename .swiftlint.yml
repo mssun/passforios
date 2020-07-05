@@ -182,7 +182,7 @@ whitelist_rules:
   - unused_declaration
   - unused_enumerated
   - unused_import
-#  - unused_optional_binding
+  - unused_optional_binding
   - unused_setter_value
   - valid_ibinspectable
   - vertical_parameter_alignment

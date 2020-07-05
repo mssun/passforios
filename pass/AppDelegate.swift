@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        if let _ = window?.rootViewController as? PasscodeLockViewController {
+        if window?.rootViewController is PasscodeLockViewController {
             window?.frame = UIScreen.main.bounds
         }
         return .all
