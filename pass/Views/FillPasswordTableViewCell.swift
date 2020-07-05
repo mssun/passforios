@@ -16,10 +16,10 @@ protocol FillPasswordTableViewCellDelegate: AnyObject {
 
 class FillPasswordTableViewCell: UITableViewCell, ContentProvider {
     @IBOutlet var contentTextField: UITextField!
-    var delegate: FillPasswordTableViewCellDelegate?
-
     @IBOutlet var settingButton: UIButton!
     @IBOutlet var generateButton: UIButton!
+
+    weak var delegate: FillPasswordTableViewCellDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()

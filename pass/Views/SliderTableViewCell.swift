@@ -17,7 +17,7 @@ class SliderTableViewCell: UITableViewCell {
     private var checker: ((Int) -> Bool)!
     private var updater: ((Int) -> Void)!
 
-    private var delegate: PasswordSettingSliderTableViewCellDelegate!
+    private weak var delegate: PasswordSettingSliderTableViewCellDelegate!
 
     @IBAction
     private func handleSliderValueChange(_ sender: UISlider) {
