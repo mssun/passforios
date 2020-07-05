@@ -137,7 +137,8 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             cell.accessoryView = accessoryView
             cell.selectionStyle = .none
             hidePasswordImagesSwitch.isOn = Defaults.isHidePasswordImagesOn
-        default: break
+        default:
+            break
         }
         return cell
     }

@@ -159,7 +159,7 @@ whitelist_rules:
   - strong_iboutlet
   - superfluous_disable_command
   - switch_case_alignment
-#  - switch_case_on_newline
+  - switch_case_on_newline
   - syntactic_sugar
   - todo
 #  - toggle_bool
