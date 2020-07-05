@@ -81,7 +81,6 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
                 view.addSubview(qrCodeFrameView)
                 view.bringSubviewToFront(qrCodeFrameView)
             }
-
         } catch {
             scannerOutput.text = error.localizedDescription
         }
@@ -121,7 +120,6 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             } else {
                 scannerOutput.text = "NoStringValue".localize()
             }
-
         } else {
             qrCodeFrameView?.frame = CGRect.zero
             scannerOutput.text = "NoQrCodeDetected.".localize()
