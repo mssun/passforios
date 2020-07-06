@@ -326,7 +326,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.refreshControl = passwordStore.repositoryExists() ? syncControl : nil
     }
 
-    override func viewWillDisappear(_: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         // Remove gesture recognizer from navigation bar when view is about to disappear
         navigationController?.navigationBar.removeGestureRecognizer(tapNavigationBarGestureRecognizer)
     }

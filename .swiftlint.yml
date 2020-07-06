@@ -120,7 +120,7 @@ whitelist_rules:
   - operator_whitespace
   - optional_enum_case_matching
   - orphaned_doc_comment
-#  - overridden_super_call
+  - overridden_super_call
   - override_in_extension
   - pattern_matching_keywords
   - prefer_self_type_over_type_of_self

@@ -77,7 +77,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        super.viewDidAppear(animated)
         if shouldPopCurrentView {
             let alert = UIAlertController(title: "Notice".localize(), message: "PreviousChangesDiscarded.".localize(), preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction.okAndPopView(controller: self))
