@@ -182,7 +182,13 @@ public class PasswordStore {
         do {
             let credentialProvider = try credential.credentialProvider(requestCredentialPassword: requestCredentialPassword)
             let options = [GTRepositoryCloneOptionsCredentialProvider: credentialProvider]
-            try cloneRepository(remoteRepoURL: remoteRepoURL, options: options, branchName: branchName, transferProgressBlock: transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
+            try cloneRepository(
+                remoteRepoURL: remoteRepoURL,
+                branchName: branchName,
+                transferProgressBlock: transferProgressBlock,
+                checkoutProgressBlock: checkoutProgressBlock,
+                options: options
+            )
         } catch {
             credential.delete()
             throw (error)
@@ -191,10 +197,10 @@ public class PasswordStore {
 
     public func cloneRepository(
         remoteRepoURL: URL,
-        options: [AnyHashable: Any]? = nil,
         branchName: String,
         transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
         checkoutProgressBlock: @escaping (String, UInt, UInt) -> Void,
+        options: [AnyHashable: Any]? = nil,
         completion: @escaping () -> Void = {}
     ) throws {
         try? fm.removeItem(at: storeURL)
