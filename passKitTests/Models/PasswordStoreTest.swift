@@ -27,10 +27,10 @@ class PasswordStoreTest: XCTestCase {
         let expectation = self.expectation(description: "clone")
         try passwordStore.cloneRepository(
             remoteRepoURL: remoteRepoURL,
-            options: cloneOptions,
             branchName: "master",
             transferProgressBlock: { _, _ in },
             checkoutProgressBlock: { _, _, _ in },
+            options: cloneOptions,
             completion: { expectation.fulfill() }
         )
         waitForExpectations(timeout: 3, handler: nil)
