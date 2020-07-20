@@ -15,7 +15,7 @@ Pass for iOS is available in App Store with the name "Pass - Password Store", an
 <a href="https://itunes.apple.com/us/app/pass-password-store/id1205820573?mt=8"><img alt="Download on the App Store" src="img/app_store_badge.svg" width="150"/></a>
 </p>
 
-You can also help us test beta versions through [TestFlight](https://testflight.apple.com/join/zK50OFf0).
+You can also help us test beta versions through [TestFlight](https://testflight.apple.com/join/whK4zUFG).
 
 ## Features
 
