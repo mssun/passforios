@@ -1,2 +1,2 @@
-git_url "https://github.com/mssun/certificates-passforios.git"
+git_url "git@github.com:mssun/certificates-passforios.git"
 type "development"

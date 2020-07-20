@@ -1,5 +1,30 @@
 default_platform :ios
 
+lane :prepare do
+  cocoapods
+  carthage(cache_builds: true, platform: "iOS")
+  sh "./gopenpgp_build.sh"
+end
+
+lane :reset_build_number do
+    increment_build_number(
+      build_number: 0,
+      xcodeproj: "pass.xcodeproj"
+    )
+end
+
+lane :match_development do
+    app_identifier = "me.mssun.passforios"
+    match(
+      type: "development",
+      app_identifier: [app_identifier,
+                       "#{app_identifier}.find-login-action-extension",
+		       "#{app_identifier}.auto-fill-credential-extension",
+		       "#{app_identifier}.shortcuts"],
+      readonly: true
+    )
+end
+
 platform :ios do
   desc "Runs all tests"
   lane :test do
@@ -9,53 +34,94 @@ platform :ios do
   desc "Submit a new Beta Build to Apple TestFlight"
   desc "This will also make sure the profile is up to date"
   lane :beta do
+    app_identifier = "me.mssun.passforiosbeta"
+
     create_keychain(
       name: ENV["MATCH_KEYCHAIN_NAME"],
       password: ENV["MATCH_KEYCHAIN_PASSWORD"],
-      default_keychain: true,
+      default_keychain: false,
       unlock: true,
       timeout: 3600,
       add_to_search_list: true
     )
     match(
       type: "appstore",
-      app_identifier: "me.mssun.passforios",
-      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
-      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
-      readonly: true
-    )
-    match(
-      type: "appstore",
-      app_identifier: "me.mssun.passforios.find-login-action-extension",
-      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
-      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
-      readonly: true
-    )
-    match(
-      type: "appstore",
-      app_identifier: "me.mssun.passforios.auto-fill-credential-extension",
-      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
-      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
-      readonly: true
-    )
-    match(
-      type: "appstore",
-      app_identifier: "me.mssun.passforios.shortcuts",
+      app_identifier: [app_identifier,
+                       "#{app_identifier}.find-login-action-extension",
+		       "#{app_identifier}.auto-fill-credential-extension",
+		       "#{app_identifier}.shortcuts"],
       keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
       keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
       readonly: true
     )
     increment_build_number(
-      build_number: latest_testflight_build_number(version: get_version_number(target: "pass"), initial_build_number: 0) + 1,
+      build_number: latest_testflight_build_number(
+        version: get_version_number(target: "pass"),
+        app_identifier: app_identifier,
+        initial_build_number: 0
+      ) + 1,
       xcodeproj: "pass.xcodeproj"
     )
     build_app(
       scheme: "pass",
+      configuration: "Beta",
       verbose: true
     )
     upload_to_testflight(
+      app_identifier: app_identifier,
       skip_waiting_for_build_processing: true
     )
+    if ENV['CI'] == "true"
+      notify_dev
+    end
+  end
+
+  desc "Submit a new build to AppStore"
+  lane :release do
+    app_identifier = "me.mssun.passforios"
+
+    create_keychain(
+      name: ENV["MATCH_KEYCHAIN_NAME"],
+      password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+      default_keychain: false,
+      unlock: true,
+      timeout: 3600,
+      add_to_search_list: true
+    )
+    match(
+      type: "appstore",
+      app_identifier: [app_identifier,
+                       "#{app_identifier}.find-login-action-extension",
+		       "#{app_identifier}.auto-fill-credential-extension",
+		       "#{app_identifier}.shortcuts"],
+      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
+      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+      readonly: true
+    )
+    increment_build_number(
+      build_number: latest_testflight_build_number(
+        version: get_version_number(target: "pass"),
+        app_identifier: app_identifier,
+        initial_build_number: 0
+      ) + 1,
+      xcodeproj: "pass.xcodeproj"
+    )
+    build_app(
+      scheme: "pass",
+      configuration: "Release",
+      verbose: true
+    )
+    upload_to_testflight(
+      app_identifier: app_identifier,
+      skip_waiting_for_build_processing: true
+    )
+    if ENV['CI'] == "true"
+      notify_dev
+    end
+  end
+
+  desc 'Notify developers'
+  lane :notify_dev do
     mailgun(
       postmaster: ENV["MY_POSTMASTER"],
       apikey: ENV["MY_API_KEY"],

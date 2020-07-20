@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DC917BD21E2E8231000FDF54"
-               BuildableName = "pass.app"
+               BuildableName = "Pass.app"
                BlueprintName = "pass"
                ReferencedContainer = "container:pass.xcodeproj">
             </BuildableReference>
@@ -32,7 +32,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DC917BD21E2E8231000FDF54"
-            BuildableName = "pass.app"
+            BuildableName = "Pass.app"
             BlueprintName = "pass"
             ReferencedContainer = "container:pass.xcodeproj">
          </BuildableReference>
@@ -75,7 +75,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DC917BD21E2E8231000FDF54"
-            BuildableName = "pass.app"
+            BuildableName = "Pass.app"
             BlueprintName = "pass"
             ReferencedContainer = "container:pass.xcodeproj">
          </BuildableReference>
@@ -92,7 +92,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DC917BD21E2E8231000FDF54"
-            BuildableName = "pass.app"
+            BuildableName = "Pass.app"
             BlueprintName = "pass"
             ReferencedContainer = "container:pass.xcodeproj">
          </BuildableReference>
