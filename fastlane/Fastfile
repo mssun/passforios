@@ -17,6 +17,42 @@ lane :match_development do
     app_identifier = "me.mssun.passforios"
     match(
       type: "development",
+      git_url: "https://github.com/mssun/certificates-passforios",
+      git_basic_authorization: ENV['MATCH_GIT_BASIC_AUTHORIZATION'],
+      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
+      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+      app_identifier: [app_identifier,
+                       "#{app_identifier}.find-login-action-extension",
+		       "#{app_identifier}.auto-fill-credential-extension",
+		       "#{app_identifier}.shortcuts"],
+      readonly: true
+    )
+end
+
+lane :match_appstore do
+    app_identifier = "me.mssun.passforios"
+    match(
+      type: "appstore",
+      git_url: "https://github.com/mssun/certificates-passforios",
+      git_basic_authorization: ENV['MATCH_GIT_BASIC_AUTHORIZATION'],
+      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
+      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+      app_identifier: [app_identifier,
+                       "#{app_identifier}.find-login-action-extension",
+		       "#{app_identifier}.auto-fill-credential-extension",
+		       "#{app_identifier}.shortcuts"],
+      readonly: true
+    )
+end
+
+lane :match_appstore_beta do
+    app_identifier = "me.mssun.passforiosbeta"
+    match(
+      type: "appstore",
+      git_url: "https://github.com/mssun/certificates-passforios",
+      git_basic_authorization: ENV['MATCH_GIT_BASIC_AUTHORIZATION'],
+      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
+      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
       app_identifier: [app_identifier,
                        "#{app_identifier}.find-login-action-extension",
 		       "#{app_identifier}.auto-fill-credential-extension",
@@ -44,16 +80,7 @@ platform :ios do
       timeout: 3600,
       add_to_search_list: true
     )
-    match(
-      type: "appstore",
-      app_identifier: [app_identifier,
-                       "#{app_identifier}.find-login-action-extension",
-		       "#{app_identifier}.auto-fill-credential-extension",
-		       "#{app_identifier}.shortcuts"],
-      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
-      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
-      readonly: true
-    )
+    match_appstore_beta
     increment_build_number(
       build_number: latest_testflight_build_number(
         version: get_version_number(target: "pass"),
@@ -65,6 +92,16 @@ platform :ios do
     build_app(
       scheme: "pass",
       configuration: "Beta",
+      skip_profile_detection: true,
+      export_options: {
+        method: "app-store",
+        provisioningProfiles: {
+          app_identifier => "match AppStore #{app_identifier}",
+          "#{app_identifier}.find-login-action-extension" => "match AppStore #{app_identifier}.find-login-action-extension",
+          "#{app_identifier}.auto-fill-credential-extension" => "match AppStore #{app_identifier}.auto-fill-credential-extension",
+          "#{app_identifier}.shortcuts" => "match AppStore #{app_identifier}.shortcuts",
+        },
+      },
       verbose: true
     )
     upload_to_testflight(
@@ -88,16 +125,7 @@ platform :ios do
       timeout: 3600,
       add_to_search_list: true
     )
-    match(
-      type: "appstore",
-      app_identifier: [app_identifier,
-                       "#{app_identifier}.find-login-action-extension",
-		       "#{app_identifier}.auto-fill-credential-extension",
-		       "#{app_identifier}.shortcuts"],
-      keychain_name: ENV["MATCH_KEYCHAIN_NAME"],
-      keychain_password: ENV["MATCH_KEYCHAIN_PASSWORD"],
-      readonly: true
-    )
+    match_appstore
     increment_build_number(
       build_number: latest_testflight_build_number(
         version: get_version_number(target: "pass"),
@@ -109,6 +137,16 @@ platform :ios do
     build_app(
       scheme: "pass",
       configuration: "Release",
+      skip_profile_detection: true,
+      export_options: {
+        method: "app-store",
+        provisioningProfiles: {
+          app_identifier => "match AppStore #{app_identifier}",
+          "#{app_identifier}.find-login-action-extension" => "match AppStore #{app_identifier}.find-login-action-extension",
+          "#{app_identifier}.auto-fill-credential-extension" => "match AppStore #{app_identifier}.auto-fill-credential-extension",
+          "#{app_identifier}.shortcuts" => "match AppStore #{app_identifier}.shortcuts",
+        },
+      },
       verbose: true
     )
     upload_to_testflight(

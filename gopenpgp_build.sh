@@ -11,12 +11,14 @@ OUTPUT_PATH="$GOPATH/dist"
 
 mkdir -p "$GOPATH"
 
-go get -u golang.org/x/mobile/cmd/gomobile || true
-gomobile init
+go get golang.org/x/mobile/cmd/gomobile || true
+( cd "$GOPATH/src/golang.org/x/mobile/cmd/gomobile" && git checkout 0df4eb2385467a487d418c6358313e9e838256ae )
+GO111MODULE=on go get golang.org/x/mobile/cmd/gomobile@0df4eb2385467a487d418c6358313e9e838256ae || true
+GO111MODULE=on go get golang.org/x/mobile/cmd/gobind@0df4eb2385467a487d418c6358313e9e838256ae || true
 go get -u "$PACKAGE_PATH" || true
 
 mkdir -p "$GOPATH/src/github.com/ProtonMail"
-ln -s "$GOPATH/src/$PACKAGE_PATH" "$GOPATH/src/github.com/ProtonMail/gopenpgp"
+ln -f -s "$GOPATH/src/$PACKAGE_PATH" "$GOPATH/src/github.com/ProtonMail/gopenpgp"
 
 ( cd "$GOPATH/src/$PACKAGE_PATH" && git checkout "$GOPENPGP_REVISION" && GO111MODULE=on go mod vendor )
 
