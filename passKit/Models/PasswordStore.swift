@@ -448,7 +448,7 @@ public class PasswordStore {
         try commitEnum.pushSHA(headReference.targetOID!.sha)
         let parent = commitEnum.nextObject() as! GTCommit
         guard let signature = gitSignatureForNow else {
-            throw AppError.GitCommit
+            throw AppError.GitCreateSignature
         }
         let commit = try storeRepository.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)
         return commit
@@ -467,15 +467,14 @@ public class PasswordStore {
         guard let storeRepository = storeRepository else {
             throw AppError.RepositoryNotSet
         }
-        do {
-            let credentialProvider = try credential.credentialProvider(requestCredentialPassword: requestCredentialPassword)
-            let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
-            if let branch = try getLocalBranch(withName: Defaults.gitBranchName) {
-                let remote = try GTRemote(name: "origin", in: storeRepository)
-                try storeRepository.push(branch, to: remote, withOptions: options, progress: transferProgressBlock)
-            }
-        } catch {
-            throw(error)
+        let credentialProvider = try credential.credentialProvider(requestCredentialPassword: requestCredentialPassword)
+        let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
+        if let branch = try getLocalBranch(withName: Defaults.gitBranchName) {
+            let remote = try GTRemote(name: "origin", in: storeRepository)
+            try storeRepository.push(branch, to: remote, withOptions: options, progress: transferProgressBlock)
+        }
+        if numberOfLocalCommits != 0 {
+            throw AppError.GitPushNotSuccessful
         }
     }
     

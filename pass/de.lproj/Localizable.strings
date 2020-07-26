@@ -67,6 +67,8 @@
 "FileNotFoundError."                    = "Die Datei '%@' kann nicht gelesen werden.";
 "PasswordDuplicatedError."              = "Passwort kann nicht hinzugefügt werden; es existiert bereits.";
 "GitResetError."                        = "Der zuletzt synchronisierte Commit kann nicht identifiziert werden.";
+"GitCreateSignatureError."              = "Es konnte keine valide Signatur für den Author/Committer angelegt werden.";
+"GitPushNotSuccessfulError."            = "Die Übertragung der lokalen Änderungen war nicht erfolgreich. Stelle bitte sicher, dass auf dem Remote-Repository alle Änderungen commitet sind.";
 "WrongPasswordFilenameError."           = "Schreiben der Passwort-Datei nicht möglich .";
 "DecryptionError."                      = "Passwort kann nicht entschlüsselt werden.";
 "EncodingError."                        = "Schlüssel ist nicht in ASCII kodiert.";
