@@ -257,7 +257,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         navigationItem.title = "PasswordStore".localize()
         tapNavigationBarGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapNavigationBar))
 
-        tableView.refreshControl = syncControl
         SVProgressHUD.setDefaultMaskType(.black)
         tableView.register(UINib(nibName: "PasswordWithFolderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordWithFolderTableViewCell")
 
@@ -315,6 +314,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
         // This allows controlls in the navigation bar to continue receiving touches
         tapNavigationBarGestureRecognizer.cancelsTouchesInView = false
+
+        tableView.refreshControl = passwordStore.repositoryExists() ? syncControl : nil
     }
 
     override func viewWillDisappear(_ animated: Bool) {
