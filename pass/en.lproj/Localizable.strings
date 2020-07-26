@@ -67,6 +67,8 @@
 "FileNotFoundError."                    = "File '%@' cannot be read.";
 "PasswordDuplicatedError."              = "Cannot add the password; password is duplicated.";
 "GitResetError."                        = "Cannot identify the latest synced commit.";
+"GitCreateSignatureError."              = "Cannot create a valid author/committer signature.";
+"GitPushNotSuccessfulError."            = "Pushing local changes was not successful. Make sure there are no uncommitted changes on the remote repository.";
 "WrongPasswordFilenameError."           = "Cannot write to the password file.";
 "DecryptionError."                      = "Cannot decrypt password.";
 "EncodingError."                        = "Key is not ASCII encoded.";
