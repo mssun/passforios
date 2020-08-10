@@ -1360,7 +1360,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SWIFTLINT_VERSION=\"0.39.*\"\n\nif which swiftlint > /dev/null; then\n  if [[ \"$(swiftlint version)\" == $SWIFTLINT_VERSION ]]; then\n    swiftlint\n  else\n    echo \"Failure: SwiftLint $SWIFTLINT_VERSION is required. Install it or update the build script to use a newer version.\"\n    exit 1\n  fi\nelse\n  echo \"Failure: SwiftLint not installed. Get it via 'brew install swiftlint'.\"\n  exit 2\nfi\n";
+			shellScript = "SWIFTLINT_VERSION=\"0.40.*\"\n\nif which swiftlint > /dev/null; then\n  if [[ \"$(swiftlint version)\" == $SWIFTLINT_VERSION ]]; then\n    swiftlint\n  else\n    echo \"Failure: SwiftLint $SWIFTLINT_VERSION is required. Install it or update the build script to use a newer version.\"\n    exit 1\n  fi\nelse\n  echo \"Failure: SwiftLint not installed. Get it via 'brew install swiftlint'.\"\n  exit 2\nfi\n";
 		};
 		3EFC287772C1D2B2762FAC45 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
