@@ -86,61 +86,63 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     // MARK: - AVCaptureMetadataOutputObjectsDelegate Methods
 
     func metadataOutput(_: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from _: AVCaptureConnection) {
-        if let metadataObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
-            supportedCodeTypes.contains(metadataObj.type),
-            let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj) {
-            // draw a bounds on the found QR code
-            qrCodeFrameView?.frame = barCodeObject.bounds
+        guard let metadataObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject else {
+            return setNotDetected()
+        }
+        guard supportedCodeTypes.contains(metadataObj.type) else {
+            return setNotDetected()
+        }
+        guard let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj) else {
+            return setNotDetected()
+        }
 
-            // check whether it is a valid result
-            if let scanned = metadataObj.stringValue {
-                if let (accept, message) = delegate?.checkScannedOutput(line: scanned) {
-                    scannerOutput.text = message
-                    if accept == true {
-                        captureSession?.stopRunning()
-                        delegate?.handleScannedOutput(line: scanned)
-                        DispatchQueue.main.async {
-                            SVProgressHUD.showSuccess(withStatus: "Done".localize())
-                            SVProgressHUD.dismiss(withDelay: 1)
-                            self.navigationController?.popViewController(animated: true)
-                        }
-                    }
-                } else {
-                    // no delegate, show the scanned result
-                    scannerOutput.text = scanned
-                }
-            } else {
-                scannerOutput.text = "NoStringValue".localize()
-            }
-        } else {
-            qrCodeFrameView?.frame = CGRect.zero
-            scannerOutput.text = "NoQrCodeDetected.".localize()
+        // draw a bounds on the found QR code
+        qrCodeFrameView?.frame = barCodeObject.bounds
+
+        // check whether it is a valid result
+        guard let scanned = metadataObj.stringValue else {
+            scannerOutput.text = "NoStringValue".localize()
+            return
+        }
+        guard let (accept, message) = delegate?.checkScannedOutput(line: scanned) else {
+            // no delegate, show the scanned result
+            scannerOutput.text = scanned
+            return
+        }
+        scannerOutput.text = message
+        guard accept else {
+            return
+        }
+        captureSession?.stopRunning()
+        delegate?.handleScannedOutput(line: scanned)
+        DispatchQueue.main.async {
+            SVProgressHUD.showSuccess(withStatus: "Done".localize())
+            SVProgressHUD.dismiss(withDelay: 1)
+            self.navigationController?.popViewController(animated: true)
         }
     }
 
-    func presentCameraSettings() {
+    private func setNotDetected() {
+        qrCodeFrameView?.frame = CGRect.zero
+        scannerOutput.text = "NoQrCodeDetected.".localize()
+    }
+
+    private func presentCameraSettings() {
         let alertController = UIAlertController(
             title: "Error".localize(),
             message: "CameraAccessDenied.".localize() | "WarningToggleCameraPermissionsResetsApp.".localize(),
             preferredStyle: .alert
         )
         alertController.addAction(UIAlertAction(title: "Cancel".localize(), style: .default))
-        alertController.addAction(
-            UIAlertAction(title: "Settings".localize(), style: .cancel) { _ in
-                if let url = URL(string: UIApplication.openSettingsURLString) {
-                    UIApplication.shared.open(url, options: [:]) { _ in }
-                }
+        alertController.addAction(UIAlertAction(title: "Settings".localize(), style: .cancel) { _ in
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url)
             }
+        }
         )
-
         present(alertController, animated: true)
     }
 }
