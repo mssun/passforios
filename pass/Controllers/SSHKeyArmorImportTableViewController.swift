@@ -95,14 +95,15 @@ class SSHKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
-        if segue.identifier == "showSSHScannerSegue" {
-            if let navController = segue.destination as? UINavigationController {
-                if let viewController = navController.topViewController as? QRScannerController {
-                    viewController.delegate = self
-                }
-            } else if let viewController = segue.destination as? QRScannerController {
+        guard segue.identifier == "showSSHScannerSegue" else {
+            return
+        }
+        if let navController = segue.destination as? UINavigationController {
+            if let viewController = navController.topViewController as? QRScannerController {
                 viewController.delegate = self
             }
+        } else if let viewController = segue.destination as? QRScannerController {
+            viewController.delegate = self
         }
     }
 

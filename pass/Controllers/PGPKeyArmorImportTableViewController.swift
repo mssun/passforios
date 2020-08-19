@@ -51,11 +51,10 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
         let selectedCell = tableView.cellForRow(at: indexPath)
         if selectedCell == scanPublicKeyCell {
             scanned.reset(keytype: ScannedPGPKey.KeyType.publicKey)
-            performSegue(withIdentifier: "showPGPScannerSegue", sender: self)
         } else if selectedCell == scanPrivateKeyCell {
             scanned.reset(keytype: ScannedPGPKey.KeyType.privateKey)
-            performSegue(withIdentifier: "showPGPScannerSegue", sender: self)
         }
+        performSegue(withIdentifier: "showPGPScannerSegue", sender: self)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
@@ -78,14 +77,15 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
-        if segue.identifier == "showPGPScannerSegue" {
-            if let navController = segue.destination as? UINavigationController {
-                if let viewController = navController.topViewController as? QRScannerController {
-                    viewController.delegate = self
-                }
-            } else if let viewController = segue.destination as? QRScannerController {
+        guard segue.identifier == "showPGPScannerSegue" else {
+            return
+        }
+        if let navController = segue.destination as? UINavigationController {
+            if let viewController = navController.topViewController as? QRScannerController {
                 viewController.delegate = self
             }
+        } else if let viewController = segue.destination as? QRScannerController {
+            viewController.delegate = self
         }
     }
 }
