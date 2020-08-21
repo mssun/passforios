@@ -64,7 +64,7 @@ struct QRKeyScanner {
 
         // Update the list of scanned segments and return.
         segments.append(segment)
-        if segment.starts(with: keyType.footerStart), segment.hasSuffix(keyType.footerEnd) {
+        if scannedKey.contains(keyType.footerStart), scannedKey.hasSuffix(keyType.footerEnd) {
             return .completed
         }
         previousResult = .scanned(segments.count)

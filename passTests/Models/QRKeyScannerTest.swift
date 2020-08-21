@@ -48,4 +48,11 @@ class QRKeyScannerTest: XCTestCase {
         XCTAssertEqual(scanner.add(segment: body), .lookingForStart)
         XCTAssertTrue(scanner.scannedKey.isEmpty)
     }
+
+    func testFooterSplitIntoDifferentSegments() {
+        XCTAssertEqual(scanner.add(segment: header), .scanned(1))
+        XCTAssertEqual(scanner.add(segment: "-----END PGP PUBLIC KEY "), .scanned(2))
+        XCTAssertEqual(scanner.add(segment: "BLOCK-----"), .completed)
+        XCTAssertEqual(scanner.scannedKey, header + footer)
+    }
 }
