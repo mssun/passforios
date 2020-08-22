@@ -6,75 +6,103 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import Foundation
 import ObjectiveGit
+import SVProgressHUD
 
 public struct GitCredential {
-    private var credential: Credential
-    private let passwordStore = PasswordStore.shared
+    public typealias PasswordProvider = (String, String?) -> String?
 
-    public enum Credential {
+    private let credentialType: CredentialType
+    private let keyStore: KeyStore
+
+    private enum CredentialType {
         case http(userName: String)
         case ssh(userName: String, privateKey: String)
-    }
 
-    public init(credential: Credential) {
-        self.credential = credential
-    }
-
-    public func credentialProvider(requestCredentialPassword: @escaping (Credential, String?) -> String?) throws -> GTCredentialProvider {
-        var attempts = 0
-        return GTCredentialProvider { _, _, _ -> (GTCredential?) in
-            var credential: GTCredential?
-
-            switch self.credential {
-            case let .http(userName):
-                if attempts > 3 {
-                    // After too many failures (say six), the error message "failed to authenticate ssh session" might be confusing.
-                    return nil
-                }
-                var lastPassword = self.passwordStore.gitPassword
-                if lastPassword == nil || attempts != 0 {
-                    if let requestedPassword = requestCredentialPassword(self.credential, lastPassword) {
-                        if Defaults.isRememberGitCredentialPassphraseOn {
-                            self.passwordStore.gitPassword = requestedPassword
-                        }
-                        lastPassword = requestedPassword
-                    } else {
-                        return nil
-                    }
-                }
-                attempts += 1
-                credential = try? GTCredential(userName: userName, password: lastPassword!)
-            case let .ssh(userName, privateKey):
-                if attempts > 0 {
-                    // The passphrase seems correct, but the previous authentification failed.
-                    return nil
-                }
-                var lastPassword = self.passwordStore.gitSSHPrivateKeyPassphrase
-                if lastPassword == nil || attempts != 0 {
-                    if let requestedPassword = requestCredentialPassword(self.credential, lastPassword) {
-                        if Defaults.isRememberGitCredentialPassphraseOn {
-                            self.passwordStore.gitSSHPrivateKeyPassphrase = requestedPassword
-                        }
-                        lastPassword = requestedPassword
-                    } else {
-                        return nil
-                    }
-                }
-                attempts += 1
-                credential = try? GTCredential(userName: userName, publicKeyString: nil, privateKeyString: privateKey, passphrase: lastPassword!)
+        var requestPassphraseMessage: String {
+            switch self {
+            case .http:
+                return "FillInGitAccountPassword.".localize()
+            case .ssh:
+                return "FillInSshKeyPassphrase.".localize()
             }
-            return credential
+        }
+
+        var keyStoreKey: String {
+            switch self {
+            case .http:
+                return Globals.gitPassword
+            case .ssh:
+                return Globals.gitSSHPrivateKeyPassphrase
+            }
+        }
+
+        var allowedAttempts: Int {
+            switch self {
+            case .http:
+                return 4
+            case .ssh:
+                return 1
+            }
+        }
+
+        func createGTCredential(password: String) throws -> GTCredential {
+            switch self {
+            case let .http(userName):
+                return try GTCredential(userName: userName, password: password)
+            case let .ssh(userName, privateKey):
+                return try GTCredential(userName: userName, publicKeyString: nil, privateKeyString: privateKey, passphrase: password)
+            }
+        }
+    }
+
+    public static func from(authenticationMethod: GitAuthenticationMethod, userName: String, keyStore: KeyStore) -> Self {
+        switch authenticationMethod {
+        case .password:
+            return Self(credentialType: .http(userName: userName), keyStore: keyStore)
+        case .key:
+            let privateKey: String = keyStore.get(for: SshKey.PRIVATE.getKeychainKey()) ?? ""
+            return Self(credentialType: .ssh(userName: userName, privateKey: privateKey), keyStore: keyStore)
+        }
+    }
+
+    public func getCredentialOptions(passwordProvider: @escaping PasswordProvider = { _, _ in nil }) -> [String: Any] {
+        let credentialProvider = createCredentialProvider(passwordProvider)
+        return [
+            GTRepositoryCloneOptionsCredentialProvider: credentialProvider,
+            GTRepositoryRemoteOptionsCredentialProvider: credentialProvider,
+        ]
+    }
+
+    private func createCredentialProvider(_ passwordProvider: @escaping PasswordProvider) -> GTCredentialProvider {
+        var attempts = 1
+        return GTCredentialProvider { _, _, _ -> GTCredential? in
+            if attempts > self.credentialType.allowedAttempts {
+                return nil
+            }
+            guard let password = self.getPassword(attempts: attempts, passwordProvider: passwordProvider) else {
+                return nil
+            }
+            attempts += 1
+            return try? self.credentialType.createGTCredential(password: password)
         }
     }
 
     public func delete() {
-        switch credential {
-        case .http:
-            passwordStore.gitPassword = nil
-        case .ssh:
-            passwordStore.gitSSHPrivateKeyPassphrase = nil
+        keyStore.removeContent(for: credentialType.keyStoreKey)
+    }
+
+    private func getPassword(attempts: Int, passwordProvider: @escaping PasswordProvider) -> String? {
+        let lastPassword: String? = keyStore.get(for: credentialType.keyStoreKey)
+        if lastPassword == nil || attempts != 1 {
+            guard let requestedPassword = passwordProvider(credentialType.requestPassphraseMessage, lastPassword) else {
+                return nil
+            }
+            if Defaults.isRememberGitCredentialPassphraseOn {
+                keyStore.add(string: requestedPassword, for: credentialType.keyStoreKey)
+            }
+            return requestedPassword
         }
+        return lastPassword
     }
 }

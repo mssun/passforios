@@ -14,13 +14,11 @@ public class SyncRepositoryIntentHandler: NSObject, SyncRepositoryIntentHandling
     private let keychain = AppKeychain.shared
 
     private var gitCredential: GitCredential {
-        switch Defaults.gitAuthenticationMethod {
-        case .password:
-            return GitCredential(credential: .http(userName: Defaults.gitUsername))
-        case .key:
-            let privateKey: String = keychain.get(for: SshKey.PRIVATE.getKeychainKey()) ?? ""
-            return GitCredential(credential: .ssh(userName: Defaults.gitUsername, privateKey: privateKey))
-        }
+        GitCredential.from(
+            authenticationMethod: Defaults.gitAuthenticationMethod,
+            userName: Defaults.gitUsername,
+            keyStore: keychain
+        )
     }
 
     public func handle(intent _: SyncRepositoryIntent, completion: @escaping (SyncRepositoryIntentResponse) -> Void) {
@@ -33,14 +31,14 @@ public class SyncRepositoryIntentHandler: NSObject, SyncRepositoryIntentHandling
             return
         }
         do {
-            try passwordStore.pullRepository(credential: gitCredential, requestCredentialPassword: { _, _ in nil }, progressBlock: { _, _ in })
+            try passwordStore.pullRepository(options: gitCredential.getCredentialOptions())
         } catch {
             completion(SyncRepositoryIntentResponse(code: .pullFailed, userActivity: nil))
             return
         }
         if passwordStore.numberOfLocalCommits > 0 {
             do {
-                try passwordStore.pushRepository(credential: gitCredential, requestCredentialPassword: { _, _ in nil }, transferProgressBlock: { _, _, _, _ in })
+                try passwordStore.pushRepository(options: gitCredential.getCredentialOptions())
             } catch {
                 completion(SyncRepositoryIntentResponse(code: .pushFailed, userActivity: nil))
                 return

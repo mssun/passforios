@@ -25,6 +25,8 @@
 		30650E7323F847FC005CCD5E /* KeyImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30650E7223F847FC005CCD5E /* KeyImporter.swift */; };
 		306623332406F1A8000E2AD6 /* PasswordGeneratorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306623322406F1A7000E2AD6 /* PasswordGeneratorTest.swift */; };
 		3066AD6823EE0D6500F65535 /* PGPKeyImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3066AD6723EE0D6500F65535 /* PGPKeyImporter.swift */; };
+		30695E2024FA6C6500C9D46E /* PasswordAlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30695E1F24FA6C6500C9D46E /* PasswordAlertPresenter.swift */; };
+		30695E2524FAEF2600C9D46E /* GitCredentialTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30695E2424FAEF2600C9D46E /* GitCredentialTest.swift */; };
 		30697C2A21F63C5A0064FCAC /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2321F63C580064FCAC /* NotificationNames.swift */; };
 		30697C2B21F63C5A0064FCAC /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2421F63C590064FCAC /* Globals.swift */; };
 		30697C2C21F63C5A0064FCAC /* FileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C2521F63C590064FCAC /* FileManagerExtension.swift */; };
@@ -101,7 +103,6 @@
 		8BA607EB4C9C8258741AC18C /* Pods_passExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14E955B67C88672AA3A40BA0 /* Pods_passExtension.framework */; };
 		9A652414244BB33300DA0A41 /* UIAlertActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A652413244BB33300DA0A41 /* UIAlertActionExtension.swift */; };
 		9A8A8387402FCCCECB1232A4 /* Pods_passKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2B2F844061EFA534FE9506 /* Pods_passKitTests.framework */; };
-		9AA710CA23939C68009E3213 /* GitCredentialPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA710C923939C68009E3213 /* GitCredentialPassword.swift */; };
 		9ADC954124418A5F0005402E /* PasswordStoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADC954024418A5F0005402E /* PasswordStoreTest.swift */; };
 		A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */; };
 		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift */; };
@@ -281,6 +282,8 @@
 		30650E7223F847FC005CCD5E /* KeyImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImporter.swift; sourceTree = "<group>"; };
 		306623322406F1A7000E2AD6 /* PasswordGeneratorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorTest.swift; sourceTree = "<group>"; };
 		3066AD6723EE0D6500F65535 /* PGPKeyImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGPKeyImporter.swift; sourceTree = "<group>"; };
+		30695E1F24FA6C6500C9D46E /* PasswordAlertPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordAlertPresenter.swift; sourceTree = "<group>"; };
+		30695E2424FAEF2600C9D46E /* GitCredentialTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitCredentialTest.swift; sourceTree = "<group>"; };
 		30697C2321F63C580064FCAC /* NotificationNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		30697C2421F63C590064FCAC /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		30697C2521F63C590064FCAC /* FileManagerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerExtension.swift; sourceTree = "<group>"; };
@@ -361,7 +364,6 @@
 		9A1EF0B524C50EE00074FEAC /* passBetaExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passBetaExtension.entitlements; sourceTree = "<group>"; };
 		9A1EF0B624C50FEA0074FEAC /* passBetaShortcuts.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passBetaShortcuts.entitlements; sourceTree = "<group>"; };
 		9A652413244BB33300DA0A41 /* UIAlertActionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertActionExtension.swift; sourceTree = "<group>"; };
-		9AA710C923939C68009E3213 /* GitCredentialPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitCredentialPassword.swift; sourceTree = "<group>"; };
 		9ADC954024418A5F0005402E /* PasswordStoreTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStoreTest.swift; sourceTree = "<group>"; };
 		A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurePasteboard.swift; sourceTree = "<group>"; };
 		A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = GitConfigSettingsTableViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -668,9 +670,10 @@
 		30C015A7214ED378005BB6DF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				30695E2424FAEF2600C9D46E /* GitCredentialTest.swift */,
+				9ADC954024418A5F0005402E /* PasswordStoreTest.swift */,
 				A2699ACE24027D9500F36323 /* PasswordTableEntryTest.swift */,
 				30B0485F209A5141001013CA /* PasswordTest.swift */,
-				9ADC954024418A5F0005402E /* PasswordStoreTest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -861,9 +864,9 @@
 			isa = PBXGroup;
 			children = (
 				A2BC54C71EEE5669001FAFBD /* Objective-CBridgingHeader.h */,
+				30695E1F24FA6C6500C9D46E /* PasswordAlertPresenter.swift */,
 				A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */,
 				A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */,
-				9AA710C923939C68009E3213 /* GitCredentialPassword.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1571,6 +1574,7 @@
 				A2699ACF24027D9500F36323 /* PasswordTableEntryTest.swift in Sources */,
 				30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */,
 				A2AA934622DE3A8000D79A00 /* PGPAgentTest.swift in Sources */,
+				30695E2524FAEF2600C9D46E /* GitCredentialTest.swift in Sources */,
 				30BAC8C622E3BAAF00438475 /* TestBase.swift in Sources */,
 				30B04860209A5141001013CA /* PasswordTest.swift in Sources */,
 				30697C5F21F674800064FCAC /* String+UtilitiesTest.swift in Sources */,
@@ -1644,8 +1648,8 @@
 				DC037CB21E4CAB1700609409 /* AboutRepositoryTableViewController.swift in Sources */,
 				30650E7323F847FC005CCD5E /* KeyImporter.swift in Sources */,
 				A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift in Sources */,
-				9AA710CA23939C68009E3213 /* GitCredentialPassword.swift in Sources */,
 				DC037CB01E4CA51F00609409 /* GeneralSettingsTableViewController.swift in Sources */,
+				30695E2024FA6C6500C9D46E /* PasswordAlertPresenter.swift in Sources */,
 				DC037CB81E4DD1A500609409 /* AddPasswordTableViewController.swift in Sources */,
 				DCC441521E8F6C06008A90C4 /* RawPasswordViewController.swift in Sources */,
 				DC917BD71E2E8231000FDF54 /* AppDelegate.swift in Sources */,

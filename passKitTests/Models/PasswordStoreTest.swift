@@ -12,27 +12,13 @@ import XCTest
 @testable import passKit
 
 class PasswordStoreTest: XCTestCase {
-    let cloneOptions: [String: GTCredentialProvider] = {
-        let credentialProvider = GTCredentialProvider { _, _, _ -> (GTCredential?) in
-            try? GTCredential(userName: "", password: "")
-        }
-        return [GTRepositoryCloneOptionsCredentialProvider: credentialProvider]
-    }()
-
-    let remoteRepoURL = URL(string: "https://github.com/mssun/passforios-password-store.git")!
+    private let remoteRepoURL = URL(string: "https://github.com/mssun/passforios-password-store.git")!
 
     func testCloneAndDecryptMultiKeys() throws {
         let url = URL(fileURLWithPath: "\(Globals.repositoryPath)-test")
         let passwordStore = PasswordStore(url: url)
-        let expectation = self.expectation(description: "clone")
-        try passwordStore.cloneRepository(
-            remoteRepoURL: remoteRepoURL,
-            branchName: "master",
-            transferProgressBlock: { _, _ in },
-            checkoutProgressBlock: { _, _, _ in },
-            options: cloneOptions,
-            completion: { expectation.fulfill() }
-        )
+        try passwordStore.cloneRepository(remoteRepoURL: remoteRepoURL, branchName: "master")
+        expectation(for: NSPredicate { _, _ in FileManager.default.fileExists(atPath: url.path) }, evaluatedWith: nil)
         waitForExpectations(timeout: 3, handler: nil)
 
         [

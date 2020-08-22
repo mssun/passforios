@@ -10,7 +10,7 @@ import passKit
 import SVProgressHUD
 import UIKit
 
-class PasswordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchBarDelegate {
+class PasswordsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UISearchBarDelegate, PasswordAlertPresenter {
     // Arbitrary threshold to decide whether to show folders or not for only a few entries.
     private static let hideSectionHeaderThreshold = 6
 
@@ -19,6 +19,13 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     private var parentPasswordEntity: PasswordEntity?
     private let passwordStore = PasswordStore.shared
     private let keychain = AppKeychain.shared
+    private var gitCredential: GitCredential {
+        GitCredential.from(
+            authenticationMethod: Defaults.gitAuthenticationMethod,
+            userName: Defaults.gitUsername,
+            keyStore: keychain
+        )
+    }
 
     private var tapTabBarTime: TimeInterval = 0
     private var tapNavigationBarGestureRecognizer: UITapGestureRecognizer!
@@ -28,16 +35,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
     private enum PasswordLabel {
         case all
         case unsynced
-    }
-
-    private var gitCredential: GitCredential {
-        switch Defaults.gitAuthenticationMethod {
-        case .password:
-            return GitCredential(credential: .http(userName: Defaults.gitUsername))
-        case .key:
-            let privateKey: String = AppKeychain.shared.get(for: SshKey.PRIVATE.getKeychainKey()) ?? ""
-            return GitCredential(credential: .ssh(userName: Defaults.gitUsername, privateKey: privateKey))
-        }
     }
 
     private lazy var searchController: UISearchController = {
@@ -193,13 +190,15 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
-                try self.passwordStore.pullRepository(credential: self.gitCredential, requestCredentialPassword: self.requestCredentialPassword) { git_transfer_progress, _ in
+                let pullOptions = self.gitCredential.getCredentialOptions(passwordProvider: self.present)
+                try self.passwordStore.pullRepository(options: pullOptions) { git_transfer_progress, _ in
                     DispatchQueue.main.async {
                         SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects) / Float(git_transfer_progress.pointee.total_objects), status: "PullingFromRemoteRepository".localize())
                     }
                 }
                 if self.passwordStore.numberOfLocalCommits > 0 {
-                    try self.passwordStore.pushRepository(credential: self.gitCredential, requestCredentialPassword: self.requestCredentialPassword) { current, total, _, _ in
+                    let pushOptions = self.gitCredential.getCredentialOptions(passwordProvider: self.present)
+                    try self.passwordStore.pushRepository(options: pushOptions) { current, total, _, _ in
                         DispatchQueue.main.async {
                             SVProgressHUD.showProgress(Float(current) / Float(total), status: "PushingToRemoteRepository".localize())
                         }
@@ -212,6 +211,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                     self.syncControl.endRefreshing()
                 }
             } catch {
+                self.gitCredential.delete()
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()
                     self.syncControl.endRefreshing()
@@ -698,10 +698,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         searchController.searchBar.selectedScopeButtonIndex = SearchBarScope.current.rawValue
         updateSearchResults(for: searchController)
         return true
-    }
-
-    private func requestCredentialPassword(credential: GitCredential.Credential, lastPassword: String?) -> String? {
-        requestGitCredentialPassword(credential: credential, lastPassword: lastPassword, controller: self)
     }
 }
 
