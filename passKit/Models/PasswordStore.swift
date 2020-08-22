@@ -173,35 +173,10 @@ public class PasswordStore {
 
     public func cloneRepository(
         remoteRepoURL: URL,
-        credential: GitCredential,
         branchName: String,
-        requestCredentialPassword: @escaping (GitCredential.Credential, String?) -> String?,
-        transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
-        checkoutProgressBlock: @escaping (String, UInt, UInt) -> Void
-    ) throws {
-        do {
-            let credentialProvider = try credential.credentialProvider(requestCredentialPassword: requestCredentialPassword)
-            let options = [GTRepositoryCloneOptionsCredentialProvider: credentialProvider]
-            try cloneRepository(
-                remoteRepoURL: remoteRepoURL,
-                branchName: branchName,
-                transferProgressBlock: transferProgressBlock,
-                checkoutProgressBlock: checkoutProgressBlock,
-                options: options
-            )
-        } catch {
-            credential.delete()
-            throw (error)
-        }
-    }
-
-    public func cloneRepository(
-        remoteRepoURL: URL,
-        branchName: String,
-        transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void,
-        checkoutProgressBlock: @escaping (String, UInt, UInt) -> Void,
         options: [AnyHashable: Any]? = nil,
-        completion: @escaping () -> Void = {}
+        transferProgressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void = { _, _ in },
+        checkoutProgressBlock: @escaping (String, UInt, UInt) -> Void = { _, _, _ in }
     ) throws {
         try? fm.removeItem(at: storeURL)
         try? fm.removeItem(at: tempStoreURL)
@@ -231,7 +206,6 @@ public class PasswordStore {
         DispatchQueue.main.async {
             self.updatePasswordEntityCoreData()
             NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
-            completion()
         }
     }
 
@@ -252,15 +226,12 @@ public class PasswordStore {
     }
 
     public func pullRepository(
-        credential: GitCredential,
-        requestCredentialPassword: @escaping (GitCredential.Credential, String?) -> String?,
-        progressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void
+        options: [String: Any],
+        progressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void = { _, _ in }
     ) throws {
         guard let storeRepository = storeRepository else {
             throw AppError.RepositoryNotSet
         }
-        let credentialProvider = try credential.credentialProvider(requestCredentialPassword: requestCredentialPassword)
-        let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
         let remote = try GTRemote(name: "origin", in: storeRepository)
         try storeRepository.pull(storeRepository.currentBranch(), from: remote, withOptions: options, progress: progressBlock)
         Defaults.lastSyncedTime = Date()
@@ -472,12 +443,13 @@ public class PasswordStore {
         return branches.first
     }
 
-    public func pushRepository(credential: GitCredential, requestCredentialPassword: @escaping (GitCredential.Credential, String?) -> String?, transferProgressBlock: @escaping (UInt32, UInt32, Int, UnsafeMutablePointer<ObjCBool>) -> Void) throws {
+    public func pushRepository(
+        options: [String: Any],
+        transferProgressBlock: @escaping (UInt32, UInt32, Int, UnsafeMutablePointer<ObjCBool>) -> Void = { _, _, _, _ in }
+    ) throws {
         guard let storeRepository = storeRepository else {
             throw AppError.RepositoryNotSet
         }
-        let credentialProvider = try credential.credentialProvider(requestCredentialPassword: requestCredentialPassword)
-        let options = [GTRepositoryRemoteOptionsCredentialProvider: credentialProvider]
         if let branch = try getLocalBranch(withName: Defaults.gitBranchName) {
             let remote = try GTRemote(name: "origin", in: storeRepository)
             try storeRepository.push(branch, to: remote, withOptions: options, progress: transferProgressBlock)
@@ -741,9 +713,5 @@ public func findGPGID(from url: URL) -> String {
     }
     path = path.appendingPathComponent(".gpg-id")
 
-    do {
-        return try String(contentsOf: path).trimmed
-    } catch {
-        return ""
-    }
+    return (try? String(contentsOf: path))?.trimmed ?? ""
 }

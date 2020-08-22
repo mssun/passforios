@@ -16,16 +16,12 @@ extension UIAlertAction {
         }
     }
 
-    public static func cancel(handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
-        cancel(with: "Cancel", handler: handler)
+    public static func cancel(title: String = "Cancel".localize(), handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
+        UIAlertAction(title: title, style: .cancel, handler: handler)
     }
 
     public static func dismiss(handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
-        cancel(with: "Dismiss", handler: handler)
-    }
-
-    public static func cancel(with _: String, handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
-        UIAlertAction(title: "Cancel".localize(), style: .cancel, handler: handler)
+        cancel(title: "Dismiss".localize(), handler: handler)
     }
 
     public static func ok(handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {

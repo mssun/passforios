@@ -10,7 +10,7 @@ import passKit
 import SVProgressHUD
 import UIKit
 
-class GitRepositorySettingsTableViewController: UITableViewController {
+class GitRepositorySettingsTableViewController: UITableViewController, PasswordAlertPresenter {
     // MARK: - View Outlet
 
     @IBOutlet var gitURLTextField: UITextField!
@@ -25,6 +25,14 @@ class GitRepositorySettingsTableViewController: UITableViewController {
 
     private var sshLabel: UILabel?
     private let passwordStore = PasswordStore.shared
+    private let keychain = AppKeychain.shared
+    private var gitCredential: GitCredential {
+        GitCredential.from(
+            authenticationMethod: Defaults.gitAuthenticationMethod,
+            userName: Defaults.gitUsername,
+            keyStore: keychain
+        )
+    }
     private var gitAuthenticationMethod: GitAuthenticationMethod {
         get { Defaults.gitAuthenticationMethod }
         set {
@@ -48,16 +56,6 @@ class GitRepositorySettingsTableViewController: UITableViewController {
         set { Defaults.gitUsername = newValue }
     }
 
-    private var gitCredential: GitCredential {
-        switch Defaults.gitAuthenticationMethod {
-        case .password:
-            return GitCredential(credential: .http(userName: Defaults.gitUsername))
-        case .key:
-            let privateKey: String = AppKeychain.shared.get(for: SshKey.PRIVATE.getKeychainKey()) ?? ""
-            return GitCredential(credential: .ssh(userName: Defaults.gitUsername, privateKey: privateKey))
-        }
-    }
-
     // MARK: - View Controller Lifecycle
 
     override func viewDidLoad() {
@@ -72,7 +70,7 @@ class GitRepositorySettingsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Grey out ssh option if ssh_key is not present.
-        sshLabel?.isEnabled = AppKeychain.shared.contains(key: SshKey.PRIVATE.getKeychainKey())
+        sshLabel?.isEnabled = keychain.contains(key: SshKey.PRIVATE.getKeychainKey())
         updateAuthenticationMethodCheckView(for: gitAuthenticationMethod)
     }
 
@@ -97,7 +95,7 @@ class GitRepositorySettingsTableViewController: UITableViewController {
         if cell == authPasswordCell {
             gitAuthenticationMethod = .password
         } else if cell == authSSHKeyCell {
-            if !AppKeychain.shared.contains(key: SshKey.PRIVATE.getKeychainKey()) {
+            if !keychain.contains(key: SshKey.PRIVATE.getKeychainKey()) {
                 Utils.alert(title: "CannotSelectSshKey".localize(), message: "PleaseSetupSshKeyFirst.".localize(), controller: self)
                 gitAuthenticationMethod = .password
             } else {
@@ -177,11 +175,12 @@ class GitRepositorySettingsTableViewController: UITableViewController {
                     SVProgressHUD.showProgress(progress, status: "CheckingOutBranch".localize(self.gitBranchName))
                 }
 
+                let options = self.gitCredential.getCredentialOptions(passwordProvider: self.present)
+
                 try self.passwordStore.cloneRepository(
                     remoteRepoURL: self.gitUrl,
-                    credential: self.gitCredential,
                     branchName: self.gitBranchName,
-                    requestCredentialPassword: self.requestCredentialPassword,
+                    options: options,
                     transferProgressBlock: transferProgressBlock,
                     checkoutProgressBlock: checkoutProgressBlock
                 )
@@ -299,10 +298,6 @@ class GitRepositorySettingsTableViewController: UITableViewController {
         optionMenu.popoverPresentationController?.sourceView = authSSHKeyCell
         optionMenu.popoverPresentationController?.sourceRect = authSSHKeyCell.bounds
         present(optionMenu, animated: true)
-    }
-
-    private func requestCredentialPassword(credential: GitCredential.Credential, lastPassword: String?) -> String? {
-        requestGitCredentialPassword(credential: credential, lastPassword: lastPassword, controller: self)
     }
 
     private func updateAuthenticationMethodCheckView(for method: GitAuthenticationMethod) {
