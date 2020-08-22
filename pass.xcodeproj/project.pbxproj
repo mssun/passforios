@@ -728,6 +728,7 @@
 			isa = PBXGroup;
 			children = (
 				A2C532B9201DD07500DB9F53 /* Controllers */,
+				30CCA90C232584560048CA51 /* Crypto */,
 				30B6AABA21F49095006B352D /* Extensions */,
 				A2F4E20F1EED7F0A0011986E /* Helpers */,
 				A2F4E20E1EED7F040011986E /* Models */,
@@ -761,7 +762,6 @@
 			children = (
 				A2168A801EFD431A005EA873 /* Controllers */,
 				A2168A811EFD4322005EA873 /* Helpers */,
-				30CCA90C232584560048CA51 /* Crypto */,
 				A2367B9F1EF0387000C8FE8B /* Assets.xcassets */,
 				A26700351EEC475600176B8A /* passProcessor.js */,
 				A26700331EEC46C900176B8A /* passExtension.entitlements */,
