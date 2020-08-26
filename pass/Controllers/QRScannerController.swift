@@ -13,7 +13,7 @@ import SVProgressHUD
 import UIKit
 
 protocol QRScannerControllerDelegate: AnyObject {
-    func checkScannedOutput(line: String) -> (accept: Bool, message: String)
+    func checkScannedOutput(line: String) -> (accepted: Bool, message: String)
     func handleScannedOutput(line: String)
 }
 
@@ -107,13 +107,13 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             scannerOutput.text = "NoStringValue".localize()
             return
         }
-        guard let (accept, message) = delegate?.checkScannedOutput(line: scanned) else {
+        guard let (accepted, message) = delegate?.checkScannedOutput(line: scanned) else {
             // no delegate, show the scanned result
             scannerOutput.text = scanned
             return
         }
         scannerOutput.text = message
-        guard accept else {
+        guard accepted else {
             return
         }
         captureSession?.stopRunning()

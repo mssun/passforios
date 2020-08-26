@@ -15,10 +15,10 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
     @IBOutlet var scanPublicKeyCell: UITableViewCell!
     @IBOutlet var scanPrivateKeyCell: UITableViewCell!
 
-    var armorPublicKey: String?
-    var armorPrivateKey: String?
+    private var armorPublicKey: String?
+    private var armorPrivateKey: String?
 
-    var scanned = ScannedPGPKey()
+    private var scanner = QRKeyScanner(keyType: .pgpPublic)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,9 +50,9 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCell = tableView.cellForRow(at: indexPath)
         if selectedCell == scanPublicKeyCell {
-            scanned.reset(keytype: ScannedPGPKey.KeyType.publicKey)
+            scanner = QRKeyScanner(keyType: .pgpPublic)
         } else if selectedCell == scanPrivateKeyCell {
-            scanned.reset(keytype: ScannedPGPKey.KeyType.privateKey)
+            scanner = QRKeyScanner(keyType: .pgpPrivate)
         }
         performSegue(withIdentifier: "showPGPScannerSegue", sender: self)
         tableView.deselectRow(at: indexPath, animated: true)
@@ -60,19 +60,21 @@ class PGPKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
 
     // MARK: - QRScannerControllerDelegate Methods
 
-    func checkScannedOutput(line: String) -> (accept: Bool, message: String) {
-        return scanned.addSegment(segment: line)
+    func checkScannedOutput(line: String) -> (accepted: Bool, message: String) {
+        scanner.add(segment: line).unrolled
     }
 
     // MARK: - QRScannerControllerDelegate Methods
 
     func handleScannedOutput(line _: String) {
-        let key = scanned.segments.joined()
-        switch scanned.keyType {
-        case .publicKey:
+        let key = scanner.scannedKey
+        switch scanner.keyType {
+        case .pgpPublic:
             armorPublicKeyTextView.text += key
-        case .privateKey:
+        case .pgpPrivate:
             armorPrivateKeyTextView.text += key
+        default:
+            return
         }
     }
 

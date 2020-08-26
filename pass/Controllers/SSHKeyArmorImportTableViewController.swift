@@ -13,42 +13,10 @@ class SSHKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
     @IBOutlet var armorPrivateKeyTextView: UITextView!
     @IBOutlet var scanPrivateKeyCell: UITableViewCell!
 
-    var gitSSHPrivateKeyPassphrase: String?
-    var armorPrivateKey: String?
+    private var gitSSHPrivateKeyPassphrase: String?
+    private var armorPrivateKey: String?
 
-    class ScannedSSHKey {
-        var segments = [String]()
-        var message = ""
-
-        func reset() {
-            segments.removeAll()
-            message = "LookingForStartingFrame.".localize()
-        }
-
-        func addSegment(segment: String) -> (accept: Bool, message: String) {
-            // Skip duplicated segments.
-            guard segment != segments.last else {
-                return (accept: false, message: message)
-            }
-
-            // Check whether we have found the first block.
-            guard !segments.isEmpty || segment.contains("-----BEGIN") else {
-                return (accept: false, message: message)
-            }
-
-            // Update the list of scanned segment and return.
-            segments.append(segment)
-            if segment.range(of: "-----END.*KEY-----", options: .regularExpression, range: nil, locale: nil) != nil {
-                message = "Done".localize()
-                return (accept: true, message: message)
-            } else {
-                message = "ScannedQrCodes(%d)".localize(segments.count)
-                return (accept: false, message: message)
-            }
-        }
-    }
-
-    var scanned = ScannedSSHKey()
+    private var scanner = QRKeyScanner(keyType: .sshPrivate)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,7 +44,7 @@ class SSHKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCell = tableView.cellForRow(at: indexPath)
         if selectedCell == scanPrivateKeyCell {
-            scanned.reset()
+            scanner = QRKeyScanner(keyType: .sshPrivate)
             performSegue(withIdentifier: "showSSHScannerSegue", sender: self)
         }
         tableView.deselectRow(at: indexPath, animated: true)
@@ -84,14 +52,14 @@ class SSHKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
 
     // MARK: - QRScannerControllerDelegate Methods
 
-    func checkScannedOutput(line: String) -> (accept: Bool, message: String) {
-        return scanned.addSegment(segment: line)
+    func checkScannedOutput(line: String) -> (accepted: Bool, message: String) {
+        scanner.add(segment: line).unrolled
     }
 
     // MARK: - QRScannerControllerDelegate Methods
 
     func handleScannedOutput(line _: String) {
-        armorPrivateKeyTextView.text = scanned.segments.joined()
+        armorPrivateKeyTextView.text = scanner.scannedKey
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
