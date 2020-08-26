@@ -221,13 +221,6 @@
 			remoteGlobalIDString = A26700231EEC466A00176B8A;
 			remoteInfo = passExtension;
 		};
-		DC13B1531E8640810097803F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DC917BCB1E2E8231000FDF54 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DC917BD21E2E8231000FDF54;
-			remoteInfo = pass;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -402,7 +395,6 @@
 		DC037CBD1E4ED4E100609409 /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCell.swift; sourceTree = "<group>"; };
 		DC037CBE1E4ED4E100609409 /* TextViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextViewTableViewCell.xib; sourceTree = "<group>"; };
 		DC1208571E35EBE60042942E /* ObjectiveGit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectiveGit.framework; path = Carthage/Build/iOS/ObjectiveGit.framework; sourceTree = "<group>"; };
-		DC13B14E1E8640810097803F /* passTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = passTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC13B1521E8640810097803F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC193FF91E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AdvancedSettingsTableViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		DC3E64E51E656F11009A83DE /* CommitLogsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitLogsTableViewController.swift; sourceTree = "<group>"; };
@@ -491,13 +483,6 @@
 				A2A61C171EEF90CB00CFE063 /* OneTimePassword.framework in Frameworks */,
 				A26075961EEC6F8C005DB03E /* passKit.framework in Frameworks */,
 				8BA607EB4C9C8258741AC18C /* Pods_passExtension.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DC13B14B1E8640810097803F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -895,7 +880,6 @@
 			isa = PBXGroup;
 			children = (
 				DC917BD31E2E8231000FDF54 /* Pass.app */,
-				DC13B14E1E8640810097803F /* passTests.xctest */,
 				A26700241EEC466A00176B8A /* passExtension.appex */,
 				A26075781EEC6F34005DB03E /* passKit.framework */,
 				A26075801EEC6F34005DB03E /* passKitTests.xctest */,
@@ -1055,24 +1039,6 @@
 			productReference = A26700241EEC466A00176B8A /* passExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		DC13B14D1E8640810097803F /* passTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DC13B1571E8640810097803F /* Build configuration list for PBXNativeTarget "passTests" */;
-			buildPhases = (
-				DC13B14A1E8640810097803F /* Sources */,
-				DC13B14B1E8640810097803F /* Frameworks */,
-				DC13B14C1E8640810097803F /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				DC13B1541E8640810097803F /* PBXTargetDependency */,
-			);
-			name = passTests;
-			productName = passTests;
-			productReference = DC13B14E1E8640810097803F /* passTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		DC917BD21E2E8231000FDF54 /* pass */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DC917BE51E2E8231000FDF54 /* Build configuration list for PBXNativeTarget "pass" */;
@@ -1155,13 +1121,6 @@
 							};
 						};
 					};
-					DC13B14D1E8640810097803F = {
-						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = 4WDM8E95VU;
-						LastSwiftMigration = 1020;
-						ProvisioningStyle = Automatic;
-						TestTargetID = DC917BD21E2E8231000FDF54;
-					};
 					DC917BD21E2E8231000FDF54 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 4WDM8E95VU;
@@ -1196,7 +1155,6 @@
 			projectRoot = "";
 			targets = (
 				DC917BD21E2E8231000FDF54 /* pass */,
-				DC13B14D1E8640810097803F /* passTests */,
 				A26700231EEC466A00176B8A /* passExtension */,
 				A26075771EEC6F34005DB03E /* passKit */,
 				A260757F1EEC6F34005DB03E /* passKitTests */,
@@ -1253,13 +1211,6 @@
 				A26700371EEC475600176B8A /* passProcessor.js in Resources */,
 				A2367BA01EF0387000C8FE8B /* Assets.xcassets in Resources */,
 				A267002A1EEC466A00176B8A /* MainInterface.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DC13B14C1E8640810097803F /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1574,13 +1525,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DC13B14A1E8640810097803F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		DC917BCF1E2E8231000FDF54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1669,11 +1613,6 @@
 			isa = PBXTargetDependency;
 			target = A26700231EEC466A00176B8A /* passExtension */;
 			targetProxy = A267002C1EEC466A00176B8A /* PBXContainerItemProxy */;
-		};
-		DC13B1541E8640810097803F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DC917BD21E2E8231000FDF54 /* pass */;
-			targetProxy = DC13B1531E8640810097803F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1903,25 +1842,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Beta;
-		};
-		9A1EF0AD24C4EB280074FEAC /* Beta */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = 4WDM8E95VU;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = passTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).passTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pass.app/Pass";
 			};
 			name = Beta;
 		};
@@ -2326,44 +2246,6 @@
 			};
 			name = Release;
 		};
-		DC13B1551E8640810097803F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = 4WDM8E95VU;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = passTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).passTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pass.app/Pass";
-			};
-			name = Debug;
-		};
-		DC13B1561E8640810097803F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = 4WDM8E95VU;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = passTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).passTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pass.app/Pass";
-			};
-			name = Release;
-		};
 		DC917BE31E2E8231000FDF54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2620,16 +2502,6 @@
 				A26700301EEC466A00176B8A /* Debug */,
 				A26700311EEC466A00176B8A /* Release */,
 				9A1EF0AE24C4EB280074FEAC /* Beta */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DC13B1571E8640810097803F /* Build configuration list for PBXNativeTarget "passTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DC13B1551E8640810097803F /* Debug */,
-				DC13B1561E8640810097803F /* Release */,
-				9A1EF0AD24C4EB280074FEAC /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
