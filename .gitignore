@@ -69,3 +69,8 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 .DS_Store
+
+# Environment
+#
+# The Continuous Integration environment will create this file. It avoids specific "Run Script" phases while building.
+.ci-env
