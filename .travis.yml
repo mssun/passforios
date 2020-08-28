@@ -6,11 +6,10 @@ addons:
     - go
     - gnupg2
     - pass
-    - swiftformat
-    - swiftlint
     update: true
 before_install:
   - echo -e "machine github.com\n  login $GITHUB_ACCESS_TOKEN" >> ~/.netrc
+  - touch .ci-env
 install:
   - gem install bundler
   - bundle install

@@ -1051,8 +1051,8 @@
 				A26700191EEC450100176B8A /* Embed App Extensions */,
 				A26075921EEC6F34005DB03E /* Embed Frameworks */,
 				9AF6A4F532EB900EE22C80EA /* [CP] Embed Pods Frameworks */,
-				3005F34F24A9143C000519B5 /* ShellScript */,
-				308800C124EB0D3600E87ED3 /* ShellScript */,
+				3005F34F24A9143C000519B5 /* SwiftFormat */,
+				308800C124EB0D3600E87ED3 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -1279,7 +1279,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3005F34F24A9143C000519B5 /* ShellScript */ = {
+		3005F34F24A9143C000519B5 /* SwiftFormat */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1288,15 +1288,16 @@
 			);
 			inputPaths = (
 			);
+			name = SwiftFormat;
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SWIFTFORMAT_VERSION=\"0.45.*\"\n\nif which swiftformat > /dev/null; then\n  if [[ \"$(swiftformat --version)\" == $SWIFTFORMAT_VERSION ]]; then\n    swiftformat .\n  else\n    echo \"Failure: SwiftFormat $SWIFTFORMAT_VERSION is required. Install it or update the build script to use a newer version.\"\n    exit 1\n  fi\nelse\n  echo \"Failure: SwiftFormat not installed. Get it via 'brew install swiftformat'.\"\n  exit 2\nfi\n";
+			shellScript = ". \"${SRCROOT}/scripts/swiftformat.sh\"\n";
 		};
-		308800C124EB0D3600E87ED3 /* ShellScript */ = {
+		308800C124EB0D3600E87ED3 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1305,13 +1306,14 @@
 			);
 			inputPaths = (
 			);
+			name = SwiftLint;
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SWIFTLINT_VERSION=\"0.40.*\"\n\nif which swiftlint > /dev/null; then\n  if [[ \"$(swiftlint version)\" == $SWIFTLINT_VERSION ]]; then\n    swiftlint\n  else\n    echo \"Failure: SwiftLint $SWIFTLINT_VERSION is required. Install it or update the build script to use a newer version.\"\n    exit 1\n  fi\nelse\n  echo \"Failure: SwiftLint not installed. Get it via 'brew install swiftlint'.\"\n  exit 2\nfi\n";
+			shellScript = ". \"${SRCROOT}/scripts/swiftlint.sh\"\n";
 		};
 		3EFC287772C1D2B2762FAC45 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
