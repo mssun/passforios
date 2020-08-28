@@ -1,4 +1,4 @@
-SWIFTFORMAT_VERSION="0.45.*"
+SWIFTFORMAT_VERSION="0.46.*"
 
 if [[ -f "${SRCROOT}/.ci-env" ]]; then
   echo "Running in a Continuous Integration environment. Formatting is skipped."
