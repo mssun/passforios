@@ -1,10 +1,14 @@
-# Folders to exclude from linting
+# SwiftLint Configuration
+
+## Folders to exclude from linting
+
 excluded:
   - Carthage
   - go
   - Pods
 
-# Active rules
+## Active rules
+
 whitelist_rules:
   - anyobject_protocol
   - array_init
@@ -201,8 +205,9 @@ whitelist_rules:
   - xctfail_message
   - yoda_condition
 
-# Configuration for specific rules
-closure_body_length: 
+## Configuration for specific rules
+
+closure_body_length:
   warning: 40
   error: 60
 type_name:
