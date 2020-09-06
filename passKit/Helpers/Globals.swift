@@ -10,7 +10,14 @@ import Foundation
 import UIKit
 
 public final class Globals {
-    public static let bundleIdentifier = Bundle.main.bundleIdentifier ?? "me.mssun.passforios"
+    public static let bundleIdentifier: String = {
+        #if BETA
+            return "me.mssun.passforiosbeta"
+        #else
+            return "me.mssun.passforios"
+        #endif
+    }()
+
     public static let groupIdentifier = "group." + bundleIdentifier
     public static let passKitBundleIdentifier = bundleIdentifier + ".passKit"
 
