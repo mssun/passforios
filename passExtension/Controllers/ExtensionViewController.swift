@@ -63,60 +63,47 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
         }
 
         for extensionItem in extensionItems {
-            if let itemProviders = extensionItem.attachments {
-                for provider in itemProviders {
-                    // search using the extensionContext inputs
-                    if provider.hasItemConformingToTypeIdentifier(OnePasswordExtensionActions.findLogin) {
-                        provider.loadItem(forTypeIdentifier: OnePasswordExtensionActions.findLogin, options: nil) { item, _ -> Void in
-                            let dictionary = item as! NSDictionary
-                            var url: String?
-                            if var urlString = dictionary[OnePasswordExtensionKey.URLStringKey] as? String {
-                                if !urlString.hasPrefix("http://"), !urlString.hasPrefix("https://") {
-                                    urlString = "http://" + urlString
-                                }
-                                url = URL(string: urlString)?.host
-                            }
-                            DispatchQueue.main.async { [weak self] in
-                                self?.extensionAction = .findLogin
-                                // force search (set text, set active, force search)
-                                self?.searchBar.text = url
-                                self?.searchBar.becomeFirstResponder()
-                                self?.searchBarSearchButtonClicked((self?.searchBar)!)
-                            }
+            guard let itemProviders = extensionItem.attachments else {
+                continue
+            }
+            for provider in itemProviders {
+                // search using the extensionContext inputs
+                if provider.hasItemConformingToTypeIdentifier(OnePasswordExtensionActions.findLogin) {
+                    provider.loadItem(forTypeIdentifier: OnePasswordExtensionActions.findLogin, options: nil) { item, _ in
+                        self.updateExtension(with: self.getUrl(from: item as! NSDictionary), action: .findLogin)
+                    }
+                } else if provider.hasItemConformingToTypeIdentifier(kUTTypePropertyList as String) {
+                    provider.loadItem(forTypeIdentifier: kUTTypePropertyList as String, options: nil) { item, _ in
+                        if let dictionary = item as? NSDictionary, let results = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary {
+                            self.updateExtension(with: self.getUrl(from: results))
                         }
-                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypePropertyList as String) {
-                        provider.loadItem(forTypeIdentifier: kUTTypePropertyList as String, options: nil) { item, _ -> Void in
-                            var url: String?
-                            if let dictionary = item as? NSDictionary,
-                                let results = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary,
-                                var urlString = results[OnePasswordExtensionKey.URLStringKey] as? String {
-                                if !urlString.hasPrefix("http://"), !urlString.hasPrefix("https://") {
-                                    urlString = "http://" + urlString
-                                }
-                                url = URL(string: urlString)?.host
-                            }
-                            DispatchQueue.main.async { [weak self] in
-                                self?.extensionAction = .fillBrowser
-                                // force search (set text, set active, force search)
-                                self?.searchBar.text = url
-                                self?.searchBar.becomeFirstResponder()
-                                self?.searchBarSearchButtonClicked((self?.searchBar)!)
-                            }
-                        }
-                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
-                        provider.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil) { item, _ -> Void in
-                            let url = (item as? NSURL)!.host
-                            DispatchQueue.main.async { [weak self] in
-                                self?.extensionAction = .fillBrowser
-                                // force search (set text, set active, force search)
-                                self?.searchBar.text = url
-                                self?.searchBar.becomeFirstResponder()
-                                self?.searchBarSearchButtonClicked((self?.searchBar)!)
-                            }
-                        }
+                    }
+                } else if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
+                    provider.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil) { item, _ in
+                        self.updateExtension(with: (item as? NSURL)!.host)
                     }
                 }
             }
+        }
+    }
+
+    private func getUrl(from dictionary: NSDictionary) -> String? {
+        if var urlString = dictionary[OnePasswordExtensionKey.URLStringKey] as? String {
+            if !urlString.hasPrefix("http://"), !urlString.hasPrefix("https://") {
+                urlString = "http://" + urlString
+            }
+            return URL(string: urlString)?.host
+        }
+        return nil
+    }
+
+    private func updateExtension(with url: String?, action: Action = .fillBrowser) {
+        // Set text, set active, and force search.
+        DispatchQueue.main.async { [weak self] in
+            self?.extensionAction = action
+            self?.searchBar.text = url
+            self?.searchBar.becomeFirstResponder()
+            self?.searchBarSearchButtonClicked((self?.searchBar)!)
         }
     }
 
