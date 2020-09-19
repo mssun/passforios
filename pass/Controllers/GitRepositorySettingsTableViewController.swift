@@ -33,6 +33,7 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
             keyStore: keychain
         )
     }
+
     private var gitAuthenticationMethod: GitAuthenticationMethod {
         get { Defaults.gitAuthenticationMethod }
         set {

@@ -88,9 +88,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     @objc
     private func decryptThenShowPassword(keyID: String? = nil) {
         guard let passwordEntity = passwordEntity else {
-            Utils.alert(title: "CannotShowPassword".localize(), message: "PasswordDoesNotExist".localize(), controller: self) {
+            Utils.alert(title: "CannotShowPassword".localize(), message: "PasswordDoesNotExist".localize(), controller: self, completion: {
                 self.navigationController!.popViewController(animated: true)
-            }
+            })
             return
         }
         DispatchQueue.global(qos: .userInitiated).async {
