@@ -212,3 +212,5 @@ closure_body_length:
   error: 60
 type_name:
   max_length: 50
+trailing_closure:
+  only_single_muted_parameter: true
