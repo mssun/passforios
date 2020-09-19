@@ -32,7 +32,7 @@ whitelist_rules:
   - control_statement
   - convenience_type
   - custom_rules
-#  - cyclomatic_complexity
+  - cyclomatic_complexity
   - deployment_target
   - discarded_notification_center_observer
   - discouraged_direct_init

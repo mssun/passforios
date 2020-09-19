@@ -137,6 +137,7 @@ class PasswordEditorTableViewController: UITableViewController {
         additionsCell?.contentTextView.setContentOffset(.zero, animated: false)
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellData = tableData[indexPath.section][indexPath.row]
 
