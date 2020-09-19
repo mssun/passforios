@@ -171,7 +171,7 @@ whitelist_rules:
   - todo
   - toggle_bool
   - trailing_closure
-#  - trailing_comma # Trailing commas are useful.
+  - trailing_comma
   - trailing_newline
   - trailing_semicolon
   - trailing_whitespace
@@ -214,3 +214,5 @@ type_name:
   max_length: 50
 trailing_closure:
   only_single_muted_parameter: true
+trailing_comma:
+  mandatory_comma: true
