@@ -27,6 +27,7 @@ post_install do |installer|
       cflags = config.build_settings['OTHER_CFLAGS'] || ['$(inherited)']
       cflags << '-fembed-bitcode'
       config.build_settings['OTHER_CFLAGS'] = cflags
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '10.2'
     end
   end
 end
