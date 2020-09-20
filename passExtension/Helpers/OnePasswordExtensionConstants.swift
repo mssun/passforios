@@ -47,5 +47,5 @@ enum OnePasswordExtensionError {
     static let errorCodeCollectFieldsScriptFailed = 4
     static let errorCodeFillFieldsScriptFailed = 5
     static let errorCodeUnexpectedData = 6
-    static let errorCodeFailedToObtainURLStringFromWebView = 7
+    static let errorCodeFailedToObtainURLStringFromWebView = 7 // swiftlint:disable:this identifier_name
 }

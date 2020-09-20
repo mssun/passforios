@@ -52,7 +52,7 @@ extension PGPKeyFileImportTableViewController: UIDocumentPickerDelegate {
             // Start accessing a security-scoped resource.
             guard url.startAccessingSecurityScopedResource() else {
                 // Handle the failure here.
-                throw AppError.ReadingFile(fileName)
+                throw AppError.readingFile(fileName: fileName)
             }
 
             // Make sure you release the security-scoped resource when you are done.

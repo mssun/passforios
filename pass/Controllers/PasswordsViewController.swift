@@ -155,11 +155,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                     SVProgressHUD.showSuccess(withStatus: "Done".localize())
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
-            } catch let AppError.PgpPublicKeyNotFound(key) {
+            } catch let AppError.pgpPublicKeyNotFound(keyID: key) {
                 DispatchQueue.main.async {
                     // alert: cancel or select keys
                     SVProgressHUD.dismiss()
-                    let alert = UIAlertController(title: "Cannot Encrypt Password", message: AppError.PgpPublicKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
+                    let alert = UIAlertController(title: "Cannot Encrypt Password", message: AppError.pgpPublicKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
                     let selectKey = UIAlertAction.selectKey(controller: self) { action in
                         self.addPassword(password: password, keyID: action.title)
@@ -291,7 +291,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             return
         }
 
-        let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let allAction = UIAlertAction(title: "All Passwords", style: .default) { _ in
             self.reloadTableView(parent: nil, label: .all)
         }
@@ -303,11 +303,11 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
         let cancelAction = UIAlertAction.cancel()
 
-        ac.addAction(allAction)
-        ac.addAction(unsyncedAction)
-        ac.addAction(cancelAction)
+        alertController.addAction(allAction)
+        alertController.addAction(unsyncedAction)
+        alertController.addAction(cancelAction)
 
-        present(ac, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -488,10 +488,10 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
                     SVProgressHUD.showSuccess(withStatus: "PasswordCopiedToPasteboard.".localize())
                     SVProgressHUD.dismiss(withDelay: 0.6)
                 }
-            } catch let AppError.PgpPrivateKeyNotFound(key) {
+            } catch let AppError.pgpPrivateKeyNotFound(keyID: key) {
                 DispatchQueue.main.async {
                     // alert: cancel or try again
-                    let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.PgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
+                    let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.pgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
                     let selectKey = UIAlertAction.selectKey(controller: self) { action in
                         self.decryptPassword(passwordEntity: passwordEntity, keyID: action.title)
@@ -514,8 +514,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         var newSections = [(title: String, entries: [PasswordTableEntry])]()
 
         // initialize all sections
-        for i in 0 ..< sectionTitles.count {
-            newSections.append((title: sectionTitles[i], entries: [PasswordTableEntry]()))
+        for titleNumber in 0 ..< sectionTitles.count {
+            newSections.append((title: sectionTitles[titleNumber], entries: [PasswordTableEntry]()))
         }
 
         // put entries into sections
@@ -525,10 +525,10 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         }
 
         // sort each list and set sectionTitles
-        for i in 0 ..< sectionTitles.count {
-            let entriesToSort = newSections[i].entries
+        for titleNumber in 0 ..< sectionTitles.count {
+            let entriesToSort = newSections[titleNumber].entries
             let sortedEntries = collation.sortedArray(from: entriesToSort, collationStringSelector: #selector(getter: PasswordTableEntry.title))
-            newSections[i].entries = sortedEntries as! [PasswordTableEntry]
+            newSections[titleNumber].entries = sortedEntries as! [PasswordTableEntry]
         }
 
         // only keep non-empty sections
@@ -544,8 +544,8 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         if identifier == "showPasswordDetail" {
             guard PGPAgent.shared.isPrepared else {
                 Utils.alert(title: "CannotShowPassword".localize(), message: "PgpKeyNotSet.".localize(), controller: self, completion: nil)
-                if let s = sender as? UITableViewCell {
-                    let selectedIndexPath = tableView.indexPath(for: s)!
+                if let sender = sender as? UITableViewCell {
+                    let selectedIndexPath = tableView.indexPath(for: sender)!
                     tableView.deselectRow(at: selectedIndexPath, animated: true)
                 }
                 return false

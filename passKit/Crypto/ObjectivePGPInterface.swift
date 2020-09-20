@@ -16,14 +16,14 @@ struct ObjectivePGPInterface: PGPInterface {
 
     init(publicArmoredKey: String, privateArmoredKey: String) throws {
         guard let publicKeyData = publicArmoredKey.data(using: .ascii), let privateKeyData = privateArmoredKey.data(using: .ascii) else {
-            throw AppError.KeyImport
+            throw AppError.keyImport
         }
         let publicKeys = try ObjectivePGP.readKeys(from: publicKeyData)
         let privateKeys = try ObjectivePGP.readKeys(from: privateKeyData)
         keyring.import(keys: publicKeys)
         keyring.import(keys: privateKeys)
         guard let publicKey = publicKeys.first, let privateKey = privateKeys.first else {
-            throw AppError.KeyImport
+            throw AppError.keyImport
         }
         self.publicKey = publicKey
         self.privateKey = privateKey

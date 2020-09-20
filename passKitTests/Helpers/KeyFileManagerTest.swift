@@ -59,7 +59,7 @@ class KeyFileManagerTest: XCTestCase {
 
     func testImportKeyFromNonAsciiString() throws {
         XCTAssertThrowsError(try KeyFileManagerTest.keyFileManager.importKey(from: "≠")) {
-            XCTAssertEqual($0 as! AppError, AppError.Encoding)
+            XCTAssertEqual($0 as! AppError, AppError.encoding)
         }
     }
 

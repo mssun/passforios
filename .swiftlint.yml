@@ -77,7 +77,7 @@ whitelist_rules:
   - generic_type_name
   - ibinspectable_in_extension
   - identical_operands
-#  - identifier_name
+  - identifier_name
   - implicit_getter
   - implicit_return
 #  - implicitly_unwrapped_optional
@@ -212,6 +212,9 @@ attributes:
 closure_body_length:
   warning: 40
   error: 60
+identifier_name:
+  excluded: ["id", "to", "Defaults"]
+  allowed_symbols: ["_"]
 type_name:
   max_length: 50
 trailing_closure:

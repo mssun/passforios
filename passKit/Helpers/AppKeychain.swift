@@ -44,11 +44,9 @@ public class AppKeychain: KeyStore {
     }
 
     public func removeAllContent(withPrefix prefix: String) {
-        for k in keychain.allKeys() {
-            if k.hasPrefix(prefix) {
-                try? keychain.remove(k)
-            }
-        }
+        keychain.allKeys()
+            .filter { $0.hasPrefix(prefix) }
+            .forEach { try? keychain.remove($0) }
     }
 
     public static func getPGPKeyPassphraseKey(keyID: String) -> String {

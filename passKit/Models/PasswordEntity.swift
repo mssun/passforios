@@ -11,8 +11,8 @@ import SwiftyUserDefaults
 
 extension PasswordEntity {
     public var nameWithCategory: String {
-        if let p = path, p.hasSuffix(".gpg") {
-            return String(p.prefix(upTo: p.index(p.endIndex, offsetBy: -4)))
+        if let path = path, path.hasSuffix(".gpg") {
+            return String(path.prefix(upTo: path.index(path.endIndex, offsetBy: -4)))
         }
         return ""
     }
@@ -33,10 +33,10 @@ extension PasswordEntity {
     }
 
     public func getURL() throws -> URL {
-        if let p = getPath().stringByAddingPercentEncodingForRFC3986(), let u = URL(string: p) {
-            return u
+        if let path = getPath().stringByAddingPercentEncodingForRFC3986(), let url = URL(string: path) {
+            return url
         }
-        throw AppError.Unknown
+        throw AppError.unknown
     }
 
     // XXX: define some getters to get core data, we need to consider
