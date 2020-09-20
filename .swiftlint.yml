@@ -79,7 +79,7 @@ whitelist_rules:
   - identical_operands
 #  - identifier_name
   - implicit_getter
-#  - implicit_return
+  - implicit_return
 #  - implicitly_unwrapped_optional
 #  - indentation_width
   - inert_defer

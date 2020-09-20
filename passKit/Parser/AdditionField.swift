@@ -19,7 +19,7 @@ public struct AdditionField: Hashable {
     }
 
     var asTuple: (String, String) {
-        return (title, content)
+        (title, content)
     }
 }
 
