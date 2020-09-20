@@ -46,7 +46,7 @@ For more, please read the [wiki page](https://github.com/mssun/passforios/wiki).
 
 ## Building Pass for iOS
 
-1. Install libtool, automake, cmake, carthage, cocoapods, and go: `brew install libtool automake cmake carthage cocoapods go`.
+1. Install libtool, automake, cmake, carthage, cocoapods, and go: `brew install libtool automake cmake carthage cocoapods go swiftlint swiftformat`.
 2. Install dependencies via Carthage in the project root directory: `./wcarthage update` then `./wcarthage bootstrap --platform iOS`. This may take some time.
 3. Run `./gopenpgp_build.sh` to build go dependencies.
 4. Install dependencies via CocoaPods in the project root directory: `pod install`.
