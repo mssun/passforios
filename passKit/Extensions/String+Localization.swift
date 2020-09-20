@@ -1,10 +1,10 @@
-/*
- String+Localization.swift
- passKit
-
- Created by Danny Moesch on 12.01.19.
- Copyright © 2019 Bob Sun. All rights reserved.
- */
+//
+//  String+Localization.swift
+//  passKit
+//
+//  Created by Danny Moesch on 12.01.19.
+//  Copyright © 2019 Bob Sun. All rights reserved.
+//
 
 extension String {
     public func localize() -> String {
