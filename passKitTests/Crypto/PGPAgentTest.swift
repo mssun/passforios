@@ -90,10 +90,10 @@ class PGPAgentTest: XCTestCase {
         try KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: "", keyHandler: keychain.add).importKey(from: RSA2048.publicKey)
         XCTAssertFalse(pgpAgent.isPrepared)
         XCTAssertThrowsError(try pgpAgent.initKeys()) {
-            XCTAssertEqual($0 as! AppError, AppError.KeyImport)
+            XCTAssertEqual($0 as! AppError, AppError.keyImport)
         }
         XCTAssertThrowsError(try basicEncryptDecrypt(using: pgpAgent, keyID: RSA2048.fingerprint)) {
-            XCTAssertEqual($0 as! AppError, AppError.KeyImport)
+            XCTAssertEqual($0 as! AppError, AppError.keyImport)
         }
     }
 
@@ -109,7 +109,7 @@ class PGPAgentTest: XCTestCase {
         try importKeys(ED25519.publicKey, RSA2048.privateKey)
         XCTAssert(pgpAgent.isPrepared)
         XCTAssertThrowsError(try basicEncryptDecrypt(using: pgpAgent, keyID: ED25519.fingerprint, encryptKeyID: RSA2048.fingerprint)) {
-            XCTAssertEqual($0 as! AppError, AppError.KeyExpiredOrIncompatible)
+            XCTAssertEqual($0 as! AppError, AppError.keyExpiredOrIncompatible)
         }
     }
 
@@ -128,7 +128,7 @@ class PGPAgentTest: XCTestCase {
         keychain.removeContent(for: PgpKey.PUBLIC.getKeychainKey())
         keychain.removeContent(for: PgpKey.PRIVATE.getKeychainKey())
         XCTAssertThrowsError(try basicEncryptDecrypt(using: pgpAgent, keyID: ED25519.fingerprint)) {
-            XCTAssertEqual($0 as! AppError, AppError.KeyImport)
+            XCTAssertEqual($0 as! AppError, AppError.keyImport)
         }
     }
 
@@ -151,7 +151,7 @@ class PGPAgentTest: XCTestCase {
 
         // Provide the wrong passphrase.
         XCTAssertThrowsError(try basicEncryptDecrypt(using: pgpAgent, keyID: RSA2048.fingerprint, requestPassphrase: provideIncorrectPassphrase)) {
-            XCTAssertEqual($0 as! AppError, AppError.WrongPassphrase)
+            XCTAssertEqual($0 as! AppError, AppError.wrongPassphrase)
         }
         XCTAssertEqual(passphraseRequestCalledCount, 2)
 

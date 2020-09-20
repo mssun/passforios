@@ -49,11 +49,11 @@ func assertDefaults(
 }
 
 infix operator ∈: AdditionPrecedence
-func ∈ (field: AdditionField, password: Password) -> Bool {
+func ∈ (field: AdditionField, password: Password) -> Bool { // swiftlint:disable:this identifier_name
     password.getFilteredAdditions().contains(field)
 }
 
 infix operator ∉: AdditionPrecedence
-func ∉ (field: AdditionField, password: Password) -> Bool {
+func ∉ (field: AdditionField, password: Password) -> Bool { // swiftlint:disable:this identifier_name
     !(field ∈ password)
 }

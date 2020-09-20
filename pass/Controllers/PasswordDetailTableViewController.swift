@@ -99,10 +99,10 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 let requestPGPKeyPassphrase = Utils.createRequestPGPKeyPassphraseHandler(controller: self)
                 self.password = try self.passwordStore.decrypt(passwordEntity: passwordEntity, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
                 self.showPassword()
-            } catch let AppError.PgpPrivateKeyNotFound(key) {
+            } catch let AppError.pgpPrivateKeyNotFound(keyID: key) {
                 DispatchQueue.main.async {
                     // alert: cancel or try again
-                    let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.PgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
+                    let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.pgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
                     let selectKey = UIAlertAction.selectKey(controller: self) { action in
                         self.decryptThenShowPassword(keyID: action.title)
@@ -193,11 +193,11 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             tableView.reloadData()
             SVProgressHUD.showSuccess(withStatus: "Success".localize())
             SVProgressHUD.dismiss(withDelay: 1)
-        } catch let AppError.PgpPublicKeyNotFound(key) {
+        } catch let AppError.pgpPublicKeyNotFound(keyID: key) {
             DispatchQueue.main.async {
                 // alert: cancel or select keys
                 SVProgressHUD.dismiss()
-                let alert = UIAlertController(title: "Cannot Edit Password", message: AppError.PgpPublicKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
+                let alert = UIAlertController(title: "Cannot Edit Password", message: AppError.pgpPublicKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
                 alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
                 let selectKey = UIAlertAction.selectKey(controller: self) { action in
                     self.saveEditPassword(password: password, keyID: action.title)

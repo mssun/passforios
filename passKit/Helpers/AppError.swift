@@ -7,34 +7,35 @@
 //
 
 public enum AppError: Error, Equatable {
-    case RepositoryNotSet
-    case RepositoryRemoteBranchNotFound(_: String)
-    case RepositoryBranchNotFound(_: String)
-    case KeyImport
-    case ReadingFile(_: String)
-    case PasswordDuplicated
-    case GitReset
-    case GitCreateSignature
-    case GitPushNotSuccessful
-    case PasswordEntity
-    case PgpPublicKeyNotFound(keyID: String)
-    case PgpPrivateKeyNotFound(keyID: String)
-    case KeyExpiredOrIncompatible
-    case WrongPassphrase
-    case WrongPasswordFilename
-    case Decryption
-    case Encryption
-    case Encoding
-    case Unknown
+    case repositoryNotSet
+    case repositoryRemoteBranchNotFound(branchName: String)
+    case repositoryBranchNotFound(branchName: String)
+    case keyImport
+    case readingFile(fileName: String)
+    case passwordDuplicated
+    case gitReset
+    case gitCreateSignature
+    case gitPushNotSuccessful
+    case passwordEntity
+    case pgpPublicKeyNotFound(keyID: String)
+    case pgpPrivateKeyNotFound(keyID: String)
+    case keyExpiredOrIncompatible
+    case wrongPassphrase
+    case wrongPasswordFilename
+    case decryption
+    case encryption
+    case encoding
+    case unknown
 }
 
 extension AppError: LocalizedError {
     public var errorDescription: String? {
-        let localizationKey = "\(String(describing: self).prefix { $0 != "(" })Error."
+        let enumName = String(describing: self)
+        let localizationKey = "\(enumName.first!.uppercased())\(enumName.dropFirst().prefix { $0 != "(" })Error."
         switch self {
-        case let .RepositoryRemoteBranchNotFound(name), let .RepositoryBranchNotFound(name), let .ReadingFile(name):
+        case let .repositoryRemoteBranchNotFound(name), let .repositoryBranchNotFound(name), let .readingFile(name):
             return localizationKey.localize(name)
-        case let .PgpPublicKeyNotFound(keyID), let .PgpPrivateKeyNotFound(keyID):
+        case let .pgpPublicKeyNotFound(keyID), let .pgpPrivateKeyNotFound(keyID):
             return localizationKey.localize(keyID)
         default:
             return localizationKey.localize()

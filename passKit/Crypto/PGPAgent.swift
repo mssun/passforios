@@ -21,7 +21,7 @@ public class PGPAgent {
         guard let publicKey: String = keyStore.get(for: PgpKey.PUBLIC.getKeychainKey()),
             let privateKey: String = keyStore.get(for: PgpKey.PRIVATE.getKeychainKey()) else {
             pgpInterface = nil
-            throw AppError.KeyImport
+            throw AppError.keyImport
         }
         do {
             pgpInterface = try GopenPGPInterface(publicArmoredKey: publicKey, privateArmoredKey: privateKey)
@@ -48,7 +48,7 @@ public class PGPAgent {
         // Init keys.
         try checkAndInit()
         guard let pgpInterface = pgpInterface else {
-            throw AppError.Decryption
+            throw AppError.decryption
         }
 
         var keyID = keyID
@@ -56,7 +56,7 @@ public class PGPAgent {
             if pgpInterface.keyID.count == 1 {
                 keyID = pgpInterface.keyID.first!
             } else {
-                throw AppError.PgpPrivateKeyNotFound(keyID: keyID)
+                throw AppError.pgpPrivateKeyNotFound(keyID: keyID)
             }
         }
 
@@ -83,14 +83,14 @@ public class PGPAgent {
     public func encrypt(plainData: Data, keyID: String) throws -> Data {
         try checkAndInit()
         guard let pgpInterface = pgpInterface else {
-            throw AppError.Encryption
+            throw AppError.encryption
         }
         var keyID = keyID
         if !pgpInterface.containsPublicKey(with: keyID) {
             if pgpInterface.keyID.count == 1 {
                 keyID = pgpInterface.keyID.first!
             } else {
-                throw AppError.PgpPublicKeyNotFound(keyID: keyID)
+                throw AppError.pgpPublicKeyNotFound(keyID: keyID)
             }
         }
         return try pgpInterface.encrypt(plainData: plainData, keyID: keyID)

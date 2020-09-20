@@ -169,10 +169,10 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
                         self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
                     }
                 }
-            } catch let AppError.PgpPrivateKeyNotFound(key) {
+            } catch let AppError.pgpPrivateKeyNotFound(keyID: key) {
                 DispatchQueue.main.async {
                     // alert: cancel or try again
-                    let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.PgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
+                    let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.pgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
                     let selectKey = UIAlertAction.selectKey(controller: self) { action in
                         self.decryptPassword(passwordEntity: passwordEntity, keyID: action.title)

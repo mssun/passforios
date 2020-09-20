@@ -10,8 +10,8 @@ import Crypto
 
 struct GopenPGPInterface: PGPInterface {
     private static let errorMapping: [String: Error] = [
-        "gopenpgp: error in unlocking key: openpgp: invalid data: private key checksum failure": AppError.WrongPassphrase,
-        "openpgp: incorrect key": AppError.KeyExpiredOrIncompatible,
+        "gopenpgp: error in unlocking key: openpgp: invalid data: private key checksum failure": AppError.wrongPassphrase,
+        "openpgp: incorrect key": AppError.keyExpiredOrIncompatible,
     ]
 
     private var publicKeys: [String: CryptoKey] = [:]
@@ -23,24 +23,24 @@ struct GopenPGPInterface: PGPInterface {
 
         for key in pubKeys {
             var error: NSError?
-            guard let k = CryptoNewKeyFromArmored(key, &error) else {
+            guard let cryptoKey = CryptoNewKeyFromArmored(key, &error) else {
                 guard error == nil else {
                     throw error!
                 }
-                throw AppError.KeyImport
+                throw AppError.keyImport
             }
-            publicKeys[k.getFingerprint().lowercased()] = k
+            publicKeys[cryptoKey.getFingerprint().lowercased()] = cryptoKey
         }
 
         for key in prvKeys {
             var error: NSError?
-            guard let k = CryptoNewKeyFromArmored(key, &error) else {
+            guard let cryptoKey = CryptoNewKeyFromArmored(key, &error) else {
                 guard error == nil else {
                     throw error!
                 }
-                throw AppError.KeyImport
+                throw AppError.keyImport
             }
-            privateKeys[k.getFingerprint().lowercased()] = k
+            privateKeys[cryptoKey.getFingerprint().lowercased()] = cryptoKey
         }
     }
 
@@ -71,9 +71,9 @@ struct GopenPGPInterface: PGPInterface {
     }
 
     func decrypt(encryptedData: Data, keyID: String, passphrase: String) throws -> Data? {
-        guard let e = privateKeys.first(where: { key, _ in key.hasSuffix(keyID.lowercased()) }),
-            let privateKey = privateKeys[e.key] else {
-            throw AppError.Decryption
+        guard let key = privateKeys.first(where: { key, _ in key.hasSuffix(keyID.lowercased()) }),
+            let privateKey = privateKeys[key.key] else {
+            throw AppError.decryption
         }
 
         do {
@@ -84,7 +84,7 @@ struct GopenPGPInterface: PGPInterface {
                 guard error == nil else {
                     throw error!
                 }
-                throw AppError.Decryption
+                throw AppError.decryption
             }
 
             let message = createPgpMessage(from: encryptedData)
@@ -95,9 +95,9 @@ struct GopenPGPInterface: PGPInterface {
     }
 
     func encrypt(plainData: Data, keyID: String) throws -> Data {
-        guard let e = publicKeys.first(where: { key, _ in key.hasSuffix(keyID.lowercased()) }),
-            let publicKey = publicKeys[e.key] else {
-            throw AppError.Encryption
+        guard let key = publicKeys.first(where: { key, _ in key.hasSuffix(keyID.lowercased()) }),
+            let publicKey = publicKeys[key.key] else {
+            throw AppError.encryption
         }
 
         var error: NSError?
@@ -106,7 +106,7 @@ struct GopenPGPInterface: PGPInterface {
             guard error == nil else {
                 throw error!
             }
-            throw AppError.Encryption
+            throw AppError.encryption
         }
 
         let encryptedData = try keyRing.encrypt(CryptoNewPlainMessage(plainData.mutable as Data), privateKey: nil)

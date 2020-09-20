@@ -37,8 +37,8 @@ extension UIAlertAction {
     public static func selectKey(controller: UIViewController, handler: ((UIAlertAction) -> Void)?) -> UIAlertAction {
         UIAlertAction(title: "Select Key", style: .default) { _ in
             let selectKeyAlert = UIAlertController(title: "Select from imported keys", message: nil, preferredStyle: .actionSheet)
-            try? PGPAgent.shared.getShortKeyID().forEach { k in
-                let action = UIAlertAction(title: k, style: .default, handler: handler)
+            try? PGPAgent.shared.getShortKeyID().forEach { keyID in
+                let action = UIAlertAction(title: keyID, style: .default, handler: handler)
                 selectKeyAlert.addAction(action)
             }
             selectKeyAlert.addAction(UIAlertAction.cancelAndPopView(controller: controller))

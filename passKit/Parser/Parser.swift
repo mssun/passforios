@@ -25,41 +25,41 @@ class Parser {
     private func getAdditionFields() -> [AdditionField] {
         var additions: [AdditionField] = []
         var unknownIndex: UInt = 0
-        var i = purgedAdditionalLines.startIndex
-        while i < purgedAdditionalLines.count {
-            let line = purgedAdditionalLines[i]
-            i += 1
+        var lineNumber = purgedAdditionalLines.startIndex
+        while lineNumber < purgedAdditionalLines.count {
+            let line = purgedAdditionalLines[lineNumber]
+            lineNumber += 1
             var (key, value) = Parser.getKeyValuePair(from: line)
             if key == nil {
                 unknownIndex += 1
                 key = Constants.unknown(unknownIndex)
             } else if value == Constants.MULTILINE_WITH_LINE_BREAK_INDICATOR {
-                value = gatherMultilineValue(startingAt: &i, removingLineBreaks: false)
+                value = gatherMultilineValue(startingAt: &lineNumber, removingLineBreaks: false)
             } else if value == Constants.MULTILINE_WITHOUT_LINE_BREAK_INDICATOR {
-                value = gatherMultilineValue(startingAt: &i, removingLineBreaks: true)
+                value = gatherMultilineValue(startingAt: &lineNumber, removingLineBreaks: true)
             }
             additions.append(key! => value)
         }
         return additions
     }
 
-    private func gatherMultilineValue(startingAt i: inout Int, removingLineBreaks: Bool) -> String {
+    private func gatherMultilineValue(startingAt lineNumber: inout Int, removingLineBreaks: Bool) -> String {
         var result = ""
-        guard i < purgedAdditionalLines.count else {
+        guard lineNumber < purgedAdditionalLines.count else {
             return result
         }
-        let numberInitialBlanks = purgedAdditionalLines[i].enumerated().first {
+        let numberInitialBlanks = purgedAdditionalLines[lineNumber].enumerated().first {
             $1 != Character(Constants.BLANK)
-        }?.0 ?? purgedAdditionalLines[i].count
+        }?.0 ?? purgedAdditionalLines[lineNumber].count
         guard numberInitialBlanks != 0 else {
             return result
         }
         let initialBlanks = String(repeating: Constants.BLANK, count: numberInitialBlanks)
 
-        while i < purgedAdditionalLines.count, purgedAdditionalLines[i].starts(with: initialBlanks) {
-            result.append(String(purgedAdditionalLines[i].dropFirst(numberInitialBlanks)))
+        while lineNumber < purgedAdditionalLines.count, purgedAdditionalLines[lineNumber].starts(with: initialBlanks) {
+            result.append(String(purgedAdditionalLines[lineNumber].dropFirst(numberInitialBlanks)))
             result.append(Constants.getSeparator(breakingLines: !removingLineBreaks))
-            i += 1
+            lineNumber += 1
         }
         return result.trimmed
     }
