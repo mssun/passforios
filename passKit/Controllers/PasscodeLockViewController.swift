@@ -129,10 +129,6 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(tap)
     }
 
-    override open func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let biometryAuthButton = biometryAuthButton {
@@ -195,9 +191,8 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         alert.addAction(
             UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive) { [unowned self] _ -> Void in
                 let myContext = LAContext()
-                var error: NSError?
                 // If the device passcode is not set, reset the app.
-                guard myContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) else {
+                guard myContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)else {
                     self.passwordStore.erase()
                     self.passcodeLockDidSucceed()
                     return
@@ -212,7 +207,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
                         }
                     } else {
                         DispatchQueue.main.async {
-                            Utils.alert(title: "Error".localize(), message: error?.localizedDescription ?? "", controller: self, completion: nil)
+                            Utils.alert(title: "Error".localize(), message: error?.localizedDescription ?? "", controller: self)
                         }
                     }
                 }
