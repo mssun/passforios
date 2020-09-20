@@ -3,7 +3,7 @@ osx_image: xcode12
 addons:
   homebrew:
     packages:
-    - go
+    - go@1.14
     - gnupg2
     - pass
     update: true
@@ -32,6 +32,7 @@ before_script:
       travis_wait 80 ./wcarthage bootstrap --platform iOS
     fi
   - |
+    export PATH="/usr/local/opt/go@1.14/bin:$PATH"
     if [ ! $(git diff --name-only "$TRAVIS_COMMIT_RANGE" | grep -E "gopenpgp_build.sh") ] && [ -d "go/dist/Crypto.framework" ]; then
       echo "Use cached go dependencies."
       ls -ld go/dist/*framework
