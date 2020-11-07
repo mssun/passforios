@@ -6,9 +6,9 @@
 //  Copyright © 2017 Yishi Lin. All rights reserved.
 //
 
-extension UIViewController {
+public extension UIViewController {
     @objc
-    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField.nextField != nil {
             textField.nextField?.becomeFirstResponder()
         } else {

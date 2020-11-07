@@ -47,7 +47,7 @@ class CryptoFrameworkTest: XCTestCase {
         ].forEach { testKeyInfo in
             var error: NSError?
             guard let publicKey = CryptoNewKeyFromArmored(testKeyInfo.publicKey, &error),
-                let privateKey = CryptoNewKeyFromArmored(testKeyInfo.privateKey, &error) else {
+                  let privateKey = CryptoNewKeyFromArmored(testKeyInfo.privateKey, &error) else {
                 XCTFail("Keys cannot be initialized.")
                 return
             }

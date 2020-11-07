@@ -22,6 +22,8 @@
     duplicateImports,               \
     elseOnSameLine,                 \
     emptyBraces,                    \
+    enumNamespaces,                 \
+    extensionAccessControl,         \
     fileHeader,                     \
     hoistPatternLet,                \
     indent,                         \
@@ -31,6 +33,7 @@
     linebreakAtEndOfFile,           \
     linebreaks,                     \
     modifierOrder,                  \
+#    markTypes,                      \
     numberFormatting,               \
 #    organizeDeclarations,           \
     preferKeyPath,                  \
@@ -53,6 +56,7 @@
     redundantVoidReturnType,        \
     semicolons,                     \
     sortedImports,                  \
+    sortedSwitchCases,              \
     spaceAroundBraces,              \
     spaceAroundBrackets,            \
     spaceAroundComments,            \
@@ -88,6 +92,10 @@
 
 --allman false
 
+### Color/image literal width. "actual-width" or "visual-width"
+
+--assetliterals visual-width
+
 ### Binary grouping,threshold (default: 4,8) or "none", "ignore"
 
 --binarygrouping 4,8
@@ -115,6 +123,10 @@
 ### Group exponent digits: "enabled" or "disabled" (default)
 
 --exponentgrouping disabled
+
+### Place ACL "on-extension" (default) or "on-declarations"
+
+--extensionacl on-extension
 
 ### Group digits after '.': "enabled" or "disabled" (default)
 
@@ -244,9 +256,17 @@
 
 --wrapcollections preserve
 
+### Wrap conditions: "before-first", "after-first", "preserve"
+
+--wrapconditions preserve
+
 ### Wrap func params: "before-first", "after-first", "preserve"
 
 --wrapparameters preserve
+
+### Wrap return type: "if-multiline", "preserve" (default)
+
+--wrapreturntype preserve
 
 ### Xcode indent guard/enum: "enabled" or "disabled" (default)
 

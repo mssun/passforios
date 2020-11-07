@@ -363,7 +363,7 @@ class PasswordEditorTableViewController: UITableViewController {
 
         // the name field should be a valid url
         guard let path = name.stringByAddingPercentEncodingForRFC3986(),
-            var passwordURL = URL(string: path) else {
+              var passwordURL = URL(string: path) else {
             Utils.alert(title: "CannotSave".localize(), message: "PasswordNameInvalid.".localize(), controller: self, completion: nil)
             return false
         }

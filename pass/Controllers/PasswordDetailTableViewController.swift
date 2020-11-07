@@ -146,10 +146,10 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             // bail out of the timer code if the object has been freed
             guard let strongSelf = self,
-                let otpType = strongSelf.password?.otpType,
-                otpType != .none,
-                let indexPath = strongSelf.oneTimePasswordIndexPath,
-                let cell = strongSelf.tableView.cellForRow(at: indexPath) as? LabelTableViewCell else {
+                  let otpType = strongSelf.password?.otpType,
+                  otpType != .none,
+                  let indexPath = strongSelf.oneTimePasswordIndexPath,
+                  let cell = strongSelf.tableView.cellForRow(at: indexPath) as? LabelTableViewCell else {
                 return
             }
             switch otpType {
