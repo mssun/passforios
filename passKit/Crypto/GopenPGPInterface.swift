@@ -72,7 +72,7 @@ struct GopenPGPInterface: PGPInterface {
 
     func decrypt(encryptedData: Data, keyID: String, passphrase: String) throws -> Data? {
         guard let key = privateKeys.first(where: { key, _ in key.hasSuffix(keyID.lowercased()) }),
-            let privateKey = privateKeys[key.key] else {
+              let privateKey = privateKeys[key.key] else {
             throw AppError.decryption
         }
 
@@ -96,7 +96,7 @@ struct GopenPGPInterface: PGPInterface {
 
     func encrypt(plainData: Data, keyID: String) throws -> Data {
         guard let key = publicKeys.first(where: { key, _ in key.hasSuffix(keyID.lowercased()) }),
-            let publicKey = publicKeys[key.key] else {
+              let publicKey = publicKeys[key.key] else {
             throw AppError.encryption
         }
 

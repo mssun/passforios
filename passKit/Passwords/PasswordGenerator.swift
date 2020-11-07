@@ -17,7 +17,7 @@ public struct PasswordGenerator: Codable {
         return ["eff_long_wordlist", "eff_short_wordlist"]
             .map { name -> String in
                 guard let asset = NSDataAsset(name: name, bundle: bundle),
-                    let data = String(data: asset.data, encoding: .utf8) else {
+                      let data = String(data: asset.data, encoding: .utf8) else {
                     return ""
                 }
                 return data

@@ -9,19 +9,19 @@
 import Foundation
 import SwiftyUserDefaults
 
-extension PasswordEntity {
-    public var nameWithCategory: String {
+public extension PasswordEntity {
+    var nameWithCategory: String {
         if let path = path, path.hasSuffix(".gpg") {
             return String(path.prefix(upTo: path.index(path.endIndex, offsetBy: -4)))
         }
         return ""
     }
 
-    public func getCategoryText() -> String {
+    func getCategoryText() -> String {
         getCategoryArray().joined(separator: " > ")
     }
 
-    public func getCategoryArray() -> [String] {
+    func getCategoryArray() -> [String] {
         var parentEntity = parent
         var passwordCategoryArray: [String] = []
         while parentEntity != nil {
@@ -32,7 +32,7 @@ extension PasswordEntity {
         return passwordCategoryArray
     }
 
-    public func getURL() throws -> URL {
+    func getURL() throws -> URL {
         if let path = getPath().stringByAddingPercentEncodingForRFC3986(), let url = URL(string: path) {
             return url
         }
@@ -42,16 +42,16 @@ extension PasswordEntity {
     // XXX: define some getters to get core data, we need to consider
     // manually write models instead auto generation.
 
-    public func getImage() -> Data? {
+    func getImage() -> Data? {
         image
     }
 
-    public func getName() -> String {
+    func getName() -> String {
         // unwrap non-optional core data
         name ?? ""
     }
 
-    public func getPath() -> String {
+    func getPath() -> String {
         // unwrap non-optional core data
         path ?? ""
     }

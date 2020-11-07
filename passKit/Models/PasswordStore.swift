@@ -645,8 +645,8 @@ public class PasswordStore {
         }
         // get the oldest local commit
         guard let firstLocalCommit = localCommits.last,
-            firstLocalCommit.parents.count == 1,
-            let newHead = firstLocalCommit.parents.first else {
+              firstLocalCommit.parents.count == 1,
+              let newHead = firstLocalCommit.parents.first else {
             throw AppError.gitReset
         }
         try storeRepository.reset(to: newHead, resetType: .hard)
@@ -707,7 +707,7 @@ public class PasswordStore {
 public func findGPGID(from url: URL) -> String {
     var path = url
     while !FileManager.default.fileExists(atPath: path.appendingPathComponent(".gpg-id").path),
-        path.path != "file:///" {
+          path.path != "file:///" {
         path = path.deletingLastPathComponent()
     }
     path = path.appendingPathComponent(".gpg-id")

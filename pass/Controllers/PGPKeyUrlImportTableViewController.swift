@@ -25,9 +25,9 @@ class PGPKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
     @IBAction
     private func save(_: Any) {
         guard let publicKeyURLText = pgpPublicKeyURLTextField.text,
-            let publicKeyURL = URL(string: publicKeyURLText),
-            let privateKeyURLText = pgpPrivateKeyURLTextField.text,
-            let privateKeyURL = URL(string: privateKeyURLText) else {
+              let publicKeyURL = URL(string: publicKeyURLText),
+              let privateKeyURLText = pgpPrivateKeyURLTextField.text,
+              let privateKeyURL = URL(string: privateKeyURLText) else {
             Utils.alert(title: "CannotSavePgpKey".localize(), message: "SetPgpKeyUrlsFirst.".localize(), controller: self)
             return
         }

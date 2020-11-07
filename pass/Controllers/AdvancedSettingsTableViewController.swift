@@ -88,7 +88,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
     private func saveGitConfigSetting(segue: UIStoryboardSegue) {
         if let controller = segue.source as? GitConfigSettingsTableViewController {
             if let gitSignatureName = controller.nameTextField.text,
-                let gitSignatureEmail = controller.emailTextField.text {
+               let gitSignatureEmail = controller.emailTextField.text {
                 Defaults.gitSignatureName = gitSignatureName.isEmpty ? nil : gitSignatureName
                 Defaults.gitSignatureEmail = gitSignatureEmail.isEmpty ? nil : gitSignatureEmail
             }
