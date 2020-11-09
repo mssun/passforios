@@ -7,6 +7,7 @@ addons:
     - gnupg2
     - pass
     update: true
+  ssh_known_hosts: github.com
 before_install:
   - echo -e "machine github.com\n  login $GITHUB_ACCESS_TOKEN" >> ~/.netrc
   - touch .ci-env
