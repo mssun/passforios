@@ -13,7 +13,7 @@ import XCTest
 @testable import Crypto
 
 class CryptoFrameworkTest: XCTestCase {
-    typealias MessageConverter = (CryptoPGPMessage, NSErrorPointer) -> CryptoPGPMessage?
+    private typealias MessageConverter = (CryptoPGPMessage, NSErrorPointer) -> CryptoPGPMessage?
 
     private let testText = "Hello World!"
 

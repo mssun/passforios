@@ -9,7 +9,7 @@ excluded:
 
 ## Active rules
 
-whitelist_rules:
+only_rules:
   - anyobject_protocol
   - array_init
   - attributes
@@ -81,6 +81,7 @@ whitelist_rules:
   - implicit_getter
   - implicit_return
 #  - implicitly_unwrapped_optional
+  - inclusive_language
 #  - indentation_width
   - inert_defer
   - is_disjoint
@@ -168,6 +169,7 @@ whitelist_rules:
   - switch_case_alignment
   - switch_case_on_newline
   - syntactic_sugar
+  - test_case_accessibility
   - todo
   - toggle_bool
   - trailing_closure
@@ -180,7 +182,6 @@ whitelist_rules:
   - type_name
   - unavailable_function
   - unneeded_break_in_switch
-  - unneeded_notification_center_removal
   - unneeded_parentheses_in_closure_argument
 #  - unowned_variable_capture
   - untyped_error_in_catch

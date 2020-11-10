@@ -11,12 +11,12 @@ import XCTest
 @testable import Pass
 
 class QRKeyScannerTest: XCTestCase {
-    let header = "-----BEGIN PGP PUBLIC KEY BLOCK-----"
-    let body = "key body"
-    let footer = "-----END PGP PUBLIC KEY BLOCK-----"
-    let privateHeader = "-----BEGIN PGP PRIVATE KEY BLOCK-----"
+    private let header = "-----BEGIN PGP PUBLIC KEY BLOCK-----"
+    private let body = "key body"
+    private let footer = "-----END PGP PUBLIC KEY BLOCK-----"
+    private let privateHeader = "-----BEGIN PGP PRIVATE KEY BLOCK-----"
 
-    var scanner = QRKeyScanner(keyType: .pgpPublic)
+    private var scanner = QRKeyScanner(keyType: .pgpPublic)
 
     func testAddHeaderTwice() {
         XCTAssertEqual(scanner.add(segment: header), .scanned(1))
