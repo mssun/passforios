@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        channel: ['beta', 'release']
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install packages
+      run: |
+        brew install libtool automake cmake carthage go@1.14 swiftlint swiftformat
+        gem install bundler
+    - name: Prepare dependencies
+      run: |
+        export PATH="/usr/local/opt/go@1.14/bin:$PATH"
+        bundle install
+        bundle exec pod install
+        ./wcarthage bootstrap --platform iOS
+        ./gopenpgp_build.sh
+    - name: Test
+      run: bundle exec fastlane test
+    - name: Deploy
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      run: bundle exec fastlane ${{ matrix.channel }}
+      env:
+        APPLE_ID: ${{ secrets.APPLE_ID }}
+        APP_IDENTIFIER: ${{ secrets.APP_IDENTIFIER }}
+        DESTINATION_EMAIL: ${{ secrets.DESTINATION_EMAIL }}
+        EMAIL_FROM_NAME: ${{ secrets.EMAIL_FROM_NAME }}
+        EMAIL_REPLY_TO: ${{ secrets.EMAIL_REPLY_TO }}
+        FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+        FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
+        ITC_TEAM_ID: ${{ secrets.ITC_TEAM_ID }}
+        MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
+        MATCH_KEYCHAIN_NAME: ${{ secrets.MATCH_KEYCHAIN_NAME }}
+        MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
+        MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+        MY_API_KEY: ${{ secrets.MY_API_KEY }}
+        MY_POSTMASTER: ${{ secrets.MY_POSTMASTER }}
+        TEAM_ID: ${{ secrets.TEAM_ID }}

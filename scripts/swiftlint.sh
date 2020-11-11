@@ -1,6 +1,6 @@
 SWIFTLINT_VERSION="0.42.*"
 
-if [[ -f "${SRCROOT}/.ci-env" ]]; then
+if [[  "${CI}" == "true" ]]; then
   echo "Running in a Continuous Integration environment. Linting is skipped."
   return
 fi
