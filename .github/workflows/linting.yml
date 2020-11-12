@@ -7,8 +7,8 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install packages
-      run: brew update && brew upgrade swiftformat
+    - name: Installing packages
+      run: brew update && brew install swiftformat
     - name: swiftformt
       run: |
          swiftformat --lint .
@@ -17,7 +17,7 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install packages
+    - name: Installing packages
       run: brew update && brew upgrade swiftlint
     - name: swiftlint
       run: |
