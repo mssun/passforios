@@ -169,8 +169,8 @@ platform :ios do
       subject: "A new build of Pass for iOS has been uploaded",
       success: true,
       app_link: "https://github.com/mssun/passforios",
-      ci_build_link: "https://travis-ci.org/mssun/passforios",
-      message: "A new build has been uploaded by Travis CI.",
+      ci_build_link: "https://github.com/mssun/passforios/actions",
+      message: "A new build has been uploaded by GitHub Action.",
     )
   end
 end
