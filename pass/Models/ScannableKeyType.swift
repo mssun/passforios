@@ -22,7 +22,7 @@ enum ScannableKeyType {
 
     var headerStart: String {
         switch self {
-        case .pgpPublic, .pgpPrivate:
+        case .pgpPrivate, .pgpPublic:
             return "-----BEGIN PGP \(visibility.uppercased()) KEY BLOCK-----"
         case .sshPrivate:
             return "-----BEGIN"
@@ -31,7 +31,7 @@ enum ScannableKeyType {
 
     var footerStart: String {
         switch self {
-        case .pgpPublic, .pgpPrivate:
+        case .pgpPrivate, .pgpPublic:
             return "-----END PGP \(visibility.uppercased())"
         case .sshPrivate:
             return "-----END"
@@ -40,7 +40,7 @@ enum ScannableKeyType {
 
     var footerEnd: String {
         switch self {
-        case .pgpPublic, .pgpPrivate:
+        case .pgpPrivate, .pgpPublic:
             return "KEY BLOCK-----"
         case .sshPrivate:
             return "KEY-----"

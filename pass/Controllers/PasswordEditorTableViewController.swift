@@ -211,9 +211,9 @@ class PasswordEditorTableViewController: UITableViewController {
 
     override func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch tableData[indexPath.section][indexPath.row][PasswordEditorCellKey.type] as! PasswordEditorCellType {
-        case .passwordLengthCell, .passwordGroupsCell:
+        case .passwordGroupsCell, .passwordLengthCell:
             return 42
-        case .passwordUseDigitsCell, .passwordVaryCasesCell, .passwordUseSpecialSymbols, .passwordFlavorCell:
+        case .passwordFlavorCell, .passwordUseDigitsCell, .passwordUseSpecialSymbols, .passwordVaryCasesCell:
             return 42
         default:
             return UITableView.automaticDimension

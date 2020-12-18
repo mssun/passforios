@@ -33,9 +33,9 @@ extension AppError: LocalizedError {
         let enumName = String(describing: self)
         let localizationKey = "\(enumName.first!.uppercased())\(enumName.dropFirst().prefix { $0 != "(" })Error."
         switch self {
-        case let .repositoryRemoteBranchNotFound(name), let .repositoryBranchNotFound(name), let .readingFile(name):
+        case let .readingFile(name), let .repositoryBranchNotFound(name), let .repositoryRemoteBranchNotFound(name):
             return localizationKey.localize(name)
-        case let .pgpPublicKeyNotFound(keyID), let .pgpPrivateKeyNotFound(keyID):
+        case let .pgpPrivateKeyNotFound(keyID), let .pgpPublicKeyNotFound(keyID):
             return localizationKey.localize(keyID)
         default:
             return localizationKey.localize()
