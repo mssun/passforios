@@ -23,6 +23,7 @@ only_rules:
   - collection_alignment
   - colon
   - comma
+  - comment_spacing
   - compiler_protocol_init
   - computed_accessors_order
   - conditional_returns_on_newline
