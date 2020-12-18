@@ -192,7 +192,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
             UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive) { [unowned self] _ -> Void in
                 let myContext = LAContext()
                 // If the device passcode is not set, reset the app.
-                guard myContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)else {
+                guard myContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) else {
                     self.passwordStore.erase()
                     self.passcodeLockDidSucceed()
                     return

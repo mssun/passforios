@@ -425,7 +425,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             cell.categoryLabel.text = passwordEntity!.getCategoryText()
             cell.selectionStyle = .none
             return cell
-        case .main, .addition:
+        case .addition, .main:
             let cell = tableView.dequeueReusableCell(withIdentifier: "labelCell", for: indexPath) as! LabelTableViewCell
             let titleData = tableDataItem.title
             let contentData = tableDataItem.content
@@ -487,7 +487,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     override func tableView(_: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender _: Any?) -> Bool {
         let section = tableData[indexPath.section]
         switch section.type {
-        case .main, .addition:
+        case .addition, .main:
             return action == #selector(UIResponderStandardEditActions.copy(_:))
         default:
             return false
