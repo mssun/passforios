@@ -1,0 +1,22 @@
+name: Testing
+
+on: pull_request
+
+jobs:
+  testing:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Installing packages
+      run: |
+        brew install libtool automake cmake carthage go@1.14 swiftlint swiftformat
+        gem install bundler
+    - name: Preparing dependencies
+      run: |
+        export PATH="/usr/local/opt/go@1.14/bin:$PATH"
+        bundle install
+        bundle exec pod install
+        ./wcarthage bootstrap --platform iOS
+        ./gopenpgp_build.sh
+    - name: Testing
+      run: bundle exec fastlane test

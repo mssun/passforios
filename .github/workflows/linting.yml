@@ -1,0 +1,24 @@
+name: Linting
+
+on: pull_request
+
+jobs:
+  swiftformat:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Installing packages
+      run: brew update && brew install swiftformat
+    - name: swiftformat
+      run: |
+         swiftformat --lint .
+
+  swiftlint:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Installing packages
+      run: brew update && brew upgrade swiftlint
+    - name: swiftlint
+      run: |
+         swiftlint --strict
