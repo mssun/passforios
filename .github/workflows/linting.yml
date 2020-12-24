@@ -9,7 +9,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Installing packages
       run: brew update && brew install swiftformat
-    - name: swiftformt
+    - name: swiftformat
       run: |
          swiftformat --lint .
 
