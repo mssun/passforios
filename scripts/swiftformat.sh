@@ -2,12 +2,12 @@ SWIFTFORMAT_VERSION="0.47.*"
 
 if [[ "${CI}" == "true" ]]; then
   echo "Running in a Continuous Integration environment. Formatting is skipped."
-  return
+  exit 0 
 fi
 
 if [[ "${CONFIGURATION}" != "Debug" ]]; then
   echo "Running during a release build. Formatting is skipped."
-  return
+  exit 0
 fi
 
 if which swiftformat > /dev/null; then
