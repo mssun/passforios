@@ -13,16 +13,49 @@ jobs:
         channel: ['beta', 'release']
     steps:
     - uses: actions/checkout@v2
-    - name: Install packages
+    - name: Installing packages
       run: |
         brew install libtool automake cmake carthage go@1.14 swiftlint swiftformat
         gem install bundler
-    - name: Prepare dependencies
+    - uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
+    - uses: actions/cache@v2
+      id: carthage-cache
+      with:
+        path: Carthage
+        key: ${{ runner.os }}-carthage-${{ hashFiles('**/Cartfile.resolved') }}
+        restore-keys: |
+          ${{ runner.os }}-carthage-
+    - uses: actions/cache@v2
+      with:
+        path: Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-
+    - uses: actions/cache@v2
+      id: gopenpgp-cache
+      with:
+        path: go
+        key: ${{ runner.os }}-gopenpgp-${{ hashFiles('**/gopenpgp_build.sh') }}
+        restore-keys: |
+          ${{ runner.os }}-gopenpgp-
+    - name: Bundle Install
+      run: |
+        bundle config path vendor/bundle
+        bundle install --jobs 4 --retry 3
+    - name: Cocoapods
+      run: bundle exec pod install
+    - name: Carthage
+      if: steps.carthage-cache.outputs.cache-hit != 'true'
+      run: ./scripts/wcarthage bootstrap --platform iOS --no-use-binaries --cache-builds
+    - name: GopenPGP
+      if: steps.gopenpgp-cache.outputs.cache-hit != 'true'
       run: |
         export PATH="/usr/local/opt/go@1.14/bin:$PATH"
-        bundle install
-        bundle exec pod install
-        ./scripts/wcarthage bootstrap --platform iOS
         ./scripts/gopenpgp_build.sh
     - name: Test
       run: bundle exec fastlane test
