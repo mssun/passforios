@@ -26,6 +26,13 @@ jobs:
         key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-pods-
+    - uses: actions/cache@v2
+      id: gopenpgp-cache
+      with:
+        path: go
+        key: ${{ runner.os }}-gopenpgp-${{ hashFiles('**/gopenpgp_build.sh') }}
+        restore-keys: |
+          ${{ runner.os }}-gopenpgp-
     - name: Carthage
       if: steps.carthage-cache.outputs.cache-hit != 'true'
       run: ./scripts/wcarthage bootstrap --platform iOS --no-use-binaries --cache-builds
@@ -33,6 +40,7 @@ jobs:
       if: steps.pods-cache.outputs.cache-hit != 'true'
       run: bundle exec pod install
     - name: GopenPGP
+      if: steps.gopenpgp-cache.outputs.cache-hit != 'true'
       run: |
         export PATH="/usr/local/opt/go@1.14/bin:$PATH"
         ./scripts/gopenpgp_build.sh
