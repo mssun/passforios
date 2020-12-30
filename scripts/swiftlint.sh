@@ -5,7 +5,7 @@ if [[  "${CI}" == "true" ]]; then
   exit 0
 fi
 
-if [[ "${CONFIGURATION}" != "Debug" ]]; then
+if [[ "${CONFIGURATION}" == "Release" ]]; then
   echo "Running during a release build. Linting is skipped."
   exit 0
 fi
