@@ -2,12 +2,12 @@ SWIFTLINT_VERSION="0.42.*"
 
 if [[  "${CI}" == "true" ]]; then
   echo "Running in a Continuous Integration environment. Linting is skipped."
-  return
+  exit 0
 fi
 
 if [[ "${CONFIGURATION}" != "Debug" ]]; then
   echo "Running during a release build. Linting is skipped."
-  return
+  exit 0
 fi
 
 if which swiftlint > /dev/null; then
