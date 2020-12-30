@@ -3,7 +3,7 @@ default_platform :ios
 lane :prepare do
   cocoapods
   carthage(cache_builds: true, platform: "iOS")
-  sh "./gopenpgp_build.sh"
+  sh "./scripts/gopenpgp_build.sh"
 end
 
 lane :reset_build_number do
@@ -80,7 +80,9 @@ platform :ios do
       timeout: 3600,
       add_to_search_list: true
     )
-    match_appstore_beta
+    if is_ci?
+      match_appstore_beta
+    end
     increment_build_number(
       build_number: latest_testflight_build_number(
         version: get_version_number(target: "pass"),
@@ -125,7 +127,9 @@ platform :ios do
       timeout: 3600,
       add_to_search_list: true
     )
-    match_appstore
+    if is_ci?
+      match_appstore
+    end
     increment_build_number(
       build_number: latest_testflight_build_number(
         version: get_version_number(target: "pass"),

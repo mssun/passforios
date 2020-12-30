@@ -22,8 +22,8 @@ jobs:
         export PATH="/usr/local/opt/go@1.14/bin:$PATH"
         bundle install
         bundle exec pod install
-        ./wcarthage bootstrap --platform iOS
-        ./gopenpgp_build.sh
+        ./scripts/wcarthage bootstrap --platform iOS
+        ./scripts/gopenpgp_build.sh
     - name: Test
       run: bundle exec fastlane test
     - name: Deploy
