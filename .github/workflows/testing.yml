@@ -14,9 +14,9 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: vendor/bundle
-        key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
-          ${{ runner.os }}-gem-
+          ${{ runner.os }}-gems-
     - uses: actions/cache@v2
       id: carthage-cache
       with:
@@ -38,7 +38,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gopenpgp-
     - name: Bundle Install
-      run: bundle install --deployment
+      run: |
+        bundle config path vendor/bundle
+        bundle install --jobs 4 --retry 3
     - name: Cocoapods
       run: bundle exec pod install
     - name: Carthage
