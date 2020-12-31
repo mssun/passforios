@@ -85,6 +85,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController, UITa
     @IBAction
     private func cancel(_: AnyObject?) {
         extensionContext.cancelRequest(withError: NSError(domain: ASExtensionErrorDomain, code: ASExtensionError.userCanceled.rawValue))
+        self.dismiss(animated: true)
     }
 
     override func viewWillAppear(_ animated: Bool) {

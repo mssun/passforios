@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Xki-Si-B7m">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Aeb-0C-dDR">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Credential Provider View Controller-->
+        <!--Password Store-->
         <scene sceneID="Uma-9u-xWV">
             <objects>
                 <viewController id="Xki-Si-B7m" customClass="CredentialProviderViewController" customModule="passAutoFillExtension" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,78 +16,82 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3wq-kG-lGu">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <items>
-                                    <navigationItem id="cbj-pk-SYj">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="bEZ-MG-jDy">
-                                            <connections>
-                                                <action selector="cancel:" destination="Xki-Si-B7m" id="6ap-3Q-iEX"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="6fX-Sk-6qN">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <subviews>
-                                    <searchBar contentMode="redraw" text="" translatesAutoresizingMaskIntoConstraints="NO" id="MmN-WX-sur">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </searchBar>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XmI-l4-SgT">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="547"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="passwordTableViewCell" textLabel="U0x-8f-AET" detailTextLabel="kY1-Ac-C3d" style="IBUITableViewCellStyleValue1" id="fXA-SG-IOe" customClass="PasswordDetailTitleTableViewCell" customModule="pass">
-                                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fXA-SG-IOe" id="KPa-Az-i6V">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XmI-l4-SgT">
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" text="" id="MmN-WX-sur">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </searchBar>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="passwordTableViewCell" textLabel="U0x-8f-AET" detailTextLabel="kY1-Ac-C3d" style="IBUITableViewCellStyleValue1" id="fXA-SG-IOe" customClass="PasswordDetailTitleTableViewCell" customModule="pass">
+                                        <rect key="frame" x="0.0" y="84" width="375" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fXA-SG-IOe" id="KPa-Az-i6V">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="U0x-8f-AET">
+                                                    <rect key="frame" x="16" y="12" width="33" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <subviews>
-                                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="U0x-8f-AET">
-                                                            <rect key="frame" x="15" y="12" width="33.5" height="20.5"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kY1-Ac-C3d">
-                                                            <rect key="frame" x="316" y="12" width="44" height="20.5"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                            <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </tableViewCellContentView>
-                                            </tableViewCell>
-                                        </prototypes>
-                                    </tableView>
-                                </subviews>
-                            </stackView>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kY1-Ac-C3d">
+                                                    <rect key="frame" x="315" y="12" width="44" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="Ky8-vK-JVj"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Ky8-vK-JVj" firstAttribute="trailing" secondItem="6fX-Sk-6qN" secondAttribute="trailing" id="17t-mv-eRl"/>
-                            <constraint firstItem="Ky8-vK-JVj" firstAttribute="top" secondItem="3wq-kG-lGu" secondAttribute="top" id="BIN-jb-uNd"/>
-                            <constraint firstItem="6fX-Sk-6qN" firstAttribute="leading" secondItem="Ky8-vK-JVj" secondAttribute="leading" id="Cd5-jJ-hSk"/>
-                            <constraint firstItem="6fX-Sk-6qN" firstAttribute="top" secondItem="3wq-kG-lGu" secondAttribute="bottom" id="Clz-JE-ME7"/>
-                            <constraint firstItem="6fX-Sk-6qN" firstAttribute="trailing" secondItem="Ky8-vK-JVj" secondAttribute="trailing" id="T5d-Qv-N42"/>
-                            <constraint firstItem="3wq-kG-lGu" firstAttribute="width" secondItem="BuU-Ak-iZz" secondAttribute="width" id="UkD-v4-BcH"/>
-                            <constraint firstItem="6fX-Sk-6qN" firstAttribute="bottom" secondItem="Ky8-vK-JVj" secondAttribute="bottom" id="Zrc-7l-kYX"/>
-                            <constraint firstItem="Ky8-vK-JVj" firstAttribute="bottom" secondItem="6fX-Sk-6qN" secondAttribute="bottom" id="kH5-f1-kuv"/>
-                            <constraint firstItem="3wq-kG-lGu" firstAttribute="centerX" secondItem="BuU-Ak-iZz" secondAttribute="centerX" id="rtV-5c-0bl"/>
+                            <constraint firstItem="Ky8-vK-JVj" firstAttribute="bottom" secondItem="XmI-l4-SgT" secondAttribute="bottom" id="5FB-pZ-UB8"/>
+                            <constraint firstItem="Ky8-vK-JVj" firstAttribute="trailing" secondItem="XmI-l4-SgT" secondAttribute="trailing" id="UU8-e6-4iA"/>
+                            <constraint firstItem="XmI-l4-SgT" firstAttribute="top" secondItem="Ky8-vK-JVj" secondAttribute="top" id="cXC-1s-cMI"/>
+                            <constraint firstItem="XmI-l4-SgT" firstAttribute="leading" secondItem="Ky8-vK-JVj" secondAttribute="leading" id="nvS-L5-BHk"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Ky8-vK-JVj"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Password Store" id="apM-bN-eca">
+                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="zCC-lm-1xr">
+                            <connections>
+                                <action selector="cancel:" destination="Xki-Si-B7m" id="3tK-C9-LKo"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="searchBar" destination="MmN-WX-sur" id="KZk-g3-9Ox"/>
                         <outlet property="tableView" destination="XmI-l4-SgT" id="2yd-Uj-96H"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RwB-HB-TSk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="992.79999999999995" y="26.53673163418291"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="mg9-JA-x9T">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Aeb-0C-dDR" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="RMW-As-go6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Xki-Si-B7m" kind="relationship" relationship="rootViewController" id="Jjj-k4-Bbd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ydk-0z-dUy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="53.600000000000001" y="26.53673163418291"/>
         </scene>
