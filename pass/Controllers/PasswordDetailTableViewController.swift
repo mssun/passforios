@@ -73,7 +73,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         NotificationCenter.default.addObserver(self, selector: #selector(setShouldPopCurrentView), name: .passwordStoreChangeDiscarded, object: nil)
 
         // reset the data table if the disaply settings have been changed
-        NotificationCenter.default.addObserver(self, selector: #selector(decryptThenShowPassword), name: .passwordDetailDisplaySettingChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(decryptThenShowPasswordSelector), name: .passwordDetailDisplaySettingChanged, object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -86,6 +86,10 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
 
     @objc
+    private func decryptThenShowPasswordSelector(_ sender: Any) {
+        decryptThenShowPassword()
+    }
+
     private func decryptThenShowPassword(keyID: String? = nil) {
         guard let passwordEntity = passwordEntity else {
             Utils.alert(title: "CannotShowPassword".localize(), message: "PasswordDoesNotExist".localize(), controller: self, completion: {
