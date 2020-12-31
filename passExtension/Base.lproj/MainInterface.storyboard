@@ -13,15 +13,15 @@
             <objects>
                 <viewController id="DnC-Ka-AYb" customClass="ExtensionViewController" customModule="passExtension" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="TbF-II-itz"/>
-                        <viewControllerLayoutGuide type="bottom" id="9b9-wt-KCV"/>
+                        <viewControllerLayoutGuide type="top" id="kSO-tI-r1g"/>
+                        <viewControllerLayoutGuide type="bottom" id="TYK-kT-vkH"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="g9r-Vt-nbj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="KNT-Mp-tgV">
-                                <rect key="frame" x="0.0" y="10" width="375" height="657"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" translucent="NO" id="xuO-jY-YRU">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
@@ -58,10 +58,10 @@
                             </tableView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="9b9-wt-KCV" firstAttribute="top" secondItem="KNT-Mp-tgV" secondAttribute="bottom" id="QmJ-ga-YtN"/>
+                            <constraint firstItem="KNT-Mp-tgV" firstAttribute="top" secondItem="kSO-tI-r1g" secondAttribute="bottom" id="1Mo-as-yNc"/>
+                            <constraint firstItem="TYK-kT-vkH" firstAttribute="top" secondItem="KNT-Mp-tgV" secondAttribute="bottom" id="RUo-Zw-D5C"/>
                             <constraint firstItem="KNT-Mp-tgV" firstAttribute="leading" secondItem="g9r-Vt-nbj" secondAttribute="leading" id="Tre-Kp-RiI"/>
                             <constraint firstAttribute="trailing" secondItem="KNT-Mp-tgV" secondAttribute="trailing" id="YPI-WX-ffM"/>
-                            <constraint firstItem="KNT-Mp-tgV" firstAttribute="top" secondItem="TbF-II-itz" secondAttribute="bottom" constant="-34" id="gEU-KX-dLn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Password Store" id="MEN-Kg-v16">

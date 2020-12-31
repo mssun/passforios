@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -17,18 +16,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XmI-l4-SgT">
-                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" text="" id="MmN-WX-sur">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <textInputTraits key="textInputTraits"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                 </searchBar>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="passwordTableViewCell" textLabel="U0x-8f-AET" detailTextLabel="kY1-Ac-C3d" style="IBUITableViewCellStyleValue1" id="fXA-SG-IOe" customClass="PasswordDetailTitleTableViewCell" customModule="pass">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="passwordTableViewCell" textLabel="U0x-8f-AET" detailTextLabel="kY1-Ac-C3d" style="IBUITableViewCellStyleValue1" id="fXA-SG-IOe" customClass="PasswordDetailTitleTableViewCell" customModule="pass">
                                         <rect key="frame" x="0.0" y="84" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fXA-SG-IOe" id="KPa-Az-i6V">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fXA-SG-IOe" id="KPa-Az-i6V">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
@@ -52,13 +51,12 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="Ky8-vK-JVj"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Ky8-vK-JVj" firstAttribute="bottom" secondItem="XmI-l4-SgT" secondAttribute="bottom" id="5FB-pZ-UB8"/>
-                            <constraint firstItem="Ky8-vK-JVj" firstAttribute="trailing" secondItem="XmI-l4-SgT" secondAttribute="trailing" id="UU8-e6-4iA"/>
-                            <constraint firstItem="XmI-l4-SgT" firstAttribute="top" secondItem="Ky8-vK-JVj" secondAttribute="top" id="cXC-1s-cMI"/>
-                            <constraint firstItem="XmI-l4-SgT" firstAttribute="leading" secondItem="Ky8-vK-JVj" secondAttribute="leading" id="nvS-L5-BHk"/>
+                            <constraint firstAttribute="bottom" secondItem="XmI-l4-SgT" secondAttribute="bottom" id="5FB-pZ-UB8"/>
+                            <constraint firstAttribute="trailing" secondItem="XmI-l4-SgT" secondAttribute="trailing" id="UU8-e6-4iA"/>
+                            <constraint firstItem="XmI-l4-SgT" firstAttribute="top" secondItem="BuU-Ak-iZz" secondAttribute="top" id="cXC-1s-cMI"/>
+                            <constraint firstItem="XmI-l4-SgT" firstAttribute="leading" secondItem="BuU-Ak-iZz" secondAttribute="leading" id="nvS-L5-BHk"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Password Store" id="apM-bN-eca">
