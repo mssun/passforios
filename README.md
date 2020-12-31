@@ -3,7 +3,7 @@
 # Pass
 [![GitHub release](https://img.shields.io/github/release/mssun/passforios.svg)](https://github.com/mssun/passforios/releases)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/passforios/passforios)
-[![Build Status](https://github.com/mssun/passforios/workflows/Testing/badge.svg)](https://github.com/mssun/passforios/actions)
+[![Build Status](https://github.com/mssun/passforios/workflows/Deploying/badge.svg)](https://github.com/mssun/passforios/actions)
 [![Donate](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.me/mssun)
 
 Pass is an iOS client compatible with [ZX2C4's Pass command line application](http://www.passwordstore.org/).
