@@ -72,15 +72,15 @@ platform :ios do
   lane :beta do
     app_identifier = "me.mssun.passforiosbeta"
 
-    create_keychain(
-      name: ENV["MATCH_KEYCHAIN_NAME"],
-      password: ENV["MATCH_KEYCHAIN_PASSWORD"],
-      default_keychain: false,
-      unlock: true,
-      timeout: 3600,
-      add_to_search_list: true
-    )
     if is_ci?
+      create_keychain(
+        name: ENV["MATCH_KEYCHAIN_NAME"],
+        password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+        default_keychain: false,
+        unlock: true,
+        timeout: 3600,
+        add_to_search_list: true
+      )
       match_appstore_beta
     end
     increment_build_number(
@@ -119,15 +119,15 @@ platform :ios do
   lane :release do
     app_identifier = "me.mssun.passforios"
 
-    create_keychain(
-      name: ENV["MATCH_KEYCHAIN_NAME"],
-      password: ENV["MATCH_KEYCHAIN_PASSWORD"],
-      default_keychain: false,
-      unlock: true,
-      timeout: 3600,
-      add_to_search_list: true
-    )
     if is_ci?
+      create_keychain(
+        name: ENV["MATCH_KEYCHAIN_NAME"],
+        password: ENV["MATCH_KEYCHAIN_PASSWORD"],
+        default_keychain: false,
+        unlock: true,
+        timeout: 3600,
+        add_to_search_list: true
+      )
       match_appstore
     end
     increment_build_number(
