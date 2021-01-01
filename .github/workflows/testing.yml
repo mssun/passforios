@@ -12,6 +12,7 @@ jobs:
         brew install libtool automake cmake carthage go@1.14 swiftlint swiftformat openssl libssh2
         gem install bundler
         ./scripts/wcarthage bootstrap --platform iOS --no-use-binaries --no-build
+        export OPENSSL_ROOT_DIR=/usr/local/opt/openssl
         cmake Carthage/Checkouts/objective-git/External/libgit2
     - uses: actions/cache@v2
       with:
