@@ -9,7 +9,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Installing packages
       run: |
-        brew install libtool automake cmake carthage go@1.14 swiftlint swiftformat openssl
+        brew install libtool automake cmake carthage go@1.14 swiftlint swiftformat openssl libssh2
         gem install bundler
     - uses: actions/cache@v2
       with:
