@@ -45,7 +45,9 @@ jobs:
       run: bundle exec pod install
     - name: Carthage
       if: steps.carthage-cache.outputs.cache-hit != 'true'
-      run: ./scripts/wcarthage bootstrap --platform iOS --no-use-binaries --cache-builds
+      run: |
+        export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig:/usr/local/opt/libssh2/lib/pkgconfig/"
+        ./scripts/wcarthage bootstrap --platform iOS --no-use-binaries --cache-builds
     - name: GopenPGP
       if: steps.gopenpgp-cache.outputs.cache-hit != 'true'
       run: |
