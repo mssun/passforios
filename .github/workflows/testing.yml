@@ -16,27 +16,27 @@ jobs:
         path: vendor/bundle
         key: ${{ runner.os }}-gems-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
-          ${{ runner.os }}-gems-
+          ${{ runner.os }}-gems-${{ secrets.CACHE_VERSION }}-
     - uses: actions/cache@v2
       id: carthage-cache
       with:
         path: Carthage
         key: ${{ runner.os }}-carthage-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/Cartfile.resolved') }}
         restore-keys: |
-          ${{ runner.os }}-carthage-
+          ${{ runner.os }}-carthage-${{ secrets.CACHE_VERSION }}-
     - uses: actions/cache@v2
       with:
         path: Pods
         key: ${{ runner.os }}-pods-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/Podfile.lock') }}
         restore-keys: |
-          ${{ runner.os }}-pods-
+          ${{ runner.os }}-pods-${{ secrets.CACHE_VERSION }}-
     - uses: actions/cache@v2
       id: gopenpgp-cache
       with:
         path: go
         key: ${{ runner.os }}-gopenpgp-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/gopenpgp_build.sh') }}
         restore-keys: |
-          ${{ runner.os }}-gopenpgp-
+          ${{ runner.os }}-gopenpgp-${{ secrets.CACHE_VERSION }}-
     - name: Bundle Install
       run: |
         bundle config path vendor/bundle
