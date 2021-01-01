@@ -16,7 +16,7 @@ class PasswordsViewController: UIViewController {
     var dataSource: PasswordsTableDataSource!
     weak var selectionDelegate: PasswordSelectionDelegate?
 
-    var searchController: UISearchController {
+    lazy var searchController: UISearchController = {
         let uiSearchController = UISearchController(searchResultsController: nil)
         uiSearchController.searchBar.isTranslucent = true
         uiSearchController.obscuresBackgroundDuringPresentation = false
@@ -25,7 +25,7 @@ class PasswordsViewController: UIViewController {
             uiSearchController.searchBar.searchTextField.clearButtonMode = .whileEditing
         }
         return uiSearchController
-    }
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
