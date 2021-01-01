@@ -101,8 +101,15 @@
 		556EC3DA22335D3400934F9C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DBF21F3599E00BB27BB /* InfoPlist.strings */; };
 		556EC3DB22335D3D00934F9C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DBF21F3599E00BB27BB /* InfoPlist.strings */; };
 		8BA607EB4C9C8258741AC18C /* Pods_passExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14E955B67C88672AA3A40BA0 /* Pods_passExtension.framework */; };
+		9A55C158259E785600FA8FD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
+		9A55C15F259E785700FA8FD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
+		9A55C185259E8C5600FA8FD9 /* PasswordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A55C184259E8C5600FA8FD9 /* PasswordsViewController.swift */; };
 		9A652414244BB33300DA0A41 /* UIAlertActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A652413244BB33300DA0A41 /* UIAlertActionExtension.swift */; };
 		9A8A8387402FCCCECB1232A4 /* Pods_passKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2B2F844061EFA534FE9506 /* Pods_passKitTests.framework */; };
+		9A8F9EBD259EA4C50027CE15 /* PasswordsTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EBC259EA4C50027CE15 /* PasswordsTableDataSource.swift */; };
+		9A8F9ECC259ECB410027CE15 /* PasswordSelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9ECB259ECB410027CE15 /* PasswordSelectionDelegate.swift */; };
+		9A8F9EE2259EDD520027CE15 /* PasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */; };
+		9A8F9EF0259EE01A0027CE15 /* PasswordDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EEF259EE01A0027CE15 /* PasswordDecryptor.swift */; };
 		9ADC954124418A5F0005402E /* PasswordStoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADC954024418A5F0005402E /* PasswordStoreTest.swift */; };
 		A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */; };
 		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift */; };
@@ -363,7 +370,12 @@
 		9A1EF0B424C50E780074FEAC /* passBetaAutoFillExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passBetaAutoFillExtension.entitlements; sourceTree = "<group>"; };
 		9A1EF0B524C50EE00074FEAC /* passBetaExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passBetaExtension.entitlements; sourceTree = "<group>"; };
 		9A1EF0B624C50FEA0074FEAC /* passBetaShortcuts.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passBetaShortcuts.entitlements; sourceTree = "<group>"; };
+		9A55C184259E8C5600FA8FD9 /* PasswordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordsViewController.swift; sourceTree = "<group>"; };
 		9A652413244BB33300DA0A41 /* UIAlertActionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertActionExtension.swift; sourceTree = "<group>"; };
+		9A8F9EBC259EA4C50027CE15 /* PasswordsTableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordsTableDataSource.swift; sourceTree = "<group>"; };
+		9A8F9ECB259ECB410027CE15 /* PasswordSelectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSelectionDelegate.swift; sourceTree = "<group>"; };
+		9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTableViewCell.swift; sourceTree = "<group>"; };
+		9A8F9EEF259EE01A0027CE15 /* PasswordDecryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordDecryptor.swift; sourceTree = "<group>"; };
 		9ADC954024418A5F0005402E /* PasswordStoreTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStoreTest.swift; sourceTree = "<group>"; };
 		A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurePasteboard.swift; sourceTree = "<group>"; };
 		A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = GitConfigSettingsTableViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -689,6 +701,31 @@
 			path = Crypto;
 			sourceTree = "<group>";
 		};
+		9A8F9EBB259EA4A80027CE15 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9A8F9EBC259EA4C50027CE15 /* PasswordsTableDataSource.swift */,
+				9A8F9EEF259EE01A0027CE15 /* PasswordDecryptor.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		9A8F9ECA259ECAFC0027CE15 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				9A8F9ECB259ECB410027CE15 /* PasswordSelectionDelegate.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		9A8F9EE0259EDD390027CE15 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		A2168A801EFD431A005EA873 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -709,6 +746,9 @@
 		A239F5972158C08C00576CBF /* passAutoFillExtension */ = {
 			isa = PBXGroup;
 			children = (
+				9A8F9EE0259EDD390027CE15 /* Views */,
+				9A8F9ECA259ECAFC0027CE15 /* Protocols */,
+				9A8F9EBB259EA4A80027CE15 /* Services */,
 				A239F5A921591E3700576CBF /* Controllers */,
 				A239F59E2158C08C00576CBF /* passAutoFillExtension.entitlements */,
 				9A1EF0B424C50E780074FEAC /* passBetaAutoFillExtension.entitlements */,
@@ -722,6 +762,7 @@
 			isa = PBXGroup;
 			children = (
 				30697C5221F63E0B0064FCAC /* CredentialProviderViewController.swift */,
+				9A55C184259E8C5600FA8FD9 /* PasswordsViewController.swift */,
 				30697C5121F63E0B0064FCAC /* PasscodeExtensionDisplay.swift */,
 			);
 			path = Controllers;
@@ -1231,6 +1272,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A55C15F259E785700FA8FD9 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1242,6 +1284,7 @@
 				556EC3D322335C5F00934F9C /* Localizable.strings in Resources */,
 				556EC3D422335C5F00934F9C /* Localizable.stringsdict in Resources */,
 				A239F59C2158C08C00576CBF /* MainInterface.storyboard in Resources */,
+				9A55C158259E785600FA8FD9 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1508,8 +1551,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A8F9EE2259EDD520027CE15 /* PasswordTableViewCell.swift in Sources */,
+				9A8F9ECC259ECB410027CE15 /* PasswordSelectionDelegate.swift in Sources */,
 				30697C5421F63E0B0064FCAC /* CredentialProviderViewController.swift in Sources */,
+				9A55C185259E8C5600FA8FD9 /* PasswordsViewController.swift in Sources */,
+				9A8F9EBD259EA4C50027CE15 /* PasswordsTableDataSource.swift in Sources */,
 				30697C5321F63E0B0064FCAC /* PasscodeExtensionDisplay.swift in Sources */,
+				9A8F9EF0259EE01A0027CE15 /* PasswordDecryptor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1886,7 +1934,7 @@
 					"$(SDKROOT)/usr/include/libxml2",
 					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_SWIFT_FLAGS = "-D BETA";
 				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforiosbeta;
@@ -2459,7 +2507,7 @@
 					"$(SDKROOT)/usr/include/libxml2",
 					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios;
@@ -2524,7 +2572,7 @@
 					"$(SDKROOT)/usr/include/libxml2",
 					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios;
 				PRODUCT_NAME = Pass;

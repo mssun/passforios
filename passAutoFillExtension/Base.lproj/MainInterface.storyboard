@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Aeb-0C-dDR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7M4-H6-S4B">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Password Store-->
         <scene sceneID="Uma-9u-xWV">
             <objects>
-                <viewController id="Xki-Si-B7m" customClass="CredentialProviderViewController" customModule="passAutoFillExtension" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Xki-Si-B7m" customClass="PasswordsViewController" customModule="passAutoFillExtension" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BuU-Ak-iZz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XmI-l4-SgT">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="XmI-l4-SgT">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" text="" id="MmN-WX-sur">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <textInputTraits key="textInputTraits" autocorrectionType="no"/>
-                                </searchBar>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="passwordTableViewCell" textLabel="U0x-8f-AET" detailTextLabel="kY1-Ac-C3d" style="IBUITableViewCellStyleValue1" id="fXA-SG-IOe" customClass="PasswordDetailTitleTableViewCell" customModule="pass">
-                                        <rect key="frame" x="0.0" y="84" width="375" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="passwordTableViewCell" textLabel="U0x-8f-AET" detailTextLabel="kY1-Ac-C3d" style="IBUITableViewCellStyleValue1" id="fXA-SG-IOe" customClass="PasswordTableViewCell" customModule="passAutoFillExtension" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fXA-SG-IOe" id="KPa-Az-i6V">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -52,34 +50,52 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="XmI-l4-SgT" secondAttribute="bottom" id="5FB-pZ-UB8"/>
-                            <constraint firstAttribute="trailing" secondItem="XmI-l4-SgT" secondAttribute="trailing" id="UU8-e6-4iA"/>
-                            <constraint firstItem="XmI-l4-SgT" firstAttribute="top" secondItem="BuU-Ak-iZz" secondAttribute="top" id="cXC-1s-cMI"/>
-                            <constraint firstItem="XmI-l4-SgT" firstAttribute="leading" secondItem="BuU-Ak-iZz" secondAttribute="leading" id="nvS-L5-BHk"/>
-                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Password Store" id="apM-bN-eca">
+                    <navigationItem key="navigationItem" title="Password Store" prompt="url" id="apM-bN-eca">
                         <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="zCC-lm-1xr">
                             <connections>
-                                <action selector="cancel:" destination="Xki-Si-B7m" id="3tK-C9-LKo"/>
+                                <action selector="cancel:" destination="Xki-Si-B7m" id="CgJ-49-QwT"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="searchBar" destination="MmN-WX-sur" id="KZk-g3-9Ox"/>
-                        <outlet property="tableView" destination="XmI-l4-SgT" id="2yd-Uj-96H"/>
+                        <outlet property="tableView" destination="XmI-l4-SgT" id="9k1-t7-Xnc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RwB-HB-TSk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="992.79999999999995" y="26.53673163418291"/>
         </scene>
+        <!--Credential Provider View Controller-->
+        <scene sceneID="Ebu-3J-rOU">
+            <objects>
+                <viewController id="7M4-H6-S4B" customClass="CredentialProviderViewController" customModule="passAutoFillExtension" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="12l-99-QNG">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jMU-nF-QHX">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <connections>
+                                    <segue destination="Aeb-0C-dDR" kind="embed" id="9kf-tv-qXf"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="e5d-UG-xz5"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9jE-qW-0uN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-946.39999999999998" y="26.53673163418291"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="mg9-JA-x9T">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Aeb-0C-dDR" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="d0b-i7-rXf"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="RMW-As-go6">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -94,4 +110,9 @@
             <point key="canvasLocation" x="53.600000000000001" y="26.53673163418291"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
