@@ -14,27 +14,27 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: vendor/bundle
-        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        key: ${{ runner.os }}-gems-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-gems-
     - uses: actions/cache@v2
       id: carthage-cache
       with:
         path: Carthage
-        key: ${{ runner.os }}-carthage-${{ hashFiles('**/Cartfile.resolved') }}
+        key: ${{ runner.os }}-carthage-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/Cartfile.resolved') }}
         restore-keys: |
           ${{ runner.os }}-carthage-
     - uses: actions/cache@v2
       with:
         path: Pods
-        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        key: ${{ runner.os }}-pods-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/Podfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-pods-
     - uses: actions/cache@v2
       id: gopenpgp-cache
       with:
         path: go
-        key: ${{ runner.os }}-gopenpgp-${{ hashFiles('**/gopenpgp_build.sh') }}
+        key: ${{ runner.os }}-gopenpgp-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/gopenpgp_build.sh') }}
         restore-keys: |
           ${{ runner.os }}-gopenpgp-
     - name: Bundle Install
