@@ -9,30 +9,22 @@
 import UIKit
 import passKit
 
-func decryptPassword(in controller: UIViewController, with passwordEntity: PasswordEntity, using keyID: String? = nil, completion: @escaping ((Password) -> Void)) {
-    DispatchQueue.global(qos: .userInteractive).async {
-        do {
-            let requestPGPKeyPassphrase = Utils.createRequestPGPKeyPassphraseHandler(controller: controller)
-            let decryptedPassword = try PasswordStore.shared.decrypt(passwordEntity: passwordEntity, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+func decryptPassword(in controller: UIViewController, with passwordPath: String, using keyID: String? = nil, completion: @escaping ((Password) -> Void)) {
+    do {
+        let requestPGPKeyPassphrase = Utils.createRequestPGPKeyPassphraseHandler(controller: controller)
+        let decryptedPassword = try PasswordStore.shared.decrypt(path: passwordPath, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
 
-            DispatchQueue.main.async {
-                completion(decryptedPassword)
-            }
-        } catch let AppError.pgpPrivateKeyNotFound(keyID: key) {
-            DispatchQueue.main.async {
-                let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.pgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
-                alert.addAction(UIAlertAction.cancelAndPopView(controller: controller))
-                let selectKey = UIAlertAction.selectKey(controller: controller) { action in
-                    decryptPassword(in: controller, with: passwordEntity, using: action.title, completion: completion)
-                }
-                alert.addAction(selectKey)
-
-                controller.present(alert, animated: true)
-            }
-        } catch {
-            DispatchQueue.main.async {
-                Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: controller)
-            }
+        completion(decryptedPassword)
+    } catch let AppError.pgpPrivateKeyNotFound(keyID: key) {
+        let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.pgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction.cancelAndPopView(controller: controller))
+        let selectKey = UIAlertAction.selectKey(controller: controller) { action in
+            decryptPassword(in: controller, with: passwordPath, using: action.title, completion: completion)
         }
+        alert.addAction(selectKey)
+
+        controller.present(alert, animated: true)
+    } catch {
+        Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: controller)
     }
 }

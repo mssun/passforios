@@ -345,6 +345,17 @@ public class PasswordStore {
         }
     }
 
+    public func fetchPasswordEntity(with path: String) -> PasswordEntity? {
+        let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
+        passwordEntityFetchRequest.predicate = NSPredicate(format: "path = %@", path)
+        do {
+            let passwordEntities = try context.fetch(passwordEntityFetchRequest) as! [PasswordEntity]
+            return passwordEntities.first
+        } catch {
+            fatalError("FailedToFetchPasswords".localize(error))
+        }
+    }
+
     public func setAllSynced() {
         let passwordEntities = fetchUnsyncedPasswords()
         if !passwordEntities.isEmpty {
@@ -686,6 +697,13 @@ public class PasswordStore {
         let plainText = String(data: decryptedData, encoding: .utf8) ?? ""
         let url = try passwordEntity.getURL()
         return Password(name: passwordEntity.getName(), url: url, plainText: plainText)
+    }
+
+    public func decrypt(path: String, keyID: String? = nil, requestPGPKeyPassphrase: @escaping (String) -> String) throws -> Password {
+        guard let passwordEntity = fetchPasswordEntity(with: path) else {
+            throw AppError.decryption
+        }
+        return try decrypt(passwordEntity: passwordEntity, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
     }
 
     public func encrypt(password: Password, keyID: String? = nil) throws -> Data {

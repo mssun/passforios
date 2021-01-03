@@ -22,6 +22,8 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
         embeddedNavigationController.viewControllers.first as! PasswordsViewController
     }
 
+    lazy var credentialProvider = CredentialProvider(viewController: self, extensionContext: self.extensionContext)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         passcodelock.presentPasscodeLockIfNeeded(self)
@@ -33,10 +35,15 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
     }
 
     override func prepareCredentialList(for serviceIdentifiers: [ASCredentialServiceIdentifier]) {
+        credentialProvider.identifier = serviceIdentifiers.first
         let url = serviceIdentifiers.first.flatMap { URL(string: $0.identifier) }
         passwordsViewController.navigationItem.prompt = url?.host
         let keywords = url?.host?.sanitizedDomain?.components(separatedBy: ".") ?? []
         passwordsViewController.showPasswordsWithSuggstion(keywords)
+    }
+
+    override func provideCredentialWithoutUserInteraction(for credentialIdentity: ASPasswordCredentialIdentity) {
+        credentialProvider.credentials(for: credentialIdentity)
     }
 }
 
@@ -44,12 +51,7 @@ extension CredentialProviderViewController: PasswordSelectionDelegate {
     func selected(password: PasswordTableEntry) {
         let passwordEntity = password.passwordEntity
 
-        decryptPassword(in: self, with: passwordEntity) { password in
-            let username = password.getUsernameForCompletion()
-            let password = password.password
-            let passwordCredential = ASPasswordCredential(user: username, password: password)
-            self.extensionContext.completeRequest(withSelectedCredential: passwordCredential)
-        }
+        credentialProvider.persistAndProvideCredentials(with: passwordEntity.getPath())
     }
 }
 
