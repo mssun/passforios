@@ -27,16 +27,25 @@ class PasswordsViewController: UIViewController {
         return uiSearchController
     }()
 
+    lazy var searchBar: UISearchBar = {
+        self.searchController.searchBar
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
 
-        searchController.searchBar.delegate = self
+        searchBar.delegate = self
 
         tableView.delegate = self
         tableView.dataSource = dataSource
+    }
+
+    func showPasswordsWithSuggstion(_ keywords: [String]) {
+        dataSource.showTableEntriesWithSuggestion(matching: keywords)
+        tableView.reloadData()
     }
 
     @IBAction

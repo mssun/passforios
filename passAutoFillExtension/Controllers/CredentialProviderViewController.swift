@@ -35,6 +35,8 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
     override func prepareCredentialList(for serviceIdentifiers: [ASCredentialServiceIdentifier]) {
         let url = serviceIdentifiers.first.flatMap { URL(string: $0.identifier) }
         passwordsViewController.navigationItem.prompt = url?.host
+        let keywords = url?.host?.sanitizedDomain?.components(separatedBy: ".") ?? []
+        passwordsViewController.showPasswordsWithSuggstion(keywords)
     }
 }
 
@@ -48,5 +50,16 @@ extension CredentialProviderViewController: PasswordSelectionDelegate {
             let passwordCredential = ASPasswordCredential(user: username, password: password)
             self.extensionContext.completeRequest(withSelectedCredential: passwordCredential)
         }
+    }
+}
+
+private extension String {
+    var sanitizedDomain: String? {
+        replacingOccurrences(of: ".com", with: "")
+            .replacingOccurrences(of: ".org", with: "")
+            .replacingOccurrences(of: ".edu", with: "")
+            .replacingOccurrences(of: ".net", with: "")
+            .replacingOccurrences(of: ".gov", with: "")
+            .replacingOccurrences(of: "www.", with: "")
     }
 }
