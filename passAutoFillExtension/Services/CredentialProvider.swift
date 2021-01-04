@@ -23,28 +23,32 @@ class CredentialProvider {
         guard let recordIdentifier = identity.recordIdentifier else {
             return
         }
-        guard let pwCredentials = provideCredentials(in: viewController, with: recordIdentifier) else {
-            return
-        }
 
-        extensionContext?.completeRequest(withSelectedCredential: pwCredentials)
+        provideCredentials(in: viewController, with: recordIdentifier) { credential in
+            guard let credential = credential else {
+                return
+            }
+            self.extensionContext?.completeRequest(withSelectedCredential: credential)
+        }
     }
 
     func persistAndProvideCredentials(with passwordPath: String) {
-        guard let pwCredentials = provideCredentials(in: viewController, with: passwordPath) else {
-            return
-        }
-        guard let credentialIdentity = provideCredentialIdentity(for: identifier, user: pwCredentials.user, recordIdentifier: passwordPath) else {
-            return
-        }
-
-        let store = ASCredentialIdentityStore.shared
-        store.getState { state in
-            if state.isEnabled {
-                ASCredentialIdentityStore.shared.saveCredentialIdentities([credentialIdentity])
+        provideCredentials(in: viewController, with: passwordPath) { credential in
+            guard let credential = credential else {
+                return
             }
+            guard let credentialIdentity = provideCredentialIdentity(for: self.identifier, user: credential.user, recordIdentifier: passwordPath) else {
+                return
+            }
+
+            let store = ASCredentialIdentityStore.shared
+            store.getState { state in
+                if state.isEnabled {
+                    ASCredentialIdentityStore.shared.saveCredentialIdentities([credentialIdentity])
+                }
+            }
+            self.extensionContext?.completeRequest(withSelectedCredential: credential)
         }
-        extensionContext?.completeRequest(withSelectedCredential: pwCredentials)
     }
 }
 
@@ -55,16 +59,14 @@ private func provideCredentialIdentity(for identifier: ASCredentialServiceIdenti
     return ASPasswordCredentialIdentity(serviceIdentifier: serviceIdentifier, user: user, recordIdentifier: recordIdentifier)
 }
 
-private func provideCredentials(in viewController: UIViewController?, with path: String) -> ASPasswordCredential? {
-    print(path)
+private func provideCredentials(in viewController: UIViewController?, with path: String, completion: @escaping ((ASPasswordCredential?) -> Void)) {
     guard let viewController = viewController else {
-        return nil
+        return
     }
-    var credential: ASPasswordCredential?
     decryptPassword(in: viewController, with: path) { password in
         let username = password.getUsernameForCompletion()
         let password = password.password
-        credential = ASPasswordCredential(user: username, password: password)
+        let credential = ASPasswordCredential(user: username, password: password)
+        completion(credential)
     }
-    return credential
 }

@@ -79,7 +79,7 @@ extension PasswordsViewController: UITableViewDelegate {
             if indexPath.section == 0 {
                 entry = dataSource.suggestedPasswordsTableEntries[indexPath.row]
             } else {
-                entry = dataSource.filteredPasswordsTableEntries[indexPath.row]
+                entry = dataSource.otherPasswordsTableEntries[indexPath.row]
             }
         } else {
             entry = dataSource.filteredPasswordsTableEntries[indexPath.row]

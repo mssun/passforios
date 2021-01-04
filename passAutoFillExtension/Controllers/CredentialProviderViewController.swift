@@ -43,7 +43,21 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
     }
 
     override func provideCredentialWithoutUserInteraction(for credentialIdentity: ASPasswordCredentialIdentity) {
-        credentialProvider.credentials(for: credentialIdentity)
+        credentialProvider.identifier = credentialIdentity.serviceIdentifier
+        if !PasscodeLock.shared.hasPasscode, Defaults.isRememberPGPPassphraseOn {
+            credentialProvider.credentials(for: credentialIdentity)
+        } else {
+            extensionContext.cancelRequest(withError: NSError(domain: ASExtensionErrorDomain, code: ASExtensionError.userInteractionRequired.rawValue))
+        }
+    }
+
+    override func prepareInterfaceToProvideCredential(for credentialIdentity: ASPasswordCredentialIdentity) {
+        guard let identifier = credentialIdentity.recordIdentifier else {
+            return
+        }
+        credentialProvider.identifier = credentialIdentity.serviceIdentifier
+        passwordsViewController.navigationItem.prompt = identifier
+        passwordsViewController.showPasswordsWithSuggstion([identifier])
     }
 }
 
