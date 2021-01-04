@@ -32,29 +32,25 @@ class PasscodeLockViewControllerForExtension: PasscodeLockViewController {
 }
 
 class PasscodeExtensionDisplay {
-    private var isPasscodePresented = false
     private let passcodeLockVC: PasscodeLockViewControllerForExtension
     private let extensionContext: ASCredentialProviderExtensionContext?
 
     init(extensionContext: ASCredentialProviderExtensionContext) {
         self.extensionContext = extensionContext
         self.passcodeLockVC = PasscodeLockViewControllerForExtension(extensionContext: extensionContext)
-        passcodeLockVC.dismissCompletionCallback = { [weak self] in
-            self?.dismiss()
-        }
         passcodeLockVC.setCancellable(true)
     }
 
     // present the passcode lock view if passcode is set and the view controller is not presented
     func presentPasscodeLockIfNeeded(_ extensionVC: UIViewController) {
-        guard PasscodeLock.shared.hasPasscode, !isPasscodePresented == true else {
+        extensionVC.view.isHidden = true
+        guard PasscodeLock.shared.hasPasscode else {
+            extensionVC.view.isHidden = false
             return
         }
-        isPasscodePresented = true
-        extensionVC.present(passcodeLockVC, animated: true, completion: nil)
-    }
-
-    func dismiss(animated _: Bool = true) {
-        isPasscodePresented = false
+        passcodeLockVC.modalPresentationStyle = .fullScreen
+        extensionVC.present(passcodeLockVC, animated: false) {
+            extensionVC.view.isHidden = false
+        }
     }
 }
