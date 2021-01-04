@@ -91,13 +91,9 @@ class PasswordsTableDataSource: NSObject, UITableViewDataSource {
         showSuggestion = false
     }
 
-    func showTableEntriesWithSuggestion(matching keywords: [String]) {
+    func showTableEntriesWithSuggestion(matching text: String) {
         for entry in passwordTableEntries {
-            var match = false
-            for keyword in keywords {
-                match = match || entry.match(keyword)
-            }
-            if match {
+            if entry.match(text) {
                 suggestedPasswordsTableEntries.append(entry)
             } else {
                 otherPasswordsTableEntries.append(entry)

@@ -38,8 +38,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
         credentialProvider.identifier = serviceIdentifiers.first
         let url = serviceIdentifiers.first.flatMap { URL(string: $0.identifier) }
         passwordsViewController.navigationItem.prompt = url?.host
-        let keywords = url?.host?.sanitizedDomain?.components(separatedBy: ".") ?? []
-        passwordsViewController.showPasswordsWithSuggstion(keywords)
+        passwordsViewController.showPasswordsWithSuggstion(matching: url?.host ?? "")
     }
 
     override func provideCredentialWithoutUserInteraction(for credentialIdentity: ASPasswordCredentialIdentity) {
@@ -57,7 +56,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
         }
         credentialProvider.identifier = credentialIdentity.serviceIdentifier
         passwordsViewController.navigationItem.prompt = identifier
-        passwordsViewController.showPasswordsWithSuggstion([identifier])
+        passwordsViewController.showPasswordsWithSuggstion(matching: identifier)
     }
 }
 
@@ -66,16 +65,5 @@ extension CredentialProviderViewController: PasswordSelectionDelegate {
         let passwordEntity = password.passwordEntity
 
         credentialProvider.persistAndProvideCredentials(with: passwordEntity.getPath())
-    }
-}
-
-private extension String {
-    var sanitizedDomain: String? {
-        replacingOccurrences(of: ".com", with: "")
-            .replacingOccurrences(of: ".org", with: "")
-            .replacingOccurrences(of: ".edu", with: "")
-            .replacingOccurrences(of: ".net", with: "")
-            .replacingOccurrences(of: ".gov", with: "")
-            .replacingOccurrences(of: "www.", with: "")
     }
 }
