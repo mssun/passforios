@@ -262,6 +262,7 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
         SVProgressHUD.setDefaultMaskType(.black)
         tableView.register(UINib(nibName: "PasswordWithFolderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordWithFolderTableViewCell")
+        tableView.register(PasswordTableViewCell.self, forCellReuseIdentifier: "passwordTableViewCell")
 
         // initialize the password table
         reloadTableView(parent: nil)
@@ -356,25 +357,10 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
             return recognizer
         }()
         let entry = getPasswordEntry(by: indexPath)
-        let passwordEntity = entry.passwordEntity
-        let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
-
-        cell.textLabel?.text = passwordEntity.synced ? entry.title : "↻ \(entry.title)"
-        cell.textLabel?.font = UIFont.preferredFont(forTextStyle: .body)
-        cell.textLabel?.adjustsFontForContentSizeCategory = true
-        cell.accessoryType = .none
-        cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
-        cell.detailTextLabel?.adjustsFontForContentSizeCategory = true
-        cell.addGestureRecognizer(longPressGestureRecognizer)
-
-        if entry.isDir {
-            cell.accessoryType = .disclosureIndicator
-            cell.textLabel?.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .medium)
-            cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .body)
-            cell.detailTextLabel?.text = "\(passwordEntity.children?.count ?? 0)"
-            cell.removeGestureRecognizer(longPressGestureRecognizer)
-        } else {
-            cell.detailTextLabel?.text = passwordEntity.getCategoryText()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath) as! PasswordTableViewCell
+        cell.configure(with: entry)
+        if !entry.isDir {
+            cell.addGestureRecognizer(longPressGestureRecognizer)
         }
 
         return cell

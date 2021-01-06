@@ -30,7 +30,7 @@
                                     <textInputTraits key="textInputTraits"/>
                                 </searchBar>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="passwordTableViewCell" textLabel="LUo-8T-I4j" detailTextLabel="9ik-sy-sTS" style="IBUITableViewCellStyleValue1" id="T2b-vj-fza">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="passwordTableViewCell" textLabel="LUo-8T-I4j" detailTextLabel="9ik-sy-sTS" style="IBUITableViewCellStyleValue1" id="T2b-vj-fza" customClass="PasswordTableViewCell" customModule="passExtension" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="84" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T2b-vj-fza" id="aVb-V4-hqg">

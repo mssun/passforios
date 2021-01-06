@@ -52,7 +52,7 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
         searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: "PasswordWithFolderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordWithFolderTableViewCell")
+        tableView.register(PasswordTableViewCell.self, forCellReuseIdentifier: "passwordTableViewCell")
 
         // initialize table entries
         initPasswordsTableEntries()
@@ -109,16 +109,10 @@ class ExtensionViewController: UIViewController, UITableViewDataSource, UITableV
 
     // define cell contents, and set long press action
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath) as! PasswordTableViewCell
         let entry = getPasswordEntry(by: indexPath)
-        if entry.synced {
-            cell.textLabel?.text = entry.title
-        } else {
-            cell.textLabel?.text = "↻ \(entry.title)"
-        }
-        cell.accessoryType = .none
-        cell.detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
-        cell.detailTextLabel?.text = entry.categoryText
+        cell.configure(with: entry)
+
         return cell
     }
 
