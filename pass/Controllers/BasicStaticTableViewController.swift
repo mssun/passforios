@@ -115,6 +115,14 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
         }
     }
 
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
+
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
+
     func sendEmail(toRecipients recipients: [String], subject: String) {
         let mailVC = MFMailComposeViewController()
         mailVC.mailComposeDelegate = self

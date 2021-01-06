@@ -409,12 +409,12 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="2" indentationWidth="0.0" shouldIndentWhileEditing="NO" id="KrP-nb-haa">
                                         <rect key="frame" x="0.0" y="355.33333206176758" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KrP-nb-haa" id="1uB-oE-kfI">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="KrP-nb-haa" id="1uB-oE-kfI">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LfQ-Af-j2O">
-                                                    <rect key="frame" x="62" y="0.0" width="344" height="44.333333333333336"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LfQ-Af-j2O">
+                                                    <rect key="frame" x="62" y="8" width="344" height="28"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -429,10 +429,10 @@
                                             <constraints>
                                                 <constraint firstItem="Scc-5J-bu1" firstAttribute="leading" secondItem="1uB-oE-kfI" secondAttribute="leadingMargin" constant="15" id="8Z8-4c-oDD"/>
                                                 <constraint firstItem="LfQ-Af-j2O" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Scc-5J-bu1" secondAttribute="trailing" constant="20" id="I9d-Au-QVj"/>
-                                                <constraint firstItem="LfQ-Af-j2O" firstAttribute="top" secondItem="1uB-oE-kfI" secondAttribute="topMargin" constant="-8" id="OPg-oc-KZy"/>
+                                                <constraint firstItem="LfQ-Af-j2O" firstAttribute="top" secondItem="1uB-oE-kfI" secondAttribute="topMargin" id="OPg-oc-KZy"/>
                                                 <constraint firstItem="LfQ-Af-j2O" firstAttribute="leading" relation="lessThanOrEqual" secondItem="1uB-oE-kfI" secondAttribute="leadingMargin" constant="54" id="TCp-fd-Sim"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="LfQ-Af-j2O" secondAttribute="trailing" id="dDF-2l-XhB"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="LfQ-Af-j2O" secondAttribute="bottom" constant="-8.3333333333333357" id="e3U-qA-37g"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="LfQ-Af-j2O" secondAttribute="bottom" id="e3U-qA-37g"/>
                                                 <constraint firstItem="Scc-5J-bu1" firstAttribute="centerY" secondItem="1uB-oE-kfI" secondAttribute="centerY" id="eyS-Gb-VOi"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -441,12 +441,12 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailButton" hidesAccessoryWhenEditing="NO" indentationLevel="2" indentationWidth="0.0" shouldIndentWhileEditing="NO" id="Qmt-bo-CuJ">
                                         <rect key="frame" x="0.0" y="399.33333206176758" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qmt-bo-CuJ" id="p3u-8b-h3U">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="Qmt-bo-CuJ" id="p3u-8b-h3U">
                                             <rect key="frame" x="0.0" y="0.0" width="382" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SSH Key" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ezz-76-a53">
-                                                    <rect key="frame" x="62" y="0.0" width="311" height="44.333333333333336"/>
+                                                    <rect key="frame" x="62" y="8" width="311" height="28"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -460,10 +460,10 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="wbx-rk-i8H" firstAttribute="leading" secondItem="p3u-8b-h3U" secondAttribute="leadingMargin" constant="15" id="1gS-CT-W2C"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="Ezz-76-a53" secondAttribute="bottom" constant="-8.3333333333333357" id="NW7-VO-yjh"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Ezz-76-a53" secondAttribute="bottom" id="NW7-VO-yjh"/>
                                                 <constraint firstItem="Ezz-76-a53" firstAttribute="leading" relation="lessThanOrEqual" secondItem="p3u-8b-h3U" secondAttribute="leadingMargin" constant="54" id="Ols-7H-4Lb"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Ezz-76-a53" secondAttribute="trailing" constant="1" id="hLu-eh-HXR"/>
-                                                <constraint firstItem="Ezz-76-a53" firstAttribute="top" secondItem="p3u-8b-h3U" secondAttribute="topMargin" constant="-8" id="jVn-3g-0ax"/>
+                                                <constraint firstItem="Ezz-76-a53" firstAttribute="top" secondItem="p3u-8b-h3U" secondAttribute="topMargin" id="jVn-3g-0ax"/>
                                                 <constraint firstItem="wbx-rk-i8H" firstAttribute="centerY" secondItem="p3u-8b-h3U" secondAttribute="centerY" id="jwk-j5-WsJ"/>
                                                 <constraint firstItem="Ezz-76-a53" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="wbx-rk-i8H" secondAttribute="trailing" constant="23" id="xcB-Dt-05o"/>
                                             </constraints>
@@ -490,7 +490,6 @@
                         <outlet property="authPasswordCell" destination="KrP-nb-haa" id="zjH-sg-dfJ"/>
                         <outlet property="authSSHKeyCell" destination="Qmt-bo-CuJ" id="11L-Tt-MgM"/>
                         <outlet property="branchNameTextField" destination="VVI-gJ-e37" id="XLA-8I-yPm"/>
-                        <outlet property="gitRepositoryURLTabelViewCell" destination="FRr-pf-aPO" id="aSz-4u-NZl"/>
                         <outlet property="gitURLCell" destination="FRr-pf-aPO" id="O1e-kc-5tT"/>
                         <outlet property="gitURLTextField" destination="EVT-VU-sCi" id="XdU-3l-Nsv"/>
                         <outlet property="usernameTextField" destination="TMg-Gk-7nG" id="htL-4C-WJF"/>

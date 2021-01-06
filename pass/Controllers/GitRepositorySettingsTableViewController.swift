@@ -19,7 +19,6 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
     @IBOutlet var authSSHKeyCell: UITableViewCell!
     @IBOutlet var authPasswordCell: UITableViewCell!
     @IBOutlet var gitURLCell: UITableViewCell!
-    @IBOutlet var gitRepositoryURLTabelViewCell: UITableViewCell!
 
     // MARK: - Properties
 
@@ -104,6 +103,14 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
             }
         }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
+
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
     }
 
     // MARK: - Segue Handlers

@@ -366,6 +366,14 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
         return cell
     }
 
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
+
     private func getPasswordEntry(by indexPath: IndexPath) -> PasswordTableEntry {
         sections[indexPath.section].entries[indexPath.row]
     }

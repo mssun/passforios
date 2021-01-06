@@ -95,9 +95,11 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             hideUnknownSwitch.frame = CGRect(x: detailButton.bounds.width + 10, y: 0, width: hideUnknownSwitch.bounds.width, height: hideUnknownSwitch.bounds.height)
             detailButton.frame = CGRect(x: 0, y: 5, width: detailButton.bounds.width, height: detailButton.bounds.height)
             detailButton.addTarget(self, action: #selector(GeneralSettingsTableViewController.tapHideUnknownSwitchDetailButton(_:)), for: UIControl.Event.touchDown)
-            let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: detailButton.bounds.width + hideUnknownSwitch.bounds.width + 10, height: hideUnknownSwitch.bounds.height))
+            let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: detailButton.bounds.width + hideUnknownSwitch.bounds.width + 10, height: cell.contentView.bounds.height))
             accessoryView.addSubview(detailButton)
             accessoryView.addSubview(hideUnknownSwitch)
+            hideUnknownSwitch.center.y = accessoryView.center.y
+            detailButton.center.y = accessoryView.center.y
             cell.accessoryView = accessoryView
             cell.selectionStyle = .none
             hideUnknownSwitch.isOn = Defaults.isHideUnknownOn
@@ -107,9 +109,11 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             hideOTPSwitch.frame = CGRect(x: detailButton.bounds.width + 10, y: 0, width: hideOTPSwitch.bounds.width, height: hideOTPSwitch.bounds.height)
             detailButton.frame = CGRect(x: 0, y: 5, width: detailButton.bounds.width, height: detailButton.bounds.height)
             detailButton.addTarget(self, action: #selector(GeneralSettingsTableViewController.tapHideOTPSwitchDetailButton(_:)), for: UIControl.Event.touchDown)
-            let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: detailButton.bounds.width + hideOTPSwitch.bounds.width + 10, height: hideOTPSwitch.bounds.height))
+            let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: detailButton.bounds.width + hideOTPSwitch.bounds.width + 10, height: cell.contentView.bounds.height))
             accessoryView.addSubview(detailButton)
             accessoryView.addSubview(hideOTPSwitch)
+            hideOTPSwitch.center.y = accessoryView.center.y
+            detailButton.center.y = accessoryView.center.y
             cell.accessoryView = accessoryView
             cell.selectionStyle = .none
             hideOTPSwitch.isOn = Defaults.isHideOTPOn
@@ -131,9 +135,11 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             hidePasswordImagesSwitch.frame = CGRect(x: detailButton.bounds.width + 10, y: 0, width: hidePasswordImagesSwitch.bounds.width, height: hidePasswordImagesSwitch.bounds.height)
             detailButton.frame = CGRect(x: 0, y: 5, width: detailButton.bounds.width, height: detailButton.bounds.height)
             detailButton.addTarget(self, action: #selector(GeneralSettingsTableViewController.tapHidePasswordImagesSwitchDetailButton(_:)), for: UIControl.Event.touchDown)
-            let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: detailButton.bounds.width + hidePasswordImagesSwitch.bounds.width + 10, height: hidePasswordImagesSwitch.bounds.height))
+            let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: detailButton.bounds.width + hidePasswordImagesSwitch.bounds.width + 10, height: cell.contentView.bounds.height))
             accessoryView.addSubview(detailButton)
             accessoryView.addSubview(hidePasswordImagesSwitch)
+            hidePasswordImagesSwitch.center.y = accessoryView.center.y
+            detailButton.center.y = accessoryView.center.y
             cell.accessoryView = accessoryView
             cell.selectionStyle = .none
             hidePasswordImagesSwitch.isOn = Defaults.isHidePasswordImagesOn
