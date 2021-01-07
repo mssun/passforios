@@ -38,6 +38,7 @@ class CredentialProvider {
                 return
             }
             guard let credentialIdentity = provideCredentialIdentity(for: self.identifier, user: credential.user, recordIdentifier: passwordPath) else {
+                self.extensionContext?.completeRequest(withSelectedCredential: credential)
                 return
             }
 
