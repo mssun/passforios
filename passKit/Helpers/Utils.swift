@@ -43,7 +43,12 @@ public enum Utils {
             let sem = DispatchSemaphore(value: 0)
             var passphrase = ""
             DispatchQueue.main.async {
-                let title = "Passphrase".localize() + " (\(keyID.suffix(8)))"
+                var title: String!
+                if keyID.isEmpty {
+                    title = "Passphrase".localize()
+                } else {
+                    title = "Passphrase".localize() + " (\(keyID.suffix(8)))"
+                }
                 let message = "FillInPgpPassphrase.".localize()
                 let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                 alert.addAction(

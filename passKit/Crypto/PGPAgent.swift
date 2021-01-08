@@ -105,9 +105,9 @@ public class PGPAgent {
         // Get the PGP key passphrase.
         var passphrase = ""
         if previousDecryptStatus == false {
-            passphrase = requestPGPKeyPassphrase("default")
+            passphrase = requestPGPKeyPassphrase("")
         } else {
-            passphrase = keyStore.get(for: Globals.pgpKeyPassphrase) ?? requestPGPKeyPassphrase("default")
+            passphrase = keyStore.get(for: AppKeychain.getPGPKeyPassphraseKey(keyID: "")) ?? requestPGPKeyPassphrase("")
         }
         // Decrypt.
         guard let result = try pgpInterface!.decrypt(encryptedData: encryptedData, keyID: nil, passphrase: passphrase) else {
