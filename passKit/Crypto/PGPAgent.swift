@@ -96,6 +96,36 @@ public class PGPAgent {
         return try pgpInterface.encrypt(plainData: plainData, keyID: keyID)
     }
 
+    public func decrypt(encryptedData: Data, requestPGPKeyPassphrase: (String) -> String) throws -> Data? {
+        // Remember the previous status and set the current status
+        let previousDecryptStatus = self.latestDecryptStatus
+        self.latestDecryptStatus = false
+        // Init keys.
+        try checkAndInit()
+        // Get the PGP key passphrase.
+        var passphrase = ""
+        if previousDecryptStatus == false {
+            passphrase = requestPGPKeyPassphrase("default")
+        } else {
+            passphrase = keyStore.get(for: Globals.pgpKeyPassphrase) ?? requestPGPKeyPassphrase("default")
+        }
+        // Decrypt.
+        guard let result = try pgpInterface!.decrypt(encryptedData: encryptedData, keyID: nil, passphrase: passphrase) else {
+            return nil
+        }
+        // The decryption step has succeed.
+        self.latestDecryptStatus = true
+        return result
+    }
+
+    public func encrypt(plainData: Data) throws -> Data {
+        try checkAndInit()
+        guard let pgpInterface = pgpInterface else {
+            throw AppError.encryption
+        }
+        return try pgpInterface.encrypt(plainData: plainData, keyID: nil)
+    }
+
     public var isPrepared: Bool {
         keyStore.contains(key: PgpKey.PUBLIC.getKeychainKey())
             && keyStore.contains(key: PgpKey.PRIVATE.getKeychainKey())

@@ -689,9 +689,16 @@ public class PasswordStore {
 
     public func decrypt(passwordEntity: PasswordEntity, keyID: String? = nil, requestPGPKeyPassphrase: @escaping (String) -> String) throws -> Password {
         let encryptedDataPath = storeURL.appendingPathComponent(passwordEntity.getPath())
-        let keyID = keyID ?? findGPGID(from: encryptedDataPath)
         let encryptedData = try Data(contentsOf: encryptedDataPath)
-        guard let decryptedData = try PGPAgent.shared.decrypt(encryptedData: encryptedData, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase) else {
+        let data: Data? = try {
+            if Defaults.isIgnoreGPGIDOn {
+                return try PGPAgent.shared.decrypt(encryptedData: encryptedData, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+            } else {
+                let keyID = keyID ?? findGPGID(from: encryptedDataPath)
+                return try PGPAgent.shared.decrypt(encryptedData: encryptedData, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+            }
+        }()
+        guard let decryptedData = data else {
             throw AppError.decryption
         }
         let plainText = String(data: decryptedData, encoding: .utf8) ?? ""
@@ -703,7 +710,11 @@ public class PasswordStore {
         guard let passwordEntity = fetchPasswordEntity(with: path) else {
             throw AppError.decryption
         }
-        return try decrypt(passwordEntity: passwordEntity, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+        if Defaults.isIgnoreGPGIDOn {
+            return try decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+        } else {
+            return try decrypt(passwordEntity: passwordEntity, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+        }
     }
 
     public func encrypt(password: Password, keyID: String? = nil) throws -> Data {

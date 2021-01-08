@@ -16,6 +16,7 @@ class PasswordStoreTest: XCTestCase {
 
     func testCloneAndDecryptMultiKeys() throws {
         let url = URL(fileURLWithPath: "\(Globals.repositoryPath)-test")
+        Defaults.isIgnoreGPGIDOn = false
         let passwordStore = PasswordStore(url: url)
         try passwordStore.cloneRepository(remoteRepoURL: remoteRepoURL, branchName: "master")
         expectation(for: NSPredicate { _, _ in FileManager.default.fileExists(atPath: url.path) }, evaluatedWith: nil)
@@ -46,6 +47,7 @@ class PasswordStoreTest: XCTestCase {
         XCTAssertEqual(testPasswordPlain.plainText, "testpassword")
 
         passwordStore.erase()
+        Defaults.isIgnoreGPGIDOn = true
     }
 
     private func decrypt(passwordStore: PasswordStore, path: String, passphrase _: String) throws -> Password {

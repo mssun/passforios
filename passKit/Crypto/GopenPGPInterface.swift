@@ -70,9 +70,16 @@ struct GopenPGPInterface: PGPInterface {
         privateKeys.keys.contains { key in key.hasSuffix(keyID.lowercased()) }
     }
 
-    func decrypt(encryptedData: Data, keyID: String, passphrase: String) throws -> Data? {
-        guard let key = privateKeys.first(where: { key, _ in key.hasSuffix(keyID.lowercased()) }),
-              let privateKey = privateKeys[key.key] else {
+    func decrypt(encryptedData: Data, keyID: String?, passphrase: String) throws -> Data? {
+        let key: CryptoKey? = {
+            if let keyID = keyID {
+                return privateKeys.first(where: { key, _ in key.hasSuffix(keyID.lowercased()) })?.value
+            } else {
+                return privateKeys.first?.value
+            }
+        }()
+
+        guard let privateKey = key else {
             throw AppError.decryption
         }
 
@@ -94,9 +101,16 @@ struct GopenPGPInterface: PGPInterface {
         }
     }
 
-    func encrypt(plainData: Data, keyID: String) throws -> Data {
-        guard let key = publicKeys.first(where: { key, _ in key.hasSuffix(keyID.lowercased()) }),
-              let publicKey = publicKeys[key.key] else {
+    func encrypt(plainData: Data, keyID: String?) throws -> Data {
+        let key: CryptoKey? = {
+            if let keyID = keyID {
+                return publicKeys.first(where: { key, _ in key.hasSuffix(keyID.lowercased()) })?.value
+            } else {
+                return publicKeys.first?.value
+            }
+        }()
+
+        guard let publicKey = key else {
             throw AppError.encryption
         }
 

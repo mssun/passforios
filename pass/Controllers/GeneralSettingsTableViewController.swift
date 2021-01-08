@@ -46,6 +46,15 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         return uiSwitch
     }()
 
+    let ignoreGPGIDSwitch: UISwitch = {
+        let uiSwitch = UISwitch()
+        uiSwitch.onTintColor = Colors.systemBlue
+        uiSwitch.sizeToFit()
+        uiSwitch.addTarget(self, action: #selector(ignoreGPGIDSwitchAction(_:)), for: UIControl.Event.valueChanged)
+        uiSwitch.isOn = Defaults.isIgnoreGPGIDOn
+        return uiSwitch
+    }()
+
     let showFolderSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
@@ -77,6 +86,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
 
             // section 2
             [
+                [.title: "IgnoreGPGID".localize(), .action: "none"],
                 [.title: "ShowFolders".localize(), .action: "none"],
                 [.title: "HidePasswordImages".localize(), .action: "none"],
                 [.title: "HideUnknownFields".localize(), .action: "none"],
@@ -129,6 +139,10 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             cell.accessoryType = .none
             cell.selectionStyle = .none
             cell.accessoryView = showFolderSwitch
+        case "IgnoreGPGID".localize():
+            cell.accessoryType = .none
+            cell.selectionStyle = .none
+            cell.accessoryView = ignoreGPGIDSwitch
         case "HidePasswordImages".localize():
             cell.accessoryType = .none
             let detailButton = UIButton(type: .detailDisclosure)
@@ -204,6 +218,11 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     func showFolderSwitchAction(_: Any?) {
         Defaults.isShowFolderOn = showFolderSwitch.isOn
         NotificationCenter.default.post(name: .passwordDisplaySettingChanged, object: nil)
+    }
+
+    @objc
+    func ignoreGPGIDSwitchAction(_: Any?) {
+        Defaults.isIgnoreGPGIDOn = ignoreGPGIDSwitch.isOn
     }
 
     @objc

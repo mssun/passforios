@@ -29,11 +29,11 @@ struct ObjectivePGPInterface: PGPInterface {
         self.privateKey = privateKey
     }
 
-    func decrypt(encryptedData: Data, keyID _: String, passphrase: String) throws -> Data? {
+    func decrypt(encryptedData: Data, keyID _: String?, passphrase: String) throws -> Data? {
         try ObjectivePGP.decrypt(encryptedData, andVerifySignature: false, using: keyring.keys) { _ in passphrase }
     }
 
-    func encrypt(plainData: Data, keyID _: String) throws -> Data {
+    func encrypt(plainData: Data, keyID _: String?) throws -> Data {
         let encryptedData = try ObjectivePGP.encrypt(plainData, addSignature: false, using: keyring.keys, passphraseForKey: nil)
         if Defaults.encryptInArmored {
             return Armor.armored(encryptedData, as: .message).data(using: .ascii)!
