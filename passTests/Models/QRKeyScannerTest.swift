@@ -14,6 +14,7 @@ class QRKeyScannerTest: XCTestCase {
     private let header = "-----BEGIN PGP PUBLIC KEY BLOCK-----"
     private let body = "key body"
     private let footer = "-----END PGP PUBLIC KEY BLOCK-----"
+    private let footerWithNewline = "-----END PGP PUBLIC KEY BLOCK-----\n"
     private let privateHeader = "-----BEGIN PGP PRIVATE KEY BLOCK-----"
 
     private var scanner = QRKeyScanner(keyType: .pgpPublic)
@@ -54,5 +55,11 @@ class QRKeyScannerTest: XCTestCase {
         XCTAssertEqual(scanner.add(segment: "-----END PGP PUBLIC KEY "), .scanned(2))
         XCTAssertEqual(scanner.add(segment: "BLOCK-----"), .completed)
         XCTAssertEqual(scanner.scannedKey, header + footer)
+    }
+
+    func testFooterWithNewlien() {
+        XCTAssertEqual(scanner.add(segment: header), .scanned(1))
+        XCTAssertEqual(scanner.add(segment: footerWithNewline), .completed)
+        XCTAssertEqual(scanner.scannedKey, header + footerWithNewline)
     }
 }
