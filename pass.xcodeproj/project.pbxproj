@@ -47,8 +47,7 @@
 		30697C4721F63CAB0064FCAC /* PasscodeLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C4221F63CAB0064FCAC /* PasscodeLock.swift */; };
 		30697C4821F63CAB0064FCAC /* PasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C4321F63CAB0064FCAC /* PasswordStore.swift */; };
 		30697C4B21F63D460064FCAC /* ExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C4921F63D460064FCAC /* ExtensionViewController.swift */; };
-		30697C4C21F63D460064FCAC /* PasscodeExtensionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C4A21F63D460064FCAC /* PasscodeExtensionDisplay.swift */; };
-		30697C5021F63D7F0064FCAC /* OnePasswordExtensionConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C4F21F63D7F0064FCAC /* OnePasswordExtensionConstants.swift */; };
+		30697C5021F63D7F0064FCAC /* ExtensionConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C4F21F63D7F0064FCAC /* ExtensionConstants.swift */; };
 		30697C5321F63E0B0064FCAC /* PasscodeExtensionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C5121F63E0B0064FCAC /* PasscodeExtensionDisplay.swift */; };
 		30697C5421F63E0B0064FCAC /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C5221F63E0B0064FCAC /* CredentialProviderViewController.swift */; };
 		30697C5F21F674800064FCAC /* String+UtilitiesTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C5E21F674800064FCAC /* String+UtilitiesTest.swift */; };
@@ -104,6 +103,14 @@
 		9A55C158259E785600FA8FD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
 		9A55C15F259E785700FA8FD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
 		9A55C185259E8C5600FA8FD9 /* PasswordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A55C184259E8C5600FA8FD9 /* PasswordsViewController.swift */; };
+		9A5865F025AA944B006719C2 /* SearchPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A5865EF25AA944B006719C2 /* SearchPassword.storyboard */; };
+		9A58661425AAA4C1006719C2 /* PasscodeExtensionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30697C5121F63E0B0064FCAC /* PasscodeExtensionDisplay.swift */; };
+		9A58661B25AAA946006719C2 /* PasswordsTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EBC259EA4C50027CE15 /* PasswordsTableDataSource.swift */; };
+		9A58662225AAAA3A006719C2 /* PasswordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A55C184259E8C5600FA8FD9 /* PasswordsViewController.swift */; };
+		9A58662925AAAA79006719C2 /* PasswordSelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9ECB259ECB410027CE15 /* PasswordSelectionDelegate.swift */; };
+		9A58664825AAAB7E006719C2 /* SearchPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A5865EF25AA944B006719C2 /* SearchPassword.storyboard */; };
+		9A58665125AADB76006719C2 /* CredentialProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58665025AADB76006719C2 /* CredentialProvider.swift */; };
+		9A58665825AADC49006719C2 /* PasswordDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EEF259EE01A0027CE15 /* PasswordDecryptor.swift */; };
 		9A5D06EE25A56F0800FA59D4 /* PasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */; };
 		9A5D06F525A56F0E00FA59D4 /* PasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */; };
 		9A5D070225A5769A00FA59D4 /* PasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */; };
@@ -314,8 +321,7 @@
 		30697C4221F63CAB0064FCAC /* PasscodeLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeLock.swift; sourceTree = "<group>"; };
 		30697C4321F63CAB0064FCAC /* PasswordStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
 		30697C4921F63D460064FCAC /* ExtensionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionViewController.swift; sourceTree = "<group>"; };
-		30697C4A21F63D460064FCAC /* PasscodeExtensionDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeExtensionDisplay.swift; sourceTree = "<group>"; };
-		30697C4F21F63D7F0064FCAC /* OnePasswordExtensionConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnePasswordExtensionConstants.swift; sourceTree = "<group>"; };
+		30697C4F21F63D7F0064FCAC /* ExtensionConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionConstants.swift; sourceTree = "<group>"; };
 		30697C5121F63E0B0064FCAC /* PasscodeExtensionDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeExtensionDisplay.swift; sourceTree = "<group>"; };
 		30697C5221F63E0B0064FCAC /* CredentialProviderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialProviderViewController.swift; sourceTree = "<group>"; };
 		30697C5E21F674800064FCAC /* String+UtilitiesTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+UtilitiesTest.swift"; sourceTree = "<group>"; };
@@ -374,6 +380,8 @@
 		9A1EF0B524C50EE00074FEAC /* passBetaExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passBetaExtension.entitlements; sourceTree = "<group>"; };
 		9A1EF0B624C50FEA0074FEAC /* passBetaShortcuts.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passBetaShortcuts.entitlements; sourceTree = "<group>"; };
 		9A55C184259E8C5600FA8FD9 /* PasswordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordsViewController.swift; sourceTree = "<group>"; };
+		9A5865EF25AA944B006719C2 /* SearchPassword.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SearchPassword.storyboard; sourceTree = "<group>"; };
+		9A58665025AADB76006719C2 /* CredentialProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProvider.swift; sourceTree = "<group>"; };
 		9A652413244BB33300DA0A41 /* UIAlertActionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertActionExtension.swift; sourceTree = "<group>"; };
 		9A8F9EBC259EA4C50027CE15 /* PasswordsTableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordsTableDataSource.swift; sourceTree = "<group>"; };
 		9A8F9ECB259ECB410027CE15 /* PasswordSelectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSelectionDelegate.swift; sourceTree = "<group>"; };
@@ -705,6 +713,14 @@
 			path = Crypto;
 			sourceTree = "<group>";
 		};
+		9A58664F25AADB66006719C2 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9A58665025AADB76006719C2 /* CredentialProvider.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		9A8F9EBB259EA4A80027CE15 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -727,7 +743,6 @@
 			isa = PBXGroup;
 			children = (
 				30697C4921F63D460064FCAC /* ExtensionViewController.swift */,
-				30697C4A21F63D460064FCAC /* PasscodeExtensionDisplay.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -735,7 +750,7 @@
 		A2168A811EFD4322005EA873 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				30697C4F21F63D7F0064FCAC /* OnePasswordExtensionConstants.swift */,
+				30697C4F21F63D7F0064FCAC /* ExtensionConstants.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -749,6 +764,7 @@
 				A239F59E2158C08C00576CBF /* passAutoFillExtension.entitlements */,
 				9A1EF0B424C50E780074FEAC /* passBetaAutoFillExtension.entitlements */,
 				A239F59A2158C08C00576CBF /* MainInterface.storyboard */,
+				9A5865EF25AA944B006719C2 /* SearchPassword.storyboard */,
 				A239F59D2158C08C00576CBF /* Info.plist */,
 			);
 			path = passAutoFillExtension;
@@ -800,6 +816,7 @@
 		A26700251EEC466A00176B8A /* passExtension */ = {
 			isa = PBXGroup;
 			children = (
+				9A58664F25AADB66006719C2 /* Services */,
 				A2168A801EFD431A005EA873 /* Controllers */,
 				A2168A811EFD4322005EA873 /* Helpers */,
 				A2367B9F1EF0387000C8FE8B /* Assets.xcassets */,
@@ -1282,6 +1299,7 @@
 				556EC3D422335C5F00934F9C /* Localizable.stringsdict in Resources */,
 				A239F59C2158C08C00576CBF /* MainInterface.storyboard in Resources */,
 				9A55C158259E785600FA8FD9 /* Assets.xcassets in Resources */,
+				9A5865F025AA944B006719C2 /* SearchPassword.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1313,6 +1331,7 @@
 				A26700371EEC475600176B8A /* passProcessor.js in Resources */,
 				A2367BA01EF0387000C8FE8B /* Assets.xcassets in Resources */,
 				A267002A1EEC466A00176B8A /* MainInterface.storyboard in Resources */,
+				9A58664825AAAB7E006719C2 /* SearchPassword.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1638,9 +1657,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A5D070225A5769A00FA59D4 /* PasswordTableViewCell.swift in Sources */,
-				30697C4C21F63D460064FCAC /* PasscodeExtensionDisplay.swift in Sources */,
-				30697C5021F63D7F0064FCAC /* OnePasswordExtensionConstants.swift in Sources */,
+				9A58665825AADC49006719C2 /* PasswordDecryptor.swift in Sources */,
+				9A58665125AADB76006719C2 /* CredentialProvider.swift in Sources */,
+				9A58662225AAAA3A006719C2 /* PasswordsViewController.swift in Sources */,
+				9A58662925AAAA79006719C2 /* PasswordSelectionDelegate.swift in Sources */,
+				30697C5021F63D7F0064FCAC /* ExtensionConstants.swift in Sources */,
+				9A58661425AAA4C1006719C2 /* PasscodeExtensionDisplay.swift in Sources */,
 				30697C4B21F63D460064FCAC /* ExtensionViewController.swift in Sources */,
+				9A58661B25AAA946006719C2 /* PasswordsTableDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1967,7 +1991,7 @@
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = pass/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 0.11.0;
@@ -1993,7 +2017,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).passTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2008,6 +2032,7 @@
 			baseConfigurationReference = C4C702DBCBA2374D32295603 /* Pods-passExtension.beta.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
+				APP_DISPLAY_NAME = "Pass Beta";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -2018,13 +2043,13 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 0.11.0;
 				OTHER_CFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).find-login-action-extension";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = passExtension;
 				PROVISIONING_PROFILE = "cbd86628-6f3e-40f3-b518-20d2330db545";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore me.mssun.passforiosbeta.find-login-action-extension";
 				SKIP_INSTALL = YES;
@@ -2057,7 +2082,7 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 0.11.0;
@@ -2090,7 +2115,7 @@
 					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
 				INFOPLIST_FILE = passKitTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).passKitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2120,7 +2145,7 @@
 				MARKETING_VERSION = 0.11.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.mssun.passforiosbeta.auto-fill-credential-extension";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = passAutoFillExtension;
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore me.mssun.passforiosbeta.auto-fill-credential-extension";
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -2178,7 +2203,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.mssun.passforios.auto-fill-credential-extension";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = passAutoFillExtension;
 				PROVISIONING_PROFILE_SPECIFIER = "match Development me.mssun.passforios.auto-fill-credential-extension";
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -2207,7 +2232,7 @@
 				MARKETING_VERSION = 0.11.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.mssun.passforios.auto-fill-credential-extension";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = passAutoFillExtension;
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore me.mssun.passforios.auto-fill-credential-extension";
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -2239,7 +2264,7 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 0.11.0;
@@ -2284,7 +2309,7 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 0.11.0;
@@ -2317,7 +2342,7 @@
 					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
 				INFOPLIST_FILE = passKitTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).passKitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2339,7 +2364,7 @@
 					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
 				INFOPLIST_FILE = passKitTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).passKitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2354,6 +2379,7 @@
 			baseConfigurationReference = DD224E7F8C867E6CD0BFE9D5 /* Pods-passExtension.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
+				APP_DISPLAY_NAME = Pass;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -2364,13 +2390,13 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 0.11.0;
 				OTHER_CFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).find-login-action-extension";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = passExtension;
 				PROVISIONING_PROFILE = "d25c9029-bca6-4b2d-b04e-4abc9d232740";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development me.mssun.passforios.find-login-action-extension";
 				SKIP_INSTALL = YES;
@@ -2385,6 +2411,7 @@
 			baseConfigurationReference = 62DEE9943E0F2B8C79E3FC5B /* Pods-passExtension.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
+				APP_DISPLAY_NAME = Pass;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -2395,13 +2422,13 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 0.11.0;
 				OTHER_CFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).find-login-action-extension";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = passExtension;
 				PROVISIONING_PROFILE = "cbd86628-6f3e-40f3-b518-20d2330db545";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore me.mssun.passforios.find-login-action-extension";
 				SKIP_INSTALL = YES;
@@ -2420,7 +2447,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).passTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2439,7 +2466,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).passTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2604,7 +2631,7 @@
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = pass/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 0.11.0;
@@ -2641,7 +2668,7 @@
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = pass/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 0.11.0;

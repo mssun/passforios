@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Pass</string>
+	<string>$(APP_DISPLAY_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -31,9 +31,9 @@
     SUBQUERY (
     $extensionItem.attachments,
     $attachment,
-    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "org.appextension.find-login-action" ||
-    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.url" ||
-    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.plain-text"
+    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO &quot;org.appextension.find-login-action&quot; ||
+    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO &quot;public.url&quot; ||
+    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO &quot;public.plain-text&quot;
     ).@count == $extensionItem.attachments.@count
     ).@count == 1</string>
 			<key>NSExtensionJavaScriptPreprocessingFile</key>

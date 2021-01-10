@@ -10,220 +10,158 @@ import Foundation
 import MobileCoreServices
 import passKit
 
-class ExtensionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UINavigationBarDelegate {
-    @IBOutlet var searchBar: UISearchBar!
-    @IBOutlet var tableView: UITableView!
+class ExtensionViewController: UIViewController {
+    var passcodelock: PasscodeExtensionDisplay {
+        PasscodeExtensionDisplay(extensionContext: self.extensionContext!)
+    }
 
-    private let passwordStore = PasswordStore.shared
-    private let keychain = AppKeychain.shared
+    var embeddedNavigationController: UINavigationController {
+        children.first as! UINavigationController
+    }
 
-    private var searchActive = false
-    private var passwordsTableEntries: [PasswordTableEntry] = []
-    private var filteredPasswordsTableEntries: [PasswordTableEntry] = []
+    var passwordsViewController: PasswordsViewController {
+        embeddedNavigationController.viewControllers.first as! PasswordsViewController
+    }
 
     enum Action {
         case findLogin, fillBrowser, unknown
     }
 
-    private var extensionAction = Action.unknown
+    private var action = Action.unknown
 
-    private lazy var passcodelock: PasscodeExtensionDisplay = {
-        let passcodelock = PasscodeExtensionDisplay(extensionContext: self.extensionContext)
-        return passcodelock
-    }()
+    lazy var credentialProvider = CredentialProvider(viewController: self, extensionContext: self.extensionContext!)
 
-    private func initPasswordsTableEntries() {
-        filteredPasswordsTableEntries.removeAll()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        passcodelock.presentPasscodeLockIfNeeded(self)
 
-        let passwordEntities = passwordStore.fetchPasswordEntityCoreData(withDir: false)
-        passwordsTableEntries = passwordEntities.map {
-            PasswordTableEntry($0)
-        }
+        let passwordsTableEntries = PasswordStore.shared.fetchPasswordEntityCoreData(withDir: false).compactMap { PasswordTableEntry($0) }
+        let dataSource = PasswordsTableDataSource(entries: passwordsTableEntries)
+        passwordsViewController.dataSource = dataSource
+        passwordsViewController.selectionDelegate = self
+        passwordsViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        passcodelock.presentPasscodeLockIfNeeded(self)
+        prepareCredentialList()
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // prepare
-        searchBar.delegate = self
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(PasswordTableViewCell.self, forCellReuseIdentifier: "passwordTableViewCell")
+    @objc
+    private func cancel(_: AnyObject?) {
+        self.extensionContext?.completeRequest(returningItems: nil)
+    }
 
-        // initialize table entries
-        initPasswordsTableEntries()
-
-        // get the provider
-        guard let extensionItems = extensionContext?.inputItems as? [NSExtensionItem] else {
+    func prepareCredentialList() {
+        guard let attachments = self.extensionContext?.attachments else {
             return
         }
 
-        for extensionItem in extensionItems {
-            guard let itemProviders = extensionItem.attachments else {
-                continue
+        func completeTask(_ text: String?) {
+            DispatchQueue.main.async {
+                self.passwordsViewController.showPasswordsWithSuggstion(matching: text ?? "")
+                self.passwordsViewController.navigationItem.prompt = text
             }
-            for provider in itemProviders {
-                // search using the extensionContext inputs
-                if provider.hasItemConformingToTypeIdentifier(OnePasswordExtensionActions.findLogin) {
-                    provider.loadItem(forTypeIdentifier: OnePasswordExtensionActions.findLogin, options: nil) { item, _ in
-                        self.updateExtension(with: self.getUrl(from: item as! NSDictionary), action: .findLogin)
-                    }
-                } else if provider.hasItemConformingToTypeIdentifier(kUTTypePropertyList as String) {
-                    provider.loadItem(forTypeIdentifier: kUTTypePropertyList as String, options: nil) { item, _ in
-                        if let dictionary = item as? NSDictionary, let results = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary {
-                            self.updateExtension(with: self.getUrl(from: results))
-                        }
-                    }
-                } else if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
-                    provider.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil) { item, _ in
-                        self.updateExtension(with: (item as? NSURL)!.host)
-                    }
+        }
+        DispatchQueue.global(qos: .userInitiated).async {
+            for attachment in attachments {
+                if attachment.hasURL {
+                    self.action = .fillBrowser
+                    attachment.extractSearchText { completeTask($0) }
+                } else if attachment.hasFindLoginAction {
+                    self.action = .findLogin
+                    attachment.extractSearchText { completeTask($0) }
+                } else if attachment.hasPropertyList {
+                    self.action = .fillBrowser
+                    attachment.extractSearchText { completeTask($0) }
+                } else {
+                    self.action = .unknown
                 }
             }
         }
     }
+}
 
-    private func getUrl(from dictionary: NSDictionary) -> String? {
-        if var urlString = dictionary[OnePasswordExtensionKey.URLStringKey] as? String {
-            if !urlString.hasPrefix("http://"), !urlString.hasPrefix("https://") {
-                urlString = "http://" + urlString
+extension ExtensionViewController: PasswordSelectionDelegate {
+    func selected(password: PasswordTableEntry) {
+        switch action {
+        case .findLogin:
+            credentialProvider.provideCredentialsFindLogin(with: password.passwordEntity.getPath())
+        case .fillBrowser:
+            credentialProvider.provideCredentialsBrowser(with: password.passwordEntity.getPath())
+        default:
+            self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+        }
+    }
+}
+
+extension NSDictionary {
+    func extractSearchText() -> String? {
+        if let value = self[PassExtensionKey.URLStringKey] as? String {
+            if let host = URL(string: value)?.host {
+                return host
+            } else {
+                return value
             }
-            return URL(string: urlString)?.host
+        } else if let value = self[NSExtensionJavaScriptPreprocessingResultsKey] as? String {
+            if let host = URL(string: value)?.host {
+                return host
+            } else {
+                return value
+            }
         }
         return nil
     }
+}
 
-    private func updateExtension(with url: String?, action: Action = .fillBrowser) {
-        // Set text, set active, and force search.
-        DispatchQueue.main.async { [weak self] in
-            self?.extensionAction = action
-            self?.searchBar.text = url
-            self?.searchBar.becomeFirstResponder()
-            self?.searchBarSearchButtonClicked((self?.searchBar)!)
+extension NSItemProvider {
+    var hasFindLoginAction: Bool {
+        hasItemConformingToTypeIdentifier(PassExtensionActions.findLogin)
+    }
+
+    var hasURL: Bool {
+        hasItemConformingToTypeIdentifier(kUTTypeURL as String) && registeredTypeIdentifiers.count == 1
+    }
+
+    var hasPropertyList: Bool {
+        hasItemConformingToTypeIdentifier(kUTTypePropertyList as String)
+    }
+}
+
+extension NSExtensionContext {
+    /// Get all the attachments to this post.
+    var attachments: [NSItemProvider] {
+        guard let items = inputItems as? [NSExtensionItem] else {
+            return []
         }
+        return items.flatMap { $0.attachments ?? [] }
     }
+}
 
-    // define cell contents, and set long press action
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath) as! PasswordTableViewCell
-        let entry = getPasswordEntry(by: indexPath)
-        cell.configure(with: entry)
-
-        return cell
-    }
-
-    // select row -> extension returns (with username and password)
-    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let entry = getPasswordEntry(by: indexPath)
-
-        guard PGPAgent.shared.isPrepared else {
-            Utils.alert(title: "CannotCopyPassword".localize(), message: "PgpKeyNotSet.".localize(), controller: self, completion: nil)
-            return
+extension NSItemProvider {
+    /// Extracts the URL from the item provider
+    func extractSearchText(completion: @escaping (String?) -> Void) {
+        self.loadItem(forTypeIdentifier: kUTTypeURL as String) { item, _ in
+            if let url = item as? NSURL {
+                completion(url.host)
+            } else {
+                completion(nil)
+            }
         }
 
-        let passwordEntity = entry.passwordEntity
-        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        decryptPassword(passwordEntity: passwordEntity)
-    }
-
-    private func decryptPassword(passwordEntity: PasswordEntity, keyID: String? = nil) {
-        DispatchQueue.global(qos: .userInteractive).async {
-            do {
-                let requestPGPKeyPassphrase = Utils.createRequestPGPKeyPassphraseHandler(controller: self)
-                let decryptedPassword = try self.passwordStore.decrypt(passwordEntity: passwordEntity, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
-
-                let username = decryptedPassword.getUsernameForCompletion()
-                let password = decryptedPassword.password
-                DispatchQueue.main.async {
-                    // prepare a dictionary to return
-                    switch self.extensionAction {
-                    case .findLogin:
-                        let extensionItem = NSExtensionItem()
-                        var returnDictionary = [
-                            OnePasswordExtensionKey.usernameKey: username,
-                            OnePasswordExtensionKey.passwordKey: password,
-                        ]
-                        if let totpPassword = decryptedPassword.currentOtp {
-                            returnDictionary[OnePasswordExtensionKey.totpKey] = totpPassword
-                        }
-                        extensionItem.attachments = [NSItemProvider(item: returnDictionary as NSSecureCoding, typeIdentifier: String(kUTTypePropertyList))]
-                        self.extensionContext!.completeRequest(returningItems: [extensionItem], completionHandler: nil)
-                    case .fillBrowser:
-                        Utils.copyToPasteboard(textToCopy: decryptedPassword.password)
-                        // return a dictionary for JavaScript for best-effor fill in
-                        let extensionItem = NSExtensionItem()
-                        let returnDictionary = [NSExtensionJavaScriptFinalizeArgumentKey: ["username": username, "password": password]]
-                        extensionItem.attachments = [NSItemProvider(item: returnDictionary as NSSecureCoding, typeIdentifier: String(kUTTypePropertyList))]
-                        self.extensionContext?.completeRequest(returningItems: [extensionItem], completionHandler: nil)
-                    default:
-                        self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
-                    }
-                }
-            } catch let AppError.pgpPrivateKeyNotFound(keyID: key) {
-                DispatchQueue.main.async {
-                    // alert: cancel or try again
-                    let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.pgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
-                    let selectKey = UIAlertAction.selectKey(controller: self) { action in
-                        self.decryptPassword(passwordEntity: passwordEntity, keyID: action.title)
-                    }
-                    alert.addAction(selectKey)
-
-                    self.present(alert, animated: true, completion: nil)
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    Utils.alert(title: "CannotCopyPassword".localize(), message: error.localizedDescription, controller: self, completion: nil)
+        self.loadItem(forTypeIdentifier: kUTTypePropertyList as String) { item, _ in
+            if let dict = item as? NSDictionary {
+                if let result = dict[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary {
+                    completion(result.extractSearchText())
                 }
             }
         }
-    }
 
-    func numberOfSectionsInTableView(tableView _: UITableView) -> Int {
-        1
-    }
-
-    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        if searchActive {
-            return filteredPasswordsTableEntries.count
-        }
-        return passwordsTableEntries.count
-    }
-
-    @IBAction
-    private func cancelExtension(_: Any) {
-        extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
-    }
-
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = ""
-        searchActive = false
-        tableView.reloadData()
-    }
-
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if let searchText = searchBar.text, searchText.isEmpty == false {
-            filteredPasswordsTableEntries = passwordsTableEntries.filter { $0.match(searchText) }
-            searchActive = true
-        } else {
-            searchActive = false
-        }
-        tableView.reloadData()
-    }
-
-    func searchBar(_ searchBar: UISearchBar, textDidChange _: String) {
-        searchBarSearchButtonClicked(searchBar)
-    }
-
-    private func getPasswordEntry(by indexPath: IndexPath) -> PasswordTableEntry {
-        if searchActive {
-            return filteredPasswordsTableEntries[indexPath.row]
-        } else {
-            return passwordsTableEntries[indexPath.row]
+        self.loadItem(forTypeIdentifier: PassExtensionActions.findLogin) { item, _ in
+            if let dict = item as? NSDictionary {
+                let text = dict.extractSearchText()
+                completion(text)
+            }
         }
     }
 }

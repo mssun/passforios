@@ -47,12 +47,6 @@ class PasswordsViewController: UIViewController {
         dataSource.showTableEntriesWithSuggestion(matching: text)
         tableView.reloadData()
     }
-
-    @IBAction
-    private func cancel(_: AnyObject?) {
-        self.extensionContext?.cancelRequest(withError: NSError(domain: ASExtensionErrorDomain, code: ASExtensionError.userCanceled.rawValue))
-        self.dismiss(animated: true)
-    }
 }
 
 extension PasswordsViewController: UISearchBarDelegate {

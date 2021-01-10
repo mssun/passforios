@@ -1,85 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="QHc-XA-1MZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Xzf-qb-wq7">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Password Store-->
-        <scene sceneID="NlT-0d-7x9">
-            <objects>
-                <viewController id="DnC-Ka-AYb" customClass="ExtensionViewController" customModule="passExtension" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="kSO-tI-r1g"/>
-                        <viewControllerLayoutGuide type="bottom" id="TYK-kT-vkH"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="g9r-Vt-nbj">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="KNT-Mp-tgV">
-                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" translucent="NO" id="xuO-jY-YRU">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                    <color key="barTintColor" systemColor="secondarySystemBackgroundColor"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </searchBar>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="passwordTableViewCell" textLabel="LUo-8T-I4j" detailTextLabel="9ik-sy-sTS" style="IBUITableViewCellStyleValue1" id="T2b-vj-fza" customClass="PasswordTableViewCell" customModule="passExtension" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="84" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T2b-vj-fza" id="aVb-V4-hqg">
-                                            <rect key="frame" x="0.0" y="0.0" width="348" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LUo-8T-I4j">
-                                                    <rect key="frame" x="16" y="12" width="33" height="20.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9ik-sy-sTS">
-                                                    <rect key="frame" x="296" y="12" width="44" height="20.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="KNT-Mp-tgV" firstAttribute="top" secondItem="kSO-tI-r1g" secondAttribute="bottom" id="1Mo-as-yNc"/>
-                            <constraint firstItem="TYK-kT-vkH" firstAttribute="top" secondItem="KNT-Mp-tgV" secondAttribute="bottom" id="RUo-Zw-D5C"/>
-                            <constraint firstItem="KNT-Mp-tgV" firstAttribute="leading" secondItem="g9r-Vt-nbj" secondAttribute="leading" id="Tre-Kp-RiI"/>
-                            <constraint firstAttribute="trailing" secondItem="KNT-Mp-tgV" secondAttribute="trailing" id="YPI-WX-ffM"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Password Store" id="MEN-Kg-v16">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="CH4-D6-aFB">
-                            <connections>
-                                <action selector="cancelExtension:" destination="DnC-Ka-AYb" id="In1-WB-K8r"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="searchBar" destination="xuO-jY-YRU" id="5Gk-EN-nKb"/>
-                        <outlet property="tableView" destination="KNT-Mp-tgV" id="XdF-42-lk8"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RYa-GM-dIn" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1712.8" y="10.344827586206897"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="oy9-wd-tIc">
             <objects>
@@ -91,17 +20,51 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="DnC-Ka-AYb" kind="relationship" relationship="rootViewController" id="Yes-tn-lzA"/>
+                        <segue destination="IaK-yg-fFt" kind="relationship" relationship="rootViewController" id="3T0-Cv-Bfg"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cpm-jG-Meg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="772" y="9.4452773613193415"/>
         </scene>
+        <!--Extension View Controller-->
+        <scene sceneID="Xbh-hw-0pj">
+            <objects>
+                <viewController id="Xzf-qb-wq7" customClass="ExtensionViewController" customModule="passExtension" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JIb-8X-ysu">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hzP-Y0-FLR">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <connections>
+                                    <segue destination="QHc-XA-1MZ" kind="embed" id="46u-rW-D7k"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6iy-0F-jx6"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vBS-EH-ZFM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-28" y="9"/>
+        </scene>
+        <!--SearchPassword-->
+        <scene sceneID="bv5-bN-jAX">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SearchPassword" id="IaK-yg-fFt" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="ZjU-eF-yp6"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FKe-r2-5pi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1590" y="9"/>
+        </scene>
     </scenes>
     <resources>
-        <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

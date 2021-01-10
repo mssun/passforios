@@ -9,63 +9,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Password Store-->
-        <scene sceneID="Uma-9u-xWV">
-            <objects>
-                <viewController id="Xki-Si-B7m" customClass="PasswordsViewController" customModule="passAutoFillExtension" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="BuU-Ak-iZz">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="XmI-l4-SgT">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="passwordTableViewCell" textLabel="U0x-8f-AET" detailTextLabel="kY1-Ac-C3d" style="IBUITableViewCellStyleValue1" id="fXA-SG-IOe" customClass="PasswordTableViewCell" customModule="passAutoFillExtension" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fXA-SG-IOe" id="KPa-Az-i6V">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="U0x-8f-AET">
-                                                    <rect key="frame" x="16" y="12" width="33" height="20.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kY1-Ac-C3d">
-                                                    <rect key="frame" x="315" y="12" width="44" height="20.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                    <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Password Store" prompt="url" id="apM-bN-eca">
-                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="zCC-lm-1xr">
-                            <connections>
-                                <action selector="cancel:" destination="Xki-Si-B7m" id="CgJ-49-QwT"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="tableView" destination="XmI-l4-SgT" id="9k1-t7-Xnc"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RwB-HB-TSk" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="992.79999999999995" y="26.53673163418291"/>
-        </scene>
         <!--Credential Provider View Controller-->
         <scene sceneID="Ebu-3J-rOU">
             <objects>
@@ -90,9 +33,20 @@
             </objects>
             <point key="canvasLocation" x="-946.39999999999998" y="26.53673163418291"/>
         </scene>
+        <!--SearchPassword-->
+        <scene sceneID="sDa-xb-78h">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SearchPassword" id="SvX-bP-rbb" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="SpE-87-sGe"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="00W-OZ-EmF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="788" y="26"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="mg9-JA-x9T">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ydk-0z-dUy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Aeb-0C-dDR" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="d0b-i7-rXf"/>
@@ -102,10 +56,9 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Xki-Si-B7m" kind="relationship" relationship="rootViewController" id="Jjj-k4-Bbd"/>
+                        <segue destination="SvX-bP-rbb" kind="relationship" relationship="rootViewController" id="MFO-5M-l7I"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ydk-0z-dUy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="53.600000000000001" y="26.53673163418291"/>
         </scene>

@@ -32,6 +32,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
         let dataSource = PasswordsTableDataSource(entries: passwordsTableEntries)
         passwordsViewController.dataSource = dataSource
         passwordsViewController.selectionDelegate = self
+        passwordsViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
     }
 
     override func prepareCredentialList(for serviceIdentifiers: [ASCredentialServiceIdentifier]) {
@@ -57,6 +58,11 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
         credentialProvider.identifier = credentialIdentity.serviceIdentifier
         passwordsViewController.navigationItem.prompt = identifier
         passwordsViewController.showPasswordsWithSuggstion(matching: identifier)
+    }
+
+    @objc
+    private func cancel(_: AnyObject?) {
+        self.extensionContext.cancelRequest(withError: NSError(domain: "PassExtension", code: 0))
     }
 }
 
