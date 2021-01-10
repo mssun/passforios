@@ -720,7 +720,11 @@ public class PasswordStore {
     public func encrypt(password: Password, keyID: String? = nil) throws -> Data {
         let encryptedDataPath = storeURL.appendingPathComponent(password.url.path)
         let keyID = keyID ?? findGPGID(from: encryptedDataPath)
-        return try PGPAgent.shared.encrypt(plainData: password.plainData, keyID: keyID)
+        if Defaults.isIgnoreGPGIDOn {
+            return try PGPAgent.shared.encrypt(plainData: password.plainData)
+        } else {
+            return try PGPAgent.shared.encrypt(plainData: password.plainData, keyID: keyID)
+        }
     }
 
     public func removeGitSSHKeys() {
