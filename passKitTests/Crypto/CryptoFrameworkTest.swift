@@ -39,6 +39,7 @@ class CryptoFrameworkTest: XCTestCase {
         try [
             RSA2048,
             RSA2048_SUB,
+            RSA3072_NO_PASSPHRASE,
             RSA4096,
             RSA4096_SUB,
             ED25519,
@@ -55,7 +56,14 @@ class CryptoFrameworkTest: XCTestCase {
             XCTAssert(publicKey.getHexKeyID().hasSuffix(testKeyInfo.fingerprint))
             XCTAssertNil(error)
 
-            let unlockedKey = try privateKey.unlock(testKeyInfo.passphrase.data(using: .utf8))
+            var isLocked: ObjCBool = false
+            try privateKey.isLocked(&isLocked)
+            var unlockedKey: CryptoKey!
+            if isLocked.boolValue {
+                unlockedKey = try privateKey.unlock(testKeyInfo.passphrase.data(using: .utf8))
+            } else {
+                unlockedKey = privateKey
+            }
             let encryptedMessage = try CryptoNewKeyRing(publicKey, &error)?.encrypt(plainMessage, privateKey: nil)
             let decryptedData = try CryptoNewKeyRing(unlockedKey, &error)?.decrypt(messageConverter(encryptedMessage!, &error), verifyKey: nil, verifyTime: 0)
             XCTAssertNil(error)

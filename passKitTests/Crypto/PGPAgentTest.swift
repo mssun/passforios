@@ -64,6 +64,7 @@ class PGPAgentTest: XCTestCase {
         try [
             RSA2048,
             RSA2048_SUB,
+            RSA3072_NO_PASSPHRASE,
             RSA4096,
             RSA4096_SUB,
             ED25519,

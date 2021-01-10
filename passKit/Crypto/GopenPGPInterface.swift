@@ -84,7 +84,14 @@ struct GopenPGPInterface: PGPInterface {
         }
 
         do {
-            let unlockedKey = try privateKey.unlock(passphrase.data(using: .utf8))
+            var isLocked: ObjCBool = false
+            try privateKey.isLocked(&isLocked)
+            var unlockedKey: CryptoKey!
+            if isLocked.boolValue {
+                unlockedKey = try privateKey.unlock(passphrase.data(using: .utf8))
+            } else {
+                unlockedKey = privateKey
+            }
             var error: NSError?
 
             guard let keyRing = CryptoNewKeyRing(unlockedKey, &error) else {
