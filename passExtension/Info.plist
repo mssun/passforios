@@ -31,9 +31,9 @@
     SUBQUERY (
     $extensionItem.attachments,
     $attachment,
-    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO &quot;org.appextension.find-login-action&quot; ||
-    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO &quot;public.url&quot; ||
-    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO &quot;public.plain-text&quot;
+    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "org.appextension.find-login-action" ||
+    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.url" ||
+    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.plain-text"
     ).@count == $extensionItem.attachments.@count
     ).@count == 1</string>
 			<key>NSExtensionJavaScriptPreprocessingFile</key>
