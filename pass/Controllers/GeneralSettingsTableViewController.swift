@@ -46,12 +46,12 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         return uiSwitch
     }()
 
-    let ignoreGPGIDSwitch: UISwitch = {
+    let enableGPGIDSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(ignoreGPGIDSwitchAction(_:)), for: UIControl.Event.valueChanged)
-        uiSwitch.isOn = Defaults.isIgnoreGPGIDOn
+        uiSwitch.addTarget(self, action: #selector(enableGPGIDSwitchAction(_:)), for: UIControl.Event.valueChanged)
+        uiSwitch.isOn = Defaults.isEnableGPGIDOn
         return uiSwitch
     }()
 
@@ -86,7 +86,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
 
             // section 2
             [
-                [.title: "IgnoreGPGID".localize(), .action: "none"],
+                [.title: "EnableGPGID".localize(), .action: "none"],
                 [.title: "ShowFolders".localize(), .action: "none"],
                 [.title: "HidePasswordImages".localize(), .action: "none"],
                 [.title: "HideUnknownFields".localize(), .action: "none"],
@@ -139,10 +139,10 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             cell.accessoryType = .none
             cell.selectionStyle = .none
             cell.accessoryView = showFolderSwitch
-        case "IgnoreGPGID".localize():
+        case "EnableGPGID".localize():
             cell.accessoryType = .none
             cell.selectionStyle = .none
-            cell.accessoryView = ignoreGPGIDSwitch
+            cell.accessoryView = enableGPGIDSwitch
         case "HidePasswordImages".localize():
             cell.accessoryType = .none
             let detailButton = UIButton(type: .detailDisclosure)
@@ -221,8 +221,8 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     }
 
     @objc
-    func ignoreGPGIDSwitchAction(_: Any?) {
-        Defaults.isIgnoreGPGIDOn = ignoreGPGIDSwitch.isOn
+    func enableGPGIDSwitchAction(_: Any?) {
+        Defaults.isEnableGPGIDOn = enableGPGIDSwitch.isOn
     }
 
     @objc

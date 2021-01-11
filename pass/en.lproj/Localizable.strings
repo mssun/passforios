@@ -41,7 +41,7 @@
 "PasswordGeneratorFlavor"           = "Style";
 "RememberPgpKeyPassphrase"          = "Remember PGP Key Passphrase";
 "RememberGitCredentialPassphrase"   = "Remember Git Credential Passphrase";
-"IgnoreGPGID"                       = "Ignore .gpg-id";
+"EnableGPGID"                       = "Enable .gpg-id (Experiment)";
 "ShowFolders"                       = "Show Folders";
 "HidePasswordImages"                = "Hide Password Images";
 "HidePasswordImagesExplanation."    = "Associated favicon images are loaded and shown based upon the URL associated with an entry. Enable this option to hide these images and prevent them from being loaded.";

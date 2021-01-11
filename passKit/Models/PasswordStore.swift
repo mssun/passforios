@@ -691,11 +691,11 @@ public class PasswordStore {
         let encryptedDataPath = storeURL.appendingPathComponent(passwordEntity.getPath())
         let encryptedData = try Data(contentsOf: encryptedDataPath)
         let data: Data? = try {
-            if Defaults.isIgnoreGPGIDOn {
-                return try PGPAgent.shared.decrypt(encryptedData: encryptedData, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
-            } else {
+            if Defaults.isEnableGPGIDOn {
                 let keyID = keyID ?? findGPGID(from: encryptedDataPath)
                 return try PGPAgent.shared.decrypt(encryptedData: encryptedData, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+            } else {
+                return try PGPAgent.shared.decrypt(encryptedData: encryptedData, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
             }
         }()
         guard let decryptedData = data else {
@@ -710,20 +710,20 @@ public class PasswordStore {
         guard let passwordEntity = fetchPasswordEntity(with: path) else {
             throw AppError.decryption
         }
-        if Defaults.isIgnoreGPGIDOn {
-            return try decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
-        } else {
+        if Defaults.isEnableGPGIDOn {
             return try decrypt(passwordEntity: passwordEntity, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+        } else {
+            return try decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
         }
     }
 
     public func encrypt(password: Password, keyID: String? = nil) throws -> Data {
         let encryptedDataPath = storeURL.appendingPathComponent(password.url.path)
         let keyID = keyID ?? findGPGID(from: encryptedDataPath)
-        if Defaults.isIgnoreGPGIDOn {
-            return try PGPAgent.shared.encrypt(plainData: password.plainData)
-        } else {
+        if Defaults.isEnableGPGIDOn {
             return try PGPAgent.shared.encrypt(plainData: password.plainData, keyID: keyID)
+        } else {
+            return try PGPAgent.shared.encrypt(plainData: password.plainData)
         }
     }
 

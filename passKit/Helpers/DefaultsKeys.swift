@@ -50,7 +50,7 @@ public extension DefaultsKeys {
     var isHideOTPOn: DefaultsKey<Bool> { .init("isHideOTPOn", defaultValue: false) }
     var isRememberPGPPassphraseOn: DefaultsKey<Bool> { .init("isRememberPGPPassphraseOn", defaultValue: false) }
     var isRememberGitCredentialPassphraseOn: DefaultsKey<Bool> { .init("isRememberGitCredentialPassphraseOn", defaultValue: false) }
-    var isIgnoreGPGIDOn: DefaultsKey<Bool> { .init("isIgnoreGPGIDOn", defaultValue: true) }
+    var isEnableGPGIDOn: DefaultsKey<Bool> { .init("isEnableGPGIDOn", defaultValue: false) }
     var isShowFolderOn: DefaultsKey<Bool> { .init("isShowFolderOn", defaultValue: true) }
     var isHidePasswordImagesOn: DefaultsKey<Bool> { .init("isHidePasswordImagesOn", defaultValue: false) }
     var searchDefault: DefaultsKey<SearchBarScope?> { .init("searchDefault", defaultValue: .all) }
