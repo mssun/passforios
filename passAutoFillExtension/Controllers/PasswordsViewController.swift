@@ -68,17 +68,7 @@ extension PasswordsViewController: UISearchBarDelegate {
 extension PasswordsViewController: UITableViewDelegate {
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        var entry: PasswordTableEntry!
-        if dataSource.showSuggestion {
-            if indexPath.section == 0 {
-                entry = dataSource.suggestedPasswordsTableEntries[indexPath.row]
-            } else {
-                entry = dataSource.otherPasswordsTableEntries[indexPath.row]
-            }
-        } else {
-            entry = dataSource.filteredPasswordsTableEntries[indexPath.row]
-        }
-
+        let entry = dataSource.tableEntry(at: indexPath)
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         self.selectionDelegate?.selected(password: entry)
     }

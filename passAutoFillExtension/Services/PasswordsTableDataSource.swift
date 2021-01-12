@@ -33,15 +33,7 @@ class PasswordsTableDataSource: NSObject, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if !showSuggestion {
-            return filteredPasswordsTableEntries.count
-        }
-
-        if section == 0 {
-            return suggestedPasswordsTableEntries.count
-        } else {
-            return otherPasswordsTableEntries.count
-        }
+        tableEntries(at: section).count
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -63,18 +55,7 @@ class PasswordsTableDataSource: NSObject, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath) as! PasswordTableViewCell
 
-        var entry: PasswordTableEntry!
-        if !showSuggestion {
-            entry = filteredPasswordsTableEntries[indexPath.row]
-            cell.configure(with: entry)
-            return cell
-        }
-
-        if indexPath.section == 0 {
-            entry = suggestedPasswordsTableEntries[indexPath.row]
-        } else {
-            entry = otherPasswordsTableEntries[indexPath.row]
-        }
+        let entry = tableEntry(at: indexPath)
         cell.configure(with: entry)
 
         return cell
@@ -83,7 +64,7 @@ class PasswordsTableDataSource: NSObject, UITableViewDataSource {
     func showTableEntries(matching text: String) {
         guard !text.isEmpty else {
             filteredPasswordsTableEntries = passwordTableEntries
-            showSuggestion = true
+            showSuggestion = !suggestedPasswordsTableEntries.isEmpty
             return
         }
 
@@ -92,6 +73,12 @@ class PasswordsTableDataSource: NSObject, UITableViewDataSource {
     }
 
     func showTableEntriesWithSuggestion(matching text: String) {
+        guard !text.isEmpty else {
+            filteredPasswordsTableEntries = passwordTableEntries
+            showSuggestion = false
+            return
+        }
+
         for entry in passwordTableEntries {
             if entry.match(text) {
                 suggestedPasswordsTableEntries.append(entry)
@@ -100,5 +87,21 @@ class PasswordsTableDataSource: NSObject, UITableViewDataSource {
             }
         }
         showSuggestion = !suggestedPasswordsTableEntries.isEmpty
+    }
+
+    func tableEntry(at indexPath: IndexPath) -> PasswordTableEntry {
+        tableEntries(at: indexPath.section)[indexPath.row]
+    }
+
+    func tableEntries(at section: Int) -> [PasswordTableEntry] {
+        if showSuggestion {
+            if section == 0 {
+                return suggestedPasswordsTableEntries
+            } else {
+                return otherPasswordsTableEntries
+            }
+        } else {
+            return filteredPasswordsTableEntries
+        }
     }
 }
