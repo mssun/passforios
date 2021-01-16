@@ -15,6 +15,7 @@ class PasswordTableViewCell: UITableViewCell {
         textLabel?.adjustsFontForContentSizeCategory = true
 
         accessoryType = .none
+        detailTextLabel?.textColor = UIColor.lightGray
         detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .footnote)
         detailTextLabel?.adjustsFontForContentSizeCategory = true
         detailTextLabel?.text = entry.categoryText

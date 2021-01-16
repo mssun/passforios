@@ -262,7 +262,6 @@ class PasswordsViewController: UIViewController, UITableViewDataSource, UITableV
 
         SVProgressHUD.setDefaultMaskType(.black)
         tableView.register(UINib(nibName: "PasswordWithFolderTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordWithFolderTableViewCell")
-        tableView.register(PasswordTableViewCell.self, forCellReuseIdentifier: "passwordTableViewCell")
 
         // initialize the password table
         reloadTableView(parent: nil)
