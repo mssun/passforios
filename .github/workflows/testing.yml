@@ -13,12 +13,6 @@ jobs:
         brew install swiftlint || brew link --overwrite swiftlint
         gem install bundler
     - uses: actions/cache@v2
-      with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-gems-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/Gemfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-gems-${{ secrets.CACHE_VERSION }}-
-    - uses: actions/cache@v2
       id: carthage-cache
       with:
         path: Carthage
