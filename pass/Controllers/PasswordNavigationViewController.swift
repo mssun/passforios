@@ -76,7 +76,7 @@ class PasswordNavigationViewController: UIViewController {
     }
 
     private func configureSearchBar() {
-        if Defaults.isShowFolderOn, !isRootViewController() {
+        if Defaults.isShowFolderOn {
             searchBar.scopeButtonTitles = SearchBarScope.allCases.map(\.localizedName)
         } else {
             searchBar.scopeButtonTitles = nil
@@ -84,14 +84,23 @@ class PasswordNavigationViewController: UIViewController {
     }
 
     private func configureTableView(in dir: PasswordEntity?) {
-        let passwordTableEntries = fetchPasswordTableEntries(in: dir)
-        dataSource = PasswordNavigationDataSource(entries: passwordTableEntries)
+        configureTableViewDataSource(in: dir, isShowFolder: Defaults.isShowFolderOn)
         tableView.addGestureRecognizer(gestureRecognizer)
-        tableView.dataSource = dataSource
         tableView.delegate = self
         let atribbutedTitle = "LastSynced".localize() + ": \(PasswordStore.shared.lastSyncedTimeString)"
         refreshControl.attributedTitle = NSAttributedString(string: atribbutedTitle)
         tableView.refreshControl = refreshControl
+    }
+
+    private func configureTableViewDataSource(in dir: PasswordEntity?, isShowFolder: Bool) {
+        var passwordTableEntries: [PasswordTableEntry]
+        if isShowFolder {
+            passwordTableEntries = PasswordStore.shared.fetchPasswordEntityCoreData(parent: dir).compactMap { PasswordTableEntry($0) }
+        } else {
+            passwordTableEntries = PasswordStore.shared.fetchPasswordEntityCoreData(withDir: false).compactMap { PasswordTableEntry($0) }
+        }
+        dataSource = PasswordNavigationDataSource(entries: passwordTableEntries)
+        tableView.dataSource = dataSource
     }
 
     private func configureTabBarItem() {
@@ -104,14 +113,6 @@ class PasswordNavigationViewController: UIViewController {
             tabBarItem.badgeValue = "\(numberOfLocalCommits)"
         } else {
             tabBarItem.badgeValue = nil
-        }
-    }
-
-    private func fetchPasswordTableEntries(in dir: PasswordEntity? = nil) -> [PasswordTableEntry] {
-        if Defaults.isShowFolderOn {
-            return PasswordStore.shared.fetchPasswordEntityCoreData(parent: dir).compactMap { PasswordTableEntry($0) }
-        } else {
-            return PasswordStore.shared.fetchPasswordEntityCoreData(withDir: false).compactMap { PasswordTableEntry($0) }
         }
     }
 
@@ -321,6 +322,7 @@ extension PasswordNavigationViewController {
         configureNavigationItem()
         configureTabBarItem()
         configureNavigationBar()
+        configureSearchBar()
     }
 }
 
@@ -332,9 +334,9 @@ extension PasswordNavigationViewController: UISearchBarDelegate {
 
     func activateSearch(_ selectedScope: Int?) {
         if selectedScope == SearchBarScope.all.rawValue {
-            configureTableView(in: nil)
+            configureTableViewDataSource(in: nil, isShowFolder: false)
         } else {
-            configureTableView(in: parentPasswordEntity)
+            configureTableViewDataSource(in: parentPasswordEntity, isShowFolder: true)
         }
         dataSource?.isSearchActive = true
         tableView.reloadData()
@@ -345,7 +347,7 @@ extension PasswordNavigationViewController: UISearchBarDelegate {
     }
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        if Defaults.isShowFolderOn, Defaults.searchDefault == .all {
+        if Defaults.searchDefault == .all {
             searchBar.selectedScopeButtonIndex = SearchBarScope.all.rawValue
         } else {
             searchBar.selectedScopeButtonIndex = SearchBarScope.current.rawValue
