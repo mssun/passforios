@@ -70,6 +70,7 @@ class PasswordNavigationViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tabBarController?.delegate = self
         configureNavigationItem()
         configureTabBarItem()
         configureNavigationBar()
@@ -375,6 +376,21 @@ extension PasswordNavigationViewController: UISearchBarDelegate {
         configureTableView(in: parentPasswordEntity)
         dataSource?.isSearchActive = false
         tableView.reloadData()
+    }
+}
+
+extension PasswordNavigationViewController: UITabBarControllerDelegate {
+    func tabBarController(_: UITabBarController, didSelect viewController: UIViewController) {
+        if viewController == navigationController {
+            let currentTime = Date().timeIntervalSince1970
+            let duration = currentTime - tapTabBarTime
+            tapTabBarTime = currentTime
+            if duration < 0.35, tableView.numberOfSections > 0 {
+                let topIndexPath = IndexPath(row: 0, section: 0)
+                tableView.scrollToRow(at: topIndexPath, at: .bottom, animated: true)
+                tapTabBarTime = 0
+            }
+        }
     }
 }
 
