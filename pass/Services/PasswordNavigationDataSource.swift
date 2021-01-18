@@ -19,8 +19,6 @@ class PasswordNavigationDataSource: NSObject, UITableViewDataSource {
     var filteredSections: [Section]
 
     var isSearchActive = false
-    var cellGestureRecognizer: UIGestureRecognizer?
-
     let hideSectionHeaderThreshold = 6
 
     init(entries: [PasswordTableEntry] = []) {
@@ -44,10 +42,6 @@ class PasswordNavigationDataSource: NSObject, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "passwordTableViewCell", for: indexPath) as! PasswordTableViewCell
         let entry = getPasswordTableEntry(at: indexPath)
         cell.configure(with: entry)
-
-        if let gestureRecognizer = cellGestureRecognizer, !entry.isDir {
-            cell.addGestureRecognizer(gestureRecognizer)
-        }
         return cell
     }
 
