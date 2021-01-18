@@ -345,6 +345,7 @@ extension PasswordNavigationViewController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         activateSearch(selectedScope)
+        search(matching: searchBar.text ?? "")
     }
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
