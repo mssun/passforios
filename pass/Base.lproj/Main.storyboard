@@ -11,7 +11,7 @@
         <!--Password Store-->
         <scene sceneID="Qd0-Fd-Lct">
             <objects>
-                <viewController id="cwm-DY-Eli" customClass="PasswordsViewController" customModule="Pass" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="passwordNavigation" id="cwm-DY-Eli" customClass="PasswordNavigationViewController" customModule="Pass" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zEx-Wa-Uh0"/>
                         <viewControllerLayoutGuide type="bottom" id="G6Y-6n-xyC"/>
@@ -56,11 +56,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Password Store" id="Cio-ZG-zCS">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="New-sD-9Z1"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="qVW-c1-xgh"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="tableView" destination="Tn1-q5-vaJ" id="UHc-AS-gXh"/>
+                        <outlet property="tableView" destination="Tn1-q5-vaJ" id="DBn-bd-fJm"/>
                         <segue destination="tW4-E9-CGv" kind="show" identifier="showPasswordDetail" id="gXF-zd-527"/>
                         <segue destination="fyR-Cj-h6o" kind="show" identifier="addPasswordSegue" id="40c-jj-6wh"/>
                     </connections>
@@ -737,8 +736,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5ZN-vm-3gw" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Passwords" image="Lock" selectedImage="Lock" id="gNg-YT-cGW"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DUk-ZD-z4m">
-                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="DUk-ZD-z4m">
+                        <rect key="frame" x="0.0" y="44" width="390" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1964,7 +1963,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
     <inferredMetricsTieBreakers>
         <segue reference="wCk-aN-a4J"/>
         <segue reference="oxP-I1-Mke"/>
-        <segue reference="UfP-k3-XeR"/>
+        <segue reference="yyD-4H-pLE"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Lock" width="25" height="25"/>

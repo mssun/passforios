@@ -97,6 +97,16 @@ public class PasswordStore {
         Defaults.lastSyncedTime
     }
 
+    public var lastSyncedTimeString: String {
+        guard let date = lastSyncedTime else {
+            return "SyncAgain?".localize()
+        }
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
+    }
+
     public var numberOfCommits: UInt? {
         storeRepository?.numberOfCommits(inCurrentBranch: nil)
     }

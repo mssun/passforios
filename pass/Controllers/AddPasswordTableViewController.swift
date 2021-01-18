@@ -35,6 +35,11 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
         return true
     }
 
+    @IBAction
+    private func cancel(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "saveAddPasswordSegue" {
