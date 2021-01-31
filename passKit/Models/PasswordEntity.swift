@@ -14,9 +14,8 @@ public extension PasswordEntity {
         if let path = path {
             if path.hasSuffix(".gpg") {
                 return String(path.prefix(upTo: path.index(path.endIndex, offsetBy: -4)))
-            } else {
-                return path
             }
+            return path
         }
         return ""
     }

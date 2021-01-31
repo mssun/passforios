@@ -81,17 +81,15 @@ class LabelTableViewCell: UITableViewCell {
         case .password:
             if isReveal {
                 return action == #selector(copy(_:)) || action == #selector(concealPassword(_:))
-            } else {
-                return action == #selector(copy(_:)) || action == #selector(revealPassword(_:))
             }
+            return action == #selector(copy(_:)) || action == #selector(revealPassword(_:))
         case .URL:
             return action == #selector(copy(_:)) || action == #selector(openLink(_:))
         case .HOTP:
             if isReveal {
                 return action == #selector(copy(_:)) || action == #selector(concealPassword(_:)) || action == #selector(getNextHOTP(_:))
-            } else {
-                return action == #selector(copy(_:)) || action == #selector(revealPassword(_:)) || action == #selector(getNextHOTP(_:))
             }
+            return action == #selector(copy(_:)) || action == #selector(revealPassword(_:)) || action == #selector(getNextHOTP(_:))
         default:
             return action == #selector(copy(_:))
         }

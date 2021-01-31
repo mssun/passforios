@@ -228,9 +228,8 @@ class PasswordEditorTableViewController: UITableViewController {
         if section == passwordSection, hidePasswordSettings {
             // hide the password section, only the password should be shown
             return 1
-        } else {
-            return tableData[section].count
         }
+        return tableData[section].count
     }
 
     override func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {

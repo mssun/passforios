@@ -25,11 +25,7 @@ class PasswordsTableDataSource: NSObject, UITableViewDataSource {
     }
 
     func numberOfSections(in _: UITableView) -> Int {
-        if !showSuggestion {
-            return 1
-        } else {
-            return 2
-        }
+        !showSuggestion ? 1 : 2
     }
 
     func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -40,16 +36,13 @@ class PasswordsTableDataSource: NSObject, UITableViewDataSource {
         if suggestedPasswordsTableEntries.isEmpty {
             return nil
         }
-
         if !showSuggestion {
             return "All Passwords"
         }
-
         if section == 0 {
             return "Suggested Passwords"
-        } else {
-            return "Other Passwords"
         }
+        return "Other Passwords"
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -97,11 +90,9 @@ class PasswordsTableDataSource: NSObject, UITableViewDataSource {
         if showSuggestion {
             if section == 0 {
                 return suggestedPasswordsTableEntries
-            } else {
-                return otherPasswordsTableEntries
             }
-        } else {
-            return filteredPasswordsTableEntries
+            return otherPasswordsTableEntries
         }
+        return filteredPasswordsTableEntries
     }
 }
