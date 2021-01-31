@@ -105,11 +105,11 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
         UITableView.automaticDimension
     }
 
-    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
         UITableView.automaticDimension
     }
 

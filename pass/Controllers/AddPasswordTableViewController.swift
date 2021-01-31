@@ -36,7 +36,7 @@ class AddPasswordTableViewController: PasswordEditorTableViewController {
     }
 
     @IBAction
-    private func cancel(_ sender: Any) {
+    private func cancel(_: Any) {
         navigationController?.popViewController(animated: true)
     }
 

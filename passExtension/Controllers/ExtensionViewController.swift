@@ -12,7 +12,7 @@ import passKit
 
 class ExtensionViewController: UIViewController {
     var passcodelock: PasscodeExtensionDisplay {
-        PasscodeExtensionDisplay(extensionContext: self.extensionContext!)
+        PasscodeExtensionDisplay(extensionContext: extensionContext!)
     }
 
     var embeddedNavigationController: UINavigationController {
@@ -49,11 +49,11 @@ class ExtensionViewController: UIViewController {
 
     @objc
     private func cancel(_: AnyObject?) {
-        self.extensionContext?.completeRequest(returningItems: nil)
+        extensionContext?.completeRequest(returningItems: nil)
     }
 
     func prepareCredentialList() {
-        guard let attachments = self.extensionContext?.attachments else {
+        guard let attachments = extensionContext?.attachments else {
             return
         }
 
@@ -90,7 +90,7 @@ extension ExtensionViewController: PasswordSelectionDelegate {
         case .fillBrowser:
             credentialProvider.provideCredentialsBrowser(with: password.passwordEntity.getPath())
         default:
-            self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+            extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
         }
     }
 }
@@ -141,7 +141,7 @@ extension NSExtensionContext {
 extension NSItemProvider {
     /// Extracts the URL from the item provider
     func extractSearchText(completion: @escaping (String?) -> Void) {
-        self.loadItem(forTypeIdentifier: kUTTypeURL as String) { item, _ in
+        loadItem(forTypeIdentifier: kUTTypeURL as String) { item, _ in
             if let url = item as? NSURL {
                 completion(url.host)
             } else {
@@ -149,7 +149,7 @@ extension NSItemProvider {
             }
         }
 
-        self.loadItem(forTypeIdentifier: kUTTypePropertyList as String) { item, _ in
+        loadItem(forTypeIdentifier: kUTTypePropertyList as String) { item, _ in
             if let dict = item as? NSDictionary {
                 if let result = dict[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary {
                     completion(result.extractSearchText())
@@ -157,7 +157,7 @@ extension NSItemProvider {
             }
         }
 
-        self.loadItem(forTypeIdentifier: PassExtensionActions.findLogin) { item, _ in
+        loadItem(forTypeIdentifier: PassExtensionActions.findLogin) { item, _ in
             if let dict = item as? NSDictionary {
                 let text = dict.extractSearchText()
                 completion(text)

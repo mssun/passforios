@@ -6,8 +6,8 @@
 //  Copyright © 2021 Bob Sun. All rights reserved.
 //
 
-import UIKit
 import passKit
+import UIKit
 
 struct Section {
     var title: String
@@ -22,19 +22,19 @@ class PasswordNavigationDataSource: NSObject, UITableViewDataSource {
     let hideSectionHeaderThreshold = 6
 
     init(entries: [PasswordTableEntry] = []) {
-        sections = buildSections(from: entries)
-        filteredSections = sections
+        self.sections = buildSections(from: entries)
+        self.filteredSections = sections
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         filteredSections[section].entries.count
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
         showSectionTitles() ? filteredSections[section].title : nil
     }
 
-    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+    func tableView(_: UITableView, sectionForSectionIndexTitle _: String, at index: Int) -> Int {
         index
     }
 
@@ -45,7 +45,7 @@ class PasswordNavigationDataSource: NSObject, UITableViewDataSource {
         return cell
     }
 
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in _: UITableView) -> Int {
         filteredSections.count
     }
 

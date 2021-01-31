@@ -6,9 +6,9 @@
 //  Copyright © 2021 Bob Sun. All rights reserved.
 //
 
-import UIKit
 import MobileCoreServices
 import passKit
+import UIKit
 
 class CredentialProvider {
     weak var extensionContext: NSExtensionContext?

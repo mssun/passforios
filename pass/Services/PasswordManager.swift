@@ -1,6 +1,6 @@
-import UIKit
 import passKit
 import SVProgressHUD
+import UIKit
 
 class PasswordManager {
     weak var viewController: UIViewController?
