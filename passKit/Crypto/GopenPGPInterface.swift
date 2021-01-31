@@ -74,9 +74,8 @@ struct GopenPGPInterface: PGPInterface {
         let key: CryptoKey? = {
             if let keyID = keyID {
                 return privateKeys.first(where: { key, _ in key.hasSuffix(keyID.lowercased()) })?.value
-            } else {
-                return privateKeys.first?.value
             }
+            return privateKeys.first?.value
         }()
 
         guard let privateKey = key else {
@@ -112,9 +111,8 @@ struct GopenPGPInterface: PGPInterface {
         let key: CryptoKey? = {
             if let keyID = keyID {
                 return publicKeys.first(where: { key, _ in key.hasSuffix(keyID.lowercased()) })?.value
-            } else {
-                return publicKeys.first?.value
             }
+            return publicKeys.first?.value
         }()
 
         guard let publicKey = key else {

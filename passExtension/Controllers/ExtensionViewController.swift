@@ -100,15 +100,13 @@ extension NSDictionary {
         if let value = self[PassExtensionKey.URLStringKey] as? String {
             if let host = URL(string: value)?.host {
                 return host
-            } else {
-                return value
             }
+            return value
         } else if let value = self[NSExtensionJavaScriptPreprocessingResultsKey] as? String {
             if let host = URL(string: value)?.host {
                 return host
-            } else {
-                return value
             }
+            return value
         }
         return nil
     }

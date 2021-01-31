@@ -144,12 +144,7 @@ public class PasswordStore {
         let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         do {
             passwordEntityFetchRequest.predicate = NSPredicate(format: "name = %@ and path = %@", password.name, password.url.path)
-            let count = try context.count(for: passwordEntityFetchRequest)
-            if count > 0 {
-                return true
-            } else {
-                return false
-            }
+            return try context.count(for: passwordEntityFetchRequest) > 0
         } catch {
             fatalError("FailedToFetchPasswordEntities".localize(error))
         }
@@ -159,12 +154,7 @@ public class PasswordStore {
         let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         do {
             passwordEntityFetchRequest.predicate = NSPredicate(format: "path = %@", path)
-            let count = try context.count(for: passwordEntityFetchRequest)
-            if count > 0 {
-                return true
-            } else {
-                return false
-            }
+            return try context.count(for: passwordEntityFetchRequest) > 0
         } catch {
             fatalError("FailedToFetchPasswordEntities".localize(error))
         }
@@ -704,9 +694,8 @@ public class PasswordStore {
             if Defaults.isEnableGPGIDOn {
                 let keyID = keyID ?? findGPGID(from: encryptedDataPath)
                 return try PGPAgent.shared.decrypt(encryptedData: encryptedData, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
-            } else {
-                return try PGPAgent.shared.decrypt(encryptedData: encryptedData, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
             }
+            return try PGPAgent.shared.decrypt(encryptedData: encryptedData, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
         }()
         guard let decryptedData = data else {
             throw AppError.decryption
@@ -722,9 +711,8 @@ public class PasswordStore {
         }
         if Defaults.isEnableGPGIDOn {
             return try decrypt(passwordEntity: passwordEntity, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
-        } else {
-            return try decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
         }
+        return try decrypt(passwordEntity: passwordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
     }
 
     public func encrypt(password: Password, keyID: String? = nil) throws -> Data {
@@ -732,9 +720,8 @@ public class PasswordStore {
         let keyID = keyID ?? findGPGID(from: encryptedDataPath)
         if Defaults.isEnableGPGIDOn {
             return try PGPAgent.shared.encrypt(plainData: password.plainData, keyID: keyID)
-        } else {
-            return try PGPAgent.shared.encrypt(plainData: password.plainData)
         }
+        return try PGPAgent.shared.encrypt(plainData: password.plainData)
     }
 
     public func removeGitSSHKeys() {

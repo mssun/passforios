@@ -102,9 +102,8 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             let gitURL = Defaults.gitURL
             if gitURL.scheme == nil {
                 return URL(string: "scheme://" + gitURL.absoluteString)?.host
-            } else {
-                return gitURL.host
             }
+            return gitURL.host
         }()
         passwordRepositoryTableViewCell.detailTextLabel?.text = host
     }
