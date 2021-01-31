@@ -18,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Installing packages
-      run: brew update && brew install -f swiftlint
+      run: brew update && brew install -f swiftlint || brew link --overwrite swiftlint
     - name: swiftlint
       run: |
          swiftlint --strict
