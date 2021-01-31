@@ -105,7 +105,7 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
                     Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
                 }
             case "http", "https":
-                let svc = SFSafariViewController(url: URL(string: link)!, entersReaderIfAvailable: false)
+                let svc = SFSafariViewController(url: URL(string: link)!)
                 present(svc, animated: true, completion: nil)
             default:
                 break
