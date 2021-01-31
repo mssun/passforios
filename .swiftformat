@@ -156,9 +156,9 @@
 
 --ifdef indent
 
-### "testable-top", "testable-bottom" or "alphabetized" (default)
+### "testable-first", "testable-last", "alpha" (default) or "length"
 
---importgrouping testable-bottom
+--importgrouping testable-last
 
 ### Number of spaces to indent, or "tab" to use tabs
 

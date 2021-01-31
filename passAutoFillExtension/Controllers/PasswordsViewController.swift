@@ -6,9 +6,9 @@
 //  Copyright © 2020 Bob Sun. All rights reserved.
 //
 
-import UIKit
 import AuthenticationServices
 import passKit
+import UIKit
 
 class PasswordsViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
@@ -70,6 +70,6 @@ extension PasswordsViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         let entry = dataSource.tableEntry(at: indexPath)
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        self.selectionDelegate?.selected(password: entry)
+        selectionDelegate?.selected(password: entry)
     }
 }

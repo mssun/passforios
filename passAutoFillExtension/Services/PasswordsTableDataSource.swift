@@ -6,8 +6,8 @@
 //  Copyright © 2020 Bob Sun. All rights reserved.
 //
 
-import UIKit
 import passKit
+import UIKit
 
 class PasswordsTableDataSource: NSObject, UITableViewDataSource {
     var passwordTableEntries: [PasswordTableEntry]
@@ -18,13 +18,13 @@ class PasswordsTableDataSource: NSObject, UITableViewDataSource {
     var showSuggestion: Bool = false
 
     init(entries: [PasswordTableEntry] = []) {
-        passwordTableEntries = entries
-        filteredPasswordsTableEntries = passwordTableEntries
-        suggestedPasswordsTableEntries = []
-        otherPasswordsTableEntries = []
+        self.passwordTableEntries = entries
+        self.filteredPasswordsTableEntries = passwordTableEntries
+        self.suggestedPasswordsTableEntries = []
+        self.otherPasswordsTableEntries = []
     }
 
-    func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in _: UITableView) -> Int {
         if !showSuggestion {
             return 1
         } else {
@@ -32,11 +32,11 @@ class PasswordsTableDataSource: NSObject, UITableViewDataSource {
         }
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableEntries(at: section).count
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
         if suggestedPasswordsTableEntries.isEmpty {
             return nil
         }

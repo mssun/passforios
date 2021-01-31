@@ -98,8 +98,8 @@ public class PGPAgent {
 
     public func decrypt(encryptedData: Data, requestPGPKeyPassphrase: (String) -> String) throws -> Data? {
         // Remember the previous status and set the current status
-        let previousDecryptStatus = self.latestDecryptStatus
-        self.latestDecryptStatus = false
+        let previousDecryptStatus = latestDecryptStatus
+        latestDecryptStatus = false
         // Init keys.
         try checkAndInit()
         // Get the PGP key passphrase.
@@ -114,7 +114,7 @@ public class PGPAgent {
             return nil
         }
         // The decryption step has succeed.
-        self.latestDecryptStatus = true
+        latestDecryptStatus = true
         return result
     }
 

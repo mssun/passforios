@@ -86,7 +86,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
 
     @objc
-    private func decryptThenShowPasswordSelector(_ sender: Any) {
+    private func decryptThenShowPasswordSelector(_: Any) {
         decryptThenShowPassword()
     }
 

@@ -11,7 +11,7 @@ import passKit
 
 class CredentialProviderViewController: ASCredentialProviderViewController {
     var passcodelock: PasscodeExtensionDisplay {
-        PasscodeExtensionDisplay(extensionContext: self.extensionContext)
+        PasscodeExtensionDisplay(extensionContext: extensionContext)
     }
 
     var embeddedNavigationController: UINavigationController {
@@ -62,7 +62,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
 
     @objc
     private func cancel(_: AnyObject?) {
-        self.extensionContext.cancelRequest(withError: NSError(domain: "PassExtension", code: 0))
+        extensionContext.cancelRequest(withError: NSError(domain: "PassExtension", code: 0))
     }
 }
 

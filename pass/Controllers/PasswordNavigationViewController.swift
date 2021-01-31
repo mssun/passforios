@@ -1,6 +1,6 @@
-import UIKit
 import passKit
 import SVProgressHUD
+import UIKit
 
 extension UIStoryboard {
     static var passwordNavigationViewController: PasswordNavigationViewController {
@@ -148,7 +148,7 @@ class PasswordNavigationViewController: UIViewController {
         navigationBar.addGestureRecognizer(tapNavigationBarGestureRecognizer)
     }
 
-    private func isRootViewController () -> Bool {
+    private func isRootViewController() -> Bool {
         navigationController?.viewControllers.count == 1
     }
 
@@ -258,11 +258,11 @@ extension PasswordNavigationViewController: UITableViewDelegate {
         }
     }
 
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
         UITableView.automaticDimension
     }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
         UITableView.automaticDimension
     }
 }
@@ -282,7 +282,7 @@ extension PasswordNavigationViewController {
         }
     }
 
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender _: Any?) -> Bool {
         if identifier == "showPasswordDetail" {
             guard PGPAgent.shared.isPrepared else {
                 Utils.alert(title: "CannotShowPassword".localize(), message: "PgpKeyNotSet.".localize(), controller: self)
@@ -369,7 +369,7 @@ extension PasswordNavigationViewController: UISearchBarDelegate {
         cancelSearch()
     }
 
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+    func searchBarTextDidEndEditing(_: UISearchBar) {
         cancelSearch()
     }
 
