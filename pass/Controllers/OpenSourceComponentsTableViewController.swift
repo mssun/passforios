@@ -73,7 +73,7 @@ class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
     @objc
     func actOnDetailDisclosureButton(_ sender: Any?) {
         if let link = sender as? String, let url = URL(string: link) {
-            let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+            let svc = SFSafariViewController(url: url)
             present(svc, animated: true)
         }
     }
