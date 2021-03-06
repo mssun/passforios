@@ -15,7 +15,7 @@ class PasswordsTableDataSource: NSObject, UITableViewDataSource {
     var suggestedPasswordsTableEntries: [PasswordTableEntry]
     var otherPasswordsTableEntries: [PasswordTableEntry]
 
-    var showSuggestion: Bool = false
+    var showSuggestion = false
 
     init(entries: [PasswordTableEntry] = []) {
         self.passwordTableEntries = entries

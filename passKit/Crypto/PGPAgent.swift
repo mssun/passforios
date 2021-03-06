@@ -11,7 +11,7 @@ public class PGPAgent {
 
     private let keyStore: KeyStore
     private var pgpInterface: PGPInterface?
-    private var latestDecryptStatus: Bool = true
+    private var latestDecryptStatus = true
 
     public init(keyStore: KeyStore = AppKeychain.shared) {
         self.keyStore = keyStore

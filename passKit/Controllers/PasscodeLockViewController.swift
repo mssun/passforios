@@ -21,7 +21,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
     weak var forgotPasscodeButton: UIButton?
     open weak var cancelButton: UIButton?
 
-    var isCancellable: Bool = false
+    var isCancellable = false
 
     private let passwordStore = PasswordStore.shared
 
