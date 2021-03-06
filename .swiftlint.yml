@@ -13,6 +13,7 @@ only_rules:
   - anyobject_protocol
   - array_init
   - attributes
+#  - balanced_xctest_lifecycle
   - block_based_kvo
   - class_delegate_protocol
   - closing_brace
@@ -36,6 +37,7 @@ only_rules:
   - cyclomatic_complexity
   - deployment_target
   - discarded_notification_center_observer
+  - discouraged_assert
   - discouraged_direct_init
 #  - discouraged_object_literal
   - discouraged_optional_boolean
@@ -90,6 +92,7 @@ only_rules:
   - large_tuple
   - last_where
   - leading_whitespace
+#  - legacy_objc_type
   - legacy_cggeometry_functions
   - legacy_constant
   - legacy_constructor
@@ -137,6 +140,7 @@ only_rules:
   - private_action
 #  - private_outlet
   - private_over_fileprivate
+  - private_subject
   - private_unit_test
 #  - prohibited_interface_builder
 #  - prohibited_super_call
