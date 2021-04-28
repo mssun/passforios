@@ -42,7 +42,10 @@ jobs:
     - name: Carthage
       if: steps.carthage-cache.outputs.cache-hit != 'true'
       run: |
-        export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig:/usr/local/opt/libssh2/lib/pkgconfig/"
+        export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+        export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig:/usr/local/opt/libssh2/lib/pkgconfig/"
+        export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+        export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
         ./scripts/wcarthage bootstrap --platform iOS --no-use-binaries --cache-builds --verbose || cat /Users/runner/work/passforios/passforios/Carthage/Checkouts/objective-git/External/build/log/libssh2-x86_64.log
     - name: GopenPGP
       if: steps.gopenpgp-cache.outputs.cache-hit != 'true'
