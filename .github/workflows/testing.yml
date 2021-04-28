@@ -42,7 +42,7 @@ jobs:
       if: steps.carthage-cache.outputs.cache-hit != 'true'
       run: |
         export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig:/usr/local/opt/libssh2/lib/pkgconfig/"
-        ./scripts/wcarthage bootstrap --platform iOS --no-use-binaries --cache-builds
+        ./scripts/wcarthage bootstrap --platform iOS --no-use-binaries --cache-builds --verbose
     - name: GopenPGP
       if: steps.gopenpgp-cache.outputs.cache-hit != 'true'
       run: |
