@@ -18,7 +18,7 @@ go env -w GO111MODULE=auto
 go get golang.org/x/mobile/cmd/gomobile
 gomobile init
 
-git clone --depth 1 --branch "$GOPENPGP_VERSION" git@github.com:ProtonMail/gopenpgp.git "$GOPENPGP_PATH"
+git clone --depth 1 --branch "$GOPENPGP_VERSION" https://github.com/ProtonMail/gopenpgp.git "$GOPENPGP_PATH"
 
 git apply patch/gnu-dummy.patch --directory "$GOPENPGP_PATH"
 
