@@ -55,7 +55,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         let myContext = LAContext()
         var authError: NSError?
         if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-            if #available(iOS 11.0, *), myContext.biometryType == .faceID {
+            if myContext.biometryType == .faceID {
                 biometryAuthButton.setTitle("FaceId".localize(), for: .normal)
             } else {
                 biometryAuthButton.setTitle("TouchId".localize(), for: .normal)
