@@ -1,35 +1,12 @@
 //
-//  PasscodeLockDisplay.swift
-//  pass
+//  PasscodeExtensionDisplay.swift
+//  passAutoFillExtension
 //
 //  Created by Yishi Lin on 14/6/17.
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import AuthenticationServices
-import Foundation
 import passKit
-
-// cancel means cancel the extension
-class PasscodeLockViewControllerForExtension: PasscodeLockViewController {
-    var originalExtensionContext: NSExtensionContext!
-
-    convenience init(extensionContext: NSExtensionContext) {
-        self.init()
-        self.originalExtensionContext = extensionContext
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        cancelButton?.removeTarget(nil, action: nil, for: .allEvents)
-        cancelButton?.addTarget(self, action: #selector(cancelExtension), for: .touchUpInside)
-    }
-
-    @objc
-    func cancelExtension() {
-        originalExtensionContext.cancelRequest(withError: NSError(domain: "PassExtension", code: 0))
-    }
-}
 
 class PasscodeExtensionDisplay {
     private let passcodeLockVC: PasscodeLockViewControllerForExtension
