@@ -68,6 +68,8 @@
 		30A69948240EED5E00B7D967 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A69947240EED5E00B7D967 /* IntentHandler.swift */; };
 		30A6995D240EED5F00B7D967 /* passShortcuts.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 30A69945240EED5E00B7D967 /* passShortcuts.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		30A86F95230F237000F821A4 /* CryptoFrameworkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A86F94230F237000F821A4 /* CryptoFrameworkTest.swift */; };
+		30B00F5526D59562004DAC61 /* PasscodeLockViewControllerForExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B00F5426D59562004DAC61 /* PasscodeLockViewControllerForExtension.swift */; };
+		30B00F5626D597A8004DAC61 /* PasscodeLockViewControllerForExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B00F5426D59562004DAC61 /* PasscodeLockViewControllerForExtension.swift */; };
 		30B04860209A5141001013CA /* PasswordTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B0485F209A5141001013CA /* PasswordTest.swift */; };
 		30B4C7BA24084AAA008B86F7 /* PasswordGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B4C7B924084AAA008B86F7 /* PasswordGenerator.swift */; };
 		30BAC8C622E3BAAF00438475 /* TestBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BAC8C422E3BAAF00438475 /* TestBase.swift */; };
@@ -350,6 +352,7 @@
 		30A6994F240EED5F00B7D967 /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
 		30A69968240EF52E00B7D967 /* SyncRepositoryIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncRepositoryIntentHandler.swift; sourceTree = "<group>"; };
 		30A86F94230F237000F821A4 /* CryptoFrameworkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoFrameworkTest.swift; sourceTree = "<group>"; };
+		30B00F5426D59562004DAC61 /* PasscodeLockViewControllerForExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeLockViewControllerForExtension.swift; sourceTree = "<group>"; };
 		30B0485F209A5141001013CA /* PasswordTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTest.swift; sourceTree = "<group>"; };
 		30B4C7B924084AAA008B86F7 /* PasswordGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordGenerator.swift; sourceTree = "<group>"; };
 		30BAC8C422E3BAAF00438475 /* TestBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestBase.swift; sourceTree = "<group>"; };
@@ -795,6 +798,7 @@
 				30697C5221F63E0B0064FCAC /* CredentialProviderViewController.swift */,
 				9A55C184259E8C5600FA8FD9 /* PasswordsViewController.swift */,
 				30697C5121F63E0B0064FCAC /* PasscodeExtensionDisplay.swift */,
+				30B00F5426D59562004DAC61 /* PasscodeLockViewControllerForExtension.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1590,6 +1594,7 @@
 				9A8F9ECC259ECB410027CE15 /* PasswordSelectionDelegate.swift in Sources */,
 				30697C5421F63E0B0064FCAC /* CredentialProviderViewController.swift in Sources */,
 				9A55C185259E8C5600FA8FD9 /* PasswordsViewController.swift in Sources */,
+				30B00F5526D59562004DAC61 /* PasscodeLockViewControllerForExtension.swift in Sources */,
 				9A5D06F525A56F0E00FA59D4 /* PasswordTableViewCell.swift in Sources */,
 				9A8F9EBD259EA4C50027CE15 /* PasswordsTableDataSource.swift in Sources */,
 				30697C5321F63E0B0064FCAC /* PasscodeExtensionDisplay.swift in Sources */,
@@ -1683,6 +1688,7 @@
 				9AFC882725B53BF4008D6060 /* PasswordDecryptor.swift in Sources */,
 				30697C4B21F63D460064FCAC /* ExtensionViewController.swift in Sources */,
 				9A58661B25AAA946006719C2 /* PasswordsTableDataSource.swift in Sources */,
+				30B00F5626D597A8004DAC61 /* PasscodeLockViewControllerForExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
