@@ -49,7 +49,7 @@ class PasscodeExtensionDisplay {
             return
         }
         passcodeLockVC.modalPresentationStyle = .fullScreen
-        extensionVC.present(passcodeLockVC, animated: false) {
+        extensionVC.parent?.present(passcodeLockVC, animated: false) {
             extensionVC.view.isHidden = false
         }
     }
