@@ -39,7 +39,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
         credentialProvider.identifier = serviceIdentifiers.first
         let url = serviceIdentifiers.first.flatMap { URL(string: $0.identifier) }
         passwordsViewController.navigationItem.prompt = url?.host
-        passwordsViewController.showPasswordsWithSuggstion(matching: url?.host ?? "")
+        passwordsViewController.showPasswordsWithSuggestion(matching: url?.host ?? "")
     }
 
     override func provideCredentialWithoutUserInteraction(for credentialIdentity: ASPasswordCredentialIdentity) {
@@ -57,7 +57,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
         }
         credentialProvider.identifier = credentialIdentity.serviceIdentifier
         passwordsViewController.navigationItem.prompt = identifier
-        passwordsViewController.showPasswordsWithSuggstion(matching: identifier)
+        passwordsViewController.showPasswordsWithSuggestion(matching: identifier)
     }
 
     @objc

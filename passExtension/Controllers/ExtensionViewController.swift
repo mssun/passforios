@@ -59,7 +59,7 @@ class ExtensionViewController: UIViewController {
 
         func completeTask(_ text: String?) {
             DispatchQueue.main.async {
-                self.passwordsViewController.showPasswordsWithSuggstion(matching: text ?? "")
+                self.passwordsViewController.showPasswordsWithSuggestion(matching: text ?? "")
                 self.passwordsViewController.navigationItem.prompt = text
             }
         }
