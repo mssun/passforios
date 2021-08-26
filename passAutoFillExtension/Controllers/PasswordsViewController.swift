@@ -43,7 +43,7 @@ class PasswordsViewController: UIViewController {
         tableView.dataSource = dataSource
     }
 
-    func showPasswordsWithSuggstion(matching text: String) {
+    func showPasswordsWithSuggestion(matching text: String) {
         dataSource.showTableEntriesWithSuggestion(matching: text)
         tableView.reloadData()
     }

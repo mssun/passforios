@@ -23,7 +23,7 @@ public class PasswordTableEntry: NSObject {
         self.categoryText = entity.getCategoryText()
     }
 
-    public func match(_ searchText: String) -> Bool {
+    public func matches(_ searchText: String) -> Bool {
         PasswordTableEntry.match(nameWithCategory: passwordEntity.nameWithCategory, searchText: searchText)
     }
 

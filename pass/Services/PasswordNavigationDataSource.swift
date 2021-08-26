@@ -68,7 +68,7 @@ class PasswordNavigationDataSource: NSObject, UITableViewDataSource {
         }
 
         filteredSections = sections.map { section in
-            let entries = section.entries.filter { $0.match(text) }
+            let entries = section.entries.filter { $0.matches(text) }
             return Section(title: section.title, entries: entries)
         }
         .filter { !$0.entries.isEmpty }

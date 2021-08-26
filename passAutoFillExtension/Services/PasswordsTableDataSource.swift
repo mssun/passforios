@@ -61,7 +61,7 @@ class PasswordsTableDataSource: NSObject, UITableViewDataSource {
             return
         }
 
-        filteredPasswordsTableEntries = passwordTableEntries.filter { $0.match(text) }
+        filteredPasswordsTableEntries = passwordTableEntries.filter { $0.matches(text) }
         showSuggestion = false
     }
 
@@ -73,7 +73,7 @@ class PasswordsTableDataSource: NSObject, UITableViewDataSource {
         }
 
         for entry in passwordTableEntries {
-            if entry.match(text) {
+            if entry.matches(text) {
                 suggestedPasswordsTableEntries.append(entry)
             } else {
                 otherPasswordsTableEntries.append(entry)
