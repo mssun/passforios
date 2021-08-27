@@ -19,15 +19,12 @@ class PasscodeExtensionDisplay {
     }
 
     // present the passcode lock view if passcode is set and the view controller is not presented
-    func presentPasscodeLockIfNeeded(_ extensionVC: UIViewController) {
-        extensionVC.view.isHidden = true
-        guard PasscodeLock.shared.hasPasscode else {
-            extensionVC.view.isHidden = false
-            return
-        }
-        passcodeLockVC.modalPresentationStyle = .fullScreen
-        extensionVC.parent?.present(passcodeLockVC, animated: false) {
-            extensionVC.view.isHidden = false
+    func presentPasscodeLockIfNeeded(_ sender: UIViewController, before: (() -> Void)? = nil, after: (() -> Void)? = nil) {
+        if PasscodeLock.shared.hasPasscode {
+            before?()
+            passcodeLockVC.successCallback = after
+            passcodeLockVC.modalPresentationStyle = .fullScreen
+            sender.parent?.present(passcodeLockVC, animated: false)
         }
     }
 }

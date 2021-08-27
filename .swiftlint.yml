@@ -221,6 +221,8 @@ closure_body_length:
 identifier_name:
   excluded: ["id", "to", "Defaults"]
   allowed_symbols: ["_"]
+multiline_arguments:
+  only_enforce_after_first_closure_on_first_line: true
 type_name:
   max_length: 50
 trailing_closure:

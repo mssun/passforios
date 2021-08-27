@@ -11,17 +11,20 @@ import MobileCoreServices
 import passKit
 
 class ExtensionViewController: UIViewController {
-    var passcodelock: PasscodeExtensionDisplay {
+    private lazy var passcodelock: PasscodeExtensionDisplay = { [unowned self] in
         PasscodeExtensionDisplay(extensionContext: extensionContext!)
-    }
+    }()
 
-    var embeddedNavigationController: UINavigationController {
-        children.first as! UINavigationController
-    }
+    private lazy var passwordsViewController: PasswordsViewController = {
+        (children.first as! UINavigationController).viewControllers.first as! PasswordsViewController
+    }()
 
-    var passwordsViewController: PasswordsViewController {
-        embeddedNavigationController.viewControllers.first as! PasswordsViewController
-    }
+    private lazy var credentialProvider: CredentialProvider = { [unowned self] in
+        CredentialProvider(viewController: self, extensionContext: extensionContext!)
+    }()
+
+    private lazy var passwordsTableEntries = PasswordStore.shared.fetchPasswordEntityCoreData(withDir: false)
+        .map(PasswordTableEntry.init(_:))
 
     enum Action {
         case findLogin, fillBrowser, unknown
@@ -29,17 +32,16 @@ class ExtensionViewController: UIViewController {
 
     private var action = Action.unknown
 
-    lazy var credentialProvider = CredentialProvider(viewController: self, extensionContext: self.extensionContext!)
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        passcodelock.presentPasscodeLockIfNeeded(self)
-
-        let passwordsTableEntries = PasswordStore.shared.fetchPasswordEntityCoreData(withDir: false).compactMap { PasswordTableEntry($0) }
-        let dataSource = PasswordsTableDataSource(entries: passwordsTableEntries)
-        passwordsViewController.dataSource = dataSource
+        view.isHidden = true
+        passwordsViewController.dataSource = PasswordsTableDataSource(entries: passwordsTableEntries)
         passwordsViewController.selectionDelegate = self
-        passwordsViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
+        passwordsViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .cancel,
+            target: self,
+            action: #selector(cancel)
+        )
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -47,12 +49,19 @@ class ExtensionViewController: UIViewController {
         prepareCredentialList()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        passcodelock.presentPasscodeLockIfNeeded(self, after: { [unowned self] in
+            self.view.isHidden = false
+        })
+    }
+
     @objc
     private func cancel(_: AnyObject?) {
         extensionContext?.completeRequest(returningItems: nil)
     }
 
-    func prepareCredentialList() {
+    private func prepareCredentialList() {
         guard let attachments = extensionContext?.attachments else {
             return
         }
