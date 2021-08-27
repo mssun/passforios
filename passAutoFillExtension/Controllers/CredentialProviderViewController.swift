@@ -60,14 +60,11 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
     }
 
     override func prepareInterfaceToProvideCredential(for credentialIdentity: ASPasswordCredentialIdentity) {
-        guard let identifier = credentialIdentity.recordIdentifier else {
-            return
+        passcodelock.presentPasscodeLockIfNeeded(self) {
+            self.view.isHidden = true
+        } after: { [unowned self] in
+            self.credentialProvider.credentials(for: credentialIdentity)
         }
-        passcodelock.presentPasscodeLockIfNeeded(self, after: { [unowned self] in
-            self.credentialProvider.identifier = credentialIdentity.serviceIdentifier
-            self.passwordsViewController.navigationItem.prompt = identifier
-            self.passwordsViewController.showPasswordsWithSuggestion(matching: identifier)
-        })
     }
 
     @objc
