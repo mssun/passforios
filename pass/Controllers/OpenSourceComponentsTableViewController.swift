@@ -32,6 +32,11 @@ class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
             "https://github.com/libgit2/objective-git/blob/master/LICENSE",
         ],
         [
+            "ObjectivePGP",
+            "https://github.com/krzyzanowskim/ObjectivePGP",
+            "https://github.com/krzyzanowskim/ObjectivePGP/blob/master/LICENSE.txt",
+        ],
+        [
             "OneTimePassword",
             "https://github.com/mattrubin/OneTimePassword",
             "https://github.com/mattrubin/OneTimePassword/blob/develop/LICENSE.md",
