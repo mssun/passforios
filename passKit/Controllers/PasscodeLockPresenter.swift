@@ -1,6 +1,6 @@
 //
 //  PasscodeLockPresenter.swift
-//  PasscodeLock
+//  passKit
 //
 //  Created by Yishi Lin on 10/04/2018.
 //  Copyright © 2018 Yishi Lin. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  NotificationNames.swift
-//  pass
+//  passKit
 //
 //  Created by Yishi Lin on 17/3/17.
 //  Copyright © 2017 Yishi Lin, Bob Sun. All rights reserved.

@@ -1,6 +1,6 @@
 //
-//  PasscodeLockPresenter.swift
-//  PasscodeLock
+//  PasscodeLockViewController.swift
+//  passKit
 //
 //  Created by Yishi Lin on 10/04/2018.
 //  Copyright © 2018 Yishi Lin. All rights reserved.
@@ -86,7 +86,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         self.cancelButton = cancelButton
 
         // Display the Pass icon in the middle of the screen
-        let bundle = Bundle(for: PasscodeLockViewController.self)
+        let bundle = Bundle(for: Self.self)
         let appIcon = UIImage(named: "PasscodeLockViewIcon", in: bundle, compatibleWith: nil)
         let appIconSize = (appIcon?.size.height) ?? 0
         let appIconView = UIImageView(image: appIcon)

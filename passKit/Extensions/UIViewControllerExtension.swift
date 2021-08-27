@@ -1,6 +1,6 @@
 //
 //  UIViewControllerExtension.swift
-//  pass
+//  passKit
 //
 //  Created by Yishi Lin on 5/4/17.
 //  Copyright © 2017 Yishi Lin. All rights reserved.

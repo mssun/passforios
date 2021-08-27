@@ -1,6 +1,6 @@
 //
-//  DefaultKeys.swift
-//  pass
+//  DefaultsKeys.swift
+//  passKit
 //
 //  Created by Mingshen Sun on 21/1/2017.
 //  Copyright © 2017 Bob Sun. All rights reserved.

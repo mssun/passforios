@@ -1,5 +1,5 @@
 //
-//  BasicTableViewController.swift
+//  BasicStaticTableViewController.swift
 //  pass
 //
 //  Created by Mingshen Sun on 9/2/2017.

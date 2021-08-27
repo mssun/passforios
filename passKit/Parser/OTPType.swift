@@ -1,5 +1,5 @@
 //
-//  OtpType.swift
+//  OTPType.swift
 //  passKit
 //
 //  Created by Danny Moesch on 01.12.2018.

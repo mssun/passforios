@@ -1,5 +1,5 @@
 //
-//  PGPKeyFileImportTableViewController.swift
+//  PGPKeyFIleImportTableViewController.swift
 //  pass
 //
 //  Created by Danny Moesch on 01.02.20.
