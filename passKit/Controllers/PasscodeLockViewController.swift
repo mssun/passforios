@@ -136,24 +136,24 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    internal func dismissPasscodeLock(completionHandler: (() -> Void)? = nil) {
+    private func dismissPasscodeLock(completionHandler: (() -> Void)? = nil) {
         // clean up the textfield
         DispatchQueue.main.async {
             self.passcodeTextField?.text = ""
         }
+
+        completionHandler?()
 
         // pop
         if presentingViewController?.presentedViewController == self {
             // if presented as modal
             dismiss(animated: true) { [weak self] in
                 self?.dismissCompletionCallback?()
-                completionHandler?()
             }
         } else {
             // if pushed in a navigation controller
             _ = navigationController?.popViewController(animated: true)
             dismissCompletionCallback?()
-            completionHandler?()
         }
     }
 
