@@ -1,6 +1,6 @@
 //
 //  SearchBarScope.swift
-//  pass
+//  passKit
 //
 //  Created by Danny Moesch on 05.03.19.
 //  Copyright © 2019 Bob Sun. All rights reserved.

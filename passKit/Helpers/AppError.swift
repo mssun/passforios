@@ -1,6 +1,6 @@
 //
 //  AppError.swift
-//  pass
+//  passKit
 //
 //  Created by Mingshen Sun on 30/4/2017.
 //  Copyright © 2017 Bob Sun. All rights reserved.

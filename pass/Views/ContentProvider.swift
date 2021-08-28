@@ -1,5 +1,5 @@
 //
-//  ContentTableViewCell.swift
+//  ContentProvider.swift
 //  pass
 //
 //  Created by Mingshen Sun on 12/2/2017.

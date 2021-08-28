@@ -1,6 +1,6 @@
 //
 //  PasswordEntity.swift
-//  pass
+//  passKit
 //
 //  Created by Mingshen Sun on 11/2/2017.
 //  Copyright © 2017 Bob Sun. All rights reserved.

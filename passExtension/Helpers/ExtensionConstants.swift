@@ -1,6 +1,6 @@
 //
-//  OnePasswordExtensionConstants.swift
-//  pass
+//  ExtensionConstants.swift
+//  passExtension
 //
 //  Created by Yishi Lin on 2017/6/23.
 //  Copyright © 2017 Bob Sun. All rights reserved.

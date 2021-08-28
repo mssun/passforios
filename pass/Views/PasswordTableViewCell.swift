@@ -1,6 +1,6 @@
 //
-//  PasswordCell.swift
-//  passAutoFillExtension
+//  PasswordTableViewCell.swift
+//  pass
 //
 //  Created by Sun, Mingshen on 12/31/20.
 //  Copyright © 2020 Bob Sun. All rights reserved.

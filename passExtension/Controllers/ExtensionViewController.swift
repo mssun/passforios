@@ -1,6 +1,6 @@
 //
-//  PasswordsViewController.swift
-//  pass
+//  ExtensionViewController.swift
+//  passExtension
 //
 //  Created by Yishi Lin on 13/6/17.
 //  Copyright © 2017 Bob Sun. All rights reserved.
