@@ -1,7 +1,2 @@
 github "SVProgressHUD/SVProgressHUD" "2.2.5"
-github "kishikawakatsumi/KeychainAccess" "v4.2.2"
-github "leonbreedt/FavIcon" "3.1.0"
-github "mattrubin/Base32" "1.1.2+xcode10.2"
-github "mattrubin/OneTimePassword" "3.2.0"
 github "mssun/objective-git" "46700019d808437b98c5ea4437a13ded8a09b218"
-github "radex/SwiftyUserDefaults" "5.3.0"
