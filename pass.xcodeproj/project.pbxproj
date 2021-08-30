@@ -26,6 +26,7 @@
 		3032DA5426DAF4C200A7728C /* ObjectivePGP in Frameworks */ = {isa = PBXBuildFile; productRef = 3032DA5326DAF4C200A7728C /* ObjectivePGP */; };
 		3032DA5626DAF4E500A7728C /* ObjectivePGP in Frameworks */ = {isa = PBXBuildFile; productRef = 3032DA5526DAF4E500A7728C /* ObjectivePGP */; };
 		303D120326DCCFF100ACC8E1 /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1208571E35EBE60042942E /* ObjectiveGit.framework */; };
+		303D121126DD7F8800ACC8E1 /* Base32 in Frameworks */ = {isa = PBXBuildFile; productRef = 303D121026DD7F8800ACC8E1 /* Base32 */; };
 		304E2125241550260047FB51 /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		30650E7123F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30650E7023F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift */; };
 		30650E7323F847FC005CCD5E /* KeyImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30650E7223F847FC005CCD5E /* KeyImporter.swift */; };
@@ -543,6 +544,7 @@
 				3032DA5426DAF4C200A7728C /* ObjectivePGP in Frameworks */,
 				3010CB6626DA500F008964D2 /* KeychainAccess in Frameworks */,
 				A260758D1EEC6F34005DB03E /* passKit.framework in Frameworks */,
+				303D121126DD7F8800ACC8E1 /* Base32 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1158,6 +1160,7 @@
 				30663CD926DCA916006FCF08 /* Copy Carthage Frameworks */,
 				3005F34F24A9143C000519B5 /* SwiftFormat */,
 				308800C124EB0D3600E87ED3 /* SwiftLint */,
+				303D120D26DD6F9300ACC8E1 /* Remove SPM Duplicate Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1174,6 +1177,7 @@
 				3010CB6526DA500F008964D2 /* KeychainAccess */,
 				3010CB6826DA50B3008964D2 /* OneTimePassword */,
 				3032DA5326DAF4C200A7728C /* ObjectivePGP */,
+				303D121026DD7F8800ACC8E1 /* Base32 */,
 			);
 			productName = pass;
 			productReference = DC917BD31E2E8231000FDF54 /* Pass.app */;
@@ -1393,6 +1397,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = ". \"${SRCROOT}/scripts/swiftformat.sh\"\n";
+		};
+		303D120D26DD6F9300ACC8E1 /* Remove SPM Duplicate Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Remove SPM Duplicate Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\n\nrm -rf \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/passKit.framework/Frameworks\"\n";
 		};
 		30663CD926DCA916006FCF08 /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2803,6 +2825,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3032DA5226DAF4C200A7728C /* XCRemoteSwiftPackageReference "ObjectivePGP" */;
 			productName = ObjectivePGP;
+		};
+		303D121026DD7F8800ACC8E1 /* Base32 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 30A3000C26DA62F4002A734E /* XCRemoteSwiftPackageReference "Base32" */;
+			productName = Base32;
 		};
 		30A3000F26DA6445002A734E /* Base32 */ = {
 			isa = XCSwiftPackageProductDependency;
