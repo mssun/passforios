@@ -1,7 +1,6 @@
 default_platform :ios
 
 lane :prepare do
-  cocoapods
   carthage(cache_builds: true, platform: "iOS")
   sh "./scripts/gopenpgp_build.sh"
 end

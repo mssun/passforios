@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		30052851267E9138003E2003 /* Gopenpgp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30052850267E9138003E2003 /* Gopenpgp.xcframework */; };
-		30052853267E914C003E2003 /* Gopenpgp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30052850267E9138003E2003 /* Gopenpgp.xcframework */; };
 		300713C52219D54100F553AC /* AutoCellHeightUITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300713C42219D54100F553AC /* AutoCellHeightUITableViewController.swift */; };
+		3010CB6026DA4F87008964D2 /* SwiftyUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 3010CB5F26DA4F87008964D2 /* SwiftyUserDefaults */; };
+		3010CB6326DA4FE9008964D2 /* FavIcon in Frameworks */ = {isa = PBXBuildFile; productRef = 3010CB6226DA4FE9008964D2 /* FavIcon */; };
+		3010CB6626DA500F008964D2 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 3010CB6526DA500F008964D2 /* KeychainAccess */; };
+		3010CB6926DA50B3008964D2 /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 3010CB6826DA50B3008964D2 /* OneTimePassword */; };
+		301D7E7C26DBF234007445AA /* Gopenpgp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30052850267E9138003E2003 /* Gopenpgp.xcframework */; };
 		301F6463216162550071A4CE /* AdditionField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6462216162550071A4CE /* AdditionField.swift */; };
 		301F6468216165290071A4CE /* ConstantsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F6467216165290071A4CE /* ConstantsTest.swift */; };
 		301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F646C216166AA0071A4CE /* AdditionFieldTest.swift */; };
@@ -20,10 +23,14 @@
 		3032327422C7F710009EBD9C /* KeyFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032327322C7F710009EBD9C /* KeyFileManager.swift */; };
 		3032328A22C9FBA2009EBD9C /* KeyFileManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032328922C9FBA2009EBD9C /* KeyFileManagerTest.swift */; };
 		3032328E22CBD4CD009EBD9C /* CryptographicKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032328D22CBD4CD009EBD9C /* CryptographicKeys.swift */; };
+		3032DA5426DAF4C200A7728C /* ObjectivePGP in Frameworks */ = {isa = PBXBuildFile; productRef = 3032DA5326DAF4C200A7728C /* ObjectivePGP */; };
+		3032DA5626DAF4E500A7728C /* ObjectivePGP in Frameworks */ = {isa = PBXBuildFile; productRef = 3032DA5526DAF4E500A7728C /* ObjectivePGP */; };
+		303D120326DCCFF100ACC8E1 /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1208571E35EBE60042942E /* ObjectiveGit.framework */; };
 		304E2125241550260047FB51 /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		30650E7123F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30650E7023F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift */; };
 		30650E7323F847FC005CCD5E /* KeyImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30650E7223F847FC005CCD5E /* KeyImporter.swift */; };
 		306623332406F1A8000E2AD6 /* PasswordGeneratorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306623322406F1A7000E2AD6 /* PasswordGeneratorTest.swift */; };
+		30663CE326DCAE10006FCF08 /* Gopenpgp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30052850267E9138003E2003 /* Gopenpgp.xcframework */; };
 		3066AD6823EE0D6500F65535 /* PGPKeyImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3066AD6723EE0D6500F65535 /* PGPKeyImporter.swift */; };
 		30695E2024FA6C6500C9D46E /* PasswordAlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30695E1F24FA6C6500C9D46E /* PasswordAlertPresenter.swift */; };
 		30695E2524FAEF2600C9D46E /* GitCredentialTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30695E2424FAEF2600C9D46E /* GitCredentialTest.swift */; };
@@ -65,6 +72,15 @@
 		30A1D2A821B2D53200E2D1F7 /* PasswordChange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A721B2D53200E2D1F7 /* PasswordChange.swift */; };
 		30A1D2AA21B32A0100E2D1F7 /* OTPTypeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2A921B32A0100E2D1F7 /* OTPTypeTest.swift */; };
 		30A1D2AC21B32C2A00E2D1F7 /* TokenBuilderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A1D2AB21B32C2A00E2D1F7 /* TokenBuilderTest.swift */; };
+		30A3001026DA6445002A734E /* Base32 in Frameworks */ = {isa = PBXBuildFile; productRef = 30A3000F26DA6445002A734E /* Base32 */; };
+		30A3001226DA666F002A734E /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 30A3001126DA666F002A734E /* OneTimePassword */; };
+		30A3001426DA6692002A734E /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 30A3001326DA6692002A734E /* KeychainAccess */; };
+		30A3001626DA6697002A734E /* SwiftyUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 30A3001526DA6697002A734E /* SwiftyUserDefaults */; };
+		30A3001826DA6974002A734E /* SwiftyUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 30A3001726DA6974002A734E /* SwiftyUserDefaults */; };
+		30A3001A26DA697C002A734E /* SwiftyUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 30A3001926DA697C002A734E /* SwiftyUserDefaults */; };
+		30A3001C26DA91BF002A734E /* SwiftyUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 30A3001B26DA91BF002A734E /* SwiftyUserDefaults */; };
+		30A3001E26DA91C4002A734E /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 30A3001D26DA91C4002A734E /* OneTimePassword */; };
+		30A3002026DA91D7002A734E /* Base32 in Frameworks */ = {isa = PBXBuildFile; productRef = 30A3001F26DA91D7002A734E /* Base32 */; };
 		30A69948240EED5E00B7D967 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A69947240EED5E00B7D967 /* IntentHandler.swift */; };
 		30A6995D240EED5F00B7D967 /* passShortcuts.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 30A69945240EED5E00B7D967 /* passShortcuts.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		30A86F95230F237000F821A4 /* CryptoFrameworkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A86F94230F237000F821A4 /* CryptoFrameworkTest.swift */; };
@@ -91,7 +107,6 @@
 		30EE3A16241E98C1009FBB61 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 30EE3A19241E98C1009FBB61 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (no_codegen, ); }; };
 		30EE3A17241E98C1009FBB61 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 30EE3A19241E98C1009FBB61 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
 		30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD2F77214D9E0E005E0A92 /* ParserTest.swift */; };
-		3EA2386CD0E9CE2A702A0B3E /* Pods_pass.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE627E8F3DACEDD8FA220081 /* Pods_pass.framework */; };
 		556EC3D322335C5F00934F9C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ECA21EA8FB5000E4154 /* Localizable.strings */; };
 		556EC3D422335C5F00934F9C /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ED521ED2434000E4154 /* Localizable.stringsdict */; };
 		556EC3D522335CD900934F9C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ECA21EA8FB5000E4154 /* Localizable.strings */; };
@@ -101,7 +116,6 @@
 		556EC3D922335D2800934F9C /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ED521ED2434000E4154 /* Localizable.stringsdict */; };
 		556EC3DA22335D3400934F9C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DBF21F3599E00BB27BB /* InfoPlist.strings */; };
 		556EC3DB22335D3D00934F9C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DBF21F3599E00BB27BB /* InfoPlist.strings */; };
-		8BA607EB4C9C8258741AC18C /* Pods_passExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14E955B67C88672AA3A40BA0 /* Pods_passExtension.framework */; };
 		9A55C158259E785600FA8FD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
 		9A55C15F259E785700FA8FD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
 		9A55C185259E8C5600FA8FD9 /* PasswordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A55C184259E8C5600FA8FD9 /* PasswordsViewController.swift */; };
@@ -116,7 +130,6 @@
 		9A5D06F525A56F0E00FA59D4 /* PasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */; };
 		9A5D070225A5769A00FA59D4 /* PasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */; };
 		9A652414244BB33300DA0A41 /* UIAlertActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A652413244BB33300DA0A41 /* UIAlertActionExtension.swift */; };
-		9A8A8387402FCCCECB1232A4 /* Pods_passKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2B2F844061EFA534FE9506 /* Pods_passKitTests.framework */; };
 		9A8F9EBD259EA4C50027CE15 /* PasswordsTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EBC259EA4C50027CE15 /* PasswordsTableDataSource.swift */; };
 		9A8F9ECC259ECB410027CE15 /* PasswordSelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9ECB259ECB410027CE15 /* PasswordSelectionDelegate.swift */; };
 		9A8F9F4025A1A91F0027CE15 /* CredentialProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9F3F25A1A91F0027CE15 /* CredentialProvider.swift */; };
@@ -130,7 +143,6 @@
 		9AFC882E25B53BF5008D6060 /* PasswordDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFC87EF25B514AD008D6060 /* PasswordDecryptor.swift */; };
 		A20691F41F2A3D0E0096483D /* SecurePasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20691F31F2A3D0E0096483D /* SecurePasteboard.swift */; };
 		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift */; };
-		A2367B9C1EEFE2E500C8FE8B /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */; };
 		A2367BA01EF0387000C8FE8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2367B9F1EF0387000C8FE8B /* Assets.xcassets */; };
 		A239F5902158C07D00576CBF /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A239F58F2158C07D00576CBF /* AuthenticationServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A239F5962158C08C00576CBF /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A239F58F2158C07D00576CBF /* AuthenticationServices.framework */; };
@@ -151,10 +163,6 @@
 		A2699ACF24027D9500F36323 /* PasswordTableEntryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2699ACE24027D9500F36323 /* PasswordTableEntryTest.swift */; };
 		A2802BF91E70813A00879216 /* SliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2802BF71E70813A00879216 /* SliderTableViewCell.swift */; };
 		A2802BFA1E70813A00879216 /* SliderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2802BF81E70813A00879216 /* SliderTableViewCell.xib */; };
-		A2A61C131EEF90CB00CFE063 /* Base32.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A262A58C1E68749C006B0890 /* Base32.framework */; };
-		A2A61C151EEF90CB00CFE063 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA742D91E599ED400D54E16 /* KeychainAccess.framework */; };
-		A2A61C161EEF90CB00CFE063 /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1208571E35EBE60042942E /* ObjectiveGit.framework */; };
-		A2A61C171EEF90CB00CFE063 /* OneTimePassword.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA671DE1E7A73B100D3ABE1 /* OneTimePassword.framework */; };
 		A2A61C201EEFABAD00CFE063 /* UtilsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A61C1F1EEFABAD00CFE063 /* UtilsExtension.swift */; };
 		A2A7813F1E97DBD9001311F5 /* QRScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */; };
 		A2AA934422DE30DD00D79A00 /* PGPAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2AA934322DE30DD00D79A00 /* PGPAgent.swift */; };
@@ -183,7 +191,6 @@
 		DCA0499A1E335CC800522E8F /* GitRepositorySettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA049991E335CC800522E8F /* GitRepositorySettingsTableViewController.swift */; };
 		DCA0499C1E3362F400522E8F /* PGPKeyUrlImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0499B1E3362F400522E8F /* PGPKeyUrlImportTableViewController.swift */; };
 		DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */; };
-		DCC408C71E307DBB00F29B0E /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */; };
 		DCC441521E8F6C06008A90C4 /* RawPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */; };
 		DCC441541E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC441531E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift */; };
 		DCD3C65E1EFB9BB400CBE842 /* SettingsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD3C65D1EFB9BB400CBE842 /* SettingsSplitViewController.swift */; };
@@ -195,7 +202,6 @@
 		DCFB77A71E502DF9008DE471 /* EditPasswordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77A61E502DF9008DE471 /* EditPasswordTableViewController.swift */; };
 		DCFB77A91E502FF6008DE471 /* PasswordEditorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77A81E502FF6008DE471 /* PasswordEditorTableViewController.swift */; };
 		DCFB77AB1E503729008DE471 /* ContentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFB77AA1E503729008DE471 /* ContentProvider.swift */; };
-		E813E400BBF3E7E8975EBAEF /* Pods_passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 134DA5B66070BA56678688CF /* Pods_passKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -285,10 +291,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		116F7CC822E134FA003B3BAC /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crypto.framework; path = go/dist/Crypto.framework; sourceTree = "<group>"; };
-		134DA5B66070BA56678688CF /* Pods_passKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		14E955B67C88672AA3A40BA0 /* Pods_passExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3005284A267E5FCF003E2003 /* Gopenpgp.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Gopenpgp.xcframework; path = go/gopenpgp/dist/Gopenpgp.xcframework; sourceTree = "<group>"; };
 		30052850267E9138003E2003 /* Gopenpgp.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Gopenpgp.xcframework; path = go/dist/Gopenpgp.xcframework; sourceTree = "<group>"; };
 		300713C42219D54100F553AC /* AutoCellHeightUITableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCellHeightUITableViewController.swift; sourceTree = "<group>"; };
 		301F6462216162550071A4CE /* AdditionField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionField.swift; sourceTree = "<group>"; };
@@ -378,12 +380,6 @@
 		30EE3A18241E98C1009FBB61 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = en; path = en.lproj/Intents.intentdefinition; sourceTree = "<group>"; };
 		30EE3A1B241E98C6009FBB61 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Intents.strings; sourceTree = "<group>"; };
 		30FD2F77214D9E0E005E0A92 /* ParserTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
-		3B2B2F844061EFA534FE9506 /* Pods_passKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_passKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5B58C21A769D3A659BC3E706 /* Pods-passKitTests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKitTests.beta.xcconfig"; path = "Pods/Target Support Files/Pods-passKitTests/Pods-passKitTests.beta.xcconfig"; sourceTree = "<group>"; };
-		60A3BC2FD124753767086BCC /* Pods-pass.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.beta.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.beta.xcconfig"; sourceTree = "<group>"; };
-		62DEE9943E0F2B8C79E3FC5B /* Pods-passExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-passExtension/Pods-passExtension.release.xcconfig"; sourceTree = "<group>"; };
-		64AA8DF9E73F39CCC3317247 /* Pods-passKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-passKit/Pods-passKit.release.xcconfig"; sourceTree = "<group>"; };
-		7CAD21E487234A0631B52E20 /* Pods-passKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passKit/Pods-passKit.debug.xcconfig"; sourceTree = "<group>"; };
 		9A1EF0B324C50DD80074FEAC /* passBeta.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passBeta.entitlements; sourceTree = "<group>"; };
 		9A1EF0B424C50E780074FEAC /* passBetaAutoFillExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passBetaAutoFillExtension.entitlements; sourceTree = "<group>"; };
 		9A1EF0B524C50EE00074FEAC /* passBetaExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passBetaExtension.entitlements; sourceTree = "<group>"; };
@@ -417,7 +413,6 @@
 		A26075801EEC6F34005DB03E /* passKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = passKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A26075891EEC6F34005DB03E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A26075A61EEC7125005DB03E /* pass.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = pass.xcdatamodel; sourceTree = "<group>"; };
-		A262A58C1E68749C006B0890 /* Base32.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Base32.framework; path = Carthage/Build/iOS/Base32.framework; sourceTree = "<group>"; };
 		A26700241EEC466A00176B8A /* passExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = passExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A26700291EEC466A00176B8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		A267002B1EEC466A00176B8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -433,12 +428,9 @@
 		A2AA934322DE30DD00D79A00 /* PGPAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGPAgent.swift; sourceTree = "<group>"; };
 		A2AA934522DE3A8000D79A00 /* PGPAgentTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGPAgentTest.swift; sourceTree = "<group>"; };
 		A2BC54C71EEE5669001FAFBD /* Objective-CBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Objective-CBridgingHeader.h"; sourceTree = "<group>"; };
-		B85DE0C3FF07C938FF1B24D2 /* Pods-passKit.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKit.beta.xcconfig"; path = "Pods/Target Support Files/Pods-passKit/Pods-passKit.beta.xcconfig"; sourceTree = "<group>"; };
-		C4C702DBCBA2374D32295603 /* Pods-passExtension.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passExtension.beta.xcconfig"; path = "Pods/Target Support Files/Pods-passExtension/Pods-passExtension.beta.xcconfig"; sourceTree = "<group>"; };
 		DC037CA51E4B883900609409 /* OpenSourceComponentsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSourceComponentsTableViewController.swift; sourceTree = "<group>"; };
 		DC037CA71E4B898100609409 /* BasicStaticTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicStaticTableViewController.swift; sourceTree = "<group>"; };
 		DC037CA91E4B8EAE00609409 /* SpecialThanksTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialThanksTableViewController.swift; sourceTree = "<group>"; };
-		DC037CAB1E4C1C7100609409 /* FavIcon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FavIcon.framework; path = Carthage/Build/iOS/FavIcon.framework; sourceTree = "<group>"; };
 		DC037CAF1E4CA51F00609409 /* GeneralSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralSettingsTableViewController.swift; sourceTree = "<group>"; };
 		DC037CB11E4CAB1700609409 /* AboutRepositoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutRepositoryTableViewController.swift; sourceTree = "<group>"; };
 		DC037CB71E4DD1A500609409 /* AddPasswordTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPasswordTableViewController.swift; sourceTree = "<group>"; };
@@ -453,7 +445,6 @@
 		DC3E64E51E656F11009A83DE /* CommitLogsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitLogsTableViewController.swift; sourceTree = "<group>"; };
 		DC4914941E434301007FF592 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
 		DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTableViewController.swift; sourceTree = "<group>"; };
-		DC547D572040664E838F3DB3 /* Pods-pass.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.debug.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.debug.xcconfig"; sourceTree = "<group>"; };
 		DC5F385A1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPKeyArmorImportTableViewController.swift; sourceTree = "<group>"; };
 		DC8963BF1E38EEB900828B09 /* SSHKeyUrlImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeyUrlImportTableViewController.swift; sourceTree = "<group>"; };
 		DC917BD31E2E8231000FDF54 /* Pass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pass.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -463,11 +454,8 @@
 		DC917BE01E2E8231000FDF54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DC917BE21E2E8231000FDF54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC962CDE1E4B62C10033B5D8 /* AboutTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutTableViewController.swift; sourceTree = "<group>"; };
-		DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyUserDefaults.framework; path = Carthage/Build/iOS/SwiftyUserDefaults.framework; sourceTree = "<group>"; };
 		DCA049991E335CC800522E8F /* GitRepositorySettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitRepositorySettingsTableViewController.swift; sourceTree = "<group>"; };
 		DCA0499B1E3362F400522E8F /* PGPKeyUrlImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPKeyUrlImportTableViewController.swift; sourceTree = "<group>"; };
-		DCA671DE1E7A73B100D3ABE1 /* OneTimePassword.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OneTimePassword.framework; path = Carthage/Build/iOS/OneTimePassword.framework; sourceTree = "<group>"; };
-		DCA742D91E599ED400D54E16 /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/iOS/KeychainAccess.framework; sourceTree = "<group>"; };
 		DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
 		DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawPasswordViewController.swift; sourceTree = "<group>"; };
@@ -481,11 +469,6 @@
 		DCFB77A61E502DF9008DE471 /* EditPasswordTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPasswordTableViewController.swift; sourceTree = "<group>"; };
 		DCFB77A81E502FF6008DE471 /* PasswordEditorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordEditorTableViewController.swift; sourceTree = "<group>"; };
 		DCFB77AA1E503729008DE471 /* ContentProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentProvider.swift; sourceTree = "<group>"; };
-		DD224E7F8C867E6CD0BFE9D5 /* Pods-passExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passExtension/Pods-passExtension.debug.xcconfig"; sourceTree = "<group>"; };
-		E8BA4183727AD2AF5E4CFF76 /* Pods-passKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-passKitTests/Pods-passKitTests.debug.xcconfig"; sourceTree = "<group>"; };
-		EFFF4527C3A296B53A10D7F7 /* Pods-passKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-passKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-passKitTests/Pods-passKitTests.release.xcconfig"; sourceTree = "<group>"; };
-		FDEF869C18B8B08063773B97 /* Pods-pass.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pass.release.xcconfig"; path = "Pods/Target Support Files/Pods-pass/Pods-pass.release.xcconfig"; sourceTree = "<group>"; };
-		FE627E8F3DACEDD8FA220081 /* Pods_pass.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_pass.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -494,6 +477,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				304E2125241550260047FB51 /* passKit.framework in Frameworks */,
+				30A3001826DA6974002A734E /* SwiftyUserDefaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -502,6 +486,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A239F5A52158C3F400576CBF /* passKit.framework in Frameworks */,
+				30A3001A26DA697C002A734E /* SwiftyUserDefaults in Frameworks */,
 				A239F5962158C08C00576CBF /* AuthenticationServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -510,8 +495,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E813E400BBF3E7E8975EBAEF /* Pods_passKit.framework in Frameworks */,
-				30052853267E914C003E2003 /* Gopenpgp.xcframework in Frameworks */,
+				30A3001426DA6692002A734E /* KeychainAccess in Frameworks */,
+				30A3001226DA666F002A734E /* OneTimePassword in Frameworks */,
+				30A3001026DA6445002A734E /* Base32 in Frameworks */,
+				301D7E7C26DBF234007445AA /* Gopenpgp.xcframework in Frameworks */,
+				30A3001626DA6697002A734E /* SwiftyUserDefaults in Frameworks */,
+				303D120326DCCFF100ACC8E1 /* ObjectiveGit.framework in Frameworks */,
+				3032DA5626DAF4E500A7728C /* ObjectivePGP in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,8 +509,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30A3001E26DA91C4002A734E /* OneTimePassword in Frameworks */,
 				A26075811EEC6F34005DB03E /* passKit.framework in Frameworks */,
-				9A8A8387402FCCCECB1232A4 /* Pods_passKitTests.framework in Frameworks */,
+				30A3002026DA91D7002A734E /* Base32 in Frameworks */,
+				30A3001C26DA91BF002A734E /* SwiftyUserDefaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,13 +520,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A2367B9C1EEFE2E500C8FE8B /* SwiftyUserDefaults.framework in Frameworks */,
-				A2A61C131EEF90CB00CFE063 /* Base32.framework in Frameworks */,
-				A2A61C151EEF90CB00CFE063 /* KeychainAccess.framework in Frameworks */,
-				A2A61C161EEF90CB00CFE063 /* ObjectiveGit.framework in Frameworks */,
-				A2A61C171EEF90CB00CFE063 /* OneTimePassword.framework in Frameworks */,
 				A26075961EEC6F8C005DB03E /* passKit.framework in Frameworks */,
-				8BA607EB4C9C8258741AC18C /* Pods_passExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,11 +535,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3010CB6926DA50B3008964D2 /* OneTimePassword in Frameworks */,
 				A239F5902158C07D00576CBF /* AuthenticationServices.framework in Frameworks */,
+				3010CB6026DA4F87008964D2 /* SwiftyUserDefaults in Frameworks */,
+				30663CE326DCAE10006FCF08 /* Gopenpgp.xcframework in Frameworks */,
+				3010CB6326DA4FE9008964D2 /* FavIcon in Frameworks */,
+				3032DA5426DAF4C200A7728C /* ObjectivePGP in Frameworks */,
+				3010CB6626DA500F008964D2 /* KeychainAccess in Frameworks */,
 				A260758D1EEC6F34005DB03E /* passKit.framework in Frameworks */,
-				DCC408C71E307DBB00F29B0E /* SVProgressHUD.framework in Frameworks */,
-				3EA2386CD0E9CE2A702A0B3E /* Pods_pass.framework in Frameworks */,
-				30052851267E9138003E2003 /* Gopenpgp.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -575,25 +564,6 @@
 				3032328922C9FBA2009EBD9C /* KeyFileManagerTest.swift */,
 			);
 			path = Helpers;
-			sourceTree = "<group>";
-		};
-		30468FC4444CE00A19257B78 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				7CAD21E487234A0631B52E20 /* Pods-passKit.debug.xcconfig */,
-				64AA8DF9E73F39CCC3317247 /* Pods-passKit.release.xcconfig */,
-				DC547D572040664E838F3DB3 /* Pods-pass.debug.xcconfig */,
-				FDEF869C18B8B08063773B97 /* Pods-pass.release.xcconfig */,
-				DD224E7F8C867E6CD0BFE9D5 /* Pods-passExtension.debug.xcconfig */,
-				62DEE9943E0F2B8C79E3FC5B /* Pods-passExtension.release.xcconfig */,
-				E8BA4183727AD2AF5E4CFF76 /* Pods-passKitTests.debug.xcconfig */,
-				EFFF4527C3A296B53A10D7F7 /* Pods-passKitTests.release.xcconfig */,
-				60A3BC2FD124753767086BCC /* Pods-pass.beta.xcconfig */,
-				C4C702DBCBA2374D32295603 /* Pods-passExtension.beta.xcconfig */,
-				B85DE0C3FF07C938FF1B24D2 /* Pods-passKit.beta.xcconfig */,
-				5B58C21A769D3A659BC3E706 /* Pods-passKitTests.beta.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		30662336240835D0000E2AD6 /* Passwords */ = {
@@ -985,7 +955,6 @@
 				30A69946240EED5E00B7D967 /* passShortcuts */,
 				DC13B14F1E8640810097803F /* passTests */,
 				DC917BD41E2E8231000FDF54 /* Products */,
-				30468FC4444CE00A19257B78 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1029,22 +998,11 @@
 		DC917BED1E2F38C4000FDF54 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3005284A267E5FCF003E2003 /* Gopenpgp.xcframework */,
-				30052850267E9138003E2003 /* Gopenpgp.xcframework */,
 				A239F58F2158C07D00576CBF /* AuthenticationServices.framework */,
-				DCA671DE1E7A73B100D3ABE1 /* OneTimePassword.framework */,
-				A262A58C1E68749C006B0890 /* Base32.framework */,
-				DCA742D91E599ED400D54E16 /* KeychainAccess.framework */,
-				DC037CAB1E4C1C7100609409 /* FavIcon.framework */,
-				DC1208571E35EBE60042942E /* ObjectiveGit.framework */,
-				DCA049951E3357E000522E8F /* SwiftyUserDefaults.framework */,
-				DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */,
-				FE627E8F3DACEDD8FA220081 /* Pods_pass.framework */,
-				14E955B67C88672AA3A40BA0 /* Pods_passExtension.framework */,
-				134DA5B66070BA56678688CF /* Pods_passKit.framework */,
-				3B2B2F844061EFA534FE9506 /* Pods_passKitTests.framework */,
-				116F7CC822E134FA003B3BAC /* Crypto.framework */,
+				30052850267E9138003E2003 /* Gopenpgp.xcframework */,
 				30A6994F240EED5F00B7D967 /* IntentsUI.framework */,
+				DC1208571E35EBE60042942E /* ObjectiveGit.framework */,
+				DCC408C61E307DBB00F29B0E /* SVProgressHUD.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1077,6 +1035,9 @@
 				304E2128241550260047FB51 /* PBXTargetDependency */,
 			);
 			name = passShortcuts;
+			packageProductDependencies = (
+				30A3001726DA6974002A734E /* SwiftyUserDefaults */,
+			);
 			productName = passShortcuts;
 			productReference = 30A69945240EED5E00B7D967 /* passShortcuts.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -1094,6 +1055,9 @@
 			dependencies = (
 			);
 			name = passAutoFillExtension;
+			packageProductDependencies = (
+				30A3001926DA697C002A734E /* SwiftyUserDefaults */,
+			);
 			productName = passAutoFillExtension;
 			productReference = A239F5952158C08B00576CBF /* passAutoFillExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -1102,7 +1066,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A260758F1EEC6F34005DB03E /* Build configuration list for PBXNativeTarget "passKit" */;
 			buildPhases = (
-				1BB5DAFEBEB84E2A89D2CE62 /* [CP] Check Pods Manifest.lock */,
 				A26075731EEC6F34005DB03E /* Sources */,
 				A26075741EEC6F34005DB03E /* Frameworks */,
 				A26075751EEC6F34005DB03E /* Headers */,
@@ -1113,6 +1076,13 @@
 			dependencies = (
 			);
 			name = passKit;
+			packageProductDependencies = (
+				30A3000F26DA6445002A734E /* Base32 */,
+				30A3001126DA666F002A734E /* OneTimePassword */,
+				30A3001326DA6692002A734E /* KeychainAccess */,
+				30A3001526DA6697002A734E /* SwiftyUserDefaults */,
+				3032DA5526DAF4E500A7728C /* ObjectivePGP */,
+			);
 			productName = passKit;
 			productReference = A26075781EEC6F34005DB03E /* passKit.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1121,11 +1091,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A26075931EEC6F34005DB03E /* Build configuration list for PBXNativeTarget "passKitTests" */;
 			buildPhases = (
-				3EFC287772C1D2B2762FAC45 /* [CP] Check Pods Manifest.lock */,
 				A260757C1EEC6F34005DB03E /* Sources */,
 				A260757D1EEC6F34005DB03E /* Frameworks */,
 				A260757E1EEC6F34005DB03E /* Resources */,
-				1089981FB64E3738DF938F5E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1134,6 +1102,11 @@
 				A26075851EEC6F34005DB03E /* PBXTargetDependency */,
 			);
 			name = passKitTests;
+			packageProductDependencies = (
+				30A3001B26DA91BF002A734E /* SwiftyUserDefaults */,
+				30A3001D26DA91C4002A734E /* OneTimePassword */,
+				30A3001F26DA91D7002A734E /* Base32 */,
+			);
 			productName = passKitTests;
 			productReference = A26075801EEC6F34005DB03E /* passKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -1142,7 +1115,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A267002F1EEC466A00176B8A /* Build configuration list for PBXNativeTarget "passExtension" */;
 			buildPhases = (
-				AE20134A104142525DAA5805 /* [CP] Check Pods Manifest.lock */,
 				A26700201EEC466A00176B8A /* Sources */,
 				A26700211EEC466A00176B8A /* Frameworks */,
 				A26700221EEC466A00176B8A /* Resources */,
@@ -1178,14 +1150,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DC917BE51E2E8231000FDF54 /* Build configuration list for PBXNativeTarget "pass" */;
 			buildPhases = (
-				E47C3C007BAB9220B6E522A3 /* [CP] Check Pods Manifest.lock */,
 				DC917BCF1E2E8231000FDF54 /* Sources */,
 				DC917BD01E2E8231000FDF54 /* Frameworks */,
 				DC917BD11E2E8231000FDF54 /* Resources */,
-				DC917BEC1E2F3659000FDF54 /* Run Script */,
 				A26700191EEC450100176B8A /* Embed App Extensions */,
 				A26075921EEC6F34005DB03E /* Embed Frameworks */,
-				9AF6A4F532EB900EE22C80EA /* [CP] Embed Pods Frameworks */,
+				30663CD926DCA916006FCF08 /* Copy Carthage Frameworks */,
 				3005F34F24A9143C000519B5 /* SwiftFormat */,
 				308800C124EB0D3600E87ED3 /* SwiftLint */,
 			);
@@ -1198,6 +1168,13 @@
 				30A6995C240EED5F00B7D967 /* PBXTargetDependency */,
 			);
 			name = pass;
+			packageProductDependencies = (
+				3010CB5F26DA4F87008964D2 /* SwiftyUserDefaults */,
+				3010CB6226DA4FE9008964D2 /* FavIcon */,
+				3010CB6526DA500F008964D2 /* KeychainAccess */,
+				3010CB6826DA50B3008964D2 /* OneTimePassword */,
+				3032DA5326DAF4C200A7728C /* ObjectivePGP */,
+			);
 			productName = pass;
 			productReference = DC917BD31E2E8231000FDF54 /* Pass.app */;
 			productType = "com.apple.product-type.application";
@@ -1292,6 +1269,14 @@
 				de,
 			);
 			mainGroup = DC917BCA1E2E8231000FDF54;
+			packageReferences = (
+				3010CB5E26DA4F87008964D2 /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */,
+				3010CB6126DA4FE9008964D2 /* XCRemoteSwiftPackageReference "FavIcon" */,
+				3010CB6426DA500F008964D2 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				3010CB6726DA50B3008964D2 /* XCRemoteSwiftPackageReference "OneTimePassword" */,
+				30A3000C26DA62F4002A734E /* XCRemoteSwiftPackageReference "Base32" */,
+				3032DA5226DAF4C200A7728C /* XCRemoteSwiftPackageReference "ObjectivePGP" */,
+			);
 			productRefGroup = DC917BD41E2E8231000FDF54 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1391,46 +1376,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1089981FB64E3738DF938F5E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-passKitTests/Pods-passKitTests-frameworks.sh",
-				"${PODS_ROOT}/ObjectivePGP/Frameworks/ios/ObjectivePGP.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectivePGP.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-passKitTests/Pods-passKitTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1BB5DAFEBEB84E2A89D2CE62 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-passKit-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3005F34F24A9143C000519B5 /* SwiftFormat */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1449,6 +1394,26 @@
 			shellPath = /bin/sh;
 			shellScript = ". \"${SRCROOT}/scripts/swiftformat.sh\"\n";
 		};
+		30663CD926DCA916006FCF08 /* Copy Carthage Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/SVProgressHUD.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework",
+			);
+			name = "Copy Carthage Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+		};
 		308800C124EB0D3600E87ED3 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1466,111 +1431,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = ". \"${SRCROOT}/scripts/swiftlint.sh\"\n";
-		};
-		3EFC287772C1D2B2762FAC45 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-passKitTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9AF6A4F532EB900EE22C80EA /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-pass/Pods-pass-frameworks.sh",
-				"${PODS_ROOT}/ObjectivePGP/Frameworks/ios/ObjectivePGP.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectivePGP.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pass/Pods-pass-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AE20134A104142525DAA5805 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-passExtension-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DC917BEC1E2F3659000FDF54 /* Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/SVProgressHUD.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SwiftyUserDefaults.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/FavIcon.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/KeychainAccess.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/OneTimePassword.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Base32.framework",
-			);
-			name = "Run Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
-		};
-		E47C3C007BAB9220B6E522A3 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-pass-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1890,7 +1750,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passShortcuts/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1923,7 +1785,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passShortcuts/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1946,6 +1810,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1981,7 +1846,10 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/go/dist",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1992,9 +1860,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",
-					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
+					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_SWIFT_FLAGS = "-D BETA";
 				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforiosbeta;
@@ -2011,11 +1880,9 @@
 		};
 		9A1EF0AC24C4EB280074FEAC /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 60A3BC2FD124753767086BCC /* Pods-pass.beta.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconBeta;
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = pass/passBeta.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
@@ -2023,10 +1890,7 @@
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/go/dist",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = pass/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -2038,6 +1902,7 @@
 				MARKETING_VERSION = 0.12.0;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "${inherited}";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				PROVISIONING_PROFILE = "ee6e841d-ef77-4f00-b534-d7f1fd25dc1d";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore me.mssun.passforiosbeta";
@@ -2064,6 +1929,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).passTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -2074,7 +1940,6 @@
 		};
 		9A1EF0AE24C4EB280074FEAC /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C4C702DBCBA2374D32295603 /* Pods-passExtension.beta.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				APP_DISPLAY_NAME = "Pass Beta";
@@ -2097,6 +1962,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 0.12.0;
 				OTHER_CFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).find-login-action-extension";
 				PRODUCT_NAME = passExtension;
 				PROVISIONING_PROFILE = "cbd86628-6f3e-40f3-b518-20d2330db545";
@@ -2110,10 +1976,8 @@
 		};
 		9A1EF0AF24C4EB280074FEAC /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B85DE0C3FF07C938FF1B24D2 /* Pods-passKit.beta.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -2124,20 +1988,18 @@
 				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/go/dist",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 0.12.0;
 				MODULEMAP_FILE = "";
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).passKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2154,15 +2016,11 @@
 		};
 		9A1EF0B024C4EB280074FEAC /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B58C21A769D3A659BC3E706 /* Pods-passKitTests.beta.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passKitTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2170,6 +2028,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).passKitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -2191,7 +2050,9 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passAutoFillExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2201,6 +2062,7 @@
 				);
 				MARKETING_VERSION = 0.12.0;
 				MTL_FAST_MATH = YES;
+				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.mssun.passforiosbeta.auto-fill-credential-extension";
 				PRODUCT_NAME = passAutoFillExtension;
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore me.mssun.passforiosbeta.auto-fill-credential-extension";
@@ -2224,7 +2086,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passShortcuts/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2234,6 +2098,7 @@
 				);
 				MARKETING_VERSION = 0.12.0;
 				MTL_FAST_MATH = YES;
+				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforiosbeta.shortcuts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore me.mssun.passforiosbeta.shortcuts";
@@ -2256,7 +2121,9 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passAutoFillExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2290,7 +2157,9 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passAutoFillExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2312,10 +2181,8 @@
 		};
 		A26075901EEC6F34005DB03E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7CAD21E487234A0631B52E20 /* Pods-passKit.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -2326,15 +2193,12 @@
 				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/go/dist",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 0.12.0;
 				MODULEMAP_FILE = "";
@@ -2357,10 +2221,8 @@
 		};
 		A26075911EEC6F34005DB03E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 64AA8DF9E73F39CCC3317247 /* Pods-passKit.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -2371,15 +2233,12 @@
 				DYLIB_CURRENT_VERSION = 0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/go/dist",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 0.12.0;
 				MODULEMAP_FILE = "";
@@ -2401,15 +2260,11 @@
 		};
 		A26075941EEC6F34005DB03E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8BA4183727AD2AF5E4CFF76 /* Pods-passKitTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passKitTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2427,15 +2282,11 @@
 		};
 		A26075951EEC6F34005DB03E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EFFF4527C3A296B53A10D7F7 /* Pods-passKitTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = passKitTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2453,7 +2304,6 @@
 		};
 		A26700301EEC466A00176B8A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DD224E7F8C867E6CD0BFE9D5 /* Pods-passExtension.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				APP_DISPLAY_NAME = Pass;
@@ -2489,7 +2339,6 @@
 		};
 		A26700311EEC466A00176B8A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 62DEE9943E0F2B8C79E3FC5B /* Pods-passExtension.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				APP_DISPLAY_NAME = Pass;
@@ -2573,6 +2422,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -2608,7 +2458,10 @@
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/go/dist",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2625,9 +2478,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",
-					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
+					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios;
@@ -2645,6 +2499,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -2680,7 +2535,10 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/go/dist",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2691,9 +2549,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",
-					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
+					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = me.mssun.passforios;
 				PRODUCT_NAME = Pass;
@@ -2709,11 +2568,9 @@
 		};
 		DC917BE61E2E8231000FDF54 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DC547D572040664E838F3DB3 /* Pods-pass.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = pass/pass.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2721,10 +2578,7 @@
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/go/dist",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = pass/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -2749,11 +2603,9 @@
 		};
 		DC917BE71E2E8231000FDF54 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FDEF869C18B8B08063773B97 /* Pods-pass.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = pass/pass.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
@@ -2761,10 +2613,7 @@
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 4WDM8E95VU;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/go/dist",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = pass/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -2776,6 +2625,7 @@
 				MARKETING_VERSION = 0.12.0;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "${inherited}";
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				PROVISIONING_PROFILE = "ee6e841d-ef77-4f00-b534-d7f1fd25dc1d";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore me.mssun.passforios";
@@ -2871,6 +2721,135 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3010CB5E26DA4F87008964D2 /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sunshinejr/SwiftyUserDefaults";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.3.0;
+			};
+		};
+		3010CB6126DA4FE9008964D2 /* XCRemoteSwiftPackageReference "FavIcon" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/leonbreedt/FavIcon";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.0;
+			};
+		};
+		3010CB6426DA500F008964D2 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.2;
+			};
+		};
+		3010CB6726DA50B3008964D2 /* XCRemoteSwiftPackageReference "OneTimePassword" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mattrubin/OneTimePassword";
+			requirement = {
+				branch = develop;
+				kind = branch;
+			};
+		};
+		3032DA5226DAF4C200A7728C /* XCRemoteSwiftPackageReference "ObjectivePGP" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krzyzanowskim/ObjectivePGP";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.17.0;
+			};
+		};
+		30A3000C26DA62F4002A734E /* XCRemoteSwiftPackageReference "Base32" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mattrubin/Base32";
+			requirement = {
+				branch = "1.1.2+spm";
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3010CB5F26DA4F87008964D2 /* SwiftyUserDefaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3010CB5E26DA4F87008964D2 /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */;
+			productName = SwiftyUserDefaults;
+		};
+		3010CB6226DA4FE9008964D2 /* FavIcon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3010CB6126DA4FE9008964D2 /* XCRemoteSwiftPackageReference "FavIcon" */;
+			productName = FavIcon;
+		};
+		3010CB6526DA500F008964D2 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3010CB6426DA500F008964D2 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+		3010CB6826DA50B3008964D2 /* OneTimePassword */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3010CB6726DA50B3008964D2 /* XCRemoteSwiftPackageReference "OneTimePassword" */;
+			productName = OneTimePassword;
+		};
+		3032DA5326DAF4C200A7728C /* ObjectivePGP */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3032DA5226DAF4C200A7728C /* XCRemoteSwiftPackageReference "ObjectivePGP" */;
+			productName = ObjectivePGP;
+		};
+		3032DA5526DAF4E500A7728C /* ObjectivePGP */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3032DA5226DAF4C200A7728C /* XCRemoteSwiftPackageReference "ObjectivePGP" */;
+			productName = ObjectivePGP;
+		};
+		30A3000F26DA6445002A734E /* Base32 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 30A3000C26DA62F4002A734E /* XCRemoteSwiftPackageReference "Base32" */;
+			productName = Base32;
+		};
+		30A3001126DA666F002A734E /* OneTimePassword */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3010CB6726DA50B3008964D2 /* XCRemoteSwiftPackageReference "OneTimePassword" */;
+			productName = OneTimePassword;
+		};
+		30A3001326DA6692002A734E /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3010CB6426DA500F008964D2 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+		30A3001526DA6697002A734E /* SwiftyUserDefaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3010CB5E26DA4F87008964D2 /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */;
+			productName = SwiftyUserDefaults;
+		};
+		30A3001726DA6974002A734E /* SwiftyUserDefaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3010CB5E26DA4F87008964D2 /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */;
+			productName = SwiftyUserDefaults;
+		};
+		30A3001926DA697C002A734E /* SwiftyUserDefaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3010CB5E26DA4F87008964D2 /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */;
+			productName = SwiftyUserDefaults;
+		};
+		30A3001B26DA91BF002A734E /* SwiftyUserDefaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3010CB5E26DA4F87008964D2 /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */;
+			productName = SwiftyUserDefaults;
+		};
+		30A3001D26DA91C4002A734E /* OneTimePassword */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3010CB6726DA50B3008964D2 /* XCRemoteSwiftPackageReference "OneTimePassword" */;
+			productName = OneTimePassword;
+		};
+		30A3001F26DA91D7002A734E /* Base32 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 30A3000C26DA62F4002A734E /* XCRemoteSwiftPackageReference "Base32" */;
+			productName = Base32;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		A26075A51EEC7125005DB03E /* pass.xcdatamodeld */ = {

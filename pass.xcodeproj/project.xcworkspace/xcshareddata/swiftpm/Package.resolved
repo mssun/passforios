@@ -1,0 +1,61 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Base32",
+        "repositoryURL": "https://github.com/mattrubin/Base32",
+        "state": {
+          "branch": "1.1.2+spm",
+          "revision": "d185e44c8b355d34d5c6c6ad502c60cba4599f69",
+          "version": null
+        }
+      },
+      {
+        "package": "FavIcon",
+        "repositoryURL": "https://github.com/leonbreedt/FavIcon",
+        "state": {
+          "branch": null,
+          "revision": "5bf16aad3ea543891eaef7e8da2aa2f6bb29e6e4",
+          "version": "3.1.0"
+        }
+      },
+      {
+        "package": "KeychainAccess",
+        "repositoryURL": "https://github.com/kishikawakatsumi/KeychainAccess",
+        "state": {
+          "branch": null,
+          "revision": "84e546727d66f1adc5439debad16270d0fdd04e7",
+          "version": "4.2.2"
+        }
+      },
+      {
+        "package": "ObjectivePGP",
+        "repositoryURL": "https://github.com/krzyzanowskim/ObjectivePGP",
+        "state": {
+          "branch": null,
+          "revision": "d521f74f3c7555eee49499cd5b14079e721f7a70",
+          "version": "0.17.0"
+        }
+      },
+      {
+        "package": "OneTimePassword",
+        "repositoryURL": "https://github.com/mattrubin/OneTimePassword",
+        "state": {
+          "branch": "develop",
+          "revision": "bd2a8fa24057916e4e543ae323e34f75ae744db8",
+          "version": null
+        }
+      },
+      {
+        "package": "SwiftyUserDefaults",
+        "repositoryURL": "https://github.com/sunshinejr/SwiftyUserDefaults",
+        "state": {
+          "branch": null,
+          "revision": "f66bcd04088582c8fbb5cb8554d577e303bae396",
+          "version": "5.3.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
