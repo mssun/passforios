@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-11
     strategy:
       matrix:
         channel: ['beta', 'release']
@@ -26,12 +26,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-carthage-${{ secrets.CACHE_VERSION }}-
     - uses: actions/cache@v2
-      with:
-        path: Pods
-        key: ${{ runner.os }}-pods-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/Podfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-pods-${{ secrets.CACHE_VERSION }}-
-    - uses: actions/cache@v2
       id: gopenpgp-cache
       with:
         path: go
@@ -42,8 +36,6 @@ jobs:
       run: |
         bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
-    - name: Cocoapods
-      run: bundle exec pod install
     - name: Carthage
       if: steps.carthage-cache.outputs.cache-hit != 'true'
       run: |
