@@ -1403,7 +1403,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nrm -rf ${BUILT_PRODUCTS_DIR}/passKit.framework/Frameworks\n# rm ./OneTimePassword_-xxx_PackageProduct.framework/Frameworks\nrm -rf ${BUILT_PRODUCTS_DIR}/Pass.app/Frameworks/OneTimePassword_-4062141A69DF0BED_PackageProduct.framework/Frameworks\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -xe\nrm -rf ${BUILT_PRODUCTS_DIR}/passKit.framework/Frameworks\n# rm ./OneTimePassword_-xxx_PackageProduct.framework/Frameworks\nfind -L ${BUILT_PRODUCTS_DIR}/OneTimePassword_*.framework -type d -name \"Frameworks\" | xargs rm -rf\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
