@@ -47,10 +47,6 @@ class ExtensionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         prepareCredentialList()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         passcodelock.presentPasscodeLockIfNeeded(self, after: { [unowned self] in
             self.view.isHidden = false
         })

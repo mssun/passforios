@@ -24,7 +24,11 @@ class PasscodeExtensionDisplay {
             before?()
             passcodeLockVC.successCallback = after
             passcodeLockVC.modalPresentationStyle = .fullScreen
-            sender.parent?.present(passcodeLockVC, animated: false)
+            sender.parent?.present(passcodeLockVC, animated: false) {
+                after?()
+            }
+        } else {
+            after?()
         }
     }
 }
