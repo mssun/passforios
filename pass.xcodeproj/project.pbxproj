@@ -23,7 +23,6 @@
 		3032328E22CBD4CD009EBD9C /* CryptographicKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032328D22CBD4CD009EBD9C /* CryptographicKeys.swift */; };
 		3032DA5426DAF4C200A7728C /* ObjectivePGP in Frameworks */ = {isa = PBXBuildFile; productRef = 3032DA5326DAF4C200A7728C /* ObjectivePGP */; };
 		3032DA5626DAF4E500A7728C /* ObjectivePGP in Frameworks */ = {isa = PBXBuildFile; productRef = 3032DA5526DAF4E500A7728C /* ObjectivePGP */; };
-		304E2125241550260047FB51 /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		30650E7123F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30650E7023F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift */; };
 		30650E7323F847FC005CCD5E /* KeyImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30650E7223F847FC005CCD5E /* KeyImporter.swift */; };
 		306623332406F1A8000E2AD6 /* PasswordGeneratorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306623322406F1A7000E2AD6 /* PasswordGeneratorTest.swift */; };
@@ -130,6 +129,14 @@
 		9A996C5326DDF61F00A4485D /* Base32 in Frameworks */ = {isa = PBXBuildFile; productRef = 9A996C5226DDF61F00A4485D /* Base32 */; };
 		9A996C5526DDF62300A4485D /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 9A996C5426DDF62300A4485D /* OneTimePassword */; };
 		9A996C5726DDF65900A4485D /* Base32 in Frameworks */ = {isa = PBXBuildFile; productRef = 9A996C5626DDF65900A4485D /* Base32 */; };
+		9A996C5826DEB0D100A4485D /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
+		9A996C5926DEB0D200A4485D /* passKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9A996C5E26DEB79E00A4485D /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
+		9A996C6426DEB93F00A4485D /* passAutoFillExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A239F5952158C08B00576CBF /* passAutoFillExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9A996C6826DEB96B00A4485D /* passShortcuts.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 30A69945240EED5E00B7D967 /* passShortcuts.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9A996C6B26DEB97600A4485D /* passExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A26700241EEC466A00176B8A /* passExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9A996C6E26DEB99200A4485D /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
+		9A996C7126DEB99500A4485D /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		9ADAB21D26DDA52400900F10 /* Gopenpgp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADAB21C26DDA52400900F10 /* Gopenpgp.xcframework */; };
 		9ADC954124418A5F0005402E /* PasswordStoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADC954024418A5F0005402E /* PasswordStoreTest.swift */; };
 		9AFC87D325B39FF3008D6060 /* PasswordNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFC87D225B39FF2008D6060 /* PasswordNavigationViewController.swift */; };
@@ -143,12 +150,9 @@
 		A217ACE41E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A217ACE31E9BBBBD00A1A6CF /* GitConfigSettingsTableViewController.swift */; };
 		A2367BA01EF0387000C8FE8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2367B9F1EF0387000C8FE8B /* Assets.xcassets */; };
 		A239F59C2158C08C00576CBF /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A239F59A2158C08C00576CBF /* MainInterface.storyboard */; };
-		A239F5A52158C3F400576CBF /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		A23DD0DC233FB46900E6CD83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A23DD0DB233FB46900E6CD83 /* Assets.xcassets */; };
 		A26075811EEC6F34005DB03E /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		A260758A1EEC6F34005DB03E /* passKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A260757A1EEC6F34005DB03E /* passKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A260758D1EEC6F34005DB03E /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
-		A26075961EEC6F8C005DB03E /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		A26075AD1EEC7125005DB03E /* pass.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A26075A51EEC7125005DB03E /* pass.xcdatamodeld */; };
 		A267002A1EEC466A00176B8A /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A26700281EEC466A00176B8A /* MainInterface.storyboard */; };
 		A26700371EEC475600176B8A /* passProcessor.js in Resources */ = {isa = PBXBuildFile; fileRef = A26700351EEC475600176B8A /* passProcessor.js */; };
@@ -212,6 +216,27 @@
 			remoteGlobalIDString = 30A69944240EED5E00B7D967;
 			remoteInfo = passShortcuts;
 		};
+		9A996C6526DEB93F00A4485D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DC917BCB1E2E8231000FDF54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A239F5942158C08B00576CBF;
+			remoteInfo = passAutoFillExtension;
+		};
+		9A996C6926DEB96B00A4485D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DC917BCB1E2E8231000FDF54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 30A69944240EED5E00B7D967;
+			remoteInfo = passShortcuts;
+		};
+		9A996C6C26DEB97600A4485D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DC917BCB1E2E8231000FDF54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A26700231EEC466A00176B8A;
+			remoteInfo = passExtension;
+		};
 		A239F59F2158C08C00576CBF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DC917BCB1E2E8231000FDF54 /* Project object */;
@@ -255,6 +280,33 @@
 			remoteInfo = pass;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9A996C5A26DEB0D200A4485D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9A996C5926DEB0D200A4485D /* passKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9A996C6726DEB93F00A4485D /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				9A996C6426DEB93F00A4485D /* passAutoFillExtension.appex in Embed App Extensions */,
+				9A996C6B26DEB97600A4485D /* passExtension.appex in Embed App Extensions */,
+				9A996C6826DEB96B00A4485D /* passShortcuts.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		300713C42219D54100F553AC /* AutoCellHeightUITableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCellHeightUITableViewController.swift; sourceTree = "<group>"; };
@@ -438,7 +490,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				304E2125241550260047FB51 /* passKit.framework in Frameworks */,
+				9A996C5E26DEB79E00A4485D /* passKit.framework in Frameworks */,
 				30A3001826DA6974002A734E /* SwiftyUserDefaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -447,7 +499,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A239F5A52158C3F400576CBF /* passKit.framework in Frameworks */,
+				9A996C6E26DEB99200A4485D /* passKit.framework in Frameworks */,
 				30A3001A26DA697C002A734E /* SwiftyUserDefaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -480,7 +532,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A26075961EEC6F8C005DB03E /* passKit.framework in Frameworks */,
+				9A996C7126DEB99500A4485D /* passKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,7 +553,7 @@
 				9A996C5326DDF61F00A4485D /* Base32 in Frameworks */,
 				3032DA5426DAF4C200A7728C /* ObjectivePGP in Frameworks */,
 				3010CB6626DA500F008964D2 /* KeychainAccess in Frameworks */,
-				A260758D1EEC6F34005DB03E /* passKit.framework in Frameworks */,
+				9A996C5826DEB0D100A4485D /* passKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1112,6 +1164,8 @@
 				3005F34F24A9143C000519B5 /* SwiftFormat */,
 				308800C124EB0D3600E87ED3 /* SwiftLint */,
 				9A996C4726DDEAF100A4485D /* Remove SPM Duplicate Frameworks */,
+				9A996C5A26DEB0D200A4485D /* Embed Frameworks */,
+				9A996C6726DEB93F00A4485D /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -1120,6 +1174,9 @@
 				A260758C1EEC6F34005DB03E /* PBXTargetDependency */,
 				A239F5A02158C08C00576CBF /* PBXTargetDependency */,
 				30A6995C240EED5F00B7D967 /* PBXTargetDependency */,
+				9A996C6626DEB93F00A4485D /* PBXTargetDependency */,
+				9A996C6A26DEB96B00A4485D /* PBXTargetDependency */,
+				9A996C6D26DEB97600A4485D /* PBXTargetDependency */,
 			);
 			name = pass;
 			packageProductDependencies = (
@@ -1403,7 +1460,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -xe\nrm -rf ${BUILT_PRODUCTS_DIR}/passKit.framework/Frameworks\n# rm ./OneTimePassword_-xxx_PackageProduct.framework/Frameworks\nfind -L ${BUILT_PRODUCTS_DIR}/OneTimePassword_*.framework -type d -name \"Frameworks\" | xargs rm -rf\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -xe\nrm -rf ${BUILT_PRODUCTS_DIR}/passKit.framework/Frameworks\nfind -L ${BUILT_PRODUCTS_DIR}/OneTimePassword_*.framework -type d -name \"Frameworks\" | xargs rm -rf\nfind -L ${BUILT_PRODUCTS_DIR}/passAutoFillExtension.appex -type d -name \"Frameworks\" | xargs rm -rf\nfind -L ${BUILT_PRODUCTS_DIR}/passShortcuts.appex -type d -name \"Frameworks\" | xargs rm -rf\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1603,6 +1660,21 @@
 			isa = PBXTargetDependency;
 			target = 30A69944240EED5E00B7D967 /* passShortcuts */;
 			targetProxy = 30A6995B240EED5F00B7D967 /* PBXContainerItemProxy */;
+		};
+		9A996C6626DEB93F00A4485D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A239F5942158C08B00576CBF /* passAutoFillExtension */;
+			targetProxy = 9A996C6526DEB93F00A4485D /* PBXContainerItemProxy */;
+		};
+		9A996C6A26DEB96B00A4485D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 30A69944240EED5E00B7D967 /* passShortcuts */;
+			targetProxy = 9A996C6926DEB96B00A4485D /* PBXContainerItemProxy */;
+		};
+		9A996C6D26DEB97600A4485D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A26700231EEC466A00176B8A /* passExtension */;
+			targetProxy = 9A996C6C26DEB97600A4485D /* PBXContainerItemProxy */;
 		};
 		A239F5A02158C08C00576CBF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1854,7 +1926,6 @@
 		9A1EF0AC24C4EB280074FEAC /* Beta */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconBeta;
 				CODE_SIGN_ENTITLEMENTS = pass/passBeta.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2542,7 +2613,6 @@
 		DC917BE61E2E8231000FDF54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = pass/pass.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -2577,7 +2647,6 @@
 		DC917BE71E2E8231000FDF54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = pass/pass.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
