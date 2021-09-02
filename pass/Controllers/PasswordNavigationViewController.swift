@@ -210,6 +210,9 @@ class PasswordNavigationViewController: UIViewController {
                     return
                 }
                 let passwordTableEntry = dataSource.getPasswordTableEntry(at: indexPath)
+                if passwordTableEntry.isDir {
+                    return
+                }
                 passwordManager.providePasswordPasteboard(with: passwordTableEntry.passwordEntity.getPath())
             }
         }
