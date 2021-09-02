@@ -1,3 +1,11 @@
+//
+//  PasswordNavigationViewController.swift
+//  pass
+//
+//  Created by Mingshen Sun on 17/1/2021.
+//  Copyright © 2021 Bob Sun. All rights reserved.
+//
+
 import passKit
 import SVProgressHUD
 import UIKit
