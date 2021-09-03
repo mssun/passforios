@@ -32,6 +32,7 @@ class PasswordNavigationViewController: UIViewController {
         uiSearchController.searchBar.isTranslucent = true
         uiSearchController.obscuresBackgroundDuringPresentation = false
         uiSearchController.searchBar.sizeToFit()
+        uiSearchController.searchBar.returnKeyType = .done
         if #available(iOS 13.0, *) {
             uiSearchController.searchBar.searchTextField.clearButtonMode = .whileEditing
         }
@@ -377,10 +378,6 @@ extension PasswordNavigationViewController: UISearchBarDelegate {
     }
 
     func searchBarCancelButtonClicked(_: UISearchBar) {
-        cancelSearch()
-    }
-
-    func searchBarTextDidEndEditing(_: UISearchBar) {
         cancelSearch()
     }
 
