@@ -2,6 +2,7 @@
 //  PasswordStoreTest.swift
 //  passKitTests
 //
+//  Created by Mingshen Sun on 13/4/2020.
 //  Copyright © 2020 Bob Sun. All rights reserved.
 //
 
