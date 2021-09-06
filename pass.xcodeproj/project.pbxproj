@@ -72,7 +72,6 @@
 		30A3001826DA6974002A734E /* SwiftyUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 30A3001726DA6974002A734E /* SwiftyUserDefaults */; };
 		30A3001A26DA697C002A734E /* SwiftyUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 30A3001926DA697C002A734E /* SwiftyUserDefaults */; };
 		30A3001C26DA91BF002A734E /* SwiftyUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 30A3001B26DA91BF002A734E /* SwiftyUserDefaults */; };
-		30A3001E26DA91C4002A734E /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 30A3001D26DA91C4002A734E /* OneTimePassword */; };
 		30A3002026DA91D7002A734E /* Base32 in Frameworks */ = {isa = PBXBuildFile; productRef = 30A3001F26DA91D7002A734E /* Base32 */; };
 		30A69948240EED5E00B7D967 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A69947240EED5E00B7D967 /* IntentHandler.swift */; };
 		30A86F95230F237000F821A4 /* CryptoFrameworkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A86F94230F237000F821A4 /* CryptoFrameworkTest.swift */; };
@@ -108,7 +107,9 @@
 		556EC3D922335D2800934F9C /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ED521ED2434000E4154 /* Localizable.stringsdict */; };
 		556EC3DA22335D3400934F9C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DBF21F3599E00BB27BB /* InfoPlist.strings */; };
 		556EC3DB22335D3D00934F9C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C25DBF21F3599E00BB27BB /* InfoPlist.strings */; };
-		9A17C06726DDAAE400C23FAB /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 9A17C06626DDAAE400C23FAB /* OneTimePassword */; };
+		9A1D1CE526E5D1CE0052028E /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 9A1D1CE426E5D1CE0052028E /* OneTimePassword */; };
+		9A1D1CE726E5D2230052028E /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 9A1D1CE626E5D2230052028E /* OneTimePassword */; };
+		9A1F47FA26E5CF4B000C0E01 /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 9A1F47F926E5CF4B000C0E01 /* OneTimePassword */; };
 		9A55C158259E785600FA8FD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
 		9A55C15F259E785700FA8FD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
 		9A55C185259E8C5600FA8FD9 /* PasswordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A55C184259E8C5600FA8FD9 /* PasswordsViewController.swift */; };
@@ -127,7 +128,6 @@
 		9A8F9ECC259ECB410027CE15 /* PasswordSelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9ECB259ECB410027CE15 /* PasswordSelectionDelegate.swift */; };
 		9A8F9F4025A1A91F0027CE15 /* CredentialProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9F3F25A1A91F0027CE15 /* CredentialProvider.swift */; };
 		9A996C5326DDF61F00A4485D /* Base32 in Frameworks */ = {isa = PBXBuildFile; productRef = 9A996C5226DDF61F00A4485D /* Base32 */; };
-		9A996C5526DDF62300A4485D /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 9A996C5426DDF62300A4485D /* OneTimePassword */; };
 		9A996C5726DDF65900A4485D /* Base32 in Frameworks */ = {isa = PBXBuildFile; productRef = 9A996C5626DDF65900A4485D /* Base32 */; };
 		9A996C5826DEB0D100A4485D /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		9A996C5926DEB0D200A4485D /* passKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -511,7 +511,7 @@
 				9ADAB21D26DDA52400900F10 /* Gopenpgp.xcframework in Frameworks */,
 				30A3001426DA6692002A734E /* KeychainAccess in Frameworks */,
 				9A996C5726DDF65900A4485D /* Base32 in Frameworks */,
-				9A17C06726DDAAE400C23FAB /* OneTimePassword in Frameworks */,
+				9A1D1CE526E5D1CE0052028E /* OneTimePassword in Frameworks */,
 				30A3001626DA6697002A734E /* SwiftyUserDefaults in Frameworks */,
 				3032DA5626DAF4E500A7728C /* ObjectivePGP in Frameworks */,
 			);
@@ -521,10 +521,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30A3001E26DA91C4002A734E /* OneTimePassword in Frameworks */,
 				A26075811EEC6F34005DB03E /* passKit.framework in Frameworks */,
 				30A3002026DA91D7002A734E /* Base32 in Frameworks */,
 				30A3001C26DA91BF002A734E /* SwiftyUserDefaults in Frameworks */,
+				9A1D1CE726E5D2230052028E /* OneTimePassword in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,7 +549,7 @@
 			files = (
 				3010CB6026DA4F87008964D2 /* SwiftyUserDefaults in Frameworks */,
 				3010CB6326DA4FE9008964D2 /* FavIcon in Frameworks */,
-				9A996C5526DDF62300A4485D /* OneTimePassword in Frameworks */,
+				9A1F47FA26E5CF4B000C0E01 /* OneTimePassword in Frameworks */,
 				9A996C5326DDF61F00A4485D /* Base32 in Frameworks */,
 				3032DA5426DAF4C200A7728C /* ObjectivePGP in Frameworks */,
 				3010CB6626DA500F008964D2 /* KeychainAccess in Frameworks */,
@@ -1087,8 +1087,8 @@
 				30A3001326DA6692002A734E /* KeychainAccess */,
 				30A3001526DA6697002A734E /* SwiftyUserDefaults */,
 				3032DA5526DAF4E500A7728C /* ObjectivePGP */,
-				9A17C06626DDAAE400C23FAB /* OneTimePassword */,
 				9A996C5626DDF65900A4485D /* Base32 */,
+				9A1D1CE426E5D1CE0052028E /* OneTimePassword */,
 			);
 			productName = passKit;
 			productReference = A26075781EEC6F34005DB03E /* passKit.framework */;
@@ -1111,8 +1111,8 @@
 			name = passKitTests;
 			packageProductDependencies = (
 				30A3001B26DA91BF002A734E /* SwiftyUserDefaults */,
-				30A3001D26DA91C4002A734E /* OneTimePassword */,
 				30A3001F26DA91D7002A734E /* Base32 */,
+				9A1D1CE626E5D2230052028E /* OneTimePassword */,
 			);
 			productName = passKitTests;
 			productReference = A26075801EEC6F34005DB03E /* passKitTests.xctest */;
@@ -1185,7 +1185,7 @@
 				3010CB6526DA500F008964D2 /* KeychainAccess */,
 				3032DA5326DAF4C200A7728C /* ObjectivePGP */,
 				9A996C5226DDF61F00A4485D /* Base32 */,
-				9A996C5426DDF62300A4485D /* OneTimePassword */,
+				9A1F47F926E5CF4B000C0E01 /* OneTimePassword */,
 			);
 			productName = pass;
 			productReference = DC917BD31E2E8231000FDF54 /* Pass.app */;
@@ -1285,9 +1285,9 @@
 				3010CB5E26DA4F87008964D2 /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */,
 				3010CB6126DA4FE9008964D2 /* XCRemoteSwiftPackageReference "FavIcon" */,
 				3010CB6426DA500F008964D2 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
-				3010CB6726DA50B3008964D2 /* XCRemoteSwiftPackageReference "OneTimePassword" */,
 				30A3000C26DA62F4002A734E /* XCRemoteSwiftPackageReference "Base32" */,
 				3032DA5226DAF4C200A7728C /* XCRemoteSwiftPackageReference "ObjectivePGP" */,
+				9A1F47F826E5CF4B000C0E01 /* XCRemoteSwiftPackageReference "OneTimePassword" */,
 			);
 			productRefGroup = DC917BD41E2E8231000FDF54 /* Products */;
 			projectDirPath = "";
@@ -2789,14 +2789,6 @@
 				minimumVersion = 4.2.2;
 			};
 		};
-		3010CB6726DA50B3008964D2 /* XCRemoteSwiftPackageReference "OneTimePassword" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mattrubin/OneTimePassword";
-			requirement = {
-				branch = develop;
-				kind = branch;
-			};
-		};
 		3032DA5226DAF4C200A7728C /* XCRemoteSwiftPackageReference "ObjectivePGP" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/krzyzanowskim/ObjectivePGP";
@@ -2810,6 +2802,14 @@
 			repositoryURL = "https://github.com/mattrubin/Base32";
 			requirement = {
 				branch = "1.1.2+spm";
+				kind = branch;
+			};
+		};
+		9A1F47F826E5CF4B000C0E01 /* XCRemoteSwiftPackageReference "OneTimePassword" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mssun/OneTimePassword";
+			requirement = {
+				branch = passforios;
 				kind = branch;
 			};
 		};
@@ -2866,30 +2866,30 @@
 			package = 3010CB5E26DA4F87008964D2 /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */;
 			productName = SwiftyUserDefaults;
 		};
-		30A3001D26DA91C4002A734E /* OneTimePassword */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3010CB6726DA50B3008964D2 /* XCRemoteSwiftPackageReference "OneTimePassword" */;
-			productName = OneTimePassword;
-		};
 		30A3001F26DA91D7002A734E /* Base32 */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 30A3000C26DA62F4002A734E /* XCRemoteSwiftPackageReference "Base32" */;
 			productName = Base32;
 		};
-		9A17C06626DDAAE400C23FAB /* OneTimePassword */ = {
+		9A1D1CE426E5D1CE0052028E /* OneTimePassword */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3010CB6726DA50B3008964D2 /* XCRemoteSwiftPackageReference "OneTimePassword" */;
+			package = 9A1F47F826E5CF4B000C0E01 /* XCRemoteSwiftPackageReference "OneTimePassword" */;
+			productName = OneTimePassword;
+		};
+		9A1D1CE626E5D2230052028E /* OneTimePassword */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A1F47F826E5CF4B000C0E01 /* XCRemoteSwiftPackageReference "OneTimePassword" */;
+			productName = OneTimePassword;
+		};
+		9A1F47F926E5CF4B000C0E01 /* OneTimePassword */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A1F47F826E5CF4B000C0E01 /* XCRemoteSwiftPackageReference "OneTimePassword" */;
 			productName = OneTimePassword;
 		};
 		9A996C5226DDF61F00A4485D /* Base32 */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 30A3000C26DA62F4002A734E /* XCRemoteSwiftPackageReference "Base32" */;
 			productName = Base32;
-		};
-		9A996C5426DDF62300A4485D /* OneTimePassword */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3010CB6726DA50B3008964D2 /* XCRemoteSwiftPackageReference "OneTimePassword" */;
-			productName = OneTimePassword;
 		};
 		9A996C5626DDF65900A4485D /* Base32 */ = {
 			isa = XCSwiftPackageProductDependency;

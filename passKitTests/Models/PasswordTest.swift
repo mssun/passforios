@@ -317,4 +317,14 @@ class PasswordTest: XCTestCase {
         XCTAssertNotNil(otpStrings)
         XCTAssertEqual(otpStrings!.description, "HmacBased".localize())
     }
+
+    func testSteamOtpStringsToken() {
+        let password = getPasswordObjectWith(content: STEAM_TOTP_URL)
+        let otpStrings = password.getOtpStrings()
+        let otpDescription = otpStrings!.description
+
+        XCTAssertNotNil(otpStrings)
+        XCTAssert(otpDescription.hasPrefix("TimeBased".localize() + " ("))
+        XCTAssert(otpDescription.hasSuffix(")"))
+    }
 }

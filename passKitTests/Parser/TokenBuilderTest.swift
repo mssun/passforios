@@ -171,6 +171,27 @@ class TokenBuilderTest: XCTestCase {
         }
     }
 
+    func testRepresentation() {
+        [
+            (nil, .numeric),
+            ("steamguard", .steamguard),
+            ("numeric", .numeric),
+            ("wrong representation", .numeric),
+        ].forEach { (inputRepresentation: String?, represenetation: OneTimePassword.Generator.Representation) in
+            var builder = TokenBuilder()
+                .usingSecret(SECRET)
+                .usingType("totp")
+                .usingRepresentation(inputRepresentation)
+            if represenetation == .steamguard {
+                builder = builder
+                    .usingDigits("5")
+                    .usingAlgorithm("sha1")
+            }
+            let token = builder.build()
+            XCTAssertEqual(token?.generator.representation, represenetation)
+        }
+    }
+
     func testUnparsableCounter() {
         let token = TokenBuilder()
             .usingSecret(SECRET)
