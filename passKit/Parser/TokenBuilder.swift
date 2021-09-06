@@ -34,6 +34,7 @@ class TokenBuilder {
     private var digits: Int? = Constants.DEFAULT_DIGITS
     private var period: Double? = Constants.DEFAULT_PERIOD
     private var counter: UInt64? = Constants.DEFAULT_COUNTER
+    private var representation: OneTimePassword.Generator.Representation = Constants.DEFAULT_REPRESENTATION
 
     func usingName(_ name: String) -> TokenBuilder {
         self.name = name
@@ -79,6 +80,18 @@ class TokenBuilder {
         return self
     }
 
+    func usingRepresentation(_ representation: String?) -> TokenBuilder {
+        switch representation {
+        case "numeric":
+            self.representation = .numeric
+        case "steamguard":
+            self.representation = .steamguard
+        default:
+            self.representation = .numeric
+        }
+        return self
+    }
+
     func build() -> Token? {
         guard secret != nil, digits != nil else {
             return nil
@@ -95,7 +108,7 @@ class TokenBuilder {
     }
 
     private func createToken(factor: Generator.Factor) -> Token? {
-        guard let generator = Generator(factor: factor, secret: secret!, algorithm: algorithm, digits: digits!) else {
+        guard let generator = Generator(factor: factor, secret: secret!, algorithm: algorithm, digits: digits!, representation: representation) else {
             return nil
         }
         return Token(name: name, issuer: "", generator: generator)

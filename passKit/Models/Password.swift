@@ -165,6 +165,7 @@ public class Password {
             .usingDigits(getAdditionValue(withKey: Constants.OTP_DIGITS))
             .usingPeriod(getAdditionValue(withKey: Constants.OTP_PERIOD))
             .usingCounter(getAdditionValue(withKey: Constants.OTP_COUNTER))
+            .usingRepresentation(getAdditionValue(withKey: Constants.OTP_REPRESENTATION))
             .build()
     }
 

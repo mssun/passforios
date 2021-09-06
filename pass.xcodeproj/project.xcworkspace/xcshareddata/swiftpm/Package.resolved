@@ -39,10 +39,10 @@
       },
       {
         "package": "OneTimePassword",
-        "repositoryURL": "https://github.com/mattrubin/OneTimePassword",
+        "repositoryURL": "https://github.com/mssun/OneTimePassword",
         "state": {
-          "branch": "develop",
-          "revision": "bd2a8fa24057916e4e543ae323e34f75ae744db8",
+          "branch": "passforios",
+          "revision": "cad8872ed9f506bfba6f2ad51673f267602f0879",
           "version": null
         }
       },

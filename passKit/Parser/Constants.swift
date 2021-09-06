@@ -6,6 +6,8 @@
 //  Copyright © 2018 Bob Sun. All rights reserved.
 //
 
+import OneTimePassword
+
 public enum Constants {
     static let OTP_SECRET = "otp_secret"
     static let OTP_TYPE = "otp_type"
@@ -13,6 +15,7 @@ public enum Constants {
     static let OTP_PERIOD = "otp_period"
     static let OTP_DIGITS = "otp_digits"
     static let OTP_COUNTER = "otp_counter"
+    static let OTP_REPRESENTATION = "otp_representation"
     static let OTPAUTH = "otpauth"
 
     public static let OTP_KEYWORDS = [
@@ -22,6 +25,7 @@ public enum Constants {
         OTP_PERIOD,
         OTP_DIGITS,
         OTP_COUNTER,
+        OTP_REPRESENTATION,
         OTPAUTH,
     ]
 
@@ -32,6 +36,7 @@ public enum Constants {
     static let DEFAULT_DIGITS = 6
     static let DEFAULT_PERIOD = 30.0
     static let DEFAULT_COUNTER: UInt64? = nil
+    static let DEFAULT_REPRESENTATION: OneTimePassword.Generator.Representation = .numeric
 
     static let BLANK = " "
     static let MULTILINE_WITH_LINE_BREAK_INDICATOR = "|"
