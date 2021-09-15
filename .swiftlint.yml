@@ -10,6 +10,7 @@ excluded:
 ## Active rules
 
 only_rules:
+#  - anonymous_argument_in_multiline_closure
   - anyobject_protocol
   - array_init
   - attributes
@@ -39,9 +40,11 @@ only_rules:
   - discarded_notification_center_observer
   - discouraged_assert
   - discouraged_direct_init
+#  - discouraged_none_name
 #  - discouraged_object_literal
   - discouraged_optional_boolean
 #  - discouraged_optional_collection # Too many false positives in implementations of system protocols.
+  - duplicated_key_in_dictionary_literal
   - duplicate_enum_cases
   - duplicate_imports
   - dynamic_inline

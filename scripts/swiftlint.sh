@@ -1,4 +1,4 @@
-SWIFTLINT_VERSION="0.43.*"
+SWIFTLINT_VERSION="0.44.*"
 
 if [[  "${CI}" == "true" ]]; then
   echo "Running in a Continuous Integration environment. Linting is skipped."
