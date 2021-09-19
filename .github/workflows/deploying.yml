@@ -15,6 +15,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Installing packages
       run: |
+        brew update
         brew install libtool automake cmake carthage swiftformat openssl libssh2
         brew install go || brew link --overwrite go
         brew install swiftlint || brew link --overwrite swiftlint
@@ -45,7 +46,7 @@ jobs:
     - name: GopenPGP
       if: steps.gopenpgp-cache.outputs.cache-hit != 'true'
       run: |
-        export PATH="/usr/local/opt/go@1.14/bin:$PATH"
+        export PATH="/usr/local/opt/go/bin:$PATH"
         ./scripts/gopenpgp_build.sh
     - name: Test
       run: bundle exec fastlane test

@@ -9,6 +9,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Installing packages
       run: |
+        brew update
         brew install libtool automake cmake carthage swiftformat openssl libssh2
         brew install swiftlint || brew link --overwrite swiftlint
         brew install go || brew link --overwrite go
