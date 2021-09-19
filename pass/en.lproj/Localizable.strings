@@ -22,6 +22,7 @@
 "HmacBased" = "HMAC-based";
 "None"      = "None";
 "ExpiresIn" = "(expires in %ds)";
+"OTPFor"    = "One-time Password for %@";
 
 // General (error) messages
 "Error"                                             = "Error";

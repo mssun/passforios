@@ -70,4 +70,22 @@ public enum Utils {
             return passphrase
         }
     }
+
+    public static func showNotificationWithOTP(password: Password) {
+        guard let otp = password.currentOtp else {
+            return
+        }
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.getNotificationSettings { state in
+            guard state.authorizationStatus == .authorized else {
+                return
+            }
+            let content = UNMutableNotificationContent()
+            content.title = "OTPFor".localize(password.name)
+            content.body = otp
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+            let request = UNNotificationRequest(identifier: "otpNotification", content: content, trigger: trigger)
+            notificationCenter.add(request)
+        }
+    }
 }

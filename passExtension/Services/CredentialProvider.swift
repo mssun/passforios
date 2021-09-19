@@ -13,10 +13,12 @@ import UIKit
 class CredentialProvider {
     private let viewController: UIViewController
     private let extensionContext: NSExtensionContext
+    private let afterDecryption: (Password) -> Void
 
-    init(viewController: UIViewController, extensionContext: NSExtensionContext) {
+    init(viewController: UIViewController, extensionContext: NSExtensionContext, afterDecryption: @escaping (Password) -> Void) {
         self.viewController = viewController
         self.extensionContext = extensionContext
+        self.afterDecryption = afterDecryption
     }
 
     func provideCredentialsFindLogin(with passwordPath: String) {
@@ -31,6 +33,7 @@ class CredentialProvider {
             }
             extensionItem.attachments = [NSItemProvider(item: returnDictionary as NSSecureCoding, typeIdentifier: String(kUTTypePropertyList))]
             self.extensionContext.completeRequest(returningItems: [extensionItem])
+            self.afterDecryption(password)
         }
     }
 
@@ -47,6 +50,7 @@ class CredentialProvider {
             ]
             extensionItem.attachments = [NSItemProvider(item: returnDictionary as NSSecureCoding, typeIdentifier: String(kUTTypePropertyList))]
             self.extensionContext.completeRequest(returningItems: [extensionItem])
+            self.afterDecryption(password)
         }
     }
 }

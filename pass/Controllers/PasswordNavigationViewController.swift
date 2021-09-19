@@ -9,6 +9,7 @@
 import passKit
 import SVProgressHUD
 import UIKit
+import UserNotifications
 
 extension UIStoryboard {
     static var passwordNavigationViewController: PasswordNavigationViewController {
@@ -75,6 +76,12 @@ class PasswordNavigationViewController: UIViewController {
         configureTableView(in: parentPasswordEntity)
         configureNotification()
         configureSearchBar()
+        requestNotificationPermission()
+    }
+
+    private func requestNotificationPermission() {
+        let permissionOptions = UNAuthorizationOptions(arrayLiteral: .alert)
+        UNUserNotificationCenter.current().requestAuthorization(options: permissionOptions) { _, _ in }
     }
 
     override func viewWillAppear(_ animated: Bool) {
