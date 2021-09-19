@@ -10,11 +10,11 @@ import AuthenticationServices
 import passKit
 
 class CredentialProvider {
-    var identifier: ASCredentialServiceIdentifier?
-    weak var extensionContext: ASCredentialProviderExtensionContext?
-    weak var viewController: UIViewController?
-
+    private let viewController: UIViewController
+    private let extensionContext: ASCredentialProviderExtensionContext
     private let afterDecryption: (Password) -> Void
+
+    var identifier: ASCredentialServiceIdentifier?
 
     init(viewController: UIViewController, extensionContext: ASCredentialProviderExtensionContext, afterDecryption: @escaping (Password) -> Void) {
         self.viewController = viewController
@@ -27,14 +27,14 @@ class CredentialProvider {
             return
         }
 
-        provideCredentials(in: viewController, with: recordIdentifier) { password in
-            self.extensionContext?.completeRequest(withSelectedCredential: .from(password))
+        decryptPassword(in: viewController, with: recordIdentifier) { password in
+            self.extensionContext.completeRequest(withSelectedCredential: .from(password))
             self.afterDecryption(password)
         }
     }
 
     func persistAndProvideCredentials(with passwordPath: String) {
-        provideCredentials(in: viewController, with: passwordPath) { password in
+        decryptPassword(in: viewController, with: passwordPath) { password in
             if let identifier = self.identifier {
                 ASCredentialIdentityStore.shared.getState { state in
                     guard state.isEnabled else {
@@ -48,16 +48,9 @@ class CredentialProvider {
                     ASCredentialIdentityStore.shared.saveCredentialIdentities([credentialIdentity])
                 }
             }
-            self.extensionContext?.completeRequest(withSelectedCredential: .from(password))
+            self.extensionContext.completeRequest(withSelectedCredential: .from(password))
             self.afterDecryption(password)
         }
-    }
-
-    private func provideCredentials(in viewController: UIViewController?, with path: String, completion: @escaping (Password) -> Void) {
-        guard let viewController = viewController else {
-            return
-        }
-        decryptPassword(in: viewController, with: path, completion: completion)
     }
 }
 

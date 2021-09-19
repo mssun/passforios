@@ -11,16 +11,13 @@ import SVProgressHUD
 import UIKit
 
 class PasswordManager {
-    weak var viewController: UIViewController?
+    private let viewController: UIViewController
 
     init(viewController: UIViewController) {
         self.viewController = viewController
     }
 
     func providePasswordPasteboard(with passwordPath: String) {
-        guard let viewController = viewController else {
-            return
-        }
         decryptPassword(in: viewController, with: passwordPath) { password in
             SecurePasteboard.shared.copy(textToCopy: password.password)
             SVProgressHUD.setDefaultMaskType(.black)
@@ -31,10 +28,6 @@ class PasswordManager {
     }
 
     func addPassword(with password: Password) {
-        guard let viewController = viewController else {
-            return
-        }
-
         encryptPassword(in: viewController, with: password) {
             SVProgressHUD.setDefaultMaskType(.black)
             SVProgressHUD.setDefaultStyle(.light)
