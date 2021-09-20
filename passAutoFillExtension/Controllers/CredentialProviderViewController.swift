@@ -19,7 +19,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
     }()
 
     private lazy var credentialProvider: CredentialProvider = { [unowned self] in
-        CredentialProvider(viewController: self, extensionContext: extensionContext)
+        CredentialProvider(viewController: self, extensionContext: extensionContext, afterDecryption: Utils.showNotificationWithOTP)
     }()
 
     private lazy var passwordsTableEntries = PasswordStore.shared.fetchPasswordEntityCoreData(withDir: false)

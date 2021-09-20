@@ -22,6 +22,7 @@
 "HmacBased" = "HMAC-basiert";
 "None"      = "Kein valides Token";
 "ExpiresIn" = "(läuft in %ds ab)";
+"OTPFor"    = "Einmalpasswort für %@";
 
 // General (error) messages
 "Error"                                             = "Fehler";

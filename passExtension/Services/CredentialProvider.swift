@@ -11,22 +11,17 @@ import passKit
 import UIKit
 
 class CredentialProvider {
-    weak var extensionContext: NSExtensionContext?
-    weak var viewController: UIViewController?
+    private let viewController: UIViewController
+    private let extensionContext: NSExtensionContext
+    private let afterDecryption: (Password) -> Void
 
-    init(viewController: UIViewController, extensionContext: NSExtensionContext) {
+    init(viewController: UIViewController, extensionContext: NSExtensionContext, afterDecryption: @escaping (Password) -> Void) {
         self.viewController = viewController
         self.extensionContext = extensionContext
+        self.afterDecryption = afterDecryption
     }
 
     func provideCredentialsFindLogin(with passwordPath: String) {
-        guard let viewController = viewController else {
-            return
-        }
-        guard let extensionContext = extensionContext else {
-            return
-        }
-
         decryptPassword(in: viewController, with: passwordPath) { password in
             let extensionItem = NSExtensionItem()
             var returnDictionary = [
@@ -37,30 +32,25 @@ class CredentialProvider {
                 returnDictionary[PassExtensionKey.totpKey] = totpPassword
             }
             extensionItem.attachments = [NSItemProvider(item: returnDictionary as NSSecureCoding, typeIdentifier: String(kUTTypePropertyList))]
-            extensionContext.completeRequest(returningItems: [extensionItem])
+            self.extensionContext.completeRequest(returningItems: [extensionItem])
+            self.afterDecryption(password)
         }
     }
 
     func provideCredentialsBrowser(with passwordPath: String) {
-        guard let viewController = viewController else {
-            return
-        }
-        guard let extensionContext = extensionContext else {
-            return
-        }
-
         decryptPassword(in: viewController, with: passwordPath) { password in
             Utils.copyToPasteboard(textToCopy: password.password)
             // return a dictionary for JavaScript for best-effor fill in
             let extensionItem = NSExtensionItem()
             let returnDictionary = [
                 NSExtensionJavaScriptFinalizeArgumentKey: [
-                    "username": password.getUsernameForCompletion(),
-                    "password": password.password,
+                    PassExtensionKey.usernameKey: password.getUsernameForCompletion(),
+                    PassExtensionKey.passwordKey: password.password,
                 ],
             ]
             extensionItem.attachments = [NSItemProvider(item: returnDictionary as NSSecureCoding, typeIdentifier: String(kUTTypePropertyList))]
-            extensionContext.completeRequest(returningItems: [extensionItem])
+            self.extensionContext.completeRequest(returningItems: [extensionItem])
+            self.afterDecryption(password)
         }
     }
 }
