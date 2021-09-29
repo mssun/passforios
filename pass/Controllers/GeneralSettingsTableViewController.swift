@@ -28,6 +28,14 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         return uiSwitch
     }()
 
+    let autoCopyOTPSwitch: UISwitch = {
+        let uiSwitch = UISwitch()
+        uiSwitch.onTintColor = Colors.systemBlue
+        uiSwitch.sizeToFit()
+        uiSwitch.addTarget(self, action: #selector(autoCopyOTPSwitchAction(_:)), for: UIControl.Event.valueChanged)
+        return uiSwitch
+    }()
+
     let rememberPGPPassphraseSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
@@ -91,6 +99,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
                 [.title: "HidePasswordImages".localize(), .action: "none"],
                 [.title: "HideUnknownFields".localize(), .action: "none"],
                 [.title: "HideOtpFields".localize(), .action: "none"],
+                [.title: "AutoCopyOTP".localize(), .action: "none"],
             ],
         ]
         super.viewDidLoad()
@@ -157,6 +166,20 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             cell.accessoryView = accessoryView
             cell.selectionStyle = .none
             hidePasswordImagesSwitch.isOn = Defaults.isHidePasswordImagesOn
+        case "AutoCopyOTP".localize():
+            cell.accessoryType = .none
+            let detailButton = UIButton(type: .detailDisclosure)
+            autoCopyOTPSwitch.frame = CGRect(x: detailButton.bounds.width + 10, y: 0, width: autoCopyOTPSwitch.bounds.width, height: autoCopyOTPSwitch.bounds.height)
+            detailButton.frame = CGRect(x: 0, y: 5, width: detailButton.bounds.width, height: detailButton.bounds.height)
+            detailButton.addTarget(self, action: #selector(tapAutoCopyOTPSwitchDetailButton), for: UIControl.Event.touchDown)
+            let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: detailButton.bounds.width + autoCopyOTPSwitch.bounds.width + 10, height: cell.contentView.bounds.height))
+            accessoryView.addSubview(detailButton)
+            accessoryView.addSubview(autoCopyOTPSwitch)
+            autoCopyOTPSwitch.center.y = accessoryView.center.y
+            detailButton.center.y = accessoryView.center.y
+            cell.accessoryView = accessoryView
+            cell.selectionStyle = .none
+            autoCopyOTPSwitch.isOn = Defaults.autoCopyOTP
         default:
             break
         }
@@ -179,6 +202,13 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     }
 
     @objc
+    func tapAutoCopyOTPSwitchDetailButton(_: Any?) {
+        let alertMessage = "AutoCopyOTPExplanation.".localize()
+        let alertTitle = "AutoCopyOTP".localize()
+        Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
+    }
+
+    @objc
     func tapHidePasswordImagesSwitchDetailButton(_: Any?) {
         let alertMessage = "HidePasswordImagesExplanation.".localize()
         let alertTitle = "HidePasswordImages".localize()
@@ -195,6 +225,11 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     func hideOTPSwitchAction(_: Any?) {
         Defaults.isHideOTPOn = hideOTPSwitch.isOn
         NotificationCenter.default.post(name: .passwordDetailDisplaySettingChanged, object: nil)
+    }
+
+    @objc
+    func autoCopyOTPSwitchAction(_: Any?) {
+        Defaults.autoCopyOTP = autoCopyOTPSwitch.isOn
     }
 
     @objc

@@ -18,11 +18,15 @@
 "Contributors"  = "Contributors";
 
 // OTP related
-"TimeBased" = "time-based";
-"HmacBased" = "HMAC-based";
-"None"      = "None";
-"ExpiresIn" = "(expires in %ds)";
-"OTPFor"    = "One-time Password for %@";
+"TimeBased"                 = "time-based";
+"HmacBased"                 = "HMAC-based";
+"None"                      = "None";
+"ExpiresIn"                 = "(expires in %ds)";
+"OTPForPassword"            = "One-time password for %@";
+"OTPForPasswordCopied"      = "One-time password for %@ copied";
+"CopyToPasteboard"          = "Copy to pasteboard";
+"AutoCopyOTP"               = "Automatically Copy OTPs";
+"AutoCopyOTPExplanation."   = "After username and password have been auto-filled into a form by Pass, a notification is shown with the current one-time password which can be copied to the pasteboard. Enabling this option automatically copies the current one-time password.";
 
 // General (error) messages
 "Error"                                             = "Error";

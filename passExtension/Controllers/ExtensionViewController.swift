@@ -20,7 +20,7 @@ class ExtensionViewController: UIViewController {
     }()
 
     private lazy var credentialProvider: CredentialProvider = { [unowned self] in
-        CredentialProvider(viewController: self, extensionContext: extensionContext!, afterDecryption: Utils.showNotificationWithOTP)
+        CredentialProvider(viewController: self, extensionContext: extensionContext!, afterDecryption: NotificationCenterDispatcher.showOTPNotification)
     }()
 
     private lazy var passwordsTableEntries = PasswordStore.shared.fetchPasswordEntityCoreData(withDir: false)

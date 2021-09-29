@@ -80,8 +80,26 @@ class PasswordNavigationViewController: UIViewController {
     }
 
     private func requestNotificationPermission() {
+        // Ask for permission to receive notifications
+        let notificationCenter = UNUserNotificationCenter.current()
         let permissionOptions = UNAuthorizationOptions(arrayLiteral: .alert)
-        UNUserNotificationCenter.current().requestAuthorization(options: permissionOptions) { _, _ in }
+        notificationCenter.requestAuthorization(options: permissionOptions) { _, _ in }
+
+        // Register notification action
+        let copyAction = UNNotificationAction(
+            identifier: Globals.otpNotificationCopyAction,
+            title: "CopyToPasteboard".localize(),
+            options: UNNotificationActionOptions(rawValue: 0)
+        )
+        let otpCategory = UNNotificationCategory(
+            identifier: Globals.otpNotificationCategory,
+            actions: [copyAction],
+            intentIdentifiers: [],
+            hiddenPreviewsBodyPlaceholder: "",
+            options: []
+        )
+        notificationCenter.setNotificationCategories([otpCategory])
+        notificationCenter.delegate = NotificationCenterDispatcher.shared
     }
 
     override func viewWillAppear(_ animated: Bool) {

@@ -57,4 +57,6 @@ public extension DefaultsKeys {
     var passwordGenerator: DefaultsKey<PasswordGenerator> { .init("passwordGenerator", defaultValue: PasswordGenerator()) }
 
     var encryptInArmored: DefaultsKey<Bool> { .init("encryptInArmored", defaultValue: false) }
+
+    var autoCopyOTP: DefaultsKey<Bool> { .init("autoCopyOTP", defaultValue: false) }
 }
