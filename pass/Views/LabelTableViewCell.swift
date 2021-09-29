@@ -80,16 +80,16 @@ class LabelTableViewCell: UITableViewCell {
         switch type {
         case .password:
             if isReveal {
-                return action == #selector(copy(_:)) || action == #selector(concealPassword(_:))
+                return action == #selector(copy(_:)) || action == #selector(concealPassword)
             }
-            return action == #selector(copy(_:)) || action == #selector(revealPassword(_:))
+            return action == #selector(copy(_:)) || action == #selector(revealPassword)
         case .URL:
-            return action == #selector(copy(_:)) || action == #selector(openLink(_:))
+            return action == #selector(copy(_:)) || action == #selector(openLink)
         case .HOTP:
             if isReveal {
-                return action == #selector(copy(_:)) || action == #selector(concealPassword(_:)) || action == #selector(getNextHOTP(_:))
+                return action == #selector(copy(_:)) || action == #selector(concealPassword) || action == #selector(getNextHOTP)
             }
-            return action == #selector(copy(_:)) || action == #selector(revealPassword(_:)) || action == #selector(getNextHOTP(_:))
+            return action == #selector(copy(_:)) || action == #selector(revealPassword) || action == #selector(getNextHOTP)
         default:
             return action == #selector(copy(_:))
         }

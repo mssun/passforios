@@ -56,10 +56,10 @@ class PasswordNavigationViewController: UIViewController {
             let addPasswordButton = UIButton(type: .system)
             let plusImage = UIImage(systemName: "plus.circle", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))
             addPasswordButton.setImage(plusImage, for: .normal)
-            addPasswordButton.addTarget(self, action: #selector(self.addPasswordAction(_:)), for: .touchDown)
+            addPasswordButton.addTarget(self, action: #selector(self.addPasswordAction), for: .touchDown)
             addPasswordUIBarButtonItem.customView = addPasswordButton
         } else {
-            addPasswordUIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addPasswordAction(_:)))
+            addPasswordUIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addPasswordAction))
         }
         return addPasswordUIBarButtonItem
     }()

@@ -243,12 +243,12 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         setPasscodeLockAlert?.addTextField { textField -> Void in
             textField.placeholder = "Passcode".localize()
             textField.isSecureTextEntry = true
-            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
+            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange), for: UIControl.Event.editingChanged)
         }
         setPasscodeLockAlert?.addTextField { textField -> Void in
             textField.placeholder = "PasswordConfirmation".localize()
             textField.isSecureTextEntry = true
-            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
+            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange), for: UIControl.Event.editingChanged)
         }
 
         // save action

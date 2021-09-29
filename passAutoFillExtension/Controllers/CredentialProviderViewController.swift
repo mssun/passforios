@@ -23,7 +23,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
     }()
 
     private lazy var passwordsTableEntries = PasswordStore.shared.fetchPasswordEntityCoreData(withDir: false)
-        .map(PasswordTableEntry.init(_:))
+        .map(PasswordTableEntry.init)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +44,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
             self.credentialProvider.identifier = serviceIdentifiers.first
             let url = serviceIdentifiers.first
                 .map(\.identifier)
-                .flatMap(URL.init(string:))
+                .flatMap(URL.init)
             self.passwordsViewController.navigationItem.prompt = url?.host
             self.passwordsViewController.showPasswordsWithSuggestion(matching: url?.host ?? "")
         }

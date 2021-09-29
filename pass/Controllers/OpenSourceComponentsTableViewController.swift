@@ -68,7 +68,7 @@ class OpenSourceComponentsTableViewController: BasicStaticTableViewController {
                     .action: "link",
                     .link: item[1],
                     .accessoryType: UITableViewCell.AccessoryType.detailDisclosureButton,
-                    .detailDisclosureAction: #selector(actOnDetailDisclosureButton(_:)),
+                    .detailDisclosureAction: #selector(actOnDetailDisclosureButton),
                     .detailDisclosureData: item[2],
                 ]
             )
