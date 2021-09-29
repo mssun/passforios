@@ -1463,7 +1463,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -xe\nrm -rf ${BUILT_PRODUCTS_DIR}/passKit.framework/Frameworks\nfind -L ${BUILT_PRODUCTS_DIR}/OneTimePassword_*.framework -type d -name \"Frameworks\" | xargs rm -rf\nfind -L ${BUILT_PRODUCTS_DIR}/passAutoFillExtension.appex -type d -name \"Frameworks\" | xargs rm -rf\nfind -L ${BUILT_PRODUCTS_DIR}/passShortcuts.appex -type d -name \"Frameworks\" | xargs rm -rf\n\n";
+			shellScript = "set -xe\n\nfind -L \"${BUILT_PRODUCTS_DIR}\" -type d -path \"*.appex/Frameworks\" -o -path \"*.framework/Frameworks\" -maxdepth 2 | xargs rm -rf\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
