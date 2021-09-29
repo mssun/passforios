@@ -66,7 +66,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.actOnPasswordStoreErasedNotification), name: .passwordStoreErased, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(actOnPasswordStoreErasedNotification), name: .passwordStoreErased, object: nil)
         passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults.gitURL.host
         setPGPKeyTableViewCellDetailText()
         setPasscodeLockCell()

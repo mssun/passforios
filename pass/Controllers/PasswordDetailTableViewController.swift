@@ -47,7 +47,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         tableView.register(UINib(nibName: "LabelTableViewCell", bundle: nil), forCellReuseIdentifier: "labelCell")
         tableView.register(UINib(nibName: "PasswordDetailTitleTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordDetailTitleTableViewCell")
 
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PasswordDetailTableViewController.tapMenu))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapMenu))
         tapGesture.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tapGesture)
         tapGesture.delegate = self
