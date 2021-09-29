@@ -107,6 +107,8 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        cell.accessoryType = .none
+        cell.selectionStyle = .none
         switch cell.textLabel!.text! {
         case "HideUnknownFields".localize():
             hideUnknownSwitch.isOn = Defaults.isHideUnknownOn
@@ -115,20 +117,12 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             hideOTPSwitch.isOn = Defaults.isHideOTPOn
             addDetailButton(to: cell, for: hideOTPSwitch, with: #selector(tapHideOTPSwitchDetailButton))
         case "RememberPgpKeyPassphrase".localize():
-            cell.accessoryType = .none
-            cell.selectionStyle = .none
             cell.accessoryView = rememberPGPPassphraseSwitch
         case "RememberGitCredentialPassphrase".localize():
-            cell.accessoryType = .none
-            cell.selectionStyle = .none
             cell.accessoryView = rememberGitCredentialPassphraseSwitch
         case "ShowFolders".localize():
-            cell.accessoryType = .none
-            cell.selectionStyle = .none
             cell.accessoryView = showFolderSwitch
         case "EnableGPGID".localize():
-            cell.accessoryType = .none
-            cell.selectionStyle = .none
             cell.accessoryView = enableGPGIDSwitch
         case "HidePasswordImages".localize():
             hidePasswordImagesSwitch.isOn = Defaults.isHidePasswordImagesOn
@@ -169,8 +163,6 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         uiSwitch.center.y = accessoryView.center.y
         detailButton.center.y = accessoryView.center.y
         cell.accessoryView = accessoryView
-        cell.accessoryType = .none
-        cell.selectionStyle = .none
     }
 
     @objc
