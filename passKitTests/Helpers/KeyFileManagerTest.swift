@@ -15,33 +15,33 @@ class KeyFileManagerTest: XCTestCase {
     private static let keyFileManager = KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: filePath) { _, _ in }
 
     override func tearDown() {
-        try? FileManager.default.removeItem(atPath: KeyFileManagerTest.filePath)
+        try? FileManager.default.removeItem(atPath: Self.filePath)
         super.tearDown()
     }
 
     func testImportKeyFromFileSharing() throws {
         let fileContent = "content".data(using: .ascii)
         var storage: [String: String] = [:]
-        let keyFileManager = KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: KeyFileManagerTest.filePath) { storage[$1] = $0 }
+        let keyFileManager = KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: Self.filePath) { storage[$1] = $0 }
 
-        FileManager.default.createFile(atPath: KeyFileManagerTest.filePath, contents: fileContent, attributes: nil)
+        FileManager.default.createFile(atPath: Self.filePath, contents: fileContent, attributes: nil)
         try keyFileManager.importKeyFromFileSharing()
 
-        XCTAssertFalse(FileManager.default.fileExists(atPath: KeyFileManagerTest.filePath))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: Self.filePath))
         XCTAssertEqual(storage[PgpKey.PRIVATE.getKeychainKey()], "content")
     }
 
     func testErrorReadingFile() throws {
-        XCTAssertThrowsError(try KeyFileManagerTest.keyFileManager.importKeyFromFileSharing())
+        XCTAssertThrowsError(try Self.keyFileManager.importKeyFromFileSharing())
     }
 
     func testImportKeyFromUrl() throws {
         let fileContent = "content".data(using: .ascii)
-        let url = URL(fileURLWithPath: KeyFileManagerTest.filePath)
+        let url = URL(fileURLWithPath: Self.filePath)
         var storage: [String: String] = [:]
-        let keyFileManager = KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: KeyFileManagerTest.filePath) { storage[$1] = $0 }
+        let keyFileManager = KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: Self.filePath) { storage[$1] = $0 }
 
-        FileManager.default.createFile(atPath: KeyFileManagerTest.filePath, contents: fileContent, attributes: nil)
+        FileManager.default.createFile(atPath: Self.filePath, contents: fileContent, attributes: nil)
         try keyFileManager.importKey(from: url)
 
         XCTAssertEqual(storage[PgpKey.PRIVATE.getKeychainKey()], "content")
@@ -50,7 +50,7 @@ class KeyFileManagerTest: XCTestCase {
     func testImportKeyFromString() throws {
         let string = "content"
         var storage: [String: String] = [:]
-        let keyFileManager = KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: KeyFileManagerTest.filePath) { storage[$1] = $0 }
+        let keyFileManager = KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: Self.filePath) { storage[$1] = $0 }
 
         try keyFileManager.importKey(from: string)
 
@@ -58,18 +58,18 @@ class KeyFileManagerTest: XCTestCase {
     }
 
     func testImportKeyFromNonAsciiString() throws {
-        XCTAssertThrowsError(try KeyFileManagerTest.keyFileManager.importKey(from: "≠")) {
+        XCTAssertThrowsError(try Self.keyFileManager.importKey(from: "≠")) {
             XCTAssertEqual($0 as! AppError, AppError.encoding)
         }
     }
 
     func testFileExists() {
-        FileManager.default.createFile(atPath: KeyFileManagerTest.filePath, contents: nil, attributes: nil)
+        FileManager.default.createFile(atPath: Self.filePath, contents: nil, attributes: nil)
 
-        XCTAssertTrue(KeyFileManagerTest.keyFileManager.doesKeyFileExist())
+        XCTAssertTrue(Self.keyFileManager.doesKeyFileExist())
     }
 
     func testFileDoesNotExist() {
-        XCTAssertFalse(KeyFileManagerTest.keyFileManager.doesKeyFileExist())
+        XCTAssertFalse(Self.keyFileManager.doesKeyFileExist())
     }
 }

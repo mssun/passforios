@@ -380,7 +380,7 @@ public class PasswordStore {
         if Date().timeIntervalSince(lastCommitDate) <= 60 {
             return "JustNow".localize()
         }
-        return PasswordStore.dateFormatter.string(from: lastCommitDate)
+        return Self.dateFormatter.string(from: lastCommitDate)
     }
 
     public func updateRemoteRepo() {}
