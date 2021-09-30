@@ -301,12 +301,12 @@ to get the key in this specific format. Subsequently, copy it to a location acce
 
   $ gpg --list-keys
 
-to identify your encryption (E) subkey, then use:
+to identify your encryption (E) subkey's KEY_ID, then use
 
   $ gpg --export -a KEY_ID! > subkey.pub
   $ gpg --export-secret-subkeys -a KEY_ID! > subkey
 
-to get the public and the encryption private subkeys in this specific format. Check that no Authentication subkey is accidentally exported, using:
+to get the public and the encryption private subkeys in this specific format. Check that no authentication subkey is accidentally exported:
 
   $ gpg --show-key subkey
 
@@ -316,27 +316,27 @@ The clipboard will be cleared 45s after pasting.";
 
   $ gpg --list-keys
 
-to identify your encryption (E) subkey, then use:
+to identify your encryption (E) subkey's KEY_ID, then use
 
   $ gpg --export -a KEY_ID! > subkey.pub
   $ gpg --export-secret-subkeys -a KEY_ID! > subkey
 
-to get the public and the encryption private subkeys in this specific format. Check that no Authentication subkey is accidentally exported, using:
+to get the public and the encryption private subkeys in this specific format. Check that no authentication subkey is accidentally exported:
 
   $ gpg --show-key subkey
 
-Finally, copy them to your secured key server.";
+Finally, copy them to your (local) HTTP(S) server.";
 
 "GpgAsciiArmorFileExplanation." = "GnuPG supports the command-line option \"-a\" that causes output to be generated in an ASCII-armored format similar to unencoded documents rather than the binary format. Use
 
   $ gpg --list-keys
 
-to identify your encryption (E) subkey, then use:
+to identify your encryption (E) subkey's KEY_ID, then use
 
   $ gpg --export -a KEY_ID! > subkey.pub
   $ gpg --export-secret-subkeys -a KEY_ID! > subkey
 
-to get the public and the encryption private subkeys in this specific format. Check that no Authentication subkey is accidentally exported, using:
+to get the public and the encryption private subkeys in this specific format. Check that no authentication subkey is accidentally exported:
 
   $ gpg --show-key subkey
 

@@ -42,6 +42,7 @@
 "PasswordGeneratorFlavor"           = "Art";
 "RememberPgpKeyPassphrase"          = "GPG-Schlüssel-Passwort merken";
 "RememberGitCredentialPassphrase"   = "Git-Server-Passwort merken";
+"EnableGPGID"                       = "Berücksichtige .gpg-id Dateien (experimentell)";
 "ShowFolders"                       = "Ordner anzeigen";
 "HidePasswordImages"                = "Favicons verstecken";
 "HidePasswordImagesExplanation."    = "Favicons werden basierend auf der assoziierten URL geladen und in Passworteinträgen angezeigt. Aktiviere diese Option, um das Laden dieser Bilder zu unterbinden und sie nicht anzuzeigen.";
@@ -294,23 +295,47 @@ gibt den Schlüssel in diesem speziellen Format aus. Kopiere ihn so zu einem Key
 
 gibt den Schlüssel in diesem speziellen Format aus. Kopiere ihn so zu einem Speicherort, der für die Dateien-App zugänglich ist.";
 
-"GpgAsciiArmorCopyExplanation." = "GnuPG unterstützt die Kommandozeilenoption \"-a\", welche die Schlüssel im Format \"ASCII-Armor\" ausgibt. Es ist anders als das Binärformat eine einfache Zeichenkette. Die Befehle
+"GpgAsciiArmorCopyExplanation." = "GnuPG unterstützt die Kommandozeilenoption \"-a\", welche die Schlüssel im Format \"ASCII-Armor\" ausgibt. Es ist anders als das Binärformat eine einfache Zeichenkette. Der Befehl
 
-  $ gpg --export -a KEY_ID
-  $ gpg --export-secret-keys -a KEY_ID
+  $ gpg --list-keys
 
-geben den öffentlichen und den privaten Schlüssel in diesem speziellen Format aus. Die Zwischenablage wird nach 45 Sekunden zurückgesetzt.";
+zeigt alle bekannten Schlüssel an. Die Liste kann verwendet werden, um die KEY_ID des untergeorneten Schlüssels (E) zu identifizieren. Er wird zur Verschlüsselung verwendet. Mit den Befehlen
 
-"GpgAsciiArmorServerExplanation." = "GnuPG unterstützt die Kommandozeilenoption \"-a\", welche die Schlüssel im Format \"ASCII-Armor\" ausgibt. Es ist anders als das Binärformat eine einfache Zeichenkette. Die Befehle
+  $ gpg --export -a KEY_ID! > subkey.pub
+  $ gpg --export-secret-subkeys -a KEY_ID! > subkey
 
-  $ gpg --export -a KEY_ID
-  $ gpg --export-secret-keys -a KEY_ID
+können der öffentliche und der private Unterschlüssel im \"ASCII-Armor\"- Format exportiert werden. Mit
 
-geben den öffentlichen und den privaten Schlüssel in diesem speziellen Format aus. Kopiere sie so zu einem Key-Server.";
+  $ gpg --show-key subkey
 
-"GpgAsciiArmorFileExplanation." = "GnuPG unterstützt die Kommandozeilenoption \"-a\", welche die Schlüssel im Format \"ASCII-Armor\" ausgibt. Es ist anders als das Binärformat eine einfache Zeichenkette. Die Befehle
+wird überprüft, dass nicht aus Versehen der Unterschlüssel für Authentifizierungen exportiert wurde. Die Zwischenablage wird nach 45 Sekunden zurückgesetzt.";
 
-  $ gpg --export -a KEY_ID
-  $ gpg --export-secret-keys -a KEY_ID
+"GpgAsciiArmorServerExplanation." = "GnuPG unterstützt die Kommandozeilenoption \"-a\", welche die Schlüssel im Format \"ASCII-Armor\" ausgibt. Es ist anders als das Binärformat eine einfache Zeichenkette. Der Befehl
 
-geben den öffentlichen und den privaten Schlüssel in diesem speziellen Format aus. Kopiere sie so zu einem Speicherort, der für die Dateien-App zugänglich ist.";
+  $ gpg --list-keys
+
+zeigt alle bekannten Schlüssel an. Die Liste kann verwendet werden, um die KEY_ID des untergeorneten Schlüssels (E) zu identifizieren. Er wird zur Verschlüsselung verwendet. Mit den Befehlen
+
+  $ gpg --export -a KEY_ID! > subkey.pub
+  $ gpg --export-secret-subkeys -a KEY_ID! > subkey
+
+können der öffentliche und der private Unterschlüssel im \"ASCII-Armor\"- Format exportiert werden. Mit
+
+  $ gpg --show-key subkey
+
+wird überprüft, dass nicht aus Versehen der Unterschlüssel für Authentifizierungen exportiert wurde. Schließlich können die beiden Schlüssel auf einen (lokalen) HTTP(S)-Server kopiert werden.";
+
+"GpgAsciiArmorFileExplanation." = "GnuPG unterstützt die Kommandozeilenoption \"-a\", welche die Schlüssel im Format \"ASCII-Armor\" ausgibt. Es ist anders als das Binärformat eine einfache Zeichenkette. Der Befehl
+
+  $ gpg --list-keys
+
+zeigt alle bekannten Schlüssel an. Die Liste kann verwendet werden, um die KEY_ID des untergeorneten Schlüssels (E) zu identifizieren. Er wird zur Verschlüsselung verwendet. Mit den Befehlen
+
+  $ gpg --export -a KEY_ID! > subkey.pub
+  $ gpg --export-secret-subkeys -a KEY_ID! > subkey
+
+können der öffentliche und der private Unterschlüssel im \"ASCII-Armor\"- Format exportiert werden. Mit
+
+  $ gpg --show-key subkey
+
+wird überprüft, dass nicht aus Versehen der Unterschlüssel für Authentifizierungen exportiert wurde. Schließlich können die beiden Schlüssel an einem Ort gespeichert werden, der für die Dateien-App zugänglich ist.";
