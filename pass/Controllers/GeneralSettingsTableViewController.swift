@@ -28,6 +28,14 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         return uiSwitch
     }()
 
+    let autoCopyOTPSwitch: UISwitch = {
+        let uiSwitch = UISwitch()
+        uiSwitch.onTintColor = Colors.systemBlue
+        uiSwitch.sizeToFit()
+        uiSwitch.addTarget(self, action: #selector(autoCopyOTPSwitchAction(_:)), for: UIControl.Event.valueChanged)
+        return uiSwitch
+    }()
+
     let rememberPGPPassphraseSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
@@ -91,6 +99,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
                 [.title: "HidePasswordImages".localize(), .action: "none"],
                 [.title: "HideUnknownFields".localize(), .action: "none"],
                 [.title: "HideOtpFields".localize(), .action: "none"],
+                [.title: "AutoCopyOTP".localize(), .action: "none"],
             ],
         ]
         super.viewDidLoad()
@@ -98,69 +107,62 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        cell.accessoryType = .none
+        cell.selectionStyle = .none
         switch cell.textLabel!.text! {
         case "HideUnknownFields".localize():
-            cell.accessoryType = .none
-            let detailButton = UIButton(type: .detailDisclosure)
-            hideUnknownSwitch.frame = CGRect(x: detailButton.bounds.width + 10, y: 0, width: hideUnknownSwitch.bounds.width, height: hideUnknownSwitch.bounds.height)
-            detailButton.frame = CGRect(x: 0, y: 5, width: detailButton.bounds.width, height: detailButton.bounds.height)
-            detailButton.addTarget(self, action: #selector(GeneralSettingsTableViewController.tapHideUnknownSwitchDetailButton(_:)), for: UIControl.Event.touchDown)
-            let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: detailButton.bounds.width + hideUnknownSwitch.bounds.width + 10, height: cell.contentView.bounds.height))
-            accessoryView.addSubview(detailButton)
-            accessoryView.addSubview(hideUnknownSwitch)
-            hideUnknownSwitch.center.y = accessoryView.center.y
-            detailButton.center.y = accessoryView.center.y
-            cell.accessoryView = accessoryView
-            cell.selectionStyle = .none
             hideUnknownSwitch.isOn = Defaults.isHideUnknownOn
+            addDetailButton(to: cell, for: hideUnknownSwitch, with: #selector(tapHideUnknownSwitchDetailButton))
         case "HideOtpFields".localize():
-            cell.accessoryType = .none
-            let detailButton = UIButton(type: .detailDisclosure)
-            hideOTPSwitch.frame = CGRect(x: detailButton.bounds.width + 10, y: 0, width: hideOTPSwitch.bounds.width, height: hideOTPSwitch.bounds.height)
-            detailButton.frame = CGRect(x: 0, y: 5, width: detailButton.bounds.width, height: detailButton.bounds.height)
-            detailButton.addTarget(self, action: #selector(GeneralSettingsTableViewController.tapHideOTPSwitchDetailButton(_:)), for: UIControl.Event.touchDown)
-            let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: detailButton.bounds.width + hideOTPSwitch.bounds.width + 10, height: cell.contentView.bounds.height))
-            accessoryView.addSubview(detailButton)
-            accessoryView.addSubview(hideOTPSwitch)
-            hideOTPSwitch.center.y = accessoryView.center.y
-            detailButton.center.y = accessoryView.center.y
-            cell.accessoryView = accessoryView
-            cell.selectionStyle = .none
             hideOTPSwitch.isOn = Defaults.isHideOTPOn
+            addDetailButton(to: cell, for: hideOTPSwitch, with: #selector(tapHideOTPSwitchDetailButton))
         case "RememberPgpKeyPassphrase".localize():
-            cell.accessoryType = .none
-            cell.selectionStyle = .none
             cell.accessoryView = rememberPGPPassphraseSwitch
         case "RememberGitCredentialPassphrase".localize():
-            cell.accessoryType = .none
-            cell.selectionStyle = .none
             cell.accessoryView = rememberGitCredentialPassphraseSwitch
         case "ShowFolders".localize():
-            cell.accessoryType = .none
-            cell.selectionStyle = .none
             cell.accessoryView = showFolderSwitch
         case "EnableGPGID".localize():
-            cell.accessoryType = .none
-            cell.selectionStyle = .none
             cell.accessoryView = enableGPGIDSwitch
         case "HidePasswordImages".localize():
-            cell.accessoryType = .none
-            let detailButton = UIButton(type: .detailDisclosure)
-            hidePasswordImagesSwitch.frame = CGRect(x: detailButton.bounds.width + 10, y: 0, width: hidePasswordImagesSwitch.bounds.width, height: hidePasswordImagesSwitch.bounds.height)
-            detailButton.frame = CGRect(x: 0, y: 5, width: detailButton.bounds.width, height: detailButton.bounds.height)
-            detailButton.addTarget(self, action: #selector(GeneralSettingsTableViewController.tapHidePasswordImagesSwitchDetailButton(_:)), for: UIControl.Event.touchDown)
-            let accessoryView = UIView(frame: CGRect(x: 0, y: 0, width: detailButton.bounds.width + hidePasswordImagesSwitch.bounds.width + 10, height: cell.contentView.bounds.height))
-            accessoryView.addSubview(detailButton)
-            accessoryView.addSubview(hidePasswordImagesSwitch)
-            hidePasswordImagesSwitch.center.y = accessoryView.center.y
-            detailButton.center.y = accessoryView.center.y
-            cell.accessoryView = accessoryView
-            cell.selectionStyle = .none
             hidePasswordImagesSwitch.isOn = Defaults.isHidePasswordImagesOn
+            addDetailButton(to: cell, for: hidePasswordImagesSwitch, with: #selector(tapHidePasswordImagesSwitchDetailButton))
+        case "AutoCopyOTP".localize():
+            autoCopyOTPSwitch.isOn = Defaults.autoCopyOTP
+            addDetailButton(to: cell, for: autoCopyOTPSwitch, with: #selector(tapAutoCopyOTPSwitchDetailButton))
         default:
             break
         }
         return cell
+    }
+
+    private func addDetailButton(to cell: UITableViewCell, for uiSwitch: UISwitch, with action: Selector) {
+        let detailButton = UIButton(type: .detailDisclosure)
+        uiSwitch.frame = CGRect(
+            x: detailButton.bounds.width + 10,
+            y: 0,
+            width: uiSwitch.bounds.width,
+            height: uiSwitch.bounds.height
+        )
+        detailButton.frame = CGRect(
+            x: 0,
+            y: 5,
+            width: detailButton.bounds.width,
+            height: detailButton.bounds.height
+        )
+        detailButton.addTarget(self, action: action, for: UIControl.Event.touchDown)
+        let accessoryViewFrame = CGRect(
+            x: 0,
+            y: 0,
+            width: detailButton.bounds.width + uiSwitch.bounds.width + 10,
+            height: cell.contentView.bounds.height
+        )
+        let accessoryView = UIView(frame: accessoryViewFrame)
+        accessoryView.addSubview(detailButton)
+        accessoryView.addSubview(uiSwitch)
+        uiSwitch.center.y = accessoryView.center.y
+        detailButton.center.y = accessoryView.center.y
+        cell.accessoryView = accessoryView
     }
 
     @objc
@@ -175,6 +177,13 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let keywordsString = Constants.OTP_KEYWORDS.joined(separator: ", ")
         let alertMessage = "HideOtpFieldsExplanation.".localize(keywordsString)
         let alertTitle = "HideOtpFields".localize()
+        Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
+    }
+
+    @objc
+    func tapAutoCopyOTPSwitchDetailButton(_: Any?) {
+        let alertMessage = "AutoCopyOTPExplanation.".localize()
+        let alertTitle = "AutoCopyOTP".localize()
         Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
     }
 
@@ -195,6 +204,11 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     func hideOTPSwitchAction(_: Any?) {
         Defaults.isHideOTPOn = hideOTPSwitch.isOn
         NotificationCenter.default.post(name: .passwordDetailDisplaySettingChanged, object: nil)
+    }
+
+    @objc
+    func autoCopyOTPSwitchAction(_: Any?) {
+        Defaults.autoCopyOTP = autoCopyOTPSwitch.isOn
     }
 
     @objc
