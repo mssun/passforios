@@ -34,7 +34,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         passcodeTextField.isSecureTextEntry = true
         passcodeTextField.clearButtonMode = UITextField.ViewMode.whileEditing
         passcodeTextField.delegate = self
-        passcodeTextField.addTarget(self, action: #selector(passcodeTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
+        passcodeTextField.addTarget(self, action: #selector(passcodeTextFieldDidChange), for: UIControl.Event.editingChanged)
         passcodeTextField.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(passcodeTextField)
         self.passcodeTextField = passcodeTextField
@@ -46,7 +46,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         let biometryAuthButton = UIButton(type: .custom)
         biometryAuthButton.setTitle("", for: .normal)
         biometryAuthButton.setTitleColor(Colors.systemBlue, for: .normal)
-        biometryAuthButton.addTarget(self, action: #selector(bioButtonPressedAction(_:)), for: .touchUpInside)
+        biometryAuthButton.addTarget(self, action: #selector(bioButtonPressedAction), for: .touchUpInside)
         biometryAuthButton.isHidden = true
         biometryAuthButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(biometryAuthButton)
@@ -68,7 +68,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         forgotPasscodeButton.setTitle("ForgotYourPasscode?".localize(), for: .normal)
         forgotPasscodeButton.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
         forgotPasscodeButton.setTitleColor(Colors.systemBlue, for: .normal)
-        forgotPasscodeButton.addTarget(self, action: #selector(forgotPasscodeButtonPressedAction(_:)), for: .touchUpInside)
+        forgotPasscodeButton.addTarget(self, action: #selector(forgotPasscodeButtonPressedAction), for: .touchUpInside)
         // hide the forgotPasscodeButton if the native app is running
         forgotPasscodeButton.isHidden = isCancellable
         forgotPasscodeButton.translatesAutoresizingMaskIntoConstraints = false

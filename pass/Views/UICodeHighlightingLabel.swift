@@ -31,13 +31,13 @@ class UICodeHighlightingLabel: UILocalizedLabel {
         let formattedText = text.splitByNewline()
             .map { line -> NSAttributedString in
                 if line.starts(with: "  ") {
-                    return NSAttributedString(string: line, attributes: UICodeHighlightingLabel.CODE_ATTRIBUTES)
+                    return NSAttributedString(string: line, attributes: Self.CODE_ATTRIBUTES)
                 }
                 return NSAttributedString(string: line)
             }
             .reduce(into: NSMutableAttributedString(string: "")) {
                 $0.append($1)
-                $0.append(UICodeHighlightingLabel.ATTRIBUTED_NEWLINE)
+                $0.append(Self.ATTRIBUTED_NEWLINE)
             }
         formattedText.deleteCharacters(in: NSRange(location: formattedText.length - 1, length: 1))
         return formattedText

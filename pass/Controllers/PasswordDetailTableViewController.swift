@@ -21,7 +21,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     private let keychain = AppKeychain.shared
 
     private lazy var editUIBarButtonItem: UIBarButtonItem = {
-        let uiBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit(_:)))
+        let uiBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit))
         return uiBarButtonItem
     }()
 
@@ -47,7 +47,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         tableView.register(UINib(nibName: "LabelTableViewCell", bundle: nil), forCellReuseIdentifier: "labelCell")
         tableView.register(UINib(nibName: "PasswordDetailTitleTableViewCell", bundle: nil), forCellReuseIdentifier: "passwordDetailTitleTableViewCell")
 
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PasswordDetailTableViewController.tapMenu(recognizer:)))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapMenu))
         tapGesture.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tapGesture)
         tapGesture.delegate = self
@@ -326,10 +326,10 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 if let tappedCell = tableView.cellForRow(at: tapIndexPath) as? LabelTableViewCell {
                     tappedCell.becomeFirstResponder()
                     let menuController = UIMenuController.shared
-                    let revealItem = UIMenuItem(title: "Reveal".localize(), action: #selector(LabelTableViewCell.revealPassword(_:)))
-                    let concealItem = UIMenuItem(title: "Conceal".localize(), action: #selector(LabelTableViewCell.concealPassword(_:)))
-                    let nextHOTPItem = UIMenuItem(title: "NextPassword".localize(), action: #selector(LabelTableViewCell.getNextHOTP(_:)))
-                    let openURLItem = UIMenuItem(title: "CopyAndOpen".localize(), action: #selector(LabelTableViewCell.openLink(_:)))
+                    let revealItem = UIMenuItem(title: "Reveal".localize(), action: #selector(LabelTableViewCell.revealPassword))
+                    let concealItem = UIMenuItem(title: "Conceal".localize(), action: #selector(LabelTableViewCell.concealPassword))
+                    let nextHOTPItem = UIMenuItem(title: "NextPassword".localize(), action: #selector(LabelTableViewCell.getNextHOTP))
+                    let openURLItem = UIMenuItem(title: "CopyAndOpen".localize(), action: #selector(LabelTableViewCell.openLink))
                     menuController.menuItems = [revealItem, concealItem, nextHOTPItem, openURLItem]
                     menuController.setTargetRect(tappedCell.contentLabel.frame, in: tappedCell.contentLabel.superview!)
                     menuController.setMenuVisible(true, animated: true)
@@ -490,7 +490,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         let section = tableData[indexPath.section]
         switch section.type {
         case .addition, .main:
-            return action == #selector(UIResponderStandardEditActions.copy(_:))
+            return action == #selector(UIResponderStandardEditActions.copy)
         default:
             return false
         }

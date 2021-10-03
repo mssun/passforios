@@ -29,7 +29,7 @@ class Parser {
         while lineNumber < purgedAdditionalLines.count {
             let line = purgedAdditionalLines[lineNumber]
             lineNumber += 1
-            var (key, value) = Parser.getKeyValuePair(from: line)
+            var (key, value) = Self.getKeyValuePair(from: line)
             if key == nil {
                 unknownIndex += 1
                 key = Constants.unknown(unknownIndex)

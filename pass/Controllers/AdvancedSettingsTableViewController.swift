@@ -21,7 +21,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(encryptInASCIIArmoredAction(_:)), for: UIControl.Event.valueChanged)
+        uiSwitch.addTarget(self, action: #selector(encryptInASCIIArmoredAction), for: UIControl.Event.valueChanged)
         return uiSwitch
     }()
 

@@ -66,7 +66,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(SettingsTableViewController.actOnPasswordStoreErasedNotification), name: .passwordStoreErased, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(actOnPasswordStoreErasedNotification), name: .passwordStoreErased, object: nil)
         passwordRepositoryTableViewCell.detailTextLabel?.text = Defaults.gitURL.host
         setPGPKeyTableViewCellDetailText()
         setPasscodeLockCell()
@@ -243,12 +243,12 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         setPasscodeLockAlert?.addTextField { textField -> Void in
             textField.placeholder = "Passcode".localize()
             textField.isSecureTextEntry = true
-            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
+            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange), for: UIControl.Event.editingChanged)
         }
         setPasscodeLockAlert?.addTextField { textField -> Void in
             textField.placeholder = "PasswordConfirmation".localize()
             textField.isSecureTextEntry = true
-            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(_:)), for: UIControl.Event.editingChanged)
+            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange), for: UIControl.Event.editingChanged)
         }
 
         // save action

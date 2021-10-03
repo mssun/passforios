@@ -16,7 +16,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(hideUnknownSwitchAction(_:)), for: UIControl.Event.valueChanged)
+        uiSwitch.addTarget(self, action: #selector(hideUnknownSwitchAction), for: UIControl.Event.valueChanged)
         return uiSwitch
     }()
 
@@ -24,7 +24,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(hideOTPSwitchAction(_:)), for: UIControl.Event.valueChanged)
+        uiSwitch.addTarget(self, action: #selector(hideOTPSwitchAction), for: UIControl.Event.valueChanged)
         return uiSwitch
     }()
 
@@ -32,7 +32,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(autoCopyOTPSwitchAction(_:)), for: UIControl.Event.valueChanged)
+        uiSwitch.addTarget(self, action: #selector(autoCopyOTPSwitchAction), for: UIControl.Event.valueChanged)
         return uiSwitch
     }()
 
@@ -40,7 +40,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(rememberPGPPassphraseSwitchAction(_:)), for: UIControl.Event.valueChanged)
+        uiSwitch.addTarget(self, action: #selector(rememberPGPPassphraseSwitchAction), for: UIControl.Event.valueChanged)
         uiSwitch.isOn = Defaults.isRememberPGPPassphraseOn
         return uiSwitch
     }()
@@ -49,7 +49,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(rememberGitCredentialPassphraseSwitchAction(_:)), for: UIControl.Event.valueChanged)
+        uiSwitch.addTarget(self, action: #selector(rememberGitCredentialPassphraseSwitchAction), for: UIControl.Event.valueChanged)
         uiSwitch.isOn = Defaults.isRememberGitCredentialPassphraseOn
         return uiSwitch
     }()
@@ -58,7 +58,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(enableGPGIDSwitchAction(_:)), for: UIControl.Event.valueChanged)
+        uiSwitch.addTarget(self, action: #selector(enableGPGIDSwitchAction), for: UIControl.Event.valueChanged)
         uiSwitch.isOn = Defaults.isEnableGPGIDOn
         return uiSwitch
     }()
@@ -67,7 +67,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(showFolderSwitchAction(_:)), for: UIControl.Event.valueChanged)
+        uiSwitch.addTarget(self, action: #selector(showFolderSwitchAction), for: UIControl.Event.valueChanged)
         uiSwitch.isOn = Defaults.isShowFolderOn
         return uiSwitch
     }()
@@ -76,7 +76,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
-        uiSwitch.addTarget(self, action: #selector(hidePasswordImagesSwitchAction(_:)), for: UIControl.Event.valueChanged)
+        uiSwitch.addTarget(self, action: #selector(hidePasswordImagesSwitchAction), for: UIControl.Event.valueChanged)
         uiSwitch.isOn = Defaults.isHidePasswordImagesOn
         return uiSwitch
     }()

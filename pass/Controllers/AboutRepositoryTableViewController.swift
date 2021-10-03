@@ -100,7 +100,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
         if let numberOfCommits = passwordStore.numberOfCommits {
             return String(numberOfCommits)
         }
-        return AboutRepositoryTableViewController.VALUE_NOT_AVAILABLE
+        return Self.VALUE_NOT_AVAILABLE
     }
 
     @objc

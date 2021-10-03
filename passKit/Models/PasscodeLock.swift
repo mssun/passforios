@@ -9,10 +9,10 @@
 public class PasscodeLock {
     public static let shared = PasscodeLock()
 
-    private static let identifier = Globals.bundleIdentifier + "passcode"
+    private let identifier = Globals.bundleIdentifier + "passcode"
 
     private var passcode: String? {
-        AppKeychain.shared.get(for: PasscodeLock.identifier)
+        AppKeychain.shared.get(for: identifier)
     }
 
     /// Constructor used to migrate passcode from SharedDefaults to Keychain
@@ -28,7 +28,7 @@ public class PasscodeLock {
     }
 
     public func save(passcode: String) {
-        AppKeychain.shared.add(string: passcode, for: PasscodeLock.identifier)
+        AppKeychain.shared.add(string: passcode, for: identifier)
     }
 
     public func check(passcode: String) -> Bool {
@@ -36,6 +36,6 @@ public class PasscodeLock {
     }
 
     public func delete() {
-        AppKeychain.shared.removeContent(for: PasscodeLock.identifier)
+        AppKeychain.shared.removeContent(for: identifier)
     }
 }

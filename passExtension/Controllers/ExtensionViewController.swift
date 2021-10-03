@@ -24,7 +24,7 @@ class ExtensionViewController: UIViewController {
     }()
 
     private lazy var passwordsTableEntries = PasswordStore.shared.fetchPasswordEntityCoreData(withDir: false)
-        .map(PasswordTableEntry.init(_:))
+        .map(PasswordTableEntry.init)
 
     enum Action {
         case findLogin, fillBrowser, unknown
