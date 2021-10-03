@@ -17,7 +17,7 @@ class Parser {
     init(plainText: String) {
         let splittedPlainText = plainText.splitByNewline()
 
-        firstLine = splittedPlainText.first!
+        self.firstLine = splittedPlainText.first!
         self.additionsSection = splittedPlainText[1...].joined(separator: "\n")
         self.purgedAdditionalLines = splittedPlainText[1...].filter { !$0.isEmpty }
     }
