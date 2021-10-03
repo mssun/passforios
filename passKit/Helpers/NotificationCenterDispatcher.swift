@@ -30,6 +30,7 @@ public class NotificationCenterDispatcher: NSObject, UNUserNotificationCenterDel
             let content = UNMutableNotificationContent()
             if Defaults.autoCopyOTP {
                 content.title = "OTPForPasswordCopied".localize(password.name)
+                UIPasteboard.general.string = otp
             } else {
                 content.title = "OTPForPassword".localize(password.name)
                 content.body = otp
