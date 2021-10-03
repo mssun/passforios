@@ -99,7 +99,6 @@ class PasswordNavigationViewController: UIViewController {
             options: []
         )
         notificationCenter.setNotificationCategories([otpCategory])
-        notificationCenter.delegate = NotificationCenterDispatcher.shared
     }
 
     override func viewWillAppear(_ animated: Bool) {
