@@ -23,10 +23,10 @@
 "None"                      = "Kein valides Token";
 "ExpiresIn"                 = "(läuft in %ds ab)";
 "OTPForPassword"            = "Einmalpasswort für %@";
-"OTPForPasswordCopied"      = "Einmalpasswort für %@ kopiert";
+"OTPHasBeenCopied"          = "... wurde in die Zwischenablage kopiert";
 "CopyToPasteboard"          = "In Zwischenablage kopieren";
 "AutoCopyOTP"               = "OTPs automatisch kopieren";
-"AutoCopyOTPExplanation."   = "Nachdem Login und Passwort automatisch in die vorgesehenen Felder gefüllt wurden, wird eine Benachrichtigung mit dem aktuellen Einmalpasswort angezeigt. Dieses kann in die Zwischenablage kopiert werden. Ist diese Option aktiviert, geschieht das Kopieren automatisch.";
+"AutoCopyOTPExplanation."   = "Nachdem Login und Passwort automatisch in die vorgesehenen Felder eingefügt wurden, wird eine Benachrichtigung mit dem aktuellen Einmalpasswort angezeigt. Dieses kann in die Zwischenablage kopiert werden. Ist diese Option aktiviert, geschieht das Kopieren automatisch.";
 
 // General (error) messages
 "Error"                                             = "Fehler";
