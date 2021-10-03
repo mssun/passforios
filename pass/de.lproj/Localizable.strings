@@ -46,7 +46,7 @@
 "PasswordGeneratorFlavor"           = "Art";
 "RememberPgpKeyPassphrase"          = "GPG-Schlüssel-Passwort merken";
 "RememberGitCredentialPassphrase"   = "Git-Server-Passwort merken";
-"EnableGPGID"                       = "Berücksichtige .gpg-id Dateien (experimentell)";
+"EnableGPGID"                       = "Berücksichtige .gpg-id Dateien (Beta)";
 "ShowFolders"                       = "Ordner anzeigen";
 "HidePasswordImages"                = "Favicons verstecken";
 "HidePasswordImagesExplanation."    = "Favicons werden basierend auf der assoziierten URL geladen und in Passworteinträgen angezeigt. Aktiviere diese Option, um das Laden dieser Bilder zu unterbinden und sie nicht anzuzeigen.";
