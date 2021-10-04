@@ -34,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 perform(#selector(postSearchNotification), with: nil, afterDelay: 0.4)
             }
         }
+        UNUserNotificationCenter.current().delegate = NotificationCenterDispatcher.shared
         return true
     }
 

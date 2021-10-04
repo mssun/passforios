@@ -23,7 +23,7 @@
 "None"                      = "None";
 "ExpiresIn"                 = "(expires in %ds)";
 "OTPForPassword"            = "One-time password for %@";
-"OTPForPasswordCopied"      = "One-time password for %@ copied";
+"OTPHasBeenCopied"          = "... has been copied to the pasteboard";
 "CopyToPasteboard"          = "Copy to pasteboard";
 "AutoCopyOTP"               = "Automatically Copy OTPs";
 "AutoCopyOTPExplanation."   = "After username and password have been auto-filled into a form by Pass, a notification is shown with the current one-time password which can be copied to the pasteboard. Enabling this option automatically copies the current one-time password.";
@@ -46,7 +46,7 @@
 "PasswordGeneratorFlavor"           = "Style";
 "RememberPgpKeyPassphrase"          = "Remember PGP Key Passphrase";
 "RememberGitCredentialPassphrase"   = "Remember Git Credential Passphrase";
-"EnableGPGID"                       = "Enable .gpg-id (Experiment)";
+"EnableGPGID"                       = "Enable .gpg-id (Beta)";
 "ShowFolders"                       = "Show Folders";
 "HidePasswordImages"                = "Hide Password Images";
 "HidePasswordImagesExplanation."    = "Associated favicon images are loaded and shown based upon the URL associated with an entry. Enable this option to hide these images and prevent them from being loaded.";

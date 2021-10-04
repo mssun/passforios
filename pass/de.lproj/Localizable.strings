@@ -23,10 +23,10 @@
 "None"                      = "Kein valides Token";
 "ExpiresIn"                 = "(läuft in %ds ab)";
 "OTPForPassword"            = "Einmalpasswort für %@";
-"OTPForPasswordCopied"      = "Einmalpasswort für %@ kopiert";
+"OTPHasBeenCopied"          = "... wurde in die Zwischenablage kopiert";
 "CopyToPasteboard"          = "In Zwischenablage kopieren";
 "AutoCopyOTP"               = "OTPs automatisch kopieren";
-"AutoCopyOTPExplanation."   = "Nachdem Login und Passwort automatisch in die vorgesehenen Felder gefüllt wurden, wird eine Benachrichtigung mit dem aktuellen Einmalpasswort angezeigt. Dieses kann in die Zwischenablage kopiert werden. Ist diese Option aktiviert, geschieht das Kopieren automatisch.";
+"AutoCopyOTPExplanation."   = "Nachdem Login und Passwort automatisch in die vorgesehenen Felder eingefügt wurden, wird eine Benachrichtigung mit dem aktuellen Einmalpasswort angezeigt. Dieses kann in die Zwischenablage kopiert werden. Ist diese Option aktiviert, geschieht das Kopieren automatisch.";
 
 // General (error) messages
 "Error"                                             = "Fehler";
@@ -46,7 +46,7 @@
 "PasswordGeneratorFlavor"           = "Art";
 "RememberPgpKeyPassphrase"          = "GPG-Schlüssel-Passwort merken";
 "RememberGitCredentialPassphrase"   = "Git-Server-Passwort merken";
-"EnableGPGID"                       = "Berücksichtige .gpg-id Dateien (experimentell)";
+"EnableGPGID"                       = "Berücksichtige .gpg-id Dateien (Beta)";
 "ShowFolders"                       = "Ordner anzeigen";
 "HidePasswordImages"                = "Favicons verstecken";
 "HidePasswordImagesExplanation."    = "Favicons werden basierend auf der assoziierten URL geladen und in Passworteinträgen angezeigt. Aktiviere diese Option, um das Laden dieser Bilder zu unterbinden und sie nicht anzuzeigen.";
