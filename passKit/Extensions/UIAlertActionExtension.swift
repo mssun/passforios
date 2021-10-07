@@ -41,7 +41,7 @@ public extension UIAlertAction {
                 let action = UIAlertAction(title: keyID, style: .default, handler: handler)
                 selectKeyAlert.addAction(action)
             }
-            selectKeyAlert.addAction(UIAlertAction.cancelAndPopView(controller: controller))
+            selectKeyAlert.addAction(Self.cancelAndPopView(controller: controller))
             controller.present(selectKeyAlert, animated: true, completion: nil)
         }
     }

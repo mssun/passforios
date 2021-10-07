@@ -40,7 +40,7 @@ public extension FileManager {
         let enumerator = self.enumerator(
             at: directoryURL,
             includingPropertiesForKeys: prefetchedProperties,
-            options: FileManager.DirectoryEnumerationOptions(),
+            options: Self.DirectoryEnumerationOptions(),
             errorHandler: errorHandler
         )
         precondition(enumerator != nil)

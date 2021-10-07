@@ -19,7 +19,7 @@ public extension String {
     }
 
     func splitByNewline() -> [String] {
-        split(omittingEmptySubsequences: false) { $0 == "\n" || $0 == "\r\n" }.map(String.init)
+        split(omittingEmptySubsequences: false) { $0 == "\n" || $0 == "\r\n" }.map(Self.init)
     }
 }
 
