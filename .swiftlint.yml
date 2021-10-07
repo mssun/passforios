@@ -16,6 +16,7 @@ only_rules:
   - attributes
 #  - balanced_xctest_lifecycle
   - block_based_kvo
+  - capture_variable
   - class_delegate_protocol
   - closing_brace
   - closure_body_length
@@ -32,6 +33,7 @@ only_rules:
   - contains_over_filter_count
   - contains_over_filter_is_empty
   - contains_over_first_not_nil
+  - contains_over_range_nil_comparison
   - control_statement
   - convenience_type
   - custom_rules
@@ -137,6 +139,7 @@ only_rules:
   - overridden_super_call
   - override_in_extension
   - pattern_matching_keywords
+#  - prefer_nimble
   - prefer_self_type_over_type_of_self
   - prefer_zero_over_explicit_init
 #  - prefixed_toplevel_constant # Violations are mostly in test code.
