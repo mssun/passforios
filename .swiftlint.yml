@@ -170,7 +170,7 @@ only_rules:
   - sorted_first_last
 #  - sorted_imports # Managed by SwiftFormat.
   - statement_position
-#  - static_operator
+  - static_operator
   - strict_fileprivate
   - strong_iboutlet
   - superfluous_disable_command

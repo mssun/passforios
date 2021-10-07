@@ -38,6 +38,9 @@ extension AdditionField {
 }
 
 infix operator =>: MultiplicationPrecedence
-public func => (key: String, value: String) -> AdditionField {
-    AdditionField(title: key, content: value)
+
+public extension String {
+    static func => (key: String, value: String) -> AdditionField {
+        AdditionField(title: key, content: value)
+    }
 }
