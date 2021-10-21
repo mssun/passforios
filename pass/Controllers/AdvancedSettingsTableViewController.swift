@@ -17,7 +17,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
     @IBOutlet var discardChangesTableViewCell: UITableViewCell!
     let passwordStore = PasswordStore.shared
 
-    let encryptInASCIIArmoredSwitch: UISwitch = {
+    private lazy var encryptInASCIIArmoredSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
