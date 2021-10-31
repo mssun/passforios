@@ -193,11 +193,23 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
                     checkoutProgressBlock: checkoutProgressBlock
                 )
 
+                let gpgIdFile = self.passwordStore.storeURL.appendingPathComponent(".gpg-id").path
+                guard FileManager.default.fileExists(atPath: gpgIdFile) else {
+                    self.passwordStore.eraseStoreData()
+                    SVProgressHUD.dismiss {
+                        DispatchQueue.main.async {
+                            Utils.alert(title: "Error".localize(), message: "NoProperPassRepo.".localize(), controller: self)
+                        }
+                    }
+                    return
+                }
+
                 SVProgressHUD.dismiss {
                     self.savePassphraseAndSegue()
                 }
             } catch {
                 SVProgressHUD.dismiss {
+                    self.passwordStore.eraseStoreData()
                     let error = error as NSError
                     var message = error.localizedDescription
                     if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {

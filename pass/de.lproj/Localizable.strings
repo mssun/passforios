@@ -41,6 +41,7 @@
 "MakeSurePgpAndGitProperlySet."                     = "Stelle bitte sicher, dass die Einstellungen für GPG-Schlüssel und Git-Server richtig sind.";
 "RecoverySuggestion."                               = "Das falsche Passwort wurde entfernt. Bitte probiere es erneut.";
 "NSURLFileAllocatedSizeKeyShouldAlwaysReturnValue." = "Huh? NSURLFileAllocatedSizeKey sollte immer einen Wert liefern.";
+"NoProperPassRepo."                                 = "Das Repository enthält keine .gpg-id Datei. Es muss erst noch mit 'pass init' korrekt initialisiert werden, bevor es in die App geladen werden kann.";
 
 // Settings
 "PasswordGeneratorFlavor"           = "Art";
