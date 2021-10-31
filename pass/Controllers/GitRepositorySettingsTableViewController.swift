@@ -194,27 +194,7 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
                 )
 
                 SVProgressHUD.dismiss {
-                    let savePassphraseAlert: UIAlertController = {
-                        let alert = UIAlertController(title: "Done".localize(), message: "WantToSaveGitCredential?".localize(), preferredStyle: .alert)
-                        alert.addAction(
-                            UIAlertAction(title: "No".localize(), style: .default) { _ in
-                                Defaults.isRememberGitCredentialPassphraseOn = false
-                                self.passwordStore.gitPassword = nil
-                                self.passwordStore.gitSSHPrivateKeyPassphrase = nil
-                                self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
-                            }
-                        )
-                        alert.addAction(
-                            UIAlertAction(title: "Yes".localize(), style: .destructive) { _ in
-                                Defaults.isRememberGitCredentialPassphraseOn = true
-                                self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
-                            }
-                        )
-                        return alert
-                    }()
-                    DispatchQueue.main.async {
-                        self.present(savePassphraseAlert, animated: true)
-                    }
+                    self.savePassphraseAndSegue()
                 }
             } catch {
                 SVProgressHUD.dismiss {
@@ -228,6 +208,31 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
                     }
                 }
             }
+        }
+    }
+
+    private func savePassphraseAndSegue() {
+        let savePassphraseAlert = UIAlertController(
+            title: "Done".localize(),
+            message: "WantToSaveGitCredential?".localize(),
+            preferredStyle: .alert
+        )
+        savePassphraseAlert.addAction(
+            UIAlertAction(title: "No".localize(), style: .default) { _ in
+                Defaults.isRememberGitCredentialPassphraseOn = false
+                self.passwordStore.gitPassword = nil
+                self.passwordStore.gitSSHPrivateKeyPassphrase = nil
+                self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
+            }
+        )
+        savePassphraseAlert.addAction(
+            UIAlertAction(title: "Yes".localize(), style: .destructive) { _ in
+                Defaults.isRememberGitCredentialPassphraseOn = true
+                self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
+            }
+        )
+        DispatchQueue.main.async {
+            self.present(savePassphraseAlert, animated: true)
         }
     }
 
