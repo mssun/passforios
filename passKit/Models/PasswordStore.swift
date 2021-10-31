@@ -618,30 +618,34 @@ public class PasswordStore {
         }
     }
 
-    public func erase() {
+    public func eraseStoreData() {
         // Delete files.
         try? fileManager.removeItem(at: storeURL)
         try? fileManager.removeItem(at: tempStoreURL)
 
-        // Delete PGP key, SSH key and other secrets from the keychain.
-        AppKeychain.shared.removeAllContent()
-
         // Delete core data.
         deleteCoreData(entityName: "PasswordEntity")
-
-        // Delete default settings.
-        Defaults.removeAll()
 
         // Clean up variables inside PasswordStore.
         storeRepository = nil
 
-        // Delete cache explicitly.
-        PasscodeLock.shared.delete()
-        PGPAgent.shared.uninitKeys()
-
         // Broadcast.
         NotificationCenter.default.post(name: .passwordStoreUpdated, object: nil)
         NotificationCenter.default.post(name: .passwordStoreErased, object: nil)
+    }
+
+    public func erase() {
+        eraseStoreData()
+
+        // Delete PGP key, SSH key and other secrets from the keychain.
+        AppKeychain.shared.removeAllContent()
+
+        // Delete default settings.
+        Defaults.removeAll()
+
+        // Delete cache explicitly.
+        PasscodeLock.shared.delete()
+        PGPAgent.shared.uninitKeys()
     }
 
     // return the number of discarded commits
