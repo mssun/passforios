@@ -14,9 +14,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
         PasscodeExtensionDisplay(extensionContext: extensionContext)
     }()
 
-    private lazy var passwordsViewController: PasswordsViewController = {
-        (children.first as! UINavigationController).viewControllers.first as! PasswordsViewController
-    }()
+    private lazy var passwordsViewController: PasswordsViewController = (children.first as! UINavigationController).viewControllers.first as! PasswordsViewController
 
     private lazy var credentialProvider: CredentialProvider = { [unowned self] in
         CredentialProvider(viewController: self, extensionContext: extensionContext, afterDecryption: NotificationCenterDispatcher.showOTPNotification)

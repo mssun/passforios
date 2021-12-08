@@ -9,9 +9,9 @@
 public class KeyFileManager {
     public typealias KeyHandler = (String, String) -> Void
 
-    public static let PublicPgp = KeyFileManager(keyType: PgpKey.PUBLIC)
-    public static let PrivatePgp = KeyFileManager(keyType: PgpKey.PRIVATE)
-    public static let PrivateSsh = KeyFileManager(keyType: SshKey.PRIVATE)
+    public static let PublicPGP = KeyFileManager(keyType: PGPKey.PUBLIC)
+    public static let PrivatePGP = KeyFileManager(keyType: PGPKey.PRIVATE)
+    public static let PrivateSSH = KeyFileManager(keyType: SSHKey.PRIVATE)
 
     private let keyType: CryptographicKey
     private let keyPath: String

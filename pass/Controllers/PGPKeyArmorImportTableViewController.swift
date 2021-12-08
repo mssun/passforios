@@ -109,8 +109,8 @@ extension PGPKeyArmorImportTableViewController: PGPKeyImporter {
     }
 
     func importKeys() throws {
-        try KeyFileManager.PublicPgp.importKey(from: armorPublicKey ?? "")
-        try KeyFileManager.PrivatePgp.importKey(from: armorPrivateKey ?? "")
+        try KeyFileManager.PublicPGP.importKey(from: armorPublicKey ?? "")
+        try KeyFileManager.PrivatePGP.importKey(from: armorPrivateKey ?? "")
     }
 
     func saveImportedKeys() {

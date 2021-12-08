@@ -92,6 +92,6 @@ extension SSHKeyArmorImportTableViewController: KeyImporter {
     }
 
     func importKeys() throws {
-        try KeyFileManager.PrivateSsh.importKey(from: armorPrivateKey ?? "")
+        try KeyFileManager.PrivateSSH.importKey(from: armorPrivateKey ?? "")
     }
 }

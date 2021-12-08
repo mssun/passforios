@@ -1,5 +1,5 @@
 //
-//  PGPKeyUrlImportTableViewController.swift
+//  PGPKeyURLImportTableViewController.swift
 //  pass
 //
 //  Created by Mingshen Sun on 21/1/2017.
@@ -9,7 +9,7 @@
 import passKit
 import UIKit
 
-class PGPKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
+class PGPKeyURLImportTableViewController: AutoCellHeightUITableViewController {
     @IBOutlet var pgpPublicKeyURLTextField: UITextField!
     @IBOutlet var pgpPrivateKeyURLTextField: UITextField!
 
@@ -40,21 +40,21 @@ class PGPKeyUrlImportTableViewController: AutoCellHeightUITableViewController {
     }
 }
 
-extension PGPKeyUrlImportTableViewController: PGPKeyImporter {
+extension PGPKeyURLImportTableViewController: PGPKeyImporter {
     static let keySource = KeySource.url
     static let label = "DownloadFromUrl".localize()
 
     func isReadyToUse() -> Bool {
-        validate(pgpKeyUrl: pgpPublicKeyURLTextField.text ?? "")
-            && validate(pgpKeyUrl: pgpPrivateKeyURLTextField.text ?? "")
+        validate(pgpKeyURL: pgpPublicKeyURLTextField.text ?? "")
+            && validate(pgpKeyURL: pgpPrivateKeyURLTextField.text ?? "")
     }
 
     func importKeys() throws {
         Defaults.pgpPrivateKeyURL = pgpPrivateKeyURL
         Defaults.pgpPublicKeyURL = pgpPublicKeyURL
 
-        try KeyFileManager.PublicPgp.importKey(from: Defaults.pgpPublicKeyURL!)
-        try KeyFileManager.PrivatePgp.importKey(from: Defaults.pgpPrivateKeyURL!)
+        try KeyFileManager.PublicPGP.importKey(from: Defaults.pgpPublicKeyURL!)
+        try KeyFileManager.PrivatePGP.importKey(from: Defaults.pgpPrivateKeyURL!)
     }
 
     func doAfterImport() {
@@ -65,8 +65,8 @@ extension PGPKeyUrlImportTableViewController: PGPKeyImporter {
         performSegue(withIdentifier: "savePGPKeySegue", sender: self)
     }
 
-    private func validate(pgpKeyUrl: String) -> Bool {
-        guard let url = URL(string: pgpKeyUrl) else {
+    private func validate(pgpKeyURL: String) -> Bool {
+        guard let url = URL(string: pgpKeyURL) else {
             Utils.alert(title: "CannotSavePgpKey".localize(), message: "SetPgpKeyUrlsFirst.".localize(), controller: self)
             return false
         }

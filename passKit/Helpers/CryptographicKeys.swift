@@ -11,7 +11,7 @@ public protocol CryptographicKey {
     func getFileSharingPath() -> String
 }
 
-public enum PgpKey: CryptographicKey {
+public enum PGPKey: CryptographicKey {
     case PUBLIC
     case PRIVATE
 
@@ -34,7 +34,7 @@ public enum PgpKey: CryptographicKey {
     }
 }
 
-public enum SshKey: CryptographicKey {
+public enum SSHKey: CryptographicKey {
     case PRIVATE
 
     public func getKeychainKey() -> String {

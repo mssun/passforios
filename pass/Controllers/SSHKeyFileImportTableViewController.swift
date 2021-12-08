@@ -75,6 +75,6 @@ extension SSHKeyFileImportTableViewController: KeyImporter {
         guard let privateKey = privateKey else {
             return
         }
-        try KeyFileManager.PrivateSsh.importKey(from: privateKey)
+        try KeyFileManager.PrivateSSH.importKey(from: privateKey)
     }
 }
