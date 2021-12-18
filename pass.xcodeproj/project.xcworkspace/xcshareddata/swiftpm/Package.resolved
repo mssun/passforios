@@ -29,6 +29,15 @@
         }
       },
       {
+        "package": "ObjectiveGit",
+        "repositoryURL": "https://github.com/SimplyDanny/objective-git-swift-package",
+        "state": {
+          "branch": "0.16-passforios",
+          "revision": "01c4fe0c410f51484119c087f9bb4a6d3837543b",
+          "version": null
+        }
+      },
+      {
         "package": "ObjectivePGP",
         "repositoryURL": "https://github.com/krzyzanowskim/ObjectivePGP",
         "state": {

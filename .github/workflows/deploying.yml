@@ -16,7 +16,7 @@ jobs:
     - name: Installing packages
       run: |
         brew update
-        brew install libtool automake cmake carthage swiftformat openssl libssh2
+        brew install carthage swiftformat
         brew install go || brew link --overwrite go
         brew install swiftlint || brew link --overwrite swiftlint
         gem install bundler
@@ -41,8 +41,7 @@ jobs:
     - name: Carthage
       if: steps.carthage-cache.outputs.cache-hit != 'true'
       run: |
-        export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig:/usr/local/opt/libssh2/lib/pkgconfig/"
-        ./scripts/wcarthage bootstrap --platform iOS --no-use-binaries --cache-builds
+        carthage bootstrap --platform iOS --no-use-binaries --cache-builds --use-xcframeworks
     - name: GopenPGP
       if: steps.gopenpgp-cache.outputs.cache-hit != 'true'
       run: |
