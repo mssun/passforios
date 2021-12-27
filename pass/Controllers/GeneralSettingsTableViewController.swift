@@ -12,7 +12,7 @@ import UIKit
 class GeneralSettingsTableViewController: BasicStaticTableViewController {
     let passwordStore = PasswordStore.shared
 
-    let hideUnknownSwitch: UISwitch = {
+    private lazy var hideUnknownSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
@@ -20,7 +20,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         return uiSwitch
     }()
 
-    let hideOTPSwitch: UISwitch = {
+    private lazy var hideOTPSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
@@ -28,7 +28,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         return uiSwitch
     }()
 
-    let autoCopyOTPSwitch: UISwitch = {
+    private lazy var autoCopyOTPSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
@@ -36,7 +36,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         return uiSwitch
     }()
 
-    let rememberPGPPassphraseSwitch: UISwitch = {
+    private lazy var rememberPGPPassphraseSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
@@ -45,7 +45,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         return uiSwitch
     }()
 
-    let rememberGitCredentialPassphraseSwitch: UISwitch = {
+    private lazy var rememberGitCredentialPassphraseSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
@@ -54,7 +54,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         return uiSwitch
     }()
 
-    let enableGPGIDSwitch: UISwitch = {
+    private lazy var enableGPGIDSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
@@ -63,7 +63,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         return uiSwitch
     }()
 
-    let showFolderSwitch: UISwitch = {
+    private lazy var showFolderSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
@@ -72,7 +72,7 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         return uiSwitch
     }()
 
-    let hidePasswordImagesSwitch: UISwitch = {
+    private lazy var hidePasswordImagesSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
         uiSwitch.sizeToFit()
