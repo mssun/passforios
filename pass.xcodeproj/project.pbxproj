@@ -2813,8 +2813,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mssun/OneTimePassword";
 			requirement = {
-				branch = passforios;
-				kind = branch;
+				kind = revision;
+				revision = 8d59e4abba762d0f1e9aed161081f7b3fe21daa0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
