@@ -193,31 +193,23 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
                     checkoutProgressBlock: checkoutProgressBlock
                 )
 
-                SVProgressHUD.dismiss {
-                    let savePassphraseAlert: UIAlertController = {
-                        let alert = UIAlertController(title: "Done".localize(), message: "WantToSaveGitCredential?".localize(), preferredStyle: .alert)
-                        alert.addAction(
-                            UIAlertAction(title: "No".localize(), style: .default) { _ in
-                                Defaults.isRememberGitCredentialPassphraseOn = false
-                                self.passwordStore.gitPassword = nil
-                                self.passwordStore.gitSSHPrivateKeyPassphrase = nil
-                                self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
-                            }
-                        )
-                        alert.addAction(
-                            UIAlertAction(title: "Yes".localize(), style: .destructive) { _ in
-                                Defaults.isRememberGitCredentialPassphraseOn = true
-                                self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
-                            }
-                        )
-                        return alert
-                    }()
-                    DispatchQueue.main.async {
-                        self.present(savePassphraseAlert, animated: true)
+                let gpgIdFile = self.passwordStore.storeURL.appendingPathComponent(".gpg-id").path
+                guard FileManager.default.fileExists(atPath: gpgIdFile) else {
+                    self.passwordStore.eraseStoreData()
+                    SVProgressHUD.dismiss {
+                        DispatchQueue.main.async {
+                            Utils.alert(title: "Error".localize(), message: "NoProperPassRepo.".localize(), controller: self)
+                        }
                     }
+                    return
+                }
+
+                SVProgressHUD.dismiss {
+                    self.savePassphraseAndSegue()
                 }
             } catch {
                 SVProgressHUD.dismiss {
+                    self.passwordStore.eraseStoreData()
                     let error = error as NSError
                     var message = error.localizedDescription
                     if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
@@ -228,6 +220,31 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
                     }
                 }
             }
+        }
+    }
+
+    private func savePassphraseAndSegue() {
+        let savePassphraseAlert = UIAlertController(
+            title: "Done".localize(),
+            message: "WantToSaveGitCredential?".localize(),
+            preferredStyle: .alert
+        )
+        savePassphraseAlert.addAction(
+            UIAlertAction(title: "No".localize(), style: .default) { _ in
+                Defaults.isRememberGitCredentialPassphraseOn = false
+                self.passwordStore.gitPassword = nil
+                self.passwordStore.gitSSHPrivateKeyPassphrase = nil
+                self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
+            }
+        )
+        savePassphraseAlert.addAction(
+            UIAlertAction(title: "Yes".localize(), style: .destructive) { _ in
+                Defaults.isRememberGitCredentialPassphraseOn = true
+                self.performSegue(withIdentifier: "saveGitServerSettingSegue", sender: self)
+            }
+        )
+        DispatchQueue.main.async {
+            self.present(savePassphraseAlert, animated: true)
         }
     }
 
