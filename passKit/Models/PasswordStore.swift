@@ -67,14 +67,14 @@ public class PasswordStore {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
 
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
+                // Typical reasons for an error here include:
+                //
+                //      * The parent directory does not exist, cannot be created, or disallows writing.
+                //      * The persistent store is not accessible, due to permissions or data protection when the device is locked.
+                //      * The device is out of space.
+                //      * The store could not be migrated to the current model version.
+                //
+                // Check the error message to determine what the actual problem was.
                 fatalError("UnresolvedError".localize("\(error.localizedDescription), \(error.userInfo)"))
             }
         }
@@ -128,9 +128,9 @@ public class PasswordStore {
 
     private func importExistingKeysIntoKeychain() {
         // App Store update: v0.5.1 -> v0.6.0
-        try? KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: Globals.pgpPublicKeyPath).importKeyFromFileSharing()
-        try? KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: Globals.pgpPrivateKeyPath).importKeyFromFileSharing()
-        try? KeyFileManager(keyType: SshKey.PRIVATE, keyPath: Globals.gitSSHPrivateKeyPath).importKeyFromFileSharing()
+        try? KeyFileManager(keyType: PGPKey.PUBLIC, keyPath: Globals.pgpPublicKeyPath).importKeyFromFileSharing()
+        try? KeyFileManager(keyType: PGPKey.PRIVATE, keyPath: Globals.pgpPrivateKeyPath).importKeyFromFileSharing()
+        try? KeyFileManager(keyType: SSHKey.PRIVATE, keyPath: Globals.gitSSHPrivateKeyPath).importKeyFromFileSharing()
         Defaults.remove(\.pgpPublicKeyArmor)
         Defaults.remove(\.pgpPrivateKeyArmor)
         Defaults.remove(\.gitSSHPrivateKeyArmor)
@@ -733,7 +733,7 @@ public class PasswordStore {
         Defaults.remove(\.gitSSHKeySource)
         Defaults.remove(\.gitSSHPrivateKeyArmor)
         Defaults.remove(\.gitSSHPrivateKeyURL)
-        AppKeychain.shared.removeContent(for: SshKey.PRIVATE.getKeychainKey())
+        AppKeychain.shared.removeContent(for: SSHKey.PRIVATE.getKeychainKey())
         gitSSHPrivateKeyPassphrase = nil
     }
 }

@@ -1,4 +1,4 @@
-SWIFTFORMAT_VERSION="0.48.*"
+SWIFTFORMAT_VERSION="0.49.*"
 
 if [[ "${CI}" == "true" ]]; then
   echo "Running in a Continuous Integration environment. Formatting is skipped."

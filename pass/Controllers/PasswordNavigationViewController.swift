@@ -40,9 +40,7 @@ class PasswordNavigationViewController: UIViewController {
         return uiSearchController
     }()
 
-    lazy var searchBar: UISearchBar = {
-        self.searchController.searchBar
-    }()
+    lazy var searchBar: UISearchBar = self.searchController.searchBar
 
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()

@@ -10,12 +10,16 @@
 ## Enabled rules
 
 --rules                             \
+    acronyms,                       \
     andOperator,                    \
     anyObjectProtocol,              \
+    assertionFailures,              \
     blankLinesAroundMark,           \
     blankLinesAtEndOfScope,         \
     blankLinesAtStartOfScope,       \
+#    blankLinesBetweenImports,       \
     blankLinesBetweenScopes,        \
+    blockComments,                  \
     braces,                         \
     consecutiveBlankLines,          \
     consecutiveSpaces,              \
@@ -36,9 +40,11 @@
 #    markTypes,                      \
     numberFormatting,               \
 #    organizeDeclarations,           \
+    preferDouble,                   \
     preferKeyPath,                  \
     redundantBackticks,             \
     redundantBreak,                 \
+    redundantClosure,               \
     redundantExtensionACL,          \
     redundantFileprivate,           \
     redundantGet,                   \
@@ -81,12 +87,17 @@
     wrap,                           \
     wrapArguments,                  \
     wrapAttributes,                 \
+    wrapConditionalBodies,          \
 #    wrapEnumCases,                  \
 #    wrapMultilineStatementBraces,   \
 #    wrapSwitchCases,                \
     yodaConditions
 
 ## Formatting options
+
+### Acronyms to auto-capitalize. Defaults to "ID,URL,UUID".
+
+--acronyms "GPG, HTTP, HTTPS, ID, PGP, SSH, URI, URL, UUID"
 
 ### Use allman indentation style: "true" or "false" (default)
 
@@ -271,6 +282,14 @@
 ### Wrap return type: "if-multiline", "preserve" (default)
 
 --wrapreturntype preserve
+
+### Wrap ternary operators: "default", "before-operators"
+
+--wrapternary before-operators
+
+### Wrap typealiases: "before-first", "after-first", "preserve"
+
+--wraptypealiases preserve
 
 ### Xcode indent guard/enum: "enabled" or "disabled" (default)
 

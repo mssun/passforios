@@ -61,7 +61,7 @@ public struct GitCredential {
         case .password:
             return Self(credentialType: .http(userName: userName), keyStore: keyStore)
         case .key:
-            let privateKey: String = keyStore.get(for: SshKey.PRIVATE.getKeychainKey()) ?? ""
+            let privateKey: String = keyStore.get(for: SSHKey.PRIVATE.getKeychainKey()) ?? ""
             return Self(credentialType: .ssh(userName: userName, privateKey: privateKey), keyStore: keyStore)
         }
     }

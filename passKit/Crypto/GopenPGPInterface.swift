@@ -46,7 +46,7 @@ struct GopenPGPInterface: PGPInterface {
 
     func extractKeysFromArmored(str: String) -> [String] {
         var keys: [String] = []
-        var key: String = ""
+        var key = ""
         for line in str.splitByNewline() {
             if line.trimmed.uppercased().hasPrefix("-----BEGIN PGP") {
                 key = ""
@@ -100,7 +100,7 @@ struct GopenPGPInterface: PGPInterface {
                 throw AppError.decryption
             }
 
-            let message = createPgpMessage(from: encryptedData)
+            let message = createPGPMessage(from: encryptedData)
             return try keyRing.decrypt(message, verifyKey: nil, verifyTime: 0).data
         } catch {
             throw Self.errorMapping[error.localizedDescription, default: error]
@@ -148,7 +148,7 @@ struct GopenPGPInterface: PGPInterface {
         publicKeys.keys.map { $0.suffix(8).uppercased() }
     }
 
-    private func createPgpMessage(from encryptedData: Data) -> CryptoPGPMessage? {
+    private func createPGPMessage(from encryptedData: Data) -> CryptoPGPMessage? {
         // Important note:
         // Even if Defaults.encryptInArmored is true now, it could be different during the encryption.
         var error: NSError?

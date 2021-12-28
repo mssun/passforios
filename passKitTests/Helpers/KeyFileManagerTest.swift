@@ -12,7 +12,7 @@ import XCTest
 
 class KeyFileManagerTest: XCTestCase {
     private static let filePath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("test.txt").path
-    private static let keyFileManager = KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: filePath) { _, _ in }
+    private static let keyFileManager = KeyFileManager(keyType: PGPKey.PUBLIC, keyPath: filePath) { _, _ in }
 
     override func tearDown() {
         try? FileManager.default.removeItem(atPath: Self.filePath)
@@ -22,39 +22,39 @@ class KeyFileManagerTest: XCTestCase {
     func testImportKeyFromFileSharing() throws {
         let fileContent = "content".data(using: .ascii)
         var storage: [String: String] = [:]
-        let keyFileManager = KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: Self.filePath) { storage[$1] = $0 }
+        let keyFileManager = KeyFileManager(keyType: PGPKey.PRIVATE, keyPath: Self.filePath) { storage[$1] = $0 }
 
         FileManager.default.createFile(atPath: Self.filePath, contents: fileContent, attributes: nil)
         try keyFileManager.importKeyFromFileSharing()
 
         XCTAssertFalse(FileManager.default.fileExists(atPath: Self.filePath))
-        XCTAssertEqual(storage[PgpKey.PRIVATE.getKeychainKey()], "content")
+        XCTAssertEqual(storage[PGPKey.PRIVATE.getKeychainKey()], "content")
     }
 
     func testErrorReadingFile() throws {
         XCTAssertThrowsError(try Self.keyFileManager.importKeyFromFileSharing())
     }
 
-    func testImportKeyFromUrl() throws {
+    func testImportKeyFromURL() throws {
         let fileContent = "content".data(using: .ascii)
         let url = URL(fileURLWithPath: Self.filePath)
         var storage: [String: String] = [:]
-        let keyFileManager = KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: Self.filePath) { storage[$1] = $0 }
+        let keyFileManager = KeyFileManager(keyType: PGPKey.PRIVATE, keyPath: Self.filePath) { storage[$1] = $0 }
 
         FileManager.default.createFile(atPath: Self.filePath, contents: fileContent, attributes: nil)
         try keyFileManager.importKey(from: url)
 
-        XCTAssertEqual(storage[PgpKey.PRIVATE.getKeychainKey()], "content")
+        XCTAssertEqual(storage[PGPKey.PRIVATE.getKeychainKey()], "content")
     }
 
     func testImportKeyFromString() throws {
         let string = "content"
         var storage: [String: String] = [:]
-        let keyFileManager = KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: Self.filePath) { storage[$1] = $0 }
+        let keyFileManager = KeyFileManager(keyType: PGPKey.PRIVATE, keyPath: Self.filePath) { storage[$1] = $0 }
 
         try keyFileManager.importKey(from: string)
 
-        XCTAssertEqual(storage[PgpKey.PRIVATE.getKeychainKey()], string)
+        XCTAssertEqual(storage[PGPKey.PRIVATE.getKeychainKey()], string)
     }
 
     func testImportKeyFromNonAsciiString() throws {

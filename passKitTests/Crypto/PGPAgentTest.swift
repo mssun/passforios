@@ -88,7 +88,7 @@ class PGPAgentTest: XCTestCase {
     }
 
     func testNoPrivateKey() throws {
-        try KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: "", keyHandler: keychain.add).importKey(from: RSA2048.publicKey)
+        try KeyFileManager(keyType: PGPKey.PUBLIC, keyPath: "", keyHandler: keychain.add).importKey(from: RSA2048.publicKey)
         XCTAssertFalse(pgpAgent.isPrepared)
         XCTAssertThrowsError(try pgpAgent.initKeys()) {
             XCTAssertEqual($0 as! AppError, AppError.keyImport)
@@ -126,8 +126,8 @@ class PGPAgentTest: XCTestCase {
         try importKeys(ED25519.publicKey, ED25519.privateKey)
         XCTAssert(pgpAgent.isPrepared)
         XCTAssertEqual(try basicEncryptDecrypt(using: pgpAgent, keyID: ED25519.fingerprint), testData)
-        keychain.removeContent(for: PgpKey.PUBLIC.getKeychainKey())
-        keychain.removeContent(for: PgpKey.PRIVATE.getKeychainKey())
+        keychain.removeContent(for: PGPKey.PUBLIC.getKeychainKey())
+        keychain.removeContent(for: PGPKey.PRIVATE.getKeychainKey())
         XCTAssertThrowsError(try basicEncryptDecrypt(using: pgpAgent, keyID: ED25519.fingerprint)) {
             XCTAssertEqual($0 as! AppError, AppError.keyImport)
         }
@@ -162,7 +162,7 @@ class PGPAgentTest: XCTestCase {
     }
 
     private func importKeys(_ publicKey: String, _ privateKey: String) throws {
-        try KeyFileManager(keyType: PgpKey.PUBLIC, keyPath: "", keyHandler: keychain.add).importKey(from: publicKey)
-        try KeyFileManager(keyType: PgpKey.PRIVATE, keyPath: "", keyHandler: keychain.add).importKey(from: privateKey)
+        try KeyFileManager(keyType: PGPKey.PUBLIC, keyPath: "", keyHandler: keychain.add).importKey(from: publicKey)
+        try KeyFileManager(keyType: PGPKey.PRIVATE, keyPath: "", keyHandler: keychain.add).importKey(from: privateKey)
     }
 }

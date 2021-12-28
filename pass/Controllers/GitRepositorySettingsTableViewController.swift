@@ -41,7 +41,7 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
         }
     }
 
-    private var gitUrl: URL {
+    private var gitURL: URL {
         get { Defaults.gitURL }
         set { Defaults.gitURL = newValue }
     }
@@ -60,7 +60,7 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        gitURLTextField.text = gitUrl.absoluteString
+        gitURLTextField.text = gitURL.absoluteString
         usernameTextField.text = gitUsername
         branchNameTextField.text = gitBranchName
         sshLabel = authSSHKeyCell.subviews[0].subviews[0] as? UILabel
@@ -70,7 +70,7 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Grey out ssh option if ssh_key is not present.
-        sshLabel?.isEnabled = keychain.contains(key: SshKey.PRIVATE.getKeychainKey())
+        sshLabel?.isEnabled = keychain.contains(key: SSHKey.PRIVATE.getKeychainKey())
         updateAuthenticationMethodCheckView(for: gitAuthenticationMethod)
     }
 
@@ -95,7 +95,7 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
         if cell == authPasswordCell {
             gitAuthenticationMethod = .password
         } else if cell == authSSHKeyCell {
-            if !keychain.contains(key: SshKey.PRIVATE.getKeychainKey()) {
+            if !keychain.contains(key: SSHKey.PRIVATE.getKeychainKey()) {
                 Utils.alert(title: "CannotSelectSshKey".localize(), message: "PleaseSetupSshKeyFirst.".localize(), controller: self)
                 gitAuthenticationMethod = .password
             } else {
@@ -146,7 +146,7 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
             }
         }
 
-        gitUrl = gitURL
+        self.gitURL = gitURL
         gitBranchName = branchName.trimmed
         gitUsername = (gitURL.user ?? usernameTextField.text ?? "git").trimmed
 
@@ -186,7 +186,7 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
                 let options = self.gitCredential.getCredentialOptions(passwordProvider: self.present)
 
                 try self.passwordStore.cloneRepository(
-                    remoteRepoURL: self.gitUrl,
+                    remoteRepoURL: self.gitURL,
                     branchName: self.gitBranchName,
                     options: options,
                     transferProgressBlock: transferProgressBlock,
@@ -278,7 +278,7 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
     private func showSSHKeyActionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         optionMenu.addAction(
-            UIAlertAction(title: SSHKeyUrlImportTableViewController.menuLabel, style: .default) { _ in
+            UIAlertAction(title: SSHKeyURLImportTableViewController.menuLabel, style: .default) { _ in
                 self.performSegue(withIdentifier: "setGitSSHKeyByURLSegue", sender: self)
             }
         )
@@ -354,10 +354,10 @@ extension GitRepositorySettingsTableViewController: KeyImporter {
     static let label = "ITunesFileSharing".localize()
 
     func isReadyToUse() -> Bool {
-        KeyFileManager.PrivateSsh.doesKeyFileExist()
+        KeyFileManager.PrivateSSH.doesKeyFileExist()
     }
 
     func importKeys() throws {
-        try KeyFileManager.PrivateSsh.importKeyFromFileSharing()
+        try KeyFileManager.PrivateSSH.importKeyFromFileSharing()
     }
 }

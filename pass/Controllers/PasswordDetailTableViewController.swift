@@ -289,10 +289,10 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
 
     private func updatePasswordImage(urlString: String) {
-        var newUrlString = urlString
+        var newURLString = urlString
         if urlString.lowercased().hasPrefix("http://") {
             // try to replace http url to https url
-            newUrlString = urlString.replacingOccurrences(
+            newURLString = urlString.replacingOccurrences(
                 of: "http://",
                 with: "https://",
                 options: .caseInsensitive,
@@ -302,10 +302,10 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             // do nothing here
         } else {
             // if a url does not start with http or https, try to add https
-            newUrlString = "https://\(urlString)"
+            newURLString = "https://\(urlString)"
         }
 
-        try? FavIcon.downloadPreferred(newUrlString) { [weak self] result in
+        try? FavIcon.downloadPreferred(newURLString) { [weak self] result in
             if case let .success(image) = result {
                 let indexPath = IndexPath(row: 0, section: 0)
                 self?.passwordImage = image

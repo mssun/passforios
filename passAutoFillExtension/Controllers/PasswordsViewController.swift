@@ -27,9 +27,7 @@ class PasswordsViewController: UIViewController {
         return uiSearchController
     }()
 
-    lazy var searchBar: UISearchBar = {
-        self.searchController.searchBar
-    }()
+    lazy var searchBar: UISearchBar = self.searchController.searchBar
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -180,14 +180,14 @@
 		DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914941E434301007FF592 /* LabelTableViewCell.swift */; };
 		DC4914991E434600007FF592 /* PasswordDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */; };
 		DC5F385B1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5F385A1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift */; };
-		DC8963C01E38EEB900828B09 /* SSHKeyUrlImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8963BF1E38EEB900828B09 /* SSHKeyUrlImportTableViewController.swift */; };
+		DC8963C01E38EEB900828B09 /* SSHKeyURLImportTableViewController..swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController..swift */; };
 		DC917BD71E2E8231000FDF54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC917BD61E2E8231000FDF54 /* AppDelegate.swift */; };
 		DC917BDC1E2E8231000FDF54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDA1E2E8231000FDF54 /* Main.storyboard */; };
 		DC917BDE1E2E8231000FDF54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
 		DC917BE11E2E8231000FDF54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDF1E2E8231000FDF54 /* LaunchScreen.storyboard */; };
 		DC962CDF1E4B62C10033B5D8 /* AboutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC962CDE1E4B62C10033B5D8 /* AboutTableViewController.swift */; };
 		DCA0499A1E335CC800522E8F /* GitRepositorySettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA049991E335CC800522E8F /* GitRepositorySettingsTableViewController.swift */; };
-		DCA0499C1E3362F400522E8F /* PGPKeyUrlImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0499B1E3362F400522E8F /* PGPKeyUrlImportTableViewController.swift */; };
+		DCA0499C1E3362F400522E8F /* PGPKeyURLImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0499B1E3362F400522E8F /* PGPKeyURLImportTableViewController.swift */; };
 		DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */; };
 		DCC441521E8F6C06008A90C4 /* RawPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */; };
 		DCC441541E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC441531E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift */; };
@@ -463,7 +463,7 @@
 		DC4914941E434301007FF592 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
 		DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTableViewController.swift; sourceTree = "<group>"; };
 		DC5F385A1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPKeyArmorImportTableViewController.swift; sourceTree = "<group>"; };
-		DC8963BF1E38EEB900828B09 /* SSHKeyUrlImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeyUrlImportTableViewController.swift; sourceTree = "<group>"; };
+		DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController..swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeyURLImportTableViewController..swift; sourceTree = "<group>"; };
 		DC917BD31E2E8231000FDF54 /* Pass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC917BD61E2E8231000FDF54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DC917BDB1E2E8231000FDF54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -472,7 +472,7 @@
 		DC917BE21E2E8231000FDF54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC962CDE1E4B62C10033B5D8 /* AboutTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutTableViewController.swift; sourceTree = "<group>"; };
 		DCA049991E335CC800522E8F /* GitRepositorySettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitRepositorySettingsTableViewController.swift; sourceTree = "<group>"; };
-		DCA0499B1E3362F400522E8F /* PGPKeyUrlImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPKeyUrlImportTableViewController.swift; sourceTree = "<group>"; };
+		DCA0499B1E3362F400522E8F /* PGPKeyURLImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPKeyURLImportTableViewController.swift; sourceTree = "<group>"; };
 		DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawPasswordViewController.swift; sourceTree = "<group>"; };
 		DCC441531E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeyArmorImportTableViewController.swift; sourceTree = "<group>"; };
@@ -916,7 +916,7 @@
 				DC5F385A1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift */,
 				302269B223E634B000F843A3 /* PGPKeyFIleImportTableViewController.swift */,
 				3066AD6723EE0D6500F65535 /* PGPKeyImporter.swift */,
-				DCA0499B1E3362F400522E8F /* PGPKeyUrlImportTableViewController.swift */,
+				DCA0499B1E3362F400522E8F /* PGPKeyURLImportTableViewController.swift */,
 				A2A7813E1E97DBD9001311F5 /* QRScannerController.swift */,
 				DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */,
 				DCD3C65D1EFB9BB400CBE842 /* SettingsSplitViewController.swift */,
@@ -924,7 +924,7 @@
 				DC037CA91E4B8EAE00609409 /* SpecialThanksTableViewController.swift */,
 				DCC441531E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift */,
 				30650E7023F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift */,
-				DC8963BF1E38EEB900828B09 /* SSHKeyUrlImportTableViewController.swift */,
+				DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController..swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1604,7 +1604,7 @@
 				DCC441541E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift in Sources */,
 				306D970E24091CDD006C0E2E /* SwitchTableViewCell.swift in Sources */,
 				A2A61C201EEFABAD00CFE063 /* UtilsExtension.swift in Sources */,
-				DC8963C01E38EEB900828B09 /* SSHKeyUrlImportTableViewController.swift in Sources */,
+				DC8963C01E38EEB900828B09 /* SSHKeyURLImportTableViewController..swift in Sources */,
 				9AFC87F025B514AD008D6060 /* PasswordDecryptor.swift in Sources */,
 				3066AD6823EE0D6500F65535 /* PGPKeyImporter.swift in Sources */,
 				9AFC87E225B3B5C6008D6060 /* PasswordNavigationDataSource.swift in Sources */,
@@ -1612,7 +1612,7 @@
 				DC193FFA1E49B4430077E0A3 /* AdvancedSettingsTableViewController.swift in Sources */,
 				DCFB77AB1E503729008DE471 /* ContentProvider.swift in Sources */,
 				9AFC880025B51EC3008D6060 /* PasswordEncryptor.swift in Sources */,
-				DCA0499C1E3362F400522E8F /* PGPKeyUrlImportTableViewController.swift in Sources */,
+				DCA0499C1E3362F400522E8F /* PGPKeyURLImportTableViewController.swift in Sources */,
 				DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */,
 				DC5F385B1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift in Sources */,
 				DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */,

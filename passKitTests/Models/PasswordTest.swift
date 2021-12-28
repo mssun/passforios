@@ -11,7 +11,7 @@ import XCTest
 @testable import passKit
 
 class PasswordTest: XCTestCase {
-    func testUrl() {
+    func testURL() {
         let password = getPasswordObjectWith(content: "")
 
         XCTAssertEqual(password.url, PASSWORD_URL)

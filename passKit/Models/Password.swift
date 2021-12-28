@@ -139,7 +139,7 @@ public class Password {
     ///
     ///     otpauth://totp/totp-secret?secret=AAAAAAAAAAAAAAAA&issuer=totp-secret
     ///
-    /// See also [Key Uri Format](https://github.com/google/google-authenticator/wiki/Key-Uri-Format).
+    /// See also [Key URI Format](https://github.com/google/google-authenticator/wiki/Key-URI-Format).
     ///
     /// In case no otpauth is given in the password file, try to construct the token from separate fields using a
     /// `TokenBuilder`. This means that tokens provided as otpauth have higher priority.
@@ -150,7 +150,7 @@ public class Password {
             if !otpauthString.hasPrefix("\(Constants.OTPAUTH):") {
                 otpauthString = "\(Constants.OTPAUTH):\(otpauthString)"
             }
-            if let otpauthUrl = URL(string: otpauthString), let token = Token(url: otpauthUrl) {
+            if let otpauthURL = URL(string: otpauthString), let token = Token(url: otpauthURL) {
                 otpToken = token
                 return
             }

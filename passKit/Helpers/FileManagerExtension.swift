@@ -50,7 +50,9 @@ public extension FileManager {
             let contentItemURL = item as! NSURL
 
             // Bail out on errors from the errorHandler.
-            if let error = errorDidOccur { throw error }
+            if let error = errorDidOccur {
+                throw error
+            }
 
             let resourceValueForKey: (URLResourceKey) throws -> NSNumber? = { key in
                 var value: AnyObject?
@@ -84,7 +86,9 @@ public extension FileManager {
         }
 
         // Bail out on errors from the errorHandler.
-        if let error = errorDidOccur { throw error }
+        if let error = errorDidOccur {
+            throw error
+        }
 
         // We finally got it.
         return accumulatedSize
