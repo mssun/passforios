@@ -268,7 +268,9 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
                     self.sshLabel?.isEnabled = true
                 }
             } catch {
-                Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self)
+                DispatchQueue.main.async {
+                    Utils.alert(title: "Error".localize(), message: error.localizedDescription, controller: self)
+                }
             }
         }
     }
