@@ -335,6 +335,12 @@ extension PasswordNavigationViewController {
     private func cancelAddPassword(segue _: UIStoryboardSegue) {}
 
     @IBAction
+    private func cancelEditPassword(segue _: UIStoryboardSegue) {}
+
+    @IBAction
+    private func saveEditPassword(segue _: UIStoryboardSegue) {}
+
+    @IBAction
     private func saveAddPassword(segue: UIStoryboardSegue) {
         if let controller = segue.source as? AddPasswordTableViewController {
             passwordManager.addPassword(with: controller.password!)
