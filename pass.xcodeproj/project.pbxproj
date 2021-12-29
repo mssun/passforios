@@ -99,7 +99,6 @@
 		30EE3A14241AE6EC009FBB61 /* SyncRepositoryIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A69968240EF52E00B7D967 /* SyncRepositoryIntentHandler.swift */; };
 		30EE3A16241E98C1009FBB61 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 30EE3A19241E98C1009FBB61 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (no_codegen, ); }; };
 		30EE3A17241E98C1009FBB61 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 30EE3A19241E98C1009FBB61 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
-		30F6C1B427664C7200BE5AB2 /* SVProgressHUD.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F6C1B327664C7200BE5AB2 /* SVProgressHUD.xcframework */; };
 		30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD2F77214D9E0E005E0A92 /* ParserTest.swift */; };
 		556EC3D322335C5F00934F9C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ECA21EA8FB5000E4154 /* Localizable.strings */; };
 		556EC3D422335C5F00934F9C /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 30BF5ED521ED2434000E4154 /* Localizable.stringsdict */; };
@@ -127,6 +126,8 @@
 		9A5D06F525A56F0E00FA59D4 /* PasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */; };
 		9A5D070225A5769A00FA59D4 /* PasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */; };
 		9A652414244BB33300DA0A41 /* UIAlertActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A652413244BB33300DA0A41 /* UIAlertActionExtension.swift */; };
+		9A78A7CC277BECE80093222D /* SVProgressHUD.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F6C1B327664C7200BE5AB2 /* SVProgressHUD.xcframework */; };
+		9A78A7CD277BECE80093222D /* SVProgressHUD.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 30F6C1B327664C7200BE5AB2 /* SVProgressHUD.xcframework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9A8F9EBD259EA4C50027CE15 /* PasswordsTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EBC259EA4C50027CE15 /* PasswordsTableDataSource.swift */; };
 		9A8F9ECC259ECB410027CE15 /* PasswordSelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9ECB259ECB410027CE15 /* PasswordSelectionDelegate.swift */; };
 		9A8F9F4025A1A91F0027CE15 /* CredentialProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9F3F25A1A91F0027CE15 /* CredentialProvider.swift */; };
@@ -292,6 +293,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				9A996C5926DEB0D200A4485D /* passKit.framework in Embed Frameworks */,
+				9A78A7CD277BECE80093222D /* SVProgressHUD.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -556,7 +558,7 @@
 				3010CB6326DA4FE9008964D2 /* FavIcon in Frameworks */,
 				9A1F47FA26E5CF4B000C0E01 /* OneTimePassword in Frameworks */,
 				9A996C5326DDF61F00A4485D /* Base32 in Frameworks */,
-				30F6C1B427664C7200BE5AB2 /* SVProgressHUD.xcframework in Frameworks */,
+				9A78A7CC277BECE80093222D /* SVProgressHUD.xcframework in Frameworks */,
 				3032DA5426DAF4C200A7728C /* ObjectivePGP in Frameworks */,
 				3010CB6626DA500F008964D2 /* KeychainAccess in Frameworks */,
 				9A996C5826DEB0D100A4485D /* passKit.framework in Frameworks */,
