@@ -83,11 +83,11 @@
                                         <rect key="frame" x="0.0" y="18" width="390" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="55g-T3-9ak" id="dKn-cO-EJa">
-                                            <rect key="frame" x="0.0" y="0.0" width="373.33333333333331" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="371.66666666666669" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="General" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="dOt-Rj-vWD">
-                                                    <rect key="frame" x="8" y="0.0" width="357.33333333333331" height="44"/>
+                                                    <rect key="frame" x="8" y="0.0" width="355.66666666666669" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
@@ -103,18 +103,18 @@
                                         <rect key="frame" x="0.0" y="62" width="390" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2rc-ZW-XKd" id="CpT-zb-QEP">
-                                            <rect key="frame" x="0.0" y="0.0" width="361.33333333333331" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="359.66666666666669" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Password Repository" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="gWn-ib-STb">
-                                                    <rect key="frame" x="20" y="14" width="135.33333333333334" height="17"/>
+                                                    <rect key="frame" x="20" y="11.999999999999998" width="159.33333333333334" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Not Set" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="Myq-fV-riz">
-                                                    <rect key="frame" x="304.66666666666663" y="14" width="48.666666666666664" height="17"/>
+                                                    <rect key="frame" x="294.33333333333337" y="11.999999999999998" width="57.333333333333336" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -130,18 +130,18 @@
                                         <rect key="frame" x="0.0" y="106" width="390" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1ze-MS-Xbj" id="W7U-oL-hOh">
-                                            <rect key="frame" x="0.0" y="0.0" width="373.33333333333331" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="371.66666666666669" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="PGP Key" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="RR9-xr-9ko">
-                                                    <rect key="frame" x="8.0000000000000036" y="14" width="55.333333333333336" height="17"/>
+                                                    <rect key="frame" x="8" y="11.999999999999998" width="65.666666666666671" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Not Set" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="7lc-Vh-G9W">
-                                                    <rect key="frame" x="316.66666666666663" y="14" width="48.666666666666664" height="17"/>
+                                                    <rect key="frame" x="306.33333333333337" y="11.999999999999998" width="57.333333333333336" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -158,18 +158,18 @@
                                         <rect key="frame" x="0.0" y="199.66666603088382" width="390" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6Y0-mj-qhA" id="qlv-tQ-Xmc">
-                                            <rect key="frame" x="0.0" y="0.0" width="361.33333333333331" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="371.66666666666669" height="43.999999999999972"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Passcode Lock" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="RaZ-6t-0CU">
-                                                    <rect key="frame" x="20" y="14" width="97" height="17"/>
+                                                    <rect key="frame" x="8.0000000000000071" y="11.999999999999998" width="114.66666666666667" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Off" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="HXb-ZX-HUv">
-                                                    <rect key="frame" x="332.66666666666663" y="14" width="20.666666666666668" height="17"/>
+                                                    <rect key="frame" x="339.33333333333337" y="11.999999999999998" width="24.333333333333332" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -186,11 +186,11 @@
                                         <rect key="frame" x="0.0" y="279.66666603088379" width="390" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tQN-gu-iRe" id="Xs0-LN-r43">
-                                            <rect key="frame" x="0.0" y="0.0" width="361.33333333333331" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="359.66666666666669" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Advanced" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="MKj-d0-8q3">
-                                                    <rect key="frame" x="20" y="0.0" width="333.33333333333331" height="44"/>
+                                                    <rect key="frame" x="20" y="0.0" width="331.66666666666669" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
@@ -210,11 +210,11 @@
                                         <rect key="frame" x="0.0" y="359.66666603088379" width="390" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="osS-xk-WRP" id="G6j-ij-rNr">
-                                            <rect key="frame" x="0.0" y="0.0" width="373.33333333333331" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="371.66666666666669" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="About" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="oqz-Hr-RAl">
-                                                    <rect key="frame" x="8" y="0.0" width="357.33333333333331" height="44"/>
+                                                    <rect key="frame" x="8" y="0.0" width="355.66666666666669" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
@@ -506,7 +506,7 @@
         <!--PGP Key-->
         <scene sceneID="8Hi-tl-elT">
             <objects>
-                <tableViewController id="3WR-HY-zYj" customClass="PGPKeyUrlImportTableViewController" customModule="Pass" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="3WR-HY-zYj" customClass="PGPKeyURLImportTableViewController" customModule="Pass" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="B51-hW-xc5">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1099,7 +1099,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Encrypt in ASCII-Armored" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="Jwg-mt-woS">
-                                                    <rect key="frame" x="8" y="0.0" width="374" height="44"/>
+                                                    <rect key="frame" x="20" y="0.0" width="350" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
@@ -1151,7 +1151,7 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Discard All Local Changes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" id="zrl-v3-fxg">
-                                                    <rect key="frame" x="8" y="0.0" width="374" height="44"/>
+                                                    <rect key="frame" x="20" y="0.0" width="350" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <color key="textColor" systemColor="systemRedColor"/>
@@ -1317,14 +1317,14 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="ASCII-Armor Keys" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="M32-yr-IfE">
-                                                    <rect key="frame" x="8.0000000000000071" y="6" width="121.66666666666667" height="17"/>
+                                                    <rect key="frame" x="20.000000000000007" y="6" width="121.66666666666667" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="GpgAsciiArmorCopyExplanation." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sMx-qd-MTJ" customClass="UICodeHighlightingLabel" customModule="Pass" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="23" width="191.33333333333334" height="15.333333333333334"/>
+                                                    <rect key="frame" x="20" y="23" width="191.33333333333334" height="15.333333333333334"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.29804000000000003" green="0.29804000000000003" blue="0.29804000000000003" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -1780,14 +1780,14 @@ Secret Question 1: What is your childhood best friend's most bizarre superhero f
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Import Keys From Files" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XU8-Io-n0h">
-                                                    <rect key="frame" x="8" y="6" width="155" height="17"/>
+                                                    <rect key="frame" x="20" y="6" width="155" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="GpgAsciiArmorFileExplanation." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TZc-n7-f0y" customClass="UICodeHighlightingLabel" customModule="Pass" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="23" width="180.33333333333334" height="15.333333333333334"/>
+                                                    <rect key="frame" x="20" y="23" width="180.33333333333334" height="15.333333333333334"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.29804000000000003" green="0.29804000000000003" blue="0.29804000000000003" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
