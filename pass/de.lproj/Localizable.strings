@@ -206,6 +206,7 @@
 "On"        = "An";
 "Off"       = "Aus";
 "Save"      = "Speichern";
+"Remove"    = "Löschen";
 
 // Lock screen
 "EnterPasscode"         = "Passcode für Pass eingeben";

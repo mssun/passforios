@@ -28,6 +28,10 @@ public extension UIAlertAction {
         UIAlertAction(title: "Ok".localize(), style: .default, handler: handler)
     }
 
+    static func remove(handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
+        UIAlertAction(title: "Remove".localize(), style: .destructive, handler: handler)
+    }
+
     static func okAndPopView(controller: UIViewController) -> UIAlertAction {
         ok { _ in
             controller.navigationController?.popViewController(animated: true)

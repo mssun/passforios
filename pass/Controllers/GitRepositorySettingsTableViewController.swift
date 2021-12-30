@@ -314,10 +314,13 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
         if Defaults.gitSSHKeySource != nil {
             optionMenu.addAction(
                 UIAlertAction(title: "RemoveSShKeys".localize(), style: .destructive) { _ in
-                    self.passwordStore.removeGitSSHKeys()
-                    Defaults.gitSSHKeySource = nil
-                    self.sshLabel?.isEnabled = false
-                    self.gitAuthenticationMethod = .password
+                    let alert = UIAlertController.removeConfirmationAlert(title: "RemoveSShKeys".localize(), message: "") { _ in
+                        self.passwordStore.removeGitSSHKeys()
+                        Defaults.gitSSHKeySource = nil
+                        self.sshLabel?.isEnabled = false
+                        self.gitAuthenticationMethod = .password
+                    }
+                    self.present(alert, animated: true, completion: nil)
                 }
             )
         }

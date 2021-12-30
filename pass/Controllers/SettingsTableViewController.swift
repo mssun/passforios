@@ -184,11 +184,14 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         if Defaults.pgpKeySource != nil {
             optionMenu.addAction(
                 UIAlertAction(title: "RemovePgpKeys".localize(), style: .destructive) { _ in
-                    self.keychain.removeContent(for: PGPKey.PUBLIC.getKeychainKey())
-                    self.keychain.removeContent(for: PGPKey.PRIVATE.getKeychainKey())
-                    PGPAgent.shared.uninitKeys()
-                    self.pgpKeyTableViewCell.detailTextLabel?.text = "NotSet".localize()
-                    Defaults.pgpKeySource = nil
+                    let alert = UIAlertController.removeConfirmationAlert(title: "RemovePgpKeys".localize(), message: "") { _ in
+                        self.keychain.removeContent(for: PGPKey.PUBLIC.getKeychainKey())
+                        self.keychain.removeContent(for: PGPKey.PRIVATE.getKeychainKey())
+                        PGPAgent.shared.uninitKeys()
+                        self.pgpKeyTableViewCell.detailTextLabel?.text = "NotSet".localize()
+                        Defaults.pgpKeySource = nil
+                    }
+                    self.present(alert, animated: true, completion: nil)
                 }
             )
         }

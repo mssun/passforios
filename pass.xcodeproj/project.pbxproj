@@ -126,6 +126,7 @@
 		9A5D06F525A56F0E00FA59D4 /* PasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */; };
 		9A5D070225A5769A00FA59D4 /* PasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */; };
 		9A652414244BB33300DA0A41 /* UIAlertActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A652413244BB33300DA0A41 /* UIAlertActionExtension.swift */; };
+		9A74D2E0277D2F8C00F7BC44 /* UIAlertControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74D2DF277D2F8C00F7BC44 /* UIAlertControllerExtension.swift */; };
 		9A78A7CC277BECE80093222D /* SVProgressHUD.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F6C1B327664C7200BE5AB2 /* SVProgressHUD.xcframework */; };
 		9A78A7CD277BECE80093222D /* SVProgressHUD.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 30F6C1B327664C7200BE5AB2 /* SVProgressHUD.xcframework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9A8F9EBD259EA4C50027CE15 /* PasswordsTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EBC259EA4C50027CE15 /* PasswordsTableDataSource.swift */; };
@@ -411,6 +412,7 @@
 		9A5865EF25AA944B006719C2 /* SearchPassword.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SearchPassword.storyboard; sourceTree = "<group>"; };
 		9A58665025AADB76006719C2 /* CredentialProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProvider.swift; sourceTree = "<group>"; };
 		9A652413244BB33300DA0A41 /* UIAlertActionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertActionExtension.swift; sourceTree = "<group>"; };
+		9A74D2DF277D2F8C00F7BC44 /* UIAlertControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExtension.swift; sourceTree = "<group>"; };
 		9A8F9EBC259EA4C50027CE15 /* PasswordsTableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordsTableDataSource.swift; sourceTree = "<group>"; };
 		9A8F9ECB259ECB410027CE15 /* PasswordSelectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordSelectionDelegate.swift; sourceTree = "<group>"; };
 		9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTableViewCell.swift; sourceTree = "<group>"; };
@@ -654,6 +656,7 @@
 				30697C3521F63C990064FCAC /* UIViewControllerExtension.swift */,
 				30697C3821F63C990064FCAC /* UIViewExtension.swift */,
 				9A652413244BB33300DA0A41 /* UIAlertActionExtension.swift */,
+				9A74D2DF277D2F8C00F7BC44 /* UIAlertControllerExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1516,6 +1519,7 @@
 				30697C2A21F63C5A0064FCAC /* NotificationNames.swift in Sources */,
 				30CCA91623258C380048CA51 /* PGPInterface.swift in Sources */,
 				30DAFD4A240985A7002456E7 /* Array+Slices.swift in Sources */,
+				9A74D2E0277D2F8C00F7BC44 /* UIAlertControllerExtension.swift in Sources */,
 				30697C4721F63CAB0064FCAC /* PasscodeLock.swift in Sources */,
 				A2699ACD2402631400F36323 /* PasswordTableEntry.swift in Sources */,
 				30697C3421F63C8B0064FCAC /* PasscodeLockViewController.swift in Sources */,
