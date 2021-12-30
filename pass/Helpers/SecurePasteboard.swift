@@ -6,11 +6,10 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-public class SecurePasteboard {
-    public static let shared = SecurePasteboard()
+class SecurePasteboard {
+    static let shared = SecurePasteboard()
 
     private var backgroundTaskID = UIBackgroundTaskIdentifier.invalid
 

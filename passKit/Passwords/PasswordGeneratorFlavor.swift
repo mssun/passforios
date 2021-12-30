@@ -16,15 +16,6 @@ public enum PasswordGeneratorFlavor: String {
         rawValue.localize()
     }
 
-    public var longNameLocalized: String {
-        switch self {
-        case .random:
-            return "RandomString".localize()
-        case .xkcd:
-            return "XKCDStyle".localize()
-        }
-    }
-
     public var lengthLimits: LengthLimits {
         switch self {
         case .random:

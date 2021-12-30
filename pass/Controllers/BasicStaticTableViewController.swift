@@ -11,16 +11,12 @@ import passKit
 import SafariServices
 import UIKit
 
-enum CellDataType {
-    case link, segue, empty, detail
-}
-
 enum CellDataStyle {
     case value1, defaultStyle
 }
 
 enum CellDataKey {
-    case style, type, title, link, accessoryType, detailDisclosureAction, detailDisclosureData, detailText, action
+    case style, title, link, accessoryType, detailDisclosureAction, detailDisclosureData, detailText, action
 }
 
 class BasicStaticTableViewController: UITableViewController, MFMailComposeViewControllerDelegate {

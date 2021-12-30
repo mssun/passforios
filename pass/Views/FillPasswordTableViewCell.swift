@@ -14,7 +14,7 @@ protocol FillPasswordTableViewCellDelegate: AnyObject {
     func showHidePasswordSettings()
 }
 
-class FillPasswordTableViewCell: UITableViewCell, ContentProvider {
+class FillPasswordTableViewCell: UITableViewCell {
     @IBOutlet var contentTextField: UITextField!
     @IBOutlet var settingButton: UIButton!
     @IBOutlet var generateButton: UIButton!

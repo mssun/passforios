@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TextViewTableViewCell: UITableViewCell, ContentProvider {
+class TextViewTableViewCell: UITableViewCell {
     @IBOutlet var contentTextView: UITextView!
 
     override func awakeFromNib() {

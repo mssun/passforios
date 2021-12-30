@@ -26,7 +26,7 @@ enum PasswordEditorCellType: Equatable {
 }
 
 enum PasswordEditorCellKey {
-    case type, title, content, placeholders
+    case type, title, content
 }
 
 protocol PasswordSettingSliderTableViewCellDelegate: AnyObject {

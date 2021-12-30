@@ -59,7 +59,6 @@
 "RandomString"                      = "Zufällige Zeichenkette";
 "ApplesKeychainStyle"               = "Apples Keychain-Style";
 "XKCD"                              = "XKCD";
-"XKCDStyle"                         = "XKCD-Style";
 
 // Git
 "FailedToFetchPasswords"                = "Abrufen von Passwörtern fehlgeschlagen";

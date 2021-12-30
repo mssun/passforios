@@ -44,8 +44,6 @@ public extension DefaultsKeys {
 
     var lastSyncedTime: DefaultsKey<Date?> { .init("lastSyncedTime") }
 
-    var isTouchIDOn: DefaultsKey<Bool> { .init("isTouchIDOn", defaultValue: false) }
-
     var isHideUnknownOn: DefaultsKey<Bool> { .init("isHideUnknownOn", defaultValue: false) }
     var isHideOTPOn: DefaultsKey<Bool> { .init("isHideOTPOn", defaultValue: false) }
     var isRememberPGPPassphraseOn: DefaultsKey<Bool> { .init("isRememberPGPPassphraseOn", defaultValue: false) }

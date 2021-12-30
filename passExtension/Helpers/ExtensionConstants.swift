@@ -21,18 +21,4 @@ enum PassExtensionKey {
     static let usernameKey = "username"
     static let passwordKey = "password"
     static let totpKey = "totp"
-    static let titleKey = "login_title"
-    static let notesKey = "notes"
-    static let sectionTitleKey = "section_title"
-    static let fieldsKey = "fields"
-    static let returnedFieldsKey = "returned_fields"
-    static let oldPasswordKey = "old_password"
-    static let passwordGeneratorOptionsKey = "password_generator_options"
-
-    // Password Generator options
-    static let generatedPasswordMinLengthKey = "password_min_length"
-    static let generatedPasswordMaxLengthKey = "password_max_length"
-    static let generatedPasswordRequireDigitsKey = "password_require_digits"
-    static let generatedPasswordRequireSymbolsKey = "password_require_symbols"
-    static let generatedPasswordForbiddenCharactersKey = "password_forbidden_characters"
 }

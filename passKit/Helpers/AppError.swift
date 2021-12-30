@@ -16,7 +16,6 @@ public enum AppError: Error, Equatable {
     case gitReset
     case gitCreateSignature
     case gitPushNotSuccessful
-    case passwordEntity
     case pgpPublicKeyNotFound(keyID: String)
     case pgpPrivateKeyNotFound(keyID: String)
     case keyExpiredOrIncompatible

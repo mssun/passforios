@@ -10,10 +10,8 @@ import passKit
 
 class PasscodeExtensionDisplay {
     private let passcodeLockVC: PasscodeLockViewControllerForExtension
-    private let extensionContext: NSExtensionContext?
 
     init(extensionContext: NSExtensionContext) {
-        self.extensionContext = extensionContext
         self.passcodeLockVC = PasscodeLockViewControllerForExtension(extensionContext: extensionContext)
         passcodeLockVC.setCancellable(true)
     }
