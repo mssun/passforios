@@ -9,9 +9,6 @@
 import ObjectivePGP
 
 struct ObjectivePGPInterface: PGPInterface {
-    private let publicKey: Key
-    private let privateKey: Key
-
     private let keyring = ObjectivePGP.defaultKeyring
 
     init(publicArmoredKey: String, privateArmoredKey: String) throws {
@@ -22,11 +19,9 @@ struct ObjectivePGPInterface: PGPInterface {
         let privateKeys = try ObjectivePGP.readKeys(from: privateKeyData)
         keyring.import(keys: publicKeys)
         keyring.import(keys: privateKeys)
-        guard let publicKey = publicKeys.first, let privateKey = privateKeys.first else {
+        guard publicKeys.first != nil, privateKeys.first != nil else {
             throw AppError.keyImport
         }
-        self.publicKey = publicKey
-        self.privateKey = privateKey
     }
 
     func decrypt(encryptedData: Data, keyID _: String?, passphrase: String) throws -> Data? {

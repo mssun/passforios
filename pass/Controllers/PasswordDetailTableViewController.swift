@@ -18,7 +18,6 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     private var oneTimePasswordIndexPath: IndexPath?
     private var shouldPopCurrentView = false
     private let passwordStore = PasswordStore.shared
-    private let keychain = AppKeychain.shared
 
     private lazy var editUIBarButtonItem: UIBarButtonItem = {
         let uiBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit))

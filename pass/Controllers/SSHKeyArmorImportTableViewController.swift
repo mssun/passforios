@@ -13,7 +13,6 @@ class SSHKeyArmorImportTableViewController: AutoCellHeightUITableViewController,
     @IBOutlet var armorPrivateKeyTextView: UITextView!
     @IBOutlet var scanPrivateKeyCell: UITableViewCell!
 
-    private var gitSSHPrivateKeyPassphrase: String?
     private var armorPrivateKey: String?
 
     private var scanner = QRKeyScanner(keyType: .sshPrivate)

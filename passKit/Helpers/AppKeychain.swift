@@ -15,20 +15,12 @@ public class AppKeychain: KeyStore {
         .accessibility(.whenUnlockedThisDeviceOnly)
         .synchronizable(false)
 
-    public func add(data: Data?, for key: String) {
-        keychain[data: key] = data
-    }
-
     public func add(string: String?, for key: String) {
         keychain[key] = string
     }
 
     public func contains(key: String) -> Bool {
         (try? keychain.contains(key)) ?? false
-    }
-
-    public func get(for key: String) -> Data? {
-        try? keychain.getData(key)
     }
 
     public func get(for key: String) -> String? {

@@ -9,10 +9,8 @@
 import Foundation
 
 public protocol KeyStore {
-    func add(data: Data?, for key: String)
     func add(string: String?, for key: String)
     func contains(key: String) -> Bool
-    func get(for key: String) -> Data?
     func get(for key: String) -> String?
     func removeContent(for key: String)
     func removeAllContent()

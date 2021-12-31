@@ -12,20 +12,12 @@ import passKit
 class DictBasedKeychain: KeyStore {
     private var store: [String: Any] = [:]
 
-    func add(data: Data?, for key: String) {
-        store[key] = data
-    }
-
     func add(string: String?, for key: String) {
         store[key] = string
     }
 
     func contains(key: String) -> Bool {
         store[key] != nil
-    }
-
-    func get(for key: String) -> Data? {
-        store[key] as? Data
     }
 
     func get(for key: String) -> String? {

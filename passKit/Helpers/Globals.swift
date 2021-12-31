@@ -27,7 +27,6 @@ public final class Globals {
     public static let pgpPublicKeyPath = documentPath + "/gpg_key.pub"
     public static let pgpPrivateKeyPath = documentPath + "/gpg_key"
     public static let gitSSHPrivateKeyPath = documentPath + "/ssh_key"
-    public static let gitSSHPrivateKeyURL = URL(fileURLWithPath: gitSSHPrivateKeyPath)
     public static let repositoryPath = libraryPath + "/password-store"
     public static let dbPath = documentPath + "/pass.sqlite"
 

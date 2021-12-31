@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TextFieldTableViewCell: UITableViewCell, ContentProvider {
+class TextFieldTableViewCell: UITableViewCell {
     @IBOutlet var contentTextField: UITextField!
 
     func getContent() -> String? {

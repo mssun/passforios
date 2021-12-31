@@ -18,7 +18,6 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
 
     weak var passcodeTextField: UITextField?
     weak var biometryAuthButton: UIButton?
-    weak var forgotPasscodeButton: UIButton?
     open weak var cancelButton: UIButton?
 
     var isCancellable = false
@@ -73,7 +72,6 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
         forgotPasscodeButton.isHidden = isCancellable
         forgotPasscodeButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(forgotPasscodeButton)
-        self.forgotPasscodeButton = forgotPasscodeButton
 
         let cancelButton = UIButton(type: .custom)
         cancelButton.setTitle("Cancel".localize(), for: .normal)

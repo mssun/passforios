@@ -65,11 +65,3 @@ class SliderTableViewCell: UITableViewCell {
         return self
     }
 }
-
-extension SliderTableViewCell: ContentProvider {
-    func getContent() -> String? {
-        nil
-    }
-
-    func setContent(content _: String?) {}
-}

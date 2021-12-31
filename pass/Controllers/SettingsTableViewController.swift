@@ -17,7 +17,6 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     @IBOutlet var passwordRepositoryTableViewCell: UITableViewCell!
     var setPasscodeLockAlert: UIAlertController?
 
-    let passwordStore = PasswordStore.shared
     let keychain = AppKeychain.shared
     var passcodeLock = PasscodeLock.shared
 

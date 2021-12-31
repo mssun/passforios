@@ -150,16 +150,6 @@ public class PasswordStore {
         }
     }
 
-    public func passwordEntityExisted(path: String) -> Bool {
-        let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
-        do {
-            passwordEntityFetchRequest.predicate = NSPredicate(format: "path = %@", path)
-            return try context.count(for: passwordEntityFetchRequest) > 0
-        } catch {
-            fatalError("FailedToFetchPasswordEntities".localize(error))
-        }
-    }
-
     public func getPasswordEntity(by path: String, isDir: Bool) -> PasswordEntity? {
         let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         do {
@@ -382,8 +372,6 @@ public class PasswordStore {
         }
         return Self.dateFormatter.string(from: lastCommitDate)
     }
-
-    public func updateRemoteRepo() {}
 
     private func gitAdd(path: String) throws {
         guard let storeRepository = storeRepository else {
@@ -738,7 +726,7 @@ public class PasswordStore {
     }
 }
 
-public func findGPGID(from url: URL) -> String {
+func findGPGID(from url: URL) -> String {
     var path = url
     while !FileManager.default.fileExists(atPath: path.appendingPathComponent(".gpg-id").path),
           path.path != "file:///" {

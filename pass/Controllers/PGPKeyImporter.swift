@@ -10,8 +10,6 @@ import passKit
 
 protocol PGPKeyImporter: KeyImporter {
     func doAfterImport()
-
-    func saveImportedKeys()
 }
 
 extension PGPKeyImporter {
