@@ -74,6 +74,7 @@ class PasswordNavigationViewController: UIViewController {
         configureTableView(in: parentPasswordEntity)
         configureNotification()
         configureSearchBar()
+        configureNavigationBar()
         requestNotificationPermission()
     }
 
@@ -206,7 +207,7 @@ class PasswordNavigationViewController: UIViewController {
     func didTapNavigationBar(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: navigationController?.navigationBar)
         let hitView = navigationController?.navigationBar.hitTest(location, with: nil)
-        guard !(hitView is UIControl) else {
+        guard String(describing: hitView).contains("UINavigationBarContentView") else {
             return
         }
 
