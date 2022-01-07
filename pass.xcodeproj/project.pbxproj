@@ -112,6 +112,10 @@
 		9A1D1CE526E5D1CE0052028E /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 9A1D1CE426E5D1CE0052028E /* OneTimePassword */; };
 		9A1D1CE726E5D2230052028E /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 9A1D1CE626E5D2230052028E /* OneTimePassword */; };
 		9A1F47FA26E5CF4B000C0E01 /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 9A1F47F926E5CF4B000C0E01 /* OneTimePassword */; };
+		9A2C7D822782CB2F00BD9AF3 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9A2C7D812782CB2F00BD9AF3 /* YubiKit */; };
+		9A2C7D842783FF5200BD9AF3 /* YubiKeyConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2C7D832783FF5200BD9AF3 /* YubiKeyConnection.swift */; };
+		9A2C7D862783FF9600BD9AF3 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9A2C7D852783FF9600BD9AF3 /* YubiKit */; };
+		9A2C7D8B2784139200BD9AF3 /* YubiKeyAPDU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2C7D8A2784139200BD9AF3 /* YubiKeyAPDU.swift */; };
 		9A55C158259E785600FA8FD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
 		9A55C15F259E785700FA8FD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
 		9A55C185259E8C5600FA8FD9 /* PasswordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A55C184259E8C5600FA8FD9 /* PasswordsViewController.swift */; };
@@ -122,13 +126,20 @@
 		9A58662925AAAA79006719C2 /* PasswordSelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9ECB259ECB410027CE15 /* PasswordSelectionDelegate.swift */; };
 		9A58664825AAAB7E006719C2 /* SearchPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A5865EF25AA944B006719C2 /* SearchPassword.storyboard */; };
 		9A58665125AADB76006719C2 /* CredentialProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58665025AADB76006719C2 /* CredentialProvider.swift */; };
+		9A5C6EF42786CA5F0003F340 /* AlertPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5C6EEF2786C8710003F340 /* AlertPresenting.swift */; };
+		9A5C6EF92786CE170003F340 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9A5C6EF82786CE170003F340 /* YubiKit */; };
+		9A5C6EFB2786CE5E0003F340 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9A5C6EFA2786CE5E0003F340 /* YubiKit */; };
+		9A5C6EFF2787F0980003F340 /* Gopenpgp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADAB21C26DDA52400900F10 /* Gopenpgp.xcframework */; };
+		9A5C6F022787F09A0003F340 /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
+		9A5C6F042787F09D0003F340 /* Gopenpgp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADAB21C26DDA52400900F10 /* Gopenpgp.xcframework */; };
+		9A5C6F082787F0C20003F340 /* SwiftyUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 9A5C6F072787F0C20003F340 /* SwiftyUserDefaults */; };
 		9A5D06EE25A56F0800FA59D4 /* PasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */; };
 		9A5D06F525A56F0E00FA59D4 /* PasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */; };
 		9A5D070225A5769A00FA59D4 /* PasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */; };
 		9A652414244BB33300DA0A41 /* UIAlertActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A652413244BB33300DA0A41 /* UIAlertActionExtension.swift */; };
 		9A74D2E0277D2F8C00F7BC44 /* UIAlertControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74D2DF277D2F8C00F7BC44 /* UIAlertControllerExtension.swift */; };
 		9A78A7CC277BECE80093222D /* SVProgressHUD.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F6C1B327664C7200BE5AB2 /* SVProgressHUD.xcframework */; };
-		9A78A7CD277BECE80093222D /* SVProgressHUD.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 30F6C1B327664C7200BE5AB2 /* SVProgressHUD.xcframework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9A78A7CD277BECE80093222D /* SVProgressHUD.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 30F6C1B327664C7200BE5AB2 /* SVProgressHUD.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A8F9EBD259EA4C50027CE15 /* PasswordsTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EBC259EA4C50027CE15 /* PasswordsTableDataSource.swift */; };
 		9A8F9ECC259ECB410027CE15 /* PasswordSelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9ECB259ECB410027CE15 /* PasswordSelectionDelegate.swift */; };
 		9A8F9F4025A1A91F0027CE15 /* CredentialProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9F3F25A1A91F0027CE15 /* CredentialProvider.swift */; };
@@ -141,7 +152,6 @@
 		9A996C6826DEB96B00A4485D /* passShortcuts.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 30A69945240EED5E00B7D967 /* passShortcuts.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9A996C6B26DEB97600A4485D /* passExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A26700241EEC466A00176B8A /* passExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9A996C6E26DEB99200A4485D /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
-		9A996C7126DEB99500A4485D /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		9ADAB21D26DDA52400900F10 /* Gopenpgp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADAB21C26DDA52400900F10 /* Gopenpgp.xcframework */; };
 		9ADC954124418A5F0005402E /* PasswordStoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADC954024418A5F0005402E /* PasswordStoreTest.swift */; };
 		9AFC87D325B39FF3008D6060 /* PasswordNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFC87D225B39FF2008D6060 /* PasswordNavigationViewController.swift */; };
@@ -407,9 +417,12 @@
 		9A1EF0B424C50E780074FEAC /* passBetaAutoFillExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passBetaAutoFillExtension.entitlements; sourceTree = "<group>"; };
 		9A1EF0B524C50EE00074FEAC /* passBetaExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passBetaExtension.entitlements; sourceTree = "<group>"; };
 		9A1EF0B624C50FEA0074FEAC /* passBetaShortcuts.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passBetaShortcuts.entitlements; sourceTree = "<group>"; };
+		9A2C7D832783FF5200BD9AF3 /* YubiKeyConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YubiKeyConnection.swift; sourceTree = "<group>"; };
+		9A2C7D8A2784139200BD9AF3 /* YubiKeyAPDU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YubiKeyAPDU.swift; sourceTree = "<group>"; };
 		9A55C184259E8C5600FA8FD9 /* PasswordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordsViewController.swift; sourceTree = "<group>"; };
 		9A5865EF25AA944B006719C2 /* SearchPassword.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SearchPassword.storyboard; sourceTree = "<group>"; };
 		9A58665025AADB76006719C2 /* CredentialProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProvider.swift; sourceTree = "<group>"; };
+		9A5C6EEF2786C8710003F340 /* AlertPresenting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenting.swift; sourceTree = "<group>"; };
 		9A652413244BB33300DA0A41 /* UIAlertActionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertActionExtension.swift; sourceTree = "<group>"; };
 		9A74D2DF277D2F8C00F7BC44 /* UIAlertControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExtension.swift; sourceTree = "<group>"; };
 		9A8F9EBC259EA4C50027CE15 /* PasswordsTableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordsTableDataSource.swift; sourceTree = "<group>"; };
@@ -506,8 +519,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A5C6EF92786CE170003F340 /* YubiKit in Frameworks */,
 				9A996C6E26DEB99200A4485D /* passKit.framework in Frameworks */,
 				30A3001A26DA697C002A734E /* SwiftyUserDefaults in Frameworks */,
+				9A5C6F042787F09D0003F340 /* Gopenpgp.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -521,6 +536,7 @@
 				9A1D1CE526E5D1CE0052028E /* OneTimePassword in Frameworks */,
 				30A3001626DA6697002A734E /* SwiftyUserDefaults in Frameworks */,
 				3032DA5626DAF4E500A7728C /* ObjectivePGP in Frameworks */,
+				9A2C7D862783FF9600BD9AF3 /* YubiKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -539,7 +555,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A996C7126DEB99500A4485D /* passKit.framework in Frameworks */,
+				9A5C6F022787F09A0003F340 /* passKit.framework in Frameworks */,
+				9A5C6EFB2786CE5E0003F340 /* YubiKit in Frameworks */,
+				9A5C6EFF2787F0980003F340 /* Gopenpgp.xcframework in Frameworks */,
+				9A5C6F082787F0C20003F340 /* SwiftyUserDefaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,6 +579,7 @@
 				9A996C5326DDF61F00A4485D /* Base32 in Frameworks */,
 				9A78A7CC277BECE80093222D /* SVProgressHUD.xcframework in Frameworks */,
 				3032DA5426DAF4C200A7728C /* ObjectivePGP in Frameworks */,
+				9A2C7D822782CB2F00BD9AF3 /* YubiKit in Frameworks */,
 				3010CB6626DA500F008964D2 /* KeychainAccess in Frameworks */,
 				9A996C5826DEB0D100A4485D /* passKit.framework in Frameworks */,
 				30ED1777276F8842009BA876 /* ObjectiveGit in Frameworks */,
@@ -724,6 +744,14 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		9A5C6EF32786C9C00003F340 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				9A5C6EEF2786C8710003F340 /* AlertPresenting.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		9A8F9EBB259EA4A80027CE15 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -806,6 +834,7 @@
 		A26075791EEC6F34005DB03E /* passKit */ = {
 			isa = PBXGroup;
 			children = (
+				9A5C6EF32786C9C00003F340 /* Protocols */,
 				A2C532B9201DD07500DB9F53 /* Controllers */,
 				30CCA90C232584560048CA51 /* Crypto */,
 				30B6AABA21F49095006B352D /* Extensions */,
@@ -877,6 +906,8 @@
 		A2F4E20F1EED7F0A0011986E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				9A2C7D832783FF5200BD9AF3 /* YubiKeyConnection.swift */,
+				9A2C7D8A2784139200BD9AF3 /* YubiKeyAPDU.swift */,
 				30697C2921F63C590064FCAC /* AppError.swift */,
 				302B2C9722C2BDE700D831EE /* AppKeychain.swift */,
 				3087574E2343E42A00B971A2 /* Colors.swift */,
@@ -1075,6 +1106,7 @@
 			name = passAutoFillExtension;
 			packageProductDependencies = (
 				30A3001926DA697C002A734E /* SwiftyUserDefaults */,
+				9A5C6EF82786CE170003F340 /* YubiKit */,
 			);
 			productName = passAutoFillExtension;
 			productReference = A239F5952158C08B00576CBF /* passAutoFillExtension.appex */;
@@ -1100,6 +1132,7 @@
 				3032DA5526DAF4E500A7728C /* ObjectivePGP */,
 				9A996C5626DDF65900A4485D /* Base32 */,
 				9A1D1CE426E5D1CE0052028E /* OneTimePassword */,
+				9A2C7D852783FF9600BD9AF3 /* YubiKit */,
 			);
 			productName = passKit;
 			productReference = A26075781EEC6F34005DB03E /* passKit.framework */;
@@ -1142,6 +1175,10 @@
 			dependencies = (
 			);
 			name = passExtension;
+			packageProductDependencies = (
+				9A5C6EFA2786CE5E0003F340 /* YubiKit */,
+				9A5C6F072787F0C20003F340 /* SwiftyUserDefaults */,
+			);
 			productName = passExtension;
 			productReference = A26700241EEC466A00176B8A /* passExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -1197,6 +1234,7 @@
 				9A996C5226DDF61F00A4485D /* Base32 */,
 				9A1F47F926E5CF4B000C0E01 /* OneTimePassword */,
 				30ED1776276F8842009BA876 /* ObjectiveGit */,
+				9A2C7D812782CB2F00BD9AF3 /* YubiKit */,
 			);
 			productName = pass;
 			productReference = DC917BD31E2E8231000FDF54 /* Pass.app */;
@@ -1300,6 +1338,7 @@
 				3032DA5226DAF4C200A7728C /* XCRemoteSwiftPackageReference "ObjectivePGP" */,
 				9A1F47F826E5CF4B000C0E01 /* XCRemoteSwiftPackageReference "OneTimePassword" */,
 				30ED1775276F8842009BA876 /* XCRemoteSwiftPackageReference "objective-git-swift-package" */,
+				9A2C7D802782CB2F00BD9AF3 /* XCRemoteSwiftPackageReference "yubikit-ios" */,
 			);
 			productRefGroup = DC917BD41E2E8231000FDF54 /* Products */;
 			projectDirPath = "";
@@ -1491,6 +1530,7 @@
 				30697C3C21F63C990064FCAC /* UITextFieldExtension.swift in Sources */,
 				302E85632125EE550031BA64 /* Constants.swift in Sources */,
 				9A652414244BB33300DA0A41 /* UIAlertActionExtension.swift in Sources */,
+				9A2C7D842783FF5200BD9AF3 /* YubiKeyConnection.swift in Sources */,
 				301F6463216162550071A4CE /* AdditionField.swift in Sources */,
 				30697C3021F63C5A0064FCAC /* AppError.swift in Sources */,
 				30697C2B21F63C5A0064FCAC /* Globals.swift in Sources */,
@@ -1513,6 +1553,7 @@
 				30B4C7BA24084AAA008B86F7 /* PasswordGenerator.swift in Sources */,
 				30A1D2A621B2D46100E2D1F7 /* OTPType.swift in Sources */,
 				3032328E22CBD4CD009EBD9C /* CryptographicKeys.swift in Sources */,
+				9A5C6EF42786CA5F0003F340 /* AlertPresenting.swift in Sources */,
 				30697C2A21F63C5A0064FCAC /* NotificationNames.swift in Sources */,
 				30CCA91623258C380048CA51 /* PGPInterface.swift in Sources */,
 				30DAFD4A240985A7002456E7 /* Array+Slices.swift in Sources */,
@@ -1527,6 +1568,7 @@
 				30697C3A21F63C990064FCAC /* UIViewControllerExtension.swift in Sources */,
 				30697C2E21F63C5A0064FCAC /* Utils.swift in Sources */,
 				30CCA91823258E760048CA51 /* GopenPGPInterface.swift in Sources */,
+				9A2C7D8B2784139200BD9AF3 /* YubiKeyAPDU.swift in Sources */,
 				30697C4521F63CAB0064FCAC /* Password.swift in Sources */,
 				30697C4421F63CAB0064FCAC /* PasswordEntity.swift in Sources */,
 				30BAC8CD22E3BB9700438475 /* KeyStore.swift in Sources */,
@@ -2796,6 +2838,14 @@
 				revision = 8d59e4abba762d0f1e9aed161081f7b3fe21daa0;
 			};
 		};
+		9A2C7D802782CB2F00BD9AF3 /* XCRemoteSwiftPackageReference "yubikit-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Yubico/yubikit-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2873,6 +2923,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9A1F47F826E5CF4B000C0E01 /* XCRemoteSwiftPackageReference "OneTimePassword" */;
 			productName = OneTimePassword;
+		};
+		9A2C7D812782CB2F00BD9AF3 /* YubiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A2C7D802782CB2F00BD9AF3 /* XCRemoteSwiftPackageReference "yubikit-ios" */;
+			productName = YubiKit;
+		};
+		9A2C7D852783FF9600BD9AF3 /* YubiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A2C7D802782CB2F00BD9AF3 /* XCRemoteSwiftPackageReference "yubikit-ios" */;
+			productName = YubiKit;
+		};
+		9A5C6EF82786CE170003F340 /* YubiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A2C7D802782CB2F00BD9AF3 /* XCRemoteSwiftPackageReference "yubikit-ios" */;
+			productName = YubiKit;
+		};
+		9A5C6EFA2786CE5E0003F340 /* YubiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A2C7D802782CB2F00BD9AF3 /* XCRemoteSwiftPackageReference "yubikit-ios" */;
+			productName = YubiKit;
+		};
+		9A5C6F072787F0C20003F340 /* SwiftyUserDefaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3010CB5E26DA4F87008964D2 /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */;
+			productName = SwiftyUserDefaults;
 		};
 		9A996C5226DDF61F00A4485D /* Base32 */ = {
 			isa = XCSwiftPackageProductDependency;

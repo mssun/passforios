@@ -180,6 +180,12 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             )
         }
 
+        optionMenu.addAction(
+            UIAlertAction(title: Defaults.isYubiKeyEnabled ? "✓ YubiKey" : "YubiKey", style: .default) { _ in
+                Defaults.isYubiKeyEnabled.toggle()
+            }
+        )
+
         if Defaults.pgpKeySource != nil {
             optionMenu.addAction(
                 UIAlertAction(title: "RemovePgpKeys".localize(), style: .destructive) { _ in

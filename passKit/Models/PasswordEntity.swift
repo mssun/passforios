@@ -39,7 +39,7 @@ public extension PasswordEntity {
         if let path = getPath().stringByAddingPercentEncodingForRFC3986(), let url = URL(string: path) {
             return url
         }
-        throw AppError.unknown
+        throw AppError.other(message: "cannot decode URL")
     }
 
     // XXX: define some getters to get core data, we need to consider

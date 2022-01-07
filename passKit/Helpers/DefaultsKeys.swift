@@ -26,6 +26,7 @@ public extension DefaultsKeys {
     var pgpKeySource: DefaultsKey<KeySource?> { .init("pgpKeySource") }
     var pgpPublicKeyURL: DefaultsKey<URL?> { .init("pgpPublicKeyURL") }
     var pgpPrivateKeyURL: DefaultsKey<URL?> { .init("pgpPrivateKeyURL") }
+    var isYubiKeyEnabled: DefaultsKey<Bool> { .init("isYubiKeyEnabled", defaultValue: false) }
 
     // Keep them for legacy reasons.
     var pgpPublicKeyArmor: DefaultsKey<String?> { .init("pgpPublicKeyArmor") }

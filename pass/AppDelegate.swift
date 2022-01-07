@@ -35,6 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         UNUserNotificationCenter.current().delegate = NotificationCenterDispatcher.shared
+        #if !targetEnvironment(simulator)
+            _ = passKit.YubiKeyConnection.shared
+        #endif
         return true
     }
 
