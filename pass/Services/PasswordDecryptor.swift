@@ -65,6 +65,18 @@ let symmetricKeyIDNameDict: [UInt8: String] = [
     9: "aes256",
 ]
 
+private func isEncryptKeyAlgoRSA(_ applicationRelatedData: Data) -> Bool {
+    let tlv = TKBERTLVRecord.sequenceOfRecords(from: applicationRelatedData)!
+    // 0x73: Discretionary data objects
+    for record in TKBERTLVRecord.sequenceOfRecords(from: tlv.first!.value)! where record.tag == 0x73 {
+        // 0xC2: Algorithm attributes decryption, 0x01: RSA
+        for record2 in TKBERTLVRecord.sequenceOfRecords(from: record.value)! where record2.tag == 0xC2 && record2.value.first! == 0x01 {
+            return true
+        }
+    }
+    return false
+}
+
 // swiftlint:disable cyclomatic_complexity
 public func yubiKeyDecrypt(
     passwordEntity: PasswordEntity,
@@ -110,12 +122,10 @@ public func yubiKeyDecrypt(
                             errorHandler(AppError.yubiKey(.decipher(message: "Failed to get application related data.")))
                             return
                         }
-                        let tlv = TKBERTLVRecord.sequenceOfRecords(from: data)!
-                        for record in TKBERTLVRecord.sequenceOfRecords(from: tlv.first!.value)! where record.tag == 0x73 {
-                            for record2 in TKBERTLVRecord.sequenceOfRecords(from: record.value)! where record2.tag == 0xC2 && record2.value.first! != 0x01 {
-                                errorHandler(AppError.yubiKey(.decipher(message: "Encryption key algorithm is not supported. Supported algorithm: RSA.")))
-                                return
-                            }
+
+                        if !isEncryptKeyAlgoRSA(data) {
+                            errorHandler(AppError.yubiKey(.decipher(message: "Encryption key algorithm is not supported. Supported algorithm: RSA.")))
+                            return
                         }
 
                         // 3. Decipher
