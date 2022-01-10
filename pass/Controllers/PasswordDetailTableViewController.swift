@@ -576,7 +576,7 @@ extension PasswordDetailTableViewController {
             handleError(error: AppError.other(message: "PasswordDoesNotExist"))
             return
         }
-        Pass.yubiKeyDecrypt(passwordEntity: passwordEntity, requestPIN: requestYubiKeyPIN, errorHandler: handleError, cancellation: handleCancellation) { password in
+        yubiKeyDecrypt(passwordEntity: passwordEntity, requestPIN: requestYubiKeyPIN, errorHandler: handleError, cancellation: handleCancellation) { password in
             self.password = password
             self.showPassword()
         }
