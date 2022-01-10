@@ -101,7 +101,7 @@ extension PGPKeyArmorImportTableViewController: PGPKeyImporter {
             Utils.alert(title: "CannotSave".localize(), message: "SetPublicKey.".localize(), controller: self, completion: nil)
             return false
         }
-        guard !armorPrivateKeyTextView.text.isEmpty else {
+        guard Defaults.isYubiKeyEnabled || !armorPrivateKeyTextView.text.isEmpty else {
             Utils.alert(title: "CannotSave".localize(), message: "SetPrivateKey.".localize(), controller: self, completion: nil)
             return false
         }

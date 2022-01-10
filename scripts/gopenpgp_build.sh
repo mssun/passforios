@@ -2,7 +2,7 @@
 
 set -euox pipefail
 
-GOPENPGP_VERSION="v2.1.10"
+GOPENPGP_VERSION="passforios"
 
 export GOPATH="$(pwd)/go"
 export PATH="$PATH:$GOPATH/bin"
@@ -18,13 +18,11 @@ go env -w GO111MODULE=auto
 go get golang.org/x/mobile/cmd/gomobile
 gomobile init
 
-git clone --depth 1 --branch "$GOPENPGP_VERSION" https://github.com/ProtonMail/gopenpgp.git "$GOPENPGP_PATH"
-
-git apply patch/gnu-dummy.patch --directory "$GOPENPGP_PATH"
+git clone --depth 1 --branch "$GOPENPGP_VERSION" https://github.com/mssun/gopenpgp.git "$GOPENPGP_PATH"
 
 sed -i '' 's/build android/echo "Skipping Android build."/g' "$GOPENPGP_PATH/build.sh"
 
 (cd "$GOPENPGP_PATH" && ./build.sh)
 
-cp -R "$GOPENPGP_PATH/dist/Gopenpgp.xcframework" "$OUTPUT_PATH"
+cp -r "$GOPENPGP_PATH/dist/Gopenpgp.xcframework" "$OUTPUT_PATH"
 

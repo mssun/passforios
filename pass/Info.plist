@@ -2,6 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
+	<array>
+            <string>A000000527471117</string>
+            <string>A0000006472F0001</string>
+            <string>A0000005272101</string>
+            <string>A000000308</string>
+            <string>D27600012401</string>
+            <string>A000000527200101</string>
+    </array>
+    <key>NFCReaderUsageDescription</key>
+    <string>The application needs access to NFC reading to communicate with your YubiKey.</string>
+	<key>UISupportedExternalAccessoryProtocols</key>
+	<array>
+		<string>com.yubico.ylp</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

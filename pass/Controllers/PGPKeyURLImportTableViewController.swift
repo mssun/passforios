@@ -9,7 +9,7 @@
 import passKit
 import UIKit
 
-class PGPKeyURLImportTableViewController: AutoCellHeightUITableViewController {
+class PGPKeyURLImportTableViewController: AutoCellHeightUITableViewController, AlertPresenting {
     @IBOutlet var pgpPublicKeyURLTextField: UITextField!
     @IBOutlet var pgpPrivateKeyURLTextField: UITextField!
 
@@ -24,18 +24,11 @@ class PGPKeyURLImportTableViewController: AutoCellHeightUITableViewController {
 
     @IBAction
     private func save(_: Any) {
-        guard let publicKeyURLText = pgpPublicKeyURLTextField.text,
-              let publicKeyURL = URL(string: publicKeyURLText),
-              let privateKeyURLText = pgpPrivateKeyURLTextField.text,
-              let privateKeyURL = URL(string: privateKeyURLText) else {
-            Utils.alert(title: "CannotSavePgpKey".localize(), message: "SetPgpKeyUrlsFirst.".localize(), controller: self)
-            return
+        pgpPublicKeyURL = validate(pgpKeyURLText: pgpPublicKeyURLTextField.text)
+
+        if !Defaults.isYubiKeyEnabled {
+            pgpPrivateKeyURL = validate(pgpKeyURLText: pgpPrivateKeyURLTextField.text)
         }
-        if privateKeyURL.scheme?.lowercased() == "http" || publicKeyURL.scheme?.lowercased() == "http" {
-            Utils.alert(title: "HttpNotSecure".localize(), message: "ReallyUseHttp.".localize(), controller: self)
-        }
-        pgpPrivateKeyURL = privateKeyURL
-        pgpPublicKeyURL = publicKeyURL
         saveImportedKeys()
     }
 }
@@ -45,35 +38,39 @@ extension PGPKeyURLImportTableViewController: PGPKeyImporter {
     static let label = "DownloadFromUrl".localize()
 
     func isReadyToUse() -> Bool {
-        validate(pgpKeyURL: pgpPublicKeyURLTextField.text ?? "")
-            && validate(pgpKeyURL: pgpPrivateKeyURLTextField.text ?? "")
+        validate(pgpKeyURLText: pgpPublicKeyURLTextField.text) != nil
+            && (Defaults.isYubiKeyEnabled || validate(pgpKeyURLText: pgpPrivateKeyURLTextField.text ?? "") != nil)
     }
 
     func importKeys() throws {
-        Defaults.pgpPrivateKeyURL = pgpPrivateKeyURL
-        Defaults.pgpPublicKeyURL = pgpPublicKeyURL
+        if let pgpPrivateKeyURL = pgpPrivateKeyURL {
+            Defaults.pgpPrivateKeyURL = pgpPrivateKeyURL
+            try KeyFileManager.PrivatePGP.importKey(from: pgpPrivateKeyURL)
+        }
 
-        try KeyFileManager.PublicPGP.importKey(from: Defaults.pgpPublicKeyURL!)
-        try KeyFileManager.PrivatePGP.importKey(from: Defaults.pgpPrivateKeyURL!)
+        if let pgpPublicKeyURL = pgpPublicKeyURL {
+            Defaults.pgpPublicKeyURL = pgpPublicKeyURL
+            try KeyFileManager.PublicPGP.importKey(from: pgpPublicKeyURL)
+        }
     }
 
     func doAfterImport() {
-        Utils.alert(title: "RememberToRemoveKey".localize(), message: "RememberToRemoveKeyFromServer.".localize(), controller: self)
+        presentAlert(title: "RememberToRemoveKey".localize(), message: "RememberToRemoveKeyFromServer.".localize())
     }
 
     func saveImportedKeys() {
         performSegue(withIdentifier: "savePGPKeySegue", sender: self)
     }
 
-    private func validate(pgpKeyURL: String) -> Bool {
-        guard let url = URL(string: pgpKeyURL) else {
-            Utils.alert(title: "CannotSavePgpKey".localize(), message: "SetPgpKeyUrlsFirst.".localize(), controller: self)
-            return false
+    private func validate(pgpKeyURLText: String?) -> URL? {
+        guard let pgpKeyURL = pgpKeyURLText, let url = URL(string: pgpKeyURL) else {
+            presentFailureAlert(title: "CannotSavePgpKey".localize(), message: "SetPgpKeyUrlsFirst.".localize())
+            return nil
         }
         guard url.scheme == "https" || url.scheme == "http" else {
-            Utils.alert(title: "CannotSavePgpKey".localize(), message: "UseEitherHttpsOrHttp.".localize(), controller: self)
-            return false
+            presentFailureAlert(title: "CannotSavePgpKey".localize(), message: "UseEitherHttpsOrHttp.".localize())
+            return nil
         }
-        return true
+        return url
     }
 }

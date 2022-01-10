@@ -63,6 +63,15 @@
           "revision": "f66bcd04088582c8fbb5cb8554d577e303bae396",
           "version": "5.3.0"
         }
+      },
+      {
+        "package": "YubiKit",
+        "repositoryURL": "https://github.com/Yubico/yubikit-ios",
+        "state": {
+          "branch": null,
+          "revision": "7e75fe8f057acf9bf7ac134d375783a1d409f79e",
+          "version": "4.1.0"
+        }
       }
     ]
   },

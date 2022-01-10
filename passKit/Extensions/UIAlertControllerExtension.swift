@@ -14,4 +14,10 @@ public extension UIAlertController {
         alert.addAction(UIAlertAction.cancel())
         return alert
     }
+
+    class func showErrorAlert(title: String, message: String, completion: ((UIAlertAction) -> Void)? = nil) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction.ok(handler: completion))
+        return alert
+    }
 }

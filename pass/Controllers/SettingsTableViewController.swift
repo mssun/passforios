@@ -87,11 +87,15 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
 
     private func setPGPKeyTableViewCellDetailText() {
         var label = "NotSet".localize()
+
         let keyID = (try? PGPAgent.shared.getShortKeyID()) ?? []
         if keyID.count == 1 {
             label = keyID.first ?? ""
         } else if keyID.count > 1 {
             label = "Multiple"
+        }
+        if Defaults.isYubiKeyEnabled {
+            label += "+YubiKey"
         }
         pgpKeyTableViewCell.detailTextLabel?.text = label
     }
@@ -179,6 +183,13 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
                 }
             )
         }
+
+        optionMenu.addAction(
+            UIAlertAction(title: Defaults.isYubiKeyEnabled ? "✓ YubiKey" : "YubiKey", style: .default) { _ in
+                Defaults.isYubiKeyEnabled.toggle()
+                self.setPGPKeyTableViewCellDetailText()
+            }
+        )
 
         if Defaults.pgpKeySource != nil {
             optionMenu.addAction(

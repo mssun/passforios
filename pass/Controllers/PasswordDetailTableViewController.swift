@@ -7,11 +7,13 @@
 //
 
 import FavIcon
+import Gopenpgp
+import passAutoFillExtension
 import passKit
 import SVProgressHUD
 import UIKit
 
-class PasswordDetailTableViewController: UITableViewController, UIGestureRecognizerDelegate {
+class PasswordDetailTableViewController: UITableViewController, UIGestureRecognizerDelegate, AlertPresenting {
     var passwordEntity: PasswordEntity?
     private var password: Password?
     private var passwordImage: UIImage?
@@ -87,7 +89,15 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         decryptThenShowPassword()
     }
 
-    private func decryptThenShowPassword(keyID: String? = nil) {
+    private func decryptThenShowPassword() {
+        if Defaults.isYubiKeyEnabled {
+            decryptThenShowPasswordYubiKey()
+        } else {
+            decryptThenShowPasswordLocalKey()
+        }
+    }
+
+    private func decryptThenShowPasswordLocalKey(keyID: String? = nil) {
         guard let passwordEntity = passwordEntity else {
             Utils.alert(title: "CannotShowPassword".localize(), message: "PasswordDoesNotExist".localize(), controller: self, completion: {
                 self.navigationController!.popViewController(animated: true)
@@ -106,7 +116,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                     let alert = UIAlertController(title: "CannotShowPassword".localize(), message: AppError.pgpPrivateKeyNotFound(keyID: key).localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
                     let selectKey = UIAlertAction.selectKey(controller: self) { action in
-                        self.decryptThenShowPassword(keyID: action.title)
+                        self.decryptThenShowPasswordLocalKey(keyID: action.title)
                     }
                     alert.addAction(selectKey)
 
@@ -119,7 +129,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                     alert.addAction(UIAlertAction.cancelAndPopView(controller: self))
                     alert.addAction(
                         UIAlertAction(title: "TryAgain".localize(), style: .default) { _ in
-                            self.decryptThenShowPassword()
+                            self.decryptThenShowPasswordLocalKey()
                         }
                     )
                     self.present(alert, animated: true, completion: nil)
@@ -507,5 +517,68 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             }
         }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension PasswordDetailTableViewController {
+    private func requestYubiKeyPIN(completion: @escaping (String) -> Void) {
+        let alert = UIAlertController(title: "YubiKey PIN", message: "Verify YubiKey OpenPGP PIN.", preferredStyle: .alert)
+        alert.addAction(
+            UIAlertAction.cancel { _ in
+                self.navigationController!.popViewController(animated: true)
+            }
+        )
+        alert.addAction(
+            UIAlertAction.ok { _ in
+                let pin = alert.textFields?.first?.text ?? ""
+                completion(pin)
+            }
+        )
+        alert.addTextField { textField in
+            textField.isSecureTextEntry = true
+        }
+        present(alert, animated: true)
+    }
+
+    private func handleError(error: AppError) {
+        switch error {
+        case let .yubiKey(yubiKeyError):
+            let errorMessage = yubiKeyError.localizedDescription
+            if #available(iOS 13.0, *) {
+                YubiKitManager.shared.stopNFCConnection(withErrorMessage: errorMessage)
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.presentFailureAlert(message: errorMessage) { _ in
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+            }
+        default:
+            DispatchQueue.main.async {
+                self.presentFailureAlert(message: error.localizedDescription) { _ in
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }
+    }
+
+    private func handleCancellation(_: Error) {
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+
+    private func decryptThenShowPasswordYubiKey() {
+        guard let passwordEntity = passwordEntity else {
+            handleError(error: AppError.other(message: "PasswordDoesNotExist"))
+            return
+        }
+        Pass.yubiKeyDecrypt(passwordEntity: passwordEntity, requestPIN: requestYubiKeyPIN, errorHandler: handleError, cancellation: handleCancellation) { password in
+            self.password = password
+            self.showPassword()
+        }
     }
 }
