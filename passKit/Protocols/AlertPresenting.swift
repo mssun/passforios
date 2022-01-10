@@ -11,7 +11,7 @@ public typealias AlertAction = (UIAlertAction) -> Void
 
 public protocol AlertPresenting {
     func presentAlert(title: String, message: String)
-    func presentFailureAlert(message: String, action: AlertAction?)
+    func presentFailureAlert(title: String?, message: String, action: AlertAction?)
     func presentAlertWithAction(title: String, message: String, action: AlertAction?)
 }
 
@@ -24,11 +24,13 @@ public extension AlertPresenting where Self: UIViewController {
         )
     }
 
-    func presentFailureAlert(message: String, action: AlertAction?) {
+    // swiftlint:disable function_default_parameter_at_end
+    func presentFailureAlert(title: String? = nil, message: String, action: AlertAction? = nil) {
+        let title = title ?? "Error"
         presentAlert(
-            title: "Error",
+            title: title,
             message: message,
-            actions: [UIAlertAction(title: "OK", style: .destructive, handler: action)]
+            actions: [UIAlertAction(title: "OK", style: .cancel, handler: action)]
         )
     }
 

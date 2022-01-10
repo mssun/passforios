@@ -14,6 +14,7 @@ public class YubiKeyConnection: NSObject {
     var accessoryConnection: YKFAccessoryConnection?
     var nfcConnection: YKFNFCConnection?
     var connectionCallback: ((_ connection: YKFConnectionProtocol) -> Void)?
+    var cancellationCallback: ((_ error: Error) -> Void)?
 
     override init() {
         super.init()
@@ -21,7 +22,7 @@ public class YubiKeyConnection: NSObject {
         YubiKitManager.shared.startAccessoryConnection()
     }
 
-    public func connection(completion: @escaping (_ connection: YKFConnectionProtocol) -> Void) {
+    public func connection(cancellation: @escaping (_ error: Error) -> Void, completion: @escaping (_ connection: YKFConnectionProtocol) -> Void) {
         if let connection = accessoryConnection {
             completion(connection)
         } else {
@@ -30,6 +31,7 @@ public class YubiKeyConnection: NSObject {
                 YubiKitManager.shared.startNFCConnection()
             }
         }
+        cancellationCallback = cancellation
     }
 }
 
@@ -51,5 +53,11 @@ extension YubiKeyConnection: YKFManagerDelegate {
 
     public func didDisconnectAccessory(_: YKFAccessoryConnection, error _: Error?) {
         accessoryConnection = nil
+    }
+
+    public func didFailConnectingNFC(_ error: Error) {
+        if let callback = cancellationCallback {
+            callback(error)
+        }
     }
 }

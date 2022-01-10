@@ -8,7 +8,7 @@
 
 import passKit
 
-class PGPKeyFileImportTableViewController: AutoCellHeightUITableViewController {
+class PGPKeyFileImportTableViewController: AutoCellHeightUITableViewController, AlertPresenting {
     @IBOutlet var pgpPublicKeyFile: UITableViewCell!
     @IBOutlet var pgpPrivateKeyFile: UITableViewCell!
 
@@ -25,7 +25,7 @@ class PGPKeyFileImportTableViewController: AutoCellHeightUITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
-        let picker = UIDocumentPickerViewController(documentTypes: ["public.data"], in: .open)
+        let picker = UIDocumentPickerViewController(documentTypes: ["public.item"], in: .open)
         cell?.isSelected = false
         if cell == pgpPublicKeyFile {
             currentlyPicking = .public
@@ -71,7 +71,7 @@ extension PGPKeyFileImportTableViewController: UIDocumentPickerDelegate {
             }
         } catch {
             let message = "FileCannotBeImported.".localize(fileName) | "UnderlyingError".localize(error.localizedDescription)
-            Utils.alert(title: "CannotImportFile".localize(), message: message, controller: self)
+            presentFailureAlert(title: "CannotImportFile".localize(), message: message)
         }
     }
 }
@@ -81,19 +81,20 @@ extension PGPKeyFileImportTableViewController: PGPKeyImporter {
     static let label = "LoadFromFiles".localize()
 
     func isReadyToUse() -> Bool {
-        validate(key: publicKey) && validate(key: privateKey)
+        validate(key: publicKey) && (Defaults.isYubiKeyEnabled || validate(key: privateKey))
     }
 
     func importKeys() throws {
-        guard let publicKey = publicKey, let privateKey = privateKey else {
-            return
+        if let publicKey = publicKey {
+            try KeyFileManager.PublicPGP.importKey(from: publicKey)
         }
-        try KeyFileManager.PublicPGP.importKey(from: publicKey)
-        try KeyFileManager.PrivatePGP.importKey(from: privateKey)
+        if let privateKey = privateKey {
+            try KeyFileManager.PrivatePGP.importKey(from: privateKey)
+        }
     }
 
     func doAfterImport() {
-        Utils.alert(title: "RememberToRemoveKey".localize(), message: "RememberToRemoveKeyFromLocation.".localize(), controller: self)
+        presentAlert(title: "RememberToRemoveKey".localize(), message: "RememberToRemoveKeyFromLocation.".localize())
     }
 
     func saveImportedKeys() {
@@ -102,7 +103,7 @@ extension PGPKeyFileImportTableViewController: PGPKeyImporter {
 
     private func validate(key: String?) -> Bool {
         guard key != nil else {
-            Utils.alert(title: "CannotSavePgpKey".localize(), message: "KeyFileNotSet.".localize(), controller: self)
+            presentFailureAlert(title: "CannotSavePgpKey".localize(), message: "KeyFileNotSet.".localize())
             return false
         }
         return true

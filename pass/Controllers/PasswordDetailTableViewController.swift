@@ -565,12 +565,18 @@ extension PasswordDetailTableViewController {
         }
     }
 
+    private func handleCancellation(_: Error) {
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+
     private func decryptThenShowPasswordYubiKey() {
         guard let passwordEntity = passwordEntity else {
             handleError(error: AppError.other(message: "PasswordDoesNotExist"))
             return
         }
-        Pass.yubiKeyDecrypt(passwordEntity: passwordEntity, requestPIN: requestYubiKeyPIN, errorHandler: handleError) { password in
+        Pass.yubiKeyDecrypt(passwordEntity: passwordEntity, requestPIN: requestYubiKeyPIN, errorHandler: handleError, cancellation: handleCancellation) { password in
             self.password = password
             self.showPassword()
         }

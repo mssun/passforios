@@ -82,6 +82,7 @@ public func yubiKeyDecrypt(
     passwordEntity: PasswordEntity,
     requestPIN: @escaping RequestPINAction,
     errorHandler: @escaping ((AppError) -> Void),
+    cancellation: @escaping ((_ error: Error) -> Void),
     completion: @escaping ((Password) -> Void)
 ) {
     let encryptedDataPath = PasswordStore.shared.storeURL.appendingPathComponent(passwordEntity.getPath())
@@ -94,7 +95,7 @@ public func yubiKeyDecrypt(
     // swiftlint:disable closure_body_length
     requestPIN { pin in
         // swiftlint:disable closure_body_length
-        passKit.YubiKeyConnection.shared.connection { connection in
+        passKit.YubiKeyConnection.shared.connection(cancellation: cancellation) { connection in
             guard let smartCard = connection.smartCardInterface else {
                 errorHandler(AppError.yubiKey(.connection(message: "Failed to get smart card interface.")))
                 return
