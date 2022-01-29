@@ -10,6 +10,5 @@
 #define Objective_CBridgingHeader_h
 
 @import ObjectiveGit;
-#import "YubiKit.h"
 
 #endif /* Objective_CBridgingHeader_h */

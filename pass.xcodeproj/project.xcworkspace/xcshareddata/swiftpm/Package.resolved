@@ -69,8 +69,8 @@
         "repositoryURL": "https://github.com/Yubico/yubikit-ios",
         "state": {
           "branch": null,
-          "revision": "7e75fe8f057acf9bf7ac134d375783a1d409f79e",
-          "version": "4.1.0"
+          "revision": "7b19be11a362d9e52eac0d76b5d904560b9e5ea7",
+          "version": "4.2.0"
         }
       }
     ]
