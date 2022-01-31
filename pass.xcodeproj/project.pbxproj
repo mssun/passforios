@@ -2811,7 +2811,7 @@
 			repositoryURL = "https://github.com/krzyzanowskim/ObjectivePGP";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.17.0;
+				minimumVersion = 0.99.0;
 			};
 		};
 		30A3000C26DA62F4002A734E /* XCRemoteSwiftPackageReference "Base32" */ = {
