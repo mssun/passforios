@@ -2826,7 +2826,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SimplyDanny/objective-git-swift-package";
 			requirement = {
-				branch = "0.16-passforios";
+				branch = "0.17-passforios";
 				kind = branch;
 			};
 		};
