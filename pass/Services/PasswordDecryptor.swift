@@ -66,15 +66,20 @@ let symmetricKeyIDNameDict: [UInt8: String] = [
 ]
 
 private func isEncryptKeyAlgoRSA(_ applicationRelatedData: Data) -> Bool {
-    let tlv = TKBERTLVRecord.sequenceOfRecords(from: applicationRelatedData)!
-    // 0x73: Discretionary data objects
-    for record in TKBERTLVRecord.sequenceOfRecords(from: tlv.first!.value)! where record.tag == 0x73 {
-        // 0xC2: Algorithm attributes decryption, 0x01: RSA
-        for record2 in TKBERTLVRecord.sequenceOfRecords(from: record.value)! where record2.tag == 0xC2 && record2.value.first! == 0x01 {
-            return true
+    if #available(iOS 13.0, *) {
+        let tlv = TKBERTLVRecord.sequenceOfRecords(from: applicationRelatedData)!
+        // 0x73: Discretionary data objects
+        for record in TKBERTLVRecord.sequenceOfRecords(from: tlv.first!.value)! where record.tag == 0x73 {
+            // 0xC2: Algorithm attributes decryption, 0x01: RSA
+            for record2 in TKBERTLVRecord.sequenceOfRecords(from: record.value)! where record2.tag == 0xC2 && record2.value.first! == 0x01 {
+                return true
+            }
         }
+        return false
+    } else {
+        // We need CryptoTokenKit (iOS 13.0+) to check if data is RSA, so fail open here.
+        return true
     }
-    return false
 }
 
 // swiftlint:disable cyclomatic_complexity
