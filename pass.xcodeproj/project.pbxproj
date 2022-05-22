@@ -1116,9 +1116,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A260758F1EEC6F34005DB03E /* Build configuration list for PBXNativeTarget "passKit" */;
 			buildPhases = (
+				A26075751EEC6F34005DB03E /* Headers */,
 				A26075731EEC6F34005DB03E /* Sources */,
 				A26075741EEC6F34005DB03E /* Frameworks */,
-				A26075751EEC6F34005DB03E /* Headers */,
 				A26075761EEC6F34005DB03E /* Resources */,
 			);
 			buildRules = (
@@ -2811,7 +2811,7 @@
 			repositoryURL = "https://github.com/krzyzanowskim/ObjectivePGP";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.99.0;
+				minimumVersion = 0.99.2;
 			};
 		};
 		30A3000C26DA62F4002A734E /* XCRemoteSwiftPackageReference "Base32" */ = {

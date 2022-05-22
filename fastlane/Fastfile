@@ -94,6 +94,7 @@ platform :ios do
       scheme: "pass",
       configuration: "Beta",
       skip_profile_detection: true,
+      export_method: "app-store",
       export_options: {
         method: "app-store",
         provisioningProfiles: {

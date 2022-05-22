@@ -1,79 +1,76 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Base32",
-        "repositoryURL": "https://github.com/mattrubin/Base32",
-        "state": {
-          "branch": "1.1.2+spm",
-          "revision": "d185e44c8b355d34d5c6c6ad502c60cba4599f69",
-          "version": null
-        }
-      },
-      {
-        "package": "FavIcon",
-        "repositoryURL": "https://github.com/leonbreedt/FavIcon",
-        "state": {
-          "branch": null,
-          "revision": "5bf16aad3ea543891eaef7e8da2aa2f6bb29e6e4",
-          "version": "3.1.0"
-        }
-      },
-      {
-        "package": "KeychainAccess",
-        "repositoryURL": "https://github.com/kishikawakatsumi/KeychainAccess",
-        "state": {
-          "branch": null,
-          "revision": "84e546727d66f1adc5439debad16270d0fdd04e7",
-          "version": "4.2.2"
-        }
-      },
-      {
-        "package": "ObjectiveGit",
-        "repositoryURL": "https://github.com/SimplyDanny/objective-git-swift-package",
-        "state": {
-          "branch": "0.17-passforios",
-          "revision": "553f09c836b4f90e447e0fe26633acc11c37cece",
-          "version": null
-        }
-      },
-      {
-        "package": "ObjectivePGP",
-        "repositoryURL": "https://github.com/krzyzanowskim/ObjectivePGP",
-        "state": {
-          "branch": null,
-          "revision": "0dc7ca7ffe193095dc37456b0c75be167a2026f4",
-          "version": "0.99.2"
-        }
-      },
-      {
-        "package": "OneTimePassword",
-        "repositoryURL": "https://github.com/mssun/OneTimePassword",
-        "state": {
-          "branch": null,
-          "revision": "8d59e4abba762d0f1e9aed161081f7b3fe21daa0",
-          "version": null
-        }
-      },
-      {
-        "package": "SwiftyUserDefaults",
-        "repositoryURL": "https://github.com/sunshinejr/SwiftyUserDefaults",
-        "state": {
-          "branch": null,
-          "revision": "f66bcd04088582c8fbb5cb8554d577e303bae396",
-          "version": "5.3.0"
-        }
-      },
-      {
-        "package": "YubiKit",
-        "repositoryURL": "https://github.com/Yubico/yubikit-ios",
-        "state": {
-          "branch": null,
-          "revision": "7e75fe8f057acf9bf7ac134d375783a1d409f79e",
-          "version": "4.1.0"
-        }
+  "pins" : [
+    {
+      "identity" : "base32",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mattrubin/Base32",
+      "state" : {
+        "branch" : "1.1.2+spm",
+        "revision" : "d185e44c8b355d34d5c6c6ad502c60cba4599f69"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "favicon",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/leonbreedt/FavIcon",
+      "state" : {
+        "revision" : "5bf16aad3ea543891eaef7e8da2aa2f6bb29e6e4",
+        "version" : "3.1.0"
+      }
+    },
+    {
+      "identity" : "keychainaccess",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kishikawakatsumi/KeychainAccess",
+      "state" : {
+        "revision" : "84e546727d66f1adc5439debad16270d0fdd04e7",
+        "version" : "4.2.2"
+      }
+    },
+    {
+      "identity" : "objective-git-swift-package",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SimplyDanny/objective-git-swift-package",
+      "state" : {
+        "branch" : "0.17-passforios",
+        "revision" : "553f09c836b4f90e447e0fe26633acc11c37cece"
+      }
+    },
+    {
+      "identity" : "objectivepgp",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/krzyzanowskim/ObjectivePGP",
+      "state" : {
+        "revision" : "0dc7ca7ffe193095dc37456b0c75be167a2026f4",
+        "version" : "0.99.2"
+      }
+    },
+    {
+      "identity" : "onetimepassword",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mssun/OneTimePassword",
+      "state" : {
+        "revision" : "8d59e4abba762d0f1e9aed161081f7b3fe21daa0"
+      }
+    },
+    {
+      "identity" : "swiftyuserdefaults",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sunshinejr/SwiftyUserDefaults",
+      "state" : {
+        "revision" : "f66bcd04088582c8fbb5cb8554d577e303bae396",
+        "version" : "5.3.0"
+      }
+    },
+    {
+      "identity" : "yubikit-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Yubico/yubikit-ios",
+      "state" : {
+        "revision" : "7b19be11a362d9e52eac0d76b5d904560b9e5ea7",
+        "version" : "4.2.0"
+      }
+    }
+  ],
+  "version" : 2
 }

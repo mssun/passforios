@@ -47,7 +47,7 @@ For more, please read the [wiki page](https://github.com/mssun/passforios/wiki).
 ## Building Pass for iOS
 
 1. Install Carthage, Go, SwiftLint, and SwiftFormat: `brew install carthage go swiftlint swiftformat`.
-2. Install dependencies via Carthage. Therefore, execute `carthage update` and `carthage bootstrap --platform iOS --use-xcframeworks` in the root directory of the project.
+2. Install dependencies via Carthage. Therefore, execute `carthage bootstrap --platform iOS --use-xcframeworks` in the root directory of the project.
 3. Run `./scripts/gopenpgp_build.sh` to build GopenPGP.
 5. Open the `pass.xcodeproj` file in Xcode.
 6. Build & Run.
