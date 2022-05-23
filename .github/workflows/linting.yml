@@ -7,6 +7,10 @@ jobs:
     runs-on: macos-12
     steps:
     - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '2.7'
+        bundler-cache: true
     - name: Installing packages
       run: |
         brew update
@@ -23,6 +27,10 @@ jobs:
     runs-on: macos-12
     steps:
     - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '2.7'
+        bundler-cache: true
     - name: Installing packages
       run: |
         brew update

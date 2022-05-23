@@ -13,6 +13,10 @@ jobs:
         channel: ['beta', 'release']
     steps:
     - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '2.7'
+        bundler-cache: true
     - name: Installing packages
       run: |
         brew update
