@@ -1,3 +1,4 @@
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}"
 SWIFTFORMAT_VERSION="0.49.*"
 
 if [[ "${CI}" == "true" ]]; then

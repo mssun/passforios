@@ -1,4 +1,6 @@
-SWIFTLINT_VERSION="0.46.*"
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}"
+
+SWIFTLINT_VERSION="0.47.*"
 
 if [[  "${CI}" == "true" ]]; then
   echo "Running in a Continuous Integration environment. Linting is skipped."

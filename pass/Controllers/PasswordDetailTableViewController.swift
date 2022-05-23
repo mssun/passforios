@@ -12,6 +12,7 @@ import passAutoFillExtension
 import passKit
 import SVProgressHUD
 import UIKit
+import YubiKit
 
 class PasswordDetailTableViewController: UITableViewController, UIGestureRecognizerDelegate, AlertPresenting {
     var passwordEntity: PasswordEntity?
