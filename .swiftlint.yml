@@ -6,6 +6,7 @@ excluded:
   - Carthage
   - go
   - Pods
+  - vendor
 
 ## Active rules
 
