@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   testing:
-    runs-on: macos-11
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v2
     - name: Installing packages
@@ -33,11 +33,11 @@ jobs:
         bundle config path vendor/bundle
         bundle install --jobs 4 --retry 3
     - name: Carthage
-      if: steps.carthage-cache.outputs.cache-hit != 'true'
+      if: ${{ steps.carthage-cache.outputs.cache-hit == false }}
       run: |
         carthage bootstrap --no-use-binaries --cache-builds --use-xcframeworks
     - name: GopenPGP
-      if: steps.gopenpgp-cache.outputs.cache-hit != 'true'
+      if: ${{ steps.gopenpgp-cache.outputs.cache-hit == false }}
       run: ./scripts/gopenpgp_build.sh
     - name: Testing
       run: bundle exec fastlane test

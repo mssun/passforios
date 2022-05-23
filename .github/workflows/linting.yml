@@ -4,7 +4,7 @@ on: pull_request
 
 jobs:
   swiftformat:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v2
     - name: Installing packages
@@ -20,7 +20,7 @@ jobs:
          swiftformat --lint .
 
   swiftlint:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v2
     - name: Installing packages
