@@ -32,6 +32,7 @@ class SSHKeyURLImportTableViewController: AutoCellHeightUITableViewController {
             savePassphraseAlert.addAction(UIAlertAction(title: "No".localize(), style: .default) { _ in })
             savePassphraseAlert.addAction(
                 UIAlertAction(title: "Yes".localize(), style: .destructive) { _ in
+                    self.sshPrivateKeyURL = privateKeyURL
                     self.performSegue(withIdentifier: "importSSHKeySegue", sender: self)
                 }
             )
