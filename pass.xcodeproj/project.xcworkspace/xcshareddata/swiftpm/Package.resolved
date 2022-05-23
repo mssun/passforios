@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SimplyDanny/objective-git-swift-package",
       "state" : {
-        "branch" : "0.17-passforios",
-        "revision" : "553f09c836b4f90e447e0fe26633acc11c37cece"
+        "branch" : "0.18-passforios",
+        "revision" : "752ea5689a1c0c0f9a8442df039e842a452cfcf0"
       }
     },
     {
