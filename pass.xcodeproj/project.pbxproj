@@ -206,6 +206,7 @@
 		DCA0499A1E335CC800522E8F /* GitRepositorySettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA049991E335CC800522E8F /* GitRepositorySettingsTableViewController.swift */; };
 		DCA0499C1E3362F400522E8F /* PGPKeyURLImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA0499B1E3362F400522E8F /* PGPKeyURLImportTableViewController.swift */; };
 		DCAAF7451E2FA66800AB94BC /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCAAF7441E2FA66800AB94BC /* SettingsTableViewController.swift */; };
+		DCB0EC272846857E00EFEE10 /* Objective-CBridgingHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = A2BC54C71EEE5669001FAFBD /* Objective-CBridgingHeader.h */; };
 		DCC441521E8F6C06008A90C4 /* RawPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC441511E8F6C06008A90C4 /* RawPasswordViewController.swift */; };
 		DCC441541E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC441531E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift */; };
 		DCD3C65E1EFB9BB400CBE842 /* SettingsSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD3C65D1EFB9BB400CBE842 /* SettingsSplitViewController.swift */; };
@@ -1072,6 +1073,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A260758A1EEC6F34005DB03E /* passKit.h in Headers */,
+				DCB0EC272846857E00EFEE10 /* Objective-CBridgingHeader.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
