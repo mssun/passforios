@@ -90,13 +90,16 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
 
     func metadataOutput(_: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from _: AVCaptureConnection) {
         guard let metadataObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject else {
-            return setNotDetected()
+            setNotDetected()
+            return
         }
         guard supportedCodeTypes.contains(metadataObj.type) else {
-            return setNotDetected()
+            setNotDetected()
+            return
         }
         guard let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj) else {
-            return setNotDetected()
+            setNotDetected()
+            return
         }
 
         // draw a bounds on the found QR code

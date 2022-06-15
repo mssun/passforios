@@ -11,6 +11,7 @@ excluded:
 ## Active rules
 
 only_rules:
+  - accessibility_label_for_image
 #  - anonymous_argument_in_multiline_closure
   - anyobject_protocol
   - array_init
@@ -27,6 +28,7 @@ only_rules:
   - collection_alignment
   - colon
   - comma
+  - comma_inheritance
   - comment_spacing
   - compiler_protocol_init
   - computed_accessors_order
@@ -141,6 +143,7 @@ only_rules:
   - override_in_extension
   - pattern_matching_keywords
 #  - prefer_nimble
+  - prefer_self_in_static_references
   - prefer_self_type_over_type_of_self
   - prefer_zero_over_explicit_init
 #  - prefixed_toplevel_constant # Violations are mostly in test code.
@@ -169,6 +172,7 @@ only_rules:
 #  - required_deinit
   - required_enum_case
   - return_arrow_whitespace
+  - return_value_from_void_function
   - self_in_property_initialization
   - shorthand_operator
   - single_test_class
@@ -193,6 +197,7 @@ only_rules:
 #  - type_body_length
 #  - type_contents_order
   - type_name
+  - unavailable_condition
   - unavailable_function
   - unneeded_break_in_switch
   - unneeded_parentheses_in_closure_argument
