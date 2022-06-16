@@ -36,7 +36,8 @@ class SSHKeyURLImportTableViewController: AutoCellHeightUITableViewController {
                     self.performSegue(withIdentifier: "importSSHKeySegue", sender: self)
                 }
             )
-            return present(savePassphraseAlert, animated: true)
+            present(savePassphraseAlert, animated: true)
+            return
         }
         sshPrivateKeyURL = privateKeyURL
         performSegue(withIdentifier: "importSSHKeySegue", sender: self)

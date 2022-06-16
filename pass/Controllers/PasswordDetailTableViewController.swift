@@ -386,9 +386,10 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
     func openLink(to address: String?) {
         guard address != nil, let url = URL(string: formActualWebAddress(from: address!)) else {
-            return DispatchQueue.main.async {
+            DispatchQueue.main.async {
                 Utils.alert(title: "Error".localize(), message: "CannotFindValidUrl".localize(), controller: self, completion: nil)
             }
+            return
         }
         SecurePasteboard.shared.copy(textToCopy: password?.password)
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
