@@ -122,7 +122,7 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
             return
         }
 
-        guard let branchName = branchNameTextField.text, !branchName.trimmed.isEmpty else {
+        guard let branchName = branchNameTextField.text?.trimmed, !branchName.isEmpty else {
             Utils.alert(title: "CannotSave".localize(), message: "SpecifyBranchName.".localize(), controller: self)
             return
         }
@@ -146,16 +146,14 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
             }
         }
 
-        self.gitURL = gitURL
-        gitBranchName = branchName.trimmed
-        gitUsername = (gitURL.user ?? usernameTextField.text ?? "git").trimmed
+        let username = (gitURL.user ?? usernameTextField.text ?? "git").trimmed
 
         if passwordStore.repositoryExists() {
             let overwriteAlert: UIAlertController = {
                 let alert = UIAlertController(title: "Overwrite?".localize(), message: "OperationWillOverwriteData.".localize(), preferredStyle: .alert)
                 alert.addAction(
                     UIAlertAction(title: "Overwrite".localize(), style: .destructive) { _ in
-                        self.cloneAndSegueIfSuccess()
+                        self.cloneAndSegueIfSuccess(url: gitURL, branch: branchName, username: username)
                     }
                 )
                 alert.addAction(UIAlertAction.cancel())
@@ -163,11 +161,15 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
             }()
             present(overwriteAlert, animated: true)
         } else {
-            cloneAndSegueIfSuccess()
+            cloneAndSegueIfSuccess(url: gitURL, branch: branchName, username: username)
         }
     }
 
-    private func cloneAndSegueIfSuccess() {
+    private func cloneAndSegueIfSuccess(url: URL, branch: String, username: String) {
+        gitURL = url
+        gitBranchName = branch
+        gitUsername = username
+
         // Remember git credential password/passphrase temporarily, ask whether users want this after a successful clone.
         Defaults.isRememberGitCredentialPassphraseOn = true
         DispatchQueue.global(qos: .userInitiated).async {
