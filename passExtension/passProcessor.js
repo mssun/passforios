@@ -1,5 +1,16 @@
 var PassProcessor = function() {};
 
+/**
+ * Dispatches a synthetic event of a given type on a given element.
+ * @param {string} type the event type to dispatch
+ * @param {Element} el the element upon which to dispatch it
+ */
+var dispatchEvent = function(type, el) {
+    var evt = document.createEvent('Event');
+    evt.initEvent(type, true, true);
+    el.dispatchEvent(evt);
+};
+
 PassProcessor.prototype = {
 run: function(arguments) {
     var url
@@ -19,6 +30,8 @@ finalize: function(arguments) {
         if (passwordElement) {
             passwordElement.setAttribute('value', arguments["password"])
             passwordElement.value = arguments["password"]
+            dispatchEvent("input", passwordElement)
+            dispatchEvent("change", passwordElement)
         }
     }
 
@@ -27,6 +40,8 @@ finalize: function(arguments) {
         if (usernameElement) {
             usernameElement.setAttribute('value', arguments["username"])
             usernameElement.value = arguments["username"]
+            dispatchEvent("input", usernameElement)
+            dispatchEvent("change", usernameElement)
         }
     }
 }
