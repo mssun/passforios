@@ -15,6 +15,7 @@
     andOperator,                    \
     anyObjectProtocol,              \
     assertionFailures,              \
+    blankLineAfterImports,          \
     blankLinesAroundMark,           \
     blankLinesAtEndOfScope,         \
     blankLinesAtStartOfScope,       \
@@ -30,6 +31,7 @@
     enumNamespaces,                 \
     extensionAccessControl,         \
     fileHeader,                     \
+#    genericExtensions,              \
     hoistPatternLet,                \
     indent,                         \
     initCoderUnavailable,           \
@@ -40,6 +42,7 @@
     modifierOrder,                  \
 #    markTypes,                      \
     numberFormatting,               \
+#    opaqueGenericParameters,        \
 #    organizeDeclarations,           \
     preferDouble,                   \
     preferKeyPath,                  \
@@ -54,6 +57,7 @@
     redundantLetError,              \
     redundantNilInit,               \
     redundantObjc,                  \
+#    redundantOptionalBinding,       \
     redundantParens,                \
     redundantPattern,               \
     redundantRawValues,             \
@@ -91,6 +95,7 @@
     wrapConditionalBodies,          \
 #    wrapEnumCases,                  \
 #    wrapMultilineStatementBraces,   \
+    wrapSingleLineComments,         \
 #    wrapSwitchCases,                \
     yodaConditions
 
@@ -131,6 +136,10 @@
 ### Empty braces: "no-space" (default), "spaced" or "linebreak"
 
 --emptybraces no-space
+
+### Enum namespaces: "always" (default) or "structs-only"
+
+--enumnamespaces always
 
 ### Case of 'e' in numbers: "lowercase" or "uppercase" (default)
 
