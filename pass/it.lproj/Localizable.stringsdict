@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ScannedQrCodes(%d)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@codes@</string>
+		<key>codes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Nessun codice QR scansionato</string>
+			<key>one</key>
+			<string>Un codice QR scansionato</string>
+			<key>other</key>
+			<string>%d codici QR scansionati</string>
+		</dict>
+	</dict>
+	<key>DiscardedCommits(%d)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@commits@</string>
+		<key>commits</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Nessun commit locale</string>
+			<key>one</key>
+			<string>Un commit scartato</string>
+			<key>other</key>
+			<string>%d commit scartati</string>
+		</dict>
+	</dict>
+	<key>HiddenFields(%d)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@fields@</string>
+		<key>fields</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Nessun campo nascosto</string>
+			<key>one</key>
+			<string>Un campo nascosto</string>
+			<key>other</key>
+			<string>%d campi nascosti</string>
+		</dict>
+	</dict>
+	<key>WrongAttempts(%d)</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@attempts@</string>
+		<key>attempts</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Nessun tentativo errato</string>
+			<key>one</key>
+			<string>Un tentativo errato</string>
+			<key>other</key>
+			<string>%d tentativi errati</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
