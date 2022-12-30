@@ -55,7 +55,7 @@ func decryptPassword(
     }
 }
 
-public typealias RequestPINAction = (@escaping (String) -> Void) -> Void
+public typealias RequestPINAction = (@escaping (String) -> Void, @escaping () -> Void) -> Void
 
 let symmetricKeyIDNameDict: [UInt8: String] = [
     2: "3des",
@@ -66,124 +66,194 @@ let symmetricKeyIDNameDict: [UInt8: String] = [
 ]
 
 private func isEncryptKeyAlgoRSA(_ applicationRelatedData: Data) -> Bool {
-    if #available(iOS 13.0, *) {
-        let tlv = TKBERTLVRecord.sequenceOfRecords(from: applicationRelatedData)!
-        // 0x73: Discretionary data objects
-        for record in TKBERTLVRecord.sequenceOfRecords(from: tlv.first!.value)! where record.tag == 0x73 {
-            // 0xC2: Algorithm attributes decryption, 0x01: RSA
-            for record2 in TKBERTLVRecord.sequenceOfRecords(from: record.value)! where record2.tag == 0xC2 && record2.value.first! == 0x01 {
-                return true
-            }
+    let tlv = TKBERTLVRecord.sequenceOfRecords(from: applicationRelatedData)!
+    // 0x73: Discretionary data objects
+    for record in TKBERTLVRecord.sequenceOfRecords(from: tlv.first!.value)! where record.tag == 0x73 {
+        // 0xC2: Algorithm attributes decryption, 0x01: RSA
+        for record2 in TKBERTLVRecord.sequenceOfRecords(from: record.value)! where record2.tag == 0xC2 && record2.value.first! == 0x01 {
+            return true
         }
-        return false
-    } else {
-        // We need CryptoTokenKit (iOS 13.0+) to check if data is RSA, so fail open here.
-        return true
     }
+    return false
 }
 
-// swiftlint:disable cyclomatic_complexity
+private func getCapabilities(_ applicationRelatedData: Data) -> (Bool, Bool) {
+    let tlv = TKBERTLVRecord.sequenceOfRecords(from: applicationRelatedData)!
+    // 0x5f52: Historical Bytes
+    for record in TKBERTLVRecord.sequenceOfRecords(from: tlv.first!.value)! where record.tag == 0x5F52 {
+        let historical = record.value
+        if historical.count < 4 {
+            // log_error ("warning: historical bytes are too short\n");
+            return (false, false)
+        }
+
+        if historical[0] != 0 {
+            // log_error ("warning: bad category indicator in historical bytes\n");
+            return (false, false)
+        }
+
+        let dos = historical[1 ..< historical.endIndex - 3]
+        for record2 in TKCompactTLVRecord.sequenceOfRecords(from: dos)! where record2.tag == 7 && record2.value.count == 3 {
+            let cmd_chaining = (record2.value[2] & 0x80) != 0
+            let ext_lc_le = (record2.value[2] & 0x40) != 0
+            return (cmd_chaining, ext_lc_le)
+        }
+    }
+    return (false, false)
+}
+
 public func yubiKeyDecrypt(
     passwordEntity: PasswordEntity,
     requestPIN: @escaping RequestPINAction,
     errorHandler: @escaping ((AppError) -> Void),
-    cancellation: @escaping ((_ error: Error) -> Void),
+    cancellation: @escaping (() -> Void),
     completion: @escaping ((Password) -> Void)
 ) {
-    let encryptedDataPath = PasswordStore.shared.storeURL.appendingPathComponent(passwordEntity.getPath())
+    Task {
+        do {
+            let encryptedDataPath = PasswordStore.shared.storeURL.appendingPathComponent(passwordEntity.getPath())
 
-    guard let encryptedData = try? Data(contentsOf: encryptedDataPath) else {
-        errorHandler(AppError.other(message: "PasswordDoesNotExist".localize()))
-        return
-    }
-
-    // swiftlint:disable closure_body_length
-    requestPIN { pin in
-        // swiftlint:disable closure_body_length
-        passKit.YubiKeyConnection.shared.connection(cancellation: cancellation) { connection in
-            guard let smartCard = connection.smartCardInterface else {
-                errorHandler(AppError.yubiKey(.connection(message: "Failed to get smart card interface.")))
+            guard let encryptedData = try? Data(contentsOf: encryptedDataPath) else {
+                errorHandler(AppError.other(message: "PasswordDoesNotExist".localize()))
                 return
             }
 
-            // 1. Select OpenPGP application
-            let selectOpenPGPAPDU = YubiKeyAPDU.selectOpenPGPApplication()
-            smartCard.selectApplication(selectOpenPGPAPDU) { _, error in
-                guard error == nil else {
-                    errorHandler(AppError.yubiKey(.selectApplication(message: "Failed to select application.")))
-                    return
-                }
+            guard let pin = await readPin(requestPIN: requestPIN) else {
+                return
+            }
 
-                // 2. Verify PIN
-                let verifyApdu = YubiKeyAPDU.verify(password: pin)
-                smartCard.executeCommand(verifyApdu) { _, error in
-                    guard error == nil else {
-                        errorHandler(AppError.yubiKey(.verify(message: "Failed to verify PIN.")))
-                        return
-                    }
+            guard let connection = try? await getConnection() else {
+                cancellation()
+                return
+            }
 
-                    let applicationRelatedDataApdu = YubiKeyAPDU.get_application_related_data()
-                    smartCard.executeCommand(applicationRelatedDataApdu) { data, _ in
-                        guard let data = data else {
-                            errorHandler(AppError.yubiKey(.decipher(message: "Failed to get application related data.")))
-                            return
-                        }
+            guard let smartCard = connection.smartCardInterface else {
+                throw AppError.yubiKey(.connection(message: "Failed to get smart card interface."))
+            }
 
-                        if !isEncryptKeyAlgoRSA(data) {
-                            errorHandler(AppError.yubiKey(.decipher(message: "Encryption key algorithm is not supported. Supported algorithm: RSA.")))
-                            return
-                        }
+            try await selectOpenPGPApplication(smartCard: smartCard)
 
-                        // 3. Decipher
-                        let ciphertext = encryptedData
-                        var error: NSError?
-                        let message = CryptoNewPGPMessage(ciphertext)
-                        guard let mpi1 = Gopenpgp.HelperPassGetEncryptedMPI1(message, &error) else {
-                            errorHandler(AppError.yubiKey(.decipher(message: "Failed to get encrypted MPI.")))
-                            return
-                        }
+            try await verifyPin(smartCard: smartCard, pin: pin)
 
-                        let decipherApdu = YubiKeyAPDU.decipher(data: mpi1)
-                        smartCard.executeCommand(decipherApdu) { data, error in
-                            guard let data = data else {
-                                errorHandler(AppError.yubiKey(.decipher(message: "Failed to execute decipher.")))
-                                return
-                            }
+            guard let applicationRelatedData = try await getApplicationRelatedData(smartCard: smartCard) else {
+                throw AppError.yubiKey(.decipher(message: "Failed to get application related data."))
+            }
 
-                            if #available(iOS 13.0, *) {
-                                YubiKitManager.shared.stopNFCConnection()
-                            }
-                            guard let algoByte = data.first, let algo = symmetricKeyIDNameDict[algoByte] else {
-                                errorHandler(AppError.yubiKey(.decipher(message: "Failed to new session key.")))
-                                return
-                            }
-                            guard let session_key = Gopenpgp.CryptoNewSessionKeyFromToken(data[1 ..< data.count - 2], algo) else {
-                                errorHandler(AppError.yubiKey(.decipher(message: "Failed to new session key.")))
-                                return
-                            }
+            if !isEncryptKeyAlgoRSA(applicationRelatedData) {
+                throw AppError.yubiKey(.decipher(message: "Encryption key algorithm is not supported. Supported algorithm: RSA."))
+            }
 
-                            var error: NSError?
-                            let message = CryptoNewPGPMessage(ciphertext)
+            let (cmd_chaining, _) = getCapabilities(applicationRelatedData)
 
-                            guard let plaintext = Gopenpgp.HelperPassDecryptWithSessionKey(message, session_key, &error)?.data else {
-                                errorHandler(AppError.yubiKey(.decipher(message: "Failed to decrypt with session key.")))
-                                return
-                            }
+            let deciphered = try await decipher(smartCard: smartCard, ciphertext: encryptedData, chained: cmd_chaining)
 
-                            guard let plaintext_str = String(data: plaintext, encoding: .utf8) else {
-                                errorHandler(AppError.yubiKey(.decipher(message: "Failed to convert plaintext to string.")))
-                                return
-                            }
+            YubiKitManager.shared.stopNFCConnection()
 
-                            guard let password = try? Password(name: passwordEntity.getName(), url: passwordEntity.getURL(), plainText: plaintext_str) else {
-                                errorHandler(AppError.yubiKey(.decipher(message: "Failed to construct password.")))
-                                return
-                            }
+            let plaintext = try decryptPassword(deciphered: deciphered, ciphertext: encryptedData)
+            guard let password = try? Password(name: passwordEntity.getName(), url: passwordEntity.getURL(), plainText: plaintext) else {
+                throw AppError.yubiKey(.decipher(message: "Failed to construct password."))
+            }
 
-                            completion(password)
-                        }
-                    }
-                }
+            completion(password)
+        } catch let error as AppError {
+            errorHandler(error)
+        } catch {
+            errorHandler(AppError.other(message: String(describing: error)))
+        }
+    }
+}
+
+func readPin(requestPIN: @escaping RequestPINAction) async -> String? {
+    await withCheckedContinuation { (continuation: CheckedContinuation<String?, Never>) in
+        DispatchQueue.main.async {
+            requestPIN({ pin in continuation.resume(returning: pin) }, { continuation.resume(returning: nil) })
+        }
+    }
+}
+
+func getConnection() async throws -> YKFConnectionProtocol? {
+    try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<YKFConnectionProtocol?, Error>) in
+        passKit.YubiKeyConnection.shared.connection(cancellation: { error in
+            continuation.resume(throwing: error)
+        }, completion: { connection in
+            continuation.resume(returning: connection)
+        })
+    }
+}
+
+func selectOpenPGPApplication(smartCard: YKFSmartCardInterface) async throws {
+    if await withCheckedContinuation({ (continuation: CheckedContinuation<Error?, Never>) in
+        smartCard.selectApplication(YubiKeyAPDU.selectOpenPGPApplication()) { _, error in
+            continuation.resume(returning: error)
+        }
+    }) != nil {
+        throw AppError.yubiKey(.selectApplication(message: "Failed to select application."))
+    }
+}
+
+func getApplicationRelatedData(smartCard: YKFSmartCardInterface) async throws -> Data? {
+    try await executeCommandAsync(smartCard: smartCard, apdu: YubiKeyAPDU.get_application_related_data())
+}
+
+func verifyPin(smartCard: YKFSmartCardInterface, pin: String) async throws {
+    if await withCheckedContinuation({ (continuation: CheckedContinuation<Error?, Never>) in
+        smartCard.executeCommand(YubiKeyAPDU.verify(password: pin)) { _, error in
+            continuation.resume(returning: error)
+        }}) != nil {
+        throw AppError.yubiKey(.selectApplication(message: "Failed to verify PIN."))
+    }
+}
+
+func decipher(smartCard: YKFSmartCardInterface, ciphertext: Data, chained: Bool) async throws -> Data {
+    var error: NSError?
+    let message = CryptoNewPGPMessage(ciphertext)
+    guard let mpi1 = Gopenpgp.HelperPassGetEncryptedMPI1(message, &error) else {
+        throw AppError.yubiKey(.decipher(message: "Failed to get encrypted MPI."))
+    }
+
+    let apdus = chained ? YubiKeyAPDU.decipherChained(data: mpi1) : YubiKeyAPDU.decipherExtended(data: mpi1)
+
+    for (idx, apdu) in apdus.enumerated() {
+        let data = try await executeCommandAsync(smartCard: smartCard, apdu: apdu)
+        // the last response must have the data
+        if idx == apdus.endIndex - 1, let data {
+            return data
+        }
+    }
+
+    throw AppError.yubiKey(.verify(message: "Failed to execute decipher."))
+}
+
+func decryptPassword(deciphered: Data, ciphertext: Data) throws -> String {
+    let message = CryptoNewPGPMessage(ciphertext)
+
+    guard let algoByte = deciphered.first, let algo = symmetricKeyIDNameDict[algoByte] else {
+        throw AppError.yubiKey(.decipher(message: "Failed to new session key."))
+    }
+
+    guard let session_key = Gopenpgp.CryptoNewSessionKeyFromToken(deciphered[1 ..< deciphered.count - 2], algo) else {
+        throw AppError.yubiKey(.decipher(message: "Failed to new session key."))
+    }
+
+    var error: NSError?
+    guard let plaintext = Gopenpgp.HelperPassDecryptWithSessionKey(message, session_key, &error)?.data else {
+        throw AppError.yubiKey(.decipher(message: "Failed to decrypt with session key: \(String(describing: error))"))
+    }
+
+    guard let plaintext_str = String(data: plaintext, encoding: .utf8) else {
+        throw AppError.yubiKey(.decipher(message: "Failed to convert plaintext to string."))
+    }
+
+    return plaintext_str
+}
+
+func executeCommandAsync(smartCard: YKFSmartCardInterface, apdu: YKFAPDU) async throws -> Data? {
+    try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Data?, Error>) in
+        smartCard.executeCommand(apdu) { data, error in
+            if let error {
+                continuation.resume(throwing: error)
+            } else {
+                continuation.resume(returning: data)
             }
         }
     }

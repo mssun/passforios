@@ -526,11 +526,12 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 }
 
 extension PasswordDetailTableViewController {
-    private func requestYubiKeyPIN(completion: @escaping (String) -> Void) {
+    private func requestYubiKeyPIN(completion: @escaping (String) -> Void, cancellation: @escaping () -> Void) {
         let alert = UIAlertController(title: "YubiKey PIN", message: "Verify YubiKey OpenPGP PIN.", preferredStyle: .alert)
         alert.addAction(
             UIAlertAction.cancel { _ in
                 self.navigationController!.popViewController(animated: true)
+                cancellation()
             }
         )
         alert.addAction(
@@ -570,7 +571,7 @@ extension PasswordDetailTableViewController {
         }
     }
 
-    private func handleCancellation(_: Error) {
+    private func handleCancellation() {
         DispatchQueue.main.async {
             self.navigationController?.popViewController(animated: true)
         }
