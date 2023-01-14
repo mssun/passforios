@@ -72,7 +72,7 @@ class PasswordsTableDataSource: NSObject, UITableViewDataSource {
             return
         }
 
-        guard suggestedPasswordsTableEntries.isEmpty && otherPasswordsTableEntries.isEmpty else {
+        guard suggestedPasswordsTableEntries.isEmpty, otherPasswordsTableEntries.isEmpty else {
             return
         }
 

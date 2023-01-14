@@ -172,6 +172,7 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
 
         // Remember git credential password/passphrase temporarily, ask whether users want this after a successful clone.
         Defaults.isRememberGitCredentialPassphraseOn = true
+        // swiftlint:disable:next closure_body_length
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 let transferProgressBlock: (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void = { git_transfer_progress, _ in
