@@ -140,11 +140,12 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             preferredStyle: .alert
         )
         alertController.addAction(UIAlertAction(title: "Cancel".localize(), style: .default))
-        alertController.addAction(UIAlertAction(title: "Settings".localize(), style: .cancel) { _ in
-            if let url = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(url)
+        alertController.addAction(
+            UIAlertAction(title: "Settings".localize(), style: .cancel) { _ in
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
             }
-        }
         )
         present(alertController, animated: true)
     }

@@ -72,6 +72,10 @@ class PasswordsTableDataSource: NSObject, UITableViewDataSource {
             return
         }
 
+        guard suggestedPasswordsTableEntries.isEmpty, otherPasswordsTableEntries.isEmpty else {
+            return
+        }
+
         for entry in passwordTableEntries {
             if entry.matches(text) {
                 suggestedPasswordsTableEntries.append(entry)
