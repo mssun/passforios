@@ -48,6 +48,7 @@ public enum Constants {
 
     public static let PASSWORD_KEYWORD = "password"
     public static let USERNAME_KEYWORD = "username"
+    public static let USER_KEYWORD = "user"
     public static let LOGIN_KEYWORD = "login"
     public static let URL_KEYWORD = "url"
     public static let UNKNOWN = "unknown"

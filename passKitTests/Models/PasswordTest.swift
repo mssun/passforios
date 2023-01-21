@@ -32,6 +32,7 @@ class PasswordTest: XCTestCase {
             XCTAssertEqual(password.numberOfUnknowns, 0)
 
             XCTAssertNil(password.username)
+            XCTAssertNil(password.user)
             XCTAssertNil(password.urlString)
             XCTAssertNil(password.login)
 
@@ -53,7 +54,7 @@ class PasswordTest: XCTestCase {
     }
 
     func testSimplePasswordFile() {
-        let additions = SECURE_URL_FIELD | LOGIN_FIELD | USERNAME_FIELD | NOTE_FIELD
+        let additions = SECURE_URL_FIELD | LOGIN_FIELD | USERNAME_FIELD | USER_FIELD | NOTE_FIELD
         let fileContent = PASSWORD_STRING | additions
         let password = getPasswordObjectWith(content: fileContent)
 
@@ -62,11 +63,13 @@ class PasswordTest: XCTestCase {
         XCTAssert(SECURE_URL_FIELD ∈ password)
         XCTAssert(LOGIN_FIELD ∉ password)
         XCTAssert(USERNAME_FIELD ∉ password)
+        XCTAssert(USER_FIELD ∉ password)
         XCTAssert(NOTE_FIELD ∈ password)
 
         XCTAssertEqual(password.urlString, SECURE_URL_FIELD.content)
         XCTAssertEqual(password.login, LOGIN_FIELD.content)
         XCTAssertEqual(password.username, USERNAME_FIELD.content)
+        XCTAssertEqual(password.user, USER_FIELD.content)
     }
 
     func testTwoPasswords() {

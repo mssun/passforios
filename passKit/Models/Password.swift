@@ -51,6 +51,10 @@ public class Password {
         getAdditionValue(withKey: Constants.USERNAME_KEYWORD)
     }
 
+    public var user: String? {
+        getAdditionValue(withKey: Constants.USER_KEYWORD)
+    }
+
     public var login: String? {
         getAdditionValue(withKey: Constants.LOGIN_KEYWORD)
     }
@@ -121,6 +125,7 @@ public class Password {
         additions.filter { field in
             let title = field.title.lowercased()
             return title != Constants.USERNAME_KEYWORD
+                && title != Constants.USER_KEYWORD
                 && title != Constants.LOGIN_KEYWORD
                 && title != Constants.PASSWORD_KEYWORD
                 && (!Constants.isUnknown(title) || !Defaults.isHideUnknownOn)
@@ -215,6 +220,6 @@ public class Password {
     }
 
     public func getUsernameForCompletion() -> String {
-        username ?? login ?? nameFromPath ?? ""
+        username ?? user ?? login ?? nameFromPath ?? ""
     }
 }
