@@ -6,6 +6,7 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
+import AuthenticationServices
 import passKit
 import SVProgressHUD
 import UIKit
@@ -15,6 +16,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
     @IBOutlet var gitSignatureTableViewCell: UITableViewCell!
     @IBOutlet var eraseDataTableViewCell: UITableViewCell!
     @IBOutlet var discardChangesTableViewCell: UITableViewCell!
+    @IBOutlet var clearSuggestionsTableViewCell: UITableViewCell!
     let passwordStore = PasswordStore.shared
 
     private lazy var encryptInASCIIArmoredSwitch: UISwitch = {
@@ -76,6 +78,16 @@ class AdvancedSettingsTableViewController: UITableViewController {
             )
             alert.addAction(UIAlertAction.dismiss())
             present(alert, animated: true, completion: nil)
+        } else if tableView.cellForRow(at: indexPath) == clearSuggestionsTableViewCell {
+            ASCredentialIdentityStore.shared.removeAllCredentialIdentities { _, error in
+                if let error = error {
+                    SVProgressHUD.showError(withStatus: "FailedToClearQuickTypeSuggestions".localize(error))
+                    SVProgressHUD.dismiss(withDelay: 1)
+                } else {
+                    SVProgressHUD.showSuccess(withStatus: "Done".localize())
+                    SVProgressHUD.dismiss(withDelay: 1)
+                }
+            }
         }
     }
 
