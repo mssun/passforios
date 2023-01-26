@@ -1,4 +1,4 @@
-/* 
+/*
   Localizable.strings
   pass
 
@@ -164,6 +164,9 @@
 // Git signature
 "NotSet"                = "Not Set";
 "InvalidNameOrEmail"    = "Invalid name or e-mail";
+
+// Clear suggestions
+"FailedToClearQuickTypeSuggestions" = "Failed to clear QuickType suggestions: %@";
 
 // Erase password store
 "ErasePasswordStoreData?"   = "Erase password store data?";
