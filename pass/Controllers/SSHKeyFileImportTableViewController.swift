@@ -27,9 +27,7 @@ class SSHKeyFileImportTableViewController: AutoCellHeightUITableViewController {
             return
         }
         picker.delegate = self
-        if #available(iOS 13.0, *) {
-            picker.shouldShowFileExtensions = true
-        }
+        picker.shouldShowFileExtensions = true
         present(picker, animated: true, completion: nil)
     }
 }

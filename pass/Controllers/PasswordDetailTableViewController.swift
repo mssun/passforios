@@ -550,17 +550,9 @@ extension PasswordDetailTableViewController {
         switch error {
         case let .yubiKey(yubiKeyError):
             let errorMessage = yubiKeyError.localizedDescription
-            if #available(iOS 13.0, *) {
-                YubiKitManager.shared.stopNFCConnection(withErrorMessage: errorMessage)
-                DispatchQueue.main.async {
-                    self.navigationController?.popViewController(animated: true)
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.presentFailureAlert(message: errorMessage) { _ in
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                }
+            YubiKitManager.shared.stopNFCConnection(withErrorMessage: errorMessage)
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
             }
         default:
             DispatchQueue.main.async {

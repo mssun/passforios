@@ -34,9 +34,7 @@ class PasswordNavigationViewController: UIViewController {
         uiSearchController.obscuresBackgroundDuringPresentation = false
         uiSearchController.searchBar.sizeToFit()
         uiSearchController.searchBar.returnKeyType = .done
-        if #available(iOS 13.0, *) {
-            uiSearchController.searchBar.searchTextField.clearButtonMode = .whileEditing
-        }
+        uiSearchController.searchBar.searchTextField.clearButtonMode = .whileEditing
         return uiSearchController
     }()
 
@@ -50,15 +48,11 @@ class PasswordNavigationViewController: UIViewController {
 
     lazy var addPasswordUIBarButtonItem: UIBarButtonItem = {
         var addPasswordUIBarButtonItem = UIBarButtonItem()
-        if #available(iOS 13.0, *) {
-            let addPasswordButton = UIButton(type: .system)
-            let plusImage = UIImage(systemName: "plus.circle", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))
-            addPasswordButton.setImage(plusImage, for: .normal)
-            addPasswordButton.addTarget(self, action: #selector(self.addPasswordAction), for: .touchDown)
-            addPasswordUIBarButtonItem.customView = addPasswordButton
-        } else {
-            addPasswordUIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addPasswordAction))
-        }
+        let addPasswordButton = UIButton(type: .system)
+        let plusImage = UIImage(systemName: "plus.circle", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))
+        addPasswordButton.setImage(plusImage, for: .normal)
+        addPasswordButton.addTarget(self, action: #selector(self.addPasswordAction), for: .touchDown)
+        addPasswordUIBarButtonItem.customView = addPasswordButton
         return addPasswordUIBarButtonItem
     }()
 
