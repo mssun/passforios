@@ -144,6 +144,8 @@
 "PgpCopyPublicAndPrivateKeyToPass." = "Kopiere den öffentlichen und den privaten Schlüssel im ASCII-Format verschlüsselt mit den Namen \"gpg_key.pub\" bzw. \"gpg_key\" über iTunes zu Pass. Danach können die Schlüssel über \"Datenaustausch über iTunes\" importiert werden.";
 "KeyExpiredOrIncompatibleError."    = "Der öffentliche PGP-Schlüssel ist eventuell abgelaufen oder inkompatibel mit dem privaten Schlüssel.";
 "WrongPassphraseError."             = "Das Passwort für den privaten PGP-Schlüssel ist falsch.";
+"PgpPublicKeyNotFoundError."        = "Öffentlicher PGP-Schlüssel (%@) kann nicht gefunden werden.";
+"PgpPrivateKeyNotFoundError."       = "Privater PGP-Schlüssel (%@) kann nicht gefunden werden.";
 "CannotImportFile"                  = "Fehler beim Importieren";
 "LoadFromFiles"                     = "Aus Datei laden";
 "FileCannotBeImported."             = "Beim Importieren der Datei '%@' trat ein Fehler auf. Stelle bitte sicher, dass ihr Speicherort lesbar ist.";
@@ -162,6 +164,9 @@
 // Git signature
 "NotSet"                = "Nicht spezifiziert";
 "InvalidNameOrEmail"    = "Ungültiger Name oder E-Mail-Adresse";
+
+// Clear suggestions
+"FailedToClearQuickTypeSuggestions" = "Zurücksetzen der QuickType-Vorschläge fehlgeschlagen: %@";
 
 // Erase password store
 "ErasePasswordStoreData?"   = "Daten im Password Store löschen?";
