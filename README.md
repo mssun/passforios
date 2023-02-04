@@ -15,9 +15,7 @@ Pass for iOS is available in App Store with the name "Pass - Password Store", an
 <a href="https://itunes.apple.com/us/app/pass-password-store/id1205820573?mt=8"><img alt="Download on the App Store" src="img/app_store_badge.svg" width="150"/></a>
 </p>
 
-You can also help us test beta versions through [TestFlight](https://testflight.apple.com/join/whK4zUFG) [^1].
-
-[^1]: For iOS 12 users, you can download the TestFlight app by first "purchasing it" on a Mac using your Apple ID, then going to the purchased section of the App Store on your iOS device and downloading it from there.
+You can also help us test beta versions through [TestFlight](https://testflight.apple.com/join/whK4zUFG).
 
 ## Features
 
@@ -27,7 +25,8 @@ You can also help us test beta versions through [TestFlight](https://testflight.
 - Synchronize with your password Git repository.
 - User-friendly interface: search, long press to copy, copy and open link, etc.
 - Support one-time password tokens (two-factor authentication codes).
-- Autofill in Safari/Chrome and [supported apps](https://github.com/agilebits/onepassword-app-extension).
+- AutoFill in Safari/Chrome and [supported apps](https://github.com/agilebits/onepassword-app-extension).
+- Support YubiKey.
 
 ## Screenshots
 
