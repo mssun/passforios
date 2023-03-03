@@ -21,7 +21,14 @@ class PasswordNavigationViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
 
     var dataSource: PasswordNavigationDataSource?
-    var parentPasswordEntity: PasswordEntity?
+    var parentPasswordEntity: PasswordEntity? {
+        didSet {
+            parentPath = parentPasswordEntity?.path
+        }
+    }
+
+    // preserve parent path so it can be reloaded even if the parentPasswordEntity is deleted during the update process
+    private var parentPath: String?
 
     var viewingUnsyncedPasswords = false
     var tapTabBarTime: TimeInterval = 0
@@ -187,13 +194,13 @@ class PasswordNavigationViewController: UIViewController {
     private func configureNotification() {
         let notificationCenter = NotificationCenter.default
         // Reset the data table if some password (maybe another one) has been updated.
-        notificationCenter.addObserver(self, selector: #selector(actOnReloadTableViewRelatedNotification), name: .passwordStoreUpdated, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(actOnPossiblePasswordStoreUpdate), name: .passwordStoreUpdated, object: nil)
         // Reset the data table if the disaply settings have been changed.
         notificationCenter.addObserver(self, selector: #selector(actOnReloadTableViewRelatedNotification), name: .passwordDisplaySettingChanged, object: nil)
         // Search entrypoint for home screen quick action.
         notificationCenter.addObserver(self, selector: #selector(actOnSearchNotification), name: .passwordSearch, object: nil)
         // A Siri shortcut can change the state of the app in the background. Hence, reload when opening the app.
-        notificationCenter.addObserver(self, selector: #selector(actOnReloadTableViewRelatedNotification), name: UIApplication.willEnterForegroundNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(actOnPossiblePasswordStoreUpdate), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
     @objc
@@ -354,6 +361,23 @@ extension PasswordNavigationViewController {
     func actOnReloadTableViewRelatedNotification() {
         DispatchQueue.main.async {
             self.navigationController?.popToRootViewController(animated: true)
+            self.resetViews()
+        }
+    }
+
+    @objc
+    func actOnPossiblePasswordStoreUpdate() {
+        DispatchQueue.main.async {
+            if let path = self.parentPath {
+                // reload parent because all PasswordEntities are re-created on PasswordStore update
+                self.parentPasswordEntity = PasswordStore.shared.fetchPasswordEntity(with: path)
+
+                // pop to the root controller if the parent does not exist anymore
+                if self.parentPasswordEntity == nil {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+            }
+
             self.resetViews()
         }
     }
