@@ -477,14 +477,14 @@ extension PasswordNavigationViewController: PasswordAlertPresenter {
         }
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
-                let pullOptions = gitCredential.getCredentialOptions(passwordProvider: self.present)
+                let pullOptions = gitCredential.getCredentialOptions(passwordProvider: present)
                 try PasswordStore.shared.pullRepository(options: pullOptions) { git_transfer_progress, _ in
                     DispatchQueue.main.async {
                         SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects) / Float(git_transfer_progress.pointee.total_objects), status: "PullingFromRemoteRepository".localize())
                     }
                 }
                 if PasswordStore.shared.numberOfLocalCommits > 0 {
-                    let pushOptions = gitCredential.getCredentialOptions(passwordProvider: self.present)
+                    let pushOptions = gitCredential.getCredentialOptions(passwordProvider: present)
                     try PasswordStore.shared.pushRepository(options: pushOptions) { current, total, _, _ in
                         DispatchQueue.main.async {
                             SVProgressHUD.showProgress(Float(current) / Float(total), status: "PushingToRemoteRepository".localize())

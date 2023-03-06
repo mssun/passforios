@@ -53,8 +53,8 @@ class AdvancedSettingsTableViewController: UITableViewController {
             alert.addAction(
                 UIAlertAction(title: "ErasePasswordStoreData".localize(), style: UIAlertAction.Style.destructive) { [unowned self] _ in
                     SVProgressHUD.show(withStatus: "Erasing...".localize())
-                    self.passwordStore.erase()
-                    self.navigationController!.popViewController(animated: true)
+                    passwordStore.erase()
+                    navigationController!.popViewController(animated: true)
                     SVProgressHUD.showSuccess(withStatus: "Done".localize())
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
@@ -67,8 +67,8 @@ class AdvancedSettingsTableViewController: UITableViewController {
                 UIAlertAction(title: "DiscardAllLocalChanges".localize(), style: UIAlertAction.Style.destructive) { [unowned self] _ in
                     SVProgressHUD.show(withStatus: "Resetting...".localize())
                     do {
-                        let numberDiscarded = try self.passwordStore.reset()
-                        self.navigationController!.popViewController(animated: true)
+                        let numberDiscarded = try passwordStore.reset()
+                        navigationController!.popViewController(animated: true)
                         SVProgressHUD.showSuccess(withStatus: "DiscardedCommits(%d)".localize(numberDiscarded))
                         SVProgressHUD.dismiss(withDelay: 1)
                     } catch {

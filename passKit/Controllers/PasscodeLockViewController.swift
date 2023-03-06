@@ -191,8 +191,8 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
                 let myContext = LAContext()
                 // If the device passcode is not set, reset the app.
                 guard myContext.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) else {
-                    self.passwordStore.erase()
-                    self.passcodeLockDidSucceed()
+                    passwordStore.erase()
+                    passcodeLockDidSucceed()
                     return
                 }
                 // If the device passcode is set, authentication is required.
