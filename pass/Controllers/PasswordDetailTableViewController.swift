@@ -26,7 +26,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     private var oneTimePasswordIndexPath: IndexPath?
     private var shouldPopCurrentView = false
     private let passwordStore = PasswordStore.shared
-    
+
     // preserve path so it can be reloaded even if the passwordEntity is deleted during the update process
     private var passwordPath: String?
 
