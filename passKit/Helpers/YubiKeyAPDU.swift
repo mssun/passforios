@@ -26,9 +26,9 @@ public enum YubiKeyAPDU {
         return verifyApdu
     }
 
-    public static func decipher(data: Data) -> YKFAPDU {
+    public static func decipherExtended(data: Data) -> [YKFAPDU] {
         var apdu: [UInt8] = []
-        apdu += [0x00] // CLA
+        apdu += [0x00] // CLA (last or only command of a chain)
         apdu += [0x2A, 0x80, 0x86] // INS, P1, P2: PSO.DECIPHER
         // Lc, An extended Lc field consists of three bytes:
         // one byte set to '00' followed by two bytes not set to '0000' (1 to 65535 dec.).
@@ -37,9 +37,32 @@ public enum YubiKeyAPDU {
         apdu += [0x00]
         apdu += data
         apdu += [0x02, 0x00]
-        let decipherApdu = YKFAPDU(data: Data(apdu))!
 
-        return decipherApdu
+        return [YKFAPDU(data: Data(apdu))!]
+    }
+
+    public static func decipherChained(data: Data) -> [YKFAPDU] {
+        var result: [YKFAPDU] = []
+        let chunks = chunk(data: data)
+
+        for chunk in chunks.dropLast() {
+            var apdu: [UInt8] = []
+            apdu += [0x10] // CLA (command is not the last command of a chain)
+            apdu += [0x2A, 0x80, 0x86] // INS, P1, P2: PSO.DECIPHER
+            apdu += withUnsafeBytes(of: UInt8(chunk.count).bigEndian, Array.init)
+            apdu += chunk
+            result += [YKFAPDU(data: Data(apdu))!]
+        }
+
+        var apdu: [UInt8] = []
+        apdu += [0x00] // CLA (last or only command of a chain)
+        apdu += [0x2A, 0x80, 0x86] // INS, P1, P2: PSO.DECIPHER
+        apdu += withUnsafeBytes(of: UInt8(chunks.last!.count).bigEndian, Array.init)
+        apdu += chunks.last!
+        apdu += [0x00] // Le
+        result += [YKFAPDU(data: Data(apdu))!]
+
+        return result
     }
 
     public static func get_application_related_data() -> YKFAPDU {
@@ -50,5 +73,15 @@ public enum YubiKeyAPDU {
         apdu += [0x6E] // P2: application related data
         apdu += [0x00]
         return YKFAPDU(data: Data(apdu))!
+    }
+
+    static func chunk(data: Data) -> [[UInt8]] {
+        // starts with 00 padding
+        let padded: [UInt8] = [0x00] + data
+        let MAX_SIZE = 254
+
+        return stride(from: 0, to: padded.count, by: MAX_SIZE).map {
+            Array(padded[$0 ..< Swift.min($0 + MAX_SIZE, padded.count)])
+        }
     }
 }

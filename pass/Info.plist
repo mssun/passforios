@@ -4,19 +4,15 @@
 <dict>
 	<key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
 	<array>
-            <string>A000000527471117</string>
-            <string>A0000006472F0001</string>
-            <string>A0000005272101</string>
-            <string>A000000308</string>
-            <string>D27600012401</string>
-            <string>A000000527200101</string>
-    </array>
-    <key>NFCReaderUsageDescription</key>
-    <string>The application needs access to NFC reading to communicate with your YubiKey.</string>
-	<key>UISupportedExternalAccessoryProtocols</key>
-	<array>
-		<string>com.yubico.ylp</string>
+		<string>A000000527471117</string>
+		<string>A0000006472F0001</string>
+		<string>A0000005272101</string>
+		<string>A000000308</string>
+		<string>D27600012401</string>
+		<string>A000000527200101</string>
 	</array>
+	<key>NFCReaderUsageDescription</key>
+	<string>The application needs access to NFC reading to communicate with your YubiKey.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

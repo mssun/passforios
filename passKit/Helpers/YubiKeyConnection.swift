@@ -27,9 +27,7 @@ public class YubiKeyConnection: NSObject {
             completion(connection)
         } else {
             connectionCallback = completion
-            if #available(iOSApplicationExtension 13.0, *) {
-                YubiKitManager.shared.startNFCConnection()
-            }
+            YubiKitManager.shared.startNFCConnection()
         }
         cancellationCallback = cancellation
     }

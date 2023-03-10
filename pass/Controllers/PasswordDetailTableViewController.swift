@@ -553,14 +553,13 @@ extension PasswordDetailTableViewController {
             }
         }
     }
-}
 
-extension PasswordDetailTableViewController {
-    private func requestYubiKeyPIN(completion: @escaping (String) -> Void) {
+    private func requestYubiKeyPIN(completion: @escaping (String) -> Void, cancellation: @escaping () -> Void) {
         let alert = UIAlertController(title: "YubiKey PIN", message: "Verify YubiKey OpenPGP PIN.", preferredStyle: .alert)
         alert.addAction(
             UIAlertAction.cancel { _ in
                 self.navigationController!.popViewController(animated: true)
+                cancellation()
             }
         )
         alert.addAction(
@@ -579,17 +578,9 @@ extension PasswordDetailTableViewController {
         switch error {
         case let .yubiKey(yubiKeyError):
             let errorMessage = yubiKeyError.localizedDescription
-            if #available(iOS 13.0, *) {
-                YubiKitManager.shared.stopNFCConnection(withErrorMessage: errorMessage)
-                DispatchQueue.main.async {
-                    self.navigationController?.popViewController(animated: true)
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.presentFailureAlert(message: errorMessage) { _ in
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                }
+            YubiKitManager.shared.stopNFCConnection(withErrorMessage: errorMessage)
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
             }
         default:
             DispatchQueue.main.async {
@@ -600,7 +591,7 @@ extension PasswordDetailTableViewController {
         }
     }
 
-    private func handleCancellation(_: Error) {
+    private func handleCancellation() {
         DispatchQueue.main.async {
             self.navigationController?.popViewController(animated: true)
         }
