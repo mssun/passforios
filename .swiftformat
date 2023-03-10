@@ -44,7 +44,6 @@
     numberFormatting,               \
 #    opaqueGenericParameters,        \
 #    organizeDeclarations,           \
-    preferDouble,                   \
     preferKeyPath,                  \
     redundantBackticks,             \
     redundantBreak,                 \

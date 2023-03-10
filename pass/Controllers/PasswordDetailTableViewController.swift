@@ -15,12 +15,20 @@ import UIKit
 import YubiKit
 
 class PasswordDetailTableViewController: UITableViewController, UIGestureRecognizerDelegate, AlertPresenting {
-    var passwordEntity: PasswordEntity?
+    var passwordEntity: PasswordEntity? {
+        didSet {
+            passwordPath = passwordEntity?.path
+        }
+    }
+
     private var password: Password?
     private var passwordImage: UIImage?
     private var oneTimePasswordIndexPath: IndexPath?
     private var shouldPopCurrentView = false
     private let passwordStore = PasswordStore.shared
+
+    // preserve path so it can be reloaded even if the passwordEntity is deleted during the update process
+    private var passwordPath: String?
 
     private lazy var editUIBarButtonItem: UIBarButtonItem = {
         let uiBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit))
@@ -74,6 +82,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
         // reset the data table if the disaply settings have been changed
         NotificationCenter.default.addObserver(self, selector: #selector(decryptThenShowPasswordSelector), name: .passwordDetailDisplaySettingChanged, object: nil)
+
+        // A Siri shortcut can change the state of the app in the background. Hence, reload when opening the app.
+        NotificationCenter.default.addObserver(self, selector: #selector(actOnPossiblePasswordStoreUpdate), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -526,6 +537,23 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 }
 
 extension PasswordDetailTableViewController {
+    @objc
+    func actOnPossiblePasswordStoreUpdate() {
+        DispatchQueue.main.async {
+            if let path = self.passwordPath {
+                // reload PasswordEntity because all PasswordEntities are re-created on PasswordStore update
+                self.passwordEntity = PasswordStore.shared.fetchPasswordEntity(with: path)
+
+                // dismiss if the PasswordEntity does not exist anymore
+                if self.passwordEntity == nil {
+                    self.navigationController?.popToRootViewController(animated: true)
+                } else {
+                    self.decryptThenShowPassword()
+                }
+            }
+        }
+    }
+
     private func requestYubiKeyPIN(completion: @escaping (String) -> Void, cancellation: @escaping () -> Void) {
         let alert = UIAlertController(title: "YubiKey PIN", message: "Verify YubiKey OpenPGP PIN.", preferredStyle: .alert)
         alert.addAction(

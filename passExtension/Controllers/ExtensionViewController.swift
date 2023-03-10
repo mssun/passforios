@@ -46,7 +46,7 @@ class ExtensionViewController: UIViewController {
         super.viewWillAppear(animated)
         prepareCredentialList()
         passcodelock.presentPasscodeLockIfNeeded(self, after: { [unowned self] in
-            self.view.isHidden = false
+            view.isHidden = false
         })
     }
 
