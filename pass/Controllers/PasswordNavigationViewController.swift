@@ -32,6 +32,7 @@ class PasswordNavigationViewController: UIViewController {
 
     var viewingUnsyncedPasswords = false
     var tapTabBarTime: TimeInterval = 0
+    var searchText: String?
 
     lazy var passwordManager = PasswordManager(viewController: self)
 
@@ -107,6 +108,16 @@ class PasswordNavigationViewController: UIViewController {
         configureNavigationItem()
         configureTabBarItem()
         configureNavigationBar()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if searchText != nil {
+            DispatchQueue.main.async {
+                self.searchBar.text = self.searchText
+                self.searchController.isActive = true
+            }
+        }
     }
 
     private func configureSearchBar() {
@@ -388,6 +399,7 @@ extension PasswordNavigationViewController {
 
 extension PasswordNavigationViewController: UISearchBarDelegate {
     func search(matching text: String) {
+        searchText = text
         dataSource?.showTableEntries(matching: text)
         tableView.reloadData()
     }
@@ -414,6 +426,7 @@ extension PasswordNavigationViewController: UISearchBarDelegate {
             searchBar.selectedScopeButtonIndex = SearchBarScope.current.rawValue
         }
         activateSearch(searchBar.selectedScopeButtonIndex)
+        search(matching: searchBar.text ?? "")
     }
 
     func searchBar(_: UISearchBar, textDidChange searchText: String) {
@@ -431,6 +444,7 @@ extension PasswordNavigationViewController: UISearchBarDelegate {
     func cancelSearch() {
         configureTableView(in: parentPasswordEntity)
         dataSource?.isSearchActive = false
+        searchText = nil
         tableView.reloadData()
     }
 }
