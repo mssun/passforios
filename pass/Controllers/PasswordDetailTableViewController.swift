@@ -355,8 +355,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                     let nextHOTPItem = UIMenuItem(title: "NextPassword".localize(), action: #selector(LabelTableViewCell.getNextHOTP))
                     let openURLItem = UIMenuItem(title: "CopyAndOpen".localize(), action: #selector(LabelTableViewCell.openLink))
                     menuController.menuItems = [revealItem, concealItem, nextHOTPItem, openURLItem]
-                    menuController.setTargetRect(tappedCell.contentLabel.frame, in: tappedCell.contentLabel.superview!)
-                    menuController.setMenuVisible(true, animated: true)
+                    menuController.showMenu(from: tappedCell.contentLabel.superview!, rect: tappedCell.contentLabel.frame)
                 }
             }
         }

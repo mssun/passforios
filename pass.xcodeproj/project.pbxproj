@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -150,9 +150,9 @@
 		9A996C5726DDF65900A4485D /* Base32 in Frameworks */ = {isa = PBXBuildFile; productRef = 9A996C5626DDF65900A4485D /* Base32 */; };
 		9A996C5826DEB0D100A4485D /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		9A996C5926DEB0D200A4485D /* passKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A996C6426DEB93F00A4485D /* passAutoFillExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A239F5952158C08B00576CBF /* passAutoFillExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		9A996C6826DEB96B00A4485D /* passShortcuts.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 30A69945240EED5E00B7D967 /* passShortcuts.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		9A996C6B26DEB97600A4485D /* passExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A26700241EEC466A00176B8A /* passExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9A996C6426DEB93F00A4485D /* passAutoFillExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A239F5952158C08B00576CBF /* passAutoFillExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9A996C6826DEB96B00A4485D /* passShortcuts.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 30A69945240EED5E00B7D967 /* passShortcuts.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9A996C6B26DEB97600A4485D /* passExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A26700241EEC466A00176B8A /* passExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9A996C6E26DEB99200A4485D /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		9ADAB21D26DDA52400900F10 /* Gopenpgp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADAB21C26DDA52400900F10 /* Gopenpgp.xcframework */; };
 		9ADC954124418A5F0005402E /* PasswordStoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADC954024418A5F0005402E /* PasswordStoreTest.swift */; };
@@ -312,17 +312,17 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9A996C6726DEB93F00A4485D /* Embed App Extensions */ = {
+		9A996C6726DEB93F00A4485D /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				9A996C6426DEB93F00A4485D /* passAutoFillExtension.appex in Embed App Extensions */,
-				9A996C6B26DEB97600A4485D /* passExtension.appex in Embed App Extensions */,
-				9A996C6826DEB96B00A4485D /* passShortcuts.appex in Embed App Extensions */,
+				9A996C6426DEB93F00A4485D /* passAutoFillExtension.appex in Embed Foundation Extensions */,
+				9A996C6B26DEB97600A4485D /* passExtension.appex in Embed Foundation Extensions */,
+				9A996C6826DEB96B00A4485D /* passShortcuts.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -1223,7 +1223,7 @@
 				308800C124EB0D3600E87ED3 /* SwiftLint */,
 				9A996C4726DDEAF100A4485D /* Remove SPM Duplicate Frameworks */,
 				9A996C5A26DEB0D200A4485D /* Embed Frameworks */,
-				9A996C6726DEB93F00A4485D /* Embed App Extensions */,
+				9A996C6726DEB93F00A4485D /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -1258,7 +1258,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1320;
+				LastUpgradeCheck = 1420;
 				ORGANIZATIONNAME = "Bob Sun";
 				TargetAttributes = {
 					30A69944240EED5E00B7D967 = {
@@ -1453,6 +1453,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		3005F34F24A9143C000519B5 /* SwiftFormat */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1471,6 +1472,7 @@
 		};
 		308800C124EB0D3600E87ED3 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1489,6 +1491,7 @@
 		};
 		9A996C4726DDEAF100A4485D /* Remove SPM Duplicate Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);

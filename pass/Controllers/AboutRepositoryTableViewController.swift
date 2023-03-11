@@ -14,7 +14,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
 
     private var needRefresh = false
     private var indicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .gray)
+        let indicator = UIActivityIndicatorView(style: .medium)
         return indicator
     }()
 
