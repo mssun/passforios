@@ -10,6 +10,7 @@ import CoreData
 import passKit
 import SVProgressHUD
 import UIKit
+import YubiKit
 
 class SettingsTableViewController: UITableViewController, UITabBarControllerDelegate {
     @IBOutlet var pgpKeyTableViewCell: UITableViewCell!
@@ -184,12 +185,14 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             )
         }
 
-        optionMenu.addAction(
-            UIAlertAction(title: Defaults.isYubiKeyEnabled ? "✓ YubiKey" : "YubiKey", style: .default) { _ in
-                Defaults.isYubiKeyEnabled.toggle()
-                self.setPGPKeyTableViewCellDetailText()
-            }
-        )
+        if YubiKitDeviceCapabilities.supportsMFIAccessoryKey {
+            optionMenu.addAction(
+                UIAlertAction(title: Defaults.isYubiKeyEnabled ? "✓ YubiKey" : "YubiKey", style: .default) { _ in
+                    Defaults.isYubiKeyEnabled.toggle()
+                    self.setPGPKeyTableViewCellDetailText()
+                }
+            )
+        }
 
         if Defaults.pgpKeySource != nil {
             optionMenu.addAction(
