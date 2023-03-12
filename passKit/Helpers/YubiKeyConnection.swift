@@ -18,8 +18,10 @@ public class YubiKeyConnection: NSObject {
 
     override init() {
         super.init()
-        YubiKitManager.shared.delegate = self
-        YubiKitManager.shared.startAccessoryConnection()
+        if YubiKitDeviceCapabilities.supportsMFIAccessoryKey {
+            YubiKitManager.shared.delegate = self
+            YubiKitManager.shared.startAccessoryConnection()
+        }
     }
 
     public func connection(cancellation: @escaping (_ error: Error) -> Void, completion: @escaping (_ connection: YKFConnectionProtocol) -> Void) {
