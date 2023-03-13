@@ -28,6 +28,10 @@ class SwitchTableViewCell: UITableViewCell {
         return self
     }
 
+    override func layoutMarginsDidChange() {
+        layoutMargins.left = passKit.Globals.passwordGeneratorLeftLayoutMargin
+    }
+
     func set(initialValue: Bool) -> SwitchTableViewCell {
         controlSwitch.isOn = initialValue
         return self

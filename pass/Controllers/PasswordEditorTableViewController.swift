@@ -82,6 +82,8 @@ class PasswordEditorTableViewController: UITableViewController {
 
         passwordFlavorCell = UITableViewCell(style: .default, reuseIdentifier: "default")
         passwordFlavorCell?.textLabel?.text = "PasswordGeneratorFlavor".localize()
+        passwordFlavorCell?.textLabel?.font = .preferredFont(forTextStyle: .footnote)
+        passwordFlavorCell!.layoutMargins.left = passKit.Globals.passwordGeneratorLeftLayoutMargin
         passwordFlavorCell?.selectionStyle = .none
 
         let passwordFlavorSelector = UISegmentedControl(items: PasswordGeneratorFlavor.allCases.map(\.localized))

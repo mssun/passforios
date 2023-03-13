@@ -33,6 +33,10 @@ class SliderTableViewCell: UITableViewCell {
         delegate.generateAndCopyPassword()
     }
 
+    override func layoutMarginsDidChange() {
+        layoutMargins.left = passKit.Globals.passwordGeneratorLeftLayoutMargin
+    }
+
     func set(title: String) -> SliderTableViewCell {
         titleLabel.text = title
         return self

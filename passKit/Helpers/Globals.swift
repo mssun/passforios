@@ -52,6 +52,7 @@ public final class Globals {
 
     // UI related
     public static let tableCellButtonSize = CGFloat(20.0)
+    public static let passwordGeneratorLeftLayoutMargin = CGFloat(32)
 
     private init() {}
 }
