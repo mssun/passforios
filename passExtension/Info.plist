@@ -7,7 +7,7 @@
 		<key>UISceneConfigurations</key>
 		<dict/>
 		<key>UIApplicationSupportsMultipleScenes</key>
-		<true/>
+		<false/>
 	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
