@@ -62,7 +62,6 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         tableView.addGestureRecognizer(tapGesture)
         tapGesture.delegate = self
 
-        tableView.contentInset = UIEdgeInsets(top: -36, left: 0, bottom: 44, right: 0)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 52
 
@@ -487,6 +486,14 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
     override func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
         tableData[section].header
+    }
+
+    override func tableView(_: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if tableData[section].header != nil {
+            return 30
+        } else {
+            return UITableView.automaticDimension
+        }
     }
 
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {

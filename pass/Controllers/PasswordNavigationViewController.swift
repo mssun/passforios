@@ -116,6 +116,7 @@ class PasswordNavigationViewController: UIViewController {
             DispatchQueue.main.async {
                 self.searchBar.text = self.searchText
                 self.searchController.isActive = true
+                self.searchBar.becomeFirstResponder()
             }
         }
     }
@@ -132,6 +133,7 @@ class PasswordNavigationViewController: UIViewController {
         configureTableViewDataSource(in: dir, isShowFolder: Defaults.isShowFolderOn)
         tableView.addGestureRecognizer(gestureRecognizer)
         tableView.delegate = self
+        tableView.contentInset.top = 32
         let atribbutedTitle = "LastSynced".localize() + ": \(PasswordStore.shared.lastSyncedTimeString)"
         refreshControl.attributedTitle = NSAttributedString(string: atribbutedTitle)
         tableView.refreshControl = refreshControl
@@ -310,6 +312,14 @@ extension PasswordNavigationViewController: UITableViewDelegate {
     }
 
     func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
+
+    func tableView(_: UITableView, heightForHeaderInSection _: Int) -> CGFloat {
+        UITableView.automaticDimension
+    }
+
+    func tableView(_: UITableView, estimatedHeightForHeaderInSection _: Int) -> CGFloat {
         UITableView.automaticDimension
     }
 }

@@ -39,8 +39,8 @@ class PasswordEditorTableViewController: UITableViewController {
 
     private var navigationItemTitle: String?
 
-    private var sectionHeaderTitles = ["Name".localize(), "Password".localize(), "Additions".localize(), ""].map { $0.uppercased() }
-    private var sectionFooterTitles = ["", "", "UseKeyValueFormat.".localize(), ""]
+    private var sectionHeaderTitles: [String?] = ["Name".localize(), "Password".localize(), "Additions".localize(), nil]
+    private var sectionFooterTitles: [String?] = [nil, nil, "UseKeyValueFormat.".localize(), nil]
     private let nameSection = 0
     private let passwordSection = 1
     private let additionsSection = 2
@@ -71,8 +71,9 @@ class PasswordEditorTableViewController: UITableViewController {
         super.loadView()
 
         deletePasswordCell = UITableViewCell(style: .default, reuseIdentifier: "default")
-        deletePasswordCell!.textLabel?.text = "DeletePassword".localize()
-        deletePasswordCell!.textLabel?.textColor = Colors.systemRed
+        deletePasswordCell?.textLabel?.text = "DeletePassword".localize()
+        deletePasswordCell?.textLabel?.textAlignment = .center
+        deletePasswordCell?.textLabel?.textColor = Colors.systemRed
         deletePasswordCell?.selectionStyle = .default
 
         scanQRCodeCell = UITableViewCell(style: .default, reuseIdentifier: "default")
@@ -104,11 +105,6 @@ class PasswordEditorTableViewController: UITableViewController {
         tableView.register(UINib(nibName: "SliderTableViewCell", bundle: nil), forCellReuseIdentifier: "sliderCell")
         tableView.register(UINib(nibName: "SwitchTableViewCell", bundle: nil), forCellReuseIdentifier: "switchCell")
 
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 48
-        tableView.sectionFooterHeight = UITableView.automaticDimension
-        tableView.estimatedSectionFooterHeight = 0
-
         tableData = [
             [
                 [.type: PasswordEditorCellType.nameCell, .title: "Name".localize(), .content: password?.namePath ?? ""],
@@ -130,7 +126,9 @@ class PasswordEditorTableViewController: UITableViewController {
         ]
 
         if password != nil {
-            tableData[additionsSection + 1].append([.type: PasswordEditorCellType.deletePasswordCell])
+            tableData.append([[.type: PasswordEditorCellType.deletePasswordCell]])
+            sectionFooterTitles.append(nil)
+            sectionHeaderTitles.append(nil)
         }
         updateTableData(withRespectTo: passwordGenerator.flavor)
     }
@@ -207,8 +205,16 @@ class PasswordEditorTableViewController: UITableViewController {
         }
     }
 
-    override func tableView(_: UITableView, heightForHeaderInSection _: Int) -> CGFloat {
-        44
+    override func tableView(_: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if sectionHeaderTitles[section] != nil {
+            return 30
+        } else {
+            return UITableView.automaticDimension
+        }
+    }
+
+    override func tableView(_: UITableView, heightForFooterInSection _: Int) -> CGFloat {
+        UITableView.automaticDimension
     }
 
     override func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
