@@ -112,9 +112,9 @@ class PasswordNavigationViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if searchText != nil {
+        if let text = searchText, !text.isEmpty {
             DispatchQueue.main.async {
-                self.searchBar.text = self.searchText
+                self.searchBar.text = text
                 self.searchController.isActive = true
                 self.searchBar.becomeFirstResponder()
             }
