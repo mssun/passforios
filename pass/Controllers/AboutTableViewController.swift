@@ -30,7 +30,7 @@ class AboutTableViewController: BasicStaticTableViewController {
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if section == tableData.count - 1 {
             let view = UIView()
-            let footerLabel = UILabel(frame: CGRect(x: 8, y: 15, width: tableView.frame.width, height: 60))
+            let footerLabel = UILabel(frame: CGRect(x: -16, y: 16, width: tableView.frame.width, height: 60))
             footerLabel.numberOfLines = 0
             footerLabel.text = "PassForIos".localize() + " \(Bundle.main.releaseVersionNumber!) (\(Bundle.main.buildVersionNumber!))"
             footerLabel.font = UIFont.preferredFont(forTextStyle: .footnote)

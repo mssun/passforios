@@ -133,7 +133,7 @@ class PasswordNavigationViewController: UIViewController {
         configureTableViewDataSource(in: dir, isShowFolder: Defaults.isShowFolderOn)
         tableView.addGestureRecognizer(gestureRecognizer)
         tableView.delegate = self
-        tableView.contentInset.top = 32
+        tableView.contentInset.top = 8
         let atribbutedTitle = "LastSynced".localize() + ": \(PasswordStore.shared.lastSyncedTimeString)"
         refreshControl.attributedTitle = NSAttributedString(string: atribbutedTitle)
         tableView.refreshControl = refreshControl

@@ -488,6 +488,10 @@
 		DC30F83629BAFD2E001EB12B /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Main.strings; sourceTree = "<group>"; };
 		DC30F83729BED4E2001EB12B /* PasswordGeneratorUISwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorUISwitch.swift; sourceTree = "<group>"; };
 		DC30F83929BED611001EB12B /* PasswordGeneratorUISlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorUISlider.swift; sourceTree = "<group>"; };
+		DC30F93729C63856001EB12B /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Intents.strings; sourceTree = "<group>"; };
+		DC30F93829C6385F001EB12B /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = it; path = it.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		DC30F93929C6386E001EB12B /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DC30F93A29C63875001EB12B /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DC3E64E51E656F11009A83DE /* CommitLogsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitLogsTableViewController.swift; sourceTree = "<group>"; };
 		DC4914941E434301007FF592 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
 		DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTableViewController.swift; sourceTree = "<group>"; };
@@ -1772,6 +1776,7 @@
 			children = (
 				30BF5EC921EA8FB5000E4154 /* en */,
 				30C25DC421F3BEF500BB27BB /* de */,
+				DC30F93929C6386E001EB12B /* it */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1781,6 +1786,7 @@
 			children = (
 				30BF5ED621ED2434000E4154 /* en */,
 				30C25DC521F3BEF500BB27BB /* de */,
+				DC30F93829C6385F001EB12B /* it */,
 			);
 			name = Localizable.stringsdict;
 			sourceTree = "<group>";
@@ -1790,6 +1796,7 @@
 			children = (
 				30C25DBE21F3599E00BB27BB /* en */,
 				30C25DC621F3BEF500BB27BB /* de */,
+				DC30F93A29C63875001EB12B /* it */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1799,6 +1806,7 @@
 			children = (
 				30EE3A18241E98C1009FBB61 /* en */,
 				30EE3A1B241E98C6009FBB61 /* de */,
+				DC30F93729C63856001EB12B /* it */,
 			);
 			name = Intents.intentdefinition;
 			sourceTree = "<group>";
