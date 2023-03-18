@@ -110,6 +110,8 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         cell.accessoryType = .none
         cell.selectionStyle = .none
         switch cell.textLabel!.text! {
+        case "AboutRepository".localize():
+            cell.accessoryType = .disclosureIndicator
         case "HideUnknownFields".localize():
             hideUnknownSwitch.isOn = Defaults.isHideUnknownOn
             addDetailButton(to: cell, for: hideUnknownSwitch, with: #selector(tapHideUnknownSwitchDetailButton))
