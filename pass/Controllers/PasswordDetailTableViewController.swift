@@ -101,7 +101,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
 
     private func decryptThenShowPassword() {
-        if Defaults.isYubiKeyEnabled {
+        if Defaults.isYubiKeyEnabled, YubiKitDeviceCapabilities.supportsISO7816NFCTags {
             decryptThenShowPasswordYubiKey()
         } else {
             decryptThenShowPasswordLocalKey()

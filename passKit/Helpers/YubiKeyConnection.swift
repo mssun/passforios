@@ -18,7 +18,7 @@ public class YubiKeyConnection: NSObject {
 
     override init() {
         super.init()
-        if YubiKitDeviceCapabilities.supportsMFIAccessoryKey {
+        if YubiKitDeviceCapabilities.supportsISO7816NFCTags {
             YubiKitManager.shared.delegate = self
             YubiKitManager.shared.startAccessoryConnection()
         }

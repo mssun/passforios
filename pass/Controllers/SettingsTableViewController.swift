@@ -185,7 +185,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             )
         }
 
-        if YubiKitDeviceCapabilities.supportsMFIAccessoryKey {
+        if YubiKitDeviceCapabilities.supportsISO7816NFCTags {
             optionMenu.addAction(
                 UIAlertAction(title: Defaults.isYubiKeyEnabled ? "✓ YubiKey" : "YubiKey", style: .default) { _ in
                     Defaults.isYubiKeyEnabled.toggle()
