@@ -12,6 +12,7 @@ public extension Notification.Name {
     static let passwordStoreUpdated = Notification.Name("passwordStoreUpdated")
     static let passwordStoreErased = Notification.Name("passwordStoreErased")
     static let passwordStoreChangeDiscarded = Notification.Name("passwordStoreChangeDiscarded")
+    static let passwordStoreSyncSucceeded = Notification.Name("passwordStoreSyncSucceeded")
     static let passwordSearch = Notification.Name("passwordSearch")
 
     static let passwordDisplaySettingChanged = Notification.Name("passwordDisplaySettingChanged")

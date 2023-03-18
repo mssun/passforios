@@ -208,6 +208,8 @@ class PasswordNavigationViewController: UIViewController {
         notificationCenter.addObserver(self, selector: #selector(actOnSearchNotification), name: .passwordSearch, object: nil)
         // A Siri shortcut can change the state of the app in the background. Hence, reload when opening the app.
         notificationCenter.addObserver(self, selector: #selector(actOnPossiblePasswordStoreUpdate), name: UIApplication.willEnterForegroundNotification, object: nil)
+        // Sync with remote done.
+        notificationCenter.addObserver(self, selector: #selector(actOnPasswordStoreSyncSucceeded), name: .passwordStoreSyncSucceeded, object: nil)
     }
 
     @objc
@@ -397,6 +399,13 @@ extension PasswordNavigationViewController {
         }
     }
 
+    @objc
+    func actOnPasswordStoreSyncSucceeded() {
+        DispatchQueue.main.async {
+            self.configureTabBarItem()
+        }
+    }
+
     func resetViews() {
         configureTableView(in: parentPasswordEntity)
         tableView.reloadData()
@@ -510,6 +519,7 @@ extension PasswordNavigationViewController: PasswordAlertPresenter {
                     }
                 }
                 DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: .passwordStoreSyncSucceeded, object: nil)
                     SVProgressHUD.showSuccess(withStatus: "Done".localize())
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
