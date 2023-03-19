@@ -64,6 +64,9 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 52
+        let adjustForTabbarInsets = UIEdgeInsets(top: 0, left: 0, bottom: tabBarController!.tabBar.frame.height, right: 0)
+        tableView.contentInset = adjustForTabbarInsets
+        tableView.scrollIndicatorInsets = adjustForTabbarInsets
 
         editUIBarButtonItem.isEnabled = false
         navigationItem.rightBarButtonItem = editUIBarButtonItem
