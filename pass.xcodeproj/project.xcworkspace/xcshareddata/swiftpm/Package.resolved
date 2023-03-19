@@ -67,8 +67,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Yubico/yubikit-ios",
       "state" : {
-        "revision" : "7b19be11a362d9e52eac0d76b5d904560b9e5ea7",
-        "version" : "4.2.0"
+        "revision" : "0d8c74a99d634b048a0a3ded32f8382e989079c5",
+        "version" : "4.3.0"
       }
     }
   ],
