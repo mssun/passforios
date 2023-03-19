@@ -6,7 +6,7 @@ jobs:
   testing:
     runs-on: macos-12
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: '2.7'
@@ -18,14 +18,14 @@ jobs:
         brew install go || brew link --overwrite go
         brew install swiftlint || brew link --overwrite swiftlint
         gem install bundler
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       id: carthage-cache
       with:
         path: Carthage
         key: ${{ runner.os }}-carthage-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/Cartfile.resolved') }}
         restore-keys: |
           ${{ runner.os }}-carthage-${{ secrets.CACHE_VERSION }}-
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       id: gopenpgp-cache
       with:
         path: go
