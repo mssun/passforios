@@ -129,7 +129,7 @@ open class PasscodeLockViewController: UIViewController, UITextFieldDelegate {
 
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let biometryAuthButton = biometryAuthButton {
+        if let biometryAuthButton {
             bioButtonPressedAction(biometryAuthButton)
         }
     }

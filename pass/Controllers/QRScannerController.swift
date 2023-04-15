@@ -75,7 +75,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             // Initialize QR Code Frame to highlight the QR code
             qrCodeFrameView = UIView()
 
-            if let qrCodeFrameView = qrCodeFrameView {
+            if let qrCodeFrameView {
                 qrCodeFrameView.layer.borderColor = UIColor.green.cgColor
                 qrCodeFrameView.layer.borderWidth = 2
                 view.addSubview(qrCodeFrameView)

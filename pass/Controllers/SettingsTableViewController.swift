@@ -241,7 +241,7 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
     @objc
     func alertTextFieldDidChange(_ sender: UITextField) {
         // check whether we should enable the Save button in setPasscodeLockAlert
-        if let setPasscodeLockAlert = setPasscodeLockAlert,
+        if let setPasscodeLockAlert,
            let setPasscodeLockAlertTextFields0 = setPasscodeLockAlert.textFields?[0],
            let setPasscodeLockAlertTextFields1 = setPasscodeLockAlert.textFields?[1] {
             if sender == setPasscodeLockAlertTextFields0 || sender == setPasscodeLockAlertTextFields1 {

@@ -50,7 +50,6 @@ disabled_rules:
   - prohibited_super_call
   - required_deinit
   - self_binding
-  - shorthand_optional_binding
   - sorted_imports # Managed by SwiftFormat.
   - type_body_length
   - type_contents_order

@@ -47,7 +47,7 @@ public class PGPAgent {
     public func decrypt(encryptedData: Data, keyID: String, requestPGPKeyPassphrase: @escaping (String) -> String) throws -> Data? {
         // Init keys.
         try checkAndInit()
-        guard let pgpInterface = pgpInterface else {
+        guard let pgpInterface else {
             throw AppError.decryption
         }
 
@@ -82,7 +82,7 @@ public class PGPAgent {
 
     public func encrypt(plainData: Data, keyID: String) throws -> Data {
         try checkAndInit()
-        guard let pgpInterface = pgpInterface else {
+        guard let pgpInterface else {
             throw AppError.encryption
         }
         var keyID = keyID
@@ -120,7 +120,7 @@ public class PGPAgent {
 
     public func encrypt(plainData: Data) throws -> Data {
         try checkAndInit()
-        guard let pgpInterface = pgpInterface else {
+        guard let pgpInterface else {
             throw AppError.encryption
         }
         return try pgpInterface.encrypt(plainData: plainData, keyID: nil)

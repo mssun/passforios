@@ -109,7 +109,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
 
     private func decryptThenShowPasswordLocalKey(keyID: String? = nil) {
-        guard let passwordEntity = passwordEntity else {
+        guard let passwordEntity else {
             Utils.alert(title: "CannotShowPassword".localize(), message: "PasswordDoesNotExist".localize(), controller: self, completion: {
                 self.navigationController!.popViewController(animated: true)
             })
@@ -604,7 +604,7 @@ extension PasswordDetailTableViewController {
     }
 
     private func decryptThenShowPasswordYubiKey() {
-        guard let passwordEntity = passwordEntity else {
+        guard let passwordEntity else {
             handleError(error: AppError.other(message: "PasswordDoesNotExist"))
             return
         }

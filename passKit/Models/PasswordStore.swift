@@ -199,7 +199,7 @@ public class PasswordStore {
     }
 
     private func checkoutAndChangeBranch(withName localBranchName: String, progressBlock: @escaping (String, UInt, UInt) -> Void) throws {
-        guard let storeRepository = storeRepository else {
+        guard let storeRepository else {
             throw AppError.repositoryNotSet
         }
         let remoteBranchName = "origin/\(localBranchName)"
@@ -218,7 +218,7 @@ public class PasswordStore {
         options: [String: Any],
         progressBlock: @escaping (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void = { _, _ in }
     ) throws {
-        guard let storeRepository = storeRepository else {
+        guard let storeRepository else {
             throw AppError.repositoryNotSet
         }
         let remote = try GTRemote(name: "origin", in: storeRepository)
@@ -284,7 +284,7 @@ public class PasswordStore {
     }
 
     public func getRecentCommits(count: Int) throws -> [GTCommit] {
-        guard let storeRepository = storeRepository else {
+        guard let storeRepository else {
             return []
         }
         var commits = [GTCommit]()
@@ -356,7 +356,7 @@ public class PasswordStore {
     }
 
     public func getLatestUpdateInfo(filename: String) -> String {
-        guard let storeRepository = storeRepository else {
+        guard let storeRepository else {
             return "Unknown".localize()
         }
         guard let blameHunks = try? storeRepository.blame(withFile: filename, options: nil).hunks else {
@@ -373,7 +373,7 @@ public class PasswordStore {
     }
 
     private func gitAdd(path: String) throws {
-        guard let storeRepository = storeRepository else {
+        guard let storeRepository else {
             throw AppError.repositoryNotSet
         }
         try storeRepository.index().addFile(path)
@@ -381,7 +381,7 @@ public class PasswordStore {
     }
 
     private func gitRm(path: String) throws {
-        guard let storeRepository = storeRepository else {
+        guard let storeRepository else {
             throw AppError.repositoryNotSet
         }
         let url = storeURL.appendingPathComponent(path)
@@ -416,7 +416,7 @@ public class PasswordStore {
     }
 
     private func gitCommit(message: String) throws -> GTCommit? {
-        guard let storeRepository = storeRepository else {
+        guard let storeRepository else {
             throw AppError.repositoryNotSet
         }
         let newTree = try storeRepository.index().writeTree()
@@ -431,7 +431,7 @@ public class PasswordStore {
     }
 
     private func getLocalBranch(withName branchName: String) throws -> GTBranch? {
-        guard let storeRepository = storeRepository else {
+        guard let storeRepository else {
             throw AppError.repositoryNotSet
         }
         let reference = GTBranch.localNamePrefix().appending(branchName)
@@ -443,7 +443,7 @@ public class PasswordStore {
         options: [String: Any],
         transferProgressBlock: @escaping (UInt32, UInt32, Int, UnsafeMutablePointer<ObjCBool>) -> Void = { _, _, _, _ in }
     ) throws {
-        guard let storeRepository = storeRepository else {
+        guard let storeRepository else {
             throw AppError.repositoryNotSet
         }
         if let branch = try getLocalBranch(withName: Defaults.gitBranchName) {
@@ -586,7 +586,7 @@ public class PasswordStore {
     }
 
     public func updateImage(passwordEntity: PasswordEntity, image: Data?) {
-        guard let image = image else {
+        guard let image else {
             return
         }
         let privateMOC = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
@@ -636,7 +636,7 @@ public class PasswordStore {
 
     // return the number of discarded commits
     public func reset() throws -> Int {
-        guard let storeRepository = storeRepository else {
+        guard let storeRepository else {
             throw AppError.repositoryNotSet
         }
         // get a list of local commits
@@ -660,7 +660,7 @@ public class PasswordStore {
     }
 
     private func getLocalCommits() throws -> [GTCommit] {
-        guard let storeRepository = storeRepository else {
+        guard let storeRepository else {
             throw AppError.repositoryNotSet
         }
         // get the remote branch

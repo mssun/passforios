@@ -80,7 +80,7 @@ class AdvancedSettingsTableViewController: UITableViewController {
             present(alert, animated: true, completion: nil)
         } else if tableView.cellForRow(at: indexPath) == clearSuggestionsTableViewCell {
             ASCredentialIdentityStore.shared.removeAllCredentialIdentities { _, error in
-                if let error = error {
+                if let error {
                     SVProgressHUD.showError(withStatus: "FailedToClearQuickTypeSuggestions".localize(error))
                     SVProgressHUD.dismiss(withDelay: 1)
                 } else {

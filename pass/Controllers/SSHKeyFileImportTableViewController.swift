@@ -70,7 +70,7 @@ extension SSHKeyFileImportTableViewController: KeyImporter {
     }
 
     func importKeys() throws {
-        guard let privateKey = privateKey else {
+        guard let privateKey else {
             return
         }
         try KeyFileManager.PrivateSSH.importKey(from: privateKey)

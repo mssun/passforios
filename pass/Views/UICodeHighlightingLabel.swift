@@ -15,7 +15,7 @@ class UICodeHighlightingLabel: UILocalizedLabel {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        guard let text = text else {
+        guard let text else {
             return
         }
         attributedText = formatCode(in: text)
