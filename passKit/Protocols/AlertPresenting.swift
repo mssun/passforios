@@ -24,7 +24,7 @@ public extension AlertPresenting where Self: UIViewController {
         )
     }
 
-    // swiftlint:disable function_default_parameter_at_end
+    // swiftlint:disable:next function_default_parameter_at_end
     func presentFailureAlert(title: String? = nil, message: String, action: AlertAction? = nil) {
         let title = title ?? "Error"
         presentAlert(
