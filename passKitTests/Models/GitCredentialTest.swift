@@ -59,7 +59,7 @@ class GitCredentialTest: XCTestCase {
 
     func testPasswordCredentialProvider() {
         let password = GitCredential.from(authenticationMethod: .password, userName: "user", keyStore: keyStore)
-        let expectation = self.expectation(description: "Password is requested.")
+        let expectation = expectation(description: "Password is requested.")
         expectation.assertForOverFulfill = true
         expectation.expectedFulfillmentCount = 3
         let options = password.getCredentialOptions { _, _ in
