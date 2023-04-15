@@ -17,7 +17,6 @@ disabled_rules:
   - anonymous_argument_in_multiline_closure
   - balanced_xctest_lifecycle
   - blanket_disable_command
-  - direct_return
   - discouraged_none_name
   - discouraged_object_literal
   - discouraged_optional_collection # Too many false positives in implementations of system protocols.

@@ -328,8 +328,7 @@ public class PasswordStore {
         let passwordEntityFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PasswordEntity")
         passwordEntityFetchRequest.predicate = NSPredicate(format: "synced = %i", 0)
         do {
-            let passwordEntities = try context.fetch(passwordEntityFetchRequest) as! [PasswordEntity]
-            return passwordEntities
+            return try context.fetch(passwordEntityFetchRequest) as! [PasswordEntity]
         } catch {
             fatalError("FailedToFetchPasswords".localize(error))
         }
@@ -428,8 +427,7 @@ public class PasswordStore {
         guard let signature = gitSignatureForNow else {
             throw AppError.gitCreateSignature
         }
-        let commit = try storeRepository.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)
-        return commit
+        return try storeRepository.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)
     }
 
     private func getLocalBranch(withName branchName: String) throws -> GTBranch? {

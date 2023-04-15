@@ -20,10 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    lazy var passcodeLockPresenter: PasscodeLockPresenter = {
-        let presenter = PasscodeLockPresenter(mainWindow: self.window)
-        return presenter
-    }()
+    lazy var passcodeLockPresenter: PasscodeLockPresenter = .init(mainWindow: self.window)
 
     func application(_: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
