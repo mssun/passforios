@@ -43,12 +43,12 @@ extension PGPKeyURLImportTableViewController: PGPKeyImporter {
     }
 
     func importKeys() throws {
-        if let pgpPrivateKeyURL = pgpPrivateKeyURL {
+        if let pgpPrivateKeyURL {
             Defaults.pgpPrivateKeyURL = pgpPrivateKeyURL
             try KeyFileManager.PrivatePGP.importKey(from: pgpPrivateKeyURL)
         }
 
-        if let pgpPublicKeyURL = pgpPublicKeyURL {
+        if let pgpPublicKeyURL {
             Defaults.pgpPublicKeyURL = pgpPublicKeyURL
             try KeyFileManager.PublicPGP.importKey(from: pgpPublicKeyURL)
         }

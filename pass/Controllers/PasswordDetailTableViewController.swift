@@ -30,10 +30,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     // preserve path so it can be reloaded even if the passwordEntity is deleted during the update process
     private var passwordPath: String?
 
-    private lazy var editUIBarButtonItem: UIBarButtonItem = {
-        let uiBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit))
-        return uiBarButtonItem
-    }()
+    private lazy var editUIBarButtonItem: UIBarButtonItem = .init(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit))
 
     private struct TableSection {
         var type: PasswordDetailTableViewControllerSectionType
@@ -112,7 +109,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     }
 
     private func decryptThenShowPasswordLocalKey(keyID: String? = nil) {
-        guard let passwordEntity = passwordEntity else {
+        guard let passwordEntity else {
             Utils.alert(title: "CannotShowPassword".localize(), message: "PasswordDoesNotExist".localize(), controller: self, completion: {
                 self.navigationController!.popViewController(animated: true)
             })
@@ -259,7 +256,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
 
         // main section
         section = TableSection(type: .main)
-        let password = self.password!
+        let password = password!
         if let username = password.username {
             section.item.append(Constants.USERNAME_KEYWORD => username)
         }
@@ -607,7 +604,7 @@ extension PasswordDetailTableViewController {
     }
 
     private func decryptThenShowPasswordYubiKey() {
-        guard let passwordEntity = passwordEntity else {
+        guard let passwordEntity else {
             handleError(error: AppError.other(message: "PasswordDoesNotExist"))
             return
         }

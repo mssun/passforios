@@ -9,8 +9,7 @@ import YubiKit
 
 public enum YubiKeyAPDU {
     public static func selectOpenPGPApplication() -> YKFSelectApplicationAPDU {
-        let selectOpenPGPAPDU = YKFSelectApplicationAPDU(data: Data([0xD2, 0x76, 0x00, 0x01, 0x24, 0x01]))!
-        return selectOpenPGPAPDU
+        YKFSelectApplicationAPDU(data: Data([0xD2, 0x76, 0x00, 0x01, 0x24, 0x01]))!
     }
 
     public static func verify(password: String) -> YKFAPDU {
@@ -22,8 +21,7 @@ public enum YubiKeyAPDU {
         apdu += [0x82] // P2: PW1
         apdu += withUnsafeBytes(of: UInt8(pw1.count).bigEndian, Array.init)
         apdu += pw1
-        let verifyApdu = YKFAPDU(data: Data(apdu))!
-        return verifyApdu
+        return YKFAPDU(data: Data(apdu))!
     }
 
     public static func decipherExtended(data: Data) -> [YKFAPDU] {

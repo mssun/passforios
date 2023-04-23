@@ -254,7 +254,7 @@ class PasswordNavigationViewController: UIViewController {
         if gesture.state == UIGestureRecognizer.State.began {
             let touchPoint = gesture.location(in: tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-                guard let dataSource = dataSource else {
+                guard let dataSource else {
                     return
                 }
                 let passwordTableEntry = dataSource.getPasswordTableEntry(at: indexPath)
@@ -283,7 +283,7 @@ class PasswordNavigationViewController: UIViewController {
 extension PasswordNavigationViewController: UITableViewDelegate {
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let dataSource = dataSource else {
+        guard let dataSource else {
             return
         }
         let entry = dataSource.getPasswordTableEntry(at: indexPath)

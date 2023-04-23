@@ -83,10 +83,10 @@ extension PGPKeyFileImportTableViewController: PGPKeyImporter {
     }
 
     func importKeys() throws {
-        if let publicKey = publicKey {
+        if let publicKey {
             try KeyFileManager.PublicPGP.importKey(from: publicKey)
         }
-        if let privateKey = privateKey {
+        if let privateKey {
             try KeyFileManager.PrivatePGP.importKey(from: privateKey)
         }
     }

@@ -113,7 +113,7 @@ public class Password {
 
     private func checkPasswordForOtpToken() {
         let (key, value) = Parser.getKeyValuePair(from: password)
-        if let key = key, Constants.isOtpKeyword(key) {
+        if let key, Constants.isOtpKeyword(key) {
             firstLineIsOTPField = true
             additions.append(key => value)
         } else {
