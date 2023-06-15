@@ -105,7 +105,8 @@ extension NSDictionary {
                 return host
             }
             return value
-        } else if let value = self[NSExtensionJavaScriptPreprocessingResultsKey] as? String {
+        }
+        if let value = self[NSExtensionJavaScriptPreprocessingResultsKey] as? String {
             if let host = URL(string: value)?.host {
                 return host
             }

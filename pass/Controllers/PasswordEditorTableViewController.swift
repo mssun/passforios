@@ -209,13 +209,11 @@ class PasswordEditorTableViewController: UITableViewController {
         if sectionHeaderTitles[section] != nil {
             if UIDevice.current.userInterfaceIdiom == .phone {
                 return 30
-            } else {
-                // Fix covered section header in macOS
-                return 36
             }
-        } else {
-            return UITableView.automaticDimension
+            // Fix covered section header in macOS
+            return 36
         }
+        return UITableView.automaticDimension
     }
 
     override func tableView(_: UITableView, heightForFooterInSection _: Int) -> CGFloat {

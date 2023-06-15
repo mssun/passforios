@@ -491,9 +491,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     override func tableView(_: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if tableData[section].header != nil {
             return 30
-        } else {
-            return UITableView.automaticDimension
         }
+        return UITableView.automaticDimension
     }
 
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
