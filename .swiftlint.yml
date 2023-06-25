@@ -15,6 +15,7 @@ opt_in_rules:
 
 disabled_rules:
   - anonymous_argument_in_multiline_closure
+  - anyobject_protocol # Deprecated.
   - balanced_xctest_lifecycle
   - discouraged_none_name
   - discouraged_object_literal
@@ -35,6 +36,7 @@ disabled_rules:
   - function_body_length
   - implicitly_unwrapped_optional
   - indentation_width
+  - inert_defer # Deprecated.
   - legacy_objc_type
   - line_length
   - missing_docs
@@ -49,10 +51,12 @@ disabled_rules:
   - prohibited_super_call
   - required_deinit
   - self_binding
+  - sorted_enum_cases # Wait for an auto-fix.
   - sorted_imports # Managed by SwiftFormat.
   - type_body_length
   - type_contents_order
   - unowned_variable_capture
+  - unused_capture_list # Deprecated.
   - vertical_whitespace_between_cases # Additional whitespace not needed because of visible indentation.
 
 ## Configuration for specific rules
@@ -73,3 +77,7 @@ trailing_closure:
   only_single_muted_parameter: true
 trailing_comma:
   mandatory_comma: true
+xct_specific_matcher:
+  matchers: 
+    - two-argument-asserts
+
