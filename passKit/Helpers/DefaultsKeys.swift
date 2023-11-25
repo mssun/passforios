@@ -35,6 +35,8 @@ extension SearchBarScope: DefaultsSerializable {}
 extension PasswordGenerator: DefaultsSerializable {}
 
 public extension DefaultsKeys {
+    // swiftlint:disable explicit_init
+
     var pgpKeySource: DefaultsKey<KeySource?> { .init("pgpKeySource") }
     var pgpPublicKeyURL: DefaultsKey<URL?> { .init("pgpPublicKeyURL") }
     var pgpPrivateKeyURL: DefaultsKey<URL?> { .init("pgpPrivateKeyURL") }
@@ -70,4 +72,6 @@ public extension DefaultsKeys {
     var encryptInArmored: DefaultsKey<Bool> { .init("encryptInArmored", defaultValue: false) }
 
     var autoCopyOTP: DefaultsKey<Bool> { .init("autoCopyOTP", defaultValue: false) }
+
+    // swiftlint:enable explicit_init
 }
