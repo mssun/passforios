@@ -1,5 +1,5 @@
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}"
-SWIFTFORMAT_VERSION="0.51.*"
+SWIFTFORMAT_VERSION="0.53.*"
 
 if [[ "${CI}" == "true" ]]; then
   echo "Running in a Continuous Integration environment. Formatting is skipped."

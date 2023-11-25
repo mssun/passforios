@@ -8,9 +8,10 @@
 
 import XCTest
 
+@testable import Gopenpgp
+
 // swiftformat:disable:next sortedImports
 @testable import passKit
-@testable import Gopenpgp
 
 class CryptoFrameworkTest: XCTestCase {
     private typealias MessageConverter = (CryptoPGPMessage, NSErrorPointer) -> CryptoPGPMessage?
