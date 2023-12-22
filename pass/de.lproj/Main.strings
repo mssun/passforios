@@ -2,6 +2,9 @@
 /* Class = "UITableViewSection"; headerTitle = "ASCII-ARMOR PRIVATE KEY"; ObjectID = "0RP-Jn-j5G"; */
 "0RP-Jn-j5G.headerTitle" = "PRIVATER SCHLÜSSEL IM ASCII-FORMAT";
 
+/* Class = "UILabel"; text = "ASCII-Armor Keys"; ObjectID = "1h3-cQ-4bj"; */
+"1h3-cQ-4bj.text" = "ASCII-formattierte Schlüssel";
+
 /* Class = "UILabel"; text = "Not Set"; ObjectID = "2qr-d7-0SK"; */
 "2qr-d7-0SK.text" = "Nicht angegeben";
 
@@ -20,11 +23,14 @@
 /* Class = "UILabel"; text = "Bob Sun"; ObjectID = "8Dc-U9-AVf"; */
 "8Dc-U9-AVf.text" = "Bob Sun";
 
+/* Class = "UILabel"; text = "Select file ..."; ObjectID = "9KE-VA-cx2"; */
+"9KE-VA-cx2.text" = "Datei auswählen ...";
+
 /* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "9yM-Mg-Cg8"; */
 "9yM-Mg-Cg8.title" = "Zurück";
 
-/* Class = "UILabel"; text = "Select file ..."; ObjectID = "9KE-VA-cx2"; */
-"9KE-VA-cx2.text" = "Datei auswählen ...";
+/* Class = "UILabel"; text = "Clear Saved Suggestions"; ObjectID = "BDw-4m-VXK"; */
+"BDw-4m-VXK.text" = "Gespeicherte Vorschläge Löschen";
 
 /* Class = "UILabel"; text = "Private Key URL"; ObjectID = "C2w-dd-roS"; */
 "C2w-dd-roS.text" = "URL des privaten Schlüssels";
@@ -40,6 +46,9 @@
 
 /* Class = "UITextField"; placeholder = "Git Repository URL"; ObjectID = "EVT-VU-sCi"; */
 "EVT-VU-sCi.placeholder" = "URL des Git-Repositorys";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "EXI-3Z-dd4"; */
+"EXI-3Z-dd4.text" = "Detail";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "Eu3-i0-M5v"; */
 "Eu3-i0-M5v.text" = "Titel";
@@ -97,9 +106,6 @@
 
 /* Class = "UILabel"; text = "Not Set"; ObjectID = "Myq-fV-riz"; */
 "Myq-fV-riz.text" = "Nicht angegeben";
-
-/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "New-sD-9Z1"; */
-"New-sD-9Z1.title" = "Zurück";
 
 /* Class = "UINavigationItem"; title = "About"; ObjectID = "Pel-JD-Z5x"; */
 "Pel-JD-Z5x.title" = "App";
@@ -233,6 +239,9 @@
 /* Class = "UILabel"; text = "About"; ObjectID = "oqz-Hr-RAl"; */
 "oqz-Hr-RAl.text" = "Über die App";
 
+/* Class = "UITableViewSection"; headerTitle = "PRIVATE KEY"; ObjectID = "pEq-Ii-lwe"; */
+"pEq-Ii-lwe.headerTitle" = "PRIVATER SCHLÜSSEL";
+
 /* Class = "UINavigationItem"; title = "Git Signature"; ObjectID = "pPi-jd-x5U"; */
 "pPi-jd-x5U.title" = "Git-Signatur";
 
@@ -250,6 +259,9 @@
 
 /* Class = "UITableViewSection"; headerTitle = "GPG Configuration"; ObjectID = "ugP-R2-9M7"; */
 "ugP-R2-9M7.headerTitle" = "GPG-Konfiguration";
+
+/* Class = "UINavigationItem"; title = "SSH Key"; ObjectID = "vaA-as-6yJ"; */
+"vaA-as-6yJ.title" = "SSH-Schlüssel";
 
 /* Class = "UINavigationItem"; title = "PGP Key"; ObjectID = "waZ-gh-rQt"; */
 "waZ-gh-rQt.title" = "PGP-Schlüssel";
