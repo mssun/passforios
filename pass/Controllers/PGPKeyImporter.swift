@@ -14,7 +14,7 @@ protocol PGPKeyImporter: KeyImporter {
 
 extension PGPKeyImporter {
     static var isCurrentKeySource: Bool {
-        Defaults.pgpKeySource == Self.keySource
+        Defaults.pgpKeySource == keySource
     }
 
     func doAfterImport() {}

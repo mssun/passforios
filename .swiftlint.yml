@@ -66,6 +66,8 @@ attributes:
 closure_body_length:
   warning: 40
   error: 60
+explicit_init:
+  include_bare_init: true
 identifier_name:
   excluded: ["id", "to", "Defaults"]
   allowed_symbols: ["_"]
