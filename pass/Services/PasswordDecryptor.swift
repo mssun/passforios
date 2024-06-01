@@ -77,6 +77,15 @@ private func isEncryptKeyAlgoRSA(_ applicationRelatedData: Data) -> Bool {
     return false
 }
 
+private func createPGPMessage(from encryptedData: Data) -> CryptoPGPMessage? {
+    var error: NSError?
+    let message = CryptoNewPGPMessageFromArmored(String(data: encryptedData, encoding: .ascii), &error)
+    if error == nil {
+        return message
+    }
+    return CryptoNewPGPMessage(encryptedData as Data)
+}
+
 private func getCapabilities(_ applicationRelatedData: Data) -> (Bool, Bool) {
     let tlv = TKBERTLVRecord.sequenceOfRecords(from: applicationRelatedData)!
     // 0x5f52: Historical Bytes
@@ -206,7 +215,7 @@ func verifyPin(smartCard: YKFSmartCardInterface, pin: String) async throws {
 
 func decipher(smartCard: YKFSmartCardInterface, ciphertext: Data, chained: Bool) async throws -> Data {
     var error: NSError?
-    let message = CryptoNewPGPMessage(ciphertext)
+    let message = createPGPMessage(from: ciphertext)
     guard let mpi1 = Gopenpgp.HelperPassGetEncryptedMPI1(message, &error) else {
         throw AppError.yubiKey(.decipher(message: "Failed to get encrypted MPI."))
     }
@@ -225,7 +234,7 @@ func decipher(smartCard: YKFSmartCardInterface, ciphertext: Data, chained: Bool)
 }
 
 func decryptPassword(deciphered: Data, ciphertext: Data) throws -> String {
-    let message = CryptoNewPGPMessage(ciphertext)
+    let message = createPGPMessage(from: ciphertext)
 
     guard let algoByte = deciphered.first, let algo = symmetricKeyIDNameDict[algoByte] else {
         throw AppError.yubiKey(.decipher(message: "Failed to new session key."))
