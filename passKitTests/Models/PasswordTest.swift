@@ -10,7 +10,7 @@ import XCTest
 
 @testable import passKit
 
-class PasswordTest: XCTestCase {
+final class PasswordTest: XCTestCase {
     func testURL() {
         let password = getPasswordObjectWith(content: "")
 

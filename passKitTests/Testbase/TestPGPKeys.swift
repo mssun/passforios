@@ -11,7 +11,7 @@ import XCTest
 @testable import passKit
 
 struct PGPTestSet {
-    fileprivate static var ALL_TEST_SETS: [String: PGPTestSet] = [:] // swiftlint:disable:this strict_fileprivate
+    fileprivate static var ALL_TEST_SETS: [String: Self] = [:] // swiftlint:disable:this strict_fileprivate
 
     let publicKey: String
     let privateKey: String

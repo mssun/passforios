@@ -16,6 +16,7 @@ class PGPKeyFileImportTableViewController: AutoCellHeightUITableViewController, 
     private var privateKey: String?
 
     private enum KeyType { case none, `private`, `public` }
+
     private var currentlyPicking = KeyType.none
 
     @IBAction

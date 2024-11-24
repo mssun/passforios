@@ -199,7 +199,7 @@
 		DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914941E434301007FF592 /* LabelTableViewCell.swift */; };
 		DC4914991E434600007FF592 /* PasswordDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */; };
 		DC5F385B1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5F385A1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift */; };
-		DC8963C01E38EEB900828B09 /* SSHKeyURLImportTableViewController..swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController..swift */; };
+		DC8963C01E38EEB900828B09 /* SSHKeyURLImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController.swift */; };
 		DC917BD71E2E8231000FDF54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC917BD61E2E8231000FDF54 /* AppDelegate.swift */; };
 		DC917BDC1E2E8231000FDF54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDA1E2E8231000FDF54 /* Main.storyboard */; };
 		DC917BDE1E2E8231000FDF54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
@@ -496,7 +496,7 @@
 		DC4914941E434301007FF592 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
 		DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTableViewController.swift; sourceTree = "<group>"; };
 		DC5F385A1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPKeyArmorImportTableViewController.swift; sourceTree = "<group>"; };
-		DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController..swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeyURLImportTableViewController..swift; sourceTree = "<group>"; };
+		DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeyURLImportTableViewController.swift; sourceTree = "<group>"; };
 		DC917BD31E2E8231000FDF54 /* Pass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC917BD61E2E8231000FDF54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DC917BDB1E2E8231000FDF54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -982,7 +982,7 @@
 				DC037CA91E4B8EAE00609409 /* SpecialThanksTableViewController.swift */,
 				DCC441531E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift */,
 				30650E7023F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift */,
-				DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController..swift */,
+				DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1361,6 +1361,8 @@
 				9A1F47F826E5CF4B000C0E01 /* XCRemoteSwiftPackageReference "OneTimePassword" */,
 				30ED1775276F8842009BA876 /* XCRemoteSwiftPackageReference "objective-git-swift-package" */,
 				9A2C7D802782CB2F00BD9AF3 /* XCRemoteSwiftPackageReference "yubikit-ios" */,
+				307CA2312CF346D40099F6DE /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
+				307CA2322CF348260099F6DE /* XCRemoteSwiftPackageReference "SwiftFormat" */,
 			);
 			productRefGroup = DC917BD41E2E8231000FDF54 /* Products */;
 			projectDirPath = "";
@@ -1478,7 +1480,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = ". \"${SRCROOT}/scripts/swiftformat.sh\"\n";
+			shellScript = "SWIFT_PACKAGE_DIR=\"${BUILD_DIR%Build/*}SourcePackages/checkouts\"\nSWIFTFORMAT_CMD=\"$SWIFT_PACKAGE_DIR\"/SwiftFormat/CommandLineTool/swiftformat\n\nif [[ \"${CI}\" == \"true\" ]]; then\n  echo \"Running in a Continuous Integration environment. Formatting is skipped.\"\n  exit 0 \nfi\n\nif [[ \"${CONFIGURATION}\" == \"Release\" ]]; then\n  echo \"Running during a release build. Formatting is skipped.\"\n  exit 0\nfi\n\nif test -f \"$SWIFTFORMAT_CMD\" 2>&1\nthen\n    \"$SWIFTFORMAT_CMD\" .\nelse\n    echo \"warning: `swiftformat` command not found\"\nfi\n";
 		};
 		308800C124EB0D3600E87ED3 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1497,7 +1499,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = ". \"${SRCROOT}/scripts/swiftlint.sh\"\n";
+			shellScript = "SWIFT_PACKAGE_DIR=\"${BUILD_DIR%Build/*}SourcePackages/artifacts\"\nSWIFTLINT_CMD=$(ls \"$SWIFT_PACKAGE_DIR\"/swiftlintplugins/SwiftLintBinary/SwiftLintBinary.artifactbundle/swiftlint-*/bin/swiftlint | head -n 1)\n\nSTRICT_OPT=\n\nif [[ \"${CI}\" == \"true\" ]]; then\n  echo \"Running in a Continuous Integration environment. Linting is strictly.\"\n  STRICT_OPT=--strict\nfi\n\nif [[ \"${CONFIGURATION}\" == \"Release\" ]]; then\n  echo \"Running during a release build. Linting is skipped.\"\n  exit 0\nfi\n\nif test -f \"$SWIFTLINT_CMD\" 2>&1\nthen\n    \"$SWIFTLINT_CMD\" lint --fix\n    \"$SWIFTLINT_CMD\" lint $STRICT_OPT\nelse\n    echo \"warning: `swiftlint` command not found\"\nfi\n";
 		};
 		9A996C4726DDEAF100A4485D /* Remove SPM Duplicate Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1661,7 +1663,7 @@
 				DCC441541E916382008A90C4 /* SSHKeyArmorImportTableViewController.swift in Sources */,
 				306D970E24091CDD006C0E2E /* SwitchTableViewCell.swift in Sources */,
 				A2A61C201EEFABAD00CFE063 /* UtilsExtension.swift in Sources */,
-				DC8963C01E38EEB900828B09 /* SSHKeyURLImportTableViewController..swift in Sources */,
+				DC8963C01E38EEB900828B09 /* SSHKeyURLImportTableViewController.swift in Sources */,
 				DC30F83829BED4E2001EB12B /* PasswordGeneratorUISwitch.swift in Sources */,
 				9AFC87F025B514AD008D6060 /* PasswordDecryptor.swift in Sources */,
 				3066AD6823EE0D6500F65535 /* PGPKeyImporter.swift in Sources */,
@@ -2844,6 +2846,22 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 0.99.2;
+			};
+		};
+		30333B292CF922D9008A2EA2 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.57.1;
+			};
+		};
+		307CA2322CF348260099F6DE /* XCRemoteSwiftPackageReference "SwiftFormat" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nicklockwood/SwiftFormat";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.55.2;
 			};
 		};
 		30A3000C26DA62F4002A734E /* XCRemoteSwiftPackageReference "Base32" */ = {

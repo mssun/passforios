@@ -12,7 +12,7 @@ import XCTest
 
 @testable import passKit
 
-class PasswordStoreTest: XCTestCase {
+final class PasswordStoreTest: XCTestCase {
     private let remoteRepoURL = URL(string: "https://github.com/mssun/passforios-password-store.git")!
 
     func testCloneAndDecryptMultiKeys() throws {

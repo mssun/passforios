@@ -30,7 +30,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
     // preserve path so it can be reloaded even if the passwordEntity is deleted during the update process
     private var passwordPath: String?
 
-    private lazy var editUIBarButtonItem: UIBarButtonItem = .init(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit))
+    private lazy var editUIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(pressEdit))
 
     private struct TableSection {
         var type: PasswordDetailTableViewControllerSectionType

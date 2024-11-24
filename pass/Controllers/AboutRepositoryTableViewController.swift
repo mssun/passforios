@@ -13,7 +13,7 @@ class AboutRepositoryTableViewController: BasicStaticTableViewController {
     private static let VALUE_NOT_AVAILABLE = "ValueNotAvailable".localize()
 
     private var needRefresh = false
-    private var indicator: UIActivityIndicatorView = .init(style: .medium)
+    private var indicator = UIActivityIndicatorView(style: .medium)
 
     private let passwordStore = PasswordStore.shared
 

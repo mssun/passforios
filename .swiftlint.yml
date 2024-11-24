@@ -7,6 +7,7 @@ excluded:
   - go
   - Pods
   - vendor
+  - xcode
 
 ## Active rules
 
@@ -15,8 +16,8 @@ opt_in_rules:
 
 disabled_rules:
   - anonymous_argument_in_multiline_closure
-  - anyobject_protocol # Deprecated.
   - balanced_xctest_lifecycle
+  - contrasted_opening_brace
   - discouraged_none_name
   - discouraged_object_literal
   - discouraged_optional_collection # Too many false positives in implementations of system protocols.
@@ -40,10 +41,12 @@ disabled_rules:
   - legacy_objc_type
   - line_length
   - missing_docs
+  - no_empty_block # To be fixed later.
   - no_extension_access_modifier
   - no_grouping_extension
   - no_magic_numbers # Causes a lot of violations in tests.
   - number_separator # Contradicts with SwiftFormat rule 'decimalgrouping'. There are not many numbers anyway in the source code.
+  - one_declaration_per_file
   - prefer_nimble
   - prefixed_toplevel_constant # Violations are mostly in test code.
   - private_outlet
@@ -66,6 +69,8 @@ attributes:
 closure_body_length:
   warning: 40
   error: 60
+explicit_init:
+  include_bare_init: true
 identifier_name:
   excluded: ["id", "to", "Defaults"]
   allowed_symbols: ["_"]
@@ -80,4 +85,3 @@ trailing_comma:
 xct_specific_matcher:
   matchers: 
     - two-argument-asserts
-

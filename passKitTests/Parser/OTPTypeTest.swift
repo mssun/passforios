@@ -11,9 +11,9 @@ import XCTest
 
 @testable import passKit
 
-class OTPTypeTest: XCTestCase {
+final class OTPTypeTest: XCTestCase {
     func testInitFromToken() {
-        let secret = "secret".data(using: .utf8)!
+        let secret = Data("secret".utf8)
 
         let totpGenerator = Generator(factor: .timer(period: 30.0), secret: secret, algorithm: .sha1, digits: 6)!
         let totpToken = Token(name: "", issuer: "", generator: totpGenerator)

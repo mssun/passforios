@@ -10,7 +10,7 @@ import XCTest
 
 @testable import passKit
 
-class ConstantsTest: XCTestCase {
+final class ConstantsTest: XCTestCase {
     func testIsOtpRelated() {
         XCTAssert(Constants.isOtpRelated(line: "otpauth://something"))
         XCTAssert(Constants.isOtpRelated(line: "otp_algorithm: algorithm"))

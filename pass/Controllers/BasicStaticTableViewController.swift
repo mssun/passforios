@@ -38,11 +38,6 @@ class BasicStaticTableViewController: UITableViewController, MFMailComposeViewCo
         tableData[section].count
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     override func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellData = tableData[indexPath.section][indexPath.row]
         let cellDataStyle = cellData[CellDataKey.style] as? CellDataStyle

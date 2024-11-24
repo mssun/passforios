@@ -10,7 +10,7 @@ import XCTest
 
 @testable import passKit
 
-class AdditionFieldTest: XCTestCase {
+final class AdditionFieldTest: XCTestCase {
     func testAdditionField() {
         let field1 = AdditionField(title: "key", content: "value")
         let field2 = AdditionField(title: "no content")

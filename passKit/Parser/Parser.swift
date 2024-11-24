@@ -48,6 +48,7 @@ class Parser {
         guard lineNumber < purgedAdditionalLines.count else {
             return result
         }
+        // swiftlint:disable:next unused_enumerated
         let numberInitialBlanks = purgedAdditionalLines[lineNumber].enumerated().first {
             $1 != Character(Constants.BLANK)
         }?.0 ?? purgedAdditionalLines[lineNumber].count
