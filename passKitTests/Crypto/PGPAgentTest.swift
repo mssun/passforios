@@ -11,11 +11,11 @@ import XCTest
 
 @testable import passKit
 
-class PGPAgentTest: XCTestCase {
+final class PGPAgentTest: XCTestCase {
     private var keychain: KeyStore!
     private var pgpAgent: PGPAgent!
 
-    private let testData = "Hello World!".data(using: .utf8)!
+    private let testData = Data("Hello World!".utf8)
 
     override func setUp() {
         super.setUp()

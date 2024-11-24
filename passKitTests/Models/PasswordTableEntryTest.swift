@@ -10,7 +10,7 @@ import XCTest
 
 @testable import passKit
 
-class PasswordTableEntryTest: XCTestCase {
+final class PasswordTableEntryTest: XCTestCase {
     func testExample() {
         let nameWithCategoryList = [
             "github",

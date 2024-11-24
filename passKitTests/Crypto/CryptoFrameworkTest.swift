@@ -8,11 +8,12 @@
 
 import XCTest
 
-// swiftformat:disable:next sortedImports
-@testable import passKit
 @testable import Gopenpgp
 
-class CryptoFrameworkTest: XCTestCase {
+// swiftformat:disable:next sortedImports
+@testable import passKit
+
+final class CryptoFrameworkTest: XCTestCase {
     private typealias MessageConverter = (CryptoPGPMessage, NSErrorPointer) -> CryptoPGPMessage?
 
     private let testText = "Hello World!"

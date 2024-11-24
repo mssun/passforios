@@ -12,7 +12,7 @@ import XCTest
 
 @testable import passKit
 
-class TokenBuilderTest: XCTestCase {
+final class TokenBuilderTest: XCTestCase {
     private let SECRET = "secret"
     private let DIGITS = Constants.DEFAULT_DIGITS
     private let TIMER = Generator.Factor.timer(period: Constants.DEFAULT_PERIOD)

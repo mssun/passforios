@@ -10,7 +10,7 @@ import XCTest
 
 @testable import Pass
 
-class QRKeyScannerTest: XCTestCase {
+final class QRKeyScannerTest: XCTestCase {
     private let header = "-----BEGIN PGP PUBLIC KEY BLOCK-----"
     private let body = "key body"
     private let footer = "-----END PGP PUBLIC KEY BLOCK-----"
