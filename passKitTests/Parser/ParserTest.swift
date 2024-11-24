@@ -9,7 +9,7 @@
 import XCTest
 @testable import passKit
 
-class ParserTest: XCTestCase {
+final class ParserTest: XCTestCase {
     func testInit() {
         [
             ("", "", "", []),

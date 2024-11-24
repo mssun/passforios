@@ -24,13 +24,13 @@ protocol KeyImporter {
 
 extension KeyImporter {
     static var isCurrentKeySource: Bool {
-        Defaults.gitSSHKeySource == Self.keySource
+        Defaults.gitSSHKeySource == keySource
     }
 
     static var menuLabel: String {
         if isCurrentKeySource {
-            return "✓ \(Self.label)"
+            return "✓ \(label)"
         }
-        return Self.label
+        return label
     }
 }

@@ -21,9 +21,8 @@ jobs:
     - name: Installing packages
       run: |
         brew update
-        brew install carthage swiftformat
+        brew install carthage
         brew install go || brew link --overwrite go
-        brew install swiftlint || brew link --overwrite swiftlint
         gem install bundler
     - uses: actions/cache@v3
       id: carthage-cache

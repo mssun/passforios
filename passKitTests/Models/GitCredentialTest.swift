@@ -12,7 +12,7 @@ import ObjectiveGit
 import SwiftyUserDefaults
 @testable import passKit
 
-class GitCredentialTest: XCTestCase {
+final class GitCredentialTest: XCTestCase {
     private static let defaultsID = "SharedDefaultsForGitCredentialTest"
 
     private let keyStore = DictBasedKeychain()

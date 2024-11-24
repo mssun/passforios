@@ -10,7 +10,7 @@ import XCTest
 
 @testable import passKit
 
-class KeyFileManagerTest: XCTestCase {
+final class KeyFileManagerTest: XCTestCase {
     private static let filePath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("test.txt").path
     private static let keyFileManager = KeyFileManager(keyType: PGPKey.PUBLIC, keyPath: filePath) { _, _ in }
 

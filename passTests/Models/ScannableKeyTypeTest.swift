@@ -10,7 +10,7 @@ import XCTest
 
 @testable import Pass
 
-class ScannableKeyTypeTest: XCTestCase {
+final class ScannableKeyTypeTest: XCTestCase {
     func testPGPPublicKey() {
         let type = ScannableKeyType.pgpPublic
 

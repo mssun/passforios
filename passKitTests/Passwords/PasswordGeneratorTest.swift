@@ -10,7 +10,7 @@ import XCTest
 
 @testable import passKit
 
-class PasswordGeneratorTest: XCTestCase {
+final class PasswordGeneratorTest: XCTestCase {
     func testLimitedLength() {
         [
             PasswordGenerator(length: 15),

@@ -10,7 +10,7 @@ import XCTest
 
 @testable import passKit
 
-class ArraySlicesTest: XCTestCase {
+final class ArraySlicesTest: XCTestCase {
     func testZeroCount() {
         XCTAssertEqual([1, 2, 3].slices(count: 0), [])
     }

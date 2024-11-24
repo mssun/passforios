@@ -10,7 +10,7 @@ import XCTest
 
 @testable import passKit
 
-class StringUtilitiesTest: XCTestCase {
+final class StringUtilitiesTest: XCTestCase {
     func testTrimmed() {
         [
             ("  ", ""),

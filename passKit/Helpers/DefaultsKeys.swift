@@ -35,39 +35,39 @@ extension SearchBarScope: DefaultsSerializable {}
 extension PasswordGenerator: DefaultsSerializable {}
 
 public extension DefaultsKeys {
-    var pgpKeySource: DefaultsKey<KeySource?> { .init("pgpKeySource") }
-    var pgpPublicKeyURL: DefaultsKey<URL?> { .init("pgpPublicKeyURL") }
-    var pgpPrivateKeyURL: DefaultsKey<URL?> { .init("pgpPrivateKeyURL") }
-    var isYubiKeyEnabled: DefaultsKey<Bool> { .init("isYubiKeyEnabled", defaultValue: false) }
+    var pgpKeySource: DefaultsKey<KeySource?> { DefaultsKey("pgpKeySource") }
+    var pgpPublicKeyURL: DefaultsKey<URL?> { DefaultsKey("pgpPublicKeyURL") }
+    var pgpPrivateKeyURL: DefaultsKey<URL?> { DefaultsKey("pgpPrivateKeyURL") }
+    var isYubiKeyEnabled: DefaultsKey<Bool> { DefaultsKey("isYubiKeyEnabled", defaultValue: false) }
 
     // Keep them for legacy reasons.
-    var pgpPublicKeyArmor: DefaultsKey<String?> { .init("pgpPublicKeyArmor") }
-    var pgpPrivateKeyArmor: DefaultsKey<String?> { .init("pgpPrivateKeyArmor") }
-    var gitSSHPrivateKeyArmor: DefaultsKey<String?> { .init("gitSSHPrivateKeyArmor") }
-    var passcodeKey: DefaultsKey<String?> { .init("passcodeKey") }
+    var pgpPublicKeyArmor: DefaultsKey<String?> { DefaultsKey("pgpPublicKeyArmor") }
+    var pgpPrivateKeyArmor: DefaultsKey<String?> { DefaultsKey("pgpPrivateKeyArmor") }
+    var gitSSHPrivateKeyArmor: DefaultsKey<String?> { DefaultsKey("gitSSHPrivateKeyArmor") }
+    var passcodeKey: DefaultsKey<String?> { DefaultsKey("passcodeKey") }
 
-    var gitURL: DefaultsKey<URL> { .init("gitURL", defaultValue: URL(string: "https://")!) }
-    var gitAuthenticationMethod: DefaultsKey<GitAuthenticationMethod> { .init("gitAuthenticationMethod", defaultValue: GitAuthenticationMethod.password) }
-    var gitUsername: DefaultsKey<String> { .init("gitUsername", defaultValue: "git") }
-    var gitBranchName: DefaultsKey<String> { .init("gitBranchName", defaultValue: "master") }
-    var gitSSHPrivateKeyURL: DefaultsKey<URL?> { .init("gitSSHPrivateKeyURL") }
-    var gitSSHKeySource: DefaultsKey<KeySource?> { .init("gitSSHKeySource") }
-    var gitSignatureName: DefaultsKey<String?> { .init("gitSignatureName") }
-    var gitSignatureEmail: DefaultsKey<String?> { .init("gitSignatureEmail") }
+    var gitURL: DefaultsKey<URL> { DefaultsKey("gitURL", defaultValue: URL(string: "https://")!) }
+    var gitAuthenticationMethod: DefaultsKey<GitAuthenticationMethod> { DefaultsKey("gitAuthenticationMethod", defaultValue: GitAuthenticationMethod.password) }
+    var gitUsername: DefaultsKey<String> { DefaultsKey("gitUsername", defaultValue: "git") }
+    var gitBranchName: DefaultsKey<String> { DefaultsKey("gitBranchName", defaultValue: "master") }
+    var gitSSHPrivateKeyURL: DefaultsKey<URL?> { DefaultsKey("gitSSHPrivateKeyURL") }
+    var gitSSHKeySource: DefaultsKey<KeySource?> { DefaultsKey("gitSSHKeySource") }
+    var gitSignatureName: DefaultsKey<String?> { DefaultsKey("gitSignatureName") }
+    var gitSignatureEmail: DefaultsKey<String?> { DefaultsKey("gitSignatureEmail") }
 
-    var lastSyncedTime: DefaultsKey<Date?> { .init("lastSyncedTime") }
+    var lastSyncedTime: DefaultsKey<Date?> { DefaultsKey("lastSyncedTime") }
 
-    var isHideUnknownOn: DefaultsKey<Bool> { .init("isHideUnknownOn", defaultValue: false) }
-    var isHideOTPOn: DefaultsKey<Bool> { .init("isHideOTPOn", defaultValue: false) }
-    var isRememberPGPPassphraseOn: DefaultsKey<Bool> { .init("isRememberPGPPassphraseOn", defaultValue: false) }
-    var isRememberGitCredentialPassphraseOn: DefaultsKey<Bool> { .init("isRememberGitCredentialPassphraseOn", defaultValue: false) }
-    var isEnableGPGIDOn: DefaultsKey<Bool> { .init("isEnableGPGIDOn", defaultValue: false) }
-    var isShowFolderOn: DefaultsKey<Bool> { .init("isShowFolderOn", defaultValue: true) }
-    var isHidePasswordImagesOn: DefaultsKey<Bool> { .init("isHidePasswordImagesOn", defaultValue: false) }
-    var searchDefault: DefaultsKey<SearchBarScope?> { .init("searchDefault", defaultValue: .all) }
-    var passwordGenerator: DefaultsKey<PasswordGenerator> { .init("passwordGenerator", defaultValue: PasswordGenerator()) }
+    var isHideUnknownOn: DefaultsKey<Bool> { DefaultsKey("isHideUnknownOn", defaultValue: false) }
+    var isHideOTPOn: DefaultsKey<Bool> { DefaultsKey("isHideOTPOn", defaultValue: false) }
+    var isRememberPGPPassphraseOn: DefaultsKey<Bool> { DefaultsKey("isRememberPGPPassphraseOn", defaultValue: false) }
+    var isRememberGitCredentialPassphraseOn: DefaultsKey<Bool> { DefaultsKey("isRememberGitCredentialPassphraseOn", defaultValue: false) }
+    var isEnableGPGIDOn: DefaultsKey<Bool> { DefaultsKey("isEnableGPGIDOn", defaultValue: false) }
+    var isShowFolderOn: DefaultsKey<Bool> { DefaultsKey("isShowFolderOn", defaultValue: true) }
+    var isHidePasswordImagesOn: DefaultsKey<Bool> { DefaultsKey("isHidePasswordImagesOn", defaultValue: false) }
+    var searchDefault: DefaultsKey<SearchBarScope?> { DefaultsKey("searchDefault", defaultValue: .all) }
+    var passwordGenerator: DefaultsKey<PasswordGenerator> { DefaultsKey("passwordGenerator", defaultValue: PasswordGenerator()) }
 
-    var encryptInArmored: DefaultsKey<Bool> { .init("encryptInArmored", defaultValue: false) }
+    var encryptInArmored: DefaultsKey<Bool> { DefaultsKey("encryptInArmored", defaultValue: false) }
 
-    var autoCopyOTP: DefaultsKey<Bool> { .init("autoCopyOTP", defaultValue: false) }
+    var autoCopyOTP: DefaultsKey<Bool> { DefaultsKey("autoCopyOTP", defaultValue: false) }
 }
