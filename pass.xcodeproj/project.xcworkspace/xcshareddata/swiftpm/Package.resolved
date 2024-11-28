@@ -1,5 +1,5 @@
 {
-  "originHash" : "de205d1658853b135e2fee45e9118ceb0bbe55870b93f6b78a0eaf19a36af915",
+  "originHash" : "057d32000b3ab83e442b489c5bd052eed01930beee0100cb576baf0e541800df",
   "pins" : [
     {
       "identity" : "base32",
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/krzyzanowskim/ObjectivePGP",
       "state" : {
-        "revision" : "0dc7ca7ffe193095dc37456b0c75be167a2026f4",
-        "version" : "0.99.2"
+        "revision" : "5629d849ec6c8f8ec733dffa9949c507468ec0b4",
+        "version" : "0.99.4"
       }
     },
     {
@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nicklockwood/SwiftFormat",
       "state" : {
-        "revision" : "eb55d16245567e99d18ea871a7609befc8210c46",
-        "version" : "0.55.2"
+        "revision" : "2d5a2b6bde636c1feae2c852ab9a50f221e98c66",
+        "version" : "0.55.3"
       }
     },
     {
@@ -95,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Yubico/yubikit-ios",
       "state" : {
-        "revision" : "0d8c74a99d634b048a0a3ded32f8382e989079c5",
-        "version" : "4.3.0"
+        "revision" : "1ea9c97010780499001ac8552d6440235d947686",
+        "version" : "4.6.0"
       }
     }
   ],

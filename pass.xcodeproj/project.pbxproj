@@ -2879,8 +2879,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mattrubin/Base32";
 			requirement = {
-				branch = "1.1.2+spm";
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
 			};
 		};
 		30ED1775276F8842009BA876 /* XCRemoteSwiftPackageReference "objective-git-swift-package" */ = {
