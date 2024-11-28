@@ -1,5 +1,5 @@
 {
-  "originHash" : "cfd99fa2de57765d4ea0531870a48806df8e3971c39177b2ec90b24da2c77efb",
+  "originHash" : "de205d1658853b135e2fee45e9118ceb0bbe55870b93f6b78a0eaf19a36af915",
   "pins" : [
     {
       "identity" : "base32",
@@ -52,6 +52,15 @@
       "location" : "https://github.com/mssun/OneTimePassword",
       "state" : {
         "revision" : "8d59e4abba762d0f1e9aed161081f7b3fe21daa0"
+      }
+    },
+    {
+      "identity" : "svprogresshud",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SVProgressHUD/SVProgressHUD",
+      "state" : {
+        "revision" : "c33f7c775ba7feea6047a1fc3257f2e5863b44f7",
+        "version" : "2.3.1"
       }
     },
     {
