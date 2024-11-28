@@ -23,6 +23,8 @@
 		3032328E22CBD4CD009EBD9C /* CryptographicKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032328D22CBD4CD009EBD9C /* CryptographicKeys.swift */; };
 		3032DA5426DAF4C200A7728C /* ObjectivePGP in Frameworks */ = {isa = PBXBuildFile; productRef = 3032DA5326DAF4C200A7728C /* ObjectivePGP */; };
 		3032DA5626DAF4E500A7728C /* ObjectivePGP in Frameworks */ = {isa = PBXBuildFile; productRef = 3032DA5526DAF4E500A7728C /* ObjectivePGP */; };
+		30333B2B2CF924DC008A2EA2 /* SVProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 30333B2A2CF924DC008A2EA2 /* SVProgressHUD */; };
+		30333B2D2CF9252E008A2EA2 /* SVProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 30333B2C2CF9252E008A2EA2 /* SVProgressHUD */; };
 		30650E7123F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30650E7023F82AF8005CCD5E /* SSHKeyFileImportTableViewController.swift */; };
 		30650E7323F847FC005CCD5E /* KeyImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30650E7223F847FC005CCD5E /* KeyImporter.swift */; };
 		306623332406F1A8000E2AD6 /* PasswordGeneratorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306623322406F1A7000E2AD6 /* PasswordGeneratorTest.swift */; };
@@ -141,8 +143,6 @@
 		9A5D070225A5769A00FA59D4 /* PasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */; };
 		9A652414244BB33300DA0A41 /* UIAlertActionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A652413244BB33300DA0A41 /* UIAlertActionExtension.swift */; };
 		9A74D2E0277D2F8C00F7BC44 /* UIAlertControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74D2DF277D2F8C00F7BC44 /* UIAlertControllerExtension.swift */; };
-		9A78A7CC277BECE80093222D /* SVProgressHUD.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F6C1B327664C7200BE5AB2 /* SVProgressHUD.xcframework */; };
-		9A78A7CD277BECE80093222D /* SVProgressHUD.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 30F6C1B327664C7200BE5AB2 /* SVProgressHUD.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A8F9EBD259EA4C50027CE15 /* PasswordsTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EBC259EA4C50027CE15 /* PasswordsTableDataSource.swift */; };
 		9A8F9ECC259ECB410027CE15 /* PasswordSelectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9ECB259ECB410027CE15 /* PasswordSelectionDelegate.swift */; };
 		9A8F9F4025A1A91F0027CE15 /* CredentialProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9F3F25A1A91F0027CE15 /* CredentialProvider.swift */; };
@@ -309,7 +309,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				9A996C5926DEB0D200A4485D /* passKit.framework in Embed Frameworks */,
-				9A78A7CD277BECE80093222D /* SVProgressHUD.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -549,6 +548,7 @@
 				30A3001426DA6692002A734E /* KeychainAccess in Frameworks */,
 				9A996C5726DDF65900A4485D /* Base32 in Frameworks */,
 				9A1D1CE526E5D1CE0052028E /* OneTimePassword in Frameworks */,
+				30333B2D2CF9252E008A2EA2 /* SVProgressHUD in Frameworks */,
 				30A3001626DA6697002A734E /* SwiftyUserDefaults in Frameworks */,
 				3032DA5626DAF4E500A7728C /* ObjectivePGP in Frameworks */,
 				9A2C7D862783FF9600BD9AF3 /* YubiKit in Frameworks */,
@@ -591,10 +591,10 @@
 			files = (
 				5F9D7B0D27AF6F7500A8AB22 /* CryptoTokenKit.framework in Frameworks */,
 				3010CB6026DA4F87008964D2 /* SwiftyUserDefaults in Frameworks */,
+				30333B2B2CF924DC008A2EA2 /* SVProgressHUD in Frameworks */,
 				3010CB6326DA4FE9008964D2 /* FavIcon in Frameworks */,
 				9A1F47FA26E5CF4B000C0E01 /* OneTimePassword in Frameworks */,
 				9A996C5326DDF61F00A4485D /* Base32 in Frameworks */,
-				9A78A7CC277BECE80093222D /* SVProgressHUD.xcframework in Frameworks */,
 				3032DA5426DAF4C200A7728C /* ObjectivePGP in Frameworks */,
 				9A2C7D822782CB2F00BD9AF3 /* YubiKit in Frameworks */,
 				3010CB6626DA500F008964D2 /* KeychainAccess in Frameworks */,
@@ -1154,6 +1154,7 @@
 				9A996C5626DDF65900A4485D /* Base32 */,
 				9A1D1CE426E5D1CE0052028E /* OneTimePassword */,
 				9A2C7D852783FF9600BD9AF3 /* YubiKit */,
+				30333B2C2CF9252E008A2EA2 /* SVProgressHUD */,
 			);
 			productName = passKit;
 			productReference = A26075781EEC6F34005DB03E /* passKit.framework */;
@@ -1256,6 +1257,7 @@
 				9A1F47F926E5CF4B000C0E01 /* OneTimePassword */,
 				30ED1776276F8842009BA876 /* ObjectiveGit */,
 				9A2C7D812782CB2F00BD9AF3 /* YubiKit */,
+				30333B2A2CF924DC008A2EA2 /* SVProgressHUD */,
 			);
 			productName = pass;
 			productReference = DC917BD31E2E8231000FDF54 /* Pass.app */;
@@ -1361,8 +1363,9 @@
 				9A1F47F826E5CF4B000C0E01 /* XCRemoteSwiftPackageReference "OneTimePassword" */,
 				30ED1775276F8842009BA876 /* XCRemoteSwiftPackageReference "objective-git-swift-package" */,
 				9A2C7D802782CB2F00BD9AF3 /* XCRemoteSwiftPackageReference "yubikit-ios" */,
-				307CA2312CF346D40099F6DE /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 				307CA2322CF348260099F6DE /* XCRemoteSwiftPackageReference "SwiftFormat" */,
+				307CB7522CF9219100D0931F /* XCRemoteSwiftPackageReference "SVProgressHUD" */,
+				30333B292CF922D9008A2EA2 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 			);
 			productRefGroup = DC917BD41E2E8231000FDF54 /* Products */;
 			projectDirPath = "";
@@ -2864,6 +2867,14 @@
 				minimumVersion = 0.55.2;
 			};
 		};
+		307CB7522CF9219100D0931F /* XCRemoteSwiftPackageReference "SVProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SVProgressHUD/SVProgressHUD";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.1;
+			};
+		};
 		30A3000C26DA62F4002A734E /* XCRemoteSwiftPackageReference "Base32" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mattrubin/Base32";
@@ -2923,6 +2934,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3032DA5226DAF4C200A7728C /* XCRemoteSwiftPackageReference "ObjectivePGP" */;
 			productName = ObjectivePGP;
+		};
+		30333B2A2CF924DC008A2EA2 /* SVProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 307CB7522CF9219100D0931F /* XCRemoteSwiftPackageReference "SVProgressHUD" */;
+			productName = SVProgressHUD;
+		};
+		30333B2C2CF9252E008A2EA2 /* SVProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 307CB7522CF9219100D0931F /* XCRemoteSwiftPackageReference "SVProgressHUD" */;
+			productName = SVProgressHUD;
 		};
 		30A3001326DA6692002A734E /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;

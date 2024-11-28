@@ -3,7 +3,6 @@
 ## Excluded folders
 
 --exclude       \
-    Carthage,   \
     go,         \
     Pods,       \
     vendor

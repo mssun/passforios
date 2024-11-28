@@ -3,7 +3,6 @@
 ## Folders to exclude from linting
 
 excluded:
-  - Carthage
   - go
   - Pods
   - vendor
