@@ -147,15 +147,15 @@ struct GopenPGPInterface: PGPInterface {
     var shortKeyID: [String] {
         publicKeys.keys.map { $0.suffix(8).uppercased() }
     }
+}
 
-    private func createPGPMessage(from encryptedData: Data) -> CryptoPGPMessage? {
-        // Important note:
-        // Even if Defaults.encryptInArmored is true now, it could be different during the encryption.
-        var error: NSError?
-        let message = CryptoNewPGPMessageFromArmored(String(data: encryptedData, encoding: .ascii), &error)
-        if error == nil {
-            return message
-        }
-        return CryptoNewPGPMessage(encryptedData.mutable as Data)
+public func createPGPMessage(from encryptedData: Data) -> CryptoPGPMessage? {
+    // Important note:
+    // Even if Defaults.encryptInArmored is true now, it could be different during the encryption.
+    var error: NSError?
+    let message = CryptoNewPGPMessageFromArmored(String(data: encryptedData, encoding: .ascii), &error)
+    if error == nil {
+        return message
     }
+    return CryptoNewPGPMessage(encryptedData.mutable as Data)
 }

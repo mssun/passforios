@@ -206,7 +206,7 @@ func verifyPin(smartCard: YKFSmartCardInterface, pin: String) async throws {
 
 func decipher(smartCard: YKFSmartCardInterface, ciphertext: Data, chained: Bool) async throws -> Data {
     var error: NSError?
-    let message = CryptoNewPGPMessage(ciphertext)
+    let message = createPGPMessage(from: ciphertext)
     guard let mpi1 = Gopenpgp.HelperPassGetEncryptedMPI1(message, &error) else {
         throw AppError.yubiKey(.decipher(message: "Failed to get encrypted MPI."))
     }
@@ -225,7 +225,7 @@ func decipher(smartCard: YKFSmartCardInterface, ciphertext: Data, chained: Bool)
 }
 
 func decryptPassword(deciphered: Data, ciphertext: Data) throws -> String {
-    let message = CryptoNewPGPMessage(ciphertext)
+    let message = createPGPMessage(from: ciphertext)
 
     guard let algoByte = deciphered.first, let algo = symmetricKeyIDNameDict[algoByte] else {
         throw AppError.yubiKey(.decipher(message: "Failed to new session key."))
