@@ -125,8 +125,8 @@ public class Password {
         additions.filter { field in
             let title = field.title.lowercased()
             return title != Constants.USERNAME_KEYWORD
-                && title != Constants.USER_KEYWORD
                 && title != Constants.LOGIN_KEYWORD
+                && title != Constants.USER_KEYWORD
                 && title != Constants.PASSWORD_KEYWORD
                 && (!Constants.isUnknown(title) || !Defaults.isHideUnknownOn)
                 && (!Constants.isOtpKeyword(title) || !Defaults.isHideOTPOn)
@@ -220,6 +220,6 @@ public class Password {
     }
 
     public func getUsernameForCompletion() -> String {
-        username ?? user ?? login ?? nameFromPath ?? ""
+        username ?? login ?? user ?? nameFromPath ?? ""
     }
 }
