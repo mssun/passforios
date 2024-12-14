@@ -25,13 +25,11 @@ jobs:
     - name: Installing packages
       run: |
         gem install bundler
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       id: gopenpgp-cache
       with:
         path: go
         key: ${{ runner.os }}-gopenpgp-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/gopenpgp_build.sh') }}
-        restore-keys: |
-          ${{ runner.os }}-gopenpgp-${{ secrets.CACHE_VERSION }}-
     - name: Bundle Install
       run: |
         bundle config path vendor/bundle
