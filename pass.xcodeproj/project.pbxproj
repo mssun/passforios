@@ -117,9 +117,7 @@
 		9A1D1CE526E5D1CE0052028E /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 9A1D1CE426E5D1CE0052028E /* OneTimePassword */; };
 		9A1D1CE726E5D2230052028E /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 9A1D1CE626E5D2230052028E /* OneTimePassword */; };
 		9A1F47FA26E5CF4B000C0E01 /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 9A1F47F926E5CF4B000C0E01 /* OneTimePassword */; };
-		9A2C7D822782CB2F00BD9AF3 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9A2C7D812782CB2F00BD9AF3 /* YubiKit */; };
 		9A2C7D842783FF5200BD9AF3 /* YubiKeyConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2C7D832783FF5200BD9AF3 /* YubiKeyConnection.swift */; };
-		9A2C7D862783FF9600BD9AF3 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9A2C7D852783FF9600BD9AF3 /* YubiKit */; };
 		9A2C7D8B2784139200BD9AF3 /* YubiKeyAPDU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2C7D8A2784139200BD9AF3 /* YubiKeyAPDU.swift */; };
 		9A55C158259E785600FA8FD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
 		9A55C15F259E785700FA8FD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDD1E2E8231000FDF54 /* Assets.xcassets */; };
@@ -132,8 +130,6 @@
 		9A58664825AAAB7E006719C2 /* SearchPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A5865EF25AA944B006719C2 /* SearchPassword.storyboard */; };
 		9A58665125AADB76006719C2 /* CredentialProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58665025AADB76006719C2 /* CredentialProvider.swift */; };
 		9A5C6EF42786CA5F0003F340 /* AlertPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5C6EEF2786C8710003F340 /* AlertPresenting.swift */; };
-		9A5C6EF92786CE170003F340 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9A5C6EF82786CE170003F340 /* YubiKit */; };
-		9A5C6EFB2786CE5E0003F340 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9A5C6EFA2786CE5E0003F340 /* YubiKit */; };
 		9A5C6EFF2787F0980003F340 /* Gopenpgp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADAB21C26DDA52400900F10 /* Gopenpgp.xcframework */; };
 		9A5C6F022787F09A0003F340 /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		9A5C6F042787F09D0003F340 /* Gopenpgp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADAB21C26DDA52400900F10 /* Gopenpgp.xcframework */; };
@@ -199,6 +195,8 @@
 		DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914941E434301007FF592 /* LabelTableViewCell.swift */; };
 		DC4914991E434600007FF592 /* PasswordDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */; };
 		DC5F385B1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5F385A1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift */; };
+		DC7CBBBD2D0FA3F2003BB4D2 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = DC7CBBBC2D0FA3F2003BB4D2 /* YubiKit */; };
+		DC7CBBBF2D0FAC92003BB4D2 /* YKFSmartCardInterfaceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7CBBBE2D0FAC8E003BB4D2 /* YKFSmartCardInterfaceExtension.swift */; };
 		DC8963C01E38EEB900828B09 /* SSHKeyURLImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController.swift */; };
 		DC917BD71E2E8231000FDF54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC917BD61E2E8231000FDF54 /* AppDelegate.swift */; };
 		DC917BDC1E2E8231000FDF54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC917BDA1E2E8231000FDF54 /* Main.storyboard */; };
@@ -495,6 +493,7 @@
 		DC4914941E434301007FF592 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
 		DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTableViewController.swift; sourceTree = "<group>"; };
 		DC5F385A1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPKeyArmorImportTableViewController.swift; sourceTree = "<group>"; };
+		DC7CBBBE2D0FAC8E003BB4D2 /* YKFSmartCardInterfaceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YKFSmartCardInterfaceExtension.swift; sourceTree = "<group>"; };
 		DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeyURLImportTableViewController.swift; sourceTree = "<group>"; };
 		DC917BD31E2E8231000FDF54 /* Pass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC917BD61E2E8231000FDF54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -533,7 +532,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F9D7B0E27AF6FCA00A8AB22 /* CryptoTokenKit.framework in Frameworks */,
-				9A5C6EF92786CE170003F340 /* YubiKit in Frameworks */,
 				9A996C6E26DEB99200A4485D /* passKit.framework in Frameworks */,
 				30A3001A26DA697C002A734E /* SwiftyUserDefaults in Frameworks */,
 				9A5C6F042787F09D0003F340 /* Gopenpgp.xcframework in Frameworks */,
@@ -544,6 +542,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC7CBBBD2D0FA3F2003BB4D2 /* YubiKit in Frameworks */,
 				9ADAB21D26DDA52400900F10 /* Gopenpgp.xcframework in Frameworks */,
 				30A3001426DA6692002A734E /* KeychainAccess in Frameworks */,
 				9A996C5726DDF65900A4485D /* Base32 in Frameworks */,
@@ -551,7 +550,6 @@
 				30333B2D2CF9252E008A2EA2 /* SVProgressHUD in Frameworks */,
 				30A3001626DA6697002A734E /* SwiftyUserDefaults in Frameworks */,
 				3032DA5626DAF4E500A7728C /* ObjectivePGP in Frameworks */,
-				9A2C7D862783FF9600BD9AF3 /* YubiKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -572,7 +570,6 @@
 			files = (
 				5F9D7B0F27AF6FD200A8AB22 /* CryptoTokenKit.framework in Frameworks */,
 				9A5C6F022787F09A0003F340 /* passKit.framework in Frameworks */,
-				9A5C6EFB2786CE5E0003F340 /* YubiKit in Frameworks */,
 				9A5C6EFF2787F0980003F340 /* Gopenpgp.xcframework in Frameworks */,
 				9A5C6F082787F0C20003F340 /* SwiftyUserDefaults in Frameworks */,
 			);
@@ -596,7 +593,6 @@
 				9A1F47FA26E5CF4B000C0E01 /* OneTimePassword in Frameworks */,
 				9A996C5326DDF61F00A4485D /* Base32 in Frameworks */,
 				3032DA5426DAF4C200A7728C /* ObjectivePGP in Frameworks */,
-				9A2C7D822782CB2F00BD9AF3 /* YubiKit in Frameworks */,
 				3010CB6626DA500F008964D2 /* KeychainAccess in Frameworks */,
 				9A996C5826DEB0D100A4485D /* passKit.framework in Frameworks */,
 				30ED1777276F8842009BA876 /* ObjectiveGit in Frameworks */,
@@ -683,6 +679,7 @@
 		30B6AABA21F49095006B352D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				DC7CBBBE2D0FAC8E003BB4D2 /* YKFSmartCardInterfaceExtension.swift */,
 				30DAFD49240985A7002456E7 /* Array+Slices.swift */,
 				30CCA90A2325119C0048CA51 /* Data+Mutable.swift */,
 				30697C3621F63C990064FCAC /* String+Localization.swift */,
@@ -1127,7 +1124,6 @@
 			name = passAutoFillExtension;
 			packageProductDependencies = (
 				30A3001926DA697C002A734E /* SwiftyUserDefaults */,
-				9A5C6EF82786CE170003F340 /* YubiKit */,
 			);
 			productName = passAutoFillExtension;
 			productReference = A239F5952158C08B00576CBF /* passAutoFillExtension.appex */;
@@ -1153,8 +1149,8 @@
 				3032DA5526DAF4E500A7728C /* ObjectivePGP */,
 				9A996C5626DDF65900A4485D /* Base32 */,
 				9A1D1CE426E5D1CE0052028E /* OneTimePassword */,
-				9A2C7D852783FF9600BD9AF3 /* YubiKit */,
 				30333B2C2CF9252E008A2EA2 /* SVProgressHUD */,
+				DC7CBBBC2D0FA3F2003BB4D2 /* YubiKit */,
 			);
 			productName = passKit;
 			productReference = A26075781EEC6F34005DB03E /* passKit.framework */;
@@ -1198,7 +1194,6 @@
 			);
 			name = passExtension;
 			packageProductDependencies = (
-				9A5C6EFA2786CE5E0003F340 /* YubiKit */,
 				9A5C6F072787F0C20003F340 /* SwiftyUserDefaults */,
 			);
 			productName = passExtension;
@@ -1256,7 +1251,6 @@
 				9A996C5226DDF61F00A4485D /* Base32 */,
 				9A1F47F926E5CF4B000C0E01 /* OneTimePassword */,
 				30ED1776276F8842009BA876 /* ObjectiveGit */,
-				9A2C7D812782CB2F00BD9AF3 /* YubiKit */,
 				30333B2A2CF924DC008A2EA2 /* SVProgressHUD */,
 			);
 			productName = pass;
@@ -1362,10 +1356,10 @@
 				3032DA5226DAF4C200A7728C /* XCRemoteSwiftPackageReference "ObjectivePGP" */,
 				9A1F47F826E5CF4B000C0E01 /* XCRemoteSwiftPackageReference "OneTimePassword" */,
 				30ED1775276F8842009BA876 /* XCRemoteSwiftPackageReference "objective-git-swift-package" */,
-				9A2C7D802782CB2F00BD9AF3 /* XCRemoteSwiftPackageReference "yubikit-ios" */,
 				307CA2322CF348260099F6DE /* XCRemoteSwiftPackageReference "SwiftFormat" */,
 				307CB7522CF9219100D0931F /* XCRemoteSwiftPackageReference "SVProgressHUD" */,
 				30333B292CF922D9008A2EA2 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
+				DC7CBBBB2D0FA3F2003BB4D2 /* XCRemoteSwiftPackageReference "yubikit-ios" */,
 			);
 			productRefGroup = DC917BD41E2E8231000FDF54 /* Products */;
 			projectDirPath = "";
@@ -1568,6 +1562,7 @@
 				A26075AD1EEC7125005DB03E /* pass.xcdatamodeld in Sources */,
 				30697C2D21F63C5A0064FCAC /* PasswordGeneratorFlavor.swift in Sources */,
 				308C273A2279F9CB0016D0E2 /* SearchBarScope.swift in Sources */,
+				DC7CBBBF2D0FAC92003BB4D2 /* YKFSmartCardInterfaceExtension.swift in Sources */,
 				30697C2F21F63C5A0064FCAC /* DefaultsKeys.swift in Sources */,
 				30A1D2A821B2D53200E2D1F7 /* PasswordChange.swift in Sources */,
 				30697C3E21F63C990064FCAC /* String+Utilities.swift in Sources */,
@@ -2932,12 +2927,12 @@
 				revision = 8d59e4abba762d0f1e9aed161081f7b3fe21daa0;
 			};
 		};
-		9A2C7D802782CB2F00BD9AF3 /* XCRemoteSwiftPackageReference "yubikit-ios" */ = {
+		DC7CBBBB2D0FA3F2003BB4D2 /* XCRemoteSwiftPackageReference "yubikit-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Yubico/yubikit-ios";
+			repositoryURL = "https://github.com/Yubico/yubikit-ios.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
+				minimumVersion = 4.6.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -3028,26 +3023,6 @@
 			package = 9A1F47F826E5CF4B000C0E01 /* XCRemoteSwiftPackageReference "OneTimePassword" */;
 			productName = OneTimePassword;
 		};
-		9A2C7D812782CB2F00BD9AF3 /* YubiKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9A2C7D802782CB2F00BD9AF3 /* XCRemoteSwiftPackageReference "yubikit-ios" */;
-			productName = YubiKit;
-		};
-		9A2C7D852783FF9600BD9AF3 /* YubiKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9A2C7D802782CB2F00BD9AF3 /* XCRemoteSwiftPackageReference "yubikit-ios" */;
-			productName = YubiKit;
-		};
-		9A5C6EF82786CE170003F340 /* YubiKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9A2C7D802782CB2F00BD9AF3 /* XCRemoteSwiftPackageReference "yubikit-ios" */;
-			productName = YubiKit;
-		};
-		9A5C6EFA2786CE5E0003F340 /* YubiKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9A2C7D802782CB2F00BD9AF3 /* XCRemoteSwiftPackageReference "yubikit-ios" */;
-			productName = YubiKit;
-		};
 		9A5C6F072787F0C20003F340 /* SwiftyUserDefaults */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3010CB5E26DA4F87008964D2 /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */;
@@ -3062,6 +3037,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 30A3000C26DA62F4002A734E /* XCRemoteSwiftPackageReference "Base32" */;
 			productName = Base32;
+		};
+		DC7CBBBC2D0FA3F2003BB4D2 /* YubiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC7CBBBB2D0FA3F2003BB4D2 /* XCRemoteSwiftPackageReference "yubikit-ios" */;
+			productName = YubiKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 

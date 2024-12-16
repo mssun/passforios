@@ -49,6 +49,8 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         case name, main, addition, misc
     }
 
+    private var passwordYubiKeyDecryptor = PasswordYubiKeyDecryptor()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "LabelTableViewCell", bundle: nil), forCellReuseIdentifier: "labelCell")
@@ -559,12 +561,11 @@ extension PasswordDetailTableViewController {
         }
     }
 
-    private func requestYubiKeyPIN(completion: @escaping (String) -> Void, cancellation: @escaping () -> Void) {
+    private func requestYubiKeyPIN(completion: @escaping (String) -> Void) {
         let alert = UIAlertController(title: "YubiKey PIN", message: "Verify YubiKey OpenPGP PIN.", preferredStyle: .alert)
         alert.addAction(
             UIAlertAction.cancel { _ in
                 self.navigationController!.popViewController(animated: true)
-                cancellation()
             }
         )
         alert.addAction(
@@ -580,25 +581,10 @@ extension PasswordDetailTableViewController {
     }
 
     private func handleError(error: AppError) {
-        switch error {
-        case let .yubiKey(yubiKeyError):
-            let errorMessage = yubiKeyError.localizedDescription
-            YubiKitManager.shared.stopNFCConnection(withErrorMessage: errorMessage)
-            DispatchQueue.main.async {
+        DispatchQueue.main.async {
+            self.presentFailureAlert(message: error.localizedDescription) { _ in
                 self.navigationController?.popViewController(animated: true)
             }
-        default:
-            DispatchQueue.main.async {
-                self.presentFailureAlert(message: error.localizedDescription) { _ in
-                    self.navigationController?.popViewController(animated: true)
-                }
-            }
-        }
-    }
-
-    private func handleCancellation() {
-        DispatchQueue.main.async {
-            self.navigationController?.popViewController(animated: true)
         }
     }
 
@@ -607,9 +593,30 @@ extension PasswordDetailTableViewController {
             handleError(error: AppError.other(message: "PasswordDoesNotExist"))
             return
         }
-        yubiKeyDecrypt(passwordEntity: passwordEntity, requestPIN: requestYubiKeyPIN, errorHandler: handleError, cancellation: handleCancellation) { password in
-            self.password = password
-            self.showPassword()
+        let encryptedDataPath = PasswordStore.shared.storeURL.appendingPathComponent(passwordEntity.getPath())
+
+        guard let encryptedData = try? Data(contentsOf: encryptedDataPath) else {
+            handleError(error: AppError.other(message: "PasswordDoesNotExist"))
+            return
+        }
+        requestYubiKeyPIN { [self] pin in
+            Task {
+                do {
+                    let decryptedData = try await passwordYubiKeyDecryptor.yubiKeyDecrypt(encryptedData: encryptedData, pin: pin)
+                    guard let decryptedDataString = String(data: decryptedData, encoding: .utf8) else {
+                        throw AppError.yubiKey(.decipher(message: "Failed to convert plaintext to string."))
+                    }
+                    guard let password = try? Password(name: passwordEntity.getName(), url: passwordEntity.getURL(), plainText: decryptedDataString) else {
+                        throw AppError.yubiKey(.decipher(message: "Failed to construct password."))
+                    }
+                    self.password = password
+                    self.showPassword()
+                } catch let error as AppError {
+                    handleError(error: error)
+                } catch {
+                    handleError(error: AppError.yubiKey(.other(message: error.localizedDescription)))
+                }
+            }
         }
     }
 }
