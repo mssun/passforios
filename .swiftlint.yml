@@ -36,7 +36,6 @@ disabled_rules:
   - function_body_length
   - implicitly_unwrapped_optional
   - indentation_width
-  - inert_defer # Deprecated.
   - legacy_objc_type
   - line_length
   - missing_docs
@@ -58,7 +57,6 @@ disabled_rules:
   - type_body_length
   - type_contents_order
   - unowned_variable_capture
-  - unused_capture_list # Deprecated.
   - vertical_whitespace_between_cases # Additional whitespace not needed because of visible indentation.
 
 ## Configuration for specific rules
@@ -82,5 +80,5 @@ trailing_closure:
 trailing_comma:
   mandatory_comma: true
 xct_specific_matcher:
-  matchers: 
+  matchers:
     - two-argument-asserts
