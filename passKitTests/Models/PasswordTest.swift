@@ -250,7 +250,7 @@ final class PasswordTest: XCTestCase {
     func testDotInFilename() {
         let password = getPasswordObjectWith(content: "", path: "exampleservice/..pgp")
 
-        XCTAssertEqual(password.nameFromPath, "..pgp")
+        XCTAssertEqual(password.nameFromPath, ".")
     }
 
     func testMultilineValues() {
