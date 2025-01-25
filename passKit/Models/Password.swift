@@ -11,7 +11,7 @@ import OneTimePassword
 
 public class Password {
     public var name: String
-    public var url: URL
+    public var path: String
     public var plainText: String
 
     public var changed: Int = 0
@@ -28,11 +28,11 @@ public class Password {
     }
 
     public var namePath: String {
-        url.deletingPathExtension().path
+        (path as NSString).deletingPathExtension
     }
 
     public var nameFromPath: String? {
-        url.deletingPathExtension().path.split(separator: "/").last.map { String($0) }
+        URL(string: path)?.deletingPathExtension().pathComponents.last
     }
 
     public var password: String {
@@ -75,15 +75,15 @@ public class Password {
         additions.map(\.title).filter(Constants.isOtpKeyword).count - (firstLineIsOTPField ? 1 : 0)
     }
 
-    public init(name: String, url: URL, plainText: String) {
+    public init(name: String, path: String, plainText: String) {
         self.name = name
-        self.url = url
+        self.path = path
         self.plainText = plainText
         initEverything()
     }
 
-    public func updatePassword(name: String, url: URL, plainText: String) {
-        guard self.plainText != plainText || self.url != url else {
+    public func updatePassword(name: String, path: String, plainText: String) {
+        guard self.plainText != plainText || self.path != path else {
             return
         }
 
@@ -91,8 +91,8 @@ public class Password {
             self.plainText = plainText
             changed |= PasswordChange.content.rawValue
         }
-        if self.url != url {
-            self.url = url
+        if self.path != path {
+            self.path = path
             changed |= PasswordChange.path.rawValue
         }
 
@@ -213,7 +213,7 @@ public class Password {
         if newOtpauth != nil {
             lines.append(newOtpauth!)
         }
-        updatePassword(name: name, url: url, plainText: lines.joined(separator: "\n"))
+        updatePassword(name: name, path: path, plainText: lines.joined(separator: "\n"))
 
         // get and return the password
         return otpToken?.currentPassword

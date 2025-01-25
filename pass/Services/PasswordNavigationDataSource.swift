@@ -76,7 +76,7 @@ class PasswordNavigationDataSource: NSObject, UITableViewDataSource {
 
     func showUnsyncedTableEntries() {
         filteredSections = sections.map { section in
-            let entries = section.entries.filter { !$0.synced }
+            let entries = section.entries.filter { !$0.isSynced }
             return Section(title: section.title, entries: entries)
         }
         .filter { !$0.entries.isEmpty }

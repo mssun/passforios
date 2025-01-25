@@ -169,7 +169,7 @@ class PasswordNavigationViewController: UIViewController {
             navigationItem.title = "PasswordStore".localize()
         } else {
             navigationItem.largeTitleDisplayMode = .never
-            navigationItem.title = parentPasswordEntity?.getName()
+            navigationItem.title = parentPasswordEntity?.name
         }
         if viewingUnsyncedPasswords {
             navigationItem.title = "Unsynced"
@@ -261,7 +261,7 @@ class PasswordNavigationViewController: UIViewController {
                 if passwordTableEntry.isDir {
                     return
                 }
-                passwordManager.providePasswordPasteboard(with: passwordTableEntry.passwordEntity.getPath())
+                passwordManager.providePasswordPasteboard(with: passwordTableEntry.passwordEntity.path)
             }
         }
     }
@@ -335,7 +335,7 @@ extension PasswordNavigationViewController {
         } else if segue.identifier == "addPasswordSegue" {
             if let navController = segue.destination as? UINavigationController,
                let viewController = navController.topViewController as? AddPasswordTableViewController,
-               let path = parentPasswordEntity?.getPath() {
+               let path = parentPasswordEntity?.path {
                 viewController.defaultDirPrefix = "\(path)/"
             }
         }
