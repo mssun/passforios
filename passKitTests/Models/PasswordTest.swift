@@ -14,7 +14,7 @@ final class PasswordTest: XCTestCase {
     func testURL() {
         let password = getPasswordObjectWith(content: "")
 
-        XCTAssertEqual(password.url, PASSWORD_URL)
+        XCTAssertEqual(password.path, PASSWORD_PATH)
         XCTAssertEqual(password.namePath, PASSWORD_PATH)
     }
 
@@ -242,9 +242,15 @@ final class PasswordTest: XCTestCase {
     }
 
     func testUsernameInPath() {
-        let password = getPasswordObjectWith(content: "", url: URL(fileURLWithPath: "exampleservice/exampleusername.pgp"))
+        let password = getPasswordObjectWith(content: "", path: "exampleservice/exampleusername.pgp")
 
         XCTAssertEqual(password.nameFromPath, "exampleusername")
+    }
+
+    func testDotInFilename() {
+        let password = getPasswordObjectWith(content: "", path: "exampleservice/..pgp")
+
+        XCTAssertEqual(password.nameFromPath, "..pgp")
     }
 
     func testMultilineValues() {
@@ -283,16 +289,16 @@ final class PasswordTest: XCTestCase {
         let password = getPasswordObjectWith(content: "")
         XCTAssertEqual(password.changed, 0)
 
-        password.updatePassword(name: "password", url: PASSWORD_URL, plainText: "")
+        password.updatePassword(name: "password", path: PASSWORD_PATH, plainText: "")
         XCTAssertEqual(password.changed, 0)
 
-        password.updatePassword(name: "", url: PASSWORD_URL, plainText: "a")
+        password.updatePassword(name: "", path: PASSWORD_PATH, plainText: "a")
         XCTAssertEqual(password.changed, 2)
 
-        password.updatePassword(name: "", url: URL(fileURLWithPath: "/some/path/"), plainText: "a")
+        password.updatePassword(name: "", path: "/some/path/", plainText: "a")
         XCTAssertEqual(password.changed, 3)
 
-        password.updatePassword(name: "", url: PASSWORD_URL, plainText: "")
+        password.updatePassword(name: "", path: PASSWORD_PATH, plainText: "")
         XCTAssertEqual(password.changed, 3)
     }
 

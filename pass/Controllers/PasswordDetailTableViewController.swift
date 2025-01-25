@@ -71,7 +71,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         navigationItem.rightBarButtonItem = editUIBarButtonItem
         navigationItem.largeTitleDisplayMode = .never
 
-        if let imageData = passwordEntity?.getImage() {
+        if let imageData = passwordEntity?.image {
             let image = UIImage(data: imageData as Data)
             passwordImage = image
         }
@@ -158,7 +158,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             self?.editUIBarButtonItem.isEnabled = true
             if !Defaults.isHidePasswordImagesOn {
                 if let urlString = self?.password?.urlString {
-                    if self?.passwordEntity?.getImage() == nil {
+                    if self?.passwordEntity?.image == nil {
                         self?.updatePasswordImage(urlString: urlString)
                     }
                 }
@@ -337,7 +337,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 self?.tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
                 let imageData = image.jpegData(compressionQuality: 1)
                 if let entity = self?.passwordEntity {
-                    self?.passwordStore.updateImage(passwordEntity: entity, image: imageData)
+                    entity.image = imageData
                 }
             }
         }
@@ -443,13 +443,13 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
                 cell.labelImageConstraint.isActive = false
                 cell.labelCellConstraint.isActive = true
             }
-            let passwordName = passwordEntity!.getName()
-            if passwordEntity!.synced == false {
+            let passwordName = passwordEntity!.name
+            if passwordEntity!.isSynced == false {
                 cell.nameLabel.text = "\(passwordName) ↻"
             } else {
                 cell.nameLabel.text = passwordName
             }
-            cell.categoryLabel.text = passwordEntity!.getCategoryText()
+            cell.categoryLabel.text = passwordEntity!.dirText
             cell.selectionStyle = .none
             return cell
         case .addition, .main:
@@ -504,7 +504,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
             footerLabel.numberOfLines = 0
             footerLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
             footerLabel.textColor = UIColor.gray
-            let dateString = passwordStore.getLatestUpdateInfo(filename: password!.url.path)
+            let dateString = passwordStore.getLatestUpdateInfo(path: password!.path)
             footerLabel.text = "LastUpdated".localize(dateString)
             view.addSubview(footerLabel)
             return view
@@ -593,7 +593,7 @@ extension PasswordDetailTableViewController {
             handleError(error: AppError.other(message: "PasswordDoesNotExist"))
             return
         }
-        let encryptedDataPath = PasswordStore.shared.storeURL.appendingPathComponent(passwordEntity.getPath())
+        let encryptedDataPath = PasswordStore.shared.storeURL.appendingPathComponent(passwordEntity.path)
 
         guard let encryptedData = try? Data(contentsOf: encryptedDataPath) else {
             handleError(error: AppError.other(message: "PasswordDoesNotExist"))
@@ -606,9 +606,7 @@ extension PasswordDetailTableViewController {
                     guard let decryptedDataString = String(data: decryptedData, encoding: .utf8) else {
                         throw AppError.yubiKey(.decipher(message: "Failed to convert plaintext to string."))
                     }
-                    guard let password = try? Password(name: passwordEntity.getName(), url: passwordEntity.getURL(), plainText: decryptedDataString) else {
-                        throw AppError.yubiKey(.decipher(message: "Failed to construct password."))
-                    }
+                    password = Password(name: passwordEntity.name, path: passwordEntity.path, plainText: decryptedDataString)
                     self.password = password
                     self.showPassword()
                 } catch let error as AppError {

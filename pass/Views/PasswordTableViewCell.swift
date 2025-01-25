@@ -11,7 +11,7 @@ import passKit
 class PasswordTableViewCell: UITableViewCell {
     func configure(with entry: PasswordTableEntry) {
         textLabel?.font = UIFont.preferredFont(forTextStyle: .body)
-        textLabel?.text = entry.passwordEntity.synced ? entry.title : "↻ \(entry.title)"
+        textLabel?.text = entry.passwordEntity.isSynced ? entry.title : "↻ \(entry.title)"
         textLabel?.adjustsFontForContentSizeCategory = true
 
         accessoryType = .none
@@ -24,7 +24,7 @@ class PasswordTableViewCell: UITableViewCell {
             accessoryType = .disclosureIndicator
             textLabel?.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .medium)
             detailTextLabel?.font = UIFont.preferredFont(forTextStyle: .body)
-            detailTextLabel?.text = "\(entry.passwordEntity.children?.count ?? 0)"
+            detailTextLabel?.text = "\(entry.passwordEntity.children.count)"
         }
     }
 }

@@ -24,9 +24,9 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "saveEditPasswordSegue" {
             let editedPlainText = plainText
-            let (name, url) = getNameURL()
-            if password!.plainText != editedPlainText || password!.url.path != url.path {
-                password!.updatePassword(name: name, url: url, plainText: editedPlainText)
+            let (name, path) = getNamePath()
+            if password!.plainText != editedPlainText || password!.path != path {
+                password!.updatePassword(name: name, path: path, plainText: editedPlainText)
             }
         }
     }

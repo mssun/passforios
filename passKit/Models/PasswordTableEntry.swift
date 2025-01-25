@@ -12,19 +12,19 @@ public class PasswordTableEntry: NSObject {
     public let passwordEntity: PasswordEntity
     @objc public let title: String
     public let isDir: Bool
-    public let synced: Bool
+    public let isSynced: Bool
     public let categoryText: String
 
     public init(_ entity: PasswordEntity) {
         self.passwordEntity = entity
-        self.title = entity.name!
+        self.title = entity.name
         self.isDir = entity.isDir
-        self.synced = entity.synced
-        self.categoryText = entity.getCategoryText()
+        self.isSynced = entity.isSynced
+        self.categoryText = entity.dirText
     }
 
     public func matches(_ searchText: String) -> Bool {
-        Self.match(nameWithCategory: passwordEntity.nameWithCategory, searchText: searchText)
+        Self.match(nameWithCategory: passwordEntity.nameWithDir, searchText: searchText)
     }
 
     public static func match(nameWithCategory: String, searchText: String) -> Bool {

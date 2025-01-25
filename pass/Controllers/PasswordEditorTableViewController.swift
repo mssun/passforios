@@ -351,11 +351,13 @@ class PasswordEditorTableViewController: UITableViewController {
         }
     }
 
-    func getNameURL() -> (String, URL) {
-        let encodedName = (nameCell?.getContent()?.stringByAddingPercentEncodingForRFC3986())!
-        let name = URL(string: encodedName)!.lastPathComponent
-        let url = URL(string: encodedName)!.appendingPathExtension("gpg")
-        return (name, url)
+    func getNamePath() -> (String, String) {
+        guard let encodedName = nameCell?.getContent()?.stringByAddingPercentEncodingForRFC3986(), let url = URL(string: encodedName) else {
+            return ("", "")
+        }
+        let name = url.lastPathComponent
+        let path = url.appendingPathExtension("gpg").path
+        return (name, path)
     }
 
     func checkName() -> Bool {

@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var passcodeLockPresenter = PasscodeLockPresenter(mainWindow: self.window)
 
     func application(_: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        PersistenceController.shared.setup()
         // Override point for customization after application launch.
         SVProgressHUD.setMinimumSize(CGSize(width: 150, height: 100))
         passcodeLockPresenter.present(windowLevel: UIApplication.shared.windows.last?.windowLevel.rawValue)
@@ -80,6 +81,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         appIconView.center = (window?.center)!
         appIconView.tag = ViewTag.appicon.rawValue
         window?.addSubview(appIconView)
+
+        PersistenceController.shared.save()
     }
 
     func applicationDidEnterBackground(_: UIApplication) {
@@ -102,55 +105,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        saveContext()
-    }
-
-    // MARK: - Core Data stack
-
-    lazy var persistentContainer: NSPersistentContainer = {
-        // The persistent container for the application. This implementation
-        // creates and returns a container, having loaded the store for the
-        // application to it. This property is optional since there are legitimate
-        // error conditions that could cause the creation of the store to fail.
-        let modelURL = Bundle(identifier: Globals.passKitBundleIdentifier)!.url(forResource: "pass", withExtension: "momd")!
-        let managedObjectModel = NSManagedObjectModel(contentsOf: modelURL)
-        let container = NSPersistentContainer(name: "pass", managedObjectModel: managedObjectModel!)
-        if FileManager.default.fileExists(atPath: Globals.documentPath) {
-            try! FileManager.default.createDirectory(atPath: Globals.documentPath, withIntermediateDirectories: true, attributes: nil)
-        }
-        container.persistentStoreDescriptions = [NSPersistentStoreDescription(url: URL(fileURLWithPath: Globals.dbPath))]
-        container.loadPersistentStores { _, error in
-            if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-
-                // Typical reasons for an error here include:
-                //
-                //      * The parent directory does not exist, cannot be created, or disallows writing.
-                //      * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                //      * The device is out of space.
-                //      * The store could not be migrated to the current model version.
-                //
-                // Check the error message to determine what the actual problem was.
-                fatalError("UnresolvedError".localize("\(error), \(error.userInfo)"))
-            }
-        }
-        return container
-    }()
-
-    // MARK: - Core Data Saving support
-
-    func saveContext() {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("UnresolvedError".localize("\(nserror), \(nserror.userInfo)"))
-            }
-        }
+        PersistenceController.shared.save()
     }
 }
