@@ -30,7 +30,7 @@ public class PersistenceController {
 
     public func setup() {
         container.loadPersistentStores { _, error in
-            if let error {
+            if error != nil {
                 self.reinitializePersistentStore()
             }
         }
