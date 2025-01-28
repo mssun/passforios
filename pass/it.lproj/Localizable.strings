@@ -223,7 +223,7 @@
 "LocalCommits"          = "Commit locali";
 "LastSynced"            = "Sincronizzato l'ultima volta";
 "Commits"               = "Commit";
-"CommitLogs"            = "Registri dei sommit";
+"CommitLogs"            = "Registri dei commit";
 "SyncAgain?"            = "Sincronizzare ancora?";
 
 // About app
