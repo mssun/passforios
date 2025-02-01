@@ -47,6 +47,10 @@ public final class PasswordEntity: NSManagedObject, Identifiable {
         getDirArray().joined(separator: " > ")
     }
 
+    public func fileURL(in directoryURL: URL) -> URL {
+        directoryURL.appendingPathComponent(path)
+    }
+
     public func getDirArray() -> [String] {
         var parentEntity = parent
         var passwordCategoryArray: [String] = []

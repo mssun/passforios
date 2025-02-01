@@ -348,7 +348,7 @@ extension PasswordNavigationViewController {
                 return false
             }
         } else if identifier == "addPasswordSegue" {
-            guard PGPAgent.shared.isPrepared, PasswordStore.shared.storeRepository != nil else {
+            guard PGPAgent.shared.isPrepared, PasswordStore.shared.gitRepository != nil else {
                 Utils.alert(title: "CannotAddPassword".localize(), message: "MakeSurePgpAndGitProperlySet.".localize(), controller: self)
                 return false
             }

@@ -16,6 +16,7 @@ public enum AppError: Error, Equatable {
     case readingFile(fileName: String)
     case passwordDuplicated
     case gitReset
+    case gitCommit
     case gitCreateSignature
     case gitPushNotSuccessful
     case pgpPublicKeyNotFound(keyID: String)

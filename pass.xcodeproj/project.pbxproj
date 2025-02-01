@@ -198,6 +198,8 @@
 		DC6474532D20DD0C004B4BBC /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474522D20DD0C004B4BBC /* CoreDataStack.swift */; };
 		DC64745C2D29BE9B004B4BBC /* PasswordEntityTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474592D29BD43004B4BBC /* PasswordEntityTest.swift */; };
 		DC64745D2D29BEA9004B4BBC /* CoreDataTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474582D29BD43004B4BBC /* CoreDataTestCase.swift */; };
+		DC64745F2D45B240004B4BBC /* GitRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC64745E2D45B23A004B4BBC /* GitRepository.swift */; };
+		DC6474612D46A8F8004B4BBC /* GitRepositoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474602D46A8F2004B4BBC /* GitRepositoryTest.swift */; };
 		DC7CBBBD2D0FA3F2003BB4D2 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = DC7CBBBC2D0FA3F2003BB4D2 /* YubiKit */; };
 		DC7CBBBF2D0FAC92003BB4D2 /* YKFSmartCardInterfaceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7CBBBE2D0FAC8E003BB4D2 /* YKFSmartCardInterfaceExtension.swift */; };
 		DC8963C01E38EEB900828B09 /* SSHKeyURLImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController.swift */; };
@@ -499,6 +501,8 @@
 		DC6474522D20DD0C004B4BBC /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		DC6474582D29BD43004B4BBC /* CoreDataTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTestCase.swift; sourceTree = "<group>"; };
 		DC6474592D29BD43004B4BBC /* PasswordEntityTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEntityTest.swift; sourceTree = "<group>"; };
+		DC64745E2D45B23A004B4BBC /* GitRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitRepository.swift; sourceTree = "<group>"; };
+		DC6474602D46A8F2004B4BBC /* GitRepositoryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitRepositoryTest.swift; sourceTree = "<group>"; };
 		DC7CBBBE2D0FAC8E003BB4D2 /* YKFSmartCardInterfaceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YKFSmartCardInterfaceExtension.swift; sourceTree = "<group>"; };
 		DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeyURLImportTableViewController.swift; sourceTree = "<group>"; };
 		DC917BD31E2E8231000FDF54 /* Pass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pass.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -737,6 +741,7 @@
 		30C015A7214ED378005BB6DF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				DC6474602D46A8F2004B4BBC /* GitRepositoryTest.swift */,
 				30695E2424FAEF2600C9D46E /* GitCredentialTest.swift */,
 				9ADC954024418A5F0005402E /* PasswordStoreTest.swift */,
 				A2699ACE24027D9500F36323 /* PasswordTableEntryTest.swift */,
@@ -916,6 +921,7 @@
 		A2F4E20E1EED7F040011986E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				DC64745E2D45B23A004B4BBC /* GitRepository.swift */,
 				30697C4121F63CAB0064FCAC /* GitCredential.swift */,
 				30697C4221F63CAB0064FCAC /* PasscodeLock.swift */,
 				30697C4021F63CAB0064FCAC /* Password.swift */,
@@ -1599,6 +1605,7 @@
 				30697C2A21F63C5A0064FCAC /* NotificationNames.swift in Sources */,
 				30CCA91623258C380048CA51 /* PGPInterface.swift in Sources */,
 				30DAFD4A240985A7002456E7 /* Array+Slices.swift in Sources */,
+				DC64745F2D45B240004B4BBC /* GitRepository.swift in Sources */,
 				9A74D2E0277D2F8C00F7BC44 /* UIAlertControllerExtension.swift in Sources */,
 				30697C4721F63CAB0064FCAC /* PasscodeLock.swift in Sources */,
 				A2699ACD2402631400F36323 /* PasswordTableEntry.swift in Sources */,
@@ -1628,6 +1635,7 @@
 				301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */,
 				9ADC954124418A5F0005402E /* PasswordStoreTest.swift in Sources */,
 				30BAC8CB22E3BB6C00438475 /* DictBasedKeychain.swift in Sources */,
+				DC6474612D46A8F8004B4BBC /* GitRepositoryTest.swift in Sources */,
 				A2699ACF24027D9500F36323 /* PasswordTableEntryTest.swift in Sources */,
 				30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */,
 				A2AA934622DE3A8000D79A00 /* PGPAgentTest.swift in Sources */,
