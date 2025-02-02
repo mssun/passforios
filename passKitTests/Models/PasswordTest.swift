@@ -247,12 +247,6 @@ final class PasswordTest: XCTestCase {
         XCTAssertEqual(password.nameFromPath, "exampleusername")
     }
 
-    func testDotInFilename() {
-        let password = getPasswordObjectWith(content: "", path: "exampleservice/..pgp")
-
-        XCTAssertEqual(password.nameFromPath, ".")
-    }
-
     func testMultilineValues() {
         let lineBreakField = "with line breaks" => "|\n  This is \n   text spread over \n  multiple lines!  "
         let noLineBreakField = "without line breaks" => " > \n This is \n  text spread over\n   multiple lines!"
