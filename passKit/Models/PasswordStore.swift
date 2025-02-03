@@ -282,10 +282,11 @@ public class PasswordStore {
 
     public func delete(passwordEntity: PasswordEntity) throws {
         let deletedFileURL = passwordEntity.fileURL(in: storeURL)
+        let deletedFilePath = passwordEntity.path
         try gitRm(path: passwordEntity.path)
         try deletePasswordEntities(passwordEntity: passwordEntity)
         try deleteDirectoryTree(at: deletedFileURL)
-        try gitCommit(message: "RemovePassword.".localize(passwordEntity.path))
+        try gitCommit(message: "RemovePassword.".localize(deletedFilePath))
         notificationCenter.post(name: .passwordStoreUpdated, object: nil)
     }
 
@@ -313,8 +314,9 @@ public class PasswordStore {
 
             // delete
             try deleteDirectoryTree(at: deletedFileURL)
+            let deletedFilePath = passwordEntity.path
             try deletePasswordEntities(passwordEntity: passwordEntity)
-            try gitCommit(message: "RenamePassword.".localize(passwordEntity.path, password.path))
+            try gitCommit(message: "RenamePassword.".localize(deletedFilePath, password.path))
         }
         saveUpdatedContext()
         notificationCenter.post(name: .passwordStoreUpdated, object: nil)
