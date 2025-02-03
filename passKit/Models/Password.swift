@@ -82,6 +82,10 @@ public class Password {
         initEverything()
     }
 
+    public func fileURL(in directoryURL: URL) -> URL {
+        directoryURL.appendingPathComponent(path)
+    }
+
     public func updatePassword(name: String, path: String, plainText: String) {
         guard self.plainText != plainText || self.path != path else {
             return

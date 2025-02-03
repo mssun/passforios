@@ -593,7 +593,7 @@ extension PasswordDetailTableViewController {
             handleError(error: AppError.other(message: "PasswordDoesNotExist"))
             return
         }
-        let encryptedDataPath = PasswordStore.shared.storeURL.appendingPathComponent(passwordEntity.path)
+        let encryptedDataPath = passwordEntity.fileURL(in: PasswordStore.shared.storeURL)
 
         guard let encryptedData = try? Data(contentsOf: encryptedDataPath) else {
             handleError(error: AppError.other(message: "PasswordDoesNotExist"))
