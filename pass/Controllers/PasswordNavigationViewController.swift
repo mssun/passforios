@@ -133,6 +133,7 @@ class PasswordNavigationViewController: UIViewController {
         configureTableViewDataSource(in: dir, isShowFolder: Defaults.isShowFolderOn)
         tableView.addGestureRecognizer(gestureRecognizer)
         tableView.delegate = self
+        tableView.layoutIfNeeded()
         tableView.contentInset.top = 8
         let atribbutedTitle = "LastSynced".localize() + ": \(PasswordStore.shared.lastSyncedTimeString)"
         refreshControl.attributedTitle = NSAttributedString(string: atribbutedTitle)
@@ -153,6 +154,9 @@ class PasswordNavigationViewController: UIViewController {
     private func configureTabBarItem() {
         guard let tabBarItem = navigationController?.tabBarItem else {
             return
+        }
+        if #available(iOS 15.0, *) {
+            tabBarItem.scrollEdgeAppearance = tabBarItem.standardAppearance
         }
 
         let numberOfLocalCommits = PasswordStore.shared.numberOfLocalCommits
@@ -408,6 +412,7 @@ extension PasswordNavigationViewController {
 
     func resetViews() {
         configureTableView(in: parentPasswordEntity)
+        tableView.layoutIfNeeded()
         tableView.reloadData()
         configureNavigationItem()
         configureTabBarItem()
