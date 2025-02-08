@@ -20,11 +20,11 @@ public class PersistenceController {
 
     init(isUnitTest: Bool = false) {
         self.container = NSPersistentContainer(name: Self.modelName, managedObjectModel: .sharedModel)
-
+        let description = container.persistentStoreDescriptions.first
+        description?.shouldMigrateStoreAutomatically = false
+        description?.shouldInferMappingModelAutomatically = false
         if isUnitTest {
-            let description = NSPersistentStoreDescription()
-            description.url = URL(fileURLWithPath: "/dev/null")
-            container.persistentStoreDescriptions = [description]
+            description?.url = URL(fileURLWithPath: "/dev/null")
         }
     }
 
