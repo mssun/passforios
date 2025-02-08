@@ -53,7 +53,7 @@ final class PasswordStoreTest: XCTestCase {
     }
 
     private func decrypt(passwordStore: PasswordStore, path: String, passphrase _: String) throws -> Password {
-        let entity = passwordStore.getPasswordEntity(by: path, isDir: false)!
+        let entity = passwordStore.fetchPasswordEntity(with: path)!
         return try passwordStore.decrypt(passwordEntity: entity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
     }
 }

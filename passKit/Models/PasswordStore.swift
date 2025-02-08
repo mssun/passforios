@@ -113,14 +113,6 @@ public class PasswordStore {
         fileManager.fileExists(atPath: Globals.repositoryURL.path)
     }
 
-    public func passwordExisted(password: Password) -> Bool {
-        PasswordEntity.exists(password: password, in: context)
-    }
-
-    public func getPasswordEntity(by path: String, isDir: Bool) -> PasswordEntity? {
-        PasswordEntity.fetch(by: path, isDir: isDir, in: context)
-    }
-
     public func cloneRepository(
         remoteRepoURL: URL,
         branchName: String,
@@ -236,7 +228,7 @@ public class PasswordStore {
     }
 
     private func addPasswordEntities(password: Password) throws -> PasswordEntity? {
-        guard !passwordExisted(password: password) else {
+        guard !PasswordEntity.exists(password: password, in: context) else {
             throw AppError.passwordDuplicated
         }
 
