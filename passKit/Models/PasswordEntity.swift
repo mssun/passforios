@@ -172,6 +172,7 @@ public final class PasswordEntity: NSManagedObject, Identifiable {
                 continue
             }
             for case let fileURL as URL in directoryEnumerator {
+                let fileURL = fileURL.resolvingSymlinksInPath()
                 guard let resourceValues = try? fileURL.resourceValues(forKeys: resourceKeys),
                       let isDirectory = resourceValues.isDirectory,
                       let name = resourceValues.name
