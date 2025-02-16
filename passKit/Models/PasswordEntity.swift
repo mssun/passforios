@@ -153,6 +153,7 @@ public final class PasswordEntity: NSManagedObject, Identifiable {
 
     public static func initPasswordEntityCoreData(url: URL, in context: NSManagedObjectContext) {
         let localFileManager = FileManager.default
+        let url = url.resolvingSymlinksInPath()
 
         let root = {
             let entity = PasswordEntity(context: context)
@@ -190,8 +191,7 @@ public final class PasswordEntity: NSManagedObject, Identifiable {
                     }
                 }
                 passwordEntity.parent = current
-                let path = String(fileURL.path.replacingOccurrences(of: url.path, with: "").drop(while: { $0 == "/" }))
-                passwordEntity.path = path
+                passwordEntity.path = String(fileURL.path.dropFirst(url.path.count + 1))
             }
         }
         context.delete(root)
