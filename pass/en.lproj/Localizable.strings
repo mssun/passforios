@@ -34,6 +34,7 @@
 "UnresolvedError"                                   = "Unresolved error %@";
 "MigrationError"                                    = "Migration error: %@";
 "UnderlyingError"                                   = "Underlying Error: %@";
+"MergeConflictError"                                = "Conflict files: %@";
 "ErrorSaving"                                       = "Error saving: %@";
 "CannotCopyPassword"                                = "Cannot copy password";
 "CannotAddPassword"                                 = "Cannot add password";

@@ -528,17 +528,20 @@ extension PasswordNavigationViewController: PasswordAlertPresenter {
                     SVProgressHUD.showSuccess(withStatus: "Done".localize())
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
-            } catch {
+            } catch let error as NSError {
                 gitCredential.delete()
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()
-                    let error = error as NSError
                     var message = error.localizedDescription
                     if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
                         message = message | "UnderlyingError".localize(underlyingError.localizedDescription)
                         if underlyingError.localizedDescription.contains("WrongPassphrase".localize()) {
                             message = message | "RecoverySuggestion.".localize()
                         }
+                    }
+                    if let mergeConflictFiles = error.userInfo[GTPullMergeConflictedFiles] as? NSArray {
+                        let mergeConflictFilesString = mergeConflictFiles.componentsJoined(by: ", ")
+                        message = message | "MergeConflictError".localize(mergeConflictFilesString)
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800)) {
                         Utils.alert(title: "Error".localize(), message: message, controller: self, completion: nil)
