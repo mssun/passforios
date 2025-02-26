@@ -21,7 +21,6 @@ class CoreDataTestCase: XCTestCase {
         try super.setUpWithError()
 
         controller = PersistenceController(isUnitTest: true)
-        controller.setup()
     }
 
     override func tearDown() {
