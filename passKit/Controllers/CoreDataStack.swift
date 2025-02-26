@@ -25,6 +25,8 @@ public class PersistenceController {
         description?.shouldInferMappingModelAutomatically = false
         if isUnitTest {
             description?.url = URL(fileURLWithPath: "/dev/null")
+        } else {
+            description?.url = URL(fileURLWithPath: Globals.dbPath)
         }
     }
 
