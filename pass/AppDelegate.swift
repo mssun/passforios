@@ -23,7 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var passcodeLockPresenter = PasscodeLockPresenter(mainWindow: self.window)
 
     func application(_: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        PersistenceController.shared.setup()
         // Override point for customization after application launch.
         SVProgressHUD.setMinimumSize(CGSize(width: 150, height: 100))
         passcodeLockPresenter.present(windowLevel: UIApplication.shared.windows.last?.windowLevel.rawValue)

@@ -25,10 +25,13 @@ public class PersistenceController {
         description?.shouldInferMappingModelAutomatically = false
         if isUnitTest {
             description?.url = URL(fileURLWithPath: "/dev/null")
+        } else {
+            description?.url = URL(fileURLWithPath: Globals.dbPath)
         }
+        setup()
     }
 
-    public func setup() {
+    func setup() {
         container.loadPersistentStores { _, error in
             if error != nil {
                 self.reinitializePersistentStore()
