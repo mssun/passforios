@@ -28,6 +28,9 @@ class EditPasswordTableViewController: PasswordEditorTableViewController {
             if password!.plainText != editedPlainText || password!.path != path {
                 password!.updatePassword(name: name, path: path, plainText: editedPlainText)
             }
+            if let controller = segue.destination as? PasswordDetailTableViewController {
+                controller.password = password
+            }
         }
     }
 }
