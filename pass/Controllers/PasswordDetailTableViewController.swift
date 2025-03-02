@@ -21,7 +21,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         }
     }
 
-    private var password: Password?
+    var password: Password?
     private var passwordImage: UIImage?
     private var oneTimePasswordIndexPath: IndexPath?
     private var shouldPopCurrentView = false
