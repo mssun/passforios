@@ -1519,7 +1519,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SWIFT_PACKAGE_DIR=\"${BUILD_DIR%Build/*}SourcePackages/artifacts\"\nSWIFTLINT_CMD=$(ls \"$SWIFT_PACKAGE_DIR\"/swiftlintplugins/SwiftLintBinary/SwiftLintBinary.artifactbundle/swiftlint-*-macos/bin/swiftlint | head -n 1)\n\nSTRICT_OPT=\n\nif [[ \"${CI}\" == \"true\" ]]; then\n  echo \"Running in a Continuous Integration environment. Linting is strictly.\"\n  STRICT_OPT=--strict\nfi\n\nif [[ \"${CONFIGURATION}\" == \"Release\" ]]; then\n  echo \"Running during a release build. Linting is skipped.\"\n  exit 0\nfi\n\nif test -f \"$SWIFTLINT_CMD\" 2>&1\nthen\n    \"$SWIFTLINT_CMD\" lint --fix\n    \"$SWIFTLINT_CMD\" lint $STRICT_OPT\nelse\n    echo \"warning: `swiftlint` command not found\"\nfi\n";
+			shellScript = "SWIFT_PACKAGE_DIR=\"${BUILD_DIR%Build/*}SourcePackages/artifacts\"\nSWIFTLINT_CMD=$(ls \"$SWIFT_PACKAGE_DIR\"/swiftlintplugins/SwiftLintBinary/SwiftLintBinary.artifactbundle/swiftlint-*-macos/bin/swiftlint | head -n 1)\n\nSTRICT_OPT=\n\nif [[ \"${CI}\" == \"true\" ]]; then\n  echo \"Running in a Continuous Integration environment. Linting is strict.\"\n  STRICT_OPT=--strict\nfi\n\nif [[ \"${CONFIGURATION}\" == \"Release\" ]]; then\n  echo \"Running during a release build. Linting is skipped.\"\n  exit 0\nfi\n\nif test -f \"$SWIFTLINT_CMD\" 2>&1\nthen\n    \"$SWIFTLINT_CMD\" lint --fix\n    \"$SWIFTLINT_CMD\" lint $STRICT_OPT\nelse\n    echo \"warning: `swiftlint` command not found.\"\nfi\n";
 		};
 		9A996C4726DDEAF100A4485D /* Remove SPM Duplicate Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
