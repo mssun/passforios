@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nicklockwood/SwiftFormat",
       "state" : {
-        "revision" : "2d5a2b6bde636c1feae2c852ab9a50f221e98c66",
-        "version" : "0.55.3"
+        "revision" : "468a7d32dedc8d352c191594b3b45d9fd8ba291b",
+        "version" : "0.55.5"
       }
     },
     {
@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SimplyDanny/SwiftLintPlugins.git",
       "state" : {
-        "revision" : "fac0c3d3ac69b15ea5382275dbbd5e583a2e05fa",
-        "version" : "0.58.0"
+        "revision" : "7a3d77f3dd9f91d5cea138e52c20cfceabf352de",
+        "version" : "0.58.2"
       }
     },
     {
@@ -93,10 +93,10 @@
     {
       "identity" : "yubikit-ios",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Yubico/yubikit-ios",
+      "location" : "https://github.com/Yubico/yubikit-ios.git",
       "state" : {
-        "revision" : "1ea9c97010780499001ac8552d6440235d947686",
-        "version" : "4.6.0"
+        "revision" : "2c4206263763743a2f1ca3309b87432588be637f",
+        "version" : "4.7.0"
       }
     }
   ],
