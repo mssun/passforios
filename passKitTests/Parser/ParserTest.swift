@@ -29,10 +29,12 @@ final class ParserTest: XCTestCase {
     func testGetKeyValuePair() {
         XCTAssert(Parser.getKeyValuePair(from: "key: value") == ("key", "value"))
         XCTAssert(Parser.getKeyValuePair(from: "a key: a value") == ("a key", "a value"))
-        XCTAssert(Parser.getKeyValuePair(from: "key:value") == (nil, "key:value"))
+        XCTAssert(Parser.getKeyValuePair(from: "key:value") == ("key", "value"))
         XCTAssert(Parser.getKeyValuePair(from: ": value") == (nil, "value"))
+        XCTAssert(Parser.getKeyValuePair(from: " : value ") == (nil, "value"))
+        XCTAssert(Parser.getKeyValuePair(from: " : ") == (nil, ""))
         XCTAssert(Parser.getKeyValuePair(from: "key: ") == ("key", ""))
-        XCTAssert(Parser.getKeyValuePair(from: "otpauth://value") == ("otpauth", "otpauth://value"))
+        XCTAssert(Parser.getKeyValuePair(from: "otpauth://value") == ("otpauth", "//value"))
     }
 
     func testEmptyFiles() {
