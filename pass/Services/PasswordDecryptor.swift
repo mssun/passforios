@@ -88,7 +88,7 @@ class PasswordYubiKeyDecryptor {
                 throw AppError.yubiKey(.connection(message: "Failed to verify PIN"))
             }
             guard let deciphered = try? await smartCard.decipher(ciphertext: encryptedData) else {
-                throw AppError.yubiKey(.connection(message: "Failed to dicipher data"))
+                throw AppError.yubiKey(.connection(message: "Failed to decipher data"))
             }
             let decryptedData = try decryptData(deciphered: deciphered, ciphertext: encryptedData)
             if (connection as? YKFNFCConnection) != nil {
