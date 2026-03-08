@@ -13,9 +13,8 @@ import XCTest
 @testable import passKit
 
 final class PasswordStoreTest: XCTestCase {
-    private let remoteRepoURL = URL(string: "https://github.com/mssun/passforios-password-store.git")!
-
     func testCloneAndDecryptMultiKeys() throws {
+        let remoteRepoURL = Bundle(for: type(of: self)).resourceURL!.appendingPathComponent("Fixtures/password-store.git")
         let url = Globals.sharedContainerURL.appendingPathComponent("Library/password-store-test/")
 
         Defaults.isEnableGPGIDOn = true
