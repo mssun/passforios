@@ -324,7 +324,7 @@ public class PasswordStore {
         PersistenceController.shared.save()
     }
 
-    public func deleteCoreData() {
+    private func deleteCoreData() {
         PasswordEntity.deleteAll(in: context)
         PersistenceController.shared.save()
     }
