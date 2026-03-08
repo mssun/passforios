@@ -19,7 +19,13 @@ final class PasswordStoreTest: XCTestCase {
         let url = Globals.sharedContainerURL.appendingPathComponent("Library/password-store-test/")
 
         Defaults.isEnableGPGIDOn = true
+        defer {
+            Defaults.isEnableGPGIDOn = false
+        }
         let passwordStore = PasswordStore(url: url)
+        defer {
+            passwordStore.erase()
+        }
         try passwordStore.cloneRepository(remoteRepoURL: remoteRepoURL, branchName: "master")
         expectation(for: NSPredicate { _, _ in FileManager.default.fileExists(atPath: url.path) }, evaluatedWith: nil)
         waitForExpectations(timeout: 3, handler: nil)
@@ -47,9 +53,6 @@ final class PasswordStoreTest: XCTestCase {
         let testPasswordEntity = try passwordStore.add(password: testPassword)!
         let testPasswordPlain = try passwordStore.decrypt(passwordEntity: testPasswordEntity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
         XCTAssertEqual(testPasswordPlain.plainText, "testpassword")
-
-        passwordStore.erase()
-        Defaults.isEnableGPGIDOn = false
     }
 
     private func decrypt(passwordStore: PasswordStore, path: String, passphrase _: String) throws -> Password {
