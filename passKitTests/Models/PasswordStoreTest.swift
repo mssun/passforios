@@ -13,7 +13,6 @@ import XCTest
 @testable import passKit
 
 final class PasswordStoreTest: XCTestCase {
-    private lazy var remoteRepoURL: URL = Bundle(for: type(of: self)).resourceURL!.appendingPathComponent("Fixtures/password-store.git")
     private let localRepoURL: URL = Globals.sharedContainerURL.appendingPathComponent("Library/password-store-test/")
 
     private var passwordStore: PasswordStore! = nil
@@ -25,10 +24,12 @@ final class PasswordStoreTest: XCTestCase {
     override func tearDown() {
         passwordStore.erase()
         passwordStore = nil
+
+        Defaults.removeAll()
     }
 
     func testInitPasswordEntityCoreData() throws {
-        try cloneRepository()
+        try cloneRepository(.withGPGID)
 
         XCTAssertEqual(passwordStore.numberOfPasswords, 4)
 
@@ -50,7 +51,7 @@ final class PasswordStoreTest: XCTestCase {
     }
 
     func testEraseStoreData() throws {
-        try cloneRepository()
+        try cloneRepository(.withGPGID)
         XCTAssertTrue(FileManager.default.fileExists(atPath: localRepoURL.path))
         XCTAssertGreaterThan(passwordStore.numberOfPasswords, 0)
         XCTAssertNotNil(passwordStore.gitRepository)
@@ -63,8 +64,8 @@ final class PasswordStoreTest: XCTestCase {
     }
 
     func testErase() throws {
-        try cloneRepository()
-        try importPGPKeys()
+        try cloneRepository(.withGPGID)
+        try importSinglePGPKey()
         Defaults.gitSignatureName = "Test User"
         PasscodeLock.shared.save(passcode: "1234")
 
@@ -84,7 +85,7 @@ final class PasswordStoreTest: XCTestCase {
     }
 
     func testFetchPasswordEntityCoreDataByParent() throws {
-        try cloneRepository()
+        try cloneRepository(.withGPGID)
 
         let rootChildren = passwordStore.fetchPasswordEntityCoreData(parent: nil)
         XCTAssertGreaterThan(rootChildren.count, 0)
@@ -99,7 +100,7 @@ final class PasswordStoreTest: XCTestCase {
     }
 
     func testFetchPasswordEntityCoreDataWithDir() throws {
-        try cloneRepository()
+        try cloneRepository(.withGPGID)
 
         let allPasswords = passwordStore.fetchPasswordEntityCoreData(withDir: false)
         XCTAssertEqual(allPasswords.count, 4)
@@ -108,14 +109,21 @@ final class PasswordStoreTest: XCTestCase {
         }
     }
 
+    func testEncryptSaveDecryptMultiline() throws {
+        try cloneRepository(.empty)
+        try importSinglePGPKey()
+
+        let password = Password(name: "test", path: "test.gpg", plainText: "foobar\nwith\nmultiple\nlines")
+        _ = try passwordStore.add(password: password)
+        let decryptedPassword = try decrypt(path: "test.gpg")
+        XCTAssertEqual(decryptedPassword.plainText, "foobar\nwith\nmultiple\nlines")
+    }
+
     func testCloneAndDecryptMultiKeys() throws {
-        try cloneRepository()
-        try importPGPKeys()
+        try cloneRepository(.withGPGID)
+        try importMultiplePGPKeys()
 
         Defaults.isEnableGPGIDOn = true
-        defer {
-            Defaults.isEnableGPGIDOn = false
-        }
 
         [
             ("work/github.com", "4712286271220DB299883EA7062E678DA1024DAE"),
@@ -139,21 +147,51 @@ final class PasswordStoreTest: XCTestCase {
 
     // MARK: - Helpers
 
-    private func cloneRepository() throws {
-        try passwordStore.cloneRepository(remoteRepoURL: remoteRepoURL, branchName: "master")
+    private enum RemoteRepo {
+        case empty
+        case withGPGID
+
+        var url: URL {
+            switch self {
+            case .empty:
+                Bundle(for: PasswordStoreTest.self).resourceURL!.appendingPathComponent("Fixtures/password-store-empty.git")
+            case .withGPGID:
+                Bundle(for: PasswordStoreTest.self).resourceURL!.appendingPathComponent("Fixtures/password-store-with-gpgid.git")
+            }
+        }
+
+        var branchName: String {
+            switch self {
+            case .empty:
+                "main"
+            case .withGPGID:
+                "master"
+            }
+        }
+    }
+
+    private func cloneRepository(_ remote: RemoteRepo) throws {
+        try passwordStore.cloneRepository(remoteRepoURL: remote.url, branchName: remote.branchName)
         expectation(for: NSPredicate { _, _ in FileManager.default.fileExists(atPath: self.localRepoURL.path) }, evaluatedWith: nil)
         waitForExpectations(timeout: 3, handler: nil)
     }
 
-    private func importPGPKeys() throws {
+    private func importSinglePGPKey() throws {
+        let keychain = AppKeychain.shared
+        try KeyFileManager(keyType: PGPKey.PUBLIC, keyPath: "", keyHandler: keychain.add).importKey(from: RSA4096.publicKey)
+        try KeyFileManager(keyType: PGPKey.PRIVATE, keyPath: "", keyHandler: keychain.add).importKey(from: RSA4096.privateKey)
+        try PGPAgent.shared.initKeys()
+    }
+
+    private func importMultiplePGPKeys() throws {
         let keychain = AppKeychain.shared
         try KeyFileManager(keyType: PGPKey.PUBLIC, keyPath: "", keyHandler: keychain.add).importKey(from: RSA2048_RSA4096.publicKeys)
         try KeyFileManager(keyType: PGPKey.PRIVATE, keyPath: "", keyHandler: keychain.add).importKey(from: RSA2048_RSA4096.privateKeys)
         try PGPAgent.shared.initKeys()
     }
 
-    private func decrypt(path: String) throws -> Password {
+    private func decrypt(path: String, keyID: String? = nil) throws -> Password {
         let entity = passwordStore.fetchPasswordEntity(with: path)!
-        return try passwordStore.decrypt(passwordEntity: entity, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+        return try passwordStore.decrypt(passwordEntity: entity, keyID: keyID, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
     }
 }
