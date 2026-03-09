@@ -273,6 +273,10 @@ public class PasswordStore {
     }
 
     public func delete(passwordEntity: PasswordEntity) throws {
+        if passwordEntity.isDir {
+            throw AppError.cannotDeleteDirectory
+        }
+
         let deletedFileURL = passwordEntity.fileURL(in: storeURL)
         let deletedFilePath = passwordEntity.path
         try gitRm(path: passwordEntity.path)
