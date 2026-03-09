@@ -32,6 +32,8 @@ final class PasswordStoreTest: XCTestCase {
         try cloneRepository(.withGPGID)
 
         XCTAssertEqual(passwordStore.numberOfPasswords, 4)
+        XCTAssertEqual(passwordStore.numberOfCommits, 16)
+        XCTAssertEqual(passwordStore.numberOfLocalCommits, 0)
 
         let entity = passwordStore.fetchPasswordEntity(with: "personal/github.com.gpg")
         XCTAssertEqual(entity!.path, "personal/github.com.gpg")
@@ -118,10 +120,12 @@ final class PasswordStoreTest: XCTestCase {
     func testAddPassword() throws {
         try cloneRepository(.empty)
         try importSinglePGPKey()
+        let numCommitsBefore = passwordStore.numberOfCommits!
+        let numLocalCommitsBefore = passwordStore.numberOfLocalCommits
 
         let password1 = Password(name: "test1", path: "test1.gpg", plainText: "foobar")
         let password2 = Password(name: "test2", path: "test2.gpg", plainText: "hello world")
-        let password3 = Password(name: "test3", path: "test3.gpg", plainText: "lorem ipsum")
+        let password3 = Password(name: "test3", path: "folder/test3.gpg", plainText: "lorem ipsum")
         let password4 = Password(name: "test4", path: "test4.gpg", plainText: "you are valuable and you matter")
 
         [password1, password2, password3, password4].forEach { password in
@@ -132,10 +136,21 @@ final class PasswordStoreTest: XCTestCase {
             XCTAssertEqual(savedEntity!.name, password.name)
             waitForExpectations(timeout: 1, handler: nil)
         }
+
+        XCTAssertTrue(FileManager.default.fileExists(atPath: localRepoURL.appendingPathComponent("test1.gpg").path))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: localRepoURL.appendingPathComponent("test2.gpg").path))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: localRepoURL.appendingPathComponent("folder").path))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: localRepoURL.appendingPathComponent("folder/test3.gpg").path))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: localRepoURL.appendingPathComponent("test4.gpg").path))
+
+        XCTAssertEqual(passwordStore.numberOfCommits!, numCommitsBefore + 4)
+        XCTAssertEqual(passwordStore.numberOfLocalCommits, numLocalCommitsBefore + 4)
     }
 
     func testDeletePassword() throws {
         try cloneRepository(.withGPGID)
+        let numCommitsBefore = passwordStore.numberOfCommits!
+        let numLocalCommitsBefore = passwordStore.numberOfLocalCommits
 
         expectation(forNotification: .passwordStoreUpdated, object: nil)
 
@@ -145,11 +160,15 @@ final class PasswordStoreTest: XCTestCase {
         XCTAssertNil(passwordStore.fetchPasswordEntity(with: "personal/github.com.gpg"))
         XCTAssertNil(passwordStore.fetchPasswordEntity(with: "personal"))
         XCTAssertFalse(FileManager.default.fileExists(atPath: localRepoURL.appendingPathComponent("personal").path))
+        XCTAssertEqual(passwordStore.numberOfCommits!, numCommitsBefore + 1)
+        XCTAssertEqual(passwordStore.numberOfLocalCommits, numLocalCommitsBefore + 1)
         waitForExpectations(timeout: 1, handler: nil)
     }
 
     func testDeleteDirectoryFails() throws {
         try cloneRepository(.withGPGID)
+        let numCommitsBefore = passwordStore.numberOfCommits!
+        let numLocalCommitsBefore = passwordStore.numberOfLocalCommits
 
         expectation(forNotification: .passwordStoreUpdated, object: nil).isInverted = true
 
@@ -161,12 +180,16 @@ final class PasswordStoreTest: XCTestCase {
 
         XCTAssertNotNil(passwordStore.fetchPasswordEntity(with: "personal/github.com.gpg"))
         XCTAssertTrue(FileManager.default.fileExists(atPath: localRepoURL.appendingPathComponent("personal/github.com.gpg").path))
+        XCTAssertEqual(passwordStore.numberOfCommits!, numCommitsBefore)
+        XCTAssertEqual(passwordStore.numberOfLocalCommits, numLocalCommitsBefore)
         waitForExpectations(timeout: 0.1, handler: nil)
     }
 
     func testEditPasswordValue() throws {
         try cloneRepository(.withGPGID)
         try importSinglePGPKey()
+        let numCommitsBefore = passwordStore.numberOfCommits!
+        let numLocalCommitsBefore = passwordStore.numberOfLocalCommits
         let entity = passwordStore.fetchPasswordEntity(with: "personal/github.com.gpg")!
 
         expectation(forNotification: .passwordStoreUpdated, object: nil)
@@ -179,12 +202,16 @@ final class PasswordStoreTest: XCTestCase {
         XCTAssertEqual(editedEntity!.name, "github.com")
         XCTAssertFalse(editedEntity!.isSynced)
         XCTAssertEqual(try decrypt(path: "personal/github.com.gpg").plainText, "editedpassword")
+        XCTAssertEqual(passwordStore.numberOfCommits!, numCommitsBefore + 1)
+        XCTAssertEqual(passwordStore.numberOfLocalCommits, numLocalCommitsBefore + 1)
         waitForExpectations(timeout: 1, handler: nil)
     }
 
     func testMovePassword() throws {
         try cloneRepository(.withGPGID)
         try importSinglePGPKey()
+        let numCommitsBefore = passwordStore.numberOfCommits!
+        let numLocalCommitsBefore = passwordStore.numberOfLocalCommits
         let entity = passwordStore.fetchPasswordEntity(with: "personal/github.com.gpg")!
 
         expectation(forNotification: .passwordStoreUpdated, object: nil)
@@ -197,6 +224,8 @@ final class PasswordStoreTest: XCTestCase {
         XCTAssertFalse(editedEntity!.isSynced)
         XCTAssertEqual(try decrypt(path: "new name.gpg").plainText, "passwordforpersonal\n")
         XCTAssertNil(passwordStore.fetchPasswordEntity(with: "personal/github.com.gpg"))
+        XCTAssertEqual(passwordStore.numberOfCommits!, numCommitsBefore + 1)
+        XCTAssertEqual(passwordStore.numberOfLocalCommits, numLocalCommitsBefore + 1)
         waitForExpectations(timeout: 1, handler: nil)
     }
 
