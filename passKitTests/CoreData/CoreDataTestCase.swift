@@ -20,7 +20,7 @@ class CoreDataTestCase: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
 
-        controller = PersistenceController(isUnitTest: true)
+        controller = PersistenceController.forUnitTests()
     }
 
     override func tearDown() {
