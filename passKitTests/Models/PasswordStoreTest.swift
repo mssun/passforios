@@ -229,6 +229,26 @@ final class PasswordStoreTest: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
 
+    func testReset() throws {
+        try cloneRepository(.withGPGID)
+        try importSinglePGPKey()
+        let numCommitsBefore = passwordStore.numberOfCommits!
+        let numLocalCommitsBefore = passwordStore.numberOfLocalCommits
+
+        _ = try? passwordStore.add(password: Password(name: "test", path: "test.gpg", plainText: "foobar"))
+        try passwordStore.delete(passwordEntity: passwordStore.fetchPasswordEntity(with: "personal/github.com.gpg")!)
+
+        expectation(forNotification: .passwordStoreUpdated, object: nil)
+        let numDroppedCommits = try passwordStore.reset()
+
+        XCTAssertEqual(numDroppedCommits, 2)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: localRepoURL.appendingPathComponent("test.gpg").path))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: localRepoURL.appendingPathComponent("personal/github.com.gpg").path))
+        XCTAssertEqual(passwordStore.numberOfCommits!, numCommitsBefore)
+        XCTAssertEqual(passwordStore.numberOfLocalCommits, numLocalCommitsBefore)
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+
     // MARK: - .gpg-id support
 
     func testCloneAndDecryptMultiKeys() throws {
