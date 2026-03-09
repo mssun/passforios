@@ -115,6 +115,7 @@
 		5F9D7B0E27AF6FCA00A8AB22 /* CryptoTokenKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F9D7B0C27AF6F7300A8AB22 /* CryptoTokenKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5F9D7B0F27AF6FD200A8AB22 /* CryptoTokenKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F9D7B0C27AF6F7300A8AB22 /* CryptoTokenKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8A4716692F5EF56900C7A64D /* AppKeychainTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4716682F5EF56900C7A64D /* AppKeychainTest.swift */; };
+		8A4716712F5EF7A900C7A64D /* PersistenceControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47166F2F5EF7A900C7A64D /* PersistenceControllerTest.swift */; };
 		8AD8EBF32F5E2723007475AB /* Fixtures in Resources */ = {isa = PBXBuildFile; fileRef = 8AD8EBF22F5E268D007475AB /* Fixtures */; };
 		9A1D1CE526E5D1CE0052028E /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 9A1D1CE426E5D1CE0052028E /* OneTimePassword */; };
 		9A1D1CE726E5D2230052028E /* OneTimePassword in Frameworks */ = {isa = PBXBuildFile; productRef = 9A1D1CE626E5D2230052028E /* OneTimePassword */; };
@@ -425,6 +426,7 @@
 		30FD2F77214D9E0E005E0A92 /* ParserTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
 		5F9D7B0C27AF6F7300A8AB22 /* CryptoTokenKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoTokenKit.framework; path = System/Library/Frameworks/CryptoTokenKit.framework; sourceTree = SDKROOT; };
 		8A4716682F5EF56900C7A64D /* AppKeychainTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKeychainTest.swift; sourceTree = "<group>"; };
+		8A47166F2F5EF7A900C7A64D /* PersistenceControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceControllerTest.swift; sourceTree = "<group>"; };
 		8AD8EBF22F5E268D007475AB /* Fixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fixtures; sourceTree = "<group>"; };
 		9A1EF0B324C50DD80074FEAC /* passBeta.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passBeta.entitlements; sourceTree = "<group>"; };
 		9A1EF0B424C50E780074FEAC /* passBetaAutoFillExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = passBetaAutoFillExtension.entitlements; sourceTree = "<group>"; };
@@ -766,6 +768,14 @@
 			path = Crypto;
 			sourceTree = "<group>";
 		};
+		8A4716702F5EF7A900C7A64D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8A47166F2F5EF7A900C7A64D /* PersistenceControllerTest.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		9A58664F25AADB66006719C2 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -884,6 +894,7 @@
 		A26075861EEC6F34005DB03E /* passKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				8A4716702F5EF7A900C7A64D /* Controllers */,
 				DC64745A2D29BD43004B4BBC /* CoreData */,
 				30A86F93230F235800F821A4 /* Crypto */,
 				30BAC8C322E3BA4300438475 /* Testbase */,
@@ -1639,6 +1650,7 @@
 				30A86F95230F237000F821A4 /* CryptoFrameworkTest.swift in Sources */,
 				30A1D2AC21B32C2A00E2D1F7 /* TokenBuilderTest.swift in Sources */,
 				30DAFD4C240985E3002456E7 /* Array+SlicesTest.swift in Sources */,
+				8A4716712F5EF7A900C7A64D /* PersistenceControllerTest.swift in Sources */,
 				301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */,
 				9ADC954124418A5F0005402E /* PasswordStoreTest.swift in Sources */,
 				30BAC8CB22E3BB6C00438475 /* DictBasedKeychain.swift in Sources */,

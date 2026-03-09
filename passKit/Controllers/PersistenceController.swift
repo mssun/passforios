@@ -18,17 +18,17 @@ public class PersistenceController {
 
     let container: NSPersistentContainer
 
-    init(isUnitTest: Bool = false) {
+    init(storeURL: URL? = nil) {
         self.container = NSPersistentContainer(name: Self.modelName, managedObjectModel: .sharedModel)
         let description = container.persistentStoreDescriptions.first
         description?.shouldMigrateStoreAutomatically = false
         description?.shouldInferMappingModelAutomatically = false
-        if isUnitTest {
-            description?.url = URL(fileURLWithPath: "/dev/null")
-        } else {
-            description?.url = URL(fileURLWithPath: Globals.dbPath)
-        }
+        description?.url = storeURL ?? URL(fileURLWithPath: Globals.dbPath)
         setup()
+    }
+
+    static func forUnitTests() -> PersistenceController {
+        PersistenceController(storeURL: URL(fileURLWithPath: "/dev/null"))
     }
 
     func setup() {
