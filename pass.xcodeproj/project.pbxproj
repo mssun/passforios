@@ -197,7 +197,7 @@
 		DC4914961E434301007FF592 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914941E434301007FF592 /* LabelTableViewCell.swift */; };
 		DC4914991E434600007FF592 /* PasswordDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */; };
 		DC5F385B1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5F385A1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift */; };
-		DC6474532D20DD0C004B4BBC /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474522D20DD0C004B4BBC /* CoreDataStack.swift */; };
+		DC6474532D20DD0C004B4BBC /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474522D20DD0C004B4BBC /* PersistenceController.swift */; };
 		DC64745C2D29BE9B004B4BBC /* PasswordEntityTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474592D29BD43004B4BBC /* PasswordEntityTest.swift */; };
 		DC64745D2D29BEA9004B4BBC /* CoreDataTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474582D29BD43004B4BBC /* CoreDataTestCase.swift */; };
 		DC64745F2D45B240004B4BBC /* GitRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC64745E2D45B23A004B4BBC /* GitRepository.swift */; };
@@ -502,7 +502,7 @@
 		DC4914941E434301007FF592 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
 		DC4914981E434600007FF592 /* PasswordDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDetailTableViewController.swift; sourceTree = "<group>"; };
 		DC5F385A1E56AADB00C69ACA /* PGPKeyArmorImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPKeyArmorImportTableViewController.swift; sourceTree = "<group>"; };
-		DC6474522D20DD0C004B4BBC /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		DC6474522D20DD0C004B4BBC /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		DC6474582D29BD43004B4BBC /* CoreDataTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTestCase.swift; sourceTree = "<group>"; };
 		DC6474592D29BD43004B4BBC /* PasswordEntityTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEntityTest.swift; sourceTree = "<group>"; };
 		DC64745E2D45B23A004B4BBC /* GitRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitRepository.swift; sourceTree = "<group>"; };
@@ -919,7 +919,7 @@
 			children = (
 				30697C3121F63C8B0064FCAC /* PasscodeLockPresenter.swift */,
 				30697C3221F63C8B0064FCAC /* PasscodeLockViewController.swift */,
-				DC6474522D20DD0C004B4BBC /* CoreDataStack.swift */,
+				DC6474522D20DD0C004B4BBC /* PersistenceController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1620,7 +1620,7 @@
 				3087574F2343E42A00B971A2 /* Colors.swift in Sources */,
 				30697C2C21F63C5A0064FCAC /* FileManagerExtension.swift in Sources */,
 				30697C3321F63C8B0064FCAC /* PasscodeLockPresenter.swift in Sources */,
-				DC6474532D20DD0C004B4BBC /* CoreDataStack.swift in Sources */,
+				DC6474532D20DD0C004B4BBC /* PersistenceController.swift in Sources */,
 				30697C3D21F63C990064FCAC /* UIViewExtension.swift in Sources */,
 				30697C3A21F63C990064FCAC /* UIViewControllerExtension.swift in Sources */,
 				30697C2E21F63C5A0064FCAC /* Utils.swift in Sources */,
