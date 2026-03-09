@@ -128,10 +128,10 @@ final class PasswordStoreTest: XCTestCase {
         let password3 = Password(name: "test3", path: "folder/test3.gpg", plainText: "lorem ipsum")
         let password4 = Password(name: "test4", path: "test4.gpg", plainText: "you are valuable and you matter")
 
-        [password1, password2, password3, password4].forEach { password in
+        for password in [password1, password2, password3, password4] {
             expectation(forNotification: .passwordStoreUpdated, object: nil)
 
-            let savedEntity = try? passwordStore.add(password: password)
+            let savedEntity = try passwordStore.add(password: password)
 
             XCTAssertEqual(savedEntity!.name, password.name)
             waitForExpectations(timeout: 1, handler: nil)
@@ -145,6 +145,17 @@ final class PasswordStoreTest: XCTestCase {
 
         XCTAssertEqual(passwordStore.numberOfCommits!, numCommitsBefore + 4)
         XCTAssertEqual(passwordStore.numberOfLocalCommits, numLocalCommitsBefore + 4)
+    }
+
+    func testAddAndDecryptRoundTrip() throws {
+        try cloneRepository(.empty)
+        try importSinglePGPKey()
+
+        let password = Password(name: "test", path: "test.gpg", plainText: "foobar")
+        let savedEntity = try passwordStore.add(password: password)
+
+        let decryptedPassword = try passwordStore.decrypt(passwordEntity: savedEntity!, requestPGPKeyPassphrase: requestPGPKeyPassphrase)
+        XCTAssertEqual(decryptedPassword.plainText, "foobar")
     }
 
     func testDeletePassword() throws {
@@ -235,7 +246,7 @@ final class PasswordStoreTest: XCTestCase {
         let numCommitsBefore = passwordStore.numberOfCommits!
         let numLocalCommitsBefore = passwordStore.numberOfLocalCommits
 
-        _ = try? passwordStore.add(password: Password(name: "test", path: "test.gpg", plainText: "foobar"))
+        _ = try passwordStore.add(password: Password(name: "test", path: "test.gpg", plainText: "foobar"))
         try passwordStore.delete(passwordEntity: passwordStore.fetchPasswordEntity(with: "personal/github.com.gpg")!)
 
         expectation(forNotification: .passwordStoreUpdated, object: nil)
