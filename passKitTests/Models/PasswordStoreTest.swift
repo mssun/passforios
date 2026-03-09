@@ -56,11 +56,14 @@ final class PasswordStoreTest: XCTestCase {
         XCTAssertGreaterThan(passwordStore.numberOfPasswords, 0)
         XCTAssertNotNil(passwordStore.gitRepository)
 
+        expectation(forNotification: .passwordStoreUpdated, object: nil)
+        expectation(forNotification: .passwordStoreErased, object: nil)
         passwordStore.eraseStoreData()
 
         XCTAssertFalse(FileManager.default.fileExists(atPath: localRepoURL.path))
         XCTAssertEqual(passwordStore.numberOfPasswords, 0)
         XCTAssertNil(passwordStore.gitRepository)
+        waitForExpectations(timeout: 1, handler: nil)
     }
 
     func testErase() throws {
@@ -75,6 +78,8 @@ final class PasswordStoreTest: XCTestCase {
         XCTAssertTrue(PasscodeLock.shared.hasPasscode)
         XCTAssertTrue(PGPAgent.shared.isInitialized())
 
+        expectation(forNotification: .passwordStoreUpdated, object: nil)
+        expectation(forNotification: .passwordStoreErased, object: nil)
         passwordStore.erase()
 
         XCTAssertEqual(passwordStore.numberOfPasswords, 0)
@@ -82,6 +87,7 @@ final class PasswordStoreTest: XCTestCase {
         XCTAssertFalse(Defaults.hasKey(\.gitSignatureName))
         XCTAssertFalse(PasscodeLock.shared.hasPasscode)
         XCTAssertFalse(PGPAgent.shared.isInitialized())
+        waitForExpectations(timeout: 1, handler: nil)
     }
 
     func testFetchPasswordEntityCoreDataByParent() throws {
@@ -171,8 +177,11 @@ final class PasswordStoreTest: XCTestCase {
     }
 
     private func cloneRepository(_ remote: RemoteRepo) throws {
-        try passwordStore.cloneRepository(remoteRepoURL: remote.url, branchName: remote.branchName)
         expectation(for: NSPredicate { _, _ in FileManager.default.fileExists(atPath: self.localRepoURL.path) }, evaluatedWith: nil)
+        expectation(forNotification: .passwordStoreUpdated, object: nil)
+
+        try passwordStore.cloneRepository(remoteRepoURL: remote.url, branchName: remote.branchName)
+
         waitForExpectations(timeout: 3, handler: nil)
     }
 
