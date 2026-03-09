@@ -73,7 +73,7 @@
 "KeyImportError."                       = "Cannot import the key.";
 "FileNotFoundError."                    = "File '%@' cannot be read.";
 "PasswordDuplicatedError."              = "Cannot add the password; password is duplicated.";
-"CannotDeleteDirectoryError."           = "Cannot delete directories; delete passwords instead.";
+"CannotDeleteNonEmptyDirectoryError."   = "Delete passwords from the directory before deleting the directory itself.";
 "GitResetError."                        = "Cannot identify the latest synced commit.";
 "GitCreateSignatureError."              = "Cannot create a valid author/committer signature.";
 "GitPushNotSuccessfulError."            = "Pushing local changes was not successful. Make sure there are no uncommitted changes on the remote repository.";

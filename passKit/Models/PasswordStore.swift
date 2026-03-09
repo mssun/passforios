@@ -273,13 +273,15 @@ public class PasswordStore {
     }
 
     public func delete(passwordEntity: PasswordEntity) throws {
-        if passwordEntity.isDir {
-            throw AppError.cannotDeleteDirectory
+        if !passwordEntity.children.isEmpty {
+            throw AppError.cannotDeleteNonEmptyDirectory
         }
 
         let deletedFileURL = passwordEntity.fileURL(in: storeURL)
         let deletedFilePath = passwordEntity.path
-        try gitRm(path: passwordEntity.path)
+        if !passwordEntity.isDir {
+            try gitRm(path: passwordEntity.path)
+        }
         try deletePasswordEntities(passwordEntity: passwordEntity)
         try deleteDirectoryTree(at: deletedFileURL)
         try gitCommit(message: "RemovePassword.".localize(deletedFilePath))
@@ -287,6 +289,11 @@ public class PasswordStore {
     }
 
     public func edit(passwordEntity: PasswordEntity, password: Password, keyID: String? = nil) throws -> PasswordEntity? {
+        guard !passwordEntity.isDir else {
+            // caller should ensure this, so this is not a user-facing error
+            throw AppError.other(message: "Cannot edit a directory")
+        }
+
         var newPasswordEntity: PasswordEntity? = passwordEntity
         let url = passwordEntity.fileURL(in: storeURL)
 

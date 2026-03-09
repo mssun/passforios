@@ -15,7 +15,7 @@ public enum AppError: Error, Equatable {
     case keyImport
     case readingFile(fileName: String)
     case passwordDuplicated
-    case cannotDeleteDirectory
+    case cannotDeleteNonEmptyDirectory
     case gitReset
     case gitCommit
     case gitCreateSignature
