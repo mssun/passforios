@@ -143,7 +143,25 @@ final class PasswordStoreTest: XCTestCase {
         try passwordStore.delete(passwordEntity: entity!)
 
         XCTAssertNil(passwordStore.fetchPasswordEntity(with: "personal/github.com.gpg"))
+        XCTAssertNil(passwordStore.fetchPasswordEntity(with: "personal"))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: localRepoURL.appendingPathComponent("personal").path))
         waitForExpectations(timeout: 1, handler: nil)
+    }
+
+    func testDeleteDirectoryFails() throws {
+        try cloneRepository(.withGPGID)
+
+        expectation(forNotification: .passwordStoreUpdated, object: nil).isInverted = true
+
+        let entity = passwordStore.fetchPasswordEntity(with: "personal")
+        XCTAssertThrowsError(try passwordStore.delete(passwordEntity: entity!)) { error in
+            XCTAssertTrue(error is AppError, "Unexpected error type: \(type(of: error))")
+            XCTAssertEqual(error as? AppError, .cannotDeleteDirectory)
+        }
+
+        XCTAssertNotNil(passwordStore.fetchPasswordEntity(with: "personal/github.com.gpg"))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: localRepoURL.appendingPathComponent("personal/github.com.gpg").path))
+        waitForExpectations(timeout: 0.1, handler: nil)
     }
 
     func testEditPasswordValue() throws {
