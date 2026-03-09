@@ -320,7 +320,7 @@ public class PasswordStore {
         saveUpdatedContext()
     }
 
-    public func saveUpdatedContext() {
+    private func saveUpdatedContext() {
         PersistenceController.shared.save()
     }
 

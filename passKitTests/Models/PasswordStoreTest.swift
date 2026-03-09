@@ -115,15 +115,74 @@ final class PasswordStoreTest: XCTestCase {
         }
     }
 
-    func testEncryptSaveDecryptMultiline() throws {
+    func testAddPassword() throws {
         try cloneRepository(.empty)
         try importSinglePGPKey()
 
-        let password = Password(name: "test", path: "test.gpg", plainText: "foobar\nwith\nmultiple\nlines")
-        _ = try passwordStore.add(password: password)
-        let decryptedPassword = try decrypt(path: "test.gpg")
-        XCTAssertEqual(decryptedPassword.plainText, "foobar\nwith\nmultiple\nlines")
+        let password1 = Password(name: "test1", path: "test1.gpg", plainText: "foobar")
+        let password2 = Password(name: "test2", path: "test2.gpg", plainText: "hello world")
+        let password3 = Password(name: "test3", path: "test3.gpg", plainText: "lorem ipsum")
+        let password4 = Password(name: "test4", path: "test4.gpg", plainText: "you are valuable and you matter")
+
+        [password1, password2, password3, password4].forEach { password in
+            expectation(forNotification: .passwordStoreUpdated, object: nil)
+
+            let savedEntity = try? passwordStore.add(password: password)
+
+            XCTAssertEqual(savedEntity!.name, password.name)
+            waitForExpectations(timeout: 1, handler: nil)
+        }
     }
+
+    func testDeletePassword() throws {
+        try cloneRepository(.withGPGID)
+
+        expectation(forNotification: .passwordStoreUpdated, object: nil)
+
+        let entity = passwordStore.fetchPasswordEntity(with: "personal/github.com.gpg")
+        try passwordStore.delete(passwordEntity: entity!)
+
+        XCTAssertNil(passwordStore.fetchPasswordEntity(with: "personal/github.com.gpg"))
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+
+    func testEditPasswordValue() throws {
+        try cloneRepository(.withGPGID)
+        try importSinglePGPKey()
+        let entity = passwordStore.fetchPasswordEntity(with: "personal/github.com.gpg")!
+
+        expectation(forNotification: .passwordStoreUpdated, object: nil)
+
+        let editedPassword = Password(name: entity.name, path: entity.path, plainText: "editedpassword")
+        editedPassword.changed = PasswordChange.content.rawValue
+        let editedEntity = try passwordStore.edit(passwordEntity: entity, password: editedPassword)
+
+        XCTAssertNotNil(editedEntity)
+        XCTAssertEqual(editedEntity!.name, "github.com")
+        XCTAssertFalse(editedEntity!.isSynced)
+        XCTAssertEqual(try decrypt(path: "personal/github.com.gpg").plainText, "editedpassword")
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+
+    func testMovePassword() throws {
+        try cloneRepository(.withGPGID)
+        try importSinglePGPKey()
+        let entity = passwordStore.fetchPasswordEntity(with: "personal/github.com.gpg")!
+
+        expectation(forNotification: .passwordStoreUpdated, object: nil)
+
+        let editedPassword = Password(name: "new name", path: "new name.gpg", plainText: "passwordforpersonal\n")
+        editedPassword.changed = PasswordChange.path.rawValue
+        let editedEntity = try passwordStore.edit(passwordEntity: entity, password: editedPassword)
+
+        XCTAssertEqual(editedEntity!.name, "new name")
+        XCTAssertFalse(editedEntity!.isSynced)
+        XCTAssertEqual(try decrypt(path: "new name.gpg").plainText, "passwordforpersonal\n")
+        XCTAssertNil(passwordStore.fetchPasswordEntity(with: "personal/github.com.gpg"))
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+
+    // MARK: - .gpg-id support
 
     func testCloneAndDecryptMultiKeys() throws {
         try cloneRepository(.withGPGID)
