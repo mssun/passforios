@@ -176,7 +176,40 @@ final class PasswordStoreTest: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
 
-    func testDeleteDirectoryFails() throws {
+    func testDeletePasswordKeepsFileSystemFolderIfNotEmpty() throws {
+        try cloneRepository(.withGPGID)
+
+        // /work contains .gpg-id in addition to a password file
+        let entity = passwordStore.fetchPasswordEntity(with: "work/github.com.gpg")
+        try passwordStore.delete(passwordEntity: entity!)
+
+        XCTAssertFalse(FileManager.default.fileExists(atPath: localRepoURL.appendingPathComponent("work/github.com.gpg").path))
+        XCTAssertNil(passwordStore.fetchPasswordEntity(with: "work/github.com.gpg"))
+        XCTAssertNil(passwordStore.fetchPasswordEntity(with: "work"))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: localRepoURL.appendingPathComponent("work/.gpg-id").path))
+    }
+
+    func testDeleteEmptyDirectory() throws {
+        try cloneRepository(.emptyDirs)
+        let numCommitsBefore = passwordStore.numberOfCommits!
+        let numLocalCommitsBefore = passwordStore.numberOfLocalCommits
+
+        expectation(forNotification: .passwordStoreUpdated, object: nil)
+
+        // Note: the directory isn't truely empty since Git doesn't track empty directories,
+        // but it should be treated as empty by the app since it contains only hidden files
+        let entityToDelete = passwordStore.fetchPasswordEntity(with: "empty-dir")
+        XCTAssertNotNil(entityToDelete)
+        try passwordStore.delete(passwordEntity: entityToDelete!)
+
+        XCTAssertNil(passwordStore.fetchPasswordEntity(with: "empty-dir"))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: localRepoURL.appendingPathComponent("empty-dir/.gitkeep").path))
+        XCTAssertEqual(passwordStore.numberOfCommits!, numCommitsBefore + 1)
+        XCTAssertEqual(passwordStore.numberOfLocalCommits, numLocalCommitsBefore + 1)
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+
+    func testDeleteNonEmptyDirectoryFails() throws {
         try cloneRepository(.withGPGID)
         let numCommitsBefore = passwordStore.numberOfCommits!
         let numLocalCommitsBefore = passwordStore.numberOfLocalCommits
@@ -186,7 +219,7 @@ final class PasswordStoreTest: XCTestCase {
         let entity = passwordStore.fetchPasswordEntity(with: "personal")
         XCTAssertThrowsError(try passwordStore.delete(passwordEntity: entity!)) { error in
             XCTAssertTrue(error is AppError, "Unexpected error type: \(type(of: error))")
-            XCTAssertEqual(error as? AppError, .cannotDeleteDirectory)
+            XCTAssertEqual(error as? AppError, .cannotDeleteNonEmptyDirectory)
         }
 
         XCTAssertNotNil(passwordStore.fetchPasswordEntity(with: "personal/github.com.gpg"))
@@ -238,6 +271,23 @@ final class PasswordStoreTest: XCTestCase {
         XCTAssertEqual(passwordStore.numberOfCommits!, numCommitsBefore + 1)
         XCTAssertEqual(passwordStore.numberOfLocalCommits, numLocalCommitsBefore + 1)
         waitForExpectations(timeout: 1, handler: nil)
+    }
+
+    func testEditDirectoryFails() throws {
+        try cloneRepository(.withGPGID)
+        try importSinglePGPKey()
+        let numCommitsBefore = passwordStore.numberOfCommits!
+
+        let directoryEntity = passwordStore.fetchPasswordEntity(with: "personal")!
+        let editedPassword = Password(name: "new name", path: "new name", plainText: "")
+        editedPassword.changed = PasswordChange.path.rawValue
+        XCTAssertThrowsError(try passwordStore.edit(passwordEntity: directoryEntity, password: editedPassword)) { error in
+            XCTAssertTrue(error is AppError, "Unexpected error type: \(type(of: error))")
+            XCTAssertEqual(error as? AppError, .other(message: "Cannot edit a directory"))
+        }
+
+        XCTAssertNotNil(passwordStore.fetchPasswordEntity(with: "personal"))
+        XCTAssertEqual(passwordStore.numberOfCommits!, numCommitsBefore)
     }
 
     func testReset() throws {
@@ -292,12 +342,15 @@ final class PasswordStoreTest: XCTestCase {
 
     private enum RemoteRepo {
         case empty
+        case emptyDirs
         case withGPGID
 
         var url: URL {
             switch self {
             case .empty:
                 Bundle(for: PasswordStoreTest.self).resourceURL!.appendingPathComponent("Fixtures/password-store-empty.git")
+            case .emptyDirs:
+                Bundle(for: PasswordStoreTest.self).resourceURL!.appendingPathComponent("Fixtures/password-store-empty-dirs.git")
             case .withGPGID:
                 Bundle(for: PasswordStoreTest.self).resourceURL!.appendingPathComponent("Fixtures/password-store-with-gpgid.git")
             }
@@ -306,6 +359,8 @@ final class PasswordStoreTest: XCTestCase {
         var branchName: String {
             switch self {
             case .empty:
+                "main"
+            case .emptyDirs:
                 "main"
             case .withGPGID:
                 "master"

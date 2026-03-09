@@ -72,6 +72,7 @@
 "KeyImportError."                       = "Schlüssel kann nicht importiert werden.";
 "FileNotFoundError."                    = "Die Datei '%@' kann nicht gelesen werden.";
 "PasswordDuplicatedError."              = "Passwort kann nicht hinzugefügt werden; es existiert bereits.";
+"CannotDeleteNonEmptyDirectoryError."   = "Ordner muss erst leer sein, um gelöscht werden zu können.";
 "GitResetError."                        = "Der zuletzt synchronisierte Commit kann nicht identifiziert werden.";
 "GitCreateSignatureError."              = "Es konnte keine valide Signatur für den Author/Committer angelegt werden.";
 "GitPushNotSuccessfulError."            = "Die Übertragung der lokalen Änderungen war nicht erfolgreich. Stelle bitte sicher, dass auf dem Remote-Repository alle Änderungen commitet sind.";
