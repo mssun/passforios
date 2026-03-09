@@ -85,4 +85,99 @@ final class PasswordEntityTest: CoreDataTestCase {
 
         XCTAssertEqual(PasswordEntity.fetchAll(in: context).count, 0)
     }
+
+    // MARK: - initPasswordEntityCoreData tests
+
+    func testInitPasswordEntityCoreDataBuildsTree() throws {
+        let rootDir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: rootDir, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: rootDir) }
+
+        // Create directory structure:
+        //   email/
+        //     work.gpg
+        //     personal.gpg
+        //   social/
+        //     mastodon.gpg
+        //   toplevel.gpg
+        //   notes.txt          (non-.gpg file)
+        let emailDir = rootDir.appendingPathComponent("email")
+        let socialDir = rootDir.appendingPathComponent("social")
+        try FileManager.default.createDirectory(at: emailDir, withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(at: socialDir, withIntermediateDirectories: true)
+        try Data("test1".utf8).write(to: emailDir.appendingPathComponent("work.gpg"))
+        try Data("test2".utf8).write(to: emailDir.appendingPathComponent("personal.gpg"))
+        try Data("test3".utf8).write(to: socialDir.appendingPathComponent("mastodon.gpg"))
+        try Data("test4".utf8).write(to: rootDir.appendingPathComponent("toplevel.gpg"))
+        try Data("test5".utf8).write(to: rootDir.appendingPathComponent("notes.txt"))
+
+        let context = controller.viewContext()
+        PasswordEntity.initPasswordEntityCoreData(url: rootDir, in: context)
+
+        // Verify total counts
+        let allEntities = PasswordEntity.fetchAll(in: context)
+        let files = allEntities.filter { !$0.isDir }
+        let dirs = allEntities.filter(\.isDir)
+        XCTAssertEqual(files.count, 5) // 4 .gpg + 1 .txt
+        XCTAssertEqual(dirs.count, 2) // email, social
+
+        // Verify .gpg extension is stripped
+        let workEntity = allEntities.first { $0.path == "email/work.gpg" }
+        XCTAssertNotNil(workEntity)
+        XCTAssertEqual(workEntity!.name, "work")
+
+        // Verify non-.gpg file keeps its extension
+        let notesEntity = allEntities.first { $0.path == "notes.txt" }
+        XCTAssertNotNil(notesEntity)
+        XCTAssertEqual(notesEntity!.name, "notes.txt")
+
+        // Verify parent-child relationships
+        let emailEntity = allEntities.first { $0.path == "email" && $0.isDir }
+        XCTAssertNotNil(emailEntity)
+        XCTAssertEqual(emailEntity!.children.count, 2)
+
+        // Verify top-level files have no parent (root was deleted)
+        let toplevelEntity = allEntities.first { $0.path == "toplevel.gpg" }
+        XCTAssertNotNil(toplevelEntity)
+        XCTAssertEqual(toplevelEntity!.name, "toplevel")
+        XCTAssertNil(toplevelEntity!.parent)
+    }
+
+    func testInitPasswordEntityCoreDataSkipsHiddenFiles() throws {
+        let rootDir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: rootDir, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: rootDir) }
+
+        try Data("test".utf8).write(to: rootDir.appendingPathComponent("visible.gpg"))
+        try Data("test".utf8).write(to: rootDir.appendingPathComponent(".hidden.gpg"))
+        try Data("test".utf8).write(to: rootDir.appendingPathComponent(".gpg-id"))
+        try FileManager.default.createDirectory(at: rootDir.appendingPathComponent(".git"), withIntermediateDirectories: true)
+        try Data("test".utf8).write(to: rootDir.appendingPathComponent(".git/config"))
+
+        let context = controller.viewContext()
+        PasswordEntity.initPasswordEntityCoreData(url: rootDir, in: context)
+
+        let allEntities = PasswordEntity.fetchAll(in: context)
+        XCTAssertEqual(allEntities.count, 1)
+        XCTAssertEqual(allEntities.first!.name, "visible")
+    }
+
+    func testInitPasswordEntityCoreDataHandlesEmptyDirectory() throws {
+        let rootDir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: rootDir, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: rootDir) }
+
+        try FileManager.default.createDirectory(at: rootDir.appendingPathComponent("emptydir"), withIntermediateDirectories: true)
+
+        let context = controller.viewContext()
+        PasswordEntity.initPasswordEntityCoreData(url: rootDir, in: context)
+
+        let allEntities = PasswordEntity.fetchAll(in: context)
+        let dirs = allEntities.filter(\.isDir)
+        let files = allEntities.filter { !$0.isDir }
+        XCTAssertEqual(dirs.count, 1)
+        XCTAssertEqual(dirs.first!.name, "emptydir")
+        XCTAssertEqual(dirs.first!.children.count, 0)
+        XCTAssertEqual(files.count, 0)
+    }
 }
