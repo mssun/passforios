@@ -27,10 +27,6 @@ public class PersistenceController {
         setup()
     }
 
-    static func forUnitTests() -> PersistenceController {
-        PersistenceController(storeURL: URL(fileURLWithPath: "/dev/null"))
-    }
-
     func setup() {
         container.loadPersistentStores { _, error in
             if error != nil {
