@@ -18,12 +18,12 @@ public class PersistenceController {
 
     let container: NSPersistentContainer
 
-    init(storeURL: URL? = nil) {
+    init(storeURL: URL = Globals.dbURL) {
         self.container = NSPersistentContainer(name: Self.modelName, managedObjectModel: .sharedModel)
         let description = container.persistentStoreDescriptions.first
         description?.shouldMigrateStoreAutomatically = false
         description?.shouldInferMappingModelAutomatically = false
-        description?.url = storeURL ?? URL(fileURLWithPath: Globals.dbPath)
+        description?.url = storeURL
         setup()
     }
 
