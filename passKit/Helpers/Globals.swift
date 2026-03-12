@@ -30,6 +30,7 @@ public final class Globals {
     public static let repositoryURL = sharedContainerURL.appendingPathComponent("Library/password-store/")
 
     public static let dbPath = documentPath + "/pass.sqlite"
+    public static let dbURL = URL(fileURLWithPath: dbPath)
 
     public static let iTunesFileSharingPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
     public static let iTunesFileSharingPGPPublic = iTunesFileSharingPath + "/gpg_key.pub"
