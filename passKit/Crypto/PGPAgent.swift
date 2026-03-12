@@ -34,7 +34,7 @@ public class PGPAgent {
         pgpInterface = nil
     }
 
-    public func isInitialized() -> Bool {
+    public var isInitialized: Bool {
         pgpInterface != nil
     }
 

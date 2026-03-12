@@ -78,7 +78,7 @@ final class PasswordStoreTest: XCTestCase {
         XCTAssertTrue(AppKeychain.shared.contains(key: PGPKey.PUBLIC.getKeychainKey()))
         XCTAssertEqual(Defaults.gitSignatureName, "Test User")
         XCTAssertTrue(PasscodeLock.shared.hasPasscode)
-        XCTAssertTrue(PGPAgent.shared.isInitialized())
+        XCTAssertTrue(PGPAgent.shared.isInitialized)
 
         expectation(forNotification: .passwordStoreUpdated, object: nil)
         expectation(forNotification: .passwordStoreErased, object: nil)
@@ -88,7 +88,7 @@ final class PasswordStoreTest: XCTestCase {
         XCTAssertFalse(AppKeychain.shared.contains(key: PGPKey.PUBLIC.getKeychainKey()))
         XCTAssertFalse(Defaults.hasKey(\.gitSignatureName))
         XCTAssertFalse(PasscodeLock.shared.hasPasscode)
-        XCTAssertFalse(PGPAgent.shared.isInitialized())
+        XCTAssertFalse(PGPAgent.shared.isInitialized)
         waitForExpectations(timeout: 1, handler: nil)
     }
 
