@@ -85,9 +85,4 @@ final class PersistenceControllerTest: XCTestCase {
         XCTAssertNotNil(allEntities.first { $0.name == "saved" && !$0.isDir })
         XCTAssertNotNil(allEntities.first { $0.name == "dir" && $0.isDir })
     }
-
-    func testSaveError() throws {
-        // NOTE: save() calls fatalError on Core Data save failures, so error propagation
-        // cannot be tested without refactoring save() to throw...
-    }
 }
