@@ -2,7 +2,7 @@
 
 set -euox pipefail
 
-GOPENPGP_VERSION="v2.8.1-passforios"
+GOPENPGP_VERSION="v2.10.0-passforios"
 
 export GOPATH="$(pwd)/go"
 export PATH="$PATH:$GOPATH/bin"
