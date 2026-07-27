@@ -262,7 +262,7 @@ class PasswordDetailTableViewController: UITableViewController, UIGestureRecogni
         if let username = password.username {
             section.item.append(Constants.USERNAME_KEYWORD => username)
         }
-        if let user = password.username {
+        if let user = password.user {
             section.item.append(Constants.USER_KEYWORD => user)
         }
         if let login = password.login {
