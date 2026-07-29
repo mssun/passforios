@@ -43,8 +43,9 @@ final class PersistenceControllerTest: XCTestCase {
         controller.reinitializePersistentStore()
 
         // After reinitialize, old data should be gone
-        // (reinitializePersistentStore calls initPasswordEntityCoreData with the default repo URL,
-        // which won't exist in tests, so the result should be an empty store)
+        // (reinitializePersistentStore rescans PersistenceController's repositoryURL, which
+        // forUnitTests() points at a fresh, isolated temp directory, so the result should be
+        // an empty store regardless of what's on the real device)
         let remaining = PasswordEntity.fetchAll(in: context)
         XCTAssertEqual(remaining.count, 0)
     }

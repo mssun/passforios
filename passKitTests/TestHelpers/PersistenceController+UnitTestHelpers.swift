@@ -10,6 +10,9 @@
 
 extension PersistenceController {
     static func forUnitTests() -> PersistenceController {
-        PersistenceController(storeURL: URL(fileURLWithPath: "/dev/null"))
+        PersistenceController(
+            storeURL: URL(fileURLWithPath: "/dev/null"),
+            repositoryURL: FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        )
     }
 }
