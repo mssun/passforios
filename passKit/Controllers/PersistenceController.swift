@@ -17,9 +17,11 @@ public class PersistenceController {
     }
 
     let container: NSPersistentContainer
+    let repositoryURL: URL
 
-    init(storeURL: URL = Globals.dbURL) {
+    init(storeURL: URL = Globals.dbURL, repositoryURL: URL = Globals.repositoryURL) {
         self.container = NSPersistentContainer(name: Self.modelName, managedObjectModel: .sharedModel)
+        self.repositoryURL = repositoryURL
         let description = container.persistentStoreDescriptions.first
         description?.shouldMigrateStoreAutomatically = false
         description?.shouldInferMappingModelAutomatically = false
@@ -42,7 +44,7 @@ public class PersistenceController {
                 fatalError("Failed to load persistent stores: \(finalError.localizedDescription)")
             }
         }
-        PasswordEntity.initPasswordEntityCoreData(url: Globals.repositoryURL, in: container.viewContext)
+        PasswordEntity.initPasswordEntityCoreData(url: repositoryURL, in: container.viewContext)
         try? container.viewContext.save()
     }
 
