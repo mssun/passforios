@@ -308,45 +308,45 @@ gibt den Schlüssel in diesem speziellen Format aus. Kopiere ihn so zu einem Spe
 
 "GpgAsciiArmorCopyExplanation." = "GnuPG unterstützt die Kommandozeilenoption \"-a\", welche die Schlüssel im Format \"ASCII-Armor\" ausgibt. Es ist anders als das Binärformat eine einfache Zeichenkette. Der Befehl
 
-  $ gpg --list-keys
+  $ gpg --list-keys --with-subkey-fingerprints
 
-zeigt alle bekannten Schlüssel an. Die Liste kann verwendet werden, um die KEY_ID des untergeorneten Schlüssels (E) zu identifizieren. Er wird zur Verschlüsselung verwendet. Mit den Befehlen
+zeigt alle bekannten Schlüssel an. Die Liste kann verwendet werden, um den Fingerabdruck des untergeordneten Schlüssels (E) zu identifizieren. Er wird zur Verschlüsselung verwendet. Mit den Befehlen
 
-  $ gpg --export -a KEY_ID! > subkey.pub
-  $ gpg --export-secret-subkeys -a KEY_ID! > subkey
+  $ gpg --export -a SUBKEY_FINGERPRINT! > subkey.pub
+  $ gpg --export-secret-subkeys -a SUBKEY_FINGERPRINT! > subkey
 
-können der öffentliche und der private Unterschlüssel im \"ASCII-Armor\"- Format exportiert werden. Mit
+können der öffentliche und der private Unterschlüssel im \"ASCII-Armor\"- Format exportiert werden. Verwende dabei den Fingerabdruck des Unterschlüssels (E) und nicht den des Hauptschlüssels: Das angehängte \"!\" beschränkt den Export auf genau diesen Schlüssel. Mit dem Fingerabdruck des Hauptschlüssels wird deshalb überhaupt kein Unterschlüssel zur Verschlüsselung exportiert und die App lehnt das Ergebnis als abgelaufen oder inkompatibel ab. Mit
 
-  $ gpg --show-key subkey
+  $ gpg --show-keys subkey
 
 wird überprüft, dass nicht aus Versehen der Unterschlüssel für Authentifizierungen exportiert wurde. Die Zwischenablage wird nach 45 Sekunden zurückgesetzt.";
 
 "GpgAsciiArmorServerExplanation." = "GnuPG unterstützt die Kommandozeilenoption \"-a\", welche die Schlüssel im Format \"ASCII-Armor\" ausgibt. Es ist anders als das Binärformat eine einfache Zeichenkette. Der Befehl
 
-  $ gpg --list-keys
+  $ gpg --list-keys --with-subkey-fingerprints
 
-zeigt alle bekannten Schlüssel an. Die Liste kann verwendet werden, um die KEY_ID des untergeorneten Schlüssels (E) zu identifizieren. Er wird zur Verschlüsselung verwendet. Mit den Befehlen
+zeigt alle bekannten Schlüssel an. Die Liste kann verwendet werden, um den Fingerabdruck des untergeordneten Schlüssels (E) zu identifizieren. Er wird zur Verschlüsselung verwendet. Mit den Befehlen
 
-  $ gpg --export -a KEY_ID! > subkey.pub
-  $ gpg --export-secret-subkeys -a KEY_ID! > subkey
+  $ gpg --export -a SUBKEY_FINGERPRINT! > subkey.pub
+  $ gpg --export-secret-subkeys -a SUBKEY_FINGERPRINT! > subkey
 
-können der öffentliche und der private Unterschlüssel im \"ASCII-Armor\"- Format exportiert werden. Mit
+können der öffentliche und der private Unterschlüssel im \"ASCII-Armor\"- Format exportiert werden. Verwende dabei den Fingerabdruck des Unterschlüssels (E) und nicht den des Hauptschlüssels: Das angehängte \"!\" beschränkt den Export auf genau diesen Schlüssel. Mit dem Fingerabdruck des Hauptschlüssels wird deshalb überhaupt kein Unterschlüssel zur Verschlüsselung exportiert und die App lehnt das Ergebnis als abgelaufen oder inkompatibel ab. Mit
 
-  $ gpg --show-key subkey
+  $ gpg --show-keys subkey
 
 wird überprüft, dass nicht aus Versehen der Unterschlüssel für Authentifizierungen exportiert wurde. Schließlich können die beiden Schlüssel auf einen (lokalen) HTTP(S)-Server kopiert werden.";
 
 "GpgAsciiArmorFileExplanation." = "GnuPG unterstützt die Kommandozeilenoption \"-a\", welche die Schlüssel im Format \"ASCII-Armor\" ausgibt. Es ist anders als das Binärformat eine einfache Zeichenkette. Der Befehl
 
-  $ gpg --list-keys
+  $ gpg --list-keys --with-subkey-fingerprints
 
-zeigt alle bekannten Schlüssel an. Die Liste kann verwendet werden, um die KEY_ID des untergeorneten Schlüssels (E) zu identifizieren. Er wird zur Verschlüsselung verwendet. Mit den Befehlen
+zeigt alle bekannten Schlüssel an. Die Liste kann verwendet werden, um den Fingerabdruck des untergeordneten Schlüssels (E) zu identifizieren. Er wird zur Verschlüsselung verwendet. Mit den Befehlen
 
-  $ gpg --export -a KEY_ID! > subkey.pub
-  $ gpg --export-secret-subkeys -a KEY_ID! > subkey
+  $ gpg --export -a SUBKEY_FINGERPRINT! > subkey.pub
+  $ gpg --export-secret-subkeys -a SUBKEY_FINGERPRINT! > subkey
 
-können der öffentliche und der private Unterschlüssel im \"ASCII-Armor\"- Format exportiert werden. Mit
+können der öffentliche und der private Unterschlüssel im \"ASCII-Armor\"- Format exportiert werden. Verwende dabei den Fingerabdruck des Unterschlüssels (E) und nicht den des Hauptschlüssels: Das angehängte \"!\" beschränkt den Export auf genau diesen Schlüssel. Mit dem Fingerabdruck des Hauptschlüssels wird deshalb überhaupt kein Unterschlüssel zur Verschlüsselung exportiert und die App lehnt das Ergebnis als abgelaufen oder inkompatibel ab. Mit
 
-  $ gpg --show-key subkey
+  $ gpg --show-keys subkey
 
 wird überprüft, dass nicht aus Versehen der Unterschlüssel für Authentifizierungen exportiert wurde. Schließlich können die beiden Schlüssel an einem Ort gespeichert werden, der für die Dateien-App zugänglich ist.";

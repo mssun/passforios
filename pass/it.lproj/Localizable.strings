@@ -304,45 +304,45 @@ per ottenere la chiave in questo formato. Dopodiché, copiarla in una posizione 
 
 "GpgAsciiArmorCopyExplanation." = "GnuPG supporta l'opzione da riga di comando \"-a\" per generare le chiavi in un formato con armatura ASCII, simile a documenti non codificati e non al formato binario. Usare
 
-  $ gpg --list-keys
+  $ gpg --list-keys --with-subkey-fingerprints
 
-per identificare il KEY_ID della sottochiave di criptazione (E), poi usare
+per identificare l'impronta della sottochiave di criptazione (E), poi usare
 
-  $ gpg --export -a KEY_ID! > subkey.pub
-  $ gpg --export-secret-subkeys -a KEY_ID! > subkey
+  $ gpg --export -a SUBKEY_FINGERPRINT! > subkey.pub
+  $ gpg --export-secret-subkeys -a SUBKEY_FINGERPRINT! > subkey
 
-per ottenere la sottochiave pubblica e quella privata di criptazione in questo formato. Verificare che nessuna sottochiave di autenticazione sia stata esportata per errore:
+per ottenere la sottochiave pubblica e quella privata di criptazione in questo formato. Usare l'impronta della sottochiave (E) e non quella della chiave primaria: il \"!\" finale limita l'esportazione esattamente a quella chiave, quindi con l'impronta della chiave primaria non viene esportata alcuna sottochiave di criptazione e l'app rifiuta il risultato come scaduto o non corrispondente. Verificare che nessuna sottochiave di autenticazione sia stata esportata per errore:
 
-  $ gpg --show-key subkey
+  $ gpg --show-keys subkey
 
 Gli appunti saranno cancellati 45s dopo aver incollato.";
 
 "GpgAsciiArmorServerExplanation." = "GnuPG supporta l'opzione da riga di comando \"-a\" per generare le chiavi in un formato con armatura ASCII, simile a documenti non codificati e non al formato binario. Usare
 
-  $ gpg --list-keys
+  $ gpg --list-keys --with-subkey-fingerprints
 
-per identificare il KEY_ID della sottochiave di criptazione (E), poi usare
+per identificare l'impronta della sottochiave di criptazione (E), poi usare
 
-  $ gpg --export -a KEY_ID! > subkey.pub
-  $ gpg --export-secret-subkeys -a KEY_ID! > subkey
+  $ gpg --export -a SUBKEY_FINGERPRINT! > subkey.pub
+  $ gpg --export-secret-subkeys -a SUBKEY_FINGERPRINT! > subkey
 
-per ottenere la sottochiave pubblica e quella privata di criptazione in questo formato. Verificare che nessuna sottochiave di autenticazione sia stata esportata per errore:
+per ottenere la sottochiave pubblica e quella privata di criptazione in questo formato. Usare l'impronta della sottochiave (E) e non quella della chiave primaria: il \"!\" finale limita l'esportazione esattamente a quella chiave, quindi con l'impronta della chiave primaria non viene esportata alcuna sottochiave di criptazione e l'app rifiuta il risultato come scaduto o non corrispondente. Verificare che nessuna sottochiave di autenticazione sia stata esportata per errore:
 
-  $ gpg --show-key subkey
+  $ gpg --show-keys subkey
 
 Infine, copiarle nel server HTTP(S) (che può essere locale).";
 
 "GpgAsciiArmorFileExplanation." = "GnuPG supporta l'opzione da riga di comando \"-a\" per generare le chiavi in un formato con armatura ASCII, simile a documenti non codificati e non al formato binario. Usare
 
-  $ gpg --list-keys
+  $ gpg --list-keys --with-subkey-fingerprints
 
-per identificare il KEY_ID della sottochiave di criptazione (E), poi usare
+per identificare l'impronta della sottochiave di criptazione (E), poi usare
 
-  $ gpg --export -a KEY_ID! > subkey.pub
-  $ gpg --export-secret-subkeys -a KEY_ID! > subkey
+  $ gpg --export -a SUBKEY_FINGERPRINT! > subkey.pub
+  $ gpg --export-secret-subkeys -a SUBKEY_FINGERPRINT! > subkey
 
-per ottenere la sottochiave pubblica e quella privata di criptazione in questo formato. Verificare che nessuna sottochiave di autenticazione sia stata esportata per errore:
+per ottenere la sottochiave pubblica e quella privata di criptazione in questo formato. Usare l'impronta della sottochiave (E) e non quella della chiave primaria: il \"!\" finale limita l'esportazione esattamente a quella chiave, quindi con l'impronta della chiave primaria non viene esportata alcuna sottochiave di criptazione e l'app rifiuta il risultato come scaduto o non corrispondente. Verificare che nessuna sottochiave di autenticazione sia stata esportata per errore:
 
-  $ gpg --show-key subkey
+  $ gpg --show-keys subkey
 
 Infine, copiarla in una posizione a cui File abbia accesso.";
