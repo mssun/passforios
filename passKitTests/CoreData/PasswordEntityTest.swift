@@ -178,6 +178,111 @@ final class PasswordEntityTest: CoreDataTestCase {
         XCTAssertEqual(allEntities.first!.name, "email")
     }
 
+    func testInitPasswordEntityCoreDataKeepsSymbolicLinkNames() throws {
+        let rootDir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: rootDir, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: rootDir) }
+
+        // Sharing one password between several entries via symbolic links, as described in
+        // https://github.com/browserpass/browserpass-extension#how-to-use-the-same-username-and-password-pair-on-multiple-domains
+        //   example.com.gpg
+        //   example.net.gpg    -> example.com.gpg
+        //   web/
+        //     example.org.gpg  -> ../example.com.gpg
+        let webDir = rootDir.appendingPathComponent("web")
+        try FileManager.default.createDirectory(at: webDir, withIntermediateDirectories: true)
+        try Data("test".utf8).write(to: rootDir.appendingPathComponent("example.com.gpg"))
+        try FileManager.default.createSymbolicLink(atPath: rootDir.appendingPathComponent("example.net.gpg").path, withDestinationPath: "example.com.gpg")
+        try FileManager.default.createSymbolicLink(atPath: webDir.appendingPathComponent("example.org.gpg").path, withDestinationPath: "../example.com.gpg")
+
+        let context = controller.viewContext()
+        PasswordEntity.initPasswordEntityCoreData(url: rootDir, in: context)
+
+        let allEntities = PasswordEntity.fetchAll(in: context)
+        XCTAssertEqual(allEntities.filter { !$0.isDir }.count, 3)
+
+        let linkEntity = allEntities.first { $0.path == "example.net.gpg" }
+        XCTAssertNotNil(linkEntity)
+        XCTAssertEqual(linkEntity!.name, "example.net")
+        XCTAssertFalse(linkEntity!.isDir)
+        XCTAssertNil(linkEntity!.parent)
+
+        let nestedLinkEntity = allEntities.first { $0.path == "web/example.org.gpg" }
+        XCTAssertNotNil(nestedLinkEntity)
+        XCTAssertEqual(nestedLinkEntity!.name, "example.org")
+        XCTAssertEqual(nestedLinkEntity!.parent?.name, "web")
+
+        XCTAssertNotNil(allEntities.first { $0.path == "example.com.gpg" })
+    }
+
+    func testInitPasswordEntityCoreDataFollowsSymbolicLinksToDirectories() throws {
+        let rootDir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: rootDir, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: rootDir) }
+
+        //   email/
+        //     work.gpg
+        //   mail       -> email
+        let emailDir = rootDir.appendingPathComponent("email")
+        try FileManager.default.createDirectory(at: emailDir, withIntermediateDirectories: true)
+        try Data("test".utf8).write(to: emailDir.appendingPathComponent("work.gpg"))
+        try FileManager.default.createSymbolicLink(atPath: rootDir.appendingPathComponent("mail").path, withDestinationPath: "email")
+
+        let context = controller.viewContext()
+        PasswordEntity.initPasswordEntityCoreData(url: rootDir, in: context)
+
+        let allEntities = PasswordEntity.fetchAll(in: context)
+
+        // The linked directory keeps its own name and is traversed under its own path.
+        let linkedDir = allEntities.first { $0.path == "mail" }
+        XCTAssertNotNil(linkedDir)
+        XCTAssertEqual(linkedDir!.name, "mail")
+        XCTAssertTrue(linkedDir!.isDir)
+        XCTAssertEqual(linkedDir!.children.count, 1)
+
+        let linkedChild = allEntities.first { $0.path == "mail/work.gpg" }
+        XCTAssertNotNil(linkedChild)
+        XCTAssertEqual(linkedChild!.name, "work")
+        XCTAssertNotNil(allEntities.first { $0.path == "email/work.gpg" })
+    }
+
+    func testInitPasswordEntityCoreDataTerminatesOnCircularSymbolicLinks() throws {
+        let rootDir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: rootDir, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: rootDir) }
+
+        //   email/
+        //     up      -> ..
+        //   here      -> .
+        let emailDir = rootDir.appendingPathComponent("email")
+        try FileManager.default.createDirectory(at: emailDir, withIntermediateDirectories: true)
+        try FileManager.default.createSymbolicLink(atPath: emailDir.appendingPathComponent("up").path, withDestinationPath: "..")
+        try FileManager.default.createSymbolicLink(atPath: rootDir.appendingPathComponent("here").path, withDestinationPath: ".")
+
+        let context = controller.viewContext()
+        PasswordEntity.initPasswordEntityCoreData(url: rootDir, in: context)
+
+        let allEntities = PasswordEntity.fetchAll(in: context)
+        XCTAssertEqual(Set(allEntities.map(\.path)), ["email", "email/up", "here"])
+    }
+
+    func testInitPasswordEntityCoreDataKeepsBrokenSymbolicLinks() throws {
+        let rootDir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: rootDir, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: rootDir) }
+
+        try FileManager.default.createSymbolicLink(atPath: rootDir.appendingPathComponent("broken.gpg").path, withDestinationPath: "missing.gpg")
+
+        let context = controller.viewContext()
+        PasswordEntity.initPasswordEntityCoreData(url: rootDir, in: context)
+
+        let allEntities = PasswordEntity.fetchAll(in: context)
+        XCTAssertEqual(allEntities.count, 1)
+        XCTAssertEqual(allEntities.first!.name, "broken")
+        XCTAssertEqual(allEntities.first!.path, "broken.gpg")
+        XCTAssertFalse(allEntities.first!.isDir)
+    }
+
     func testInitPasswordEntityCoreDataHandlesEmptyDirectory() throws {
         let rootDir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: rootDir, withIntermediateDirectories: true)

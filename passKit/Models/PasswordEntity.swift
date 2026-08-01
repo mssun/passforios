@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import DequeModule
 import Foundation
 import ObjectiveGit
 import SwiftyUserDefaults
@@ -162,23 +163,26 @@ public final class PasswordEntity: NSManagedObject, Identifiable {
             entity.path = ""
             return entity
         }()
-        var queue = [root]
-        while !queue.isEmpty {
-            let current = queue.removeFirst()
+        // Directories are enumerated through their resolved URL, so that symbolically linked
+        // directories are traversed as well. A link pointing back up the tree would make the
+        // traversal loop forever, hence every directory also carries the resolved paths of
+        // itself and all its ancestors.
+        var queue: Deque = [(entity: root, url: url, ancestors: Set([url.path]))]
+        while let (current, currentURL, ancestors) = queue.popFirst() {
             let resourceKeys = Set<URLResourceKey>([.nameKey, .isDirectoryKey])
             let options = FileManager.DirectoryEnumerationOptions([.skipsHiddenFiles, .skipsSubdirectoryDescendants])
-            let currentURL = url.appendingPathComponent(current.path)
             guard let directoryEnumerator = localFileManager.enumerator(at: currentURL, includingPropertiesForKeys: Array(resourceKeys), options: options) else {
                 continue
             }
             for case let fileURL as URL in directoryEnumerator {
-                let fileURL = fileURL.resolvingSymlinksInPath()
-                guard let resourceValues = try? fileURL.resourceValues(forKeys: resourceKeys),
-                      let isDirectory = resourceValues.isDirectory,
-                      let name = resourceValues.name
-                else {
+                // Keep the name and the path of the link itself, since pass uses symbolic
+                // links to share one password between several entries. Only the type comes
+                // from the target, because isDirectoryKey does not follow links.
+                let resolvedURL = fileURL.resolvingSymlinksInPath()
+                guard let name = (try? fileURL.resourceValues(forKeys: resourceKeys))?.name else {
                     continue
                 }
+                let isDirectory = (try? resolvedURL.resourceValues(forKeys: resourceKeys))?.isDirectory ?? false
                 // Ignore files that are not passwords, e.g., a README.md documenting the store.
                 guard isDirectory || (name as NSString).pathExtension.lowercased() == "gpg" else {
                     continue
@@ -187,12 +191,14 @@ public final class PasswordEntity: NSManagedObject, Identifiable {
                 passwordEntity.isDir = isDirectory
                 if isDirectory {
                     passwordEntity.name = name
-                    queue.append(passwordEntity)
+                    if !ancestors.contains(resolvedURL.path) {
+                        queue.append((passwordEntity, resolvedURL, ancestors.union([resolvedURL.path])))
+                    }
                 } else {
                     passwordEntity.name = (name as NSString).deletingPathExtension
                 }
                 passwordEntity.parent = current
-                passwordEntity.path = String(fileURL.path.dropFirst(url.path.count + 1))
+                passwordEntity.path = current.path.isEmpty ? name : "\(current.path)/\(name)"
             }
         }
         context.delete(root)

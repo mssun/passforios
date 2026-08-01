@@ -205,6 +205,7 @@
 		DC64745F2D45B240004B4BBC /* GitRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC64745E2D45B23A004B4BBC /* GitRepository.swift */; };
 		DC6474612D46A8F8004B4BBC /* GitRepositoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474602D46A8F2004B4BBC /* GitRepositoryTest.swift */; };
 		DC7CBBBD2D0FA3F2003BB4D2 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = DC7CBBBC2D0FA3F2003BB4D2 /* YubiKit */; };
+		DC7CBBC22D0FA3F2003BB4D3 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = DC7CBBC12D0FA3F2003BB4D3 /* DequeModule */; };
 		DC7CBBBF2D0FAC92003BB4D2 /* YKFSmartCardInterfaceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7CBBBE2D0FAC8E003BB4D2 /* YKFSmartCardInterfaceExtension.swift */; };
 		DC8963C01E38EEB900828B09 /* SSHKeyURLImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController.swift */; };
 		DC917BD71E2E8231000FDF54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC917BD61E2E8231000FDF54 /* AppDelegate.swift */; };
@@ -560,6 +561,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC7CBBC22D0FA3F2003BB4D3 /* DequeModule in Frameworks */,
 				DC7CBBBD2D0FA3F2003BB4D2 /* YubiKit in Frameworks */,
 				9ADAB21D26DDA52400900F10 /* Gopenpgp.xcframework in Frameworks */,
 				30A3001426DA6692002A734E /* KeychainAccess in Frameworks */,
@@ -1202,6 +1204,7 @@
 				9A1D1CE426E5D1CE0052028E /* OneTimePassword */,
 				30333B2C2CF9252E008A2EA2 /* SVProgressHUD */,
 				DC7CBBBC2D0FA3F2003BB4D2 /* YubiKit */,
+				DC7CBBC12D0FA3F2003BB4D3 /* DequeModule */,
 			);
 			productName = passKit;
 			productReference = A26075781EEC6F34005DB03E /* passKit.framework */;
@@ -1411,6 +1414,7 @@
 				307CB7522CF9219100D0931F /* XCRemoteSwiftPackageReference "SVProgressHUD" */,
 				30333B292CF922D9008A2EA2 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 				DC7CBBBB2D0FA3F2003BB4D2 /* XCRemoteSwiftPackageReference "yubikit-ios" */,
+				DC7CBBC02D0FA3F2003BB4D3 /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = DC917BD41E2E8231000FDF54 /* Products */;
 			projectDirPath = "";
@@ -2983,6 +2987,14 @@
 				minimumVersion = 4.7.0;
 			};
 		};
+		DC7CBBC02D0FA3F2003BB4D3 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -3090,6 +3102,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DC7CBBBB2D0FA3F2003BB4D2 /* XCRemoteSwiftPackageReference "yubikit-ios" */;
 			productName = YubiKit;
+		};
+		DC7CBBC12D0FA3F2003BB4D3 /* DequeModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC7CBBC02D0FA3F2003BB4D3 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = DequeModule;
 		};
 /* End XCSwiftPackageProductDependency section */
 
