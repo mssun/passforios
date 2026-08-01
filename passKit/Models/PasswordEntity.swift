@@ -179,17 +179,17 @@ public final class PasswordEntity: NSManagedObject, Identifiable {
                 else {
                     continue
                 }
+                // Ignore files that are not passwords, e.g., a README.md documenting the store.
+                guard isDirectory || (name as NSString).pathExtension.lowercased() == "gpg" else {
+                    continue
+                }
                 let passwordEntity = PasswordEntity(context: context)
                 passwordEntity.isDir = isDirectory
                 if isDirectory {
                     passwordEntity.name = name
                     queue.append(passwordEntity)
                 } else {
-                    if (name as NSString).pathExtension == "gpg" {
-                        passwordEntity.name = (name as NSString).deletingPathExtension
-                    } else {
-                        passwordEntity.name = name
-                    }
+                    passwordEntity.name = (name as NSString).deletingPathExtension
                 }
                 passwordEntity.parent = current
                 passwordEntity.path = String(fileURL.path.dropFirst(url.path.count + 1))

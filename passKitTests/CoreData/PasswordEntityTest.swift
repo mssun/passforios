@@ -100,7 +100,7 @@ final class PasswordEntityTest: CoreDataTestCase {
         //   social/
         //     mastodon.gpg
         //   toplevel.gpg
-        //   notes.txt          (non-.gpg file)
+        //   notes.txt          (non-.gpg file, ignored)
         let emailDir = rootDir.appendingPathComponent("email")
         let socialDir = rootDir.appendingPathComponent("social")
         try FileManager.default.createDirectory(at: emailDir, withIntermediateDirectories: true)
@@ -118,7 +118,7 @@ final class PasswordEntityTest: CoreDataTestCase {
         let allEntities = PasswordEntity.fetchAll(in: context)
         let files = allEntities.filter { !$0.isDir }
         let dirs = allEntities.filter(\.isDir)
-        XCTAssertEqual(files.count, 5) // 4 .gpg + 1 .txt
+        XCTAssertEqual(files.count, 4) // 4 .gpg, notes.txt is ignored
         XCTAssertEqual(dirs.count, 2) // email, social
 
         // Verify .gpg extension is stripped
@@ -126,10 +126,8 @@ final class PasswordEntityTest: CoreDataTestCase {
         XCTAssertNotNil(workEntity)
         XCTAssertEqual(workEntity!.name, "work")
 
-        // Verify non-.gpg file keeps its extension
-        let notesEntity = allEntities.first { $0.path == "notes.txt" }
-        XCTAssertNotNil(notesEntity)
-        XCTAssertEqual(notesEntity!.name, "notes.txt")
+        // Verify non-.gpg file is not imported
+        XCTAssertNil(allEntities.first { $0.path == "notes.txt" })
 
         // Verify parent-child relationships
         let emailEntity = allEntities.first { $0.path == "email" && $0.isDir }
@@ -160,6 +158,24 @@ final class PasswordEntityTest: CoreDataTestCase {
         let allEntities = PasswordEntity.fetchAll(in: context)
         XCTAssertEqual(allEntities.count, 1)
         XCTAssertEqual(allEntities.first!.name, "visible")
+    }
+
+    func testInitPasswordEntityCoreDataIgnoresNonPasswordFiles() throws {
+        let rootDir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: rootDir, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: rootDir) }
+
+        try Data("test".utf8).write(to: rootDir.appendingPathComponent("email.gpg"))
+        try Data("# Password Store".utf8).write(to: rootDir.appendingPathComponent("README.md"))
+        try Data("*.gpg diff=gpg".utf8).write(to: rootDir.appendingPathComponent("gitattributes"))
+        try Data("test".utf8).write(to: rootDir.appendingPathComponent("no-extension"))
+
+        let context = controller.viewContext()
+        PasswordEntity.initPasswordEntityCoreData(url: rootDir, in: context)
+
+        let allEntities = PasswordEntity.fetchAll(in: context)
+        XCTAssertEqual(allEntities.count, 1)
+        XCTAssertEqual(allEntities.first!.name, "email")
     }
 
     func testInitPasswordEntityCoreDataHandlesEmptyDirectory() throws {
