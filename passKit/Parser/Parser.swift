@@ -65,27 +65,15 @@ class Parser {
         return result.trimmed
     }
 
-    /// Split line from password file in to a key-value pair separted by `: `.
+    /// Split line from password file in to a key-value pair separted by `:`.
     ///
     /// - Parameter line: Line from a password file
-    /// - Returns: Pair of two `String`s of which the first one can be 'nil'
+    /// - Returns: Pair of two `String`s of which the first one can be 'nil'. Both strings are already trimmed from whitespaces.
     static func getKeyValuePair(from line: String) -> (key: String?, value: String) {
-        let items = line.components(separatedBy: ": ").map { String($0).trimmingCharacters(in: .whitespaces) }
-        var key: String?
-        var value = ""
-        if items.count == 1 || (items[0].isEmpty && items[1].isEmpty) {
-            // No ': ' found, or empty on both sides of ': '.
-            value = line
-            // "otpauth" special case
-            if value.hasPrefix(Constants.OTPAUTH_URL_START) {
-                key = Constants.OTPAUTH
-            }
-        } else {
-            if !items[0].isEmpty {
-                key = items[0]
-            }
-            value = items[1]
+        if let separatorIdx = line.firstIndex(of: ":") {
+            let key = String(line[..<separatorIdx]).trimmingCharacters(in: .whitespaces)
+            return (key.isEmpty ? nil : key, String(line[line.index(after: separatorIdx)...]).trimmingCharacters(in: .whitespaces))
         }
-        return (key, value)
+        return (nil, line.trimmingCharacters(in: .whitespaces))
     }
 }

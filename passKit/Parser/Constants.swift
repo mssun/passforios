@@ -44,8 +44,6 @@ public enum Constants {
     static let MULTILINE_WITHOUT_LINE_BREAK_INDICATOR = ">"
     static let MULTILINE_WITHOUT_LINE_BREAK_SEPARATOR = BLANK
 
-    static let OTPAUTH_URL_START = "\(OTPAUTH)://"
-
     public static let PASSWORD_KEYWORD = "password"
     public static let USERNAME_KEYWORD = "username"
     public static let USER_KEYWORD = "user"
