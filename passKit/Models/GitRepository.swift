@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import ObjectiveGit
+import Libgit2
 
 // See Libgit2.swift for how the C API is reached. Everything crossing the
 // public boundary of this class is a value type from GitTypes.swift.
@@ -50,7 +50,7 @@ public class GitRepository {
             transferProgress: transferProgressBlock
         )
         var cloneOptions = git_clone_options()
-        try gitTry(git_clone_init_options(&cloneOptions, UInt32(GIT_CLONE_OPTIONS_VERSION)))
+        try gitTry(git_clone_options_init(&cloneOptions, UInt32(GIT_CLONE_OPTIONS_VERSION)))
         cloneOptions.fetch_opts = try gitFetchOptions(context: context)
         cloneOptions.checkout_opts = try gitCheckoutOptions(strategy: GIT_CHECKOUT_SAFE)
 
@@ -204,7 +204,7 @@ public class GitRepository {
 
     private func merge(heads: inout [OpaquePointer?], upstream: OpaquePointer, signature: GitSignature?) throws {
         var mergeOptions = git_merge_options()
-        try gitTry(git_merge_init_options(&mergeOptions, UInt32(GIT_MERGE_OPTIONS_VERSION)))
+        try gitTry(git_merge_options_init(&mergeOptions, UInt32(GIT_MERGE_OPTIONS_VERSION)))
         var checkoutOptions = try gitCheckoutOptions(strategy: GIT_CHECKOUT_SAFE)
         try heads.withUnsafeMutableBufferPointer { buffer in
             try gitTry(git_merge(repository, buffer.baseAddress, 1, &mergeOptions, &checkoutOptions))
@@ -492,7 +492,7 @@ public class GitRepository {
 
     public func lastCommitDate(path: String) throws -> Date {
         var options = git_blame_options()
-        try gitTry(git_blame_init_options(&options, UInt32(GIT_BLAME_OPTIONS_VERSION)))
+        try gitTry(git_blame_options_init(&options, UInt32(GIT_BLAME_OPTIONS_VERSION)))
 
         var blame: OpaquePointer?
         try gitTry(git_blame_file(&blame, repository, path, &options))

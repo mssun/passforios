@@ -6,7 +6,7 @@
 //  Copyright © 2025 Bob Sun. All rights reserved.
 //
 
-import ObjectiveGit
+import Libgit2
 import XCTest
 @testable import passKit
 
@@ -198,7 +198,7 @@ final class GitRepositoryTest: XCTestCase {
     private func initializeBareRepository(at url: URL) throws {
         initializeLibgit2()
         var options = git_repository_init_options()
-        try gitTry(git_repository_init_init_options(&options, UInt32(GIT_REPOSITORY_INIT_OPTIONS_VERSION)))
+        try gitTry(git_repository_init_options_init(&options, UInt32(GIT_REPOSITORY_INIT_OPTIONS_VERSION)))
         options.flags = GIT_REPOSITORY_INIT_BARE.rawValue
         var repository: OpaquePointer?
         try gitTry(git_repository_init_ext(&repository, url.path, &options))
@@ -225,7 +225,7 @@ final class GitRepositoryTest: XCTestCase {
         try gitTry(git_remote_lookup(&remote, repository, "origin"))
         defer { git_remote_free(remote) }
         var options = git_push_options()
-        try gitTry(git_push_init_options(&options, UInt32(GIT_PUSH_OPTIONS_VERSION)))
+        try gitTry(git_push_options_init(&options, UInt32(GIT_PUSH_OPTIONS_VERSION)))
         try "refs/heads/\(name):refs/heads/\(name)".withCString { refspec in
             var refspecs: [UnsafeMutablePointer<CChar>?] = [UnsafeMutablePointer(mutating: refspec)]
             try refspecs.withUnsafeMutableBufferPointer { buffer in

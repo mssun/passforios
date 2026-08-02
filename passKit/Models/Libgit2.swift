@@ -8,11 +8,9 @@
 
 import Foundation
 
-// The libgit2 C API is currently reached through the ObjectiveGit framework,
-// which vends the git2 headers alongside its own. None of the Objective-C
-// wrapper is used any more, so replacing this import with a plain libgit2
-// binary is the only change needed to drop the dependency.
-import ObjectiveGit
+// libgit2 is built by scripts/libgit2_build.sh into an xcframework holding it,
+// libssh2 and the OpenSSL libcrypto libssh2 needs.
+import Libgit2
 
 // MARK: - Library lifecycle
 
@@ -82,7 +80,7 @@ func gitString(_ oid: UnsafePointer<git_oid>?) -> String {
 }
 
 extension GitTransferProgress {
-    init(_ progress: git_transfer_progress) {
+    init(_ progress: git_indexer_progress) {
         self.init(
             receivedObjects: progress.received_objects,
             indexedObjects: progress.indexed_objects,
@@ -171,7 +169,7 @@ final class GitCallbackContext {
     }
 }
 
-let gitTransferProgressCallback: git_transfer_progress_cb = { stats, payload in
+let gitTransferProgressCallback: git_indexer_progress_cb = { stats, payload in
     guard let stats, let handler = GitCallbackContext.from(payload)?.transferProgress else {
         return 0
     }
@@ -187,7 +185,7 @@ let gitCheckoutProgressCallback: git_checkout_progress_cb = { path, completedSte
     handler(GitCheckoutProgress(path: gitString(path), completedSteps: UInt(completedSteps), totalSteps: UInt(totalSteps)))
 }
 
-let gitPushProgressCallback: git_push_transfer_progress = { current, total, bytes, payload in
+let gitPushProgressCallback: git_push_transfer_progress_cb = { current, total, bytes, payload in
     guard let handler = GitCallbackContext.from(payload)?.pushProgress else {
         return 0
     }
@@ -205,19 +203,19 @@ let gitPushUpdateReferenceCallback: git_push_update_reference_cb = { refname, st
     return 0
 }
 
-let gitCredentialsCallback: git_cred_acquire_cb = { credential, _, _, allowedTypes, payload in
+let gitCredentialsCallback: git_credential_acquire_cb = { credential, _, _, allowedTypes, payload in
     guard let credential, let provider = GitCallbackContext.from(payload)?.credentialProvider else {
         return -1
     }
     // Asked before the credential itself when the remote URL carries no user name.
-    if allowedTypes & GIT_CREDTYPE_USERNAME.rawValue != 0 {
-        return git_cred_username_new(credential, provider.userName)
+    if allowedTypes & GIT_CREDENTIAL_USERNAME.rawValue != 0 {
+        return git_credential_username_new(credential, provider.userName)
     }
     switch provider.nextCredential() {
     case let .userPassPlaintext(userName, password):
-        return git_cred_userpass_plaintext_new(credential, userName, password)
+        return git_credential_userpass_plaintext_new(credential, userName, password)
     case let .sshKeyMemory(userName, publicKey, privateKey, passphrase):
-        return git_cred_ssh_key_memory_new(credential, userName, publicKey, privateKey, passphrase)
+        return git_credential_ssh_key_memory_new(credential, userName, publicKey, privateKey, passphrase)
     case .none:
         return -1
     }
@@ -227,7 +225,7 @@ let gitCredentialsCallback: git_cred_acquire_cb = { credential, _, _, allowedTyp
 
 func gitCheckoutOptions(strategy: git_checkout_strategy_t, context: GitCallbackContext? = nil) throws -> git_checkout_options {
     var options = git_checkout_options()
-    try gitTry(git_checkout_init_options(&options, UInt32(GIT_CHECKOUT_OPTIONS_VERSION)))
+    try gitTry(git_checkout_options_init(&options, UInt32(GIT_CHECKOUT_OPTIONS_VERSION)))
     options.checkout_strategy = strategy.rawValue
     if let context, context.checkoutProgress != nil {
         options.progress_cb = gitCheckoutProgressCallback
@@ -238,7 +236,7 @@ func gitCheckoutOptions(strategy: git_checkout_strategy_t, context: GitCallbackC
 
 func gitFetchOptions(context: GitCallbackContext) throws -> git_fetch_options {
     var options = git_fetch_options()
-    try gitTry(git_fetch_init_options(&options, UInt32(GIT_FETCH_OPTIONS_VERSION)))
+    try gitTry(git_fetch_options_init(&options, UInt32(GIT_FETCH_OPTIONS_VERSION)))
     options.callbacks.transfer_progress = gitTransferProgressCallback
     options.callbacks.credentials = gitCredentialsCallback
     options.callbacks.payload = context.payload
@@ -247,7 +245,7 @@ func gitFetchOptions(context: GitCallbackContext) throws -> git_fetch_options {
 
 func gitPushOptions(context: GitCallbackContext) throws -> git_push_options {
     var options = git_push_options()
-    try gitTry(git_push_init_options(&options, UInt32(GIT_PUSH_OPTIONS_VERSION)))
+    try gitTry(git_push_options_init(&options, UInt32(GIT_PUSH_OPTIONS_VERSION)))
     options.callbacks.push_transfer_progress = gitPushProgressCallback
     options.callbacks.push_update_reference = gitPushUpdateReferenceCallback
     options.callbacks.credentials = gitCredentialsCallback
