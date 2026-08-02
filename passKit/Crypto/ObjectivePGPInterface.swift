@@ -15,8 +15,8 @@ struct ObjectivePGPInterface: PGPInterface {
         guard let publicKeyData = publicArmoredKey.data(using: .ascii), let privateKeyData = privateArmoredKey.data(using: .ascii) else {
             throw AppError.keyImport
         }
-        let publicKeys = try ObjectivePGP.readKeys(from: publicKeyData)
-        let privateKeys = try ObjectivePGP.readKeys(from: privateKeyData)
+        let publicKeys = try catchingObjectiveCException(orThrow: .keyImport) { try ObjectivePGP.readKeys(from: publicKeyData) }
+        let privateKeys = try catchingObjectiveCException(orThrow: .keyImport) { try ObjectivePGP.readKeys(from: privateKeyData) }
         keyring.import(keys: publicKeys)
         keyring.import(keys: privateKeys)
         guard publicKeys.first != nil, privateKeys.first != nil else {
@@ -25,15 +25,19 @@ struct ObjectivePGPInterface: PGPInterface {
     }
 
     func decrypt(encryptedData: Data, keyID _: String?, passphrase: String) throws -> Data? {
-        try ObjectivePGP.decrypt(encryptedData, andVerifySignature: false, using: keyring.keys) { _ in passphrase }
+        try catchingObjectiveCException(orThrow: .decryption) {
+            try ObjectivePGP.decrypt(encryptedData, andVerifySignature: false, using: keyring.keys) { _ in passphrase }
+        }
     }
 
     func encrypt(plainData: Data, keyID _: String?) throws -> Data {
-        let encryptedData = try ObjectivePGP.encrypt(plainData, addSignature: false, using: keyring.keys, passphraseForKey: nil)
-        if Defaults.encryptInArmored {
-            return Armor.armored(encryptedData, as: .message).data(using: .ascii)!
+        try catchingObjectiveCException(orThrow: .encryption) {
+            let encryptedData = try ObjectivePGP.encrypt(plainData, addSignature: false, using: keyring.keys, passphraseForKey: nil)
+            if Defaults.encryptInArmored {
+                return Armor.armored(encryptedData, as: .message).data(using: .ascii)!
+            }
+            return encryptedData
         }
-        return encryptedData
     }
 
     func containsPublicKey(with keyID: String) -> Bool {
@@ -51,4 +55,22 @@ struct ObjectivePGPInterface: PGPInterface {
     var shortKeyID: [String] {
         keyring.keys.map(\.keyID.shortIdentifier)
     }
+}
+
+/// Runs a block which may raise an Objective-C exception, e.g. when ObjectivePGP is fed a malformed
+/// key. Such an exception cannot be caught in Swift and terminates the app, so it is replaced by the
+/// given error here.
+private func catchingObjectiveCException<T>(orThrow appError: AppError, _ block: () throws -> T) throws -> T {
+    var result: Result<T, Error>?
+    do {
+        try ObjectiveCExceptionCatcher.catchException {
+            result = Result { try block() }
+        }
+    } catch {
+        throw appError
+    }
+    guard let result else {
+        throw appError
+    }
+    return try result.get()
 }

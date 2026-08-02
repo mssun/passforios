@@ -16,6 +16,8 @@
 		301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F646C216166AA0071A4CE /* AdditionFieldTest.swift */; };
 		302269B323E634B000F843A3 /* PGPKeyFIleImportTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302269B223E634B000F843A3 /* PGPKeyFIleImportTableViewController.swift */; };
 		302B2C9822C2BDE700D831EE /* AppKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302B2C9722C2BDE700D831EE /* AppKeychain.swift */; };
+		8A7150122F60000100C7A64D /* ObjectiveCExceptionCatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A7150102F60000100C7A64D /* ObjectiveCExceptionCatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8A7150132F60000100C7A64D /* ObjectiveCExceptionCatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7150112F60000100C7A64D /* ObjectiveCExceptionCatcher.m */; };
 		302E85612125ECC70031BA64 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302E85602125ECC70031BA64 /* Parser.swift */; };
 		302E85632125EE550031BA64 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302E85622125EE550031BA64 /* Constants.swift */; };
 		3032327422C7F710009EBD9C /* KeyFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3032327322C7F710009EBD9C /* KeyFileManager.swift */; };
@@ -343,6 +345,8 @@
 		302202EE222F14E400555236 /* SearchBarScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarScope.swift; sourceTree = "<group>"; };
 		302269B223E634B000F843A3 /* PGPKeyFIleImportTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGPKeyFIleImportTableViewController.swift; sourceTree = "<group>"; };
 		302B2C9722C2BDE700D831EE /* AppKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKeychain.swift; sourceTree = "<group>"; };
+		8A7150102F60000100C7A64D /* ObjectiveCExceptionCatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectiveCExceptionCatcher.h; sourceTree = "<group>"; };
+		8A7150112F60000100C7A64D /* ObjectiveCExceptionCatcher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjectiveCExceptionCatcher.m; sourceTree = "<group>"; };
 		302E85602125ECC70031BA64 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		302E85622125EE550031BA64 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3032327322C7F710009EBD9C /* KeyFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyFileManager.swift; sourceTree = "<group>"; };
@@ -976,6 +980,8 @@
 				30BAC8CC22E3BB9700438475 /* KeyStore.swift */,
 				30B331762704DBEE00D64A99 /* NotificationCenterDispatcher.swift */,
 				30697C2321F63C580064FCAC /* NotificationNames.swift */,
+				8A7150102F60000100C7A64D /* ObjectiveCExceptionCatcher.h */,
+				8A7150112F60000100C7A64D /* ObjectiveCExceptionCatcher.m */,
 				302202EE222F14E400555236 /* SearchBarScope.swift */,
 				30697C2721F63C590064FCAC /* Utils.swift */,
 			);
@@ -1132,6 +1138,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A260758A1EEC6F34005DB03E /* passKit.h in Headers */,
+				8A7150122F60000100C7A64D /* ObjectiveCExceptionCatcher.h in Headers */,
 				DCB0EC272846857E00EFEE10 /* Objective-CBridgingHeader.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1603,6 +1610,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30A1D2A221B2BC6F00E2D1F7 /* TokenBuilder.swift in Sources */,
+				8A7150132F60000100C7A64D /* ObjectiveCExceptionCatcher.m in Sources */,
 				30697C3C21F63C990064FCAC /* UITextFieldExtension.swift in Sources */,
 				302E85632125EE550031BA64 /* Constants.swift in Sources */,
 				9A652414244BB33300DA0A41 /* UIAlertActionExtension.swift in Sources */,
