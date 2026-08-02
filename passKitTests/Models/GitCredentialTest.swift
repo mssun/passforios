@@ -8,7 +8,6 @@
 
 import XCTest
 
-import ObjectiveGit
 import SwiftyUserDefaults
 @testable import passKit
 
@@ -48,17 +47,38 @@ final class GitCredentialTest: XCTestCase {
     func testOptions() {
         let password = GitCredential.from(authenticationMethod: .password, userName: "user", keyStore: keyStore)
 
-        let options = password.getCredentialOptions().backendOptions
-        XCTAssertEqual(options.count, 2)
-
-        let cloneCredentialProvider = options[GTRepositoryCloneOptionsCredentialProvider] as! GTCredentialProvider
-        let remoteCredentialProvider = options[GTRepositoryRemoteOptionsCredentialProvider] as! GTCredentialProvider
-        XCTAssertNotNil(cloneCredentialProvider)
-        XCTAssertEqual(cloneCredentialProvider, remoteCredentialProvider)
+        let provider = password.getCredentialOptions().credentialProvider
+        XCTAssertNotNil(provider)
+        XCTAssertEqual(provider?.userName, "user")
     }
 
     func testEmptyOptions() {
-        XCTAssertTrue(GitCredentialOptions().backendOptions.isEmpty)
+        XCTAssertNil(GitCredentialOptions().credentialProvider)
+    }
+
+    func testPasswordCredentialSpec() {
+        let credentialProvider = getCredentialProvider(authenticationMethod: .password)
+
+        guard case let .userPassPlaintext(userName, password) = credentialProvider.nextCredential() else {
+            XCTFail("Expected a plaintext user name and password.")
+            return
+        }
+        XCTAssertEqual(userName, "user")
+        XCTAssertEqual(password, "password")
+    }
+
+    func testSSHKeyCredentialSpec() {
+        keyStore.add(string: "private key", for: SSHKey.PRIVATE.getKeychainKey())
+        let credentialProvider = getCredentialProvider(authenticationMethod: .key)
+
+        guard case let .sshKeyMemory(userName, publicKey, privateKey, passphrase) = credentialProvider.nextCredential() else {
+            XCTFail("Expected an in-memory SSH key.")
+            return
+        }
+        XCTAssertEqual(userName, "user")
+        XCTAssertNil(publicKey)
+        XCTAssertEqual(privateKey, "private key")
+        XCTAssertEqual(passphrase, "passphrase")
     }
 
     func testPasswordCredentialProvider() {
@@ -72,25 +92,24 @@ final class GitCredentialTest: XCTestCase {
         }
 
         (1 ..< 5).forEach { _ in
-            XCTAssertNotNil(credentialProvider.credential(for: .userPassPlaintext, url: nil, userName: nil))
+            XCTAssertNotNil(credentialProvider.nextCredential())
         }
-        XCTAssertNil(credentialProvider.credential(for: .userPassPlaintext, url: nil, userName: nil))
+        XCTAssertNil(credentialProvider.nextCredential())
         wait(for: [expectation], timeout: 0)
     }
 
-    func testSSHKeyCredentialProvider() throws {
-        throw XCTSkip("Skipped. This test failed in CI environment. Reason still unknown.")
+    func testSSHKeyCredentialProvider() {
         let credentialProvider = getCredentialProvider(authenticationMethod: .key)
 
-        XCTAssertNotNil(credentialProvider.credential(for: .sshCustom, url: nil, userName: nil))
-        XCTAssertNil(credentialProvider.credential(for: .sshCustom, url: nil, userName: nil))
+        XCTAssertNotNil(credentialProvider.nextCredential())
+        XCTAssertNil(credentialProvider.nextCredential())
     }
 
     func testCannotGetPassword() {
         let credentialProvider = getCredentialProvider(authenticationMethod: .password)
 
-        XCTAssertNotNil(credentialProvider.credential(for: .userPassPlaintext, url: nil, userName: nil))
-        XCTAssertNil(credentialProvider.credential(for: .userPassPlaintext, url: nil, userName: nil))
+        XCTAssertNotNil(credentialProvider.nextCredential())
+        XCTAssertNil(credentialProvider.nextCredential())
     }
 
     func testSaveToKeyStore() {
@@ -98,12 +117,12 @@ final class GitCredentialTest: XCTestCase {
 
         passKit.Defaults.isRememberGitCredentialPassphraseOn = true
         keyStore.removeAllContent()
-        credentialProvider.credential(for: .sshCustom, url: nil, userName: nil)
+        _ = credentialProvider.nextCredential()
 
         XCTAssertEqual(keyStore.get(for: Globals.gitSSHPrivateKeyPassphrase), "otherPassword")
     }
 
-    private func getCredentialProvider(authenticationMethod: GitAuthenticationMethod, password: String? = nil) -> GTCredentialProvider {
+    private func getCredentialProvider(authenticationMethod: GitAuthenticationMethod, password: String? = nil) -> GitCredentialProvider {
         let credential = GitCredential.from(authenticationMethod: authenticationMethod, userName: "user", keyStore: keyStore)
         return credential.createCredentialProvider { _, _ in password }
     }

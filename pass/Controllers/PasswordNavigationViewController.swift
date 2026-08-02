@@ -528,19 +528,15 @@ extension PasswordNavigationViewController: PasswordAlertPresenter {
                     SVProgressHUD.showSuccess(withStatus: "Done".localize())
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
-            } catch let error as NSError {
+            } catch {
                 gitCredential.delete()
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()
+                    // libgit2 reports the message of the underlying library, so a
+                    // wrong SSH passphrase is recognised by what libssh2 wrote.
                     var message = error.localizedDescription
-                    if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
-                        message = message | "UnderlyingError".localize(underlyingError.localizedDescription)
-                        if underlyingError.localizedDescription.contains("WrongPassphrase".localize()) {
-                            message = message | "RecoverySuggestion.".localize()
-                        }
-                    }
-                    if let mergeConflictFiles = GitError.mergeConflictPaths(in: error) {
-                        message = message | "MergeConflictError".localize(mergeConflictFiles.joined(separator: ", "))
+                    if message.contains("WrongPassphrase".localize()) {
+                        message = message | "RecoverySuggestion.".localize()
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800)) {
                         Utils.alert(title: "Error".localize(), message: message, controller: self, completion: nil)

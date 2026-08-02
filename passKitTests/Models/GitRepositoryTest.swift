@@ -35,10 +35,7 @@ final class GitRepositoryTest: XCTestCase {
             withIntermediateDirectories: true
         )
 
-        let options = [
-            GTRepositoryInitOptionsFlags: GTRepositoryInitFlags.bare.rawValue,
-        ]
-        try GTRepository.initializeEmpty(atFileURL: bareRepositoryURL, options: options)
+        try initializeBareRepository(at: bareRepositoryURL)
 
         repository = try GitRepository(from: bareRepositoryURL, to: workingRepositoryURL, branchName: "master", transferProgressBlock: transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
     }
@@ -53,12 +50,11 @@ final class GitRepositoryTest: XCTestCase {
     }
 
     func testCommit() throws {
-        try ["file1", "file2"].forEach { filename in
-            let fileURL = workingRepositoryURL.appendingPathComponent(filename)
-            try "change1".write(toFile: fileURL.path, atomically: true, encoding: .utf8)
-            try repository.add(path: filename)
-            _ = try repository.commit(name: "name", email: "email@email.com", message: "message: \(filename)")
-        }
+        try commitFiles(["file1", "file2"])
+    }
+
+    func testCommitRejectsInvalidSignature() throws {
+        XCTAssertThrowsError(try repository.commit(name: "na<me", email: "email@email.com", message: "message"))
     }
 
     func testPush() throws {
@@ -70,45 +66,92 @@ final class GitRepositoryTest: XCTestCase {
         _ = try repository.commit(name: "name", email: "email@email.com", message: "message1")
         let commit = try repository.getRecentCommits(count: 1)
         XCTAssertEqual(commit.first?.message, "message1")
+        XCTAssertEqual(commit.first?.author?.name, "name")
+        XCTAssertEqual(commit.first?.author?.email, "email@email.com")
+        XCTAssertEqual(commit.first?.sha.count, 40)
+    }
+
+    func testNumberOfCommits() throws {
+        try commitFiles(["file1", "file2"])
+        XCTAssertEqual(repository.numberOfCommits(), 2)
     }
 
     func testGetLocalCommits() throws {
-        try ["file1", "file2"].forEach { filename in
-            let fileURL = workingRepositoryURL.appendingPathComponent(filename)
-            try "change".write(toFile: fileURL.path, atomically: true, encoding: .utf8)
-            try repository.add(path: filename)
-            _ = try repository.commit(name: "name", email: "email@email.com", message: "message: \(filename)")
-        }
+        try commitFiles(["file1", "file2"])
         try repository.push(options: GitCredentialOptions(), transferProgressBlock: pushProgressBlock)
-        try ["file3", "file4"].forEach { filename in
-            let fileURL = workingRepositoryURL.appendingPathComponent(filename)
-            try "change".write(toFile: fileURL.path, atomically: true, encoding: .utf8)
-            try repository.add(path: filename)
-            _ = try repository.commit(name: "name", email: "email@email.com", message: "message: \(filename)")
-        }
+        XCTAssertEqual(try repository.getLocalCommits().count, 0)
+
+        try commitFiles(["file3", "file4"])
         let commit = try repository.getLocalCommits()
         XCTAssertEqual(commit.first?.message, "message: file4")
+        XCTAssertEqual(commit.count, 2)
+    }
+
+    func testReset() throws {
+        try commitFiles(["file1"])
+        try repository.push(options: GitCredentialOptions(), transferProgressBlock: pushProgressBlock)
+        try commitFiles(["file2"])
+        XCTAssertEqual(try repository.getLocalCommits().count, 1)
+
+        try repository.reset()
+
+        XCTAssertEqual(try repository.getLocalCommits().count, 0)
+        XCTAssertFalse(fileManager.fileExists(atPath: workingRepositoryURL.appendingPathComponent("file2").path))
+    }
+
+    func testPull() throws {
+        try commitFiles(["file1"])
+        try repository.push(options: GitCredentialOptions(), transferProgressBlock: pushProgressBlock)
+
+        // A second clone commits and pushes, so that the first one has something to pull.
+        let otherURL = fileManager.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? fileManager.removeItem(at: otherURL) }
+        let other = try GitRepository(from: bareRepositoryURL, to: otherURL, branchName: "master", transferProgressBlock: transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
+        try "change".write(toFile: otherURL.appendingPathComponent("file2").path, atomically: true, encoding: .utf8)
+        try other.add(path: "file2")
+        _ = try other.commit(name: "name", email: "email@email.com", message: "message: file2")
+        try other.push(options: GitCredentialOptions(), transferProgressBlock: pushProgressBlock)
+
+        try repository.pull(options: GitCredentialOptions(), transferProgressBlock: transferProgressBlock)
+
+        XCTAssertTrue(fileManager.fileExists(atPath: workingRepositoryURL.appendingPathComponent("file2").path))
+        XCTAssertEqual(try repository.getRecentCommits(count: 1).first?.message, "message: file2")
+    }
+
+    func testPullUpToDate() throws {
+        try commitFiles(["file1"])
+        try repository.push(options: GitCredentialOptions(), transferProgressBlock: pushProgressBlock)
+        try repository.pull(options: GitCredentialOptions(), transferProgressBlock: transferProgressBlock)
+        XCTAssertEqual(repository.numberOfCommits(), 1)
     }
 
     func testCheckoutAndChangeBranch() throws {
-        _ = try repository.commit(name: "name", email: "email@email.com", message: "message")
-        let repo = repository.repository
-        let branchName = "feature-branch"
-        let head = try repo.headReference()
-        let branch = try repo.createBranchNamed(branchName, from: head.targetOID!, message: nil)
-        let remote = try GTRemote(name: "origin", in: repo)
-        try repo.pushBranches([branch], to: remote)
+        try commitFiles(["file1"])
+        try repository.push(options: GitCredentialOptions(), transferProgressBlock: pushProgressBlock)
+        try createAndPushBranch(named: "feature-branch", deleteLocally: false)
 
         try repository.checkoutAndChangeBranch(branchName: "feature-branch", progressBlock: checkoutProgressBlock)
     }
 
+    /// The branch only exists on the remote, so it has to be created locally and set to track it.
+    func testCheckoutAndChangeToRemoteOnlyBranch() throws {
+        try commitFiles(["file1"])
+        try repository.push(options: GitCredentialOptions(), transferProgressBlock: pushProgressBlock)
+        try createAndPushBranch(named: "feature-branch", deleteLocally: true)
+
+        try repository.checkoutAndChangeBranch(branchName: "feature-branch", progressBlock: checkoutProgressBlock)
+
+        // Tracking the remote branch is what makes local commits discoverable.
+        XCTAssertEqual(try repository.getLocalCommits().count, 0)
+    }
+
+    func testCheckoutUnknownBranch() throws {
+        try commitFiles(["file1"])
+        XCTAssertThrowsError(try repository.checkoutAndChangeBranch(branchName: "nowhere", progressBlock: checkoutProgressBlock))
+    }
+
     func testRm() throws {
-        try ["file1", "file2"].forEach { filename in
-            let fileURL = workingRepositoryURL.appendingPathComponent(filename)
-            try "change1".write(toFile: fileURL.path, atomically: true, encoding: .utf8)
-            try repository.add(path: filename)
-            _ = try repository.commit(name: "name", email: "email@email.com", message: "message: add \(filename)")
-        }
+        try commitFiles(["file1", "file2"])
 
         try repository.rm(path: "file1")
         let commit = try repository.commit(name: "name", email: "email@email.com", message: "message: remove file1")
@@ -117,12 +160,7 @@ final class GitRepositoryTest: XCTestCase {
     }
 
     func testMv() throws {
-        try ["file1", "file2"].forEach { filename in
-            let fileURL = workingRepositoryURL.appendingPathComponent(filename)
-            try "change1".write(toFile: fileURL.path, atomically: true, encoding: .utf8)
-            try repository.add(path: filename)
-            _ = try repository.commit(name: "name", email: "email@email.com", message: "message: add \(filename)")
-        }
+        try commitFiles(["file1", "file2"])
 
         try repository.mv(from: "file1", to: "file3")
         let commit = try repository.commit(name: "name", email: "email@email.com", message: "message: remove file1")
@@ -131,9 +169,73 @@ final class GitRepositoryTest: XCTestCase {
         XCTAssertTrue(fileManager.fileExists(atPath: workingRepositoryURL.appendingPathComponent("file3").path))
     }
 
+    func testLastCommitDate() throws {
+        let before = Date()
+        try commitFiles(["file1"])
+        let date = try repository.lastCommitDate(path: "file1")
+        // Commit times have a resolution of one second.
+        XCTAssertGreaterThanOrEqual(date.timeIntervalSince1970, before.timeIntervalSince1970 - 1)
+    }
+
     override func tearDownWithError() throws {
+        repository = nil
         try fileManager.removeItem(at: bareRepositoryURL)
         try fileManager.removeItem(at: workingRepositoryURL)
         super.tearDown()
+    }
+
+    // MARK: - Fixtures built with the libgit2 C API
+
+    private func commitFiles(_ filenames: [String]) throws {
+        try filenames.forEach { filename in
+            let fileURL = workingRepositoryURL.appendingPathComponent(filename)
+            try "change".write(toFile: fileURL.path, atomically: true, encoding: .utf8)
+            try repository.add(path: filename)
+            _ = try repository.commit(name: "name", email: "email@email.com", message: "message: \(filename)")
+        }
+    }
+
+    private func initializeBareRepository(at url: URL) throws {
+        initializeLibgit2()
+        var options = git_repository_init_options()
+        try gitTry(git_repository_init_init_options(&options, UInt32(GIT_REPOSITORY_INIT_OPTIONS_VERSION)))
+        options.flags = GIT_REPOSITORY_INIT_BARE.rawValue
+        var repository: OpaquePointer?
+        try gitTry(git_repository_init_ext(&repository, url.path, &options))
+        git_repository_free(repository)
+    }
+
+    private func createAndPushBranch(named name: String, deleteLocally: Bool) throws {
+        var repository: OpaquePointer?
+        try gitTry(git_repository_open(&repository, workingRepositoryURL.path))
+        defer { git_repository_free(repository) }
+
+        var head: OpaquePointer?
+        try gitTry(git_repository_head(&head, repository))
+        defer { git_reference_free(head) }
+        var headCommit: OpaquePointer?
+        try gitTry(git_reference_peel(&headCommit, head, GIT_OBJECT_COMMIT))
+        defer { git_commit_free(headCommit) }
+
+        var branch: OpaquePointer?
+        try gitTry(git_branch_create(&branch, repository, name, headCommit, 0))
+        defer { git_reference_free(branch) }
+
+        var remote: OpaquePointer?
+        try gitTry(git_remote_lookup(&remote, repository, "origin"))
+        defer { git_remote_free(remote) }
+        var options = git_push_options()
+        try gitTry(git_push_init_options(&options, UInt32(GIT_PUSH_OPTIONS_VERSION)))
+        try "refs/heads/\(name):refs/heads/\(name)".withCString { refspec in
+            var refspecs: [UnsafeMutablePointer<CChar>?] = [UnsafeMutablePointer(mutating: refspec)]
+            try refspecs.withUnsafeMutableBufferPointer { buffer in
+                var array = git_strarray(strings: buffer.baseAddress, count: 1)
+                try gitTry(git_remote_push(remote, &array, &options))
+            }
+        }
+
+        if deleteLocally {
+            try gitTry(git_branch_delete(branch))
+        }
     }
 }

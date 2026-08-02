@@ -148,7 +148,7 @@ public class PasswordStore {
         guard let gitRepository else {
             throw AppError.repositoryNotSet
         }
-        try gitRepository.pull(options: options, transferProgressBlock: progressBlock)
+        try gitRepository.pull(options: options, signature: gitSignatureForNow, transferProgressBlock: progressBlock)
         Defaults.lastSyncedTime = Date()
         setAllSynced()
         DispatchQueue.main.async {
