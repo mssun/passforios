@@ -54,6 +54,22 @@ public struct GitMergeConflictError: LocalizedError {
     }
 }
 
+public extension Error {
+    /// Whether the stored git credential could plausibly be at fault. Failures
+    /// that can only happen once the remote has already accepted it must not
+    /// cause it to be thrown away.
+    var mightBeAuthenticationFailure: Bool {
+        switch self {
+        case is GitMergeConflictError:
+            return false
+        case let error as AppError where error == .gitPushNotSuccessful:
+            return false
+        default:
+            return true
+        }
+    }
+}
+
 /// Turns a libgit2 return code into a Swift error. Negative codes are failures,
 /// everything else is passed through, since some functions report counts.
 @discardableResult
@@ -203,9 +219,16 @@ let gitPushUpdateReferenceCallback: git_push_update_reference_cb = { refname, st
     return 0
 }
 
+/// libgit2 reports the message left in its error slot, which without this would
+/// be whatever an earlier operation put there, or nothing at all.
+private func failCredentials(_ message: String) -> Int32 {
+    git_error_set_str(Int32(GIT_ERROR_NET.rawValue), message)
+    return -1
+}
+
 let gitCredentialsCallback: git_credential_acquire_cb = { credential, _, _, allowedTypes, payload in
     guard let credential, let provider = GitCallbackContext.from(payload)?.credentialProvider else {
-        return -1
+        return failCredentials("AuthenticationRequired.".localize())
     }
     // Asked before the credential itself when the remote URL carries no user name.
     if allowedTypes & GIT_CREDENTIAL_USERNAME.rawValue != 0 {
@@ -217,7 +240,7 @@ let gitCredentialsCallback: git_credential_acquire_cb = { credential, _, _, allo
     case let .sshKeyMemory(userName, publicKey, privateKey, passphrase):
         return git_credential_ssh_key_memory_new(credential, userName, publicKey, privateKey, passphrase)
     case .none:
-        return -1
+        return failCredentials("AuthenticationCancelled.".localize())
     }
 }
 

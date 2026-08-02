@@ -108,6 +108,8 @@
 "SpecifyBranchName."                    = "Der Name des zu verwendenden Branches muss angegeben werden.";
 
 // SSH
+"AuthenticationRequired."   = "Das entfernte Repository erfordert eine Authentifizierung.";
+"AuthenticationCancelled."  = "Die Authentifizierung wurde abgebrochen.";
 "FillInSshKeyPassphrase."   = "Bitte gib das Passwort des SSH-Schlüssels ein.";
 "CannotSelectSshKey"        = "SSH-Schlüssel kann nicht selektiert werden";
 "PleaseSetupSshKeyFirst."   = "Bitte richte erst den SSH-Schlüssel ein.";

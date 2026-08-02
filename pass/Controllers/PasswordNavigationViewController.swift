@@ -529,7 +529,12 @@ extension PasswordNavigationViewController: PasswordAlertPresenter {
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
             } catch {
-                gitCredential.delete()
+                // Only forget the stored password when it might be the reason for
+                // the failure. A refused push or a conflicting merge happens long
+                // after the remote has accepted the credential.
+                if error.mightBeAuthenticationFailure {
+                    gitCredential.delete()
+                }
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()
                     // libgit2 reports the message of the underlying library, so a

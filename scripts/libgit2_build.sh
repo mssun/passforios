@@ -145,6 +145,9 @@ cp -R "$INSTALL_PATH/ios-arm64/include/git2" "$HEADER_PATH"
 cat > "$HEADER_PATH/module.modulemap" <<'MODULEMAP'
 module Libgit2 {
     header "git2.h"
+    // Not reachable through git2.h, but needed to attach a message to the
+    // errors the credential callback reports.
+    header "git2/sys/errors.h"
     export *
 }
 MODULEMAP

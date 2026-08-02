@@ -107,6 +107,8 @@
 "SpecifyBranchName."                    = "Specificare il nome del branch da usare.";
 
 // SSH
+"AuthenticationRequired."   = "Il repository remoto richiede l'autenticazione.";
+"AuthenticationCancelled."  = "Autenticazione annullata.";
 "FillInSshKeyPassphrase."   = "Inserire la password della chiave SSH.";
 "CannotSelectSshKey"        = "Impossibile selezionare la chiave SSH";
 "PleaseSetupSshKeyFirst."   = "Impostare la chiave SSH.";

@@ -83,7 +83,6 @@ public class GitRepository {
     }
 
     public func checkoutAndChangeBranch(branchName: String, progressBlock: @escaping CheckoutProgressHandler) throws {
-        self.branchName = branchName
         let context = GitCallbackContext(checkoutProgress: progressBlock)
 
         var localBranch: OpaquePointer?
@@ -98,6 +97,9 @@ public class GitRepository {
 
         try checkout(reference: localBranch, strategy: GIT_CHECKOUT_FORCE, context: context)
         try gitTry(git_repository_set_head(repository, git_reference_name(localBranch)))
+        // Only once the branch is known to exist and to be checked out, so that
+        // a failure does not leave the repository pointing at a missing branch.
+        self.branchName = branchName
     }
 
     /// Branches off the matching remote branch and tracks it.
@@ -210,14 +212,23 @@ public class GitRepository {
             try gitTry(git_merge(repository, buffer.baseAddress, 1, &mergeOptions, &checkoutOptions))
         }
 
+        // A merge that is not carried through to a commit leaves conflicts in the
+        // index and a half-merged work tree, which makes every later commit fail
+        // in git_index_write_tree. Undo it unless the commit is created.
+        var committed = false
+        defer {
+            if !committed {
+                abortMerge()
+            }
+            git_repository_state_cleanup(repository)
+        }
+
         var index: OpaquePointer?
         try gitTry(git_repository_index(&index, repository))
         defer { git_index_free(index) }
 
         if git_index_has_conflicts(index) != 0 {
-            let paths = conflictedPaths(in: index)
-            git_repository_state_cleanup(repository)
-            throw GitMergeConflictError(paths: paths)
+            throw GitMergeConflictError(paths: conflictedPaths(in: index))
         }
 
         var upstreamCommit: OpaquePointer?
@@ -230,7 +241,28 @@ public class GitRepository {
             signature: mergeSignature,
             additionalParents: [upstreamCommit]
         )
-        git_repository_state_cleanup(repository)
+        committed = true
+    }
+
+    /// Returns the index and the work tree to HEAD, discarding a merge that was
+    /// started but not committed.
+    private func abortMerge() {
+        var head: OpaquePointer?
+        guard git_repository_head(&head, repository) == 0 else {
+            return
+        }
+        defer { git_reference_free(head) }
+
+        var headCommit: OpaquePointer?
+        guard git_reference_peel(&headCommit, head, GIT_OBJECT_COMMIT) == 0 else {
+            return
+        }
+        defer { git_commit_free(headCommit) }
+
+        guard var options = try? gitCheckoutOptions(strategy: GIT_CHECKOUT_FORCE) else {
+            return
+        }
+        git_reset(repository, headCommit, GIT_RESET_HARD, &options)
     }
 
     private func conflictedPaths(in index: OpaquePointer?) -> [String] {

@@ -29,7 +29,7 @@ class GitConfigSettingsTableViewController: UITableViewController {
     override func shouldPerformSegue(withIdentifier identifier: String, sender _: Any?) -> Bool {
         if identifier == "saveGitConfigSettingSegue" {
             let name = nameTextField.text!.isEmpty ? Globals.gitSignatureDefaultName : nameTextField.text!
-            let email = emailTextField.text!.isEmpty ? Globals.gitSignatureDefaultEmail : nameTextField.text!
+            let email = emailTextField.text!.isEmpty ? Globals.gitSignatureDefaultEmail : emailTextField.text!
             guard GitSignature(name: name, email: email).isValid else {
                 Utils.alert(title: "Error".localize(), message: "InvalidNameOrEmail".localize(), controller: self, completion: nil)
                 return false
