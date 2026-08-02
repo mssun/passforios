@@ -9,7 +9,6 @@
 import CoreData
 import DequeModule
 import Foundation
-import ObjectiveGit
 import SwiftyUserDefaults
 
 public final class PasswordEntity: NSManagedObject, Identifiable {

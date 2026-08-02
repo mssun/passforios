@@ -205,6 +205,7 @@
 		DC64745C2D29BE9B004B4BBC /* PasswordEntityTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474592D29BD43004B4BBC /* PasswordEntityTest.swift */; };
 		DC64745D2D29BEA9004B4BBC /* CoreDataTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474582D29BD43004B4BBC /* CoreDataTestCase.swift */; };
 		DC64745F2D45B240004B4BBC /* GitRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC64745E2D45B23A004B4BBC /* GitRepository.swift */; };
+		DC64746B2D45B240004B4BBD /* GitTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC64746A2D45B23A004B4BBD /* GitTypes.swift */; };
 		DC6474612D46A8F8004B4BBC /* GitRepositoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474602D46A8F2004B4BBC /* GitRepositoryTest.swift */; };
 		DC7CBBBD2D0FA3F2003BB4D2 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = DC7CBBBC2D0FA3F2003BB4D2 /* YubiKit */; };
 		DC7CBBC22D0FA3F2003BB4D3 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = DC7CBBC12D0FA3F2003BB4D3 /* DequeModule */; };
@@ -515,6 +516,7 @@
 		DC6474582D29BD43004B4BBC /* CoreDataTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTestCase.swift; sourceTree = "<group>"; };
 		DC6474592D29BD43004B4BBC /* PasswordEntityTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEntityTest.swift; sourceTree = "<group>"; };
 		DC64745E2D45B23A004B4BBC /* GitRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitRepository.swift; sourceTree = "<group>"; };
+		DC64746A2D45B23A004B4BBD /* GitTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitTypes.swift; sourceTree = "<group>"; };
 		DC6474602D46A8F2004B4BBC /* GitRepositoryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitRepositoryTest.swift; sourceTree = "<group>"; };
 		DC7CBBBE2D0FAC8E003BB4D2 /* YKFSmartCardInterfaceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YKFSmartCardInterfaceExtension.swift; sourceTree = "<group>"; };
 		DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeyURLImportTableViewController.swift; sourceTree = "<group>"; };
@@ -956,6 +958,7 @@
 			isa = PBXGroup;
 			children = (
 				DC64745E2D45B23A004B4BBC /* GitRepository.swift */,
+				DC64746A2D45B23A004B4BBD /* GitTypes.swift */,
 				30697C4121F63CAB0064FCAC /* GitCredential.swift */,
 				30697C4221F63CAB0064FCAC /* PasscodeLock.swift */,
 				30697C4021F63CAB0064FCAC /* Password.swift */,
@@ -1647,6 +1650,7 @@
 				30CCA91623258C380048CA51 /* PGPInterface.swift in Sources */,
 				30DAFD4A240985A7002456E7 /* Array+Slices.swift in Sources */,
 				DC64745F2D45B240004B4BBC /* GitRepository.swift in Sources */,
+				DC64746B2D45B240004B4BBD /* GitTypes.swift in Sources */,
 				9A74D2E0277D2F8C00F7BC44 /* UIAlertControllerExtension.swift in Sources */,
 				30697C4721F63CAB0064FCAC /* PasscodeLock.swift in Sources */,
 				A2699ACD2402631400F36323 /* PasswordTableEntry.swift in Sources */,

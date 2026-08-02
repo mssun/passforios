@@ -48,7 +48,7 @@ final class GitCredentialTest: XCTestCase {
     func testOptions() {
         let password = GitCredential.from(authenticationMethod: .password, userName: "user", keyStore: keyStore)
 
-        let options = password.getCredentialOptions()
+        let options = password.getCredentialOptions().backendOptions
         XCTAssertEqual(options.count, 2)
 
         let cloneCredentialProvider = options[GTRepositoryCloneOptionsCredentialProvider] as! GTCredentialProvider
@@ -57,16 +57,19 @@ final class GitCredentialTest: XCTestCase {
         XCTAssertEqual(cloneCredentialProvider, remoteCredentialProvider)
     }
 
+    func testEmptyOptions() {
+        XCTAssertTrue(GitCredentialOptions().backendOptions.isEmpty)
+    }
+
     func testPasswordCredentialProvider() {
         let password = GitCredential.from(authenticationMethod: .password, userName: "user", keyStore: keyStore)
         let expectation = expectation(description: "Password is requested.")
         expectation.assertForOverFulfill = true
         expectation.expectedFulfillmentCount = 3
-        let options = password.getCredentialOptions { _, _ in
+        let credentialProvider = password.createCredentialProvider { _, _ in
             expectation.fulfill()
             return "otherPassword"
         }
-        let credentialProvider = options[GTRepositoryCloneOptionsCredentialProvider] as! GTCredentialProvider
 
         (1 ..< 5).forEach { _ in
             XCTAssertNotNil(credentialProvider.credential(for: .userPassPlaintext, url: nil, userName: nil))
@@ -102,7 +105,6 @@ final class GitCredentialTest: XCTestCase {
 
     private func getCredentialProvider(authenticationMethod: GitAuthenticationMethod, password: String? = nil) -> GTCredentialProvider {
         let credential = GitCredential.from(authenticationMethod: authenticationMethod, userName: "user", keyStore: keyStore)
-        let options = credential.getCredentialOptions { _, _ in password }
-        return options[GTRepositoryCloneOptionsCredentialProvider] as! GTCredentialProvider
+        return credential.createCredentialProvider { _, _ in password }
     }
 }

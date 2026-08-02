@@ -7,12 +7,9 @@
 //
 import ObjectiveGit
 
-public typealias TransferProgressHandler = (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void
-public typealias CheckoutProgressHandler = (String, UInt, UInt) -> Void
-public typealias PushProgressHandler = (UInt32, UInt32, Int, UnsafeMutablePointer<ObjCBool>) -> Void
-public typealias CloneOptions = [AnyHashable: Any]
-public typealias PullOptions = [AnyHashable: Any]
-public typealias PushOptions = [String: Any]
+// The only place, together with `GitCredential.swift`, that knows about the git
+// backend. Everything crossing this boundary is a value type from
+// `GitTypes.swift`.
 
 public class GitRepository {
     let repository: GTRepository
@@ -28,12 +25,12 @@ public class GitRepository {
         }
     }
 
-    public init(from remoteURL: URL, to workingDir: URL, branchName: String, options: CloneOptions, transferProgressBlock: @escaping TransferProgressHandler, checkoutProgressBlock: @escaping CheckoutProgressHandler) throws {
+    public init(from remoteURL: URL, to workingDir: URL, branchName: String, options: GitCredentialOptions = GitCredentialOptions(), transferProgressBlock: @escaping TransferProgressHandler, checkoutProgressBlock: @escaping CheckoutProgressHandler) throws {
         self.repository = try GTRepository.clone(
             from: remoteURL,
             toWorkingDirectory: workingDir,
-            options: options,
-            transferProgressBlock: transferProgressBlock
+            options: options.backendOptions,
+            transferProgressBlock: backendBlock(transferProgressBlock)
         )
         self.branchName = branchName
         guard !repository.isHEADUnborn else {
@@ -47,7 +44,7 @@ public class GitRepository {
     public func checkoutAndChangeBranch(branchName: String, progressBlock: @escaping CheckoutProgressHandler) throws {
         self.branchName = branchName
         if let localBranch = try? repository.lookUpBranch(withName: branchName, type: .local, success: nil) {
-            let checkoutOptions = GTCheckoutOptions(strategy: .force, progressBlock: progressBlock)
+            let checkoutOptions = GTCheckoutOptions(strategy: .force, progressBlock: backendBlock(progressBlock))
             try repository.checkoutReference(localBranch.reference, options: checkoutOptions)
             try repository.moveHEAD(to: localBranch.reference)
         } else {
@@ -58,21 +55,21 @@ public class GitRepository {
             }
             let localBranch = try repository.createBranchNamed(branchName, from: remoteBranchOid, message: nil)
             try localBranch.updateTrackingBranch(remoteBranch)
-            let checkoutOptions = GTCheckoutOptions(strategy: .force, progressBlock: progressBlock)
+            let checkoutOptions = GTCheckoutOptions(strategy: .force, progressBlock: backendBlock(progressBlock))
             try repository.checkoutReference(localBranch.reference, options: checkoutOptions)
             try repository.moveHEAD(to: localBranch.reference)
         }
     }
 
     public func pull(
-        options: PullOptions,
+        options: GitCredentialOptions,
         transferProgressBlock: @escaping TransferProgressHandler
     ) throws {
         let remote = try GTRemote(name: "origin", in: repository)
-        try repository.pull(repository.currentBranch(), from: remote, withOptions: options, progress: transferProgressBlock)
+        try repository.pull(repository.currentBranch(), from: remote, withOptions: options.backendOptions, progress: backendBlock(transferProgressBlock))
     }
 
-    public func getRecentCommits(count: Int) throws -> [GTCommit] {
+    public func getRecentCommits(count: Int) throws -> [GitCommit] {
         var commits = [GTCommit]()
         let enumerator = try GTEnumerator(repository: repository)
         if let targetOID = try repository.headReference().targetOID {
@@ -83,7 +80,7 @@ public class GitRepository {
                 commits.append(commit)
             }
         }
-        return commits
+        return commits.map(GitCommit.init)
     }
 
     public func add(path: String) throws {
@@ -116,17 +113,17 @@ public class GitRepository {
         try rm(path: from)
     }
 
-    public func commit(name: String, email: String, message: String) throws -> GTCommit {
-        guard let signature = GTSignature(name: name, email: email, time: Date()) else {
-            throw AppError.gitCreateSignature
-        }
-        return try commit(signature: signature, message: message)
+    public func commit(name: String, email: String, message: String) throws -> GitCommit {
+        try commit(signature: GitSignature(name: name, email: email), message: message)
     }
 
-    public func commit(signature: GTSignature, message: String) throws -> GTCommit {
+    public func commit(signature: GitSignature, message: String) throws -> GitCommit {
+        guard let signature = signature.backendSignature else {
+            throw AppError.gitCreateSignature
+        }
         let newTree = try repository.index().writeTree()
         if repository.isHEADUnborn {
-            return try repository.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: nil, updatingReferenceNamed: "HEAD")
+            return GitCommit(try repository.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: nil, updatingReferenceNamed: "HEAD"))
         }
         let headReference = try repository.headReference()
         let commitEnum = try GTEnumerator(repository: repository)
@@ -134,19 +131,23 @@ public class GitRepository {
         guard let parent = commitEnum.nextObject() as? GTCommit else {
             throw AppError.gitCommit
         }
-        return try repository.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name)
+        return GitCommit(try repository.createCommit(with: newTree, message: message, author: signature, committer: signature, parents: [parent], updatingReferenceNamed: headReference.name))
     }
 
     public func push(
-        options: [String: Any],
+        options: GitCredentialOptions,
         transferProgressBlock: @escaping PushProgressHandler
     ) throws {
         let branch = try repository.currentBranch()
         let remote = try GTRemote(name: "origin", in: repository)
-        try repository.push(branch, to: remote, withOptions: options, progress: transferProgressBlock)
+        try repository.push(branch, to: remote, withOptions: options.backendOptions, progress: backendBlock(transferProgressBlock))
     }
 
-    public func getLocalCommits() throws -> [GTCommit] {
+    public func getLocalCommits() throws -> [GitCommit] {
+        try localCommits().map(GitCommit.init)
+    }
+
+    private func localCommits() throws -> [GTCommit] {
         let remoteBranchName = "origin/\(branchName)"
         let remoteBranch = try repository.lookUpBranch(withName: remoteBranchName, type: .remote, success: nil)
         return try repository.localCommitsRelative(toRemoteBranch: remoteBranch)
@@ -157,7 +158,7 @@ public class GitRepository {
     }
 
     public func reset() throws {
-        let localCommits = try getLocalCommits()
+        let localCommits = try localCommits()
         if localCommits.isEmpty {
             return
         }
@@ -175,5 +176,78 @@ public class GitRepository {
             return Date(timeIntervalSince1970: 0)
         }
         return Date(timeIntervalSince1970: latestCommitTime)
+    }
+}
+
+/// Details the git backend attaches to the errors it throws.
+public enum GitError {
+    /// Paths that could not be merged, if `error` reports a merge conflict.
+    public static func mergeConflictPaths(in error: Error) -> [String]? {
+        (error as NSError).userInfo[GTPullMergeConflictedFiles] as? [String]
+    }
+}
+
+// MARK: - Bridging between the value types and the git backend
+
+extension GitSignature {
+    var backendSignature: GTSignature? {
+        GTSignature(name: name, email: email, time: time)
+    }
+
+    /// Whether the git backend accepts this name and email.
+    public var isValid: Bool {
+        backendSignature != nil
+    }
+
+    init?(_ signature: GTSignature?) {
+        guard let signature, let name = signature.name, let email = signature.email else {
+            return nil
+        }
+        self.init(name: name, email: email, time: signature.time ?? Date(timeIntervalSince1970: 0))
+    }
+}
+
+extension GitCommit {
+    init(_ commit: GTCommit) {
+        self.init(
+            sha: commit.sha,
+            message: commit.message,
+            date: commit.commitDate,
+            author: GitSignature(commit.author)
+        )
+    }
+}
+
+extension GitTransferProgress {
+    init(_ progress: git_transfer_progress) {
+        self.init(
+            receivedObjects: progress.received_objects,
+            indexedObjects: progress.indexed_objects,
+            totalObjects: progress.total_objects,
+            receivedBytes: progress.received_bytes
+        )
+    }
+}
+
+/// Adapts a progress handler to the block signature ObjectiveGit expects.
+private func backendBlock(_ handler: @escaping TransferProgressHandler) -> (UnsafePointer<git_transfer_progress>, UnsafeMutablePointer<ObjCBool>) -> Void {
+    { progress, stop in
+        var shouldStop = false
+        handler(GitTransferProgress(progress.pointee), &shouldStop)
+        stop.pointee = ObjCBool(shouldStop)
+    }
+}
+
+private func backendBlock(_ handler: @escaping PushProgressHandler) -> (UInt32, UInt32, Int, UnsafeMutablePointer<ObjCBool>) -> Void {
+    { current, total, bytes, stop in
+        var shouldStop = false
+        handler(GitPushProgress(current: current, total: total, bytes: bytes), &shouldStop)
+        stop.pointee = ObjCBool(shouldStop)
+    }
+}
+
+private func backendBlock(_ handler: @escaping CheckoutProgressHandler) -> (String, UInt, UInt) -> Void {
+    { path, completedSteps, totalSteps in
+        handler(GitCheckoutProgress(path: path, completedSteps: completedSteps, totalSteps: totalSteps))
     }
 }

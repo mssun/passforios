@@ -9,6 +9,23 @@
 import ObjectiveGit
 import SVProgressHUD
 
+/// Credentials handed to a remote operation, opaque to everything outside the git backend.
+public struct GitCredentialOptions {
+    let backendOptions: [AnyHashable: Any]
+
+    /// Options without any credentials, for remotes that do not require authentication.
+    public init() {
+        self.backendOptions = [:]
+    }
+
+    init(credentialProvider: GTCredentialProvider) {
+        self.backendOptions = [
+            GTRepositoryCloneOptionsCredentialProvider: credentialProvider,
+            GTRepositoryRemoteOptionsCredentialProvider: credentialProvider,
+        ]
+    }
+}
+
 public struct GitCredential {
     public typealias PasswordProvider = (String, String?) -> String?
 
@@ -66,15 +83,11 @@ public struct GitCredential {
         }
     }
 
-    public func getCredentialOptions(passwordProvider: @escaping PasswordProvider = { _, _ in nil }) -> [String: Any] {
-        let credentialProvider = createCredentialProvider(passwordProvider)
-        return [
-            GTRepositoryCloneOptionsCredentialProvider: credentialProvider,
-            GTRepositoryRemoteOptionsCredentialProvider: credentialProvider,
-        ]
+    public func getCredentialOptions(passwordProvider: @escaping PasswordProvider = { _, _ in nil }) -> GitCredentialOptions {
+        GitCredentialOptions(credentialProvider: createCredentialProvider(passwordProvider))
     }
 
-    private func createCredentialProvider(_ passwordProvider: @escaping PasswordProvider) -> GTCredentialProvider {
+    func createCredentialProvider(_ passwordProvider: @escaping PasswordProvider) -> GTCredentialProvider {
         var attempts = 1
         return GTCredentialProvider { _, _, _ -> GTCredential? in
             if attempts > credentialType.allowedAttempts {

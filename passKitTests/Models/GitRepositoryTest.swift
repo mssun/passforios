@@ -15,13 +15,13 @@ final class GitRepositoryTest: XCTestCase {
     private var workingRepositoryURL: URL!
     private var repository: GitRepository!
     private let fileManager = FileManager.default
-    private let checkoutProgressBlock: CheckoutProgressHandler = { _, _, _ in
+    private let checkoutProgressBlock: CheckoutProgressHandler = { _ in
     }
 
     private let transferProgressBlock: TransferProgressHandler = { _, _ in
     }
 
-    private let pushProgressBlock: PushProgressHandler = { _, _, _, _ in
+    private let pushProgressBlock: PushProgressHandler = { _, _ in
     }
 
     override func setUpWithError() throws {
@@ -40,7 +40,7 @@ final class GitRepositoryTest: XCTestCase {
         ]
         try GTRepository.initializeEmpty(atFileURL: bareRepositoryURL, options: options)
 
-        repository = try GitRepository(from: bareRepositoryURL, to: workingRepositoryURL, branchName: "master", options: options, transferProgressBlock: transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
+        repository = try GitRepository(from: bareRepositoryURL, to: workingRepositoryURL, branchName: "master", transferProgressBlock: transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
     }
 
     func testSetup() {
@@ -63,8 +63,7 @@ final class GitRepositoryTest: XCTestCase {
 
     func testPush() throws {
         try testCommit()
-        let options: [String: Any] = [:]
-        try repository.push(options: options, transferProgressBlock: pushProgressBlock)
+        try repository.push(options: GitCredentialOptions(), transferProgressBlock: pushProgressBlock)
     }
 
     func testGetRecentCommits() throws {
@@ -80,8 +79,7 @@ final class GitRepositoryTest: XCTestCase {
             try repository.add(path: filename)
             _ = try repository.commit(name: "name", email: "email@email.com", message: "message: \(filename)")
         }
-        let options: [String: Any] = [:]
-        try repository.push(options: options, transferProgressBlock: pushProgressBlock)
+        try repository.push(options: GitCredentialOptions(), transferProgressBlock: pushProgressBlock)
         try ["file3", "file4"].forEach { filename in
             let fileURL = workingRepositoryURL.appendingPathComponent(filename)
             try "change".write(toFile: fileURL.path, atomically: true, encoding: .utf8)

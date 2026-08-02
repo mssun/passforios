@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import ObjectiveGit
 import XCTest
 
 @testable import passKit

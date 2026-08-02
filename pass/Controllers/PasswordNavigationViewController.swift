@@ -510,16 +510,16 @@ extension PasswordNavigationViewController: PasswordAlertPresenter {
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
                 let pullOptions = gitCredential.getCredentialOptions(passwordProvider: present)
-                try PasswordStore.shared.pullRepository(options: pullOptions) { git_transfer_progress, _ in
+                try PasswordStore.shared.pullRepository(options: pullOptions) { progress, _ in
                     DispatchQueue.main.async {
-                        SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects) / Float(git_transfer_progress.pointee.total_objects), status: "PullingFromRemoteRepository".localize())
+                        SVProgressHUD.showProgress(progress.fractionCompleted, status: "PullingFromRemoteRepository".localize())
                     }
                 }
                 if PasswordStore.shared.numberOfLocalCommits > 0 {
                     let pushOptions = gitCredential.getCredentialOptions(passwordProvider: present)
-                    try PasswordStore.shared.pushRepository(options: pushOptions) { current, total, _, _ in
+                    try PasswordStore.shared.pushRepository(options: pushOptions) { progress, _ in
                         DispatchQueue.main.async {
-                            SVProgressHUD.showProgress(Float(current) / Float(total), status: "PushingToRemoteRepository".localize())
+                            SVProgressHUD.showProgress(progress.fractionCompleted, status: "PushingToRemoteRepository".localize())
                         }
                     }
                 }
@@ -539,9 +539,8 @@ extension PasswordNavigationViewController: PasswordAlertPresenter {
                             message = message | "RecoverySuggestion.".localize()
                         }
                     }
-                    if let mergeConflictFiles = error.userInfo[GTPullMergeConflictedFiles] as? NSArray {
-                        let mergeConflictFilesString = mergeConflictFiles.componentsJoined(by: ", ")
-                        message = message | "MergeConflictError".localize(mergeConflictFilesString)
+                    if let mergeConflictFiles = GitError.mergeConflictPaths(in: error) {
+                        message = message | "MergeConflictError".localize(mergeConflictFiles.joined(separator: ", "))
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800)) {
                         Utils.alert(title: "Error".localize(), message: message, controller: self, completion: nil)
