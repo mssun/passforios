@@ -122,6 +122,37 @@ final class PGPAgentTest: XCTestCase {
         }
     }
 
+    func testEmptyArmoredKey() throws {
+        // Reading an armored block without a body raises an Objective-C exception in ObjectivePGP.
+        // As it cannot be caught in Swift, it used to terminate the app as soon as a key ID was
+        // requested, e.g. when opening the settings screen.
+        try importKeys(
+            "-----BEGIN PGP PUBLIC KEY BLOCK-----\n\n-----END PGP PUBLIC KEY BLOCK-----\n",
+            "-----BEGIN PGP PRIVATE KEY BLOCK-----\n\n-----END PGP PRIVATE KEY BLOCK-----\n"
+        )
+        XCTAssert(pgpAgent.isPrepared)
+        XCTAssertThrowsError(try pgpAgent.initKeys()) {
+            XCTAssertEqual($0 as! AppError, AppError.keyImport)
+        }
+        XCTAssertThrowsError(try pgpAgent.getShortKeyID()) {
+            XCTAssertEqual($0 as! AppError, AppError.keyImport)
+        }
+        XCTAssertThrowsError(try basicEncryptDecrypt(using: pgpAgent, keyID: RSA2048.fingerprint)) {
+            XCTAssertEqual($0 as! AppError, AppError.keyImport)
+        }
+    }
+
+    func testTruncatedKey() throws {
+        try importKeys(
+            String(RSA2048.publicKey.prefix(300)) + "\n-----END PGP PUBLIC KEY BLOCK-----\n",
+            String(RSA2048.privateKey.prefix(300)) + "\n-----END PGP PRIVATE KEY BLOCK-----\n"
+        )
+        XCTAssert(pgpAgent.isPrepared)
+        XCTAssertThrowsError(try pgpAgent.getShortKeyID()) {
+            XCTAssert($0.localizedDescription.contains("Can't read keys. Invalid input."))
+        }
+    }
+
     func testUnsetKeys() throws {
         try importKeys(ED25519.publicKey, ED25519.privateKey)
         XCTAssert(pgpAgent.isPrepared)

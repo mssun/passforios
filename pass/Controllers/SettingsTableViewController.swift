@@ -151,6 +151,10 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
         UITableView.automaticDimension
     }
 
+    private var hasStoredPGPKeys: Bool {
+        keychain.contains(key: PGPKey.PUBLIC.getKeychainKey()) || keychain.contains(key: PGPKey.PRIVATE.getKeychainKey())
+    }
+
     func showPGPKeyActionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         optionMenu.addAction(
@@ -194,12 +198,16 @@ class SettingsTableViewController: UITableViewController, UITabBarControllerDele
             )
         }
 
-        if Defaults.pgpKeySource != nil {
+        // Offer the removal also when no key source is set but keys are still around. The key source
+        // is gone after reinstalling the app while the keys survive in the keychain. Without this,
+        // there would be no way to get rid of keys which cannot be used anymore.
+        if Defaults.pgpKeySource != nil || hasStoredPGPKeys {
             optionMenu.addAction(
                 UIAlertAction(title: "RemovePgpKeys".localize(), style: .destructive) { _ in
                     let alert = UIAlertController.removeConfirmationAlert(title: "RemovePgpKeys".localize(), message: "") { _ in
                         self.keychain.removeContent(for: PGPKey.PUBLIC.getKeychainKey())
                         self.keychain.removeContent(for: PGPKey.PRIVATE.getKeychainKey())
+                        self.keychain.removeAllContent(withPrefix: Globals.pgpKeyPassphrase)
                         PGPAgent.shared.uninitKeys()
                         self.pgpKeyTableViewCell.detailTextLabel?.text = "NotSet".localize()
                         Defaults.pgpKeySource = nil

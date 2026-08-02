@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import <passKit/ObjectiveCExceptionCatcher.h>
+
 //! Project version number for passKit.
 FOUNDATION_EXPORT double passKitVersionNumber;
 
