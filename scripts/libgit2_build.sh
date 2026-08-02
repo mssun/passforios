@@ -4,6 +4,13 @@
 # the OpenSSL libcrypto libssh2 needs. HTTPS goes through SecureTransport, so
 # OpenSSL is only ever reached by the SSH transport, which is how the
 # ObjectiveGit framework this replaces was put together.
+#
+# This caps HTTPS at TLS 1.2, which libgit2 hardcodes in its SecureTransport
+# stream. Raising it is not possible: SecureTransport on iOS rejects
+# kTLSProtocol13 with errSSLIllegalParam, and libgit2 aborts the connection
+# when that call fails, so patching the constant breaks HTTPS outright. TLS 1.3
+# would mean switching to OpenSSL, and shipping and maintaining a CA bundle
+# with it, since OpenSSL cannot read the trust store of the system.
 
 set -euox pipefail
 
@@ -68,19 +75,23 @@ build_slice() {
   # architecture is configured separately. Only libcrypto is used afterwards.
   # The target already carries the architecture and picks the assembly for it;
   # anything not starting with a dash would be read as a second target.
+  # OpenSSL takes by far the longest and is pinned, so an existing install is
+  # reused. Remove the install directory to force it to be built again.
   local openssl_build="$BUILD_PATH/$slice/openssl"
-  rm -rf "$openssl_build"
-  mkdir -p "$openssl_build"
-  (
-    cd "$openssl_build"
-    "$CHECKOUT_PATH/openssl/Configure" "$openssl_target" \
-      --prefix="$prefix" \
-      --openssldir="$prefix" \
-      no-shared no-tests no-apps no-docs \
-      "$min_flag"
-    make -j"$JOBS"
-    make install_dev
-  )
+  if [ ! -f "$prefix/lib/libcrypto.a" ]; then
+    rm -rf "$openssl_build"
+    mkdir -p "$openssl_build"
+    (
+      cd "$openssl_build"
+      "$CHECKOUT_PATH/openssl/Configure" "$openssl_target" \
+        --prefix="$prefix" \
+        --openssldir="$prefix" \
+        no-shared no-tests no-apps no-docs \
+        "$min_flag"
+      make -j"$JOBS"
+      make install_dev
+    )
+  fi
 
   cmake_configure "$CHECKOUT_PATH/libssh2" "$BUILD_PATH/$slice/libssh2" "$sdk" "$arch" "$prefix" \
     -DBUILD_STATIC_LIBS=ON \
