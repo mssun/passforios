@@ -48,6 +48,7 @@ Podfile.lock
 
 # Go Mobile Build results and dependency sources
 go/
+libgit2/
 
 # fastlane
 #
