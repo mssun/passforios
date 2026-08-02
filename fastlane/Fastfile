@@ -3,6 +3,7 @@ default_platform :ios
 lane :prepare do
   carthage(cache_builds: true, platform: "iOS")
   sh "./scripts/gopenpgp_build.sh"
+  sh "./scripts/libgit2_build.sh"
 end
 
 lane :reset_build_number do
