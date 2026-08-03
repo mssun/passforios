@@ -176,11 +176,11 @@ final class GitCallbackContext {
         Unmanaged.passUnretained(self).toOpaque()
     }
 
-    fileprivate func reject(reference: String, reason: String) {
+    func reject(reference: String, reason: String) {
         rejectedReferences[reference] = reason
     }
 
-    fileprivate static func from(_ payload: UnsafeMutableRawPointer?) -> GitCallbackContext? {
+    static func from(_ payload: UnsafeMutableRawPointer?) -> GitCallbackContext? {
         payload.map { Unmanaged<GitCallbackContext>.fromOpaque($0).takeUnretainedValue() }
     }
 }
