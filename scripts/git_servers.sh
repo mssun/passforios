@@ -229,6 +229,7 @@ for runtime, devices in json.load(sys.stdin)['devices'].items():
   xcrun simctl boot "$udid" 2>/dev/null || true
   xcrun simctl bootstatus "$udid" -b >/dev/null 2>&1 || true
   xcrun simctl keychain "$udid" add-root-cert "$STATE_PATH/ca.pem"
+  echo "$udid" > "$STATE_PATH/device_udid"
   log "trusted the test authority on $DEVICE ($udid)"
 }
 
@@ -245,6 +246,7 @@ start() {
   # Consumed by the tests. xcodebuild passes variables with this prefix into the
   # test process with the prefix removed.
   cat > "$STATE_PATH/env" <<EOF
+GIT_SERVERS_DEVICE_UDID=$(cat "$STATE_PATH/device_udid")
 TEST_RUNNER_GIT_SSH_URL=ssh://$(whoami)@127.0.0.1:$SSH_PORT$STATE_PATH/ssh-repo.git
 TEST_RUNNER_GIT_SSH_PRIVATE_KEY_BASE64=$(base64 < "$STATE_PATH/client_key" | tr -d '\n')
 TEST_RUNNER_GIT_SSH_USER=$(whoami)

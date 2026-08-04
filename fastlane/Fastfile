@@ -64,9 +64,15 @@ end
 platform :ios do
   desc "Runs all tests"
   lane :test do
-    # Pinned: scripts/git_servers.sh trusts its certificate authority on this
-    # simulator, so the transport tests have to run on the same one.
-    run_tests(scheme: "pass", device: ENV["GIT_SERVERS_DEVICE"] || "iPhone 16")
+    # scripts/git_servers.sh trusts its certificate authority on one simulator
+    # and records which, because a device name can match several runtimes and
+    # the tests would otherwise run on one that never saw the certificate.
+    udid = ENV["GIT_SERVERS_DEVICE_UDID"]
+    if udid
+      run_tests(scheme: "pass", destination: "platform=iOS Simulator,id=#{udid}")
+    else
+      run_tests(scheme: "pass")
+    end
   end
 
   desc "Submit a new Beta Build to Apple TestFlight"

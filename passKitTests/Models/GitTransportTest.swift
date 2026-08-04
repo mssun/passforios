@@ -64,7 +64,14 @@ final class GitTransportTest: XCTestCase {
         let options = GitCredentialOptions(credentialProvider: provider(userName: userName, attempts: 1) {
             .userPassPlaintext(userName: userName, password: "definitely-not-the-password")
         })
-        XCTAssertThrowsError(try clone(from: url, options: options))
+        XCTAssertThrowsError(try clone(from: url, options: options)) { error in
+            // Otherwise this passes without proving anything whenever the server
+            // is unreachable or its certificate is not trusted.
+            XCTAssertFalse(
+                error.localizedDescription.contains("untrusted"),
+                "the connection itself failed, so nothing about the password was tested: \(error.localizedDescription)"
+            )
+        }
     }
 
     // MARK: - SSH
