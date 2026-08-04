@@ -115,7 +115,7 @@ start_https_server() {
   # the TLS socket. CGIHTTPRequestHandler cannot be used: it forks and writes
   # plain bytes to the descriptor, which corrupts an encrypted connection.
   cat > "$STATE_PATH/https_server.py" <<'PYTHON'
-import base64, os, ssl, subprocess, sys
+import base64, os, socketserver, ssl, subprocess, sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse
 
@@ -188,9 +188,19 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
 
+class Server(ThreadingHTTPServer):
+    def server_bind(self):
+        # HTTPServer resolves the host name between binding and listening, and a
+        # reverse lookup that is slow to answer leaves the port bound but not
+        # yet accepting, which looks exactly like a server that never started.
+        socketserver.TCPServer.server_bind(self)
+        self.server_name = "127.0.0.1"
+        self.server_port = self.server_address[1]
+
+
 context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 context.load_cert_chain(os.path.join(ROOT, "leaf-chain.pem"))
-server = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
+server = Server(("127.0.0.1", PORT), Handler)
 server.socket = context.wrap_socket(server.socket, server_side=True)
 server.serve_forever()
 PYTHON
