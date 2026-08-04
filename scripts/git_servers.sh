@@ -212,16 +212,30 @@ PYTHON
 
 trust_certificate_in_simulator() {
   local udid
-  udid="$(xcrun simctl list devices available --json | python3 -c "
-import json, sys
-name = sys.argv[1]
+  local selected runtime
+  # The runtime matters, not only the name: adding a root certificate does not
+  # grant trust on every iOS version, so the one known to work is preferred and
+  # the choice is reported rather than left to the order of a JSON object.
+  selected="$(xcrun simctl list devices available --json | python3 -c "
+import json, re, sys
+
+name, preferred = sys.argv[1], sys.argv[2]
+candidates = []
 for runtime, devices in json.load(sys.stdin)['devices'].items():
+    version = re.search(r'iOS-([0-9]+)-([0-9]+)', runtime)
+    if not version:
+        continue
+    major, minor = int(version.group(1)), int(version.group(2))
     for device in devices:
         if device['name'] == name:
-            print(device['udid'])
-            raise SystemExit
-" "$DEVICE")"
+            candidates.append((major == int(preferred), major, minor, device['udid']))
+if candidates:
+    match = max(candidates)
+    print(f'{match[3]} iOS-{match[1]}.{match[2]}')
+" "$DEVICE" "${GIT_SERVERS_IOS_MAJOR:-18}")"
 
+  udid="${selected%% *}"
+  runtime="${selected##* }"
   if [ -z "$udid" ]; then
     log "no simulator named '$DEVICE'; set GIT_SERVERS_DEVICE to one that exists"
     return 1
@@ -230,7 +244,7 @@ for runtime, devices in json.load(sys.stdin)['devices'].items():
   xcrun simctl bootstatus "$udid" -b >/dev/null 2>&1 || true
   xcrun simctl keychain "$udid" add-root-cert "$STATE_PATH/ca.pem"
   echo "$udid" > "$STATE_PATH/device_udid"
-  log "trusted the test authority on $DEVICE ($udid)"
+  log "trusted the test authority on $DEVICE $runtime ($udid)"
 }
 
 start() {
