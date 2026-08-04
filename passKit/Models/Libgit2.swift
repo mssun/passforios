@@ -219,6 +219,21 @@ let gitPushUpdateReferenceCallback: git_push_update_reference_cb = { refname, st
     return 0
 }
 
+/// libgit2 refuses an SSH host key that is not in a known_hosts file, and iOS
+/// has none, so without this every SSH remote fails with "invalid or unknown
+/// remote ssh hostkey". The wrapper this replaced never verified host keys
+/// either, so accepting them keeps the behaviour the app has always had.
+///
+/// TLS certificates are deliberately left alone: passing through means libgit2
+/// keeps the verdict it reached from the trust store of the system, so an
+/// untrusted HTTPS remote is still refused.
+let gitCertificateCheckCallback: git_transport_certificate_check_cb = { certificate, _, _, _ in
+    guard certificate?.pointee.cert_type == GIT_CERT_HOSTKEY_LIBSSH2 else {
+        return GIT_PASSTHROUGH.rawValue
+    }
+    return 0
+}
+
 /// libgit2 reports the message left in its error slot, which without this would
 /// be whatever an earlier operation put there, or nothing at all.
 private func failCredentials(_ message: String) -> Int32 {
@@ -261,6 +276,7 @@ func gitFetchOptions(context: GitCallbackContext) throws -> git_fetch_options {
     var options = git_fetch_options()
     try gitTry(git_fetch_options_init(&options, UInt32(GIT_FETCH_OPTIONS_VERSION)))
     options.callbacks.transfer_progress = gitTransferProgressCallback
+    options.callbacks.certificate_check = gitCertificateCheckCallback
     options.callbacks.credentials = gitCredentialsCallback
     options.callbacks.payload = context.payload
     return options
@@ -270,6 +286,7 @@ func gitPushOptions(context: GitCallbackContext) throws -> git_push_options {
     var options = git_push_options()
     try gitTry(git_push_options_init(&options, UInt32(GIT_PUSH_OPTIONS_VERSION)))
     options.callbacks.push_transfer_progress = gitPushProgressCallback
+    options.callbacks.certificate_check = gitCertificateCheckCallback
     options.callbacks.push_update_reference = gitPushUpdateReferenceCallback
     options.callbacks.credentials = gitCredentialsCallback
     options.callbacks.payload = context.payload
