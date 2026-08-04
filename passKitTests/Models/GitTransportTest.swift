@@ -29,9 +29,14 @@ final class GitTransportTest: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         workingDirectory = fileManager.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        // The certificate of the test server is pinned rather than added to the
+        // trust store of the simulator, which cannot be relied on: simctl
+        // reports success and the trust does not take effect everywhere.
+        gitPinnedCertificate = environment["GIT_HTTPS_CERTIFICATE_BASE64"].flatMap { Data(base64Encoded: $0) }
     }
 
     override func tearDownWithError() throws {
+        gitPinnedCertificate = nil
         try? fileManager.removeItem(at: workingDirectory)
         try super.tearDownWithError()
     }
@@ -41,7 +46,7 @@ final class GitTransportTest: XCTestCase {
     func testClonesOverHTTPS() throws {
         let repository = try cloneOverHTTPS()
         XCTAssertTrue(fileManager.fileExists(atPath: workingDirectory.appendingPathComponent("README").path))
-        XCTAssertEqual(try repository.getRecentCommits(count: 1).first?.message?.trimmed, "seed")
+        XCTAssertTrue(try containsSeedCommit(repository))
     }
 
     func testPushesOverHTTPS() throws {
@@ -54,7 +59,7 @@ final class GitTransportTest: XCTestCase {
     func testPullsOverHTTPS() throws {
         let repository = try cloneOverHTTPS()
         try repository.pull(options: try httpsCredentials(), transferProgressBlock: noProgress)
-        XCTAssertEqual(try repository.getRecentCommits(count: 1).first?.message?.trimmed, "seed")
+        XCTAssertTrue(try containsSeedCommit(repository))
     }
 
     /// The wrong password must fail rather than hang, and must not be retried forever.
@@ -74,12 +79,27 @@ final class GitTransportTest: XCTestCase {
         }
     }
 
+    /// The pin accepts one certificate, not any certificate: a server presenting
+    /// something else has to be refused.
+    func testRejectsUnpinnedCertificate() throws {
+        let url = try requireURL("GIT_HTTPS_URL")
+        _ = try requireValue("GIT_HTTPS_CERTIFICATE_BASE64")
+        gitPinnedCertificate = Data("not the certificate of the server".utf8)
+
+        XCTAssertThrowsError(try clone(from: url, options: try httpsCredentials())) { error in
+            XCTAssertTrue(
+                error.localizedDescription.contains("untrusted"),
+                "expected the connection to be refused, got: \(error.localizedDescription)"
+            )
+        }
+    }
+
     // MARK: - SSH
 
     func testClonesOverSSH() throws {
         let repository = try cloneOverSSH()
         XCTAssertTrue(fileManager.fileExists(atPath: workingDirectory.appendingPathComponent("README").path))
-        XCTAssertEqual(try repository.getRecentCommits(count: 1).first?.message?.trimmed, "seed")
+        XCTAssertTrue(try containsSeedCommit(repository))
     }
 
     func testPushesOverSSH() throws {
@@ -92,7 +112,7 @@ final class GitTransportTest: XCTestCase {
     func testPullsOverSSH() throws {
         let repository = try cloneOverSSH()
         try repository.pull(options: try sshCredentials(), transferProgressBlock: noProgress)
-        XCTAssertEqual(try repository.getRecentCommits(count: 1).first?.message?.trimmed, "seed")
+        XCTAssertTrue(try containsSeedCommit(repository))
     }
 
     /// A provider that gives up stands for the user dismissing the passphrase
@@ -159,6 +179,12 @@ final class GitTransportTest: XCTestCase {
             remaining -= 1
             return credential()
         }
+    }
+
+    /// The push tests add to the same repositories, so nothing may assume that
+    /// the seeded commit is still the most recent one.
+    private func containsSeedCommit(_ repository: GitRepository) throws -> Bool {
+        try repository.getRecentCommits(count: 50).contains { $0.message?.trimmed == "seed" }
     }
 
     private func commitFile(named name: String, in repository: GitRepository) throws {

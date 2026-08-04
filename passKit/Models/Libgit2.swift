@@ -227,11 +227,31 @@ let gitPushUpdateReferenceCallback: git_push_update_reference_cb = { refname, st
 /// TLS certificates are deliberately left alone: passing through means libgit2
 /// keeps the verdict it reached from the trust store of the system, so an
 /// untrusted HTTPS remote is still refused.
+#if DEBUG
+    /// One certificate to accept besides those the system trusts, so that the
+    /// transport tests can talk to a server of their own. Never set outside the
+    /// tests, and the whole thing is compiled out of a release build.
+    var gitPinnedCertificate: Data?
+#endif
+
 let gitCertificateCheckCallback: git_transport_certificate_check_cb = { certificate, _, _, _ in
-    guard certificate?.pointee.cert_type == GIT_CERT_HOSTKEY_LIBSSH2 else {
+    guard let certificate else {
         return GIT_PASSTHROUGH.rawValue
     }
-    return 0
+    if certificate.pointee.cert_type == GIT_CERT_HOSTKEY_LIBSSH2 {
+        return 0
+    }
+    #if DEBUG
+        if certificate.pointee.cert_type == GIT_CERT_X509, let pinned = gitPinnedCertificate {
+            let presented = certificate.withMemoryRebound(to: git_cert_x509.self, capacity: 1) {
+                Data(bytes: $0.pointee.data, count: $0.pointee.len)
+            }
+            if presented == pinned {
+                return 0
+            }
+        }
+    #endif
+    return GIT_PASSTHROUGH.rawValue
 }
 
 /// libgit2 reports the message left in its error slot, which without this would

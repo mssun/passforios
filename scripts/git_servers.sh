@@ -210,12 +210,10 @@ PYTHON
   wait_for_port "$HTTPS_PORT" https $!
 }
 
-trust_certificate_in_simulator() {
-  local udid
-  local selected runtime
-  # The runtime matters, not only the name: adding a root certificate does not
-  # grant trust on every iOS version, so the one known to work is preferred and
-  # the choice is reported rather than left to the order of a JSON object.
+record_device() {
+  local selected
+  # Only to run the tests somewhere predictable. The certificate is pinned by
+  # the tests themselves, so nothing depends on the trust store of the device.
   selected="$(xcrun simctl list devices available --json | python3 -c "
 import json, re, sys
 
@@ -234,17 +232,13 @@ if candidates:
     print(f'{match[3]} iOS-{match[1]}.{match[2]}')
 " "$DEVICE" "${GIT_SERVERS_IOS_MAJOR:-18}")"
 
-  udid="${selected%% *}"
-  runtime="${selected##* }"
+  local udid="${selected%% *}"
   if [ -z "$udid" ]; then
     log "no simulator named '$DEVICE'; set GIT_SERVERS_DEVICE to one that exists"
     return 1
   fi
-  xcrun simctl boot "$udid" 2>/dev/null || true
-  xcrun simctl bootstatus "$udid" -b >/dev/null 2>&1 || true
-  xcrun simctl keychain "$udid" add-root-cert "$STATE_PATH/ca.pem"
   echo "$udid" > "$STATE_PATH/device_udid"
-  log "trusted the test authority on $DEVICE $runtime ($udid)"
+  log "tests will run on $DEVICE ${selected##* } ($udid)"
 }
 
 start() {
@@ -255,7 +249,7 @@ start() {
   seed_repository "$STATE_PATH/repo.git"
   start_ssh_server
   start_https_server
-  trust_certificate_in_simulator
+  record_device
 
   # Consumed by the tests. xcodebuild passes variables with this prefix into the
   # test process with the prefix removed.
@@ -266,6 +260,7 @@ TEST_RUNNER_GIT_SSH_PRIVATE_KEY_BASE64=$(base64 < "$STATE_PATH/client_key" | tr 
 TEST_RUNNER_GIT_SSH_USER=$(whoami)
 TEST_RUNNER_GIT_HTTPS_URL=https://127.0.0.1:$HTTPS_PORT/repo.git
 TEST_RUNNER_GIT_HTTPS_USER=$HTTP_USER
+TEST_RUNNER_GIT_HTTPS_CERTIFICATE_BASE64=$(openssl x509 -in "$STATE_PATH/leaf.pem" -outform DER | base64 | tr -d '\n')
 TEST_RUNNER_GIT_HTTPS_PASSWORD=$HTTP_PASSWORD
 EOF
   log "started; source $STATE_PATH/env before running the tests"
