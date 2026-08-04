@@ -216,6 +216,7 @@
 		DC64746D2D45B240004B4BBE /* Libgit2.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC64746C2D45B23A004B4BBE /* Libgit2.swift */; };
 		DC64746B2D45B240004B4BBD /* GitTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC64746A2D45B23A004B4BBD /* GitTypes.swift */; };
 		DC6474612D46A8F8004B4BBC /* GitRepositoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474602D46A8F2004B4BBC /* GitRepositoryTest.swift */; };
+		DC6474E12D45B23A004B4C21 /* GitTransportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474E02D45B23A004B4C20 /* GitTransportTest.swift */; };
 		DC7CBBBD2D0FA3F2003BB4D2 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = DC7CBBBC2D0FA3F2003BB4D2 /* YubiKit */; };
 		DC7CBBC22D0FA3F2003BB4D3 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = DC7CBBC12D0FA3F2003BB4D3 /* DequeModule */; };
 		DC7CBBBF2D0FAC92003BB4D2 /* YKFSmartCardInterfaceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7CBBBE2D0FAC8E003BB4D2 /* YKFSmartCardInterfaceExtension.swift */; };
@@ -531,6 +532,7 @@
 		DC64746C2D45B23A004B4BBE /* Libgit2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Libgit2.swift; sourceTree = "<group>"; };
 		DC64746A2D45B23A004B4BBD /* GitTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitTypes.swift; sourceTree = "<group>"; };
 		DC6474602D46A8F2004B4BBC /* GitRepositoryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitRepositoryTest.swift; sourceTree = "<group>"; };
+		DC6474E02D45B23A004B4C20 /* GitTransportTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitTransportTest.swift; sourceTree = "<group>"; };
 		DC7CBBBE2D0FAC8E003BB4D2 /* YKFSmartCardInterfaceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YKFSmartCardInterfaceExtension.swift; sourceTree = "<group>"; };
 		DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeyURLImportTableViewController.swift; sourceTree = "<group>"; };
 		DC917BD31E2E8231000FDF54 /* Pass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pass.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -780,6 +782,7 @@
 			isa = PBXGroup;
 			children = (
 				DC6474602D46A8F2004B4BBC /* GitRepositoryTest.swift */,
+				DC6474E02D45B23A004B4C20 /* GitTransportTest.swift */,
 				30695E2424FAEF2600C9D46E /* GitCredentialTest.swift */,
 				9ADC954024418A5F0005402E /* PasswordStoreTest.swift */,
 				A2699ACE24027D9500F36323 /* PasswordTableEntryTest.swift */,
@@ -1706,6 +1709,7 @@
 				9ADC954124418A5F0005402E /* PasswordStoreTest.swift in Sources */,
 				30BAC8CB22E3BB6C00438475 /* DictBasedKeychain.swift in Sources */,
 				DC6474612D46A8F8004B4BBC /* GitRepositoryTest.swift in Sources */,
+				DC6474E12D45B23A004B4C21 /* GitTransportTest.swift in Sources */,
 				A2699ACF24027D9500F36323 /* PasswordTableEntryTest.swift in Sources */,
 				30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */,
 				A2AA934622DE3A8000D79A00 /* PGPAgentTest.swift in Sources */,

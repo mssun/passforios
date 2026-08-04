@@ -68,3 +68,6 @@ fastlane/test_output
 #
 # The Continuous Integration environment will create this file. It avoids specific "Run Script" phases while building.
 .ci-env
+
+# Local git servers for the transport tests
+.git-servers/

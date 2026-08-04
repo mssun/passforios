@@ -54,6 +54,18 @@ For more, please read the [wiki page](https://github.com/mssun/passforios/wiki).
 1. Open the `pass.xcodeproj` file in Xcode.
 1. Build & Run.
 
+## Running the tests
+
+The tests of the SSH and HTTPS transports need local git servers. Without them
+those tests are skipped and everything else still runs.
+
+```sh
+./scripts/git_servers.sh start
+set -a; source .git-servers/env; set +a
+bundle exec fastlane test
+./scripts/git_servers.sh stop
+```
+
 ## License
 
 MIT

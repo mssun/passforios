@@ -64,7 +64,9 @@ end
 platform :ios do
   desc "Runs all tests"
   lane :test do
-    run_tests(scheme: "pass")
+    # Pinned: scripts/git_servers.sh trusts its certificate authority on this
+    # simulator, so the transport tests have to run on the same one.
+    run_tests(scheme: "pass", device: ENV["GIT_SERVERS_DEVICE"] || "iPhone 16")
   end
 
   desc "Submit a new Beta Build to Apple TestFlight"

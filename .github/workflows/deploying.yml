@@ -47,8 +47,15 @@ jobs:
     - name: libgit2
       if: ${{ steps.libgit2-cache.outputs.cache-hit == false }}
       run: ./scripts/libgit2_build.sh
+    - name: Start git servers
+      run: |
+        ./scripts/git_servers.sh start
+        cat .git-servers/env >> "$GITHUB_ENV"
     - name: Test
       run: bundle exec fastlane test
+    - name: Stop git servers
+      if: always()
+      run: ./scripts/git_servers.sh stop
     - name: Deploy
       run: bundle exec fastlane ${{ matrix.channel }}
       env:
