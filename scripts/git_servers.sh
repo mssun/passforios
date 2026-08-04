@@ -44,15 +44,20 @@ stop() {
 }
 
 wait_for_port() {
-  local port="$1" name="$2"
-  for _ in $(seq 1 50); do
+  local port="$1" name="$2" pid="$3"
+  for _ in $(seq 1 100); do
     if lsof -nP -iTCP:"$port" -sTCP:LISTEN -t >/dev/null 2>&1; then
       return 0
     fi
+    if ! kill -0 "$pid" 2>/dev/null; then
+      log "$name exited before it listened on port $port"
+      sed 's/^/    /' "$STATE_PATH/$name.log" >&2 2>/dev/null || log "(no output)"
+      return 1
+    fi
     sleep 0.2
   done
-  log "$name did not come up on port $port"
-  cat "$STATE_PATH/$name.log" >&2 || true
+  log "$name did not come up on port $port within 20s"
+  sed 's/^/    /' "$STATE_PATH/$name.log" >&2 2>/dev/null || log "(no output)"
   return 1
 }
 
@@ -81,7 +86,7 @@ write_certificates() {
   openssl x509 -req -in "$STATE_PATH/leaf.csr" -CA "$STATE_PATH/ca.pem" -CAkey "$STATE_PATH/ca.key" \
     -CAcreateserial -out "$STATE_PATH/leaf.pem" -days 30 -extfile <(printf \
       "subjectAltName=IP:127.0.0.1\nbasicConstraints=critical,CA:FALSE\nkeyUsage=critical,digitalSignature,keyEncipherment\nextendedKeyUsage=serverAuth\n") 2>/dev/null
-  cat "$STATE_PATH/leaf.key" "$STATE_PATH/leaf.pem" > "$STATE_PATH/leaf-chain.pem"
+  cat "$STATE_PATH/leaf.pem" "$STATE_PATH/leaf.key" > "$STATE_PATH/leaf-chain.pem"
 }
 
 start_ssh_server() {
@@ -102,7 +107,7 @@ UsePAM no
 EOF
 
   /usr/sbin/sshd -f "$STATE_PATH/sshd_config" -D -e > "$STATE_PATH/sshd.log" 2>&1 &
-  wait_for_port "$SSH_PORT" sshd
+  wait_for_port "$SSH_PORT" sshd $!
 }
 
 start_https_server() {
@@ -192,7 +197,7 @@ PYTHON
 
   python3 "$STATE_PATH/https_server.py" "$STATE_PATH" "$HTTPS_PORT" "$HTTP_USER" "$HTTP_PASSWORD" \
     > "$STATE_PATH/https.log" 2>&1 &
-  wait_for_port "$HTTPS_PORT" https
+  wait_for_port "$HTTPS_PORT" https $!
 }
 
 trust_certificate_in_simulator() {
