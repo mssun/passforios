@@ -9,9 +9,10 @@
 #   bundle exec fastlane test
 #   ./scripts/git_servers.sh stop
 #
-# The certificate authority is added to the trusted roots of the simulator the
-# tests run on, so that the TLS of libgit2 is verified for real rather than
-# through a switch that turns verification off.
+# The tests pin the certificate of the HTTPS server rather than adding its
+# authority to the trusted roots of the simulator: simctl reports that it added
+# it and on a runner the trust does not take effect. Validation against the
+# trust store of the system is therefore not what these tests cover.
 
 set -euo pipefail
 
@@ -26,21 +27,33 @@ STATE_PATH="$(pwd)/.git-servers"
 
 log() { echo "[git_servers] $*" >&2; }
 
-kill_port() {
-  local port="$1" pids
-  pids="$(lsof -nP -iTCP:"$port" -sTCP:LISTEN -t 2>/dev/null || true)"
-  if [ -n "$pids" ]; then
-    # By port rather than by process name: a pattern match silently misses a
-    # stale server, which then answers with the previous certificate.
-    echo "$pids" | xargs kill -9 2>/dev/null || true
-  fi
-}
-
+# Only processes this script started are killed. Matching by port alone would
+# take down whatever else a developer happens to be running on it, and matching
+# by name would miss a stale server that then answers with an old certificate.
 stop() {
-  kill_port "$SSH_PORT"
-  kill_port "$HTTPS_PORT"
+  local pid_file pid
+  for pid_file in "$STATE_PATH"/*.pid; do
+    [ -f "$pid_file" ] || continue
+    pid="$(cat "$pid_file")"
+    if [ -n "$pid" ]; then
+      kill -9 "$pid" 2>/dev/null || true
+    fi
+  done
   rm -rf "$STATE_PATH"
   log "stopped"
+}
+
+port_in_use() {
+  lsof -nP -iTCP:"$1" -sTCP:LISTEN -t >/dev/null 2>&1
+}
+
+require_free_port() {
+  local port="$1" name="$2"
+  if port_in_use "$port"; then
+    log "port $port is already in use, so the $name server cannot start"
+    log "stop whatever is holding it, or set GIT_SERVERS_${name}_PORT to another one"
+    return 1
+  fi
 }
 
 wait_for_port() {
@@ -107,7 +120,8 @@ UsePAM no
 EOF
 
   /usr/sbin/sshd -f "$STATE_PATH/sshd_config" -D -e > "$STATE_PATH/sshd.log" 2>&1 &
-  wait_for_port "$SSH_PORT" sshd $!
+  echo $! > "$STATE_PATH/sshd.started.pid"
+  wait_for_port "$SSH_PORT" sshd "$!"
 }
 
 start_https_server() {
@@ -133,7 +147,14 @@ class Handler(BaseHTTPRequestHandler):
         if self.headers.get("Transfer-Encoding", "").lower() == "chunked":
             chunks = []
             while True:
-                size = int(self.rfile.readline().split(b";")[0], 16)
+                line = self.rfile.readline()
+                try:
+                    size = int(line.split(b";")[0], 16)
+                except ValueError:
+                    # A closed connection or a split header, rather than a size.
+                    # Returning what arrived beats an exception that kills the
+                    # thread and shows up as an unexplained reset.
+                    break
                 if size == 0:
                     self.rfile.readline()
                     break
@@ -169,11 +190,22 @@ class Handler(BaseHTTPRequestHandler):
         result = subprocess.run([BACKEND], input=body, capture_output=True, env=environment)
         head, _, payload = result.stdout.partition(b"\r\n\r\n")
 
-        self.send_response(200)
+        # git-http-backend reports failures through a CGI Status header. Sending
+        # 200 regardless would deliver its error text as if it were a pack.
+        status = 200
+        headers = []
         for line in head.split(b"\r\n"):
-            if b":" in line:
-                key, _, value = line.partition(b":")
-                self.send_header(key.decode(), value.strip().decode())
+            if b":" not in line:
+                continue
+            key, _, value = line.partition(b":")
+            if key.strip().lower() == b"status":
+                status = int(value.strip().split()[0])
+            else:
+                headers.append((key.decode(), value.strip().decode()))
+
+        self.send_response(status)
+        for key, value in headers:
+            self.send_header(key, value)
         self.send_header("Content-Length", str(len(payload)))
         self.end_headers()
         self.wfile.write(payload)
@@ -207,7 +239,8 @@ PYTHON
 
   python3 "$STATE_PATH/https_server.py" "$STATE_PATH" "$HTTPS_PORT" "$HTTP_USER" "$HTTP_PASSWORD" \
     > "$STATE_PATH/https.log" 2>&1 &
-  wait_for_port "$HTTPS_PORT" https $!
+  echo $! > "$STATE_PATH/https.started.pid"
+  wait_for_port "$HTTPS_PORT" https "$!"
 }
 
 record_device() {
@@ -242,8 +275,17 @@ if candidates:
 }
 
 start() {
+  case "$STATE_PATH" in
+    *[!A-Za-z0-9/._-]*)
+      log "the path $STATE_PATH contains characters that do not survive being put in a URL"
+      log "check the repository out somewhere without spaces or move it"
+      exit 1
+      ;;
+  esac
   stop
   mkdir -p "$STATE_PATH"
+  require_free_port "$SSH_PORT" SSH
+  require_free_port "$HTTPS_PORT" HTTPS
   write_certificates
   seed_repository "$STATE_PATH/ssh-repo.git"
   seed_repository "$STATE_PATH/repo.git"

@@ -36,6 +36,12 @@ public final class GitCredentialProvider {
 public struct GitCredentialOptions {
     let credentialProvider: GitCredentialProvider?
 
+    #if DEBUG
+        /// A certificate to accept besides those the system trusts. Only the
+        /// transport tests set it, and it is compiled out of a release build.
+        var pinnedCertificate: Data?
+    #endif
+
     /// Options without any credentials, for remotes that do not require authentication.
     public init() {
         self.credentialProvider = nil

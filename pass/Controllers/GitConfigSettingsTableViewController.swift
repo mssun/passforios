@@ -20,8 +20,8 @@ class GitConfigSettingsTableViewController: UITableViewController {
         tableView.rowHeight = UITableView.automaticDimension
 
         let signature = passwordStore.gitSignatureForNow
-        nameTextField.placeholder = signature?.name ?? ""
-        emailTextField.placeholder = signature?.email ?? ""
+        nameTextField.placeholder = signature.name
+        emailTextField.placeholder = signature.email
         nameTextField.text = Defaults.gitSignatureName
         emailTextField.text = Defaults.gitSignatureEmail
     }

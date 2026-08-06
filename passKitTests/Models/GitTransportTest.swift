@@ -29,14 +29,9 @@ final class GitTransportTest: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         workingDirectory = fileManager.temporaryDirectory.appendingPathComponent(UUID().uuidString)
-        // The certificate of the test server is pinned rather than added to the
-        // trust store of the simulator, which cannot be relied on: simctl
-        // reports success and the trust does not take effect everywhere.
-        gitPinnedCertificate = environment["GIT_HTTPS_CERTIFICATE_BASE64"].flatMap { Data(base64Encoded: $0) }
     }
 
     override func tearDownWithError() throws {
-        gitPinnedCertificate = nil
         try? fileManager.removeItem(at: workingDirectory)
         try super.tearDownWithError()
     }
@@ -66,9 +61,10 @@ final class GitTransportTest: XCTestCase {
     func testRejectsWrongHTTPSPassword() throws {
         let url = try requireURL("GIT_HTTPS_URL")
         let userName = try requireValue("GIT_HTTPS_USER")
-        let options = GitCredentialOptions(credentialProvider: provider(userName: userName, attempts: 1) {
+        var options = GitCredentialOptions(credentialProvider: provider(userName: userName, attempts: 1) {
             .userPassPlaintext(userName: userName, password: "definitely-not-the-password")
         })
+        options.pinnedCertificate = try serverCertificate()
         XCTAssertThrowsError(try clone(from: url, options: options)) { error in
             // Otherwise this passes without proving anything whenever the server
             // is unreachable or its certificate is not trusted.
@@ -83,10 +79,9 @@ final class GitTransportTest: XCTestCase {
     /// something else has to be refused.
     func testRejectsUnpinnedCertificate() throws {
         let url = try requireURL("GIT_HTTPS_URL")
-        _ = try requireValue("GIT_HTTPS_CERTIFICATE_BASE64")
-        gitPinnedCertificate = Data("not the certificate of the server".utf8)
+        let wrongCertificate = Data("not the certificate of the server".utf8)
 
-        XCTAssertThrowsError(try clone(from: url, options: try httpsCredentials())) { error in
+        XCTAssertThrowsError(try clone(from: url, options: try httpsCredentials(pinning: wrongCertificate))) { error in
             XCTAssertTrue(
                 error.localizedDescription.contains("untrusted"),
                 "expected the connection to be refused, got: \(error.localizedDescription)"
@@ -123,10 +118,8 @@ final class GitTransportTest: XCTestCase {
         let options = GitCredentialOptions(credentialProvider: provider(userName: "git", attempts: 0) { nil })
 
         XCTAssertThrowsError(try clone(from: url, options: options)) { error in
-            XCTAssertFalse(
-                error.localizedDescription.contains("Git error"),
-                "expected a described failure, got: \(error.localizedDescription)"
-            )
+            // Naming the message, so this cannot pass on an unrelated failure.
+            XCTAssertEqual(error.localizedDescription, "AuthenticationCancelled.".localize())
         }
     }
 
@@ -151,12 +144,22 @@ final class GitTransportTest: XCTestCase {
         )
     }
 
-    private func httpsCredentials() throws -> GitCredentialOptions {
+    private func httpsCredentials(pinning certificate: Data? = nil) throws -> GitCredentialOptions {
         let userName = try requireValue("GIT_HTTPS_USER")
         let password = try requireValue("GIT_HTTPS_PASSWORD")
-        return GitCredentialOptions(credentialProvider: provider(userName: userName, attempts: 1) {
+        var options = GitCredentialOptions(credentialProvider: provider(userName: userName, attempts: 1) {
             .userPassPlaintext(userName: userName, password: password)
         })
+        // The certificate of the test server is pinned rather than added to the
+        // trust store of the simulator, which cannot be relied on: simctl
+        // reports success and the trust does not take effect everywhere.
+        options.pinnedCertificate = try certificate ?? serverCertificate()
+        return options
+    }
+
+    private func serverCertificate() throws -> Data {
+        let encoded = try requireValue("GIT_HTTPS_CERTIFICATE_BASE64")
+        return try XCTUnwrap(Data(base64Encoded: encoded))
     }
 
     private func sshCredentials() throws -> GitCredentialOptions {

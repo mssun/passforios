@@ -25,11 +25,14 @@ public class PasswordStore {
 
     public var gitRepository: GitRepository?
 
-    public var gitSignatureForNow: GitSignature? {
-        let gitSignatureName = Defaults.gitSignatureName ?? Globals.gitSignatureDefaultName
-        let gitSignatureEmail = Defaults.gitSignatureEmail ?? Globals.gitSignatureDefaultEmail
-        let signature = GitSignature(name: gitSignatureName, email: gitSignatureEmail)
-        return signature.isValid ? signature : nil
+    /// Not validated here: creating the libgit2 signature to check it and then
+    /// throwing it away doubles the work of every commit, and the commit itself
+    /// reports a name or email libgit2 will not accept.
+    public var gitSignatureForNow: GitSignature {
+        GitSignature(
+            name: Defaults.gitSignatureName ?? Globals.gitSignatureDefaultName,
+            email: Defaults.gitSignatureEmail ?? Globals.gitSignatureDefaultEmail
+        )
     }
 
     public var gitPassword: String? {
@@ -63,7 +66,7 @@ public class PasswordStore {
     }
 
     public var numberOfLocalCommits: Int {
-        (try? getLocalCommits()).map(\.count) ?? 0
+        (try? gitRepository?.numberOfLocalCommits()) as? Int ?? 0
     }
 
     public var lastSyncedTime: Date? {
@@ -374,8 +377,7 @@ public class PasswordStore {
         guard let gitRepository else {
             throw AppError.repositoryNotSet
         }
-        let localCommitsCount = try getLocalCommits().count
-        try gitRepository.reset()
+        let localCommitsCount = try gitRepository.reset()
         setAllSynced()
         deleteCoreData()
         initPasswordEntityCoreData()
@@ -462,7 +464,7 @@ extension PasswordStore {
 
     @discardableResult
     private func gitCommit(message: String) throws -> GitCommit {
-        guard let gitRepository, let gitSignatureForNow else {
+        guard let gitRepository else {
             throw AppError.repositoryNotSet
         }
         return try gitRepository.commit(signature: gitSignatureForNow, message: message)

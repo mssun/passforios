@@ -126,15 +126,22 @@ build_slice() {
 
 build_slice "ios-arm64" "iphoneos" "arm64" "ios64-xcrun"
 build_slice "iossimulator-arm64" "iphonesimulator" "arm64" "iossimulator-arm64-xcrun"
-build_slice "iossimulator-x86_64" "iphonesimulator" "x86_64" "iossimulator-x86_64-xcrun"
 
-# The simulator slice of an xcframework holds both architectures in one archive.
+# An Intel simulator runs only on an Intel Mac, and the runners are all Apple
+# silicon, so a third of a cold build would otherwise be spent on a slice
+# nothing here can execute. Set GIT_SERVERS_BUILD_X86_64=1 to force it.
 SIMULATOR_LIBRARY="$BUILD_PATH/iossimulator/libgit2_combined.a"
 mkdir -p "$(dirname "$SIMULATOR_LIBRARY")"
-lipo -create \
-  "$INSTALL_PATH/iossimulator-arm64/lib/libgit2_combined.a" \
-  "$INSTALL_PATH/iossimulator-x86_64/lib/libgit2_combined.a" \
-  -output "$SIMULATOR_LIBRARY"
+if [ "$(uname -m)" = "x86_64" ] || [ "${LIBGIT2_BUILD_X86_64:-0}" = "1" ]; then
+  build_slice "iossimulator-x86_64" "iphonesimulator" "x86_64" "iossimulator-x86_64-xcrun"
+  # The simulator slice of an xcframework holds both architectures in one archive.
+  lipo -create \
+    "$INSTALL_PATH/iossimulator-arm64/lib/libgit2_combined.a" \
+    "$INSTALL_PATH/iossimulator-x86_64/lib/libgit2_combined.a" \
+    -output "$SIMULATOR_LIBRARY"
+else
+  cp "$INSTALL_PATH/iossimulator-arm64/lib/libgit2_combined.a" "$SIMULATOR_LIBRARY"
+fi
 
 # The headers are identical across slices, and the module map is what lets the
 # library be imported from Swift.

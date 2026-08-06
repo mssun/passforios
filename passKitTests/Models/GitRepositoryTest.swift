@@ -177,6 +177,54 @@ final class GitRepositoryTest: XCTestCase {
         XCTAssertGreaterThanOrEqual(date.timeIntervalSince1970, before.timeIntervalSince1970 - 1)
     }
 
+    /// The date has to come from the last commit that touched the path, not the
+    /// last commit in the repository.
+    func testLastCommitDateIgnoresCommitsToOtherPaths() throws {
+        try commitFiles(["file1"])
+        let afterFirst = try repository.lastCommitDate(path: "file1")
+
+        // A later commit that leaves file1 alone must not move its date.
+        try commitFiles(["file2"])
+        XCTAssertEqual(try repository.lastCommitDate(path: "file1"), afterFirst)
+        XCTAssertGreaterThanOrEqual(
+            try repository.lastCommitDate(path: "file2").timeIntervalSince1970,
+            afterFirst.timeIntervalSince1970
+        )
+
+        // Changing it again does move it.
+        try "changed".write(toFile: workingRepositoryURL.appendingPathComponent("file1").path, atomically: true, encoding: .utf8)
+        try repository.add(path: "file1")
+        _ = try repository.commit(name: "name", email: "email@email.com", message: "edit file1")
+        XCTAssertGreaterThanOrEqual(
+            try repository.lastCommitDate(path: "file1").timeIntervalSince1970,
+            afterFirst.timeIntervalSince1970
+        )
+    }
+
+    func testLastCommitDateOfUnknownPath() throws {
+        try commitFiles(["file1"])
+        XCTAssertEqual(try repository.lastCommitDate(path: "never-committed"), Date(timeIntervalSince1970: 0))
+    }
+
+    func testNumberOfLocalCommits() throws {
+        try commitFiles(["file1"])
+        try repository.push(options: GitCredentialOptions(), transferProgressBlock: pushProgressBlock)
+        XCTAssertEqual(try repository.numberOfLocalCommits(), 0)
+
+        try commitFiles(["file2", "file3"])
+        XCTAssertEqual(try repository.numberOfLocalCommits(), 2)
+    }
+
+    func testResetReportsWhatItDiscarded() throws {
+        try commitFiles(["file1"])
+        try repository.push(options: GitCredentialOptions(), transferProgressBlock: pushProgressBlock)
+        try commitFiles(["file2", "file3"])
+
+        XCTAssertEqual(try repository.reset(), 2)
+        XCTAssertEqual(try repository.numberOfLocalCommits(), 0)
+        XCTAssertEqual(try repository.reset(), 0)
+    }
+
     override func tearDownWithError() throws {
         repository = nil
         try fileManager.removeItem(at: bareRepositoryURL)

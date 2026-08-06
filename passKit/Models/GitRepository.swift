@@ -49,6 +49,7 @@ public class GitRepository {
             credentialProvider: options.credentialProvider,
             transferProgress: transferProgressBlock
         )
+        context.applyPin(from: options)
         var cloneOptions = git_clone_options()
         try gitTry(git_clone_options_init(&cloneOptions, UInt32(GIT_CLONE_OPTIONS_VERSION)))
         cloneOptions.fetch_opts = try gitFetchOptions(context: context)
@@ -143,6 +144,7 @@ public class GitRepository {
             credentialProvider: options.credentialProvider,
             transferProgress: transferProgressBlock
         )
+        context.applyPin(from: options)
         var remote: OpaquePointer?
         try gitTry(git_remote_lookup(&remote, repository, "origin"))
         defer { git_remote_free(remote) }
@@ -296,6 +298,7 @@ public class GitRepository {
             credentialProvider: options.credentialProvider,
             pushProgress: transferProgressBlock
         )
+        context.applyPin(from: options)
         var remote: OpaquePointer?
         try gitTry(git_remote_lookup(&remote, repository, "origin"))
         defer { git_remote_free(remote) }
@@ -356,8 +359,15 @@ public class GitRepository {
             at: workingDirectory.appendingPathComponent(from),
             to: workingDirectory.appendingPathComponent(to)
         )
-        try add(path: to)
-        try rm(path: from)
+        // Both sides of the rename go through one index, which is written once.
+        // The file is already gone from its old path, so there is nothing on
+        // disk left to remove.
+        var index: OpaquePointer?
+        try gitTry(git_repository_index(&index, repository))
+        defer { git_index_free(index) }
+        try gitTry(git_index_add_bypath(index, to))
+        try gitTry(git_index_remove_bypath(index, from))
+        try gitTry(git_index_write(index))
     }
 
     // MARK: - Commits
@@ -444,7 +454,31 @@ public class GitRepository {
     }
 
     public func numberOfCommits() -> Int {
-        ((try? walkOids(limit: nil)) ?? []).count
+        (try? countCommits(hiding: nil)) ?? 0
+    }
+
+    /// The number of commits ahead of the tracked remote branch. Counted rather
+    /// than collected: the callers only want the number, and this runs on the
+    /// main thread every time a screen appears.
+    public func numberOfLocalCommits() throws -> Int {
+        try countCommits(hiding: try remoteBranchTarget())
+    }
+
+    private func countCommits(hiding hidden: git_oid?) throws -> Int {
+        var walker: OpaquePointer?
+        try gitTry(git_revwalk_new(&walker, repository))
+        defer { git_revwalk_free(walker) }
+        try gitTry(git_revwalk_push_head(walker))
+        if var hidden {
+            try gitTry(git_revwalk_hide(walker, &hidden))
+        }
+
+        var count = 0
+        var oid = git_oid()
+        while git_revwalk_next(&oid, walker) == 0 {
+            count += 1
+        }
+        return count
     }
 
     /// Walks back from HEAD, optionally stopping after `limit` commits.
@@ -462,8 +496,9 @@ public class GitRepository {
         return oids
     }
 
-    /// Commits reachable from HEAD but not from the tracked remote branch, newest first.
-    private func localCommitOids() throws -> [git_oid] {
+    /// The commit the tracked remote branch points at, copied out by value so
+    /// that it stays valid once the reference is freed.
+    private func remoteBranchTarget() throws -> git_oid {
         let remoteBranchName = "origin/\(branchName)"
         var remoteBranch: OpaquePointer?
         guard git_branch_lookup(&remoteBranch, repository, remoteBranchName, GIT_BRANCH_REMOTE) == 0,
@@ -473,13 +508,21 @@ public class GitRepository {
         }
         defer { git_reference_free(remoteBranch) }
 
+        guard let target = git_reference_target(remoteBranch) else {
+            throw AppError.repositoryRemoteBranchNotFound(branchName: remoteBranchName)
+        }
+        return target.pointee
+    }
+
+    /// Commits reachable from HEAD but not from the tracked remote branch, newest first.
+    private func localCommitOids() throws -> [git_oid] {
+        var remoteTarget = try remoteBranchTarget()
+
         var walker: OpaquePointer?
         try gitTry(git_revwalk_new(&walker, repository))
         defer { git_revwalk_free(walker) }
         try gitTry(git_revwalk_push_head(walker))
-        if let remoteTarget = git_reference_target(remoteBranch) {
-            try gitTry(git_revwalk_hide(walker, remoteTarget))
-        }
+        try gitTry(git_revwalk_hide(walker, &remoteTarget))
 
         var oids: [git_oid] = []
         var oid = git_oid()
@@ -502,10 +545,13 @@ public class GitRepository {
         }
     }
 
-    public func reset() throws {
+    /// Discards the commits that are not on the remote yet and returns how many
+    /// there were, so that the caller does not have to walk them itself.
+    @discardableResult
+    public func reset() throws -> Int {
         let localCommits = try localCommitOids()
         guard var oldestLocalCommitOid = localCommits.last else {
-            return
+            return 0
         }
         var oldestLocalCommit: OpaquePointer?
         try gitTry(git_commit_lookup(&oldestLocalCommit, repository, &oldestLocalCommitOid))
@@ -520,24 +566,73 @@ public class GitRepository {
 
         var options = try gitCheckoutOptions(strategy: GIT_CHECKOUT_FORCE)
         try gitTry(git_reset(repository, newHead, GIT_RESET_HARD, &options))
+        return localCommits.count
     }
 
+    /// When the file at `path` last changed.
+    ///
+    /// Walks back from HEAD to the first commit whose content at that path
+    /// differs from its parent's, which is what `git log -1 -- <path>` reports.
+    /// Blame would answer the same question by reconstructing the authorship of
+    /// every line of the whole history, and this runs while a password is on
+    /// screen.
     public func lastCommitDate(path: String) throws -> Date {
-        var options = git_blame_options()
-        try gitTry(git_blame_options_init(&options, UInt32(GIT_BLAME_OPTIONS_VERSION)))
+        var walker: OpaquePointer?
+        try gitTry(git_revwalk_new(&walker, repository))
+        defer { git_revwalk_free(walker) }
+        try gitTry(git_revwalk_push_head(walker))
 
-        var blame: OpaquePointer?
-        try gitTry(git_blame_file(&blame, repository, path, &options))
-        defer { git_blame_free(blame) }
-
-        var latest: TimeInterval = 0
-        for index in 0 ..< git_blame_get_hunk_count(blame) {
-            guard let hunk = git_blame_get_hunk_byindex(blame, index),
-                  let signature = hunk.pointee.final_signature else {
+        var oid = git_oid()
+        while git_revwalk_next(&oid, walker) == 0 {
+            var commit: OpaquePointer?
+            guard git_commit_lookup(&commit, repository, &oid) == 0, let commit else {
                 continue
             }
-            latest = max(latest, TimeInterval(signature.pointee.when.time))
+            defer { git_commit_free(commit) }
+
+            let blob = blobID(at: path, in: commit)
+            // A commit changed the path when no parent has the same content
+            // there, which covers additions, edits, and a root commit.
+            var changed = true
+            for index in 0 ..< git_commit_parentcount(commit) {
+                var parent: OpaquePointer?
+                guard git_commit_parent(&parent, commit, index) == 0, let parent else {
+                    continue
+                }
+                defer { git_commit_free(parent) }
+                if sameObject(blobID(at: path, in: parent), blob) {
+                    changed = false
+                    break
+                }
+            }
+            if changed, blob != nil {
+                return Date(timeIntervalSince1970: TimeInterval(git_commit_time(commit)))
+            }
         }
-        return Date(timeIntervalSince1970: latest)
+        return Date(timeIntervalSince1970: 0)
+    }
+
+    /// git_oid is a C struct, so it carries no equality of its own.
+    private func sameObject(_ lhs: git_oid?, _ rhs: git_oid?) -> Bool {
+        guard var lhs, var rhs else {
+            return lhs == nil && rhs == nil
+        }
+        return git_oid_cmp(&lhs, &rhs) == 0
+    }
+
+    /// The object the given commit holds at `path`, or nil when it holds nothing there.
+    private func blobID(at path: String, in commit: OpaquePointer) -> git_oid? {
+        var tree: OpaquePointer?
+        guard git_commit_tree(&tree, commit) == 0, let tree else {
+            return nil
+        }
+        defer { git_tree_free(tree) }
+
+        var entry: OpaquePointer?
+        guard git_tree_entry_bypath(&entry, tree, path) == 0, let entry else {
+            return nil
+        }
+        defer { git_tree_entry_free(entry) }
+        return git_tree_entry_id(entry)?.pointee
     }
 }
