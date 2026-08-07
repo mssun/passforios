@@ -10,14 +10,8 @@ import CryptoTokenKit
 import Gopenpgp
 import YubiKit
 
-public enum Algorithm {
-    case rsa
-    case others
-}
-
 public struct ApplicationRelatedData {
     public let isCommandChaining: Bool
-    public let decryptionAlgorithm: Algorithm
 }
 
 public extension YKFSmartCardInterface {
@@ -32,7 +26,6 @@ public extension YKFSmartCardInterface {
     func getApplicationRelatedData() async throws -> ApplicationRelatedData {
         let data = try await executeCommand(YubiKeyAPDU.getApplicationRelatedData())
         var isCommandChaining = false
-        var algorithm = Algorithm.others
         let tlv = TKBERTLVRecord.sequenceOfRecords(from: data)!
         for record in TKBERTLVRecord.sequenceOfRecords(from: tlv.first!.value)! {
             if record.tag == 0x5F52 { // 0x5f52: Historical Bytes
@@ -47,21 +40,13 @@ public extension YKFSmartCardInterface {
                 for record2 in TKCompactTLVRecord.sequenceOfRecords(from: dos)! where record2.tag == 7 && record2.value.count == 3 {
                     isCommandChaining = (record2.value[2] & 0x80) != 0
                 }
-            } else if record.tag == 0x73 { // 0x73: Discretionary data objects
-                // 0xC2: Algorithm attributes decryption, 0x01: RSA
-                for record2 in TKBERTLVRecord.sequenceOfRecords(from: record.value)! where record2.tag == 0xC2 && record2.value.first! == 0x01 {
-                    algorithm = .rsa
-                }
             }
         }
-        return ApplicationRelatedData(isCommandChaining: isCommandChaining, decryptionAlgorithm: algorithm)
+        return ApplicationRelatedData(isCommandChaining: isCommandChaining)
     }
 
     func decipher(ciphertext: Data) async throws -> Data {
         let applicationRelatedData = try await getApplicationRelatedData()
-        guard applicationRelatedData.decryptionAlgorithm == .rsa else {
-            throw AppError.yubiKey(.decipher(message: "Encryption key algorithm is not supported. Supported algorithm: RSA."))
-        }
 
         var error: NSError?
         let message = createPGPMessage(from: ciphertext)
