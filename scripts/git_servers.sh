@@ -9,10 +9,12 @@
 #   bundle exec fastlane test
 #   ./scripts/git_servers.sh stop
 #
-# The tests pin the certificate of the HTTPS server rather than adding its
-# authority to the trusted roots of the simulator: simctl reports that it added
-# it and on a runner the trust does not take effect. Validation against the
-# trust store of the system is therefore not what these tests cover.
+# The tests pin the certificate of the HTTPS server rather than adding it to the
+# trusted roots of the simulator: simctl reports that it added it and on a
+# runner the trust does not take effect. Validation against the trust store of
+# the system is therefore not what these tests cover.
+#
+# HTTPS is served by the Apache that ships with macOS, SSH by its sshd.
 
 set -euo pipefail
 
@@ -30,21 +32,46 @@ log() { echo "[git_servers] $*" >&2; }
 # Only processes this script started are killed. Matching by port alone would
 # take down whatever else a developer happens to be running on it, and matching
 # by name would miss a stale server that then answers with an old certificate.
+port_in_use() {
+  lsof -nP -iTCP:"$1" -sTCP:LISTEN -t >/dev/null 2>&1
+}
+
+# A recorded number is not proof: process ids are reused, and a stale file from
+# an interrupted run can name something else by the time it is read. The match
+# is done with a case statement rather than grep, because a grep would carry
+# the very path it looks for in its own arguments and so match itself.
+is_our_server() {
+  local command
+  command="$(ps -o command= -p "$1" 2>/dev/null)" || return 1
+  case "$command" in
+  *"$STATE_PATH"*) return 0 ;;
+  *) return 1 ;;
+  esac
+}
+
 stop() {
-  local pid_file pid
+  local pid_file pid pids=""
   for pid_file in "$STATE_PATH"/*.pid; do
     [ -f "$pid_file" ] || continue
     pid="$(cat "$pid_file")"
-    if [ -n "$pid" ]; then
-      kill -9 "$pid" 2>/dev/null || true
-    fi
+    [ -n "$pid" ] || continue
+    is_our_server "$pid" || continue
+    pids="$pids $pid"
+    # Asked to shut down rather than killed outright: Apache forks workers, and
+    # killing the parent leaves them orphaned and still holding the port.
+    kill "$pid" 2>/dev/null || true
   done
+
+  for _ in $(seq 1 50); do
+    port_in_use "$SSH_PORT" || port_in_use "$HTTPS_PORT" || break
+    sleep 0.2
+  done
+  for pid in $pids; do
+    is_our_server "$pid" && kill -9 "$pid" 2>/dev/null || true
+  done
+
   rm -rf "$STATE_PATH"
   log "stopped"
-}
-
-port_in_use() {
-  lsof -nP -iTCP:"$1" -sTCP:LISTEN -t >/dev/null 2>&1
 }
 
 require_free_port() {
@@ -57,12 +84,12 @@ require_free_port() {
 }
 
 wait_for_port() {
-  local port="$1" name="$2" pid="$3"
+  local port="$1" name="$2" pid="${3:-}"
   for _ in $(seq 1 100); do
     if lsof -nP -iTCP:"$port" -sTCP:LISTEN -t >/dev/null 2>&1; then
       return 0
     fi
-    if ! kill -0 "$pid" 2>/dev/null; then
+    if [ -n "$pid" ] && ! kill -0 "$pid" 2>/dev/null; then
       log "$name exited before it listened on port $port"
       sed 's/^/    /' "$STATE_PATH/$name.log" >&2 2>/dev/null || log "(no output)"
       return 1
@@ -88,18 +115,16 @@ seed_repository() {
 }
 
 write_certificates() {
-  # A certificate authority without keyUsage is refused by strict verifiers,
-  # SecureTransport among them, with an error that names something else.
-  openssl req -x509 -newkey rsa:2048 -nodes -keyout "$STATE_PATH/ca.key" -out "$STATE_PATH/ca.pem" \
-    -days 30 -subj "/CN=Pass Transport Test CA" \
-    -addext "basicConstraints=critical,CA:TRUE" \
-    -addext "keyUsage=critical,keyCertSign,cRLSign" 2>/dev/null
-  openssl req -newkey rsa:2048 -nodes -keyout "$STATE_PATH/leaf.key" -out "$STATE_PATH/leaf.csr" \
-    -subj "/CN=127.0.0.1" 2>/dev/null
-  openssl x509 -req -in "$STATE_PATH/leaf.csr" -CA "$STATE_PATH/ca.pem" -CAkey "$STATE_PATH/ca.key" \
-    -CAcreateserial -out "$STATE_PATH/leaf.pem" -days 30 -extfile <(printf \
-      "subjectAltName=IP:127.0.0.1\nbasicConstraints=critical,CA:FALSE\nkeyUsage=critical,digitalSignature,keyEncipherment\nextendedKeyUsage=serverAuth\n") 2>/dev/null
-  cat "$STATE_PATH/leaf.pem" "$STATE_PATH/leaf.key" > "$STATE_PATH/leaf-chain.pem"
+  # Self-signed, and no authority: the tests pin this exact certificate, so
+  # nothing ever builds a chain. An authority was generated here until a spike
+  # showed openssl verify rejecting the very chain it had just produced, which
+  # no test noticed precisely because they all pin.
+  openssl req -x509 -newkey rsa:2048 -nodes \
+    -keyout "$STATE_PATH/leaf.key" -out "$STATE_PATH/leaf.pem" \
+    -days 30 -subj "/CN=127.0.0.1" \
+    -addext "subjectAltName=IP:127.0.0.1" \
+    -addext "keyUsage=critical,digitalSignature,keyEncipherment" \
+    -addext "extendedKeyUsage=serverAuth" 2>/dev/null
 }
 
 start_ssh_server() {
@@ -120,127 +145,60 @@ UsePAM no
 EOF
 
   /usr/sbin/sshd -f "$STATE_PATH/sshd_config" -D -e > "$STATE_PATH/sshd.log" 2>&1 &
-  echo $! > "$STATE_PATH/sshd.started.pid"
   wait_for_port "$SSH_PORT" sshd "$!"
 }
 
 start_https_server() {
-  # git-http-backend is run as a subprocess and its output written back through
-  # the TLS socket. CGIHTTPRequestHandler cannot be used: it forks and writes
-  # plain bytes to the descriptor, which corrupts an encrypted connection.
-  cat > "$STATE_PATH/https_server.py" <<'PYTHON'
-import base64, os, socketserver, ssl, subprocess, sys
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import urlparse
+  # The Apache that ships with macOS, which speaks CGI, chunked bodies, basic
+  # authentication and TLS already. Doing it by hand meant decoding chunked
+  # transfers, forwarding the CGI status, and working around a hostname lookup
+  # between binding and listening, none of which is our problem here.
+  local modules=/usr/libexec/apache2
 
-ROOT, PORT, USER, PASSWORD = sys.argv[1], int(sys.argv[2]), sys.argv[3], sys.argv[4]
-BACKEND = subprocess.run(["git", "--exec-path"], capture_output=True, text=True).stdout.strip() + "/git-http-backend"
-EXPECTED = "Basic " + base64.b64encode(f"{USER}:{PASSWORD}".encode()).decode()
+  htpasswd -bc "$STATE_PATH/htpasswd" "$HTTP_USER" "$HTTP_PASSWORD" 2>/dev/null
 
+  cat > "$STATE_PATH/httpd.conf" <<EOF
+ServerRoot "$STATE_PATH"
+ServerName 127.0.0.1
+Listen 127.0.0.1:$HTTPS_PORT
+PidFile "$STATE_PATH/httpd.pid"
+ErrorLog "$STATE_PATH/https.log"
 
-class Handler(BaseHTTPRequestHandler):
-    protocol_version = "HTTP/1.1"
+LoadModule mpm_prefork_module $modules/mod_mpm_prefork.so
+LoadModule authn_core_module $modules/mod_authn_core.so
+LoadModule authn_file_module $modules/mod_authn_file.so
+LoadModule authz_core_module $modules/mod_authz_core.so
+LoadModule authz_user_module $modules/mod_authz_user.so
+LoadModule auth_basic_module $modules/mod_auth_basic.so
+LoadModule alias_module $modules/mod_alias.so
+LoadModule env_module $modules/mod_env.so
+LoadModule cgi_module $modules/mod_cgi.so
+LoadModule ssl_module $modules/mod_ssl.so
+LoadModule unixd_module $modules/mod_unixd.so
 
-    def read_body(self):
-        # libgit2 sends the body of a push chunked, so Content-Length alone
-        # would hand git-http-backend an empty pack.
-        if self.headers.get("Transfer-Encoding", "").lower() == "chunked":
-            chunks = []
-            while True:
-                line = self.rfile.readline()
-                try:
-                    size = int(line.split(b";")[0], 16)
-                except ValueError:
-                    # A closed connection or a split header, rather than a size.
-                    # Returning what arrived beats an exception that kills the
-                    # thread and shows up as an unexplained reset.
-                    break
-                if size == 0:
-                    self.rfile.readline()
-                    break
-                chunks.append(self.rfile.read(size))
-                self.rfile.read(2)
-            return b"".join(chunks)
-        return self.rfile.read(int(self.headers.get("Content-Length") or 0))
+SSLEngine on
+SSLCertificateFile "$STATE_PATH/leaf.pem"
+SSLCertificateKeyFile "$STATE_PATH/leaf.key"
 
-    def handle_request(self, method):
-        # Always drain the body: leaving it unread desynchronises the connection,
-        # and the retry that follows a 401 then fails to be understood.
-        body = self.read_body()
-        if self.headers.get("Authorization") != EXPECTED:
-            self.send_response(401)
-            self.send_header("WWW-Authenticate", 'Basic realm="pass"')
-            self.send_header("Content-Length", "0")
-            self.end_headers()
-            return
+SetEnv GIT_PROJECT_ROOT $STATE_PATH
+SetEnv GIT_HTTP_EXPORT_ALL
+ScriptAlias / $(git --exec-path)/git-http-backend/
 
-        parsed = urlparse(self.path)
-        environment = dict(
-            os.environ,
-            GIT_PROJECT_ROOT=ROOT,
-            GIT_HTTP_EXPORT_ALL="1",
-            REQUEST_METHOD=method,
-            PATH_INFO=parsed.path,
-            QUERY_STRING=parsed.query,
-            CONTENT_TYPE=self.headers.get("Content-Type", ""),
-            CONTENT_LENGTH=str(len(body)),
-            REMOTE_USER=USER,
-            REMOTE_ADDR=self.client_address[0],
-        )
-        result = subprocess.run([BACKEND], input=body, capture_output=True, env=environment)
-        head, _, payload = result.stdout.partition(b"\r\n\r\n")
+<Location />
+    AuthType Basic
+    AuthName "pass"
+    AuthUserFile "$STATE_PATH/htpasswd"
+    Require valid-user
+</Location>
+EOF
 
-        # git-http-backend reports failures through a CGI Status header. Sending
-        # 200 regardless would deliver its error text as if it were a pack.
-        status = 200
-        headers = []
-        for line in head.split(b"\r\n"):
-            if b":" not in line:
-                continue
-            key, _, value = line.partition(b":")
-            if key.strip().lower() == b"status":
-                status = int(value.strip().split()[0])
-            else:
-                headers.append((key.decode(), value.strip().decode()))
-
-        self.send_response(status)
-        for key, value in headers:
-            self.send_header(key, value)
-        self.send_header("Content-Length", str(len(payload)))
-        self.end_headers()
-        self.wfile.write(payload)
-
-    def do_GET(self):
-        self.handle_request("GET")
-
-    def do_POST(self):
-        self.handle_request("POST")
-
-    def log_message(self, *args):
-        pass
-
-
-class Server(ThreadingHTTPServer):
-    def server_bind(self):
-        # HTTPServer resolves the host name between binding and listening, and a
-        # reverse lookup that is slow to answer leaves the port bound but not
-        # yet accepting, which looks exactly like a server that never started.
-        socketserver.TCPServer.server_bind(self)
-        self.server_name = "127.0.0.1"
-        self.server_port = self.server_address[1]
-
-
-context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-context.load_cert_chain(os.path.join(ROOT, "leaf-chain.pem"))
-server = Server(("127.0.0.1", PORT), Handler)
-server.socket = context.wrap_socket(server.socket, server_side=True)
-server.serve_forever()
-PYTHON
-
-  python3 "$STATE_PATH/https_server.py" "$STATE_PATH" "$HTTPS_PORT" "$HTTP_USER" "$HTTP_PASSWORD" \
-    > "$STATE_PATH/https.log" 2>&1 &
-  echo $! > "$STATE_PATH/https.started.pid"
-  wait_for_port "$HTTPS_PORT" https "$!"
+  # Left to daemonise rather than held in the foreground. With -DFOREGROUND it
+  # never calls setsid, so it shares the process group of whoever started it,
+  # and shutting it down signals that whole group -- which means stopping the
+  # servers kills the shell that asked. Daemonised it owns its own group, writes
+  # its own pid file, and returns once it is up.
+  /usr/sbin/httpd -f "$STATE_PATH/httpd.conf"
+  wait_for_port "$HTTPS_PORT" https
 }
 
 record_device() {
