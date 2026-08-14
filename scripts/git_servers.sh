@@ -20,7 +20,6 @@ set -euo pipefail
 
 SSH_PORT="${GIT_SERVERS_SSH_PORT:-47022}"
 HTTPS_PORT="${GIT_SERVERS_HTTPS_PORT:-47443}"
-DEVICE="${GIT_SERVERS_DEVICE:-iPhone 16}"
 
 HTTP_USER="testuser"
 HTTP_PASSWORD="testpassword"
@@ -201,37 +200,6 @@ EOF
   wait_for_port "$HTTPS_PORT" https
 }
 
-record_device() {
-  local selected
-  # Only to run the tests somewhere predictable. The certificate is pinned by
-  # the tests themselves, so nothing depends on the trust store of the device.
-  selected="$(xcrun simctl list devices available --json | python3 -c "
-import json, re, sys
-
-name, preferred = sys.argv[1], sys.argv[2]
-candidates = []
-for runtime, devices in json.load(sys.stdin)['devices'].items():
-    version = re.search(r'iOS-([0-9]+)-([0-9]+)', runtime)
-    if not version:
-        continue
-    major, minor = int(version.group(1)), int(version.group(2))
-    for device in devices:
-        if device['name'] == name:
-            candidates.append((major == int(preferred), major, minor, device['udid']))
-if candidates:
-    match = max(candidates)
-    print(f'{match[3]} iOS-{match[1]}.{match[2]}')
-" "$DEVICE" "${GIT_SERVERS_IOS_MAJOR:-18}")"
-
-  local udid="${selected%% *}"
-  if [ -z "$udid" ]; then
-    log "no simulator named '$DEVICE'; set GIT_SERVERS_DEVICE to one that exists"
-    return 1
-  fi
-  echo "$udid" > "$STATE_PATH/device_udid"
-  log "tests will run on $DEVICE ${selected##* } ($udid)"
-}
-
 start() {
   case "$STATE_PATH" in
     *[!A-Za-z0-9/._-]*)
@@ -249,12 +217,10 @@ start() {
   seed_repository "$STATE_PATH/repo.git"
   start_ssh_server
   start_https_server
-  record_device
 
   # Consumed by the tests. xcodebuild passes variables with this prefix into the
   # test process with the prefix removed.
   cat > "$STATE_PATH/env" <<EOF
-GIT_SERVERS_DEVICE_UDID=$(cat "$STATE_PATH/device_udid")
 TEST_RUNNER_GIT_SSH_URL=ssh://$(whoami)@127.0.0.1:$SSH_PORT$STATE_PATH/ssh-repo.git
 TEST_RUNNER_GIT_SSH_PRIVATE_KEY_BASE64=$(base64 < "$STATE_PATH/client_key" | tr -d '\n')
 TEST_RUNNER_GIT_SSH_USER=$(whoami)
