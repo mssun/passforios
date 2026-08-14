@@ -387,13 +387,6 @@ public class PasswordStore {
         return localCommitsCount
     }
 
-    private func getLocalCommits() throws -> [GitCommit] {
-        guard let gitRepository else {
-            throw AppError.repositoryNotSet
-        }
-        return try gitRepository.getLocalCommits()
-    }
-
     public func decrypt(passwordEntity: PasswordEntity, keyID: String? = nil, requestPGPKeyPassphrase: @escaping (String) -> String) throws -> Password {
         let url = passwordEntity.fileURL(in: storeURL)
         let encryptedData = try Data(contentsOf: url)
