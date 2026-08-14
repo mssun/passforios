@@ -56,9 +56,54 @@ public struct GitTransferProgress: Equatable {
         self.receivedBytes = receivedBytes
     }
 
+    /// What the transfer is doing now. libgit2 reports both counters in every
+    /// callback: objects are received first and indexed afterwards, so which
+    /// one is worth showing depends on how far along it is.
+    public enum Phase: Equatable {
+        case receiving
+        case indexing
+    }
+
+    /// Indexing only begins once everything has arrived. Before the total is
+    /// known there is nothing to index, so that counts as receiving too.
+    public var phase: Phase {
+        totalObjects > 0 && receivedObjects >= totalObjects ? .indexing : .receiving
+    }
+
     /// Fraction of objects received, or `0` while the total is still unknown.
+    public var receivedFraction: Float {
+        fraction(of: receivedObjects)
+    }
+
+    /// Fraction of objects indexed, which trails the received one.
+    public var indexedFraction: Float {
+        fraction(of: indexedObjects)
+    }
+
+    /// The fraction of whichever phase is running, for a single progress bar.
     public var fractionCompleted: Float {
-        totalObjects > 0 ? Float(receivedObjects) / Float(totalObjects) : 0
+        switch phase {
+        case .receiving:
+            return receivedFraction
+        case .indexing:
+            return indexedFraction
+        }
+    }
+
+    /// What to put above a progress bar: the operation, and under it the phase
+    /// the fraction belongs to, so that a bar which restarts from zero when
+    /// indexing begins is not mistaken for one that lost its place.
+    public func statusDescription(_ operation: String) -> String {
+        switch phase {
+        case .receiving:
+            return "\(operation)\n\("ReceivingObjects".localize())"
+        case .indexing:
+            return "\(operation)\n\("IndexingObjects".localize())"
+        }
+    }
+
+    private func fraction(of objects: UInt32) -> Float {
+        totalObjects > 0 ? Float(objects) / Float(totalObjects) : 0
     }
 }
 

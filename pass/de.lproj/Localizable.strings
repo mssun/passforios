@@ -104,6 +104,8 @@
 "NoPasswordStore."                      = "Es gibt im Moment keinen Passwort Store.";
 "SyncingPasswordStore"                  = "Password Store wird synchronisiert";
 "PullingFromRemoteRepository"           = "Update lokales Repository";
+"ReceivingObjects"                      = "Objekte werden empfangen";
+"IndexingObjects"                       = "Objekte werden indiziert";
 "PushingToRemoteRepository"             = "Update Remote-Repository";
 "SpecifyBranchName."                    = "Der Name des zu verwendenden Branches muss angegeben werden.";
 

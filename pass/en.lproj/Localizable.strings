@@ -105,6 +105,8 @@
 "NoPasswordStore."                      = "There is no password store right now.";
 "SyncingPasswordStore"                  = "Syncing Password Store";
 "PullingFromRemoteRepository"           = "Pulling from Remote Repository";
+"ReceivingObjects"                      = "Receiving objects";
+"IndexingObjects"                       = "Indexing objects";
 "PushingToRemoteRepository"             = "Pushing to Remote Repository";
 "SpecifyBranchName."                    = "Please specify the name of the branch to be used.";
 

@@ -176,7 +176,7 @@ class GitRepositorySettingsTableViewController: UITableViewController, PasswordA
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 let transferProgressBlock: TransferProgressHandler = { progress, _ in
-                    SVProgressHUD.showProgress(progress.fractionCompleted, status: "Cloning Remote Repository")
+                    SVProgressHUD.showProgress(progress.fractionCompleted, status: progress.statusDescription("Cloning Remote Repository"))
                 }
 
                 let checkoutProgressBlock: CheckoutProgressHandler = { progress in

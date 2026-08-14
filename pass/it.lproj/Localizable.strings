@@ -103,6 +103,8 @@
 "NoPasswordStore."                      = "Attualmente non c'è alcun dato di Password Store.";
 "SyncingPasswordStore"                  = "Sincronizzazione Password Store";
 "PullingFromRemoteRepository"           = "Esecuzione del pull dal repository remoto";
+"ReceivingObjects"                      = "Ricezione degli oggetti";
+"IndexingObjects"                       = "Indicizzazione degli oggetti";
 "PushingToRemoteRepository"             = "Esecuzione del push al repository remoto";
 "SpecifyBranchName."                    = "Specificare il nome del branch da usare.";
 
