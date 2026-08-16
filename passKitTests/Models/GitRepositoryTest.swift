@@ -118,6 +118,38 @@ final class GitRepositoryTest: XCTestCase {
         XCTAssertEqual(try repository.getRecentCommits(count: 1).first?.message, "message: file2")
     }
 
+    /// A pull that cannot be merged has to come back as a conflict listing the
+    /// paths, and has to leave a repository that still works. `git_merge` is
+    /// given `GIT_CHECKOUT_SAFE`, which writes conflicts into the index and
+    /// returns success rather than failing, so the conflict is only noticed if
+    /// the index is inspected afterwards.
+    func testPullWithConflict() throws {
+        try commitFiles(["file1"])
+        try repository.push(options: GitCredentialOptions(), transferProgressBlock: pushProgressBlock)
+
+        // A second clone changes file1 and pushes, so the two sides diverge on it.
+        let otherURL = fileManager.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? fileManager.removeItem(at: otherURL) }
+        let other = try GitRepository(from: bareRepositoryURL, to: otherURL, branchName: "master", transferProgressBlock: transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
+        try "theirs".write(toFile: otherURL.appendingPathComponent("file1").path, atomically: true, encoding: .utf8)
+        try other.add(path: "file1")
+        _ = try other.commit(name: "name", email: "email@email.com", message: "theirs")
+        try other.push(options: GitCredentialOptions(), transferProgressBlock: pushProgressBlock)
+
+        try "ours".write(toFile: workingRepositoryURL.appendingPathComponent("file1").path, atomically: true, encoding: .utf8)
+        try repository.add(path: "file1")
+        _ = try repository.commit(name: "name", email: "email@email.com", message: "ours")
+
+        XCTAssertThrowsError(try repository.pull(options: GitCredentialOptions(), transferProgressBlock: transferProgressBlock)) { error in
+            XCTAssertEqual((error as? GitMergeConflictError)?.paths, ["file1"])
+        }
+
+        // The half-merged state is undone, so committing still works and file1
+        // holds our side rather than conflict markers.
+        XCTAssertEqual(try String(contentsOf: workingRepositoryURL.appendingPathComponent("file1"), encoding: .utf8), "ours")
+        try commitFiles(["file2"])
+    }
+
     func testPullUpToDate() throws {
         try commitFiles(["file1"])
         try repository.push(options: GitCredentialOptions(), transferProgressBlock: pushProgressBlock)
