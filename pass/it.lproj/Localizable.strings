@@ -102,6 +102,7 @@
 "FillInGitAccountPassword."             = "Inserire la password dell'account Git.";
 "NoPasswordStore."                      = "Attualmente non c'è alcun dato di Password Store.";
 "SyncingPasswordStore"                  = "Sincronizzazione Password Store";
+"CloningRemoteRepository"               = "Clonazione del repository remoto";
 "PullingFromRemoteRepository"           = "Esecuzione del pull dal repository remoto";
 "ReceivingObjects"                      = "Ricezione degli oggetti";
 "IndexingObjects"                       = "Indicizzazione degli oggetti";

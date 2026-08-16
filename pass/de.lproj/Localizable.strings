@@ -103,6 +103,7 @@
 "FillInGitAccountPassword."             = "Bitte gib das Passwort deines Git-Accounts ein.";
 "NoPasswordStore."                      = "Es gibt im Moment keinen Passwort Store.";
 "SyncingPasswordStore"                  = "Password Store wird synchronisiert";
+"CloningRemoteRepository"               = "Remote-Repository wird geklont";
 "PullingFromRemoteRepository"           = "Update lokales Repository";
 "ReceivingObjects"                      = "Objekte werden empfangen";
 "IndexingObjects"                       = "Objekte werden indiziert";

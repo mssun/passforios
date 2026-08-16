@@ -104,6 +104,7 @@
 "FillInGitAccountPassword."             = "Please fill in the password of your Git account.";
 "NoPasswordStore."                      = "There is no password store right now.";
 "SyncingPasswordStore"                  = "Syncing Password Store";
+"CloningRemoteRepository"               = "Cloning Remote Repository";
 "PullingFromRemoteRepository"           = "Pulling from Remote Repository";
 "ReceivingObjects"                      = "Receiving objects";
 "IndexingObjects"                       = "Indexing objects";
