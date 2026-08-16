@@ -77,10 +77,20 @@ public class GitRepository {
         var head: OpaquePointer?
         try gitTry(git_repository_head(&head, repository))
         defer { git_reference_free(head) }
-        guard let name = gitString(git_reference_shorthand(head)) else {
+
+        // Not the shorthand of the reference. git_repository_head hands back
+        // HEAD itself when it is detached, and shorthand has no prefix to strip
+        // from a reference by that name, so it answers "HEAD". Nothing is
+        // damaged by that -- push composes refs/heads/HEAD and the remote
+        // refuses it as a source that does not exist -- but the refusal comes
+        // back from the far end of a connection. This one refuses a reference
+        // that is not a branch before any of that.
+        var name: UnsafePointer<CChar>?
+        try gitTry(git_branch_name(&name, head))
+        guard let branchName = gitString(name) else {
             throw AppError.repositoryNotSet
         }
-        return name
+        return branchName
     }
 
     public func checkoutAndChangeBranch(branchName: String, progressBlock: @escaping CheckoutProgressHandler) throws {
