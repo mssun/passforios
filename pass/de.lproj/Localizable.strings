@@ -103,11 +103,16 @@
 "FillInGitAccountPassword."             = "Bitte gib das Passwort deines Git-Accounts ein.";
 "NoPasswordStore."                      = "Es gibt im Moment keinen Passwort Store.";
 "SyncingPasswordStore"                  = "Password Store wird synchronisiert";
+"CloningRemoteRepository"               = "Remote-Repository wird geklont";
 "PullingFromRemoteRepository"           = "Update lokales Repository";
+"ReceivingObjects"                      = "Objekte werden empfangen";
+"IndexingObjects"                       = "Objekte werden indiziert";
 "PushingToRemoteRepository"             = "Update Remote-Repository";
 "SpecifyBranchName."                    = "Der Name des zu verwendenden Branches muss angegeben werden.";
 
 // SSH
+"AuthenticationRequired."   = "Das entfernte Repository erfordert eine Authentifizierung.";
+"AuthenticationCancelled."  = "Die Authentifizierung wurde abgebrochen.";
 "FillInSshKeyPassphrase."   = "Bitte gib das Passwort des SSH-Schlüssels ein.";
 "CannotSelectSshKey"        = "SSH-Schlüssel kann nicht selektiert werden";
 "PleaseSetupSshKeyFirst."   = "Bitte richte erst den SSH-Schlüssel ein.";

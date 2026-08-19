@@ -510,16 +510,16 @@ extension PasswordNavigationViewController: PasswordAlertPresenter {
         DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
             do {
                 let pullOptions = gitCredential.getCredentialOptions(passwordProvider: present)
-                try PasswordStore.shared.pullRepository(options: pullOptions) { git_transfer_progress, _ in
+                try PasswordStore.shared.pullRepository(options: pullOptions) { progress, _ in
                     DispatchQueue.main.async {
-                        SVProgressHUD.showProgress(Float(git_transfer_progress.pointee.received_objects) / Float(git_transfer_progress.pointee.total_objects), status: "PullingFromRemoteRepository".localize())
+                        SVProgressHUD.showProgress(progress.fractionCompleted, status: progress.statusDescription("PullingFromRemoteRepository".localize()))
                     }
                 }
                 if PasswordStore.shared.numberOfLocalCommits > 0 {
                     let pushOptions = gitCredential.getCredentialOptions(passwordProvider: present)
-                    try PasswordStore.shared.pushRepository(options: pushOptions) { current, total, _, _ in
+                    try PasswordStore.shared.pushRepository(options: pushOptions) { progress, _ in
                         DispatchQueue.main.async {
-                            SVProgressHUD.showProgress(Float(current) / Float(total), status: "PushingToRemoteRepository".localize())
+                            SVProgressHUD.showProgress(progress.fractionCompleted, status: "PushingToRemoteRepository".localize())
                         }
                     }
                 }
@@ -528,20 +528,20 @@ extension PasswordNavigationViewController: PasswordAlertPresenter {
                     SVProgressHUD.showSuccess(withStatus: "Done".localize())
                     SVProgressHUD.dismiss(withDelay: 1)
                 }
-            } catch let error as NSError {
-                gitCredential.delete()
+            } catch {
+                // Only forget the stored password when it might be the reason for
+                // the failure. A refused push or a conflicting merge happens long
+                // after the remote has accepted the credential.
+                if error.mightBeAuthenticationFailure {
+                    gitCredential.delete()
+                }
                 DispatchQueue.main.async {
                     SVProgressHUD.dismiss()
+                    // libgit2 reports the message of the underlying library, so a
+                    // wrong SSH passphrase is recognised by what libssh2 wrote.
                     var message = error.localizedDescription
-                    if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError {
-                        message = message | "UnderlyingError".localize(underlyingError.localizedDescription)
-                        if underlyingError.localizedDescription.contains("WrongPassphrase".localize()) {
-                            message = message | "RecoverySuggestion.".localize()
-                        }
-                    }
-                    if let mergeConflictFiles = error.userInfo[GTPullMergeConflictedFiles] as? NSArray {
-                        let mergeConflictFilesString = mergeConflictFiles.componentsJoined(by: ", ")
-                        message = message | "MergeConflictError".localize(mergeConflictFilesString)
+                    if message.contains("WrongPassphrase".localize()) {
+                        message = message | "RecoverySuggestion.".localize()
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800)) {
                         Utils.alert(title: "Error".localize(), message: message, controller: self, completion: nil)

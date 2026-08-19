@@ -30,6 +30,11 @@ jobs:
       with:
         path: go
         key: ${{ runner.os }}-gopenpgp-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/gopenpgp_build.sh') }}
+    - uses: actions/cache@v4
+      id: libgit2-cache
+      with:
+        path: libgit2/dist
+        key: ${{ runner.os }}-libgit2-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/libgit2_build.sh') }}
     - name: Bundle Install
       run: |
         bundle config path vendor/bundle
@@ -39,8 +44,18 @@ jobs:
       run: |
         export PATH="/usr/local/opt/go/bin:$PATH"
         ./scripts/gopenpgp_build.sh
+    - name: libgit2
+      if: ${{ steps.libgit2-cache.outputs.cache-hit == false }}
+      run: ./scripts/libgit2_build.sh
+    - name: Start git servers
+      run: |
+        ./scripts/git_servers.sh start
+        cat .git-servers/env >> "$GITHUB_ENV"
     - name: Test
       run: bundle exec fastlane test
+    - name: Stop git servers
+      if: always()
+      run: ./scripts/git_servers.sh stop
     - name: Deploy
       run: bundle exec fastlane ${{ matrix.channel }}
       env:

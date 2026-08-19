@@ -29,15 +29,6 @@
       }
     },
     {
-      "identity" : "objective-git-swift-package",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SimplyDanny/objective-git-swift-package",
-      "state" : {
-        "branch" : "0.18-passforios",
-        "revision" : "752ea5689a1c0c0f9a8442df039e842a452cfcf0"
-      }
-    },
-    {
       "identity" : "objectivepgp",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/krzyzanowskim/ObjectivePGP",

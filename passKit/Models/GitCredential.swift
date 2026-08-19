@@ -6,8 +6,51 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import ObjectiveGit
-import SVProgressHUD
+import Foundation
+
+/// What to authenticate with, described independently of the git backend.
+public enum GitCredentialSpec {
+    case userPassPlaintext(userName: String, password: String)
+    case sshKeyMemory(userName: String, publicKey: String?, privateKey: String, passphrase: String)
+}
+
+/// Answers the credential requests of a single remote operation. libgit2 asks
+/// repeatedly until it is authenticated or the provider gives up, which is what
+/// makes retrying with a re-entered password possible.
+public final class GitCredentialProvider {
+    public let userName: String
+    private let provideCredential: () -> GitCredentialSpec?
+
+    init(userName: String, provideCredential: @escaping () -> GitCredentialSpec?) {
+        self.userName = userName
+        self.provideCredential = provideCredential
+    }
+
+    /// The credential for the next attempt, or `nil` to stop trying.
+    public func nextCredential() -> GitCredentialSpec? {
+        provideCredential()
+    }
+}
+
+/// Credentials handed to a remote operation.
+public struct GitCredentialOptions {
+    let credentialProvider: GitCredentialProvider?
+
+    #if DEBUG
+        /// A certificate to accept besides those the system trusts. Only the
+        /// transport tests set it, and it is compiled out of a release build.
+        var pinnedCertificate: Data?
+    #endif
+
+    /// Options without any credentials, for remotes that do not require authentication.
+    public init() {
+        self.credentialProvider = nil
+    }
+
+    init(credentialProvider: GitCredentialProvider) {
+        self.credentialProvider = credentialProvider
+    }
+}
 
 public struct GitCredential {
     public typealias PasswordProvider = (String, String?) -> String?
@@ -18,6 +61,13 @@ public struct GitCredential {
     private enum CredentialType {
         case http(userName: String)
         case ssh(userName: String, privateKey: String)
+
+        var userName: String {
+            switch self {
+            case let .http(userName), let .ssh(userName, _):
+                return userName
+            }
+        }
 
         var requestPassphraseMessage: String {
             switch self {
@@ -46,12 +96,12 @@ public struct GitCredential {
             }
         }
 
-        func createGTCredential(password: String) throws -> GTCredential {
+        func createCredential(password: String) -> GitCredentialSpec {
             switch self {
             case let .http(userName):
-                return try GTCredential(userName: userName, password: password)
+                return .userPassPlaintext(userName: userName, password: password)
             case let .ssh(userName, privateKey):
-                return try GTCredential(userName: userName, publicKeyString: nil, privateKeyString: privateKey, passphrase: password)
+                return .sshKeyMemory(userName: userName, publicKey: nil, privateKey: privateKey, passphrase: password)
             }
         }
     }
@@ -66,17 +116,13 @@ public struct GitCredential {
         }
     }
 
-    public func getCredentialOptions(passwordProvider: @escaping PasswordProvider = { _, _ in nil }) -> [String: Any] {
-        let credentialProvider = createCredentialProvider(passwordProvider)
-        return [
-            GTRepositoryCloneOptionsCredentialProvider: credentialProvider,
-            GTRepositoryRemoteOptionsCredentialProvider: credentialProvider,
-        ]
+    public func getCredentialOptions(passwordProvider: @escaping PasswordProvider = { _, _ in nil }) -> GitCredentialOptions {
+        GitCredentialOptions(credentialProvider: createCredentialProvider(passwordProvider))
     }
 
-    private func createCredentialProvider(_ passwordProvider: @escaping PasswordProvider) -> GTCredentialProvider {
+    func createCredentialProvider(_ passwordProvider: @escaping PasswordProvider) -> GitCredentialProvider {
         var attempts = 1
-        return GTCredentialProvider { _, _, _ -> GTCredential? in
+        return GitCredentialProvider(userName: credentialType.userName) {
             if attempts > credentialType.allowedAttempts {
                 return nil
             }
@@ -84,7 +130,7 @@ public struct GitCredential {
                 return nil
             }
             attempts += 1
-            return try? credentialType.createGTCredential(password: password)
+            return credentialType.createCredential(password: password)
         }
     }
 

@@ -6,12 +6,11 @@
 //  Copyright © 2017 Bob Sun. All rights reserved.
 //
 
-import ObjectiveGit
 import passKit
 import UIKit
 
 class CommitLogsTableViewController: UITableViewController {
-    var commits: [GTCommit] = []
+    var commits: [GitCommit] = []
     let passwordStore = PasswordStore.shared
 
     override func viewDidLoad() {
@@ -31,7 +30,7 @@ class CommitLogsTableViewController: UITableViewController {
         let formatter = DateFormatter()
         formatter.dateStyle = DateFormatter.Style.medium
         formatter.timeStyle = .medium
-        let dateString = formatter.string(from: commits[indexPath.row].commitDate)
+        let dateString = formatter.string(from: commits[indexPath.row].date)
 
         let author = cell.contentView.viewWithTag(200) as? UILabel
         let dateLabel = cell.contentView.viewWithTag(201) as? UILabel
@@ -48,7 +47,7 @@ class CommitLogsTableViewController: UITableViewController {
         tableView.reloadData()
     }
 
-    private func getCommitLogs() -> [GTCommit] {
+    private func getCommitLogs() -> [GitCommit] {
         do {
             return try passwordStore.getRecentCommits(count: 20)
         } catch {

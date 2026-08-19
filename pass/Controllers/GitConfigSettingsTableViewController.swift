@@ -20,8 +20,8 @@ class GitConfigSettingsTableViewController: UITableViewController {
         tableView.rowHeight = UITableView.automaticDimension
 
         let signature = passwordStore.gitSignatureForNow
-        nameTextField.placeholder = signature?.name ?? ""
-        emailTextField.placeholder = signature?.email ?? ""
+        nameTextField.placeholder = signature.name
+        emailTextField.placeholder = signature.email
         nameTextField.text = Defaults.gitSignatureName
         emailTextField.text = Defaults.gitSignatureEmail
     }
@@ -29,8 +29,8 @@ class GitConfigSettingsTableViewController: UITableViewController {
     override func shouldPerformSegue(withIdentifier identifier: String, sender _: Any?) -> Bool {
         if identifier == "saveGitConfigSettingSegue" {
             let name = nameTextField.text!.isEmpty ? Globals.gitSignatureDefaultName : nameTextField.text!
-            let email = emailTextField.text!.isEmpty ? Globals.gitSignatureDefaultEmail : nameTextField.text!
-            guard GTSignature(name: name, email: email, time: nil) != nil else {
+            let email = emailTextField.text!.isEmpty ? Globals.gitSignatureDefaultEmail : emailTextField.text!
+            guard GitSignature(name: name, email: email).isValid else {
                 Utils.alert(title: "Error".localize(), message: "InvalidNameOrEmail".localize(), controller: self, completion: nil)
                 return false
             }

@@ -99,7 +99,6 @@
 		30CCA91A232591320048CA51 /* ObjectivePGPInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CCA919232591320048CA51 /* ObjectivePGPInterface.swift */; };
 		30DAFD4A240985A7002456E7 /* Array+Slices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DAFD49240985A7002456E7 /* Array+Slices.swift */; };
 		30DAFD4C240985E3002456E7 /* Array+SlicesTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DAFD4B240985E3002456E7 /* Array+SlicesTest.swift */; };
-		30ED1777276F8842009BA876 /* ObjectiveGit in Frameworks */ = {isa = PBXBuildFile; productRef = 30ED1776276F8842009BA876 /* ObjectiveGit */; };
 		30EE3A14241AE6EC009FBB61 /* SyncRepositoryIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A69968240EF52E00B7D967 /* SyncRepositoryIntentHandler.swift */; };
 		30EE3A16241E98C1009FBB61 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 30EE3A19241E98C1009FBB61 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (no_codegen, ); }; };
 		30EE3A17241E98C1009FBB61 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 30EE3A19241E98C1009FBB61 /* Intents.intentdefinition */; settings = {ATTRIBUTES = (codegen, ); }; };
@@ -137,8 +136,14 @@
 		9A58665125AADB76006719C2 /* CredentialProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58665025AADB76006719C2 /* CredentialProvider.swift */; };
 		9A5C6EF42786CA5F0003F340 /* AlertPresenting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5C6EEF2786C8710003F340 /* AlertPresenting.swift */; };
 		9A5C6EFF2787F0980003F340 /* Gopenpgp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADAB21C26DDA52400900F10 /* Gopenpgp.xcframework */; };
+		DC64747D2D45B23A004B4BC3 /* libgit2.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC64747A2D45B23A004B4BC0 /* libgit2.xcframework */; };
+		DC64748B2D45B23A004B4BD1 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DC64748A2D45B23A004B4BD0 /* libiconv.tbd */; };
+		DC64748F2D45B23A004B4BD5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DC64748E2D45B23A004B4BD4 /* libz.tbd */; };
 		9A5C6F022787F09A0003F340 /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		9A5C6F042787F09D0003F340 /* Gopenpgp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADAB21C26DDA52400900F10 /* Gopenpgp.xcframework */; };
+		DC64747C2D45B23A004B4BC2 /* libgit2.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC64747A2D45B23A004B4BC0 /* libgit2.xcframework */; };
+		DC64748C2D45B23A004B4BD2 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DC64748A2D45B23A004B4BD0 /* libiconv.tbd */; };
+		DC6474902D45B23A004B4BD6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DC64748E2D45B23A004B4BD4 /* libz.tbd */; };
 		9A5C6F082787F0C20003F340 /* SwiftyUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 9A5C6F072787F0C20003F340 /* SwiftyUserDefaults */; };
 		9A5D06EE25A56F0800FA59D4 /* PasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */; };
 		9A5D06F525A56F0E00FA59D4 /* PasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */; };
@@ -157,6 +162,9 @@
 		9A996C6B26DEB97600A4485D /* passExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A26700241EEC466A00176B8A /* passExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9A996C6E26DEB99200A4485D /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		9ADAB21D26DDA52400900F10 /* Gopenpgp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADAB21C26DDA52400900F10 /* Gopenpgp.xcframework */; };
+		DC64747B2D45B23A004B4BC1 /* libgit2.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC64747A2D45B23A004B4BC0 /* libgit2.xcframework */; };
+		DC64748D2D45B23A004B4BD3 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DC64748A2D45B23A004B4BD0 /* libiconv.tbd */; };
+		DC6474912D45B23A004B4BD7 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DC64748E2D45B23A004B4BD4 /* libz.tbd */; };
 		9ADC954124418A5F0005402E /* PasswordStoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADC954024418A5F0005402E /* PasswordStoreTest.swift */; };
 		9AFC87D325B39FF3008D6060 /* PasswordNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFC87D225B39FF2008D6060 /* PasswordNavigationViewController.swift */; };
 		9AFC87E225B3B5C6008D6060 /* PasswordNavigationDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFC87E125B3B5C6008D6060 /* PasswordNavigationDataSource.swift */; };
@@ -205,7 +213,10 @@
 		DC64745C2D29BE9B004B4BBC /* PasswordEntityTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474592D29BD43004B4BBC /* PasswordEntityTest.swift */; };
 		DC64745D2D29BEA9004B4BBC /* CoreDataTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474582D29BD43004B4BBC /* CoreDataTestCase.swift */; };
 		DC64745F2D45B240004B4BBC /* GitRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC64745E2D45B23A004B4BBC /* GitRepository.swift */; };
+		DC64746D2D45B240004B4BBE /* Libgit2.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC64746C2D45B23A004B4BBE /* Libgit2.swift */; };
+		DC64746B2D45B240004B4BBD /* GitTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC64746A2D45B23A004B4BBD /* GitTypes.swift */; };
 		DC6474612D46A8F8004B4BBC /* GitRepositoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474602D46A8F2004B4BBC /* GitRepositoryTest.swift */; };
+		DC6474E12D45B23A004B4C21 /* GitTransportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6474E02D45B23A004B4C20 /* GitTransportTest.swift */; };
 		DC7CBBBD2D0FA3F2003BB4D2 /* YubiKit in Frameworks */ = {isa = PBXBuildFile; productRef = DC7CBBBC2D0FA3F2003BB4D2 /* YubiKit */; };
 		DC7CBBC22D0FA3F2003BB4D3 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = DC7CBBC12D0FA3F2003BB4D3 /* DequeModule */; };
 		DC7CBBBF2D0FAC92003BB4D2 /* YKFSmartCardInterfaceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7CBBBE2D0FAC8E003BB4D2 /* YKFSmartCardInterfaceExtension.swift */; };
@@ -431,6 +442,8 @@
 		30F6C1B327664C7200BE5AB2 /* SVProgressHUD.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SVProgressHUD.xcframework; path = Carthage/Build/SVProgressHUD.xcframework; sourceTree = "<group>"; };
 		30FD2F77214D9E0E005E0A92 /* ParserTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
 		5F9D7B0C27AF6F7300A8AB22 /* CryptoTokenKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoTokenKit.framework; path = System/Library/Frameworks/CryptoTokenKit.framework; sourceTree = SDKROOT; };
+		DC64748A2D45B23A004B4BD0 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		DC64748E2D45B23A004B4BD4 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		8A4716682F5EF56900C7A64D /* AppKeychainTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppKeychainTest.swift; sourceTree = "<group>"; };
 		8A47166F2F5EF7A900C7A64D /* PersistenceControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceControllerTest.swift; sourceTree = "<group>"; };
 		8A4756A22F6374B700131B6D /* PersistenceController+UnitTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersistenceController+UnitTestHelpers.swift"; sourceTree = "<group>"; };
@@ -452,6 +465,7 @@
 		9A8F9EE1259EDD520027CE15 /* PasswordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTableViewCell.swift; sourceTree = "<group>"; };
 		9A8F9F3F25A1A91F0027CE15 /* CredentialProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProvider.swift; sourceTree = "<group>"; };
 		9ADAB21C26DDA52400900F10 /* Gopenpgp.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Gopenpgp.xcframework; path = go/dist/Gopenpgp.xcframework; sourceTree = "<group>"; };
+		DC64747A2D45B23A004B4BC0 /* libgit2.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libgit2.xcframework; path = libgit2/dist/libgit2.xcframework; sourceTree = "<group>"; };
 		9ADC954024418A5F0005402E /* PasswordStoreTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStoreTest.swift; sourceTree = "<group>"; };
 		9AFC87D225B39FF2008D6060 /* PasswordNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordNavigationViewController.swift; sourceTree = "<group>"; };
 		9AFC87E125B3B5C6008D6060 /* PasswordNavigationDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordNavigationDataSource.swift; sourceTree = "<group>"; };
@@ -515,7 +529,10 @@
 		DC6474582D29BD43004B4BBC /* CoreDataTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTestCase.swift; sourceTree = "<group>"; };
 		DC6474592D29BD43004B4BBC /* PasswordEntityTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEntityTest.swift; sourceTree = "<group>"; };
 		DC64745E2D45B23A004B4BBC /* GitRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitRepository.swift; sourceTree = "<group>"; };
+		DC64746C2D45B23A004B4BBE /* Libgit2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Libgit2.swift; sourceTree = "<group>"; };
+		DC64746A2D45B23A004B4BBD /* GitTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitTypes.swift; sourceTree = "<group>"; };
 		DC6474602D46A8F2004B4BBC /* GitRepositoryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitRepositoryTest.swift; sourceTree = "<group>"; };
+		DC6474E02D45B23A004B4C20 /* GitTransportTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitTransportTest.swift; sourceTree = "<group>"; };
 		DC7CBBBE2D0FAC8E003BB4D2 /* YKFSmartCardInterfaceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YKFSmartCardInterfaceExtension.swift; sourceTree = "<group>"; };
 		DC8963BF1E38EEB900828B09 /* SSHKeyURLImportTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHKeyURLImportTableViewController.swift; sourceTree = "<group>"; };
 		DC917BD31E2E8231000FDF54 /* Pass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pass.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -558,6 +575,9 @@
 				9A996C6E26DEB99200A4485D /* passKit.framework in Frameworks */,
 				30A3001A26DA697C002A734E /* SwiftyUserDefaults in Frameworks */,
 				9A5C6F042787F09D0003F340 /* Gopenpgp.xcframework in Frameworks */,
+				DC64747C2D45B23A004B4BC2 /* libgit2.xcframework in Frameworks */,
+				DC64748C2D45B23A004B4BD2 /* libiconv.tbd in Frameworks */,
+				DC6474902D45B23A004B4BD6 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -568,6 +588,9 @@
 				DC7CBBC22D0FA3F2003BB4D3 /* DequeModule in Frameworks */,
 				DC7CBBBD2D0FA3F2003BB4D2 /* YubiKit in Frameworks */,
 				9ADAB21D26DDA52400900F10 /* Gopenpgp.xcframework in Frameworks */,
+				DC64747B2D45B23A004B4BC1 /* libgit2.xcframework in Frameworks */,
+				DC64748D2D45B23A004B4BD3 /* libiconv.tbd in Frameworks */,
+				DC6474912D45B23A004B4BD7 /* libz.tbd in Frameworks */,
 				30A3001426DA6692002A734E /* KeychainAccess in Frameworks */,
 				9A996C5726DDF65900A4485D /* Base32 in Frameworks */,
 				9A1D1CE526E5D1CE0052028E /* OneTimePassword in Frameworks */,
@@ -595,6 +618,9 @@
 				5F9D7B0F27AF6FD200A8AB22 /* CryptoTokenKit.framework in Frameworks */,
 				9A5C6F022787F09A0003F340 /* passKit.framework in Frameworks */,
 				9A5C6EFF2787F0980003F340 /* Gopenpgp.xcframework in Frameworks */,
+				DC64747D2D45B23A004B4BC3 /* libgit2.xcframework in Frameworks */,
+				DC64748B2D45B23A004B4BD1 /* libiconv.tbd in Frameworks */,
+				DC64748F2D45B23A004B4BD5 /* libz.tbd in Frameworks */,
 				9A5C6F082787F0C20003F340 /* SwiftyUserDefaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -619,7 +645,6 @@
 				3032DA5426DAF4C200A7728C /* ObjectivePGP in Frameworks */,
 				3010CB6626DA500F008964D2 /* KeychainAccess in Frameworks */,
 				9A996C5826DEB0D100A4485D /* passKit.framework in Frameworks */,
-				30ED1777276F8842009BA876 /* ObjectiveGit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -757,6 +782,7 @@
 			isa = PBXGroup;
 			children = (
 				DC6474602D46A8F2004B4BBC /* GitRepositoryTest.swift */,
+				DC6474E02D45B23A004B4C20 /* GitTransportTest.swift */,
 				30695E2424FAEF2600C9D46E /* GitCredentialTest.swift */,
 				9ADC954024418A5F0005402E /* PasswordStoreTest.swift */,
 				A2699ACE24027D9500F36323 /* PasswordTableEntryTest.swift */,
@@ -831,6 +857,9 @@
 				5F9D7B0C27AF6F7300A8AB22 /* CryptoTokenKit.framework */,
 				30F6C1B327664C7200BE5AB2 /* SVProgressHUD.xcframework */,
 				9ADAB21C26DDA52400900F10 /* Gopenpgp.xcframework */,
+				DC64747A2D45B23A004B4BC0 /* libgit2.xcframework */,
+				DC64748A2D45B23A004B4BD0 /* libiconv.tbd */,
+				DC64748E2D45B23A004B4BD4 /* libz.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -956,6 +985,8 @@
 			isa = PBXGroup;
 			children = (
 				DC64745E2D45B23A004B4BBC /* GitRepository.swift */,
+				DC64746C2D45B23A004B4BBE /* Libgit2.swift */,
+				DC64746A2D45B23A004B4BBD /* GitTypes.swift */,
 				30697C4121F63CAB0064FCAC /* GitCredential.swift */,
 				30697C4221F63CAB0064FCAC /* PasscodeLock.swift */,
 				30697C4021F63CAB0064FCAC /* Password.swift */,
@@ -1311,7 +1342,6 @@
 				3032DA5326DAF4C200A7728C /* ObjectivePGP */,
 				9A996C5226DDF61F00A4485D /* Base32 */,
 				9A1F47F926E5CF4B000C0E01 /* OneTimePassword */,
-				30ED1776276F8842009BA876 /* ObjectiveGit */,
 				30333B2A2CF924DC008A2EA2 /* SVProgressHUD */,
 			);
 			productName = pass;
@@ -1416,7 +1446,6 @@
 				30A3000C26DA62F4002A734E /* XCRemoteSwiftPackageReference "Base32" */,
 				3032DA5226DAF4C200A7728C /* XCRemoteSwiftPackageReference "ObjectivePGP" */,
 				9A1F47F826E5CF4B000C0E01 /* XCRemoteSwiftPackageReference "OneTimePassword" */,
-				30ED1775276F8842009BA876 /* XCRemoteSwiftPackageReference "objective-git-swift-package" */,
 				307CA2322CF348260099F6DE /* XCRemoteSwiftPackageReference "SwiftFormat" */,
 				307CB7522CF9219100D0931F /* XCRemoteSwiftPackageReference "SVProgressHUD" */,
 				30333B292CF922D9008A2EA2 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
@@ -1647,6 +1676,8 @@
 				30CCA91623258C380048CA51 /* PGPInterface.swift in Sources */,
 				30DAFD4A240985A7002456E7 /* Array+Slices.swift in Sources */,
 				DC64745F2D45B240004B4BBC /* GitRepository.swift in Sources */,
+				DC64746D2D45B240004B4BBE /* Libgit2.swift in Sources */,
+				DC64746B2D45B240004B4BBD /* GitTypes.swift in Sources */,
 				9A74D2E0277D2F8C00F7BC44 /* UIAlertControllerExtension.swift in Sources */,
 				30697C4721F63CAB0064FCAC /* PasscodeLock.swift in Sources */,
 				A2699ACD2402631400F36323 /* PasswordTableEntry.swift in Sources */,
@@ -1678,6 +1709,7 @@
 				9ADC954124418A5F0005402E /* PasswordStoreTest.swift in Sources */,
 				30BAC8CB22E3BB6C00438475 /* DictBasedKeychain.swift in Sources */,
 				DC6474612D46A8F8004B4BBC /* GitRepositoryTest.swift in Sources */,
+				DC6474E12D45B23A004B4C21 /* GitTransportTest.swift in Sources */,
 				A2699ACF24027D9500F36323 /* PasswordTableEntryTest.swift in Sources */,
 				30FD2F78214D9E0E005E0A92 /* ParserTest.swift in Sources */,
 				A2AA934622DE3A8000D79A00 /* PGPAgentTest.swift in Sources */,
@@ -2971,14 +3003,6 @@
 				minimumVersion = 1.2.0;
 			};
 		};
-		30ED1775276F8842009BA876 /* XCRemoteSwiftPackageReference "objective-git-swift-package" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SimplyDanny/objective-git-swift-package";
-			requirement = {
-				branch = "0.18-passforios";
-				kind = branch;
-			};
-		};
 		9A1F47F826E5CF4B000C0E01 /* XCRemoteSwiftPackageReference "OneTimePassword" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mssun/OneTimePassword";
@@ -3070,11 +3094,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 30A3000C26DA62F4002A734E /* XCRemoteSwiftPackageReference "Base32" */;
 			productName = Base32;
-		};
-		30ED1776276F8842009BA876 /* ObjectiveGit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 30ED1775276F8842009BA876 /* XCRemoteSwiftPackageReference "objective-git-swift-package" */;
-			productName = ObjectiveGit;
 		};
 		9A1D1CE426E5D1CE0052028E /* OneTimePassword */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -9,7 +9,6 @@
 import CoreData
 import Foundation
 import KeychainAccess
-import ObjectiveGit
 import SwiftyUserDefaults
 import UIKit
 
@@ -26,10 +25,14 @@ public class PasswordStore {
 
     public var gitRepository: GitRepository?
 
-    public var gitSignatureForNow: GTSignature? {
-        let gitSignatureName = Defaults.gitSignatureName ?? Globals.gitSignatureDefaultName
-        let gitSignatureEmail = Defaults.gitSignatureEmail ?? Globals.gitSignatureDefaultEmail
-        return GTSignature(name: gitSignatureName, email: gitSignatureEmail, time: Date())
+    /// Not validated here: creating the libgit2 signature to check it and then
+    /// throwing it away doubles the work of every commit, and the commit itself
+    /// reports a name or email libgit2 will not accept.
+    public var gitSignatureForNow: GitSignature {
+        GitSignature(
+            name: Defaults.gitSignatureName ?? Globals.gitSignatureDefaultName,
+            email: Defaults.gitSignatureEmail ?? Globals.gitSignatureDefaultEmail
+        )
     }
 
     public var gitPassword: String? {
@@ -63,7 +66,7 @@ public class PasswordStore {
     }
 
     public var numberOfLocalCommits: Int {
-        (try? getLocalCommits()).map(\.count) ?? 0
+        (try? gitRepository?.numberOfLocalCommits()) as? Int ?? 0
     }
 
     public var lastSyncedTime: Date? {
@@ -116,9 +119,9 @@ public class PasswordStore {
     public func cloneRepository(
         remoteRepoURL: URL,
         branchName: String,
-        options: CloneOptions = [:],
+        options: GitCredentialOptions = GitCredentialOptions(),
         transferProgressBlock: @escaping TransferProgressHandler = { _, _ in },
-        checkoutProgressBlock: @escaping CheckoutProgressHandler = { _, _, _ in }
+        checkoutProgressBlock: @escaping CheckoutProgressHandler = { _ in }
     ) throws {
         try? fileManager.removeItem(at: storeURL)
         gitPassword = nil
@@ -142,13 +145,13 @@ public class PasswordStore {
     }
 
     public func pullRepository(
-        options: PullOptions,
+        options: GitCredentialOptions,
         progressBlock: @escaping TransferProgressHandler = { _, _ in }
     ) throws {
         guard let gitRepository else {
             throw AppError.repositoryNotSet
         }
-        try gitRepository.pull(options: options, transferProgressBlock: progressBlock)
+        try gitRepository.pull(options: options, signature: gitSignatureForNow, transferProgressBlock: progressBlock)
         Defaults.lastSyncedTime = Date()
         setAllSynced()
         DispatchQueue.main.async {
@@ -163,7 +166,7 @@ public class PasswordStore {
         saveUpdatedContext()
     }
 
-    public func getRecentCommits(count: Int) throws -> [GTCommit] {
+    public func getRecentCommits(count: Int) throws -> [GitCommit] {
         guard let gitRepository else {
             throw AppError.repositoryNotSet
         }
@@ -218,8 +221,8 @@ public class PasswordStore {
     }
 
     public func pushRepository(
-        options: PushOptions,
-        transferProgressBlock: @escaping PushProgressHandler = { _, _, _, _ in }
+        options: GitCredentialOptions,
+        transferProgressBlock: @escaping PushProgressHandler = { _, _ in }
     ) throws {
         guard let gitRepository else {
             throw AppError.repositoryNotSet
@@ -374,8 +377,7 @@ public class PasswordStore {
         guard let gitRepository else {
             throw AppError.repositoryNotSet
         }
-        let localCommitsCount = try getLocalCommits().count
-        try gitRepository.reset()
+        let localCommitsCount = try gitRepository.reset()
         setAllSynced()
         deleteCoreData()
         initPasswordEntityCoreData()
@@ -383,13 +385,6 @@ public class PasswordStore {
         notificationCenter.post(name: .passwordStoreUpdated, object: nil)
         notificationCenter.post(name: .passwordStoreChangeDiscarded, object: nil)
         return localCommitsCount
-    }
-
-    private func getLocalCommits() throws -> [GTCommit] {
-        guard let gitRepository else {
-            throw AppError.repositoryNotSet
-        }
-        return try gitRepository.getLocalCommits()
     }
 
     public func decrypt(passwordEntity: PasswordEntity, keyID: String? = nil, requestPGPKeyPassphrase: @escaping (String) -> String) throws -> Password {
@@ -461,8 +456,8 @@ extension PasswordStore {
     }
 
     @discardableResult
-    private func gitCommit(message: String) throws -> GTCommit {
-        guard let gitRepository, let gitSignatureForNow else {
+    private func gitCommit(message: String) throws -> GitCommit {
+        guard let gitRepository else {
             throw AppError.repositoryNotSet
         }
         return try gitRepository.commit(signature: gitSignatureForNow, message: message)
