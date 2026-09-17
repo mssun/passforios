@@ -158,6 +158,7 @@
 		9A996C6E26DEB99200A4485D /* passKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26075781EEC6F34005DB03E /* passKit.framework */; };
 		9ADAB21D26DDA52400900F10 /* Gopenpgp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADAB21C26DDA52400900F10 /* Gopenpgp.xcframework */; };
 		9ADC954124418A5F0005402E /* PasswordStoreTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADC954024418A5F0005402E /* PasswordStoreTest.swift */; };
+		3C9B469A6D29D4BBACA54D52 /* PasswordStoreCloneStagingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32E5C8FA9179813DB63DF62 /* PasswordStoreCloneStagingTest.swift */; };
 		9AFC87D325B39FF3008D6060 /* PasswordNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFC87D225B39FF2008D6060 /* PasswordNavigationViewController.swift */; };
 		9AFC87E225B3B5C6008D6060 /* PasswordNavigationDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFC87E125B3B5C6008D6060 /* PasswordNavigationDataSource.swift */; };
 		9AFC87F025B514AD008D6060 /* PasswordDecryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFC87EF25B514AD008D6060 /* PasswordDecryptor.swift */; };
@@ -453,6 +454,7 @@
 		9A8F9F3F25A1A91F0027CE15 /* CredentialProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProvider.swift; sourceTree = "<group>"; };
 		9ADAB21C26DDA52400900F10 /* Gopenpgp.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Gopenpgp.xcframework; path = go/dist/Gopenpgp.xcframework; sourceTree = "<group>"; };
 		9ADC954024418A5F0005402E /* PasswordStoreTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStoreTest.swift; sourceTree = "<group>"; };
+		D32E5C8FA9179813DB63DF62 /* PasswordStoreCloneStagingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStoreCloneStagingTest.swift; sourceTree = "<group>"; };
 		9AFC87D225B39FF2008D6060 /* PasswordNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordNavigationViewController.swift; sourceTree = "<group>"; };
 		9AFC87E125B3B5C6008D6060 /* PasswordNavigationDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordNavigationDataSource.swift; sourceTree = "<group>"; };
 		9AFC87EF25B514AD008D6060 /* PasswordDecryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordDecryptor.swift; sourceTree = "<group>"; };
@@ -759,6 +761,7 @@
 				DC6474602D46A8F2004B4BBC /* GitRepositoryTest.swift */,
 				30695E2424FAEF2600C9D46E /* GitCredentialTest.swift */,
 				9ADC954024418A5F0005402E /* PasswordStoreTest.swift */,
+				D32E5C8FA9179813DB63DF62 /* PasswordStoreCloneStagingTest.swift */,
 				A2699ACE24027D9500F36323 /* PasswordTableEntryTest.swift */,
 				30B0485F209A5141001013CA /* PasswordTest.swift */,
 			);
@@ -1676,6 +1679,7 @@
 				8A4716712F5EF7A900C7A64D /* PersistenceControllerTest.swift in Sources */,
 				301F646D216166AA0071A4CE /* AdditionFieldTest.swift in Sources */,
 				9ADC954124418A5F0005402E /* PasswordStoreTest.swift in Sources */,
+				3C9B469A6D29D4BBACA54D52 /* PasswordStoreCloneStagingTest.swift in Sources */,
 				30BAC8CB22E3BB6C00438475 /* DictBasedKeychain.swift in Sources */,
 				DC6474612D46A8F8004B4BBC /* GitRepositoryTest.swift in Sources */,
 				A2699ACF24027D9500F36323 /* PasswordTableEntryTest.swift in Sources */,

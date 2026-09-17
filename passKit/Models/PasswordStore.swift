@@ -24,6 +24,8 @@ public class PasswordStore {
 
     public var storeURL: URL
 
+    private let stagingURL: URL
+
     public var gitRepository: GitRepository?
 
     public var gitSignatureForNow: GTSignature? {
@@ -84,8 +86,9 @@ public class PasswordStore {
         gitRepository?.numberOfCommits()
     }
 
-    init(url: URL = Globals.repositoryURL) {
+    init(url: URL = Globals.repositoryURL, stagingURL: URL = Globals.cloneStagingURL) {
         self.storeURL = url
+        self.stagingURL = stagingURL
 
         // Migration
         importExistingKeysIntoKeychain()
@@ -101,6 +104,14 @@ public class PasswordStore {
 
     private func importExistingKeysIntoKeychain() {
         // App Store update: v0.5.1 -> v0.6.0
+        // These paths sit in the shared container next to the password store, so
+        // this runs once and never again: a key file appearing there later was not
+        // put there by the user and must not be adopted on the next launch.
+        guard !Defaults.didImportLegacyKeyFiles else {
+            return
+        }
+        Defaults.didImportLegacyKeyFiles = true
+
         try? KeyFileManager(keyType: PGPKey.PUBLIC, keyPath: Globals.pgpPublicKeyPath).importKeyFromFileSharing()
         try? KeyFileManager(keyType: PGPKey.PRIVATE, keyPath: Globals.pgpPrivateKeyPath).importKeyFromFileSharing()
         try? KeyFileManager(keyType: SSHKey.PRIVATE, keyPath: Globals.gitSSHPrivateKeyPath).importKeyFromFileSharing()
@@ -111,6 +122,28 @@ public class PasswordStore {
 
     public func repositoryExists() -> Bool {
         fileManager.fileExists(atPath: Globals.repositoryURL.path)
+    }
+
+    /// Runs `clone` against a scratch directory and moves the result into place
+    /// only once it completed. A hostile remote can make the checkout write
+    /// outside the directory it was handed, and the store sits in the shared
+    /// container next to the PGP and SSH key files, so the clone must not run
+    /// there.
+    static func cloneViaStaging(
+        staging: URL,
+        destination: URL,
+        fileManager: FileManager,
+        clone: (URL) throws -> Void
+    ) throws {
+        try? fileManager.removeItem(at: staging)
+        defer { try? fileManager.removeItem(at: staging) }
+
+        try fileManager.createDirectory(at: staging.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try clone(staging)
+
+        try? fileManager.removeItem(at: destination)
+        try fileManager.createDirectory(at: destination.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try fileManager.moveItem(at: staging, to: destination)
     }
 
     public func cloneRepository(
@@ -124,7 +157,10 @@ public class PasswordStore {
         gitPassword = nil
         gitSSHPrivateKeyPassphrase = nil
         do {
-            gitRepository = try GitRepository(from: remoteRepoURL, to: storeURL, branchName: branchName, options: options, transferProgressBlock: transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
+            try Self.cloneViaStaging(staging: stagingURL, destination: storeURL, fileManager: fileManager) { destination in
+                _ = try GitRepository(from: remoteRepoURL, to: destination, branchName: branchName, options: options, transferProgressBlock: transferProgressBlock, checkoutProgressBlock: checkoutProgressBlock)
+            }
+            gitRepository = try GitRepository(with: storeURL)
         } catch {
             Defaults.lastSyncedTime = nil
             DispatchQueue.main.async {

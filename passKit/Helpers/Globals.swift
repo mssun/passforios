@@ -28,6 +28,10 @@ public final class Globals {
     public static let pgpPrivateKeyPath = documentPath + "/gpg_key"
     public static let gitSSHPrivateKeyPath = documentPath + "/ssh_key"
     public static let repositoryURL = sharedContainerURL.appendingPathComponent("Library/password-store/")
+    /// Scratch location for a clone in progress. Deliberately outside the shared
+    /// container, so a checkout cannot reach the key files next to the store.
+    public static let cloneStagingURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+        .appendingPathComponent("incoming-password-store", isDirectory: true)
 
     public static let dbPath = documentPath + "/pass.sqlite"
     public static let dbURL = URL(fileURLWithPath: dbPath)
