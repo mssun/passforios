@@ -28,7 +28,6 @@ finalize: function(arguments) {
     if (arguments["password"]) {
         var passwordElement = document.querySelector("input[type=password]")
         if (passwordElement) {
-            passwordElement.setAttribute('value', arguments["password"])
             passwordElement.value = arguments["password"]
             dispatchEvent("input", passwordElement)
             dispatchEvent("change", passwordElement)
@@ -38,7 +37,6 @@ finalize: function(arguments) {
     if (arguments["username"]) {
         var usernameElement = document.querySelector("input[type=email], input[type=text]")
         if (usernameElement) {
-            usernameElement.setAttribute('value', arguments["username"])
             usernameElement.value = arguments["username"]
             dispatchEvent("input", usernameElement)
             dispatchEvent("change", usernameElement)
