@@ -55,6 +55,10 @@
 "HideUnknownFieldsExplanation."     = "È supportato solo il formato \"chiave: valore\" per i campi. Ai campi non supportati verrà assegnata la chiave \"Sconosciuto\". Attivando questa opzione non saranno mostrati i campi non supportati.";
 "HideOtpFields"                     = "Nascondi campi OTP";
 "HideOtpFieldsExplanation."         = "Attivando questa opzione saranno nascosti i campi relativi alle one time password (cioè %@).";
+"UseFileNameAsUsername"             = "Usa nome file come nome utente";
+"UseFileNameAsUsernameExplanation." = "Se un file di password non contiene un campo username, login o user, il nome del file viene usato come nome utente per il riempimento automatico. Disattivando questa opzione il nome utente sarà lasciato vuoto.";
+"KeepFilledUsername"                = "Mantieni nome utente inserito";
+"KeepFilledUsernameExplanation."    = "Attivando questa opzione, un nome utente già inserito in una pagina web non sarà sovrascritto durante il riempimento tramite l'estensione di Safari.";
 "Random"                            = "Casuale";
 "RandomString"                      = "Stringa casuale";
 "ApplesKeychainStyle"               = "Stile Apple Keychain";

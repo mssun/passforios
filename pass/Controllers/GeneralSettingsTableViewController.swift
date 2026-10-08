@@ -36,6 +36,22 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
         return uiSwitch
     }()
 
+    private lazy var useFileNameAsUsernameSwitch: UISwitch = {
+        let uiSwitch = UISwitch()
+        uiSwitch.onTintColor = Colors.systemBlue
+        uiSwitch.sizeToFit()
+        uiSwitch.addTarget(self, action: #selector(useFileNameAsUsernameSwitchAction), for: UIControl.Event.valueChanged)
+        return uiSwitch
+    }()
+
+    private lazy var keepFilledUsernameSwitch: UISwitch = {
+        let uiSwitch = UISwitch()
+        uiSwitch.onTintColor = Colors.systemBlue
+        uiSwitch.sizeToFit()
+        uiSwitch.addTarget(self, action: #selector(keepFilledUsernameSwitchAction), for: UIControl.Event.valueChanged)
+        return uiSwitch
+    }()
+
     private lazy var rememberPGPPassphraseSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.onTintColor = Colors.systemBlue
@@ -100,6 +116,8 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
                 [.title: "HideUnknownFields".localize(), .action: "none"],
                 [.title: "HideOtpFields".localize(), .action: "none"],
                 [.title: "AutoCopyOTP".localize(), .action: "none"],
+                [.title: "UseFileNameAsUsername".localize(), .action: "none"],
+                [.title: "KeepFilledUsername".localize(), .action: "none"],
             ],
         ]
         super.viewDidLoad()
@@ -133,9 +151,22 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
             autoCopyOTPSwitch.isOn = Defaults.autoCopyOTP
             addDetailButton(to: cell, for: autoCopyOTPSwitch, with: #selector(tapAutoCopyOTPSwitchDetailButton))
         default:
-            break
+            configureUsernameCell(cell)
         }
         return cell
+    }
+
+    private func configureUsernameCell(_ cell: UITableViewCell) {
+        switch cell.textLabel!.text! {
+        case "UseFileNameAsUsername".localize():
+            useFileNameAsUsernameSwitch.isOn = Defaults.isUseFileNameAsUsernameOn
+            addDetailButton(to: cell, for: useFileNameAsUsernameSwitch, with: #selector(tapUseFileNameAsUsernameSwitchDetailButton))
+        case "KeepFilledUsername".localize():
+            keepFilledUsernameSwitch.isOn = Defaults.isKeepFilledUsernameOn
+            addDetailButton(to: cell, for: keepFilledUsernameSwitch, with: #selector(tapKeepFilledUsernameSwitchDetailButton))
+        default:
+            break
+        }
     }
 
     private func addDetailButton(to cell: UITableViewCell, for uiSwitch: UISwitch, with action: Selector) {
@@ -190,6 +221,20 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     }
 
     @objc
+    func tapUseFileNameAsUsernameSwitchDetailButton(_: Any?) {
+        let alertMessage = "UseFileNameAsUsernameExplanation.".localize()
+        let alertTitle = "UseFileNameAsUsername".localize()
+        Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
+    }
+
+    @objc
+    func tapKeepFilledUsernameSwitchDetailButton(_: Any?) {
+        let alertMessage = "KeepFilledUsernameExplanation.".localize()
+        let alertTitle = "KeepFilledUsername".localize()
+        Utils.alert(title: alertTitle, message: alertMessage, controller: self, completion: nil)
+    }
+
+    @objc
     func tapHidePasswordImagesSwitchDetailButton(_: Any?) {
         let alertMessage = "HidePasswordImagesExplanation.".localize()
         let alertTitle = "HidePasswordImages".localize()
@@ -211,6 +256,16 @@ class GeneralSettingsTableViewController: BasicStaticTableViewController {
     @objc
     func autoCopyOTPSwitchAction(_: Any?) {
         Defaults.autoCopyOTP = autoCopyOTPSwitch.isOn
+    }
+
+    @objc
+    func useFileNameAsUsernameSwitchAction(_: Any?) {
+        Defaults.isUseFileNameAsUsernameOn = useFileNameAsUsernameSwitch.isOn
+    }
+
+    @objc
+    func keepFilledUsernameSwitchAction(_: Any?) {
+        Defaults.isKeepFilledUsernameOn = keepFilledUsernameSwitch.isOn
     }
 
     @objc

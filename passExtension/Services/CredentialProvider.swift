@@ -46,7 +46,8 @@ class CredentialProvider {
                 NSExtensionJavaScriptFinalizeArgumentKey: [
                     PassExtensionKey.usernameKey: password.getUsernameForCompletion(),
                     PassExtensionKey.passwordKey: password.password,
-                ],
+                    PassExtensionKey.keepFilledUsernameKey: Defaults.isKeepFilledUsernameOn,
+                ] as [String: Any],
             ]
             extensionItem.attachments = [NSItemProvider(item: returnDictionary as NSSecureCoding, typeIdentifier: String(kUTTypePropertyList))]
             self.extensionContext.completeRequest(returningItems: [extensionItem])
