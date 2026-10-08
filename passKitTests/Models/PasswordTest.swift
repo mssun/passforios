@@ -247,6 +247,21 @@ final class PasswordTest: XCTestCase {
         XCTAssertEqual(password.nameFromPath, "exampleusername")
     }
 
+    func testUsernameForCompletion() {
+        defer { Defaults.remove(\.isUseFileNameAsUsernameOn) }
+        Defaults.isUseFileNameAsUsernameOn = true
+        let password = getPasswordObjectWith(content: "", path: "exampleservice/exampleusername.pgp")
+        let passwordWithUser = getPasswordObjectWith(content: PASSWORD_STRING | USER_FIELD, path: "exampleservice/exampleusername.pgp")
+
+        XCTAssertEqual(password.getUsernameForCompletion(), "exampleusername")
+        XCTAssertEqual(passwordWithUser.getUsernameForCompletion(), USER_FIELD.content)
+
+        Defaults.isUseFileNameAsUsernameOn = false
+
+        XCTAssertEqual(password.getUsernameForCompletion(), "")
+        XCTAssertEqual(passwordWithUser.getUsernameForCompletion(), USER_FIELD.content)
+    }
+
     func testMultilineValues() {
         let lineBreakField = "with line breaks" => "|\n  This is \n   text spread over \n  multiple lines!  "
         let noLineBreakField = "without line breaks" => " > \n This is \n  text spread over\n   multiple lines!"

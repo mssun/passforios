@@ -56,6 +56,10 @@
 "HideUnknownFieldsExplanation."     = "Only \"key: value\" format in additional fields is supported. Unsupported fields will be given \"unknown\" keys. Turn on this switch to hide unsupported fields.";
 "HideOtpFields"                     = "Hide OTP Fields";
 "HideOtpFieldsExplanation."         = "Turn on this switch to hide the fields related to one time passwords (i.e., %@).";
+"UseFileNameAsUsername"             = "Use File Name as Username";
+"UseFileNameAsUsernameExplanation." = "When a password file has no username, login or user field, its file name is used as the username for auto-fill. Turn off this switch to leave the username empty instead.";
+"KeepFilledUsername"                = "Keep Filled Username";
+"KeepFilledUsernameExplanation."    = "Turn on this switch to keep a username that has already been entered on a web page when filling it from the Safari extension.";
 "Random"                            = "Random";
 "RandomString"                      = "Random String";
 "ApplesKeychainStyle"               = "Apple's Keychain Style";

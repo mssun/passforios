@@ -224,6 +224,6 @@ public class Password {
     }
 
     public func getUsernameForCompletion() -> String {
-        username ?? login ?? user ?? nameFromPath ?? ""
+        username ?? login ?? user ?? (Defaults.isUseFileNameAsUsernameOn ? nameFromPath : nil) ?? ""
     }
 }

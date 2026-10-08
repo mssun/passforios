@@ -37,7 +37,7 @@ finalize: function(arguments) {
 
     if (arguments["username"]) {
         var usernameElement = document.querySelector("input[type=email], input[type=text]")
-        if (usernameElement) {
+        if (usernameElement && !(arguments["keepFilledUsername"] && usernameElement.value)) {
             usernameElement.setAttribute('value', arguments["username"])
             usernameElement.value = arguments["username"]
             dispatchEvent("input", usernameElement)

@@ -70,4 +70,7 @@ public extension DefaultsKeys {
     var encryptInArmored: DefaultsKey<Bool> { DefaultsKey("encryptInArmored", defaultValue: false) }
 
     var autoCopyOTP: DefaultsKey<Bool> { DefaultsKey("autoCopyOTP", defaultValue: false) }
+
+    var isUseFileNameAsUsernameOn: DefaultsKey<Bool> { DefaultsKey("isUseFileNameAsUsernameOn", defaultValue: true) }
+    var isKeepFilledUsernameOn: DefaultsKey<Bool> { DefaultsKey("isKeepFilledUsernameOn", defaultValue: false) }
 }

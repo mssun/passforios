@@ -21,4 +21,5 @@ enum PassExtensionKey {
     static let usernameKey = "username"
     static let passwordKey = "password"
     static let totpKey = "totp"
+    static let keepFilledUsernameKey = "keepFilledUsername"
 }

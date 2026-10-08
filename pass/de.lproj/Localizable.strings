@@ -55,6 +55,10 @@
 "HideUnknownFieldsExplanation."     = "Nur das Format \"key: value\" wird für zusätzliche Felder unterstützt. Felder, die nicht in dieser Form vorliegen, bekommen den Namen \"unknown\". Aktiviere diese Option, um solche Felder nicht anzuzeigen.";
 "HideOtpFields"                     = "OTP-Felder verstecken";
 "HideOtpFieldsExplanation."         = "Aktiviere diese Option, um OTP-Felder (z.B. %@) nicht anzuzeigen.";
+"UseFileNameAsUsername"             = "Dateiname als Benutzername";
+"UseFileNameAsUsernameExplanation." = "Enthält eine Passwortdatei kein Feld username, login oder user, wird beim automatischen Ausfüllen der Dateiname als Benutzername verwendet. Deaktiviere diese Option, um den Benutzernamen stattdessen leer zu lassen.";
+"KeepFilledUsername"                = "Eingegebenen Benutzernamen behalten";
+"KeepFilledUsernameExplanation."    = "Aktiviere diese Option, um einen bereits auf einer Webseite eingegebenen Benutzernamen beim Ausfüllen über die Safari-Erweiterung nicht zu überschreiben.";
 "Random"                            = "Zufällig";
 "RandomString"                      = "Zufällige Zeichenkette";
 "ApplesKeychainStyle"               = "Apples Keychain-Style";
