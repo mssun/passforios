@@ -24,7 +24,7 @@ go build golang.org/x/mobile/cmd/gomobile
 go build golang.org/x/mobile/cmd/gobind
 go mod download github.com/ProtonMail/go-crypto
 ./gomobile init
-./gomobile bind -tags mobile -target ios -iosversion 13.0 -v -x -ldflags="-s -w" -o dist/Gopenpgp.xcframework \
+./gomobile bind -tags mobile -target ios -iosversion 15.0 -v -x -ldflags="-s -w" -o dist/Gopenpgp.xcframework \
   github.com/ProtonMail/gopenpgp/v2/crypto \
   github.com/ProtonMail/gopenpgp/v2/armor \
   github.com/ProtonMail/gopenpgp/v2/constants \
