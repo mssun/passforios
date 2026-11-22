@@ -25,6 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         SVProgressHUD.setMinimumSize(CGSize(width: 150, height: 100))
+        // On Mac the iOS 18+ floating tab bar can spin forever in layout when the window is restored at 0x0; use the classic tab bar there.
+        if #available(iOS 18, *), ProcessInfo.processInfo.isiOSAppOnMac, let tabBarController = window?.rootViewController as? UITabBarController {
+            tabBarController.traitOverrides.horizontalSizeClass = .compact
+        }
         passcodeLockPresenter.present(windowLevel: UIApplication.shared.windows.last?.windowLevel.rawValue)
         if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
             if shortcutItem.type == Globals.bundleIdentifier + ".search" {
